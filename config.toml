@@ -1,0 +1,39 @@
+# The URL the site will be built for
+base_url = "https://throneproj.github.io"
+title = "Throne"
+description = "Throne"
+
+build_search_index = true
+default_language = "en"
+generate_feeds = true
+generate_sitemap = true
+
+[markdown]
+highlight_code = true
+bottom_footnotes = true
+highlight_theme = "ayu-mirage"
+
+[languages.fa]
+generate_feeds = true
+
+[languages.ru]
+generate_feeds = true
+build_search_index = true
+
+[languages.zh]
+generate_feeds = true
+build_search_index = true
+
+[extra]
+logo_text = "Throne"
+logo_image_path = "images/Throne.png"
+default_thumbnail = "images/default_thumbnail.jpg"
+default_colorset = "dark"
+gtag = ""
+sidebar_expand_depth = 1
+disable_root_sidebar_hide = false
+
+nav = [
+    { name = "Documents", url = "/introduction", type = "url", icon = "fa-solid fa-book" },
+    { name = "GitHub", url = "https://github.com/throneproj/Throne", type = "url", icon = "fa-brands fa-github" },
+]
