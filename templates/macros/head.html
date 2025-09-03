@@ -32,13 +32,13 @@
 
     <title>
       {%- if page and page.title -%}
-        {{ page.title }} | {{ config.title | default(value="Goyo") }}
+        {{ page.title }} | {{ config.title | default(value="Throne") }}
       {%- elif section and section.title -%}
-        {{ section.title }} | {{ config.title | default(value="Goyo") }}
+        {{ section.title }} | {{ config.title | default(value="Throne") }}
       {%- elif config.title -%}
         {{ config.title }}
       {%- else -%}
-        Goyo
+        Throne
       {%- endif -%}
     </title>
 
@@ -58,13 +58,13 @@
       <!-- SEO: Open Graph / Twitter Card -->
       <meta property="og:title" content="
         {%- if page and page.title -%}
-          {{ page.title }} | {{ config.title | default(value='Goyo') }}
+          {{ page.title }} | {{ config.title | default(value='Throne') }}
         {%- elif section and section.title -%}
-          {{ section.title }} | {{ config.title | default(value='Goyo') }}
+          {{ section.title }} | {{ config.title | default(value='Throne') }}
         {%- elif config.title -%}
           {{ config.title }}
         {%- else -%}
-          Goyo
+          Throne
         {%- endif -%}
       " />
       <meta property="og:description" content="
