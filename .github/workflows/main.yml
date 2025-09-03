@@ -9,6 +9,7 @@ jobs:
       pages: write
       actions: write
       id-token: write
+      contents: write
     steps:
       - name: checkout
         uses: actions/checkout@v4
