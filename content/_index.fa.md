@@ -7,9 +7,9 @@ version = "v1.0.0"
 
 [extra.hero]
 title = "Throne"
-description = "Cross-platform GUI proxy utility (Empowered by sing-box)"
+description = "ابزار رابط کاربری گرافیکی چندپلتفرمی برای پروکسی"
 cta_buttons = [
-    { text = "Get Started", url = "/introduction", style = "primary" },
-    { text = "View on GitHub", url = "https://github.com/throneproj/Throne", style = "secondary" },
+    { text = "شروع کنید", url = "/introduction", style = "primary" },
+    { text = "مشاهده در گیت‌هاب", url = "https://github.com/throneproj/Throne", style = "secondary" },
 ]
 +++
