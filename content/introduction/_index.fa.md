@@ -1,6 +1,6 @@
 +++
-title = "Introduction"
-description = "Introduction of Throne"
+title = "مقدمه"
+description = "Throne مقدمه"
 weight = 1
 sort_by = "weight"
 
