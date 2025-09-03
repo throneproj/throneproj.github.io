@@ -6,9 +6,6 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     permissions:
-      pages: write
-      actions: write
-      id-token: write
       contents: write
     steps:
       - name: checkout
