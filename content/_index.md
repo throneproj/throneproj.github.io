@@ -1,6 +1,5 @@
 +++
 template = "landing.html"
-title = "Throne"
 
 [extra]
 version = "v1.0.0"
