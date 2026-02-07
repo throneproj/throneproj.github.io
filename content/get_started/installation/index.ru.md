@@ -1,6 +1,6 @@
 +++
-title = "Installation"
-description = "How to install Throne and get started."
+title = "Установка"
+description = "Как установить Throne и начать работу."
 weight = 1
 sort_by = "weight"
 
