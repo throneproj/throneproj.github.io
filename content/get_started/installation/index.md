@@ -9,61 +9,42 @@ sort_by = "weight"
 
 Throne supports Windows, Linux, and macOS. Choose the appropriate installation method for your platform.
 
-## System Requirements
+## Download the binary
 
-| Platform | Minimum Version | Architecture |
-|----------|-----------------|--------------|
-| Windows  | Windows 7 SP1   | x64, ARM64   |
-| Linux    | GLIBC 2.31+     | x64, ARM64   |
-| macOS    | macOS 10.15+    | x64, ARM64   |
+Go to [GitHub Releases](https://github.com/throneproj/Throne/releases/latest) and download the file for your platform.
 
-## Windows
+### Version matrix
 
-Download the latest release from [GitHub Releases](https://github.com/throneproj/Throne/releases/latest):
+Platform | Architecture | Minimum Version | File Suffix
+-- | -- | -- | --
+Windows | x64 | Windows 10 | windows64-installer.exe
+Windows | x64 | Windows 10 | windows64.zip
+Windows | ARM64 | Windows 10 | windows-arm64.zip
+Windows | x64 | Windows 7 SP1 | windowslegacy64.zip
+Windows | x86 | Windows 7 SP1 | windows32.zip
+Linux | x64 | GLIBC 2.34 | linux-amd64.zip
+Linux | x64 | GLIBC 2.34 | debian-amd64.deb
+Linux | x64 | GLIBC 2.34 | debian-amd64-system-qt.deb
+Linux | ARM64 | GLIBC 2.38 | linux-arm64.zip
+Linux | ARM64 | GLIBC 2.38 | debian-arm64.deb
+Linux | ARM64 | GLIBC 2.34 | debian-arm64-system-qt.deb
+macOS | ARM64 | macOS 13 | macos-arm64.zip
+macOS | x64 | macOS 13 | macos-amd64.zip
+macOS | x64 | macOS 10.15 | macoslegacy-amd64.zip
 
-- `Throne-x.x.x-windows-arm64.zip` - for ARM64 devices
-- `Throne-x.x.x-windows-*.zip` - for x64 devices
+### Windows
+
+#### Portable (ZIP)
 
 Extract the ZIP file and run `Throne.exe`.
 
-## Linux
+#### Installer (.exe)
 
-### Debian/Ubuntu (.deb)
+Run `Throne-x.x.x-windows64-installer.exe`.
 
-Download the `.deb` package from [GitHub Releases](https://github.com/throneproj/Throne/releases/latest):
+### Linux
 
-```bash
-# For systems with Qt libraries installed
-sudo dpkg -i Throne-x.x.x-debian-amd64.deb
-
-# For legacy systems (includes bundled Qt libraries)
-sudo dpkg -i Throne-x.x.x-debian-amd64.deb
-```
-
-The `-system-qt` version does not bundle Qt libraries and relies on system-installed ones. If the GUI fails to load, try the system-qt version.
-
-### RPM-based Distributions
-
-For Fedora, RHEL, and openSUSE, use the [RPM repository](https://parhelia512.github.io/).
-
-### Arch Linux (AUR)
-
-For Arch Linux and Arch-based distributions, install from the [AUR](https://aur.archlinux.org/packages/throne):
-
-```bash
-# Using yay or paru
-yay -S throne-git
-
-# Or build from source
-git clone --recursive https://github.com/throneproj/Throne.git
-cd Throne
-mkdir build
-cd build
-cmake ..
-make -j$(nproc)
-```
-
-### Portable (ZIP)
+#### Portable (ZIP)
 
 Download the ZIP package:
 
@@ -72,31 +53,58 @@ unzip Throne-x.x.x-linux-*.zip
 ./Throne
 ```
 
-### Post-Installation (Linux)
-
-To use TUN mode (system proxy), set the SUID bit on the Throne binary:
+#### Debian/Ubuntu (.deb)
 
 ```bash
-sudo chmod +s /usr/bin/Throne
+sudo dpkg -i Throne-x.x.x-debian-*.deb
 ```
 
-## macOS
+The `-system-qt` version does not bundle Qt libraries and relies on system-installed ones. If the GUI fails to load, try the system-qt version.
 
-Download the appropriate version from [GitHub Releases](https://github.com/throneproj/Throne/releases/latest):
+### macOS
 
-- `Throne-x.x.x-macos-arm64.zip` - for Apple Silicon (M1/M2/M3)
-- `Throne-x.x.x-macos-amd64.zip` - for Intel Macs
-- `Throne-x.x.x-macoslegacy-amd64.zip` - for older macOS versions
-
-### After Downloading
-
-Due to Apple's strict security policy, you must remove the quarantine attribute:
+Extract the ZIP file. Due to Apple's strict security policy, you must remove the quarantine attribute:
 
 ```bash
 xattr -d com.apple.quarantine /path/to/Throne.app
 ```
 
 To enable built-in privilege escalation, grant `Terminal` Full Disk Access in `System Preferences` → `Security & Privacy` → `Privacy` → `Full Disk Access`.
+
+### RPM-based Distributions
+
+For Fedora, RHEL, and openSUSE, use the [RPM repository](https://parhelia512.github.io/).
+
+## Package managers
+
+Package Manager | Link
+-- | -- | -- | --
+Windows | https://parhelia512.github.io
+Windows | x64 | Windows 10 | windows64.zip
+Windows | ARM64 | Windows 10 | windows-arm64.zip
+Windows | x64 | Windows 7 SP1 | windowslegacy64.zip
+Windows | x86 | Windows 7 SP1 | windows32.zip
+Linux | x64 | GLIBC 2.34 | linux-amd64.zip
+Linux | x64 | GLIBC 2.34 | debian-amd64.deb
+Linux | x64 | GLIBC 2.34 | debian-amd64-system-qt.deb
+Linux | ARM64 | GLIBC 2.38 | linux-arm64.zip
+Linux | ARM64 | GLIBC 2.38 | debian-arm64.deb
+Linux | ARM64 | GLIBC 2.34 | debian-arm64-system-qt.deb
+macOS | ARM64 | macOS 13 | macos-arm64.zip
+macOS | x64 | macOS 13 | macos-amd64.zip
+macOS | x64 | macOS 10.15 | macoslegacy-amd64.zip
+
+## Build from source
+
+```bash
+git clone --recursive https://github.com/throneproj/Throne.git
+cd Throne
+mkdir build
+cd build
+curl -fLso srslist.h "https://raw.githubusercontent.com/throneproj/routeprofiles/rule-set/srslist.h"
+cmake ..
+make -j$(nproc)
+```
 
 ## Updating
 

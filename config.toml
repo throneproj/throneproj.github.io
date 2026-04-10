@@ -3,7 +3,7 @@ base_url = "https://throneproj.github.io"
 title = "Throne"
 description = "Throne"
 
-
+build_search_index = true
 default_language = "en"
 generate_feeds = true
 generate_sitemap = true
@@ -16,11 +16,11 @@ generate_feeds = true
 
 [languages.ru]
 generate_feeds = true
-
+build_search_index = true
 
 [languages.zh]
 generate_feeds = true
-
+build_search_index = true
 
 [extra]
 logo_text = "Throne"
