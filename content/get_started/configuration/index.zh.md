@@ -1,10 +1,78 @@
 +++
-title = "Configuration"
-description = "Learn how to configure Throne."
+title = "配置"
+description = "学习如何配置 Throne。"
 weight = 2
 sort_by = "weight"
 
 [extra]
 +++
 
-TODO
+Throne 支持两种代理模式：
+
+## 系统代理 (System Proxy)
+
+通过修改系统代理设置，使整个系统的流量通过代理转发。适用于浏览器等应用程序。
+
+## TUN 模式
+
+创建虚拟网卡，实现全局代理。所有应用的网络流量都会经过代理，包括不支持代理设置的软件。
+
+> 推荐使用 TUN 模式，代理更加彻底。
+
+> 注意：开启 TUN 模式时请关闭系统代理，两者不能同时启用。
+
+## 导入订阅
+
+### 方法一：直接粘贴
+
+在主界面直接按 `Ctrl+V` 粘贴订阅链接。
+
+> 导入后分组名称默认为 `Default`，右键点击分组可选择 `更新订阅`（快捷键 `Ctrl+U`）。
+
+### 方法二：通过设置导入
+
+1. 进入 `设置` → `分组`
+2. 新建分组，输入名称
+3. 将类型修改为 `订阅`
+4. 在 URL 中粘贴订阅链接
+5. 点击确定保存
+6. 右键点击该分组，选择 `刷新列表`
+
+![导入订阅](/images/configuration/1.png)
+
+![刷新列表](/images/configuration/2.png)
+
+如果链接正确，即可解析到代理列表。
+
+![代理列表](/images/configuration/3.png)
+
+## 测试延迟
+
+1. 全选列表，右键点击
+2. 选择 `URL 测试选定项目`（快捷键 `Ctrl+Shift+S`）
+
+![URL测试](/images/configuration/4.png)
+
+3. 选择延迟最低的节点，右键点击选择 `启用` 或直接按 `Enter`
+
+## 启用代理
+### 配置规则
+无论是 TUN 模式还是系统代理，都需要配置路由规则（以中国大陆为例）：
+
+1. 点击 `路由` → `下载配置档位`
+2. 选择 `Bypass China` + `Bypass China Blocked`
+3. 点击 `路由` → `路由设置` → `路由`
+4. 删除默认的路由规则，只保留刚才下载的两个规则
+
+![路由设置](/images/configuration/5.png)
+
+### 启动代理
+
+> 推荐使用 TUN 模式。
+
+1. 先启动一个节点
+2. 然后选择一种代理模式（TUN 或系统代理）
+
+> 注意：如果使用 TUN 模式，更新订阅时请先关闭 TUN，更新完成后再重新启用。
+
+![启动代理](/images/configuration/6.png)

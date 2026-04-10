@@ -7,13 +7,13 @@ sort_by = "weight"
 [extra]
 +++
 
-Throne is a Qt based Desktop cross-platform GUI proxy utility, empowered by [Sing-box](https://github.com/SagerNet/sing-box).
+Throne 是一个基于 Qt 的跨平台桌面 GUI 代理工具，由 [Sing-box](https://github.com/SagerNet/sing-box) 驱动。
 
-Supports Windows 11/10/8/7 / Linux / MacOS out of the box.
+原生支持 Windows 11/10/8/7 / Linux / macOS。
 
 <img width="1002" height="789" alt="image" src="https://github.com/user-attachments/assets/45a23c6c-b716-4acf-8281-63d35cac8457" />
 
-## Supported protocols
+## 支持的协议
 
 - SOCKS
 - HTTP(S)
@@ -29,14 +29,14 @@ Supports Windows 11/10/8/7 / Linux / MacOS out of the box.
 - SSH
 - Custom Outbound
 - Custom Config
-- Chaining outbounds
+- 链式出站
 - Extra Core
 
-## Subscription Formats
+## 订阅格式
 
-Various formats are supported, including share links, JSON array of outbounds and v2rayN link format as well as limited support for Shadowsocks and Clash formats.
+支持多种订阅格式，包括分享链接、出站 JSON 数组、v2rayN 链接格式，以及部分支持 Shadowsocks 和 Clash 格式。
 
-## Credits
+## 致谢
 
 - [sing-box](https://github.com/SagerNet/sing-box)
 - [Qv2ray](https://github.com/Qv2ray/Qv2ray)
