@@ -77,22 +77,15 @@ For Fedora, RHEL, and openSUSE, use the [RPM repository](https://parhelia512.git
 
 ## Package managers
 
-Package Manager | Link
--- | -- | -- | --
-Windows | https://parhelia512.github.io
-Windows | x64 | Windows 10 | windows64.zip
-Windows | ARM64 | Windows 10 | windows-arm64.zip
-Windows | x64 | Windows 7 SP1 | windowslegacy64.zip
-Windows | x86 | Windows 7 SP1 | windows32.zip
-Linux | x64 | GLIBC 2.34 | linux-amd64.zip
-Linux | x64 | GLIBC 2.34 | debian-amd64.deb
-Linux | x64 | GLIBC 2.34 | debian-amd64-system-qt.deb
-Linux | ARM64 | GLIBC 2.38 | linux-arm64.zip
-Linux | ARM64 | GLIBC 2.38 | debian-arm64.deb
-Linux | ARM64 | GLIBC 2.34 | debian-arm64-system-qt.deb
-macOS | ARM64 | macOS 13 | macos-arm64.zip
-macOS | x64 | macOS 13 | macos-amd64.zip
-macOS | x64 | macOS 10.15 | macoslegacy-amd64.zip
+Distro | Repository
+-- | --
+Fedora/RHEL | [Throne RPM repository](https://parhelia512.github.io/)
+Fedora/RHEL | [Terra](https://github.com/terrapkg/packages/tree/frawhide/anda/apps/throne)
+openSUSE/SLES | [Throne RPM repository](https://parhelia512.github.io/)
+Arch Linux | [AUR](https://aur.archlinux.org/packages/throne-bin)
+Any distro | [Nix](https://search.nixos.org/packages?channel=unstable&show=throne)
+Windows | [Scoop](https://scoop.sh/#/apps?id=b77aee518a6b60c7a582cc24dfb3269c93f697c6)
+Windows | [WinGet](https://winstall.app/apps/Throneproj.Throne)
 
 ## Build from source
 
