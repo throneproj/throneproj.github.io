@@ -71,10 +71,6 @@ xattr -d com.apple.quarantine /path/to/Throne.app
 
 To enable built-in privilege escalation, grant `Terminal` Full Disk Access in `System Preferences` → `Security & Privacy` → `Privacy` → `Full Disk Access`.
 
-### RPM-based Distributions
-
-For Fedora, RHEL, and openSUSE, use the [RPM repository](https://parhelia512.github.io/).
-
 ## Package managers
 
 Distro | Repository
@@ -84,7 +80,7 @@ Fedora/RHEL | [Terra](https://github.com/terrapkg/packages/tree/frawhide/anda/ap
 openSUSE/SLES | [Throne RPM repository](https://parhelia512.github.io/)
 Arch Linux | [AUR](https://aur.archlinux.org/packages/throne-bin)
 Any distro | [Nix](https://search.nixos.org/packages?channel=unstable&show=throne)
-Windows | [Scoop](https://scoop.sh/#/apps?id=b77aee518a6b60c7a582cc24dfb3269c93f697c6)
+Windows | [Scoop](https://scoop.sh/#/apps?id=b77aee518a6b60c7a582cc24dfb3269c93f697c6&q=throne)
 Windows | [WinGet](https://winstall.app/apps/Throneproj.Throne)
 
 ## Build from source
