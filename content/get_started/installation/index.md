@@ -13,24 +13,26 @@ Throne supports Windows, Linux, and macOS. Choose the appropriate installation m
 
 Go to [GitHub Releases](https://github.com/throneproj/Throne/releases/latest) and download the file for your platform.
 
-### Version matrix
+### Version Matrix
 
-Platform | Architecture | Minimum Version | File Suffix
--- | -- | -- | --
-Windows | x64 | Windows 10 | windows64-installer.exe
-Windows | x64 | Windows 10 | windows64.zip
-Windows | ARM64 | Windows 10 | windows-arm64.zip
-Windows | x64 | Windows 7 SP1 | windowslegacy64.zip
-Windows | x86 | Windows 7 SP1 | windows32.zip
-Linux | x64 | GLIBC 2.34 | linux-amd64.zip
-Linux | x64 | GLIBC 2.34 | debian-amd64.deb
-Linux | x64 | GLIBC 2.34 | debian-amd64-system-qt.deb
-Linux | ARM64 | GLIBC 2.38 | linux-arm64.zip
-Linux | ARM64 | GLIBC 2.38 | debian-arm64.deb
-Linux | ARM64 | GLIBC 2.34 | debian-arm64-system-qt.deb
-macOS | ARM64 | macOS 13 | macos-arm64.zip
-macOS | x64 | macOS 13 | macos-amd64.zip
-macOS | x64 | macOS 10.15 | macoslegacy-amd64.zip
+| Platform | Architecture | Package Type / Distro | Min. Version | File Suffix |
+| :--- | :--- | :--- | :--- | :--- |
+| **Windows** | x64 | Installer | Windows 10 | `windows64-installer.exe` |
+| | x64 | Portable (ZIP) | Windows 10 | `windows64.zip` |
+| | ARM64 | Portable (ZIP) | Windows 10 | `windows-arm64.zip` |
+| | x64 | Legacy (Win 7/8) | Windows 7 SP1 | `windowslegacy64.zip` |
+| | x86 | Legacy (32-bit) | Windows 7 SP1 | `windows32.zip` |
+| |
+| **Linux** | x64 | **Generic** (Binary) | GLIBC 2.34 | `linux-amd64.zip` |
+| | x64 | **Debian / Ubuntu** | GLIBC 2.34 | `debian-amd64.deb` |
+| | x64 | **Debian / Ubuntu** (System Qt) | GLIBC 2.34 | `debian-amd64-system-qt.deb` |
+| | ARM64 | **Generic** (Binary) | GLIBC 2.38 | `linux-arm64.zip` |
+| | ARM64 | **Debian / Ubuntu** | GLIBC 2.38 | `debian-arm64.deb` |
+| | ARM64 | **Debian / Ubuntu** (System Qt) | GLIBC 2.34 | `debian-arm64-system-qt.deb` |
+| |
+| **macOS** | ARM64 | Apple Silicon | macOS 13 | `macos-arm64.zip` |
+| | x64 | Intel | macOS 13 | `macos-amd64.zip` |
+| | x64 | Legacy (Intel) | macOS 10.15 | `macoslegacy-amd64.zip` |
 
 ### Windows
 
@@ -42,7 +44,23 @@ Extract the ZIP file and run `Throne.exe`.
 
 Run `Throne-x.x.x-windows64-installer.exe`.
 
+#### Scoop/WinGet
+  
+You can also install Throne on Windows using [Scoop](https://scoop.sh/#/apps?id=b77aee518a6b60c7a582cc24dfb3269c93f697c6&q=throne) or [WinGet](https://winstall.app/apps/Throneproj.Throne).
+
+### macOS
+
+Extract the ZIP file. Due to Apple's strict security policy, you must remove the quarantine attribute:
+
+```bash
+xattr -d com.apple.quarantine /path/to/Throne.app
+```
+
+To enable built-in privilege escalation, grant `Throne` (or `Terminal` if running from CLI) Full Disk Access in `System Settings` → `Privacy & Security` → `Full Disk Access`.
+
 ### Linux
+
+Throne provides several ways to install depending on your distribution.
 
 #### Portable (ZIP)
 
@@ -56,34 +74,63 @@ unzip Throne-x.x.x-linux-*.zip
 #### Debian/Ubuntu (.deb)
 
 ```bash
-sudo dpkg -i Throne-x.x.x-debian-*.deb
+sudo apt install ./Throne-x.x.x-debian-*.deb
 ```
 
-The `-system-qt` version does not bundle Qt libraries and relies on system-installed ones. If the GUI fails to load, try the system-qt version.
+Note: The -system-qt version does not bundle Qt libraries and relies on system-installed ones. Use this version if you encounter theme conflicts or if the standard GUI fails to load.
 
-### macOS
-
-Extract the ZIP file. Due to Apple's strict security policy, you must remove the quarantine attribute:
+### Fedora/RHEL9+
 
 ```bash
-xattr -d com.apple.quarantine /path/to/Throne.app
+sudo curl -o /etc/yum.repos.d/throne.repo https://parhelia512.github.io/throne.repo
+sudo dnf install -y throne --refresh
+```
+For older RHEL versions, visit the [Throne RPM repository](https://parhelia512.github.io/).
+
+### openSUSE/SLES
+```bash
+sudo zypper addrepo -fc https://parhelia512.github.io/throne-sle.repo
+sudo zypper install -y throne
 ```
 
-To enable built-in privilege escalation, grant `Terminal` Full Disk Access in `System Preferences` → `Security & Privacy` → `Privacy` → `Full Disk Access`.
+### Arch Linux (AUR)
 
-## Package managers
+Throne is available in the **Arch User Repository** as `throne-bin`. You can install it using your favourite AUR helper.
 
-Distro | Repository
--- | --
-Fedora/RHEL | [Throne RPM repository](https://parhelia512.github.io/)
-Fedora/RHEL | [Terra](https://github.com/terrapkg/packages/tree/frawhide/anda/apps/throne)
-openSUSE/SLES | [Throne RPM repository](https://parhelia512.github.io/)
-Arch Linux | [AUR](https://aur.archlinux.org/packages/throne-bin)
-Any distro | [Nix](https://search.nixos.org/packages?channel=unstable&show=throne)
-Windows | [Scoop](https://scoop.sh/#/apps?id=b77aee518a6b60c7a582cc24dfb3269c93f697c6&q=throne)
-Windows | [WinGet](https://winstall.app/apps/Throneproj.Throne)
+```bash
+# If you use yay
+yay -S throne-bin
+
+# If you use paru
+paru -S throne-bin
+```
+
+#### NixOS
+
+Add the following Nix code to your NixOS Configuration.
+
+```nix
+programs.throne = {
+   enable = true;
+   # tunMode.enable = true; Add this line to enable tun mode
+};
+```
+
+### Nix
+
+You can also install Throne using the Nix package manager on any supported distribution.
+
+```bash
+nix-env -iA nixos.throne
+```
+Or you can use nix-shell to try it out without installing.
+```bash
+nix-shell -p throne
+```
 
 ## Build from source
+
+You also have an option to build Throne from source.
 
 ```bash
 git clone --recursive https://github.com/throneproj/Throne.git
