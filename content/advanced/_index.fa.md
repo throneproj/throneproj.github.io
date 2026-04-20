@@ -6,5 +6,3 @@ sort_by = "weight"
 
 [extra]
 +++
-
-Advanced configuration content coming soon.

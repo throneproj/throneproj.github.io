@@ -20,7 +20,7 @@ build_search_index = true
 
 [languages.zh]
 generate_feeds = true
-build_search_index = true
+build_search_index = false
 
 [extra]
 logo_text = "Throne"
