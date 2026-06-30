@@ -7,11 +7,11 @@ sort_by = "weight"
 [extra]
 +++
 
-Throne is a Qt based Desktop cross-platform GUI proxy utility, empowered by [Sing-box](https://github.com/SagerNet/sing-box).
+Throne (formerly Nekoray) is a Qt based Desktop cross-platform GUI proxy utility, empowered by [Sing-box](https://github.com/SagerNet/sing-box).
 
 Supports Windows 11/10/8/7 / Linux / MacOS out of the box.
 
-<img width="1002" height="789" alt="image" src="https://github.com/user-attachments/assets/45a23c6c-b716-4acf-8281-63d35cac8457" />
+<img width="1002" height="789" alt="image" src="https://github.com/user-attachments/assets/3c9bf428-e3bd-426b-8ca1-cc57ecbedd7e" />
 
 ## Supported protocols
 
@@ -25,23 +25,63 @@ Supports Windows 11/10/8/7 / Linux / MacOS out of the box.
 - Hysteria
 - Hysteria2
 - AnyTLS
+- Mieru
+- NaïveProxy
+- Juicity
+- TrustTunnel
+- ShadowTLS
 - Wireguard
+- AmneziaWG
 - SSH
-- Custom Outbound
-- Custom Config
+- Xray VLESS
+- Custom Outbound (Both Sing-box and Xray)
+- Custom Config (Both Sing-box and Xray)
 - Chaining outbounds
 - Extra Core
 
 ## Subscription Formats
 
-Various formats are supported, including share links, JSON array of outbounds and v2rayN link format as well as limited support for Shadowsocks and Clash formats.
+Various formats are supported, including share links, various JSON representation of Sing-box configs, and v2rayN link format as well as limited support for Shadowsocks and Clash formats.
 
 ## Credits
 
 - [sing-box](https://github.com/SagerNet/sing-box)
+- [Xray-core](https://github.com/xtls/xray-core)
 - [Qv2ray](https://github.com/Qv2ray/Qv2ray)
 - [Qt](https://www.qt.io/)
 - [simple-protobuf](https://github.com/tonda-kriz/simple-protobuf)
 - [fkYAML](https://github.com/fktn-k/fkYAML)
 - [quirc](https://github.com/dlbeer/quirc)
 - [QHotkey](https://github.com/Skycoder42/QHotkey)
+- [SQLiteCpp](https://github.com/srombauts/sqlitecpp)
+
+## FAQ
+
+**How does this project differ from the original Nekoray?**
+
+Nekoray's developer partially abandoned the project on December of 2023, some minor updates were done recently but the project is now officially archived. This project was meant to continue the way of the original project, with lots of improvements, tons of new features and also, removal of obsolete features and simplifications.
+
+**Why does my Anti-Virus detect Throne and/or its Core as malware?**
+
+Throne's built-in update functionality downloads the new release, removes the old files and replaces them with the new ones, which is quite similar to what malwares do, remove your files and replace them with an encrypted version of your files. Also the `System DNS` feature will change your system's DNS settings, which is also considered a dangerous action by some Anti-Virus applications.
+
+**Is setting the `SUID` bit really needed on Linux?**
+
+To create and manage a system TUN interface, root access is required, without it, you will have to grant the Core some `Cap_xxx_admin` and still, need to enter your password 3 to 4 times per TUN activation. You can also opt to disable the automatic privilege escalation in `Basic Settings` → `Security`, but note that features that require root access will stop working unless you manually grant the needed permissions.
+
+**Why does my internet stop working after I force quit Throne?**
+
+If Throne is force-quit while `System proxy` is enabled, the process ends immediately and Throne cannot reset the proxy.
+
+Solution:
+
+- Always close Throne normally.
+- If you force quit by accident, open Throne again, enable `System proxy`, then disable it — this will reset the settings.
+
+**Where are the downloadable route profiles/rulesets coming from?**
+
+They are located at the [routeprofiles](https://github.com/throneproj/routeprofiles) repository.
+
+**How do the `Throne-<version>-debian-system-qt-x64.deb` and `Throne-<version>-debian-x64.deb` packages differ, and why is the latter about 3 times heavier than the former?**
+
+The first one does not pack the Qt libraries and relies on those installed on the host. The second one packs everything needed with itself, thus being heavier. The reason the first one exists is that on legacy systems provided Qt libraries use unsupported system features. If a graphical interface fails to load for your system, you may try to download the system-qt version and install fitting Qt libraries from your package manager or compile them from source.
