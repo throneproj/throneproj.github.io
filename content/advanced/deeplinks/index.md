@@ -34,12 +34,13 @@ A deep link has the form:
 throne://<command>/?<parameters>
 ```
 
-The command is **case‑insensitive** (`throne://AddSub` and `throne://addsub` are the same), and the trailing slash before `?` is optional. Throne currently supports two commands.
+The command is **case‑insensitive** (`throne://AddSub` and `throne://addsub` are the same), and the trailing slash before `?` is optional. Throne currently supports three commands.
 
 | Command | Purpose |
 | --- | --- |
 | `addsub` | Add a subscription group and fetch it immediately |
 | `route`  | Import a routing profile |
+| `remoteroute` | Add one or more remote routing profiles by URL |
 
 An unrecognized command is ignored and noted in the log.
 
@@ -118,9 +119,60 @@ throne://route?data=eyJraW5kIjoidGhyb25lLXJvdXRlLXByb2ZpbGUiLCJ2IjoxLCJuYW1lIjoi
 
 > Throne also recognizes the same payload as plain JSON or bare Base64 when you import from the clipboard, so a link copied from another machine works even if it loses the `throne://route?data=` prefix along the way.
 
+## `remoteroute` — Add remote routing profiles
+
+Adds one or more **remote** routing profiles by URL. Where `route` packs an entire profile inside the link, `remoteroute` carries links to profiles hosted online: Throne downloads the rules from each URL and, when you allow it, keeps them current automatically. This is how a provider hands you a maintained routing profile — one that keeps improving without you re‑importing it.
+
+```
+throne://remoteroute?data=<base64>
+```
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `data` | **Yes** | A JSON array of profile entries, encoded as Base64 (URL‑safe or standard). Plain, unencoded JSON is also accepted. |
+
+### What's inside `data`
+
+The payload is a JSON array; each element describes one remote profile:
+
+```json
+[
+  {
+    "url": "https://example.com/routes/bypass-iran.json",
+    "auto_update": true,
+    "name": "Bypass Iran"
+  }
+]
+```
+
+| Field | Required | Description |
+| --- | --- | --- |
+| `url` | **Yes** | An `http://` or `https://` link to the routing profile. Entries without a valid http(s) URL are skipped. |
+| `auto_update` | No | Whether Throne refreshes this profile automatically. Accepts `true`/`false`, `1`/`0`, or `on`/`yes` to enable. **Defaults to off** when omitted. |
+| `name` | No | Display name for the profile. Defaults to the host of `url` when omitted. |
+
+> The update flag may also be spelled `autoUpdate` or `autoupdate`, and the whole payload may be wrapped as `{ "routes": [ ... ] }` instead of a bare array.
+
+### Example
+
+Base64‑encode the JSON array above and put the result in `data`:
+
+```
+throne://remoteroute?data=W3sidXJsIjoiaHR0cHM6Ly9leGFtcGxlLmNvbS9yb3V0ZXMvYnlwYXNzLWlyYW4uanNvbiIsImF1dG9fdXBkYXRlIjp0cnVlLCJuYW1lIjoiQnlwYXNzIElyYW4ifV0
+```
+
+Throne lists everything the link will add and waits for your confirmation:
+
+> Add these remote routing profiles?
+>
+> 1. https://example.com/routes/bypass-iran.json  (auto update: On)
+
+After you confirm, each profile is added and fetched immediately. Profiles with auto‑update enabled are then refreshed in the background by the **Routing profiles auto update** interval in **Basic Settings** (an interval under 30 minutes turns updates off).
+
 ## Troubleshooting
 
 - **Clicking a link does nothing / the browser asks which app to use.** Launch Throne once so it can register the scheme, then try again. If you moved the Throne folder, simply start it again — registration self‑heals on startup.
-- **"Ignored deeplink with unknown command".** The command portion isn't `addsub` or `route`. Check the spelling of the word right after `throne://`.
+- **"Ignored deeplink with unknown command".** The command portion isn't `addsub`, `route`, or `remoteroute`. Check the spelling of the word right after `throne://`.
 - **"The link did not contain a subscription URL".** The `addsub` link is missing its `url` parameter, or the value was empty after decoding.
+- **"The link did not contain any valid remote routing profiles".** A `remoteroute` link's `data` was missing, wasn't a JSON array, or none of its entries carried an `http://`/`https://` `url`. Confirm each entry has a valid URL and, if you Base64‑encoded the payload, that the encoding is intact.
 - **The subscription imports the wrong address.** The `url` value wasn't percent‑encoded, so part of it was cut off at a `?`, `&`, or `#`. Encode the value and rebuild the link.

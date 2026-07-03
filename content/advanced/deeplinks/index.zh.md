@@ -34,12 +34,13 @@ Throne 会向你的操作系统注册一个自定义的 `throne://` URL 协议�
 throne://<command>/?<parameters>
 ```
 
-命令**不区分大小写**（`throne://AddSub` 和 `throne://addsub` 相同），`?` 前结尾的斜杠是可选的。Throne 目前支持两个命令。
+命令**不区分大小写**（`throne://AddSub` 和 `throne://addsub` 相同），`?` 前结尾的斜杠是可选的。Throne 目前支持三个命令。
 
 | 命令 | 用途 |
 | --- | --- |
 | `addsub` | 添加一个订阅分组并立即更新 |
 | `route`  | 导入一个路由配置文件 |
+| `remoteroute` | 通过 URL 添加一个或多个远程路由配置文件 |
 
 无法识别的命令会被忽略，并记录到日志中。
 
@@ -118,9 +119,60 @@ throne://route?data=eyJraW5kIjoidGhyb25lLXJvdXRlLXByb2ZpbGUiLCJ2IjoxLCJuYW1lIjoi
 
 > 从剪贴板导入时，Throne 也会把同样的负载识别为普通 JSON 或裸 Base64，因此即使从其他设备复制的链接在传递过程中丢失了 `throne://route?data=` 前缀，仍然可以使用。
 
+## `remoteroute` — 添加远程路由配置文件
+
+通过 URL 添加一个或多个**远程**路由配置文件。与把整个配置文件塞进链接的 `route` 不同，`remoteroute` 携带的是托管在网上的配置文件的链接：Throne 会从每个 URL 下载规则，并在你允许的情况下自动保持它们为最新。服务商正是通过这种方式向你提供一份持续维护的路由配置文件——它会不断改进，而你无需重新导入。
+
+```
+throne://remoteroute?data=<base64>
+```
+
+| 参数 | 必填 | 说明 |
+| --- | --- | --- |
+| `data` | **是** | 一个由配置文件条目组成的 JSON 数组，经 Base64 编码（URL 安全或标准均可）。也接受未编码的普通 JSON。 |
+
+### `data` 里面是什么
+
+负载是一个 JSON 数组；每个元素描述一个远程配置文件：
+
+```json
+[
+  {
+    "url": "https://example.com/routes/bypass-iran.json",
+    "auto_update": true,
+    "name": "Bypass Iran"
+  }
+]
+```
+
+| 字段 | 必填 | 说明 |
+| --- | --- | --- |
+| `url` | **是** | 指向路由配置文件的 `http://` 或 `https://` 链接。没有有效 http(s) URL 的条目会被跳过。 |
+| `auto_update` | 否 | Throne 是否自动更新该配置文件。取值 `true`/`false`、`1`/`0` 或 `on`/`yes` 表示启用。省略时**默认关闭**。 |
+| `name` | 否 | 配置文件的显示名称。省略时默认使用 `url` 的主机名。 |
+
+> 更新标志也可写作 `autoUpdate` 或 `autoupdate`，整个负载也可以用 `{ "routes": [ ... ] }` 包裹，而不必是一个裸数组。
+
+### 示例
+
+将上面的 JSON 数组进行 Base64 编码，并把结果放入 `data`：
+
+```
+throne://remoteroute?data=W3sidXJsIjoiaHR0cHM6Ly9leGFtcGxlLmNvbS9yb3V0ZXMvYnlwYXNzLWlyYW4uanNvbiIsImF1dG9fdXBkYXRlIjp0cnVlLCJuYW1lIjoiQnlwYXNzIElyYW4ifV0
+```
+
+Throne 会列出该链接将要添加的全部内容，并等待你确认：
+
+> 添加这些远程路由配置文件？
+>
+> 1. https://example.com/routes/bypass-iran.json  (自动更新：开)
+
+确认后，每个配置文件都会立即被添加并拉取。已启用自动更新的配置文件之后会由**基本设置（Basic Settings）**中的 **Routing profiles auto update** 间隔在后台刷新（间隔小于 30 分钟将关闭更新）。
+
 ## 故障排除
 
 - **点击链接没有反应／浏览器询问使用哪个应用打开。** 先运行一次 Throne 让它注册协议，然后重试。如果你移动了 Throne 文件夹，只需再次启动它——注册会在启动时自动修复。
-- **“Ignored deeplink with unknown command”。** 命令部分不是 `addsub` 或 `route`。请检查 `throne://` 紧后面那个词的拼写。
+- **“Ignored deeplink with unknown command”。** 命令部分不是 `addsub`、`route` 或 `remoteroute`。请检查 `throne://` 紧后面那个词的拼写。
 - **“The link did not contain a subscription URL”。** `addsub` 链接缺少 `url` 参数，或其值在解码后为空。
+- **“The link did not contain any valid remote routing profiles”。** `remoteroute` 链接缺少 `data`，它不是一个 JSON 数组，或其中没有任何条目带有 `http://`/`https://` 的 `url`。请确认每个条目都有有效的 URL；如果你对负载做了 Base64 编码，请确认编码完好无损。
 - **订阅导入了错误的地址。** `url` 的值没有进行百分号编码，导致它在 `?`、`&` 或 `#` 处被截断。请对该值进行编码后重新生成链接。
