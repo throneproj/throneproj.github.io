@@ -1,6 +1,6 @@
 +++
 title = "深层链接"
-description = "使用 throne:// 深层链接，一键添加订阅和导入路由配置文件。"
+description = "使用 throne:// 深层链接，一键添加订阅、分享节点和导入路由配置文件。"
 weight = 2
 
 [extra]
@@ -10,7 +10,7 @@ Throne 会向你的操作系统注册一个自定义的 `throne://` URL 协议�
 
 这对于服务商网站、支持页面、二维码、脚本，或者只是想把某个路由配置文件分享给朋友，都非常方便。
 
-> 每个深层链接在保存任何内容之前都会请求确认。Throne 会准确地告诉你将要添加的内容，并等待你的同意，因此打开一个链接绝不会在你不知情的情况下更改你的配置。
+> 添加订阅或路由配置文件的链接会先请求确认：Throne 会准确地告诉你将要添加的内容，并等待你的同意。唯一的例外是 `add` 命令，它会不经询问直接把一个节点配置添加到当前分组——就和粘贴一条 `vless://` 链接一样。
 
 ## Throne 如何接收深层链接
 
@@ -19,87 +19,117 @@ Throne 会向你的操作系统注册一个自定义的 `throne://` URL 协议�
 注册完成后，Throne 可从以下任意来源接收深层链接：
 
 - **点击 `throne://` 链接**：在浏览器、聊天软件或文档中点击，操作系统会将其交给 Throne。
-- **粘贴**：在主界面按 `Ctrl+V` 粘贴该链接。
+- **`程序`（Program）→ `从剪贴板添加配置`（Add profile from clipboard）**：该菜单项在 `服务器`（Server）菜单下也有，快捷键为 `Ctrl+V`，它会从剪贴板读取该链接。
 - **拖放**：将链接文本拖放到主界面。
-- **`服务器`（Server）→ `从剪贴板添加配置`（Add profile from clipboard）**：从剪贴板读取该链接。
-- **作为启动参数传入**：在命令行中传入（Windows/Linux）。
+- **作为启动参数传入**：在命令行中传入（Windows/Linux）。在 macOS 上，系统会直接把网址交给已在运行的程序。
 
 如果 Throne 已经打开，链接会交给现有窗口处理，而不会启动第二个实例。
 
-## 命令参考
+## 链接格式
 
-深层链接的格式为：
+所有深层链接的结构都相同——一个命令、一个斜杠，以及一段 Base64 数据：
 
 ```
-throne://<command>/?<parameters>
+throne://<command>/<base64_payload>
 ```
 
-命令**不区分大小写**（`throne://AddSub` 和 `throne://addsub` 相同），`?` 前结尾的斜杠是可选的。Throne 目前支持三个命令。
+- 命令**不区分大小写**（`throne://AddSub/...` 和 `throne://addsub/...` 相同）。
+- **斜杠和数据部分是必需的。** 命令后面没有 `/<payload>` 的链接会被静默丢弃——既不会有任何反应，也不会记录日志。
+- 没有查询参数。链接携带的所有内容都在这段 Base64 数据里。
 
-| 命令 | 用途 |
+| 命令 | 用途 | 是否先确认？ |
+| --- | --- | --- |
+| `addsub` | 添加一个订阅分组并立即更新 | 是 |
+| `route` | 导入链接内携带的路由配置文件 | 是 |
+| `remoteroute` | 通过 URL 添加一个或多个远程路由配置文件 | 是 |
+| `add` | 向当前分组添加一个节点配置 | 否 |
+
+无法识别的命令会被忽略，并以 `Ignored deeplink with unknown command` 记录到日志中。
+
+### 该使用哪种 Base64 字母表
+
+这一点很重要，而且各命令并不相同：
+
+| 命令 | 可接受的编码 |
 | --- | --- |
-| `addsub` | 添加一个订阅分组并立即更新 |
-| `route`  | 导入一个路由配置文件 |
-| `remoteroute` | 通过 URL 添加一个或多个远程路由配置文件 |
+| `addsub` | 仅限**标准** Base64（`+` 和 `/` 字母表）。请保留结尾的 `=` 填充。 |
+| `remoteroute` | 仅限**标准** Base64（`+` 和 `/` 字母表）。请保留结尾的 `=` 填充。 |
+| `route` | URL 安全 Base64、标准 Base64，甚至未编码的纯 JSON 均可。 |
+| `add` | 由 Throne 生成——见下文 [`add`](#add)。 |
 
-无法识别的命令会被忽略，并记录到日志中。
+对于 `addsub` 和 `remoteroute`，含有 `-` 或 `_` 的 URL 安全数据将无法解码，链接会被拒绝。请使用标准字母表编码。
 
 ## `addsub` — 添加订阅
 
 添加一个新的订阅分组并立即更新它。
 
 ```
-throne://addsub/?url=<subscription_url>&name=<group_name>&autoupdate=<value>
+throne://addsub/<base64>
 ```
 
-| 参数 | 必填 | 说明 |
+数据部分是下面这一行文本的 Base64：
+
+```
+<subscription_url>[#<group_name>]
+```
+
+| 部分 | 必需 | 说明 |
 | --- | --- | --- |
-| `url` | **是** | 订阅链接。必须经过 **百分号编码（percent-encoding）**（参见下方提示）。如果缺失，Throne 会显示警告并且不执行任何操作。 |
-| `name` | 否 | 新分组的名称。省略时默认使用订阅链接的主机名。 |
-| `autoupdate` | 否 | 该分组是否自动更新。取值 `1`、`true`、`on` 或 `yes`（不区分大小写）表示启用。该参数**缺失时默认启用**。其他任何值都会将其禁用。 |
+| `<subscription_url>` | **是** | 订阅地址。 |
+| `#<group_name>` | 否 | 新分组的名称，写作网址的片段（fragment）部分。省略时默认使用订阅地址的主机名。 |
+
+自动更新**不包含在链接中**。Throne 会在确认对话框里询问，其中的 **Auto update** 复选框默认为勾选状态。
 
 ### 示例
 
+要把 `https://example.com/sub/abc123` 添加为名为 **MyProvider** 的分组，请对下面这行文本做 Base64 编码：
+
 ```
-throne://addsub/?url=https%3A%2F%2Fexample.com%2Fsub%2Fabc123&name=My%20Provider&autoupdate=yes
+https://example.com/sub/abc123#MyProvider
 ```
 
-该链接会为 `https://example.com/sub/abc123` 添加一个名为 **My Provider** 的分组，并开启自动更新。Throne 会请求你确认：
+然后把结果作为数据部分：
+
+```
+throne://addsub/aHR0cHM6Ly9leGFtcGxlLmNvbS9zdWIvYWJjMTIzI015UHJvdmlkZXI=
+```
+
+Throne 会请你确认：
 
 > 添加此订阅？
-> 名称：My Provider
-> URL：https://example.com/sub/abc123
-> 自动更新：开
+>
+> 名称：MyProvider
+> 地址（URL）：https://example.com/sub/abc123
+>
+> ☑ 自动更新
 
-确认后，分组即被创建，订阅也会立即拉取。
+确认之后，分组会被创建，订阅也会立即拉取。
 
-> **务必对 `url` 的值进行百分号编码。** 订阅链接包含 `:`、`/`、`?`、`&` 等字符，否则它们会被误认为深层链接本身的一部分。例如，`https://example.com/sub?id=1` 应写成 `https%3A%2F%2Fexample.com%2Fsub%3Fid%3D1`。`name` 中的空格和特殊字符同理（空格写成 `%20`）。
+> 因为整段文本都经过 Base64 编码，所以**不需要**对订阅地址做百分号编码——其中的 `?`、`&` 和 `/` 都安全地藏在数据里。但如果分组名称含有空格或其他特殊字符，请对其做百分号编码（空格写作 `%20`）。
 
 ## `route` — 导入路由配置文件
 
-导入链接中携带的完整路由配置文件（默认出站连接及规则）。
+导入链接内携带的完整路由配置文件（默认出站加规则）。
 
 ```
-throne://route?data=<base64>
+throne://route/<base64>
 ```
 
-| 参数 | 必填 | 说明 |
-| --- | --- | --- |
-| `data` | **是** | 经过 Base64 编码的路由配置文件。推荐使用 URL 安全的 Base64（可带或不带填充）；标准 Base64 也可接受。 |
+数据部分是经 Base64 编码的路由配置文件。Throne 自己生成的是 URL 安全 Base64（带或不带填充均可）；标准 Base64 和未编码的纯 JSON 同样可用。
 
 ### 如何生成 route 链接
 
-通常你无需手动构造这些链接——Throne 会为你生成：
+通常你不需要手动构造这类链接——Throne 会替你生成：
 
-1. 打开 `路由`（Routes）→ `路由设置`（Routing Settings）。
-2. 选择你想分享的路由配置文件。
+1. 打开 `路由菜单`（Routing Menu）→ `路由设置`（Routing Settings）。
+2. 选中你想分享的路由配置文件。
 3. 按 `Ctrl+C`（或使用导出操作）。
 
-Throne 会把一个可直接分享的 `throne://route?data=...` 链接复制到你的剪贴板。把它发送给任何人；当对方打开它（或粘贴它／使用 `从剪贴板添加配置`）时，Throne 会显示配置文件名称及相关提示，并在确认后导入。
+Throne 会把一条可直接分享的 `throne://route/...` 链接复制到你的剪贴板。把它发给任何人；当对方打开它（或在`路由设置`中按 `Ctrl+V` 粘贴，或使用`从剪贴板添加配置`）时，Throne 会显示配置文件名称和相关提示，经确认后导入。
 
-### `data` 里面是什么
+### 数据里是什么
 
-Base64 负载会解码为一个描述该配置文件的小型 JSON 结构：
+这段 Base64 解码后，是一个描述该配置文件的小型 JSON 结构：
 
 ```json
 {
@@ -111,68 +141,91 @@ Base64 负载会解码为一个描述该配置文件的小型 JSON 结构：
 }
 ```
 
-因此上面的链接如下所示（`data` 的值就是该 JSON 的 Base64 编码）：
+因此链接是这样的（数据部分就是该 JSON 的 Base64）：
 
 ```
-throne://route?data=eyJraW5kIjoidGhyb25lLXJvdXRlLXByb2ZpbGUiLCJ2IjoxLCJuYW1lIjoiQnlwYXNzIExBTiIsImRlZmF1bHRfb3V0Ym91bmQiOiJwcm94eSIsInJ1bGVzIjpbXX0
+throne://route/eyJraW5kIjoidGhyb25lLXJvdXRlLXByb2ZpbGUiLCJ2IjoxLCJuYW1lIjoiQnlwYXNzIExBTiIsImRlZmF1bHRfb3V0Ym91bmQiOiJwcm94eSIsInJ1bGVzIjpbXX0
 ```
 
-> 从剪贴板导入时，Throne 也会把同样的负载识别为普通 JSON 或裸 Base64，因此即使从其他设备复制的链接在传递过程中丢失了 `throne://route?data=` 前缀，仍然可以使用。
+由手写 route 段落创建的配置文件带有 `"raw": true` 和一个 `route` 对象，而不是 `rules`；Throne 在导入时会按名称重新映射其中的出站引用，并告知你有哪些无法解析。
+
+> 从剪贴板导入时，Throne 同样能识别纯 JSON 或裸 Base64 形式的相同数据，因此即使链接在传递过程中丢掉了 `throne://route/` 前缀，从另一台机器复制来的链接依然可用。旧版的纯规则数组也可接受——它会在编辑器中打开，以便你为其补上名称和默认出站。
 
 ## `remoteroute` — 添加远程路由配置文件
 
-通过 URL 添加一个或多个**远程**路由配置文件。与把整个配置文件塞进链接的 `route` 不同，`remoteroute` 携带的是托管在网上的配置文件的链接：Throne 会从每个 URL 下载规则，并在你允许的情况下自动保持它们为最新。服务商正是通过这种方式向你提供一份持续维护的路由配置文件——它会不断改进，而你无需重新导入。
+通过 URL 添加一个或多个**远程**路由配置文件。`route` 把整个配置文件塞进链接里，而 `remoteroute` 携带的是托管在网上的配置文件地址：Throne 会从每个地址下载规则，并在你允许时自动保持更新。服务商正是用这种方式提供持续维护的路由配置文件——无需你重新导入，它就会不断改进。
 
 ```
-throne://remoteroute?data=<base64>
+throne://remoteroute/<base64>
 ```
 
-| 参数 | 必填 | 说明 |
+数据部分是一份**以换行分隔的纯 URL 列表**的 Base64，而不是 JSON：
+
+```
+<profile_url_1>[#<name_1>]
+<profile_url_2>[#<name_2>]
+...
+```
+
+| 部分 | 必需 | 说明 |
 | --- | --- | --- |
-| `data` | **是** | 一个由配置文件条目组成的 JSON 数组，经 Base64 编码（URL 安全或标准均可）。也接受未编码的普通 JSON。 |
+| `<profile_url>` | **是** | 指向路由配置文件的 `http://` 或 `https://` 地址。不是有效 http(s) 网址的行会被跳过。 |
+| `#<name>` | 否 | 配置文件的显示名称，写作网址的片段（fragment）部分。省略时默认使用该网址的主机名。 |
 
-### `data` 里面是什么
-
-负载是一个 JSON 数组；每个元素描述一个远程配置文件：
-
-```json
-[
-  {
-    "url": "https://example.com/routes/bypass-iran.json",
-    "auto_update": true,
-    "name": "Bypass Iran"
-  }
-]
-```
-
-| 字段 | 必填 | 说明 |
-| --- | --- | --- |
-| `url` | **是** | 指向路由配置文件的 `http://` 或 `https://` 链接。没有有效 http(s) URL 的条目会被跳过。 |
-| `auto_update` | 否 | Throne 是否自动更新该配置文件。取值 `true`/`false`、`1`/`0` 或 `on`/`yes` 表示启用。省略时**默认关闭**。 |
-| `name` | 否 | 配置文件的显示名称。省略时默认使用 `url` 的主机名。 |
-
-> 更新标志也可写作 `autoUpdate` 或 `autoupdate`，整个负载也可以用 `{ "routes": [ ... ] }` 包裹，而不必是一个裸数组。
+自动更新**不是逐条设置的**。Throne 只在确认对话框里询问一次，你的回答会应用到该链接中的所有配置文件。**Auto update** 复选框默认为勾选状态。
 
 ### 示例
 
-将上面的 JSON 数组进行 Base64 编码，并把结果放入 `data`：
+对下面这两行列表做 Base64 编码：
 
 ```
-throne://remoteroute?data=W3sidXJsIjoiaHR0cHM6Ly9leGFtcGxlLmNvbS9yb3V0ZXMvYnlwYXNzLWlyYW4uanNvbiIsImF1dG9fdXBkYXRlIjp0cnVlLCJuYW1lIjoiQnlwYXNzIElyYW4ifV0
+https://example.com/routes/bypass-iran.json#BypassIran
+https://example.com/routes/ads.json
 ```
 
-Throne 会列出该链接将要添加的全部内容，并等待你确认：
+然后把结果作为数据部分：
+
+```
+throne://remoteroute/aHR0cHM6Ly9leGFtcGxlLmNvbS9yb3V0ZXMvYnlwYXNzLWlyYW4uanNvbiNCeXBhc3NJcmFuCmh0dHBzOi8vZXhhbXBsZS5jb20vcm91dGVzL2Fkcy5qc29u
+```
+
+Throne 会列出该链接将要添加的全部内容，并等待你的确认：
 
 > 添加这些远程路由配置文件？
 >
-> 1. https://example.com/routes/bypass-iran.json  (自动更新：开)
+> 1. https://example.com/routes/bypass-iran.json
+> 2. https://example.com/routes/ads.json
+>
+> ☑ 自动更新
 
-确认后，每个配置文件都会立即被添加并拉取。已启用自动更新的配置文件之后会由**基本设置（Basic Settings）**中的 **Routing profiles auto update** 间隔在后台刷新（间隔小于 30 分钟将关闭更新）。
+确认之后，每个配置文件都会被添加并立即拉取。启用了自动更新的配置文件，随后会依照**基础设置（Basic Settings）**中 **Routing profiles auto update** 的间隔在后台刷新（间隔小于 30 分钟将关闭更新）。
 
-## 故障排除
+每个远程地址提供的路由配置文件，可以是 `route` 所接受的任意形式——一条 `throne://route/...` 链接、它的 Base64，或原始 JSON。
 
-- **点击链接没有反应／浏览器询问使用哪个应用打开。** 先运行一次 Throne 让它注册协议，然后重试。如果你移动了 Throne 文件夹，只需再次启动它——注册会在启动时自动修复。
-- **“Ignored deeplink with unknown command”。** 命令部分不是 `addsub`、`route` 或 `remoteroute`。请检查 `throne://` 紧后面那个词的拼写。
-- **“The link did not contain a subscription URL”。** `addsub` 链接缺少 `url` 参数，或其值在解码后为空。
-- **“The link did not contain any valid remote routing profiles”。** `remoteroute` 链接缺少 `data`，它不是一个 JSON 数组，或其中没有任何条目带有 `http://`/`https://` 的 `url`。请确认每个条目都有有效的 URL；如果你对负载做了 Base64 编码，请确认编码完好无损。
-- **订阅导入了错误的地址。** `url` 的值没有进行百分号编码，导致它在 `?`、`&` 或 `#` 处被截断。请对该值进行编码后重新生成链接。
+## `add` — 添加单个节点配置 {#add}
+
+从一段 JSON 出站配置向当前分组添加一个节点。
+
+```
+throne://add/<base64>
+```
+
+数据部分是该节点出站 JSON 的 Base64——也就是 Throne 为某个服务器导出的那个对象。与其他三个命令不同，这个命令**不会请求确认**：配置会直接添加到当前分组，就和你粘贴一条 `vless://` 或 `ss://` 链接完全一样。
+
+你不需要手动构造这类链接。Throne 会替你生成：
+
+- `服务器`（Server）→ `分享`（Share）→ `Copy links of selected (Deep Links)`（快捷键 `Ctrl+Alt+C`）
+- 分享/二维码窗口会在普通分享链接旁一并显示深层链接
+- 分组编辑器中的 `Copy profile share links (Deep Links)` 按钮
+
+对于没有标准 `://` 分享网址的协议和选项，深层链接尤其有用，因为完整的 JSON 配置能原样传递。
+
+## 疑难解答
+
+- **点击链接没有反应／浏览器询问用哪个程序打开。** 先运行一次 Throne 让它注册协议，然后再试。如果你移动过 Throne 文件夹，只需再启动一次即可——注册会在启动时自我修复。
+- **完全没有反应，日志也是空的。** 链接很可能在命令后面缺少斜杠和数据（写成了 `throne://addsub` 而不是 `throne://addsub/<base64>`），或者它的 Base64 无法解码。这两种情况都会被静默丢弃。
+- **「Ignored deeplink with unknown command」。** 命令部分不是 `addsub`、`route`、`remoteroute` 或 `add`。请检查 `throne://` 后面那个词的拼写。
+- **「The link did not contain a subscription URL」。** `addsub` 的数据解码成功了，但 `#` 前面没有网址——请确认你编码的是 `<url>#<name>`，而不只是 `#<name>`。
+- **「Base64 is invalid.」／「Deep link has no data」。** 数据为空或无法解码。对于 `addsub` 和 `remoteroute`，请确保使用了**标准** Base64：含有 `-` 或 `_` 的 URL 安全数据会被拒绝。
+- **「The link did not contain any valid remote routing profiles」。** 解码后没有任何一行以 `http://` 或 `https://` 开头。请记住数据是以换行分隔的网址列表，而不是 JSON 数组。
+- **「The link could not be parsed」。** `route` 的数据不是有效的 JSON、Base64 或 Throne route 链接——或者是一个缺少 `"kind": "throne-route-profile"` 标记的 JSON 对象。

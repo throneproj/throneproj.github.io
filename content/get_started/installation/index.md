@@ -62,6 +62,18 @@ To enable built-in privilege escalation, grant `Throne` (or `Terminal` if runnin
 
 Throne provides several ways to install depending on your distribution.
 
+#### CLI installer (recommended)
+
+The quickest way to install on any distribution. The script downloads the right build for your architecture, installs it to `/opt/Throne`, and adds a desktop entry:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/throneproj/Throne/dev/script/install_linux.py | sudo python3
+```
+
+It runs as an interactive terminal menu: it shows the latest stable and unstable versions (and your currently installed one, if any), then asks whether you want to **Install** or **Uninstall**, and which branch to install. Requires Python 3 and root.
+
+Run the same command again to update to a newer release, or to uninstall. Uninstalling removes `/opt/Throne` and the desktop entry but leaves your settings in `~/.config/Throne` untouched.
+
 #### Portable (ZIP)
 
 Download the ZIP package:

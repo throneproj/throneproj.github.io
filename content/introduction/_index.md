@@ -43,6 +43,8 @@ Supports Windows 11/10/8/7 / Linux / MacOS out of the box.
 
 Various formats are supported, including share links, various JSON representation of Sing-box configs, and v2rayN link format as well as limited support for Shadowsocks and Clash formats.
 
+Deep links are also supported — see the [Deep Links](/advanced/deeplinks/) documentation for more information.
+
 ## Credits
 
 - [sing-box](https://github.com/SagerNet/sing-box)

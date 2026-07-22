@@ -43,6 +43,8 @@ Throne（原 Nekoray）是一个基于 Qt 的跨平台桌面 GUI 代理工具，
 
 支持多种订阅格式，包括分享链接、多种 Sing-box 配置的 JSON 表示形式、v2rayN 链接格式，以及对 Shadowsocks 和 Clash 格式的有限支持。
 
+深层链接同样受支持——详见[深层链接](/advanced/deeplinks/)文档。
+
 ## 致谢
 
 - [sing-box](https://github.com/SagerNet/sing-box)

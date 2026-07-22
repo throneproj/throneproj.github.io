@@ -44,6 +44,18 @@ macOS | x64 | macOS 10.15 | macoslegacy-amd64.zip
 
 ### Linux
 
+#### 命令行安装器（推荐）
+
+在任意发行版上最快捷的安装方式。脚本会下载适配你的架构的构建版本，将其安装到 `/opt/Throne`，并添加桌面快捷方式：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/throneproj/Throne/dev/script/install_linux.py | sudo python3
+```
+
+它以交互式终端菜单运行：先显示最新的稳定版和非稳定版（以及你已安装的版本，如果有的话），然后询问你要执行 **Install** 还是 **Uninstall**，以及安装哪个分支。需要 Python 3 和 root 权限。
+
+再次运行同一条命令即可更新到新版本或卸载。卸载会移除 `/opt/Throne` 和桌面快捷方式，但会保留 `~/.config/Throne` 中的设置。
+
 #### 便携版 (ZIP)
 
 下载 ZIP 包：
