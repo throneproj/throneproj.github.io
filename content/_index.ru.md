@@ -1,12 +1,12 @@
 +++
 template = "landing.html"
+description = "Кроссплатформенная графическая прокси-утилита для настольных компьютеров на основе Qt, работающая на базе Sing-box."
 
 [extra]
-version = "v1.0.0"
 
 [extra.hero]
 title = "Throne"
-description = "Кроссплатформенная утилита графического интерфейса для прокси"
+description = "Кроссплатформенная графическая прокси-утилита для настольных компьютеров на основе Qt, работающая на базе Sing-box"
 cta_buttons = [
     { text = "Начать", url = "/introduction", style = "primary" },
     { text = "Посмотреть на GitHub", url = "https://github.com/throneproj/Throne", style = "secondary" },

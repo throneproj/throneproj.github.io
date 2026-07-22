@@ -55,7 +55,7 @@ This matters, and it differs per command:
 | `addsub` | **Standard** Base64 only (the `+` and `/` alphabet). Keep the `=` padding. |
 | `remoteroute` | **Standard** Base64 only (the `+` and `/` alphabet). Keep the `=` padding. |
 | `route` | URL‑safe Base64, standard Base64, or even plain unencoded JSON. |
-| `add` | Produced by Throne — see [`add`](#add-add-a-single-proxy-profile) below. |
+| `add` | Produced by Throne — see [`add`](#add) below. |
 
 For `addsub` and `remoteroute`, a URL‑safe payload containing `-` or `_` will fail to decode and the link will be rejected. Encode with the standard alphabet.
 
