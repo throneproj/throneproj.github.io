@@ -81,8 +81,6 @@ sudo dpkg -i Throne-x.x.x-debian-*.deb
 xattr -d com.apple.quarantine /path/to/Throne.app
 ```
 
-برای فعال کردن ارتقای دسترسی داخلی، به `Terminal` دسترسی کامل به دیسک (Full Disk Access) را در `System Preferences` → `Security & Privacy` → `Privacy` → `Full Disk Access` بدهید.
-
 ## مدیران بسته (Package managers)
 
 توزیع | مخزن

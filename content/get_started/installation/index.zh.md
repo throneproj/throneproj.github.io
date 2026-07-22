@@ -81,8 +81,6 @@ sudo dpkg -i Throne-x.x.x-debian-*.deb
 xattr -d com.apple.quarantine /path/to/Throne.app
 ```
 
-要启用内置提权功能，请在 `系统偏好设置` → `安全性与隐私` → `隐私` → `完全磁盘访问权限` 中授予 `终端` 完全磁盘访问权限。
-
 ## 包管理器
 
 发行版 | 仓库

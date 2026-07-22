@@ -11,7 +11,7 @@ Throne (ранее Nekoray) — это кроссплатформенная гр
 
 Поддерживает Windows 11/10/8/7 / Linux / MacOS "из коробки".
 
-<img width="1002" height="789" alt="image" src="https://github.com/user-attachments/assets/3c9bf428-e3bd-426b-8ca1-cc57ecbedd7e" />
+<img width="1002" height="789" alt="image" src="https://github.com/user-attachments/assets/af4a8e32-7e55-430c-9402-ec2d665cf71a" />
 
 ## Поддерживаемые протоколы
 

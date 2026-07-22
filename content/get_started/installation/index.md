@@ -56,8 +56,6 @@ Extract the ZIP file. Due to Apple's strict security policy, you must remove the
 xattr -d com.apple.quarantine /path/to/Throne.app
 ```
 
-To enable built-in privilege escalation, grant `Throne` (or `Terminal` if running from CLI) Full Disk Access in `System Settings` → `Privacy & Security` → `Full Disk Access`.
-
 ### Linux
 
 Throne provides several ways to install depending on your distribution.
