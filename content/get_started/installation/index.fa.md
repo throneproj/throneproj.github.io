@@ -81,6 +81,8 @@ sudo dpkg -i Throne-x.x.x-debian-*.deb
 xattr -d com.apple.quarantine /path/to/Throne.app
 ```
 
+پیش از اولین اجرا، `Throne.app` را به پوشه `/Applications` منتقل کنید. ارتقای دسترسی داخلی، Terminal را باز می‌کند تا بیت setuid-root را روی هسته تنظیم کند و اگر برنامه همچنان داخل `~/Downloads` باشد، این مرحله ممکن است شکست بخورد.
+
 ## مدیران بسته (Package managers)
 
 توزیع | مخزن

@@ -81,6 +81,8 @@ sudo dpkg -i Throne-x.x.x-debian-*.deb
 xattr -d com.apple.quarantine /path/to/Throne.app
 ```
 
+首次启动前，请将 `Throne.app` 移动到 `/Applications`。内置提权功能会打开“终端”以将核心设置为 setuid-root，如果应用仍位于 `~/Downloads` 中，该步骤可能会失败。
+
 ## 包管理器
 
 发行版 | 仓库

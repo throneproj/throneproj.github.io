@@ -56,6 +56,8 @@ Extract the ZIP file. Due to Apple's strict security policy, you must remove the
 xattr -d com.apple.quarantine /path/to/Throne.app
 ```
 
+Move `Throne.app` to `/Applications` before the first launch. The built-in privilege escalation opens Terminal to make the core setuid-root, and that step can fail while the app is still inside `~/Downloads`.
+
 ### Linux
 
 Throne provides several ways to install depending on your distribution.
