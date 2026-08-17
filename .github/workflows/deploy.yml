@@ -1,0 +1,28 @@
+---
+name: Hwaro CI/CD
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Throne version"
+        required: true
+
+env:
+  VERSION: ${{ github.event.inputs.version }}
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Build and Deploy
+        uses: hahwul/hwaro@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}

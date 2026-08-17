@@ -1,8 +1,6 @@
 +++
-title = "Get Started"
+title = "شروع کار"
 description = "Get started with Throne"
-weight = 2
+weight = 1
 sort_by = "weight"
-
-[extra]
 +++

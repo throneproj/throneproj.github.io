@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="{{ page_language | default("en") }}"{% if page_language == "fa" %} dir="rtl" {% endif %}>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{{ page.description | default(site.description, true) | e }}">
+  <title>{% if page.title is present and page.title != site.title %}{{ page.title | e }} - {{ site.title | e }}{% else %}{{ site.title | e }}{% endif %}</title>
+
+  {# Dark is the brand default, so the fallback theme-color is the dark surface.
+     A visitor who prefers light gets the light one. #}
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  {# Set the pinned theme and the .js flag before first paint. Without the .js
+     flag every [data-reveal] element stays visible, so a failed script means a
+     static page rather than a blank one. #}
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  {{ og_all_tags }}
+  {{ canonical_tag }}
+  {{ jsonld }}
+  {{ hreflang_tags }}
+
+  <link rel="icon" href="{{ base_url }}/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="{{ base_url }}/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="{{ base_url }}/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="{{ base_url }}/logos/apple-touch-icon.png">
+  <link rel="manifest" href="{{ base_url }}/logos/site.webmanifest">
+
+  <link rel="preload" href="{{ base_url }}/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  {# hwaro's highlight_css emits a root-absolute /assets/ path that ignores
+     base_url and 404s under a sub-path, so the vendored sheet is referenced
+     here directly. style.css loads after it and overrides every token. #}
+  <link rel="stylesheet" href="{{ base_url }}/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="{{ base_url }}/css/style.css">
+  {{ auto_includes_css }}
+</head>
+<body>
+  <a class="skip-link" href="#main">{{ "ui.skip_to_content" | t }}</a>
+  {% include "partials/icons.html" %}

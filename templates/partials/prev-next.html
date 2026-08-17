@@ -1,0 +1,17 @@
+{% set home_url = lang_prefix ~ "/" %}
+{% if page.higher or (page.lower and page.lower.url != home_url) %}
+<nav class="prev-next" aria-label="{{ "ui.page_nav_aria" | t }}">
+  {% if page.lower and page.lower.url != home_url %}
+  <a class="prevnext-prev" href="{{ base_url }}{{ page.lower.url }}">
+    <span class="prevnext-dir">{{ "ui.previous" | t }}</span>
+    {{ page.lower.title }}
+  </a>
+  {% endif %}
+  {% if page.higher %}
+  <a class="prevnext-next" href="{{ base_url }}{{ page.higher.url }}">
+    <span class="prevnext-dir">{{ "ui.next" | t }}</span>
+    {{ page.higher.title }}
+  </a>
+  {% endif %}
+</nav>
+{% endif %}

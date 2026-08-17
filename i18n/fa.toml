@@ -1,0 +1,50 @@
+# UI strings, referenced from templates as {{ "ui.search" | t }}.
+# Every key here must also exist in ko.toml.
+
+[ui]
+skip_to_content = "پرش به محتوای اصلی"
+search = "جستجو"
+search_placeholder = "جستجو در مستندات"
+on_this_page = "در این صفحه"
+edit_page = "ویرایش این صفحه در GitHub"
+previous = "قبلی"
+next = "بعدی"
+language = "زبان"
+home = "صفحه اصلی Throne"
+note = "نکته"
+warning = "هشدار"
+open_nav = "باز کردن منو"
+search_aria = "جستجو در مستندات"
+github_aria = "Throne در GitHub"
+docs_nav_aria = "مسیریابی مستندات"
+primary_nav_aria = "اصلی"
+page_nav_aria = "مسیریابی صفحه"
+get_started = "شروع کار"
+downloads = "دانلود"
+
+# Strings consumed by the client scripts, handed over in partials/scripts.html.
+# They cannot use the `t` filter directly, so keep them free of quotes.
+copy = "کپی"
+copied = "کپی شد"
+copy_manual = "کلید Ctrl C را فشار دهید"
+no_results = "نتیجه‌ای یافت نشد برای"
+theme = "تم"
+theme_auto = "خودکار"
+theme_light = "روشن"
+theme_dark = "تاریک"
+
+current_ver = "نسخه پایدار فعلی"
+platform = "پلتفرم"
+architecture = "معماری"
+min_ver = "حداقل نسخه "
+pack_type = "نوع بسته "
+link = "لینک"
+installer = "نصب‌کننده"
+portable = "نسخه پرتابل  "
+download = "دانلود"
+
+[notfound]
+title = "این صفحه یافت نشد."
+body = "مسیر درخواست‌شده پیدا نشد. ممکن است جابه‌جا شده باشد یا هرگز وجود نداشته است."
+back_home = "بازگشت به صفحه اصلی"
+read_docs = "مطالعه مستندات"

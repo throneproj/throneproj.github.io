@@ -1,0 +1,50 @@
+# UI strings, referenced from templates as {{ "ui.search" | t }}.
+# Every key here must also exist in ko.toml.
+
+[ui]
+skip_to_content = "Skip to content"
+search = "Search"
+search_placeholder = "Search the docs"
+on_this_page = "On this page"
+edit_page = "Edit this page on GitHub"
+previous = "Previous"
+next = "Next"
+language = "Language"
+home = "Throne homepage"
+note = "Note"
+warning = "Warning"
+open_nav = "Open navigation"
+search_aria = "Search documentation"
+github_aria = "Throne on GitHub"
+docs_nav_aria = "Documentation"
+primary_nav_aria = "Primary"
+page_nav_aria = "Page navigation"
+get_started = "Get Started"
+downloads = "Downloads"
+
+# Strings consumed by the client scripts, handed over in partials/scripts.html.
+# They cannot use the `t` filter directly, so keep them free of quotes.
+copy = "Copy"
+copied = "Copied"
+copy_manual = "Press Ctrl C"
+no_results = "No results for"
+theme = "Theme"
+theme_auto = "auto"
+theme_light = "light"
+theme_dark = "dark"
+
+current_ver = "The current stable version is"
+platform = "Platform"
+architecture = "Architecture"
+min_ver = "Minimum Version"
+pack_type = "Package Type"
+link = "Link"
+installer = "Installer"
+portable = "Portable"
+download = "Download"
+
+[notfound]
+title = "This page is not here."
+body = "The route you asked for did not resolve. It may have moved, or it may never have existed."
+back_home = "Back to homepage"
+read_docs = "Read the docs"

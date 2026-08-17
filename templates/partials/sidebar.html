@@ -1,0 +1,38 @@
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="{{ "ui.docs_nav_aria" | t }}">
+
+    {% set sidebar_groups = site.data["sidebar_" ~ page.language] %}
+    {% for group in sidebar_groups %}
+    <details class="sidebar-group"{% if page.section | split(pat="/") | first == group.section %} open{% endif %}>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>{{ group.title }}</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        {% for item in group.items %}
+        {% if item.items %}
+        <li>
+          <details class="sidebar-subgroup"{% for sub in item.items %}{% if page.url == lang_prefix ~ sub.url %} open{% endif %}{% endfor %}>
+            <summary class="sidebar-subheading">
+              <span>{{ item.title }}</span>
+              <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+            </summary>
+            <ul class="sidebar-sub">
+              {% for sub in item.items %}
+              <li><a href="{{ base_url }}{{ lang_prefix }}{{ sub.url }}"{% if page.url == lang_prefix ~ sub.url %} aria-current="page"{% endif %}>{{ sub.title }}</a></li>
+              {% endfor %}
+            </ul>
+          </details>
+        </li>
+        {% else %}
+        <li><a href="{{ base_url }}{{ lang_prefix }}{{ item.url }}"{% if page.url == lang_prefix ~ item.url %} aria-current="page"{% endif %}>{{ item.title }}</a></li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </details>
+    {% endfor %}
+
+  </nav>
+</aside>

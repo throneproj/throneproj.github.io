@@ -1,0 +1,50 @@
+# UI strings, referenced from templates as {{ "ui.search" | t }}.
+# Every key here must also exist in ko.toml.
+
+[ui]
+skip_to_content = "Перейти к основному содержимому"
+search = "Поиск"
+search_placeholder = "Поиск по документации"
+on_this_page = "На этой странице"
+edit_page = "Редактировать эту страницу на GitHub"
+previous = "Назад"
+next = "Вперед"
+language = "Язык"
+home = "Главная страница Throne"
+note = "Примечание"
+warning = "Предупреждение"
+open_nav = "Открыть навигацию"
+search_aria = "Поиск по документации"
+github_aria = "Throne на GitHub"
+docs_nav_aria = "Навигация по документации"
+primary_nav_aria = "Основная навигация"
+page_nav_aria = "Навигация по странице"
+get_started = "Начало работы"
+downloads = "Скачать"
+
+# Strings consumed by the client scripts, handed over in partials/scripts.html.
+# They cannot use the `t` filter directly, so keep them free of quotes.
+copy = "Копировать"
+copied = "Скопировано"
+copy_manual = "Нажмите Ctrl C"
+no_results = "Ничего не найдено по запросу"
+theme = "Тема"
+theme_auto = "авто"
+theme_light = "светлая"
+theme_dark = "темная"
+
+current_ver = "Текущая стабильная версия"
+platform = "Платформа"
+architecture = "Архитектура"
+min_ver = "Мин. версия"
+pack_type = "Тип пакета"
+link = "Ссылка"
+installer = "Установщик"
+portable = "Портативная"
+download = "Скачать"
+
+[notfound]
+title = "Страница не найдена."
+body = "Запрошенный маршрут не найден. Возможно, страница была перемещена или никогда не существовала."
+back_home = "На главную"
+read_docs = "Читать документацию"

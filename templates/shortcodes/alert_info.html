@@ -1,3 +1,5 @@
-<div role="alert" class="alert alert-info alert-soft">
-  <span>{{ body | safe }}</span>
-</div>
+{# Info stays hueless. The one accent is not spent on a neutral aside. #}
+<aside class="callout callout--info">
+  <span class="callout-label">{{ "ui.note" | t }}</span>
+  {{ body | markdownify }}
+</aside>

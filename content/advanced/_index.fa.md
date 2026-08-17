@@ -1,8 +1,6 @@
 +++
-title = "Advanced Configuration"
+title = "پیکربندی پیشرفته"
 description = "Advanced configuration options for Throne."
-weight = 3
+weight = 2
 sort_by = "weight"
-
-[extra]
 +++

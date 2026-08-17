@@ -1,0 +1,23 @@
+# Sidebar structure for the docs.
+#
+# KEEP IN SYNC WITH FRONT-MATTER WEIGHTS: prev/next navigation and section
+# card grids follow page `weight` (sections sort_by = "weight"), so when you
+# reorder or add links here, mirror the order in the pages' front matter.
+- title: Get Started
+  section: get_started
+  items:
+    - title: Overview
+      url: /get_started/
+    - title: Installation
+      url: /get_started/installation/
+    - title: Configuration
+      url: /get_started/configuration/
+- title: Advanced Configuration
+  section: advanced
+  items:
+    - title: Overview
+      url: /advanced/
+    - title: Advanced TUN Mode on Windows
+      url: /advanced/windows_tun_mode/
+    - title: Deep Links
+      url: /advanced/deeplinks/

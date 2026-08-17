@@ -1,3 +1,4 @@
-<div role="alert" class="alert alert-warning alert-soft">
-  <span>{{ body | safe }}</span>
-</div>
+<aside class="callout callout--warning">
+  <span class="callout-label">{{ "ui.warning" | t }}</span>
+  {{ body | markdownify }}
+</aside>

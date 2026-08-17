@@ -1,0 +1,48 @@
+{# `over_hero` is set by landing.html only. It makes the bar transparent and
+   forces bone ink, because it is sitting on a photograph rather than on the
+   themed page background. nav.js drops the attribute on first scroll. #}
+<header class="site-header"{% if over_hero %} data-over-hero{% endif %}>
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="{{ "ui.open_nav" | t }}" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="{{ base_url }}{{ lang_prefix }}/" class="header-logo" aria-label="{{ "ui.home" | t }}">
+      <img class="logo" src="{{ base_url }}/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/{{ env("VERSION") }}" target="_blank" rel="noopener noreferrer">v{{ env("VERSION") }}</a>
+
+    <nav class="header-nav" aria-label="{{ "ui.primary_nav_aria" | t }}">
+      <a href="{{ base_url }}{{ lang_prefix }}/get_started/">{{ "ui.get_started" | t }}</a>
+      <a href="{{ base_url }}{{ lang_prefix }}/downloads/">{{ "ui.downloads" | t }}</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="{{ "ui.search_aria" | t }}">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>{{ "ui.search" | t }}</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      {# page.translations carries the same page in every language. #}
+      {% if page.translations | length > 1 %}
+      <nav class="lang-switcher" aria-label="{{ "ui.language" | t }}">
+        {% for t in page.translations %}
+        <a href="{{ base_url }}{{ t.url }}" hreflang="{{ t.code }}"{% if t.is_current %} aria-current="true"{% endif %}>{{ t.code | upper }}</a>
+        {% endfor %}
+      </nav>
+      {% endif %}
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="{{ "ui.github_aria" | t }}">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      {# theme.js rewrites this label with the resolved mode on load. #}
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="{{ "ui.theme" | t }}">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>

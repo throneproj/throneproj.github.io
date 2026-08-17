@@ -1,0 +1,50 @@
+# UI strings, referenced from templates as {{ "ui.search" | t }}.
+# Every key here must also exist in ko.toml.
+
+[ui]
+skip_to_content = "跳转到主要内容"
+search = "搜索"
+search_placeholder = "搜索文档"
+on_this_page = "本页导航"
+edit_page = "在 GitHub 上编辑此页"
+previous = "上一页"
+next = "下一页"
+language = "语言"
+home = "Throne 首页"
+note = "注意"
+warning = "警告"
+open_nav = "打开导航"
+search_aria = "搜索文档"
+github_aria = "Throne 在 GitHub"
+docs_nav_aria = "文档导航"
+primary_nav_aria = "主导航"
+page_nav_aria = "页面导航"
+get_started = "开始使用"
+downloads = "下载"
+
+# Strings consumed by the client scripts, handed over in partials/scripts.html.
+# They cannot use the `t` filter directly, so keep them free of quotes.
+copy = "复制"
+copied = "已复制"
+copy_manual = "请按 Ctrl C"
+no_results = "未找到相关结果："
+theme = "主题"
+theme_auto = "自动"
+theme_light = "浅色"
+theme_dark = "深色"
+
+current_ver = "当前稳定版是"
+platform = "平台"
+architecture = "架构"
+min_ver = "最低版本要求"
+pack_type = "软件包类型"
+link = "链接"
+installer = "安装版"
+portable = "便携版"
+download = "下载"
+
+[notfound]
+title = "页面未找到"
+body = "您访问的路径不存在。它可能已被移动，或者从未存在过。"
+back_home = "返回首页"
+read_docs = "阅读文档"

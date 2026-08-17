@@ -1,14 +1,40 @@
 +++
-template = "landing.html"
-description = "Qt based Desktop cross-platform GUI proxy utility, empowered by Sing-box."
-
-[extra]
-
-[extra.hero]
 title = "Throne"
-description = "Qt based Desktop cross-platform GUI proxy utility, empowered by Sing-box"
-cta_buttons = [
-    { text = "Get Started", url = "/introduction", style = "primary" },
-    { text = "View on GitHub", url = "https://github.com/throneproj/Throne", style = "secondary" },
-]
+description = "Powerful, open-source, cross-platform desktop GUI proxy utility."
+template = "landing"
 +++
+
+<!-- CommonMark ends an HTML block at the first blank line. The next line, if it
+     is indented 4+ spaces, then becomes an indented code block. So: no blank
+     lines inside a <section>. Separate sections with a blank line only, and
+     start each one at column zero. -->
+
+<section class="hero">
+  <div class="hero-sentinel" aria-hidden="true"></div>
+  <div class="hero-media">
+    <picture class="hero-plate hero-plate-dark">
+      <img class="hero-art" src="./images/throne-wallpaper-dark.png"
+           width="1168" height="784" fetchpriority="high" decoding="async">
+    </picture>
+    <picture class="hero-plate hero-plate-light">
+      <img class="hero-art" src="./images/throne-wallpaper.png"
+           width="1248" height="832" fetchpriority="high" decoding="async">
+    </picture>
+    <div class="hero-scrim" aria-hidden="true"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <h1>Desktop GUI proxy utility.</h1>
+      <p class="hero-sub">Powerful, Open-Source, Cross-Platform.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="./get_started/">
+          Get Started
+          <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="./downloads/">
+          Downloads
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

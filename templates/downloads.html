@@ -1,0 +1,101 @@
+{% include "header.html" %}
+{% include "partials/nav.html" %}
+{% include "partials/search.html" %}
+<main id="main" class="downloads">
+  <div class="wrap downloads-inner">
+    <header class="downloads-head">
+      <h1 class="downloads-title">{{ "ui.downloads" | t }}</h1>
+      <p class="downloads-lede">{{ "ui.current_ver" | t }} {{ env("VERSION") }}</p>
+      <div class="prose downloads-intro">
+        <table>
+          <thead>
+            <tr>
+              <th>{{ "ui.platform" | t }}</th>
+              <th>{{ "ui.architecture" | t }}</th>
+              <th>{{ "ui.min_ver" | t }}</th>
+              <th>{{ "ui.pack_type" | t }}</th>
+              <th>{{ "ui.link" | t }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Windows -->
+            <tr>
+              <td rowspan="5"><strong>Windows</strong></td>
+              <td>x64 / x86 / ARM64</td>
+              <td rowspan="3">Windows 7 SP1</td>
+              <td>{{ "ui.installer" | t }}</td>
+              <td><a href="{{ base_url }}/download/?tag=windows-universal-installer.exe" target="_blank" rel="noreferrer">{{ "ui.download" | t }}</a></td>
+            </tr>
+            <tr>
+              <td>x86</td>
+              <td rowspan="4">{{ "ui.portable" | t }} (ZIP)</td>
+              <td><a href="{{ base_url }}/download/?tag=windows32.zip" target="_blank" rel="noreferrer">{{ "ui.download" | t }}</a></td>
+            </tr>
+            <tr>
+              <td rowspan="2">x64</td>
+              <td><a href="{{ base_url }}/download/?tag=windowslegacy64.zip" target="_blank" rel="noreferrer">{{ "ui.download" | t }}</a></td>
+            </tr>
+            <tr>
+              <td rowspan="2">Windows 10</td>
+              <td><a href="{{ base_url }}/download/?tag=windows64.zip" target="_blank" rel="noreferrer">{{ "ui.download" | t }}</a></td>
+            </tr>
+            <tr>
+              <td>ARM64</td>
+              <td><a href="{{ base_url }}/download/?tag=windows-arm64.zip" target="_blank" rel="noreferrer">{{ "ui.download" | t }}</a></td>
+            </tr>
+            <!-- Linux -->
+            <tr>
+              <td rowspan="6"><strong>Linux</strong></td>
+              <td rowspan="3">x64</td>
+              <td rowspan="3">GLIBC 2.34</td>
+              <td>{{ "ui.portable" | t }} (ZIP)</td>
+              <td><a href="{{ base_url }}/download/?tag=linux-amd64.zip" target="_blank" rel="noreferrer">{{ "ui.download" | t }}</a></td>
+            </tr>
+            <tr>
+              <td>Debian / Ubuntu</td>
+              <td><a href="{{ base_url }}/download/?tag=debian-amd64.deb" target="_blank" rel="noreferrer">{{ "ui.download" | t }}</a></td>
+            </tr>
+            <tr>
+              <td>Debian / Ubuntu (System Qt)</td>
+              <td><a href="{{ base_url }}/download/?tag=debian-amd64-system-qt.deb" target="_blank" rel="noreferrer">{{ "ui.download" | t }}</a></td>
+            </tr>
+            <tr>
+              <td rowspan="3">ARM64</td>
+              <td rowspan="2">GLIBC 2.38</td>
+              <td>{{ "ui.portable" | t }} (ZIP)</td>
+              <td><a href="{{ base_url }}/download/?tag=linux-arm64.zip" target="_blank" rel="noreferrer">{{ "ui.download" | t }}</a></td>
+            </tr>
+            <tr>
+              <td>Debian / Ubuntu</td>
+              <td><a href="{{ base_url }}/download/?tag=debian-arm64.deb" target="_blank" rel="noreferrer">{{ "ui.download" | t }}</a></td>
+            </tr>
+            <tr>
+              <td>GLIBC 2.34</td>
+              <td>Debian / Ubuntu (System Qt)</td>
+              <td><a href="{{ base_url }}/download/?tag=debian-arm64-system-qt.deb" target="_blank" rel="noreferrer">{{ "ui.download" | t }}</a></td>
+            </tr>
+            <!-- macOS -->
+            <tr>
+              <td rowspan="3"><strong>macOS</strong></td>
+              <td>ARM64 (Apple Silicon)</td>
+              <td rowspan="2">macOS 13</td>
+              <td rowspan="3">{{ "ui.portable" | t }} (ZIP)</td>
+              <td><a href="{{ base_url }}/download/?tag=macos-arm64.zip" target="_blank" rel="noreferrer">{{ "ui.download" | t }}</a></td>
+            </tr>
+            <tr>
+              <td rowspan="2">x64 (Intel)</td>
+              <td><a href="{{ base_url }}/download/?tag=macos-amd64.zip" target="_blank" rel="noreferrer">{{ "ui.download" | t }}</a></td>
+            </tr>
+            <tr>
+              <td>macOS 10.15</td>
+              <td><a href="{{ base_url }}/download/?tag=macoslegacy-amd64.zip" target="_blank" rel="noreferrer">{{ "ui.download" | t }}</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </header>
+  </div>
+</main>
+{% include "partials/scripts.html" %}
+</body>
+</html>

@@ -1,0 +1,153 @@
++++
+title = "Installation"
+description = "How to install Throne and get started."
+weight = 1
+toc = true
++++
+
+Throne supports Windows, Linux, and macOS. Choose the appropriate installation method for your platform.
+
+## Download the binary
+
+Go to [download](@/downloads.md) the file for your platform.
+
+### Windows
+
+#### Portable (ZIP)
+
+Extract the ZIP file and run `Throne.exe`.
+
+#### Installer (.exe)
+
+Run `Throne-x.x.x-universal-installer.exe`.
+
+### macOS
+
+Extract the ZIP file. Due to Apple's strict security policy, you must remove the quarantine attribute:
+
+```bash
+xattr -d com.apple.quarantine /path/to/Throne.app
+```
+
+Move `Throne.app` to `/Applications` before the first launch. The built-in privilege escalation opens Terminal to make the core setuid-root, and that step can fail while the app is still inside `~/Downloads`.
+
+### Linux
+
+#### CLI installer (recommended)
+
+The quickest way to install on any distribution. The script downloads the right build for your architecture, installs it to `/opt/Throne`, and adds a desktop entry:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/throneproj/Throne/dev/script/install_linux.py | sudo python3
+```
+
+It runs as an interactive terminal menu: it shows the latest stable and unstable versions (and your currently installed one, if any), then asks whether you want to **Install** or **Uninstall**, and which branch to install. Requires Python 3 and root.
+
+Run the same command again to update to a newer release, or to uninstall. Uninstalling removes `/opt/Throne` and the desktop entry but leaves your settings in `~/.config/Throne` untouched.
+
+#### Portable (ZIP)
+
+Download the ZIP package:
+
+```bash
+unzip Throne-x.x.x-linux-*.zip
+./Throne
+```
+
+#### Debian/Ubuntu (.deb)
+
+```bash
+sudo apt install ./Throne-x.x.x-debian-*.deb
+```
+
+Note: The -system-qt version does not bundle Qt libraries and relies on system-installed ones. Use this version if you encounter theme conflicts or if the standard GUI fails to load.
+
+## Package managers
+
+Throne provides several ways to install depending on your distribution.
+
+### WinGet
+
+```bash
+winget install -e --id Throneproj.Throne
+```
+
+### Scoop
+
+```bash
+scoop bucket add extras
+scoop install extras/throne
+```
+
+### Fedora/RHEL9+
+
+```bash
+sudo curl -o /etc/yum.repos.d/throne.repo https://parhelia512.github.io/throne.repo
+sudo dnf install -y throne --refresh
+```
+For older RHEL versions, visit the [Throne RPM repository](https://parhelia512.github.io/).
+
+### openSUSE/SLES
+```bash
+sudo zypper addrepo -fc https://parhelia512.github.io/throne-sle.repo
+sudo zypper install -y throne
+```
+
+### Arch Linux (AUR)
+
+Throne is available in the **Arch User Repository** as `throne`. You can install it using your favourite AUR helper.
+
+```bash
+# If you use yay
+yay -S throne
+
+# If you use paru
+paru -S throne
+```
+
+### NixOS
+
+Add the following Nix code to your NixOS Configuration.
+
+```nix
+programs.throne = {
+   enable = true;
+   # tunMode.enable = true; Add this line to enable tun mode
+};
+```
+
+### Nix
+
+You can also install Throne using the Nix package manager on any supported distribution.
+
+```bash
+nix-env -iA nixos.throne
+```
+Or you can use nix-shell to try it out without installing.
+```bash
+nix-shell -p throne
+```
+
+## Build from source
+
+You also have an option to build Throne from source.
+
+```bash
+git clone --recursive https://github.com/throneproj/Throne.git
+cd Throne
+mkdir build
+cd build
+curl -fLso srslist.h "https://raw.githubusercontent.com/throneproj/routeprofiles/rule-set/srslist.h"
+cmake ..
+make -j$(nproc)
+```
+
+## Updating
+
+Throne has a built-in update function. You can also download new releases manually from the [Releases page](https://github.com/throneproj/Throne/releases).
+
+## Troubleshooting
+
+### Antivirus Detection
+
+Some antivirus software may flag Throne as malware because its update functionality downloads, removes, and replaces files—similar to ransomware behavior. Additionally, the `System DNS` feature modifies system DNS settings, which some antivirus applications consider dangerous.
