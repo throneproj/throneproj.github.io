@@ -17,12 +17,6 @@
          scripts/check_edit_links.sh asserts every emitted link exists. #}
       {% set src = page.url | replace(lang_prefix ~ "/", "/") %}
       <footer class="docs-article-footer">
-        <a class="edit-link"
-           href="https://github.com/throneproj/throneproj.github.io/edit/main/content{{ src }}index{% if page_language != "en" %}.{{ page_language }}{% endif %}.md"
-           target="_blank" rel="noopener noreferrer">
-          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
-          {{ "ui.edit_page" | t }}
-        </a>
         {% include "partials/prev-next.html" %}
       </footer>
     </article>
