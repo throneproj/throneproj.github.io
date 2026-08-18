@@ -1,5 +1,5 @@
 +++
-title = "Downloads"
+title = "Скачать"
 path = "downloads"
 template = "downloads"
 +++
