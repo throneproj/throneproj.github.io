@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting...</title>
+</head>
+<body>
+  <p>Redirecting to <a  id="orginialink" href="https://github.com/throneproj/Throne/releases/tag/1.2.4">Throne 1.2.4</a>...</p>
+  <script>
+    function getUrlParameter(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    }
+    const tag = getUrlParameter('tag');
+    let orginialink = 'https://github.com/throneproj/Throne/releases/tag/1.2.4';
+    const linkElement = document.getElementById('orginialink');
+    if (tag) {
+      orginialink = 'https://github.com/throneproj/Throne/releases/download/1.2.4/Throne-1.2.4-' + `${tag}`;
+    }
+    linkElement.href = orginialink;
+    linkElement.textContent = orginialink;
+    window.location.href = orginialink;
+  </script>
+</body>
+</html>

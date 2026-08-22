@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="使用 throne:// 深层链接，一键添加订阅、分享节点和导入路由配置文件。">
+  <title>深层链接 - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    ym(111847353, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="深层链接">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/zh/advanced/deeplinks/">
+  <meta property="og:description" content="使用 throne:// 深层链接，一键添加订阅、分享节点和导入路由配置文件。">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="深层链接">
+  <meta name="twitter:description" content="使用 throne:// 深层链接，一键添加订阅、分享节点和导入路由配置文件。">
+  <link rel="canonical" href="https://throneproj.github.io/zh/advanced/deeplinks/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"深层链接","url":"https://throneproj.github.io/zh/advanced/deeplinks/","description":"使用 throne:// 深层链接，一键添加订阅、分享节点和导入路由配置文件。"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/zh/"},{"@type":"ListItem","position":2,"name":"进阶配置","item":"https://throneproj.github.io/zh/advanced/"},{"@type":"ListItem","position":3,"name":"深层链接"}]}</script>
+  <link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/advanced/deeplinks/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/advanced/deeplinks/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/advanced/deeplinks/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/advanced/deeplinks/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">跳转到主要内容</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="打开导航" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/zh/" class="header-logo" aria-label="Throne 首页">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.2.4" target="_blank" rel="noopener noreferrer">v1.2.4</a>
+
+    <nav class="header-nav" aria-label="主导航">
+      <a href="https://throneproj.github.io/zh/get_started/">开始使用</a>
+      <a href="https://throneproj.github.io/zh/downloads/">下载</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="搜索文档">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>搜索</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="语言">
+        
+        <a href="https://throneproj.github.io/advanced/deeplinks/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/advanced/deeplinks/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/advanced/deeplinks/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/advanced/deeplinks/" hreflang="zh" aria-current="true">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne 在 GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="主题">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="搜索文档" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="搜索文档" placeholder="搜索文档" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="搜索"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="文档导航">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>开始使用</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/installation/">安装</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/configuration/">配置</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>进阶配置</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/windows_tun_mode/">Windows 下 TUN 模式进阶</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/deeplinks/" aria-current="page">深层链接</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">深层链接</h1>
+      <p class="docs-lede">使用 throne:// 深层链接，一键添加订阅、分享节点和导入路由配置文件。</p>
+      <div class="prose">
+        <p>Throne 会向你的操作系统注册一个自定义的 <code>throne://</code> URL 协议。深层链接（Deep Link）其实就是一个 <code>throne://</code> 网址，它告诉正在运行（或尚未运行）的 Throne 实例执行某项操作——例如添加订阅或导入路由配置文件——而无需用户手动在对话框中输入各项数值。</p>
+<p>这对于服务商网站、支持页面、二维码、脚本，或者只是想把某个路由配置文件分享给朋友，都非常方便。</p>
+<blockquote>
+<p>添加订阅或路由配置文件的链接会先请求确认：Throne 会准确地告诉你将要添加的内容，并等待你的同意。唯一的例外是 <code>add</code> 命令，它会不经询问直接把一个节点配置添加到当前分组——就和粘贴一条 <code>vless://</code> 链接一样。</p>
+</blockquote>
+<h2 id="throne-如何接收深层链接">Throne 如何接收深层链接</h2>
+<p><code>throne://</code> 协议会在你首次运行 Throne 时，于 <strong>Windows、Linux 和 macOS</strong> 上自动注册。由于 Throne 以无需安装的便携式压缩包形式发布，注册会在启动时进行，不需要管理员权限，并且当你移动或更新程序文件夹后会自动修复。</p>
+<p>注册完成后，Throne 可从以下任意来源接收深层链接：</p>
+<ul>
+<li><strong>点击 <code>throne://</code> 链接</strong>：在浏览器、聊天软件或文档中点击，操作系统会将其交给 Throne。</li>
+<li><strong><code>程序</code>（Program）→ <code>从剪贴板添加配置</code>（Add profile from clipboard）</strong>：该菜单项在 <code>服务器</code>（Server）菜单下也有，快捷键为 <code>Ctrl+V</code>，它会从剪贴板读取该链接。</li>
+<li><strong>拖放</strong>：将链接文本拖放到主界面。</li>
+<li><strong>作为启动参数传入</strong>：在命令行中传入（Windows/Linux）。在 macOS 上，系统会直接把网址交给已在运行的程序。</li>
+</ul>
+<p>如果 Throne 已经打开，链接会交给现有窗口处理，而不会启动第二个实例。</p>
+<h2 id="链接格式">链接格式</h2>
+<p>所有深层链接的结构都相同——一个命令、一个斜杠，以及一段 Base64 数据：</p>
+<pre><code>throne://&lt;command&gt;/&lt;base64_payload&gt;
+</code></pre>
+<ul>
+<li>命令<strong>不区分大小写</strong>（<code>throne://AddSub/...</code> 和 <code>throne://addsub/...</code> 相同）。</li>
+<li><strong>斜杠和数据部分是必需的。</strong> 命令后面没有 <code>/&lt;payload&gt;</code> 的链接会被静默丢弃——既不会有任何反应，也不会记录日志。</li>
+<li>没有查询参数。链接携带的所有内容都在这段 Base64 数据里。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用途</th>
+<th>是否先确认？</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>addsub</code></td>
+<td>添加一个订阅分组并立即更新</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>route</code></td>
+<td>导入链接内携带的路由配置文件</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>remoteroute</code></td>
+<td>通过 URL 添加一个或多个远程路由配置文件</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>add</code></td>
+<td>向当前分组添加一个节点配置</td>
+<td>否</td>
+</tr>
+</tbody>
+</table>
+<p>无法识别的命令会被忽略，并以 <code>Ignored deeplink with unknown command</code> 记录到日志中。</p>
+<h3 id="该使用哪种-base64-字母表">该使用哪种 Base64 字母表</h3>
+<p>这一点很重要，而且各命令并不相同：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>可接受的编码</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>addsub</code></td>
+<td>仅限<strong>标准</strong> Base64（<code>+</code> 和 <code>/</code> 字母表）。请保留结尾的 <code>=</code> 填充。</td>
+</tr>
+<tr>
+<td><code>remoteroute</code></td>
+<td>仅限<strong>标准</strong> Base64（<code>+</code> 和 <code>/</code> 字母表）。请保留结尾的 <code>=</code> 填充。</td>
+</tr>
+<tr>
+<td><code>route</code></td>
+<td>URL 安全 Base64、标准 Base64，甚至未编码的纯 JSON 均可。</td>
+</tr>
+<tr>
+<td><code>add</code></td>
+<td>由 Throne 生成——见下文 <a href="#add"><code>add</code></a>。</td>
+</tr>
+</tbody>
+</table>
+<p>对于 <code>addsub</code> 和 <code>remoteroute</code>，含有 <code>-</code> 或 <code>_</code> 的 URL 安全数据将无法解码，链接会被拒绝。请使用标准字母表编码。</p>
+<h2 id="addsub-添加订阅"><code>addsub</code> — 添加订阅</h2>
+<p>添加一个新的订阅分组并立即更新它。</p>
+<pre><code>throne://addsub/&lt;base64&gt;
+</code></pre>
+<p>数据部分是下面这一行文本的 Base64：</p>
+<pre><code>&lt;subscription_url&gt;[#&lt;group_name&gt;]
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>部分</th>
+<th>必需</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;subscription_url&gt;</code></td>
+<td><strong>是</strong></td>
+<td>订阅地址。</td>
+</tr>
+<tr>
+<td><code>#&lt;group_name&gt;</code></td>
+<td>否</td>
+<td>新分组的名称，写作网址的片段（fragment）部分。省略时默认使用订阅地址的主机名。</td>
+</tr>
+</tbody>
+</table>
+<p>自动更新<strong>不包含在链接中</strong>。Throne 会在确认对话框里询问，其中的 <strong>Auto update</strong> 复选框默认为勾选状态。</p>
+<h3 id="示例">示例</h3>
+<p>要把 <code>https://example.com/sub/abc123</code> 添加为名为 <strong>MyProvider</strong> 的分组，请对下面这行文本做 Base64 编码：</p>
+<pre><code>https://example.com/sub/abc123#MyProvider
+</code></pre>
+<p>然后把结果作为数据部分：</p>
+<pre><code>throne://addsub/aHR0cHM6Ly9leGFtcGxlLmNvbS9zdWIvYWJjMTIzI015UHJvdmlkZXI=
+</code></pre>
+<p>Throne 会请你确认：</p>
+<blockquote>
+<p>添加此订阅？</p>
+<p>名称：MyProvider
+地址（URL）：https://example.com/sub/abc123</p>
+<p>☑ 自动更新</p>
+</blockquote>
+<p>确认之后，分组会被创建，订阅也会立即拉取。</p>
+<blockquote>
+<p>因为整段文本都经过 Base64 编码，所以<strong>不需要</strong>对订阅地址做百分号编码——其中的 <code>?</code>、<code>&amp;</code> 和 <code>/</code> 都安全地藏在数据里。但如果分组名称含有空格或其他特殊字符，请对其做百分号编码（空格写作 <code>%20</code>）。</p>
+</blockquote>
+<h2 id="route-导入路由配置文件"><code>route</code> — 导入路由配置文件</h2>
+<p>导入链接内携带的完整路由配置文件（默认出站加规则）。</p>
+<pre><code>throne://route/&lt;base64&gt;
+</code></pre>
+<p>数据部分是经 Base64 编码的路由配置文件。Throne 自己生成的是 URL 安全 Base64（带或不带填充均可）；标准 Base64 和未编码的纯 JSON 同样可用。</p>
+<h3 id="如何生成-route-链接">如何生成 route 链接</h3>
+<p>通常你不需要手动构造这类链接——Throne 会替你生成：</p>
+<ol>
+<li>打开 <code>路由菜单</code>（Routing Menu）→ <code>路由设置</code>（Routing Settings）。</li>
+<li>选中你想分享的路由配置文件。</li>
+<li>按 <code>Ctrl+C</code>（或使用导出操作）。</li>
+</ol>
+<p>Throne 会把一条可直接分享的 <code>throne://route/...</code> 链接复制到你的剪贴板。把它发给任何人；当对方打开它（或在<code>路由设置</code>中按 <code>Ctrl+V</code> 粘贴，或使用<code>从剪贴板添加配置</code>）时，Throne 会显示配置文件名称和相关提示，经确认后导入。</p>
+<h3 id="数据里是什么">数据里是什么</h3>
+<p>这段 Base64 解码后，是一个描述该配置文件的小型 JSON 结构：</p>
+<pre><code class="language-json hljs">{
+  &quot;kind&quot;: &quot;throne-route-profile&quot;,
+  &quot;v&quot;: 1,
+  &quot;name&quot;: &quot;Bypass LAN&quot;,
+  &quot;default_outbound&quot;: &quot;proxy&quot;,
+  &quot;rules&quot;: []
+}
+</code></pre>
+<p>因此链接是这样的（数据部分就是该 JSON 的 Base64）：</p>
+<pre><code>throne://route/eyJraW5kIjoidGhyb25lLXJvdXRlLXByb2ZpbGUiLCJ2IjoxLCJuYW1lIjoiQnlwYXNzIExBTiIsImRlZmF1bHRfb3V0Ym91bmQiOiJwcm94eSIsInJ1bGVzIjpbXX0
+</code></pre>
+<p>由手写 route 段落创建的配置文件带有 <code>&quot;raw&quot;: true</code> 和一个 <code>route</code> 对象，而不是 <code>rules</code>；Throne 在导入时会按名称重新映射其中的出站引用，并告知你有哪些无法解析。</p>
+<blockquote>
+<p>从剪贴板导入时，Throne 同样能识别纯 JSON 或裸 Base64 形式的相同数据，因此即使链接在传递过程中丢掉了 <code>throne://route/</code> 前缀，从另一台机器复制来的链接依然可用。旧版的纯规则数组也可接受——它会在编辑器中打开，以便你为其补上名称和默认出站。</p>
+</blockquote>
+<h2 id="remoteroute-添加远程路由配置文件"><code>remoteroute</code> — 添加远程路由配置文件</h2>
+<p>通过 URL 添加一个或多个<strong>远程</strong>路由配置文件。<code>route</code> 把整个配置文件塞进链接里，而 <code>remoteroute</code> 携带的是托管在网上的配置文件地址：Throne 会从每个地址下载规则，并在你允许时自动保持更新。服务商正是用这种方式提供持续维护的路由配置文件——无需你重新导入，它就会不断改进。</p>
+<pre><code>throne://remoteroute/&lt;base64&gt;
+</code></pre>
+<p>数据部分是一份<strong>以换行分隔的纯 URL 列表</strong>的 Base64，而不是 JSON：</p>
+<pre><code>&lt;profile_url_1&gt;[#&lt;name_1&gt;]
+&lt;profile_url_2&gt;[#&lt;name_2&gt;]
+...
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>部分</th>
+<th>必需</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;profile_url&gt;</code></td>
+<td><strong>是</strong></td>
+<td>指向路由配置文件的 <code>http://</code> 或 <code>https://</code> 地址。不是有效 http(s) 网址的行会被跳过。</td>
+</tr>
+<tr>
+<td><code>#&lt;name&gt;</code></td>
+<td>否</td>
+<td>配置文件的显示名称，写作网址的片段（fragment）部分。省略时默认使用该网址的主机名。</td>
+</tr>
+</tbody>
+</table>
+<p>自动更新<strong>不是逐条设置的</strong>。Throne 只在确认对话框里询问一次，你的回答会应用到该链接中的所有配置文件。<strong>Auto update</strong> 复选框默认为勾选状态。</p>
+<h3 id="示例-1">示例</h3>
+<p>对下面这两行列表做 Base64 编码：</p>
+<pre><code>https://example.com/routes/bypass-iran.json#BypassIran
+https://example.com/routes/ads.json
+</code></pre>
+<p>然后把结果作为数据部分：</p>
+<pre><code>throne://remoteroute/aHR0cHM6Ly9leGFtcGxlLmNvbS9yb3V0ZXMvYnlwYXNzLWlyYW4uanNvbiNCeXBhc3NJcmFuCmh0dHBzOi8vZXhhbXBsZS5jb20vcm91dGVzL2Fkcy5qc29u
+</code></pre>
+<p>Throne 会列出该链接将要添加的全部内容，并等待你的确认：</p>
+<blockquote>
+<p>添加这些远程路由配置文件？</p>
+<ol>
+<li>https://example.com/routes/bypass-iran.json</li>
+<li>https://example.com/routes/ads.json</li>
+</ol>
+<p>☑ 自动更新</p>
+</blockquote>
+<p>确认之后，每个配置文件都会被添加并立即拉取。启用了自动更新的配置文件，随后会依照**基础设置（Basic Settings）**中 <strong>Routing profiles auto update</strong> 的间隔在后台刷新（间隔小于 30 分钟将关闭更新）。</p>
+<p>每个远程地址提供的路由配置文件，可以是 <code>route</code> 所接受的任意形式——一条 <code>throne://route/...</code> 链接、它的 Base64，或原始 JSON。</p>
+<h2 id="add"><code>add</code> — 添加单个节点配置</h2>
+<p>从一段 JSON 出站配置向当前分组添加一个节点。</p>
+<pre><code>throne://add/&lt;base64&gt;
+</code></pre>
+<p>数据部分是该节点出站 JSON 的 Base64——也就是 Throne 为某个服务器导出的那个对象。与其他三个命令不同，这个命令<strong>不会请求确认</strong>：配置会直接添加到当前分组，就和你粘贴一条 <code>vless://</code> 或 <code>ss://</code> 链接完全一样。</p>
+<p>你不需要手动构造这类链接。Throne 会替你生成：</p>
+<ul>
+<li><code>服务器</code>（Server）→ <code>分享</code>（Share）→ <code>Copy links of selected (Deep Links)</code>（快捷键 <code>Ctrl+Alt+C</code>）</li>
+<li>分享/二维码窗口会在普通分享链接旁一并显示深层链接</li>
+<li>分组编辑器中的 <code>Copy profile share links (Deep Links)</code> 按钮</li>
+</ul>
+<p>对于没有标准 <code>://</code> 分享网址的协议和选项，深层链接尤其有用，因为完整的 JSON 配置能原样传递。</p>
+<h2 id="疑难解答">疑难解答</h2>
+<ul>
+<li><strong>点击链接没有反应／浏览器询问用哪个程序打开。</strong> 先运行一次 Throne 让它注册协议，然后再试。如果你移动过 Throne 文件夹，只需再启动一次即可——注册会在启动时自我修复。</li>
+<li><strong>完全没有反应，日志也是空的。</strong> 链接很可能在命令后面缺少斜杠和数据（写成了 <code>throne://addsub</code> 而不是 <code>throne://addsub/&lt;base64&gt;</code>），或者它的 Base64 无法解码。这两种情况都会被静默丢弃。</li>
+<li><strong>「Ignored deeplink with unknown command」。</strong> 命令部分不是 <code>addsub</code>、<code>route</code>、<code>remoteroute</code> 或 <code>add</code>。请检查 <code>throne://</code> 后面那个词的拼写。</li>
+<li><strong>「The link did not contain a subscription URL」。</strong> <code>addsub</code> 的数据解码成功了，但 <code>#</code> 前面没有网址——请确认你编码的是 <code>&lt;url&gt;#&lt;name&gt;</code>，而不只是 <code>#&lt;name&gt;</code>。</li>
+<li><strong>「Base64 is invalid.」／「Deep link has no data」。</strong> 数据为空或无法解码。对于 <code>addsub</code> 和 <code>remoteroute</code>，请确保使用了<strong>标准</strong> Base64：含有 <code>-</code> 或 <code>_</code> 的 URL 安全数据会被拒绝。</li>
+<li><strong>「The link did not contain any valid remote routing profiles」。</strong> 解码后没有任何一行以 <code>http://</code> 或 <code>https://</code> 开头。请记住数据是以换行分隔的网址列表，而不是 JSON 数组。</li>
+<li><strong>「The link could not be parsed」。</strong> <code>route</code> 的数据不是有效的 JSON、Base64 或 Throne route 链接——或者是一个缺少 <code>&quot;kind&quot;: &quot;throne-route-profile&quot;</code> 标记的 JSON 对象。</li>
+</ul>
+
+      </div>
+      
+      
+      <footer class="docs-article-footer">
+        
+
+<nav class="prev-next" aria-label="页面导航">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/zh/advanced/windows_tun_mode/">
+    <span class="prevnext-dir">上一页</span>
+    Windows 下 TUN 模式进阶
+  </a>
+  
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="本页导航">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    本页导航
+  </p>
+  <ul><li><a href="#throne-如何接收深层链接">Throne 如何接收深层链接</a></li><li><a href="#链接格式">链接格式</a><ul><li><a href="#该使用哪种-base64-字母表">该使用哪种 Base64 字母表</a></li></ul></li><li><a href="#addsub-添加订阅">addsub — 添加订阅</a><ul><li><a href="#示例">示例</a></li></ul></li><li><a href="#route-导入路由配置文件">route — 导入路由配置文件</a><ul><li><a href="#如何生成-route-链接">如何生成 route 链接</a></li><li><a href="#数据里是什么">数据里是什么</a></li></ul></li><li><a href="#remoteroute-添加远程路由配置文件">remoteroute — 添加远程路由配置文件</a><ul><li><a href="#示例-1">示例</a></li></ul></li><li><a href="#add">add — 添加单个节点配置</a></li><li><a href="#疑难解答">疑难解答</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "复制",
+    copied: "已复制",
+    copyManual: "请按 Ctrl C",
+    noResults: "未找到相关结果：",
+    theme: "主题",
+    themeAuto: "自动",
+    themeLight: "浅色",
+    themeDark: "深色"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

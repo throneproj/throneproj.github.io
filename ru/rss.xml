@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Throne (Русский)</title>
+    <link>https://throneproj.github.io/ru/</link>
+    <description>Powerful, open-source, cross-platform desktop GUI proxy utility.</description>
+    <language>ru</language>
+    <atom:link href="https://throneproj.github.io/ru/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Глубокие ссылки</title>
+      <link>https://throneproj.github.io/ru/advanced/deeplinks/</link>
+      <guid>https://throneproj.github.io/ru/advanced/deeplinks/</guid>
+      <description>Используйте глубокие ссылки throne:// для добавления подписок, обмена профилями и импорта профилей маршрутизации одним щелчком.</description>
+      <content:encoded><![CDATA[<p>Throne регистрирует в вашей операционной системе собственную URL-схему <code>throne://</code>. Глубокая ссылка — это просто URL вида <code>throne://</code>, который указывает запущенному (или ещё не запущенному) экземпляру Throne выполнить действие — например, добавить подписку или импортировать профиль маршрутизации — без необходимости вручную вводить значения в диалоговых окнах.</p>
+<p>Это удобно для сайтов провайдеров, страниц поддержки, QR-кодов, скриптов или просто для того, чтобы поделиться профилем маршрутизации с другом.</p>
+<blockquote>
+<p>Ссылки, добавляющие подписку или профиль маршрутизации, сначала запрашивают подтверждение: Throne показывает, что именно будет добавлено, и ждёт вашего согласия. Единственное исключение — команда <code>add</code>: она без запроса добавляет один профиль прокси прямо в текущую группу, точно так же, как вставка ссылки <code>vless://</code>.</p>
+</blockquote>
+<h2 id="как-throne-получает-глубокую-ссылку">Как Throne получает глубокую ссылку</h2>
+<p>Схема <code>throne://</code> регистрируется автоматически при первом запуске Throne в <strong>Windows, Linux и macOS</strong>. Поскольку Throne поставляется в виде переносимого архива без установщика, регистрация выполняется при запуске, не требует прав администратора и восстанавливается автоматически, если вы переместите или обновите папку приложения.</p>
+<p>После регистрации Throne принимает глубокую ссылку из любого из этих источников:</p>
+<ul>
+<li><strong>Щелчок по ссылке <code>throne://</code></strong> в браузере, мессенджере или документе — ОС передаёт её в Throne.</li>
+<li><strong><code>Программа</code> (Program) → <code>Добавить профиль из буфера обмена</code> (Add profile from clipboard)</strong> — этот пункт есть и в меню <code>Сервер</code> (Server), горячая клавиша <code>Ctrl+V</code>; он считывает ссылку из буфера обмена.</li>
+<li><strong>Перетаскивание</strong> текста ссылки в главное окно.</li>
+<li><strong>Передача в качестве аргумента запуска</strong> в командной строке (Windows/Linux). В macOS система передаёт URL напрямую уже запущенному приложению.</li>
+</ul>
+<p>Если Throne уже открыт, ссылка передаётся существующему окну, а не запускает второй экземпляр.</p>
+<h2 id="формат-ссылки">Формат ссылки</h2>
+<p>Все глубокие ссылки устроены одинаково — команда, косая черта и полезная нагрузка в Base64:</p>
+<pre><code>throne://&lt;command&gt;/&lt;base64_payload&gt;
+</code></pre>
+<ul>
+<li>Команда <strong>не зависит от регистра</strong> (<code>throne://AddSub/...</code> и <code>throne://addsub/...</code> — одно и то же).</li>
+<li><strong>Косая черта и полезная нагрузка обязательны.</strong> Ссылка без <code>/&lt;payload&gt;</code> после команды отбрасывается молча — ничего не происходит и ничего не пишется в журнал.</li>
+<li>Параметров запроса нет. Всё, что несёт ссылка, находится внутри полезной нагрузки Base64.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Команда</th>
+<th>Назначение</th>
+<th>Запрашивает подтверждение?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>addsub</code></td>
+<td>Добавить группу подписки и сразу обновить её</td>
+<td>Да</td>
+</tr>
+<tr>
+<td><code>route</code></td>
+<td>Импортировать профиль маршрутизации, вложенный в ссылку</td>
+<td>Да</td>
+</tr>
+<tr>
+<td><code>remoteroute</code></td>
+<td>Добавить один или несколько удалённых профилей маршрутизации по URL</td>
+<td>Да</td>
+</tr>
+<tr>
+<td><code>add</code></td>
+<td>Добавить один профиль прокси в текущую группу</td>
+<td>Нет</td>
+</tr>
+</tbody>
+</table>
+<p>Нераспознанная команда игнорируется и отмечается в журнале как <code>Ignored deeplink with unknown command</code>.</p>
+<h3 id="какой-алфавит-base64-использовать">Какой алфавит Base64 использовать</h3>
+<p>Это важно, и для разных команд требования отличаются:</p>
+<table>
+<thead>
+<tr>
+<th>Команда</th>
+<th>Допустимая кодировка</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>addsub</code></td>
+<td>Только <strong>стандартный</strong> Base64 (алфавит с <code>+</code> и <code>/</code>). Сохраняйте заполнение <code>=</code>.</td>
+</tr>
+<tr>
+<td><code>remoteroute</code></td>
+<td>Только <strong>стандартный</strong> Base64 (алфавит с <code>+</code> и <code>/</code>). Сохраняйте заполнение <code>=</code>.</td>
+</tr>
+<tr>
+<td><code>route</code></td>
+<td>URL-безопасный Base64, стандартный Base64 или даже обычный незакодированный JSON.</td>
+</tr>
+<tr>
+<td><code>add</code></td>
+<td>Создаётся самим Throne — см. <a href="#add"><code>add</code></a> ниже.</td>
+</tr>
+</tbody>
+</table>
+<p>Для <code>addsub</code> и <code>remoteroute</code> URL-безопасная нагрузка, содержащая <code>-</code> или <code>_</code>, не декодируется, и ссылка будет отклонена. Кодируйте стандартным алфавитом.</p>
+<h2 id="addsub-добавление-подписки"><code>addsub</code> — Добавление подписки</h2>
+<p>Добавляет новую группу подписки и сразу же обновляет её.</p>
+<pre><code>throne://addsub/&lt;base64&gt;
+</code></pre>
+<p>Полезная нагрузка — это Base64 одной строки:</p>
+<pre><code>&lt;subscription_url&gt;[#&lt;group_name&gt;]
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Часть</th>
+<th>Обязательно</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;subscription_url&gt;</code></td>
+<td><strong>Да</strong></td>
+<td>URL подписки.</td>
+</tr>
+<tr>
+<td><code>#&lt;group_name&gt;</code></td>
+<td>Нет</td>
+<td>Имя новой группы, записанное как фрагмент URL. Если опущено, используется хост URL подписки.</td>
+</tr>
+</tbody>
+</table>
+<p>Автообновление <strong>не является частью ссылки</strong>. Throne спрашивает о нём в диалоге подтверждения, и флажок <strong>Auto update</strong> по умолчанию установлен.</p>
+<h3 id="пример">Пример</h3>
+<p>Чтобы добавить <code>https://example.com/sub/abc123</code> как группу с именем <strong>MyProvider</strong>, закодируйте в Base64 строку:</p>
+<pre><code>https://example.com/sub/abc123#MyProvider
+</code></pre>
+<p>и используйте результат как полезную нагрузку:</p>
+<pre><code>throne://addsub/aHR0cHM6Ly9leGFtcGxlLmNvbS9zdWIvYWJjMTIzI015UHJvdmlkZXI=
+</code></pre>
+<p>Throne попросит подтверждение:</p>
+<blockquote>
+<p>Добавить эту подписку?</p>
+<p>Имя: MyProvider
+URL: https://example.com/sub/abc123</p>
+<p>☑ Автообновление</p>
+</blockquote>
+<p>После подтверждения группа создаётся, и подписка загружается немедленно.</p>
+<blockquote>
+<p>Поскольку всё целиком кодируется в Base64, URL подписки <strong>не нужно</strong> кодировать процентами — его символы <code>?</code>, <code>&amp;</code> и <code>/</code> надёжно скрыты внутри полезной нагрузки. А вот имя группы стоит закодировать процентами, если в нём есть пробелы или другие специальные символы (пробел становится <code>%20</code>).</p>
+</blockquote>
+<h2 id="route-импорт-профиля-маршрутизации"><code>route</code> — Импорт профиля маршрутизации</h2>
+<p>Импортирует полный профиль маршрутизации (исходящее соединение по умолчанию плюс правила), вложенный в ссылку.</p>
+<pre><code>throne://route/&lt;base64&gt;
+</code></pre>
+<p>Полезная нагрузка — профиль маршрутизации, закодированный в Base64. Сам Throne создаёт URL-безопасный Base64 (с заполнением или без); стандартный Base64 и обычный незакодированный JSON также принимаются.</p>
+<h3 id="как-создать-ссылку-route">Как создать ссылку route</h3>
+<p>Обычно такие ссылки не составляют вручную — Throne создаёт их за вас:</p>
+<ol>
+<li>Откройте <code>Меню маршрутизации</code> (Routing Menu) → <code>Настройки маршрутизации</code> (Routing Settings).</li>
+<li>Выберите профиль маршрутизации, которым хотите поделиться.</li>
+<li>Нажмите <code>Ctrl+C</code> (или воспользуйтесь действием экспорта).</li>
+</ol>
+<p>Throne скопирует в буфер обмена готовую ссылку вида <code>throne://route/...</code>. Отправьте её кому угодно; когда получатель откроет её (или вставит в <code>Настройках маршрутизации</code> через <code>Ctrl+V</code>, или воспользуется пунктом <code>Добавить профиль из буфера обмена</code>), Throne покажет имя профиля и все примечания, а после подтверждения импортирует его.</p>
+<h3 id="что-внутри-полезной-нагрузки">Что внутри полезной нагрузки</h3>
+<p>Base64 декодируется в небольшую JSON-оболочку, описывающую профиль:</p>
+<pre><code class="language-json hljs">{
+  &quot;kind&quot;: &quot;throne-route-profile&quot;,
+  &quot;v&quot;: 1,
+  &quot;name&quot;: &quot;Bypass LAN&quot;,
+  &quot;default_outbound&quot;: &quot;proxy&quot;,
+  &quot;rules&quot;: []
+}
+</code></pre>
+<p>Так что ссылка выглядит следующим образом (полезная нагрузка — это Base64 указанного JSON):</p>
+<pre><code>throne://route/eyJraW5kIjoidGhyb25lLXJvdXRlLXByb2ZpbGUiLCJ2IjoxLCJuYW1lIjoiQnlwYXNzIExBTiIsImRlZmF1bHRfb3V0Ym91bmQiOiJwcm94eSIsInJ1bGVzIjpbXX0
+</code></pre>
+<p>Профили, созданные из написанной вручную секции route, содержат <code>&quot;raw&quot;: true</code> и объект <code>route</code> вместо <code>rules</code>; при импорте Throne заново сопоставляет ссылки на исходящие соединения по имени и сообщает обо всём, что не удалось разрешить.</p>
+<blockquote>
+<p>При импорте из буфера обмена Throne распознаёт ту же полезную нагрузку и в виде обычного JSON, и в виде «голого» Base64, поэтому ссылка, скопированная с другой машины, работает, даже если по пути потеряла префикс <code>throne://route/</code>. Устаревший простой массив правил тоже принимается — он открывается в редакторе, чтобы вы задали имя и исходящее соединение по умолчанию.</p>
+</blockquote>
+<h2 id="remoteroute-добавление-удалённых-профилей-маршрутизации"><code>remoteroute</code> — Добавление удалённых профилей маршрутизации</h2>
+<p>Добавляет один или несколько <strong>удалённых</strong> профилей маршрутизации по URL. Если <code>route</code> упаковывает целый профиль внутрь ссылки, то <code>remoteroute</code> несёт адреса профилей, размещённых в сети: Throne скачивает правила с каждого URL и, если вы разрешите, автоматически поддерживает их в актуальном состоянии. Именно так провайдер передаёт вам сопровождаемый профиль маршрутизации — он продолжает улучшаться без повторного импорта с вашей стороны.</p>
+<pre><code>throne://remoteroute/&lt;base64&gt;
+</code></pre>
+<p>Полезная нагрузка — это Base64 обычного <strong>списка URL, разделённых переводами строк</strong>, а не JSON:</p>
+<pre><code>&lt;profile_url_1&gt;[#&lt;name_1&gt;]
+&lt;profile_url_2&gt;[#&lt;name_2&gt;]
+...
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Часть</th>
+<th>Обязательно</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;profile_url&gt;</code></td>
+<td><strong>Да</strong></td>
+<td>Ссылка <code>http://</code> или <code>https://</code> на профиль маршрутизации. Строки, не являющиеся корректными http(s)-адресами, пропускаются.</td>
+</tr>
+<tr>
+<td><code>#&lt;name&gt;</code></td>
+<td>Нет</td>
+<td>Отображаемое имя профиля, записанное как фрагмент URL. Если опущено, используется хост URL.</td>
+</tr>
+</tbody>
+</table>
+<p>Автообновление задаётся <strong>не для каждой записи отдельно</strong>. Throne спрашивает один раз в диалоге подтверждения, и ответ применяется ко всем профилям из ссылки. Флажок <strong>Auto update</strong> по умолчанию установлен.</p>
+<h3 id="пример-1">Пример</h3>
+<p>Закодируйте в Base64 этот список из двух строк:</p>
+<pre><code>https://example.com/routes/bypass-iran.json#BypassIran
+https://example.com/routes/ads.json
+</code></pre>
+<p>и используйте результат как полезную нагрузку:</p>
+<pre><code>throne://remoteroute/aHR0cHM6Ly9leGFtcGxlLmNvbS9yb3V0ZXMvYnlwYXNzLWlyYW4uanNvbiNCeXBhc3NJcmFuCmh0dHBzOi8vZXhhbXBsZS5jb20vcm91dGVzL2Fkcy5qc29u
+</code></pre>
+<p>Throne перечислит всё, что добавит ссылка, и дождётся вашего подтверждения:</p>
+<blockquote>
+<p>Добавить эти удалённые профили маршрутизации?</p>
+<ol>
+<li>https://example.com/routes/bypass-iran.json</li>
+<li>https://example.com/routes/ads.json</li>
+</ol>
+<p>☑ Автообновление</p>
+</blockquote>
+<p>После подтверждения каждый профиль добавляется и сразу же загружается. Профили с включённым автообновлением затем обновляются в фоне с интервалом <strong>Routing profiles auto update</strong> из <strong>Основных настроек (Basic Settings)</strong> (интервал меньше 30 минут отключает обновления).</p>
+<p>Каждый удалённый URL должен отдавать профиль маршрутизации в любом виде, который принимает <code>route</code>, — ссылку <code>throne://route/...</code>, её Base64 или необработанный JSON.</p>
+<h2 id="add"><code>add</code> — Добавление одного профиля прокси</h2>
+<p>Добавляет один профиль прокси в текущую группу из JSON-конфигурации исходящего соединения.</p>
+<pre><code>throne://add/&lt;base64&gt;
+</code></pre>
+<p>Полезная нагрузка — Base64 исходящего JSON профиля, того самого объекта, который Throne экспортирует для сервера. В отличие от трёх других команд, эта <strong>не запрашивает подтверждение</strong>: профиль добавляется прямо в текущую группу, ровно так же, как если бы вы вставили ссылку <code>vless://</code> или <code>ss://</code>.</p>
+<p>Такие ссылки не составляют вручную. Throne создаёт их за вас:</p>
+<ul>
+<li><code>Сервер</code> (Server) → <code>Поделиться</code> (Share) → <code>Copy links of selected (Deep Links)</code> (<code>Ctrl+Alt+C</code>)</li>
+<li>Окно «Поделиться»/QR показывает глубокую ссылку рядом с обычной ссылкой для обмена</li>
+<li>Кнопка <code>Copy profile share links (Deep Links)</code> в редакторе группы</li>
+</ul>
+<p>Глубокие ссылки полезны для протоколов и параметров, у которых нет стандартного URL-адреса вида <code>://</code>, поскольку полная JSON-конфигурация переживает передачу без потерь.</p>
+<h2 id="устранение-неполадок">Устранение неполадок</h2>
+<ul>
+<li><strong>Щелчок по ссылке ничего не делает / браузер спрашивает, каким приложением её открыть.</strong> Запустите Throne один раз, чтобы он зарегистрировал схему, затем попробуйте снова. Если вы переместили папку Throne, просто запустите его ещё раз — регистрация восстанавливается при старте.</li>
+<li><strong>Вообще ничего не происходит, и журнал пуст.</strong> Скорее всего, в ссылке нет косой черты и полезной нагрузки после команды (<code>throne://addsub</code> вместо <code>throne://addsub/&lt;base64&gt;</code>) либо её Base64 не удалось декодировать. Оба случая отбрасываются молча.</li>
+<li><strong>«Ignored deeplink with unknown command».</strong> Часть с командой — не <code>addsub</code>, <code>route</code>, <code>remoteroute</code> или <code>add</code>. Проверьте написание слова сразу после <code>throne://</code>.</li>
+<li><strong>«The link did not contain a subscription URL».</strong> Полезная нагрузка <code>addsub</code> декодировалась, но перед <code>#</code> не оказалось URL — убедитесь, что вы закодировали <code>&lt;url&gt;#&lt;name&gt;</code>, а не только <code>#&lt;name&gt;</code>.</li>
+<li><strong>«Base64 is invalid.» / «Deep link has no data».</strong> Полезная нагрузка пуста или не декодируется. Для <code>addsub</code> и <code>remoteroute</code> убедитесь, что использован <strong>стандартный</strong> Base64: URL-безопасная нагрузка с <code>-</code> или <code>_</code> отклоняется.</li>
+<li><strong>«The link did not contain any valid remote routing profiles».</strong> Ни одна из декодированных строк не начинается с <code>http://</code> или <code>https://</code>. Помните, что полезная нагрузка — это список URL, разделённых переводами строк, а не массив JSON.</li>
+<li><strong>«The link could not be parsed».</strong> Полезная нагрузка <code>route</code> не является корректным JSON, Base64 или ссылкой Throne route — либо это JSON-объект без маркера <code>&quot;kind&quot;: &quot;throne-route-profile&quot;</code>.</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Расширенная настройка TUN в Windows</title>
+      <link>https://throneproj.github.io/ru/advanced/windows_tun_mode/</link>
+      <guid>https://throneproj.github.io/ru/advanced/windows_tun_mode/</guid>
+      <description>Снижение риска утечки DNS при использовании TUN-режима в Windows через системные политики и настройки браузера.</description>
+      <content:encoded><![CDATA[<p>В этой статье показано, как уменьшить риск утечки DNS при использовании TUN-режима в Windows.</p>
+<p>Утечка DNS может раскрыть реальные цели ваших подключений и сетевую активность, привести к потере приватности, облегчить анализ трафика провайдером и даже сделать прокси-правила менее эффективными.</p>
+<h2 id="1-отключите-smart-multi-homed-name-resolution-в-windows">1. Отключите Smart Multi-Homed Name Resolution в Windows</h2>
+<p>В среде с виртуальным сетевым адаптером возможны утечки DNS. При наличии нескольких сетевых интерфейсов Windows может использовать для DNS-запросов тот, который отвечает быстрее, из-за чего виртуальный адаптер обходится.</p>
+<p>Рекомендуется отключить эту политику:</p>
+<p>Если у вас нет редактора групповых политик (часто в Windows Home), можно применить настройку вручную через командную строку с правами администратора:</p>
+<ol>
+<li>Скопируйте команду:</li>
+</ol>
+<p><code>reg add &quot;HKLM\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient&quot; /v DisableSmartNameResolution /t REG_DWORD /d 1 /f</code></p>
+<ol start="2">
+<li>Откройте меню «Пуск» и найдите <code>CMD</code>.</li>
+<li>Найдите «Командная строка», нажмите правой кнопкой и выберите «Запуск от имени администратора».</li>
+<li>Вставьте команду в окно и нажмите <code>Enter</code>.</li>
+<li>После выполнения перезагрузите систему.</li>
+</ol>
+<p><img loading="lazy" src="https://throneproj.github.io/images/windows-tun-dns-leak/step1-home-edition-cmd.png" alt="Выполнение команды в CMD с правами администратора в Windows Home" /></p>
+<p><img loading="lazy" src="https://throneproj.github.io/images/windows-tun-dns-leak/step1-disable-smart-multi-homed.png" alt="Отключение Smart Multi-Homed Name Resolution, шаг 1" /></p>
+<p><img loading="lazy" src="https://throneproj.github.io/images/windows-tun-dns-leak/step2-group-policy.png" alt="Отключение Smart Multi-Homed Name Resolution, шаг 2" /></p>
+<p><img loading="lazy" src="https://throneproj.github.io/images/windows-tun-dns-leak/step3-policy-disabled.png" alt="Отключение Smart Multi-Homed Name Resolution, шаг 3" /></p>
+<h2 id="2-отключите-quic-в-браузере">2. Отключите QUIC в браузере</h2>
+<p>На примере Chrome введите в адресной строке:</p>
+<p><code>chrome://flags/</code></p>
+<p>Найдите <code>QUIC</code> и установите значение <code>Disabled</code>.</p>
+<p><img loading="lazy" src="https://throneproj.github.io/images/windows-tun-dns-leak/step4-disable-quic.png" alt="Отключение QUIC в браузере" /></p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Скачать</title>
+      <link>https://throneproj.github.io/ru/downloads/</link>
+      <guid>https://throneproj.github.io/ru/downloads/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Конфигурация</title>
+      <link>https://throneproj.github.io/ru/get_started/configuration/</link>
+      <guid>https://throneproj.github.io/ru/get_started/configuration/</guid>
+      <description>Узнайте, как настроить Throne.</description>
+      <content:encoded><![CDATA[<p>Throne поддерживает два режима прокси:</p>
+<h2 id="системный-прокси-system-proxy">Системный прокси (System Proxy)</h2>
+<p>Направляет трафик всей системы через прокси путем изменения системных настроек прокси-сервера. Подходит для таких приложений, как веб-браузеры.</p>
+<h2 id="режим-tun">Режим TUN</h2>
+<p>Создает виртуальный сетевой интерфейс для обеспечения глобального проксирования. Весь сетевой трафик приложений будет проходить через прокси, включая программное обеспечение, которое не поддерживает настройки прокси.</p>
+<blockquote>
+<p>Рекомендуется использовать режим TUN для более полного проксирования.</p>
+</blockquote>
+<blockquote>
+<p>Примечание: При включении режима TUN отключите системный прокси; они не могут быть активированы одновременно.</p>
+</blockquote>
+<h2 id="импорт-подписки">Импорт подписки</h2>
+<h3 id="способ-1-прямая-вставка">Способ 1: Прямая вставка</h3>
+<p>Нажмите <code>Ctrl+V</code> прямо в главном окне, чтобы вставить ссылку на подписку.</p>
+<blockquote>
+<p>После импорта группе по умолчанию присваивается имя <code>Default</code>. Щелкните правой кнопкой мыши по группе и выберите <code>Обновить подписку</code> (Update Subscription) (горячая клавиша: <code>Ctrl+U</code>).</p>
+</blockquote>
+<h3 id="способ-2-импорт-через-настройки">Способ 2: Импорт через настройки</h3>
+<ol>
+<li>Перейдите в <code>Настройки</code> (Settings) → <code>Группы</code> (Groups)</li>
+<li>Создайте новую группу и введите имя</li>
+<li>Измените тип на <code>Подписка</code> (Subscription)</li>
+<li>Вставьте ссылку на подписку в поле URL</li>
+<li>Нажмите ОК для сохранения</li>
+<li>Щелкните правой кнопкой мыши по этой группе и выберите <code>Обновить список</code> (Refresh List)</li>
+</ol>
+<p><img loading="lazy" src="https://throneproj.github.io/images/configuration/1.png" alt="Импорт подписки" /></p>
+<p><img loading="lazy" src="https://throneproj.github.io/images/configuration/2.png" alt="Обновить список" /></p>
+<p>Если ссылка верна, список прокси будет загружен и отображен.</p>
+<p><img loading="lazy" src="https://throneproj.github.io/images/configuration/3.png" alt="Список прокси" /></p>
+<h2 id="проверка-пинга-latency">Проверка пинга (Latency)</h2>
+<ol>
+<li>Выделите весь список, затем щелкните правой кнопкой мыши</li>
+<li>Выберите <code>URL-тест выбранных элементов</code> (URL Test Selected Items) (горячая клавиша: <code>Ctrl+Shift+S</code>)</li>
+</ol>
+<p><img loading="lazy" src="https://throneproj.github.io/images/configuration/4.png" alt="URL-тест" /></p>
+<ol start="3">
+<li>Выберите узел с наименьшей задержкой, щелкните правой кнопкой мыши и выберите <code>Включить</code> (Enable) или просто нажмите <code>Enter</code></li>
+</ol>
+<h2 id="включение-прокси">Включение прокси</h2>
+<h3 id="настройка-правил">Настройка правил</h3>
+<p>Независимо от того, используете ли вы режим TUN или системный прокси, необходимо настроить правила маршрутизации (на примере материкового Китая):</p>
+<ol>
+<li>Нажмите <code>Маршруты</code> (Routes) → <code>Скачать профиль настроек</code> (Download Config Profile)</li>
+<li>Выберите <code>Bypass China</code> + <code>Bypass China Blocked</code></li>
+<li>Нажмите <code>Маршруты</code> (Routes) → <code>Настройки маршрутизации</code> (Routing Settings) → <code>Маршруты</code> (Routes)</li>
+<li>Удалите правила маршрутизации по умолчанию, оставив только два только что скачанных правила</li>
+</ol>
+<p><img loading="lazy" src="https://throneproj.github.io/images/configuration/5.png" alt="Настройки маршрутизации" /></p>
+<h3 id="запуск-прокси">Запуск прокси</h3>
+<blockquote>
+<p>Рекомендуется режим TUN.</p>
+</blockquote>
+<ol>
+<li>Сначала запустите узел</li>
+<li>Затем выберите режим прокси (TUN или системный прокси)</li>
+</ol>
+<blockquote>
+<p>Примечание: Если вы используете режим TUN, пожалуйста, отключайте TUN перед обновлением подписки и включайте его снова после завершения обновления.</p>
+</blockquote>
+<p><img loading="lazy" src="https://throneproj.github.io/images/configuration/6.png" alt="Запуск прокси" /></p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Установка</title>
+      <link>https://throneproj.github.io/ru/get_started/installation/</link>
+      <guid>https://throneproj.github.io/ru/get_started/installation/</guid>
+      <description>Как установить Throne и начать работу.</description>
+      <content:encoded><![CDATA[<p>Throne поддерживает Windows, Linux и macOS. Выберите подходящий метод установки для вашей платформы.</p>
+<h2 id="скачать-исполняемый-файл">Скачать исполняемый файл</h2>
+<p>Перейдите на страницу <a href="https://throneproj.github.io/ru/downloads/">скачать</a> файл для вашей платформы.</p>
+<h3 id="windows">Windows</h3>
+<h4 id="портативная-версия-zip">Портативная версия (ZIP)</h4>
+<p>Распакуйте ZIP-архив и запустите <code>Throne.exe</code>.</p>
+<h4 id="установщик-exe">Установщик (.exe)</h4>
+<p>Запустите <code>Throne-x.x.x-universal-installer.exe</code>.</p>
+<h3 id="macos">macOS</h3>
+<p>Распакуйте ZIP-архив. Из-за строгой политики безопасности Apple необходимо удалить атрибут карантина:</p>
+<pre><code class="language-bash hljs">xattr -d com.apple.quarantine /path/to/Throne.app
+</code></pre>
+<p>Перед первым запуском переместите <code>Throne.app</code> в <code>/Applications</code>. Встроенное повышение привилегий открывает Terminal, чтобы установить для ядра бит setuid-root, и этот шаг может завершиться неудачей, пока приложение находится в <code>~/Downloads</code>.</p>
+<h3 id="linux">Linux</h3>
+<h4 id="установщик-для-командной-строки-рекомендуется">Установщик для командной строки (рекомендуется)</h4>
+<p>Самый быстрый способ установки на любом дистрибутиве. Скрипт скачивает сборку для вашей архитектуры, устанавливает её в <code>/opt/Throne</code> и добавляет ярлык приложения:</p>
+<pre><code class="language-bash hljs">curl -fsSL https://raw.githubusercontent.com/throneproj/Throne/dev/script/install_linux.py | sudo python3
+</code></pre>
+<p>Он работает как интерактивное меню в терминале: показывает последние стабильную и нестабильную версии (а также уже установленную, если она есть), затем спрашивает, хотите ли вы выполнить <strong>Install</strong> или <strong>Uninstall</strong> и какую ветку установить. Требуются Python 3 и права root.</p>
+<p>Запустите ту же команду повторно, чтобы обновиться до новой версии или удалить программу. При удалении стираются <code>/opt/Throne</code> и ярлык приложения, но ваши настройки в <code>~/.config/Throne</code> остаются нетронутыми.</p>
+<h4 id="портативная-версия-zip-1">Портативная версия (ZIP)</h4>
+<p>Скачайте ZIP-пакет:</p>
+<pre><code class="language-bash hljs">unzip Throne-x.x.x-linux-*.zip
+./Throne
+</code></pre>
+<h4 id="debianubuntu-deb">Debian/Ubuntu (.deb)</h4>
+<pre><code class="language-bash hljs">sudo apt install ./Throne-x.x.x-debian-*.deb
+</code></pre>
+<p>Примечание: Версия <code>-system-qt</code> не содержит библиотек Qt и полагается на системные. Используйте эту версию, если возникают конфликты тем или графический интерфейс не загружается.</p>
+<h2 id="менеджеры-пакетов">Менеджеры пакетов</h2>
+<p>Throne можно установить несколькими способами в зависимости от вашего дистрибутива.</p>
+<h3 id="winget">WinGet</h3>
+<pre><code class="language-bash hljs">winget install -e --id Throneproj.Throne
+</code></pre>
+<h3 id="scoop">Scoop</h3>
+<pre><code class="language-bash hljs">scoop bucket add extras
+scoop install extras/throne
+</code></pre>
+<h3 id="fedorarhel9">Fedora/RHEL9+</h3>
+<pre><code class="language-bash hljs">sudo curl -o /etc/yum.repos.d/throne.repo https://parhelia512.github.io/throne.repo
+sudo dnf install -y throne --refresh
+</code></pre>
+<p>Для старых версий RHEL посетите <a href="https://parhelia512.github.io/">RPM-репозиторий Throne</a>.</p>
+<h3 id="opensusesles">openSUSE/SLES</h3>
+<pre><code class="language-bash hljs">sudo zypper addrepo -fc https://parhelia512.github.io/throne-sle.repo
+sudo zypper install -y throne
+</code></pre>
+<h3 id="arch-linux-aur">Arch Linux (AUR)</h3>
+<p>Throne доступен в <strong>Arch User Repository</strong> под именем <code>throne</code>. Вы можете установить его с помощью вашего любимого AUR-помощника.</p>
+<pre><code class="language-bash hljs"># Если вы используете yay
+yay -S throne
+
+# Если вы используете paru
+paru -S throne
+</code></pre>
+<h3 id="nixos">NixOS</h3>
+<p>Добавьте следующий код в конфигурацию NixOS.</p>
+<pre><code class="language-nix hljs">programs.throne = {
+   enable = true;
+   # tunMode.enable = true; # Добавьте эту строку для включения tun-режима
+};
+</code></pre>
+<h3 id="nix">Nix</h3>
+<p>Вы также можете установить Throne с помощью менеджера пакетов Nix в любом поддерживаемом дистрибутиве.</p>
+<pre><code class="language-bash hljs">nix-env -iA nixos.throne
+</code></pre>
+<p>Или воспользуйтесь nix-shell, чтобы попробовать программу без установки.</p>
+<pre><code class="language-bash hljs">nix-shell -p throne
+</code></pre>
+<h2 id="сборка-из-исходного-кода">Сборка из исходного кода</h2>
+<p>Вы также можете собрать Throne из исходного кода самостоятельно.</p>
+<pre><code class="language-bash hljs">git clone --recursive https://github.com/throneproj/Throne.git
+cd Throne
+mkdir build
+cd build
+curl -fLso srslist.h &quot;https://raw.githubusercontent.com/throneproj/routeprofiles/rule-set/srslist.h&quot;
+cmake ..
+make -j$(nproc)
+</code></pre>
+<h2 id="обновление">Обновление</h2>
+<p>В Throne есть встроенная функция обновления. Вы также можете скачивать новые версии вручную со <a href="https://github.com/throneproj/Throne/releases">страницы релизов</a>.</p>
+<h2 id="устранение-неполадок">Устранение неполадок</h2>
+<h3 id="обнаружение-антивирусом">Обнаружение антивирусом</h3>
+<p>Некоторые антивирусные программы могут помечать Throne как вредоносное ПО, поскольку его функция обновления скачивает, удаляет и заменяет файлы — что похоже на поведение программ-вымогателей. Кроме того, функция <code>System DNS</code> изменяет системные настройки DNS, что некоторые антивирусные приложения считают опасным.</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

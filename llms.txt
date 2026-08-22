@@ -1,0 +1,40 @@
+# Throne
+
+> Powerful, open-source, cross-platform desktop GUI proxy utility.
+
+Throne documentation.
+
+## Pages
+
+- [Throne](https://throneproj.github.io/): Powerful, open-source, cross-platform desktop GUI proxy utility.
+- [Download Throne](https://throneproj.github.io/download/)
+- [Downloads](https://throneproj.github.io/downloads/)
+- [Throne](https://throneproj.github.io/fa/): ابزار پروکسی دسکتاپ با رابط گرافیکی، قدرتمند، متن‌باز و چندپلتفرمی.
+- [دانلود](https://throneproj.github.io/fa/downloads/)
+- [Throne](https://throneproj.github.io/ru/): Мощная, открытая, кроссплатформенная прокси-утилита с графическим интерфейсом.
+- [Скачать](https://throneproj.github.io/ru/downloads/)
+- [Throne](https://throneproj.github.io/zh/): 功能强大、开源、跨平台的桌面 GUI 代理工具。
+- [下载](https://throneproj.github.io/zh/downloads/)
+
+## Advanced Configuration
+
+- [Deep Links](https://throneproj.github.io/advanced/deeplinks/): Use throne:// deep links to add subscriptions, share proxies, and import routing profiles with a single click.
+- [Advanced TUN Mode on Windows](https://throneproj.github.io/advanced/windows_tun_mode/): Reduce DNS leak risks in Windows TUN mode through system policies and browser settings.
+- [لینک‌های عمیق](https://throneproj.github.io/fa/advanced/deeplinks/): با لینک‌های عمیق throne:// تنها با یک کلیک، اشتراک اضافه کنید، پروفایل به اشتراک بگذارید و پروفایل مسیریابی وارد کنید.
+- [تنظیمات پیشرفته حالت TUN در ویندوز](https://throneproj.github.io/fa/advanced/windows_tun_mode/): کاهش ریسک نشت DNS در حالت TUN ویندوز با استفاده از سیاست های سیستم و تنظیمات مرورگر.
+- [Глубокие ссылки](https://throneproj.github.io/ru/advanced/deeplinks/): Используйте глубокие ссылки throne:// для добавления подписок, обмена профилями и импорта профилей маршрутизации одним щелчком.
+- [Расширенная настройка TUN в Windows](https://throneproj.github.io/ru/advanced/windows_tun_mode/): Снижение риска утечки DNS при использовании TUN-режима в Windows через системные политики и настройки браузера.
+- [深层链接](https://throneproj.github.io/zh/advanced/deeplinks/): 使用 throne:// 深层链接，一键添加订阅、分享节点和导入路由配置文件。
+- [Windows 下 TUN 模式进阶](https://throneproj.github.io/zh/advanced/windows_tun_mode/): 通过系统策略和浏览器设置，降低 Windows 下 TUN 模式的 DNS 泄露风险。
+
+## Get Started
+
+- [پیکربندی](https://throneproj.github.io/fa/get_started/configuration/): آموزش نحوه پیکربندی Throne.
+- [نصب](https://throneproj.github.io/fa/get_started/installation/): چگونه Throne را نصب کنیم و شروع به کار کنیم.
+- [Configuration](https://throneproj.github.io/get_started/configuration/): Learn how to configure Throne.
+- [Installation](https://throneproj.github.io/get_started/installation/): How to install Throne and get started.
+- [Конфигурация](https://throneproj.github.io/ru/get_started/configuration/): Узнайте, как настроить Throne.
+- [Установка](https://throneproj.github.io/ru/get_started/installation/): Как установить Throne и начать работу.
+- [配置](https://throneproj.github.io/zh/get_started/configuration/): 学习如何配置 Throne。
+- [安装](https://throneproj.github.io/zh/get_started/installation/): 如何安装 Throne 并开始使用。
+

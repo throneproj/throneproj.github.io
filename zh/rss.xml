@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Throne (简体中文)</title>
+    <link>https://throneproj.github.io/zh/</link>
+    <description>Powerful, open-source, cross-platform desktop GUI proxy utility.</description>
+    <language>zh</language>
+    <atom:link href="https://throneproj.github.io/zh/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>深层链接</title>
+      <link>https://throneproj.github.io/zh/advanced/deeplinks/</link>
+      <guid>https://throneproj.github.io/zh/advanced/deeplinks/</guid>
+      <description>使用 throne:// 深层链接，一键添加订阅、分享节点和导入路由配置文件。</description>
+      <content:encoded><![CDATA[<p>Throne 会向你的操作系统注册一个自定义的 <code>throne://</code> URL 协议。深层链接（Deep Link）其实就是一个 <code>throne://</code> 网址，它告诉正在运行（或尚未运行）的 Throne 实例执行某项操作——例如添加订阅或导入路由配置文件——而无需用户手动在对话框中输入各项数值。</p>
+<p>这对于服务商网站、支持页面、二维码、脚本，或者只是想把某个路由配置文件分享给朋友，都非常方便。</p>
+<blockquote>
+<p>添加订阅或路由配置文件的链接会先请求确认：Throne 会准确地告诉你将要添加的内容，并等待你的同意。唯一的例外是 <code>add</code> 命令，它会不经询问直接把一个节点配置添加到当前分组——就和粘贴一条 <code>vless://</code> 链接一样。</p>
+</blockquote>
+<h2 id="throne-如何接收深层链接">Throne 如何接收深层链接</h2>
+<p><code>throne://</code> 协议会在你首次运行 Throne 时，于 <strong>Windows、Linux 和 macOS</strong> 上自动注册。由于 Throne 以无需安装的便携式压缩包形式发布，注册会在启动时进行，不需要管理员权限，并且当你移动或更新程序文件夹后会自动修复。</p>
+<p>注册完成后，Throne 可从以下任意来源接收深层链接：</p>
+<ul>
+<li><strong>点击 <code>throne://</code> 链接</strong>：在浏览器、聊天软件或文档中点击，操作系统会将其交给 Throne。</li>
+<li><strong><code>程序</code>（Program）→ <code>从剪贴板添加配置</code>（Add profile from clipboard）</strong>：该菜单项在 <code>服务器</code>（Server）菜单下也有，快捷键为 <code>Ctrl+V</code>，它会从剪贴板读取该链接。</li>
+<li><strong>拖放</strong>：将链接文本拖放到主界面。</li>
+<li><strong>作为启动参数传入</strong>：在命令行中传入（Windows/Linux）。在 macOS 上，系统会直接把网址交给已在运行的程序。</li>
+</ul>
+<p>如果 Throne 已经打开，链接会交给现有窗口处理，而不会启动第二个实例。</p>
+<h2 id="链接格式">链接格式</h2>
+<p>所有深层链接的结构都相同——一个命令、一个斜杠，以及一段 Base64 数据：</p>
+<pre><code>throne://&lt;command&gt;/&lt;base64_payload&gt;
+</code></pre>
+<ul>
+<li>命令<strong>不区分大小写</strong>（<code>throne://AddSub/...</code> 和 <code>throne://addsub/...</code> 相同）。</li>
+<li><strong>斜杠和数据部分是必需的。</strong> 命令后面没有 <code>/&lt;payload&gt;</code> 的链接会被静默丢弃——既不会有任何反应，也不会记录日志。</li>
+<li>没有查询参数。链接携带的所有内容都在这段 Base64 数据里。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用途</th>
+<th>是否先确认？</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>addsub</code></td>
+<td>添加一个订阅分组并立即更新</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>route</code></td>
+<td>导入链接内携带的路由配置文件</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>remoteroute</code></td>
+<td>通过 URL 添加一个或多个远程路由配置文件</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>add</code></td>
+<td>向当前分组添加一个节点配置</td>
+<td>否</td>
+</tr>
+</tbody>
+</table>
+<p>无法识别的命令会被忽略，并以 <code>Ignored deeplink with unknown command</code> 记录到日志中。</p>
+<h3 id="该使用哪种-base64-字母表">该使用哪种 Base64 字母表</h3>
+<p>这一点很重要，而且各命令并不相同：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>可接受的编码</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>addsub</code></td>
+<td>仅限<strong>标准</strong> Base64（<code>+</code> 和 <code>/</code> 字母表）。请保留结尾的 <code>=</code> 填充。</td>
+</tr>
+<tr>
+<td><code>remoteroute</code></td>
+<td>仅限<strong>标准</strong> Base64（<code>+</code> 和 <code>/</code> 字母表）。请保留结尾的 <code>=</code> 填充。</td>
+</tr>
+<tr>
+<td><code>route</code></td>
+<td>URL 安全 Base64、标准 Base64，甚至未编码的纯 JSON 均可。</td>
+</tr>
+<tr>
+<td><code>add</code></td>
+<td>由 Throne 生成——见下文 <a href="#add"><code>add</code></a>。</td>
+</tr>
+</tbody>
+</table>
+<p>对于 <code>addsub</code> 和 <code>remoteroute</code>，含有 <code>-</code> 或 <code>_</code> 的 URL 安全数据将无法解码，链接会被拒绝。请使用标准字母表编码。</p>
+<h2 id="addsub-添加订阅"><code>addsub</code> — 添加订阅</h2>
+<p>添加一个新的订阅分组并立即更新它。</p>
+<pre><code>throne://addsub/&lt;base64&gt;
+</code></pre>
+<p>数据部分是下面这一行文本的 Base64：</p>
+<pre><code>&lt;subscription_url&gt;[#&lt;group_name&gt;]
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>部分</th>
+<th>必需</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;subscription_url&gt;</code></td>
+<td><strong>是</strong></td>
+<td>订阅地址。</td>
+</tr>
+<tr>
+<td><code>#&lt;group_name&gt;</code></td>
+<td>否</td>
+<td>新分组的名称，写作网址的片段（fragment）部分。省略时默认使用订阅地址的主机名。</td>
+</tr>
+</tbody>
+</table>
+<p>自动更新<strong>不包含在链接中</strong>。Throne 会在确认对话框里询问，其中的 <strong>Auto update</strong> 复选框默认为勾选状态。</p>
+<h3 id="示例">示例</h3>
+<p>要把 <code>https://example.com/sub/abc123</code> 添加为名为 <strong>MyProvider</strong> 的分组，请对下面这行文本做 Base64 编码：</p>
+<pre><code>https://example.com/sub/abc123#MyProvider
+</code></pre>
+<p>然后把结果作为数据部分：</p>
+<pre><code>throne://addsub/aHR0cHM6Ly9leGFtcGxlLmNvbS9zdWIvYWJjMTIzI015UHJvdmlkZXI=
+</code></pre>
+<p>Throne 会请你确认：</p>
+<blockquote>
+<p>添加此订阅？</p>
+<p>名称：MyProvider
+地址（URL）：https://example.com/sub/abc123</p>
+<p>☑ 自动更新</p>
+</blockquote>
+<p>确认之后，分组会被创建，订阅也会立即拉取。</p>
+<blockquote>
+<p>因为整段文本都经过 Base64 编码，所以<strong>不需要</strong>对订阅地址做百分号编码——其中的 <code>?</code>、<code>&amp;</code> 和 <code>/</code> 都安全地藏在数据里。但如果分组名称含有空格或其他特殊字符，请对其做百分号编码（空格写作 <code>%20</code>）。</p>
+</blockquote>
+<h2 id="route-导入路由配置文件"><code>route</code> — 导入路由配置文件</h2>
+<p>导入链接内携带的完整路由配置文件（默认出站加规则）。</p>
+<pre><code>throne://route/&lt;base64&gt;
+</code></pre>
+<p>数据部分是经 Base64 编码的路由配置文件。Throne 自己生成的是 URL 安全 Base64（带或不带填充均可）；标准 Base64 和未编码的纯 JSON 同样可用。</p>
+<h3 id="如何生成-route-链接">如何生成 route 链接</h3>
+<p>通常你不需要手动构造这类链接——Throne 会替你生成：</p>
+<ol>
+<li>打开 <code>路由菜单</code>（Routing Menu）→ <code>路由设置</code>（Routing Settings）。</li>
+<li>选中你想分享的路由配置文件。</li>
+<li>按 <code>Ctrl+C</code>（或使用导出操作）。</li>
+</ol>
+<p>Throne 会把一条可直接分享的 <code>throne://route/...</code> 链接复制到你的剪贴板。把它发给任何人；当对方打开它（或在<code>路由设置</code>中按 <code>Ctrl+V</code> 粘贴，或使用<code>从剪贴板添加配置</code>）时，Throne 会显示配置文件名称和相关提示，经确认后导入。</p>
+<h3 id="数据里是什么">数据里是什么</h3>
+<p>这段 Base64 解码后，是一个描述该配置文件的小型 JSON 结构：</p>
+<pre><code class="language-json hljs">{
+  &quot;kind&quot;: &quot;throne-route-profile&quot;,
+  &quot;v&quot;: 1,
+  &quot;name&quot;: &quot;Bypass LAN&quot;,
+  &quot;default_outbound&quot;: &quot;proxy&quot;,
+  &quot;rules&quot;: []
+}
+</code></pre>
+<p>因此链接是这样的（数据部分就是该 JSON 的 Base64）：</p>
+<pre><code>throne://route/eyJraW5kIjoidGhyb25lLXJvdXRlLXByb2ZpbGUiLCJ2IjoxLCJuYW1lIjoiQnlwYXNzIExBTiIsImRlZmF1bHRfb3V0Ym91bmQiOiJwcm94eSIsInJ1bGVzIjpbXX0
+</code></pre>
+<p>由手写 route 段落创建的配置文件带有 <code>&quot;raw&quot;: true</code> 和一个 <code>route</code> 对象，而不是 <code>rules</code>；Throne 在导入时会按名称重新映射其中的出站引用，并告知你有哪些无法解析。</p>
+<blockquote>
+<p>从剪贴板导入时，Throne 同样能识别纯 JSON 或裸 Base64 形式的相同数据，因此即使链接在传递过程中丢掉了 <code>throne://route/</code> 前缀，从另一台机器复制来的链接依然可用。旧版的纯规则数组也可接受——它会在编辑器中打开，以便你为其补上名称和默认出站。</p>
+</blockquote>
+<h2 id="remoteroute-添加远程路由配置文件"><code>remoteroute</code> — 添加远程路由配置文件</h2>
+<p>通过 URL 添加一个或多个<strong>远程</strong>路由配置文件。<code>route</code> 把整个配置文件塞进链接里，而 <code>remoteroute</code> 携带的是托管在网上的配置文件地址：Throne 会从每个地址下载规则，并在你允许时自动保持更新。服务商正是用这种方式提供持续维护的路由配置文件——无需你重新导入，它就会不断改进。</p>
+<pre><code>throne://remoteroute/&lt;base64&gt;
+</code></pre>
+<p>数据部分是一份<strong>以换行分隔的纯 URL 列表</strong>的 Base64，而不是 JSON：</p>
+<pre><code>&lt;profile_url_1&gt;[#&lt;name_1&gt;]
+&lt;profile_url_2&gt;[#&lt;name_2&gt;]
+...
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>部分</th>
+<th>必需</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;profile_url&gt;</code></td>
+<td><strong>是</strong></td>
+<td>指向路由配置文件的 <code>http://</code> 或 <code>https://</code> 地址。不是有效 http(s) 网址的行会被跳过。</td>
+</tr>
+<tr>
+<td><code>#&lt;name&gt;</code></td>
+<td>否</td>
+<td>配置文件的显示名称，写作网址的片段（fragment）部分。省略时默认使用该网址的主机名。</td>
+</tr>
+</tbody>
+</table>
+<p>自动更新<strong>不是逐条设置的</strong>。Throne 只在确认对话框里询问一次，你的回答会应用到该链接中的所有配置文件。<strong>Auto update</strong> 复选框默认为勾选状态。</p>
+<h3 id="示例-1">示例</h3>
+<p>对下面这两行列表做 Base64 编码：</p>
+<pre><code>https://example.com/routes/bypass-iran.json#BypassIran
+https://example.com/routes/ads.json
+</code></pre>
+<p>然后把结果作为数据部分：</p>
+<pre><code>throne://remoteroute/aHR0cHM6Ly9leGFtcGxlLmNvbS9yb3V0ZXMvYnlwYXNzLWlyYW4uanNvbiNCeXBhc3NJcmFuCmh0dHBzOi8vZXhhbXBsZS5jb20vcm91dGVzL2Fkcy5qc29u
+</code></pre>
+<p>Throne 会列出该链接将要添加的全部内容，并等待你的确认：</p>
+<blockquote>
+<p>添加这些远程路由配置文件？</p>
+<ol>
+<li>https://example.com/routes/bypass-iran.json</li>
+<li>https://example.com/routes/ads.json</li>
+</ol>
+<p>☑ 自动更新</p>
+</blockquote>
+<p>确认之后，每个配置文件都会被添加并立即拉取。启用了自动更新的配置文件，随后会依照**基础设置（Basic Settings）**中 <strong>Routing profiles auto update</strong> 的间隔在后台刷新（间隔小于 30 分钟将关闭更新）。</p>
+<p>每个远程地址提供的路由配置文件，可以是 <code>route</code> 所接受的任意形式——一条 <code>throne://route/...</code> 链接、它的 Base64，或原始 JSON。</p>
+<h2 id="add"><code>add</code> — 添加单个节点配置</h2>
+<p>从一段 JSON 出站配置向当前分组添加一个节点。</p>
+<pre><code>throne://add/&lt;base64&gt;
+</code></pre>
+<p>数据部分是该节点出站 JSON 的 Base64——也就是 Throne 为某个服务器导出的那个对象。与其他三个命令不同，这个命令<strong>不会请求确认</strong>：配置会直接添加到当前分组，就和你粘贴一条 <code>vless://</code> 或 <code>ss://</code> 链接完全一样。</p>
+<p>你不需要手动构造这类链接。Throne 会替你生成：</p>
+<ul>
+<li><code>服务器</code>（Server）→ <code>分享</code>（Share）→ <code>Copy links of selected (Deep Links)</code>（快捷键 <code>Ctrl+Alt+C</code>）</li>
+<li>分享/二维码窗口会在普通分享链接旁一并显示深层链接</li>
+<li>分组编辑器中的 <code>Copy profile share links (Deep Links)</code> 按钮</li>
+</ul>
+<p>对于没有标准 <code>://</code> 分享网址的协议和选项，深层链接尤其有用，因为完整的 JSON 配置能原样传递。</p>
+<h2 id="疑难解答">疑难解答</h2>
+<ul>
+<li><strong>点击链接没有反应／浏览器询问用哪个程序打开。</strong> 先运行一次 Throne 让它注册协议，然后再试。如果你移动过 Throne 文件夹，只需再启动一次即可——注册会在启动时自我修复。</li>
+<li><strong>完全没有反应，日志也是空的。</strong> 链接很可能在命令后面缺少斜杠和数据（写成了 <code>throne://addsub</code> 而不是 <code>throne://addsub/&lt;base64&gt;</code>），或者它的 Base64 无法解码。这两种情况都会被静默丢弃。</li>
+<li><strong>「Ignored deeplink with unknown command」。</strong> 命令部分不是 <code>addsub</code>、<code>route</code>、<code>remoteroute</code> 或 <code>add</code>。请检查 <code>throne://</code> 后面那个词的拼写。</li>
+<li><strong>「The link did not contain a subscription URL」。</strong> <code>addsub</code> 的数据解码成功了，但 <code>#</code> 前面没有网址——请确认你编码的是 <code>&lt;url&gt;#&lt;name&gt;</code>，而不只是 <code>#&lt;name&gt;</code>。</li>
+<li><strong>「Base64 is invalid.」／「Deep link has no data」。</strong> 数据为空或无法解码。对于 <code>addsub</code> 和 <code>remoteroute</code>，请确保使用了<strong>标准</strong> Base64：含有 <code>-</code> 或 <code>_</code> 的 URL 安全数据会被拒绝。</li>
+<li><strong>「The link did not contain any valid remote routing profiles」。</strong> 解码后没有任何一行以 <code>http://</code> 或 <code>https://</code> 开头。请记住数据是以换行分隔的网址列表，而不是 JSON 数组。</li>
+<li><strong>「The link could not be parsed」。</strong> <code>route</code> 的数据不是有效的 JSON、Base64 或 Throne route 链接——或者是一个缺少 <code>&quot;kind&quot;: &quot;throne-route-profile&quot;</code> 标记的 JSON 对象。</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Windows 下 TUN 模式进阶</title>
+      <link>https://throneproj.github.io/zh/advanced/windows_tun_mode/</link>
+      <guid>https://throneproj.github.io/zh/advanced/windows_tun_mode/</guid>
+      <description>通过系统策略和浏览器设置，降低 Windows 下 TUN 模式的 DNS 泄露风险。</description>
+      <content:encoded><![CDATA[<p>本文介绍在 Windows 下使用 TUN 模式时，如何减少 DNS 泄露风险。</p>
+<p>DNS 泄露会暴露你的真实访问目标和网络活动，可能导致隐私泄露、被网络运营商识别流量行为，甚至使代理策略失效。</p>
+<h2 id="1-关闭-windows-智能多宿主名称解析策略">1. 关闭 Windows 智能多宿主名称解析策略</h2>
+<p>虚拟网卡环境下可能出现 DNS 泄露。由于系统存在多网卡，Windows 可能优先使用响应更快的网卡进行解析，从而绕过虚拟网卡。</p>
+<p>建议关闭该策略：</p>
+<p>如果找不到“组策略”（常见于家庭版 Windows），可用管理员命令手动设置：</p>
+<ol>
+<li>复制以下命令：</li>
+</ol>
+<p><code>reg add &quot;HKLM\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient&quot; /v DisableSmartNameResolution /t REG_DWORD /d 1 /f</code></p>
+<ol start="2">
+<li>打开开始菜单，搜索 <code>CMD</code>。</li>
+<li>找到“命令提示符”，右键选择“以管理员身份运行”。</li>
+<li>将上面的命令粘贴到窗口中并按 <code>Enter</code> 执行。</li>
+<li>执行完成后，重启操作系统。</li>
+</ol>
+<p><img loading="lazy" src="https://throneproj.github.io/images/windows-tun-dns-leak/step1-home-edition-cmd.png" alt="家庭版 Windows 使用管理员 CMD 执行命令" /></p>
+<p><img loading="lazy" src="https://throneproj.github.io/images/windows-tun-dns-leak/step1-disable-smart-multi-homed.png" alt="关闭智能多宿主名称解析策略步骤 1" /></p>
+<p><img loading="lazy" src="https://throneproj.github.io/images/windows-tun-dns-leak/step2-group-policy.png" alt="关闭智能多宿主名称解析策略步骤 2" /></p>
+<p><img loading="lazy" src="https://throneproj.github.io/images/windows-tun-dns-leak/step3-policy-disabled.png" alt="关闭智能多宿主名称解析策略步骤 3" /></p>
+<h2 id="2-关闭浏览器-quic-功能">2. 关闭浏览器 QUIC 功能</h2>
+<p>以 Chrome 为例，在地址栏输入：</p>
+<p><code>chrome://flags/</code></p>
+<p>搜索 <code>QUIC</code>，并将其设置为 <code>Disabled</code>。</p>
+<p><img loading="lazy" src="https://throneproj.github.io/images/windows-tun-dns-leak/step4-disable-quic.png" alt="关闭浏览器 QUIC" /></p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>下载</title>
+      <link>https://throneproj.github.io/zh/downloads/</link>
+      <guid>https://throneproj.github.io/zh/downloads/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>配置</title>
+      <link>https://throneproj.github.io/zh/get_started/configuration/</link>
+      <guid>https://throneproj.github.io/zh/get_started/configuration/</guid>
+      <description>学习如何配置 Throne。</description>
+      <content:encoded><![CDATA[<p>Throne 支持两种代理模式：</p>
+<h2 id="系统代理-system-proxy">系统代理 (System Proxy)</h2>
+<p>通过修改系统代理设置，使整个系统的流量通过代理转发。适用于浏览器等应用程序。</p>
+<h2 id="tun-模式">TUN 模式</h2>
+<p>创建虚拟网卡，实现全局代理。所有应用的网络流量都会经过代理，包括不支持代理设置的软件。</p>
+<blockquote>
+<p>推荐使用 TUN 模式，代理更加彻底。</p>
+</blockquote>
+<blockquote>
+<p>注意：开启 TUN 模式时请关闭系统代理，两者不能同时启用。</p>
+</blockquote>
+<h2 id="导入订阅">导入订阅</h2>
+<h3 id="方法一直接粘贴">方法一：直接粘贴</h3>
+<p>在主界面直接按 <code>Ctrl+V</code> 粘贴订阅链接。</p>
+<blockquote>
+<p>导入后分组名称默认为 <code>Default</code>，右键点击分组可选择 <code>更新订阅</code>（快捷键 <code>Ctrl+U</code>）。</p>
+</blockquote>
+<h3 id="方法二通过设置导入">方法二：通过设置导入</h3>
+<ol>
+<li>进入 <code>设置</code> → <code>分组</code></li>
+<li>新建分组，输入名称</li>
+<li>将类型修改为 <code>订阅</code></li>
+<li>在 URL 中粘贴订阅链接</li>
+<li>点击确定保存</li>
+<li>右键点击该分组，选择 <code>刷新列表</code></li>
+</ol>
+<p><img loading="lazy" src="https://throneproj.github.io/images/configuration/1.png" alt="导入订阅" /></p>
+<p><img loading="lazy" src="https://throneproj.github.io/images/configuration/2.png" alt="刷新列表" /></p>
+<p>如果链接正确，即可解析到代理列表。</p>
+<p><img loading="lazy" src="https://throneproj.github.io/images/configuration/3.png" alt="代理列表" /></p>
+<h2 id="测试延迟">测试延迟</h2>
+<ol>
+<li>全选列表，右键点击</li>
+<li>选择 <code>URL 测试选定项目</code>（快捷键 <code>Ctrl+Shift+S</code>）</li>
+</ol>
+<p><img loading="lazy" src="https://throneproj.github.io/images/configuration/4.png" alt="URL测试" /></p>
+<ol start="3">
+<li>选择延迟最低的节点，右键点击选择 <code>启用</code> 或直接按 <code>Enter</code></li>
+</ol>
+<h2 id="启用代理">启用代理</h2>
+<h3 id="配置规则">配置规则</h3>
+<p>无论是 TUN 模式还是系统代理，都需要配置路由规则（以中国大陆为例）：</p>
+<ol>
+<li>点击 <code>路由</code> → <code>下载配置档位</code></li>
+<li>选择 <code>Bypass China</code> + <code>Bypass China Blocked</code></li>
+<li>点击 <code>路由</code> → <code>路由设置</code> → <code>路由</code></li>
+<li>删除默认的路由规则，只保留刚才下载的两个规则</li>
+</ol>
+<p><img loading="lazy" src="https://throneproj.github.io/images/configuration/5.png" alt="路由设置" /></p>
+<h3 id="启动代理">启动代理</h3>
+<blockquote>
+<p>推荐使用 TUN 模式。</p>
+</blockquote>
+<ol>
+<li>先启动一个节点</li>
+<li>然后选择一种代理模式（TUN 或系统代理）</li>
+</ol>
+<blockquote>
+<p>注意：如果使用 TUN 模式，更新订阅时请先关闭 TUN，更新完成后再重新启用。</p>
+</blockquote>
+<p><img loading="lazy" src="https://throneproj.github.io/images/configuration/6.png" alt="启动代理" /></p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>安装</title>
+      <link>https://throneproj.github.io/zh/get_started/installation/</link>
+      <guid>https://throneproj.github.io/zh/get_started/installation/</guid>
+      <description>如何安装 Throne 并开始使用。</description>
+      <content:encoded><![CDATA[<p>Throne 支持 Windows、Linux 和 macOS。请根据您的平台选择合适的安装方式。</p>
+<h2 id="下载二进制文件">下载二进制文件</h2>
+<p>前往<a href="https://throneproj.github.io/zh/downloads/">下载</a>适合您平台的文件。</p>
+<h3 id="windows">Windows</h3>
+<h4 id="便携版-zip">便携版 (ZIP)</h4>
+<p>解压 ZIP 文件并运行 <code>Throne.exe</code>。</p>
+<h4 id="安装版-exe">安装版 (.exe)</h4>
+<p>运行 <code>Throne-x.x.x-universal-installer.exe</code>。</p>
+<h3 id="macos">macOS</h3>
+<p>解压 ZIP 文件。由于 Apple 严格的安全策略，您必须移除隔离属性：</p>
+<pre><code class="language-bash hljs">xattr -d com.apple.quarantine /path/to/Throne.app
+</code></pre>
+<p>首次启动前，请将 <code>Throne.app</code> 移动到 <code>/Applications</code>。内置提权功能会打开“终端”以将核心设置为 setuid-root，如果应用仍位于 <code>~/Downloads</code> 中，该步骤可能会失败。</p>
+<h3 id="linux">Linux</h3>
+<h4 id="命令行安装器推荐">命令行安装器（推荐）</h4>
+<p>在任意发行版上最快捷的安装方式。脚本会下载适配你的架构的构建版本，将其安装到 <code>/opt/Throne</code>，并添加桌面快捷方式：</p>
+<pre><code class="language-bash hljs">curl -fsSL https://raw.githubusercontent.com/throneproj/Throne/dev/script/install_linux.py | sudo python3
+</code></pre>
+<p>它以交互式终端菜单运行：先显示最新的稳定版和非稳定版（以及你已安装的版本，如果有的话），然后询问你要执行 <strong>Install</strong> 还是 <strong>Uninstall</strong>，以及安装哪个分支。需要 Python 3 和 root 权限。</p>
+<p>再次运行同一条命令即可更新到新版本或卸载。卸载会移除 <code>/opt/Throne</code> 和桌面快捷方式，但会保留 <code>~/.config/Throne</code> 中的设置。</p>
+<h4 id="便携版-zip-1">便携版 (ZIP)</h4>
+<p>下载 ZIP 包：</p>
+<pre><code class="language-bash hljs">unzip Throne-x.x.x-linux-*.zip
+./Throne
+</code></pre>
+<h4 id="debianubuntu-deb">Debian/Ubuntu (.deb)</h4>
+<pre><code class="language-bash hljs">sudo dpkg -i Throne-x.x.x-debian-*.deb
+</code></pre>
+<p>注意：<code>-system-qt</code> 版本不捆绑 Qt 库，而是依赖于系统安装的库。如果主题冲突或 GUI 无法加载，请使用此版本。</p>
+<h2 id="包管理器">包管理器</h2>
+<p>根据你所使用的发行版，Throne 提供多种安装方式。</p>
+<h3 id="winget">WinGet</h3>
+<pre><code class="language-bash hljs">winget install -e --id Throneproj.Throne
+</code></pre>
+<h3 id="scoop">Scoop</h3>
+<pre><code class="language-bash hljs">scoop bucket add extras
+scoop install extras/throne
+</code></pre>
+<h3 id="fedorarhel9">Fedora/RHEL9+</h3>
+<pre><code class="language-bash hljs">sudo curl -o /etc/yum.repos.d/throne.repo https://parhelia512.github.io/throne.repo
+sudo dnf install -y throne --refresh
+</code></pre>
+<p>对于旧版本的 RHEL，请访问 <a href="https://parhelia512.github.io/">Throne RPM 软件源</a>.</p>
+<h3 id="opensusesles">openSUSE/SLES</h3>
+<pre><code class="language-bash hljs">sudo zypper addrepo -fc https://parhelia512.github.io/throne-sle.repo
+sudo zypper install -y throne
+</code></pre>
+<h3 id="arch-linux-aur">Arch Linux (AUR)</h3>
+<p>Throne 已上架 <strong>Arch 用户软件仓库</strong>， 包名为 <code>throne</code>。 你可以使用你偏好的 AUR 助手来进行安装。</p>
+<pre><code class="language-bash hljs"># 如果你使用的是 yay
+yay -S throne
+
+# 如果你使用的是 paru
+paru -S throne
+</code></pre>
+<h3 id="nixos">NixOS</h3>
+<p>将以下 Nix 代码添加到你的 NixOS 配置中。</p>
+<pre><code class="language-nix hljs">programs.throne = {
+   enable = true;
+   # tunMode.enable = true; Add this line to enable tun mode
+};
+</code></pre>
+<h3 id="nix">Nix</h3>
+<p>你也可以在任何支持的 Linux 发行版上，使用 Nix 包管理器来安装 Throne。</p>
+<pre><code class="language-bash hljs">nix-env -iA nixos.throne
+</code></pre>
+<p>或者，你可以使用 nix-shell 在不安装的情况下直接试用它。</p>
+<pre><code class="language-bash hljs">nix-shell -p throne
+</code></pre>
+<h2 id="从源码编译">从源码编译</h2>
+<p>你也可以从源代码编译安装 Throne。</p>
+<pre><code class="language-bash hljs">git clone --recursive https://github.com/throneproj/Throne.git
+cd Throne
+mkdir build
+cd build
+curl -fLso srslist.h &quot;https://raw.githubusercontent.com/throneproj/routeprofiles/rule-set/srslist.h&quot;
+cmake ..
+make -j$(nproc)
+</code></pre>
+<h2 id="更新">更新</h2>
+<p>Throne 具有内置的更新功能。您也可以从 <a href="https://github.com/throneproj/Throne/releases">Releases 页面</a> 手动下载新版本。</p>
+<h2 id="故障排除">故障排除</h2>
+<h3 id="杀毒软件检测">杀毒软件检测</h3>
+<p>一些杀毒软件可能会将 Throne 标记为恶意软件，因为其更新功能会下载、删除和替换文件——这类似于勒索软件的行为。此外，<code>系统 DNS</code> 功能会修改系统的 DNS 设置，某些杀毒应用程序认为这具有危险性。</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

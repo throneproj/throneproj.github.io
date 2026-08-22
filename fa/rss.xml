@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Throne (فارسی)</title>
+    <link>https://throneproj.github.io/fa/</link>
+    <description>Powerful, open-source, cross-platform desktop GUI proxy utility.</description>
+    <language>fa</language>
+    <atom:link href="https://throneproj.github.io/fa/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>لینک‌های عمیق</title>
+      <link>https://throneproj.github.io/fa/advanced/deeplinks/</link>
+      <guid>https://throneproj.github.io/fa/advanced/deeplinks/</guid>
+      <description>با لینک‌های عمیق throne:// تنها با یک کلیک، اشتراک اضافه کنید، پروفایل به اشتراک بگذارید و پروفایل مسیریابی وارد کنید.</description>
+      <content:encoded><![CDATA[<p>Throne یک اسکیم URL سفارشی به نام <code>throne://</code> را در سیستم‌عامل شما ثبت می‌کند. یک لینک عمیق (Deep Link) در واقع یک نشانی <code>throne://</code> است که به یک نمونهٔ در حال اجرا (یا هنوز اجرانشده) از Throne می‌گوید عملی را انجام دهد — مانند افزودن یک اشتراک یا وارد کردن یک پروفایل مسیریابی — بدون اینکه کاربر مجبور باشد مقادیر را دستی در پنجره‌ها وارد کند.</p>
+<p>این قابلیت برای وب‌سایت ارائه‌دهندگان، صفحات پشتیبانی، کدهای QR، اسکریپت‌ها یا صرفاً به‌اشتراک‌گذاری یک پروفایل مسیریابی با دوستان بسیار کاربردی است.</p>
+<blockquote>
+<p>لینک‌هایی که یک اشتراک یا پروفایل مسیریابی اضافه می‌کنند، نخست از شما تأیید می‌گیرند: Throne دقیقاً آنچه را که اضافه خواهد شد نشان می‌دهد و منتظر تأیید شما می‌ماند. تنها استثنا دستور <code>add</code> است که یک پروفایل پراکسی را بدون پرسش، مستقیم به گروه جاری اضافه می‌کند — درست مانند جای‌گذاری یک لینک <code>vless://</code>.</p>
+</blockquote>
+<h2 id="throne-چگونه-یک-لینک-عمیق-را-دریافت-میکند">Throne چگونه یک لینک عمیق را دریافت می‌کند</h2>
+<p>اسکیم <code>throne://</code> به‌طور خودکار در نخستین اجرای Throne، روی <strong>ویندوز، لینوکس و مک‌اواس</strong> ثبت می‌شود. از آنجا که Throne به‌صورت یک آرشیو قابل حمل و بدون نصب‌کننده عرضه می‌شود، این ثبت در هنگام راه‌اندازی انجام می‌شود، به دسترسی مدیر نیازی ندارد و اگر پوشهٔ برنامه را جابه‌جا یا به‌روزرسانی کنید، به‌صورت خودکار خود را ترمیم می‌کند.</p>
+<p>پس از ثبت، Throne یک لینک عمیق را از هر یک از این منابع می‌پذیرد:</p>
+<ul>
+<li><strong>کلیک روی یک لینک <code>throne://</code></strong> در مرورگر، برنامهٔ گفت‌وگو یا یک سند — سیستم‌عامل آن را به Throne می‌سپارد.</li>
+<li><strong><code>برنامه</code> (Program) → <code>افزودن پروفایل از کلیپ‌بورد</code> (Add profile from clipboard)</strong> — که در منوی <code>سرور</code> (Server) نیز هست و میان‌بر <code>Ctrl+V</code> دارد — لینک را از کلیپ‌بورد شما می‌خواند.</li>
+<li><strong>کشیدن و رها کردن (Drag &amp; Drop)</strong> متن لینک روی پنجرهٔ اصلی.</li>
+<li><strong>ارسال آن به‌عنوان آرگومان اجرا</strong> در خط فرمان (ویندوز/لینوکس). در مک‌اواس، سیستم‌عامل نشانی را مستقیماً به برنامهٔ در حال اجرا می‌سپارد.</li>
+</ul>
+<p>اگر Throne از پیش باز باشد، لینک به پنجرهٔ موجود سپرده می‌شود و نمونهٔ دومی اجرا نمی‌شود.</p>
+<h2 id="ساختار-لینک">ساختار لینک</h2>
+<p>همهٔ لینک‌های عمیق ساختار یکسانی دارند — یک دستور، یک اسلش و یک محتوای Base64:</p>
+<pre><code>throne://&lt;command&gt;/&lt;base64_payload&gt;
+</code></pre>
+<ul>
+<li>دستور به <strong>حروف بزرگ و کوچک حساس نیست</strong> (<code>throne://AddSub/...</code> و <code>throne://addsub/...</code> یکسان‌اند).</li>
+<li><strong>اسلش و محتوا الزامی‌اند.</strong> لینکی که پس از دستور، <code>/&lt;payload&gt;</code> نداشته باشد بی‌صدا نادیده گرفته می‌شود — نه اتفاقی می‌افتد و نه چیزی در لاگ ثبت می‌شود.</li>
+<li>هیچ پارامتر پرس‌وجویی (query parameter) وجود ندارد. هر چیزی که لینک حمل می‌کند درون محتوای Base64 قرار دارد.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>دستور</th>
+<th>کاربرد</th>
+<th>تأیید می‌گیرد؟</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>addsub</code></td>
+<td>افزودن یک گروه اشتراک و به‌روزرسانی فوری آن</td>
+<td>بله</td>
+</tr>
+<tr>
+<td><code>route</code></td>
+<td>وارد کردن پروفایل مسیریابی‌ای که درون لینک قرار دارد</td>
+<td>بله</td>
+</tr>
+<tr>
+<td><code>remoteroute</code></td>
+<td>افزودن یک یا چند پروفایل مسیریابی راه‌دور با نشانی (URL)</td>
+<td>بله</td>
+</tr>
+<tr>
+<td><code>add</code></td>
+<td>افزودن یک پروفایل پراکسی به گروه جاری</td>
+<td>خیر</td>
+</tr>
+</tbody>
+</table>
+<p>یک دستور ناشناخته نادیده گرفته می‌شود و با پیام <code>Ignored deeplink with unknown command</code> در لاگ ثبت می‌گردد.</p>
+<h3 id="از-کدام-الفبای-base64-استفاده-کنیم">از کدام الفبای Base64 استفاده کنیم</h3>
+<p>این نکته مهم است و برای هر دستور فرق می‌کند:</p>
+<table>
+<thead>
+<tr>
+<th>دستور</th>
+<th>کدگذاری پذیرفته‌شده</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>addsub</code></td>
+<td>فقط Base64 <strong>استاندارد</strong> (الفبای <code>+</code> و <code>/</code>). نویسه‌های <code>=</code> پایانی را نگه دارید.</td>
+</tr>
+<tr>
+<td><code>remoteroute</code></td>
+<td>فقط Base64 <strong>استاندارد</strong> (الفبای <code>+</code> و <code>/</code>). نویسه‌های <code>=</code> پایانی را نگه دارید.</td>
+</tr>
+<tr>
+<td><code>route</code></td>
+<td>Base64 سازگار با URL، Base64 استاندارد، یا حتی JSON خام و کدگذاری‌نشده.</td>
+</tr>
+<tr>
+<td><code>add</code></td>
+<td>توسط خود Throne تولید می‌شود — بخش <a href="#add"><code>add</code></a> را ببینید.</td>
+</tr>
+</tbody>
+</table>
+<p>برای <code>addsub</code> و <code>remoteroute</code>، محتوای سازگار با URL که شامل <code>-</code> یا <code>_</code> باشد رمزگشایی نمی‌شود و لینک رد می‌گردد. با الفبای استاندارد کدگذاری کنید.</p>
+<h2 id="addsub-افزودن-اشتراک"><code>addsub</code> — افزودن اشتراک</h2>
+<p>یک گروه اشتراک جدید اضافه می‌کند و بی‌درنگ آن را به‌روزرسانی می‌کند.</p>
+<pre><code>throne://addsub/&lt;base64&gt;
+</code></pre>
+<p>محتوا، Base64ِ یک خط واحد است:</p>
+<pre><code>&lt;subscription_url&gt;[#&lt;group_name&gt;]
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>بخش</th>
+<th>الزامی</th>
+<th>توضیحات</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;subscription_url&gt;</code></td>
+<td><strong>بله</strong></td>
+<td>نشانی اشتراک.</td>
+</tr>
+<tr>
+<td><code>#&lt;group_name&gt;</code></td>
+<td>خیر</td>
+<td>نام گروه جدید که به‌شکل فرگمنت (fragment) نشانی نوشته می‌شود. در صورت حذف، نام میزبان (host) نشانی اشتراک به‌کار می‌رود.</td>
+</tr>
+</tbody>
+</table>
+<p>به‌روزرسانی خودکار <strong>بخشی از لینک نیست</strong>. Throne در پنجرهٔ تأیید دربارهٔ آن می‌پرسد و تیک <strong>Auto update</strong> به‌صورت پیش‌فرض زده شده است.</p>
+<h3 id="مثال">مثال</h3>
+<p>برای افزودن <code>https://example.com/sub/abc123</code> با نام گروه <strong>MyProvider</strong>، این متن را Base64 کنید:</p>
+<pre><code>https://example.com/sub/abc123#MyProvider
+</code></pre>
+<p>و نتیجه را به‌عنوان محتوا قرار دهید:</p>
+<pre><code>throne://addsub/aHR0cHM6Ly9leGFtcGxlLmNvbS9zdWIvYWJjMTIzI015UHJvdmlkZXI=
+</code></pre>
+<p>Throne از شما تأیید می‌خواهد:</p>
+<blockquote>
+<p>این اشتراک اضافه شود؟</p>
+<p>نام: MyProvider
+آدرس (URL): https://example.com/sub/abc123</p>
+<p>☑ به‌روزرسانی خودکار</p>
+</blockquote>
+<p>پس از تأیید، گروه ساخته می‌شود و اشتراک بی‌درنگ دریافت می‌گردد.</p>
+<blockquote>
+<p>چون کل متن با Base64 کدگذاری می‌شود، <strong>نیازی به</strong> percent-encode کردن نشانی اشتراک نیست — نویسه‌های <code>?</code>، <code>&amp;</code> و <code>/</code> آن به‌سلامت درون محتوا پنهان می‌مانند. اما اگر نام گروه شامل فاصله یا نویسه‌های ویژه است، آن را percent-encode کنید (یک فاصله به <code>%20</code> تبدیل می‌شود).</p>
+</blockquote>
+<h2 id="route-وارد-کردن-پروفایل-مسیریابی"><code>route</code> — وارد کردن پروفایل مسیریابی</h2>
+<p>یک پروفایل مسیریابی کامل (خروجی پیش‌فرض به‌همراه قوانین) را که درون لینک قرار دارد وارد می‌کند.</p>
+<pre><code>throne://route/&lt;base64&gt;
+</code></pre>
+<p>محتوا، پروفایل مسیریابی کدگذاری‌شده با Base64 است. آنچه خود Throne تولید می‌کند Base64 سازگار با URL (با یا بدون padding) است؛ Base64 استاندارد و JSON خام و کدگذاری‌نشده نیز پذیرفته می‌شوند.</p>
+<h3 id="چگونه-یک-لینک-route-بسازیم">چگونه یک لینک route بسازیم</h3>
+<p>معمولاً این لینک‌ها را دستی نمی‌سازید — Throne آن‌ها را برای شما تولید می‌کند:</p>
+<ol>
+<li>به <code>منوی مسیریابی</code> (Routing Menu) → <code>تنظیمات مسیریابی</code> (Routing Settings) بروید.</li>
+<li>پروفایل مسیریابی‌ای را که می‌خواهید به اشتراک بگذارید انتخاب کنید.</li>
+<li><code>Ctrl+C</code> را فشار دهید (یا از گزینهٔ خروجی‌گرفتن استفاده کنید).</li>
+</ol>
+<p>Throne یک لینک آمادهٔ اشتراک‌گذاری به‌شکل <code>throne://route/...</code> را در کلیپ‌بورد شما کپی می‌کند. آن را برای هر کسی بفرستید؛ وقتی آن را باز کند (یا در <code>تنظیمات مسیریابی</code> با <code>Ctrl+V</code> جای‌گذاری کند، یا از <code>افزودن پروفایل از کلیپ‌بورد</code> استفاده کند)، Throne نام پروفایل و هرگونه یادداشت را نشان می‌دهد و پس از تأیید، آن را وارد می‌کند.</p>
+<h3 id="درون-محتوا-چیست">درون محتوا چیست</h3>
+<p>محتوای Base64 به یک پوشش JSON کوچک که پروفایل را توصیف می‌کند رمزگشایی می‌شود:</p>
+<pre><code class="language-json hljs">{
+  &quot;kind&quot;: &quot;throne-route-profile&quot;,
+  &quot;v&quot;: 1,
+  &quot;name&quot;: &quot;Bypass LAN&quot;,
+  &quot;default_outbound&quot;: &quot;proxy&quot;,
+  &quot;rules&quot;: []
+}
+</code></pre>
+<p>بنابراین لینک به این شکل است (محتوا همان Base64 آن JSON است):</p>
+<pre><code>throne://route/eyJraW5kIjoidGhyb25lLXJvdXRlLXByb2ZpbGUiLCJ2IjoxLCJuYW1lIjoiQnlwYXNzIExBTiIsImRlZmF1bHRfb3V0Ym91bmQiOiJwcm94eSIsInJ1bGVzIjpbXX0
+</code></pre>
+<p>پروفایل‌هایی که از یک بخش route دست‌نویس ساخته شده‌اند، به‌جای <code>rules</code> دارای <code>&quot;raw&quot;: true</code> و یک شیء <code>route</code> هستند؛ Throne هنگام وارد کردن، ارجاع‌های خروجی را بر اساس نام دوباره نگاشت می‌کند و هر چیزی را که نتوانسته پیدا کند به شما اطلاع می‌دهد.</p>
+<blockquote>
+<p>Throne همین محتوا را هنگام وارد کردن از کلیپ‌بورد به‌صورت JSON ساده یا Base64 خام نیز می‌شناسد؛ بنابراین لینکی که از دستگاهی دیگر کپی شده، حتی اگر در مسیر پیشوند <code>throne://route/</code> خود را از دست بدهد، باز هم کار می‌کند. آرایهٔ سادهٔ قدیمی از قوانین نیز پذیرفته می‌شود — در ویرایشگر باز می‌شود تا برای آن نام و خروجی پیش‌فرض تعیین کنید.</p>
+</blockquote>
+<h2 id="remoteroute-افزودن-پروفایلهای-مسیریابی-راهدور"><code>remoteroute</code> — افزودن پروفایل‌های مسیریابی راه‌دور</h2>
+<p>یک یا چند پروفایل مسیریابی <strong>راه‌دور (Remote)</strong> را با نشانی (URL) اضافه می‌کند. برخلاف <code>route</code> که یک پروفایل کامل را درون لینک جای می‌دهد، <code>remoteroute</code> نشانی پروفایل‌هایی را حمل می‌کند که روی اینترنت میزبانی شده‌اند: Throne قوانین را از هر نشانی دریافت می‌کند و در صورت اجازهٔ شما، آن‌ها را به‌طور خودکار به‌روز نگه می‌دارد. این همان روشی است که یک ارائه‌دهنده با آن یک پروفایل مسیریابیِ نگهداری‌شده را در اختیار شما می‌گذارد — پروفایلی که بدون نیاز به وارد کردن دوباره، پیوسته بهبود می‌یابد.</p>
+<pre><code>throne://remoteroute/&lt;base64&gt;
+</code></pre>
+<p>محتوا، Base64ِ یک <strong>فهرست سادهٔ نشانی‌ها که با خط جدید از هم جدا شده‌اند</strong> است — نه JSON:</p>
+<pre><code>&lt;profile_url_1&gt;[#&lt;name_1&gt;]
+&lt;profile_url_2&gt;[#&lt;name_2&gt;]
+...
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>بخش</th>
+<th>الزامی</th>
+<th>توضیحات</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;profile_url&gt;</code></td>
+<td><strong>بله</strong></td>
+<td>یک نشانی <code>http://</code> یا <code>https://</code> به پروفایل مسیریابی. خط‌هایی که نشانی معتبر http(s) نیستند نادیده گرفته می‌شوند.</td>
+</tr>
+<tr>
+<td><code>#&lt;name&gt;</code></td>
+<td>خیر</td>
+<td>نام نمایشی پروفایل که به‌شکل فرگمنت نشانی نوشته می‌شود. در صورت حذف، نام میزبان (host) نشانی به‌کار می‌رود.</td>
+</tr>
+</tbody>
+</table>
+<p>به‌روزرسانی خودکار <strong>برای هر ورودی جداگانه نیست</strong>. Throne یک‌بار در پنجرهٔ تأیید می‌پرسد و پاسخ شما روی همهٔ پروفایل‌های آن لینک اعمال می‌شود. تیک <strong>Auto update</strong> به‌صورت پیش‌فرض زده شده است.</p>
+<h3 id="مثال-1">مثال</h3>
+<p>این فهرست دوخطی را Base64 کنید:</p>
+<pre><code>https://example.com/routes/bypass-iran.json#BypassIran
+https://example.com/routes/ads.json
+</code></pre>
+<p>و نتیجه را به‌عنوان محتوا قرار دهید:</p>
+<pre><code>throne://remoteroute/aHR0cHM6Ly9leGFtcGxlLmNvbS9yb3V0ZXMvYnlwYXNzLWlyYW4uanNvbiNCeXBhc3NJcmFuCmh0dHBzOi8vZXhhbXBsZS5jb20vcm91dGVzL2Fkcy5qc29u
+</code></pre>
+<p>Throne هر چیزی را که لینک اضافه خواهد کرد فهرست می‌کند و منتظر تأیید شما می‌ماند:</p>
+<blockquote>
+<p>این پروفایل‌های مسیریابی راه‌دور اضافه شوند؟</p>
+<ol>
+<li>https://example.com/routes/bypass-iran.json</li>
+<li>https://example.com/routes/ads.json</li>
+</ol>
+<p>☑ به‌روزرسانی خودکار</p>
+</blockquote>
+<p>پس از تأیید، هر پروفایل بی‌درنگ اضافه و دریافت می‌شود. پروفایل‌هایی که به‌روزرسانی خودکارشان فعال است، سپس در پس‌زمینه بر اساس بازهٔ <strong>Routing profiles auto update</strong> در <strong>تنظیمات پایه (Basic Settings)</strong> به‌روزرسانی می‌شوند (بازهٔ کمتر از ۳۰ دقیقه، به‌روزرسانی را خاموش می‌کند).</p>
+<p>هر نشانی راه‌دور باید یک پروفایل مسیریابی را در هر قالبی که <code>route</code> می‌پذیرد ارائه کند — یک لینک <code>throne://route/...</code>، Base64 آن، یا JSON خام.</p>
+<h2 id="add"><code>add</code> — افزودن یک پروفایل پراکسی</h2>
+<p>یک پروفایل پراکسی را از روی یک پیکربندی خروجی (outbound) به‌شکل JSON، به گروه جاری اضافه می‌کند.</p>
+<pre><code>throne://add/&lt;base64&gt;
+</code></pre>
+<p>محتوا، Base64ِ JSONِ خروجی پروفایل است — همان شیئی که Throne برای یک سرور خروجی می‌گیرد. برخلاف سه دستور دیگر، این یکی <strong>تأیید نمی‌گیرد</strong>: پروفایل مستقیماً به گروه جاری اضافه می‌شود، دقیقاً مانند وقتی که یک لینک <code>vless://</code> یا <code>ss://</code> را جای‌گذاری کنید.</p>
+<p>این لینک‌ها را دستی نمی‌سازید. Throne آن‌ها را برای شما تولید می‌کند:</p>
+<ul>
+<li><code>سرور</code> (Server) → <code>اشتراک‌گذاری</code> (Share) → <code>Copy links of selected (Deep Links)</code> با میان‌بر <code>Ctrl+Alt+C</code></li>
+<li>پنجرهٔ اشتراک‌گذاری/QR، لینک عمیق را در کنار لینک اشتراک‌گذاری معمولی نشان می‌دهد</li>
+<li>دکمهٔ <code>Copy profile share links (Deep Links)</code> در ویرایشگر گروه</li>
+</ul>
+<p>لینک‌های عمیق برای پروتکل‌ها و گزینه‌هایی مفیدند که نشانی اشتراک‌گذاری استاندارد <code>://</code> ندارند، چون پیکربندی کامل JSON بدون کم‌وکاست منتقل می‌شود.</p>
+<h2 id="عیبیابی">عیب‌یابی</h2>
+<ul>
+<li><strong>کلیک روی لینک هیچ کاری نمی‌کند / مرورگر می‌پرسد کدام برنامه را باز کند.</strong> یک‌بار Throne را اجرا کنید تا اسکیم را ثبت کند، سپس دوباره تلاش کنید. اگر پوشهٔ Throne را جابه‌جا کرده‌اید، کافی است دوباره آن را اجرا کنید — ثبت در هنگام راه‌اندازی خود را ترمیم می‌کند.</li>
+<li><strong>هیچ اتفاقی نمی‌افتد و لاگ هم خالی است.</strong> به‌احتمال زیاد لینک، اسلش و محتوا را پس از دستور ندارد (<code>throne://addsub</code> به‌جای <code>throne://addsub/&lt;base64&gt;</code>)، یا Base64 آن رمزگشایی نشده است. هر دو حالت بی‌صدا نادیده گرفته می‌شوند.</li>
+<li><strong>«Ignored deeplink with unknown command».</strong> بخش دستور، <code>addsub</code>، <code>route</code>، <code>remoteroute</code> یا <code>add</code> نیست. املای واژهٔ بلافاصله پس از <code>throne://</code> را بررسی کنید.</li>
+<li><strong>«The link did not contain a subscription URL».</strong> محتوای <code>addsub</code> رمزگشایی شده اما پیش از <code>#</code> نشانی‌ای وجود نداشته است — بررسی کنید که <code>&lt;url&gt;#&lt;name&gt;</code> را کدگذاری کرده باشید، نه فقط <code>#&lt;name&gt;</code> را.</li>
+<li><strong>«Base64 is invalid.» / «Deep link has no data».</strong> محتوا خالی است یا قابل رمزگشایی نیست. برای <code>addsub</code> و <code>remoteroute</code> مطمئن شوید که از Base64 <strong>استاندارد</strong> استفاده کرده‌اید: محتوای سازگار با URL که شامل <code>-</code> یا <code>_</code> باشد رد می‌شود.</li>
+<li><strong>«The link did not contain any valid remote routing profiles».</strong> هیچ‌یک از خط‌های رمزگشایی‌شده با <code>http://</code> یا <code>https://</code> شروع نشده است. به یاد داشته باشید محتوا یک فهرست نشانی جداشده با خط جدید است، نه یک آرایهٔ JSON.</li>
+<li><strong>«The link could not be parsed».</strong> محتوای <code>route</code> یک JSON، Base64 یا لینک route معتبر Throne نیست — یا یک شیء JSON بدون نشانگر <code>&quot;kind&quot;: &quot;throne-route-profile&quot;</code> است.</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>تنظیمات پیشرفته حالت TUN در ویندوز</title>
+      <link>https://throneproj.github.io/fa/advanced/windows_tun_mode/</link>
+      <guid>https://throneproj.github.io/fa/advanced/windows_tun_mode/</guid>
+      <description>کاهش ریسک نشت DNS در حالت TUN ویندوز با استفاده از سیاست های سیستم و تنظیمات مرورگر.</description>
+      <content:encoded><![CDATA[<p>در این مطلب توضیح داده می شود که چگونه هنگام استفاده از حالت TUN در ویندوز، احتمال نشت DNS را کاهش دهید.</p>
+<p>نشت DNS می تواند مقصد واقعی اتصال ها و فعالیت شبکه شما را آشکار کند، باعث کاهش حریم خصوصی شود، تحلیل ترافیک توسط ارائه دهنده اینترنت را آسان تر کند و حتی اثربخشی قوانین پروکسی را کاهش دهد.</p>
+<h2 id="1-غیرفعال-کردن-smart-multi-homed-name-resolution-در-ویندوز">1. غیرفعال کردن Smart Multi-Homed Name Resolution در ویندوز</h2>
+<p>در محیطی که کارت شبکه مجازی وجود دارد، امکان نشت DNS وجود دارد. چون چند رابط شبکه فعال هستند، ویندوز ممکن است برای解析 DNS از رابطی که سریع تر پاسخ می دهد استفاده کند و در نتیجه کارت شبکه مجازی دور زده شود.</p>
+<p>پیشنهاد می شود این سیاست را غیرفعال کنید:</p>
+<p>اگر Group Policy Editor را پیدا نمی کنید (معمولاً در نسخه Windows Home)، می توانید این تنظیم را با خط فرمانِ دارای دسترسی مدیر اعمال کنید:</p>
+<ol>
+<li>دستور زیر را کپی کنید:</li>
+</ol>
+<p><code>reg add &quot;HKLM\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient&quot; /v DisableSmartNameResolution /t REG_DWORD /d 1 /f</code></p>
+<ol start="2">
+<li>منوی Start را باز کنید و <code>CMD</code> را جستجو کنید.</li>
+<li>روی <code>Command Prompt</code> راست کلیک کنید و <code>Run as administrator</code> را بزنید.</li>
+<li>دستور را در پنجره Paste کنید و <code>Enter</code> بزنید.</li>
+<li>پس از اجرا، سیستم را ری استارت کنید.</li>
+</ol>
+<p><img loading="lazy" src="https://throneproj.github.io/images/windows-tun-dns-leak/step1-home-edition-cmd.png" alt="اجرای دستور در CMD با دسترسی مدیر در Windows Home" /></p>
+<p><img loading="lazy" src="https://throneproj.github.io/images/windows-tun-dns-leak/step1-disable-smart-multi-homed.png" alt="غیرفعال کردن Smart Multi-Homed Name Resolution - مرحله 1" /></p>
+<p><img loading="lazy" src="https://throneproj.github.io/images/windows-tun-dns-leak/step2-group-policy.png" alt="غیرفعال کردن Smart Multi-Homed Name Resolution - مرحله 2" /></p>
+<p><img loading="lazy" src="https://throneproj.github.io/images/windows-tun-dns-leak/step3-policy-disabled.png" alt="غیرفعال کردن Smart Multi-Homed Name Resolution - مرحله 3" /></p>
+<h2 id="2-غیرفعال-کردن-quic-در-مرورگر">2. غیرفعال کردن QUIC در مرورگر</h2>
+<p>برای نمونه در Chrome، این آدرس را در نوار آدرس وارد کنید:</p>
+<p><code>chrome://flags/</code></p>
+<p>عبارت <code>QUIC</code> را جستجو کنید و مقدار آن را روی <code>Disabled</code> بگذارید.</p>
+<p><img loading="lazy" src="https://throneproj.github.io/images/windows-tun-dns-leak/step4-disable-quic.png" alt="غیرفعال کردن QUIC در مرورگر" /></p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>دانلود</title>
+      <link>https://throneproj.github.io/fa/downloads/</link>
+      <guid>https://throneproj.github.io/fa/downloads/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>پیکربندی</title>
+      <link>https://throneproj.github.io/fa/get_started/configuration/</link>
+      <guid>https://throneproj.github.io/fa/get_started/configuration/</guid>
+      <description>آموزش نحوه پیکربندی Throne.</description>
+      <content:encoded><![CDATA[<p>Throne از دو حالت پروکسی پشتیبانی می‌کند:</p>
+<h2 id="پروکسی-سیستم-system-proxy">پروکسی سیستم (System Proxy)</h2>
+<p>با تغییر تنظیمات پروکسی سیستم، ترافیک کل سیستم را از طریق پروکسی هدایت می‌کند. مناسب برای برنامه‌هایی مانند مرورگرهای وب.</p>
+<h2 id="حالت-tun">حالت TUN</h2>
+<p>یک کارت شبکه مجازی برای پروکسی کردن کل شبکه ایجاد می‌کند. تمام ترافیک شبکه برنامه‌ها، حتی نرم‌افزارهایی که از تنظیمات پروکسی پشتیبانی نمی‌کنند، از پروکسی عبور خواهد کرد.</p>
+<blockquote>
+<p>استفاده از حالت TUN برای پروکسی کردن کامل‌تر پیشنهاد می‌شود.</p>
+</blockquote>
+<blockquote>
+<p>توجه: هنگام فعال کردن حالت TUN، لطفاً پروکسی سیستم را غیرفعال کنید؛ این دو نمی‌توانند همزمان فعال باشند.</p>
+</blockquote>
+<h2 id="وارد-کردن-اشتراک-subscription">وارد کردن اشتراک (Subscription)</h2>
+<h3 id="روش-جایگذاری-paste-مستقیم">روش ۱: جایگذاری (Paste) مستقیم</h3>
+<p>در رابط کاربری اصلی، مستقیماً <code>Ctrl+V</code> را فشار دهید تا لینک اشتراک جایگذاری شود.</p>
+<blockquote>
+<p>پس از وارد کردن، نام گروه به صورت پیش‌فرض <code>Default</code> خواهد بود. می‌توانید روی گروه کلیک راست کرده و <code>به‌روزرسانی اشتراک</code> (Update Subscription) (میانبر: <code>Ctrl+U</code>) را انتخاب کنید.</p>
+</blockquote>
+<h3 id="روش-وارد-کردن-از-طریق-تنظیمات">روش ۲: وارد کردن از طریق تنظیمات</h3>
+<p>۱. به بخش <code>تنظیمات</code> (Settings) → <code>گروه‌ها</code> (Groups) بروید
+۲. یک گروه جدید بسازید و نامی برای آن وارد کنید
+۳. نوع (Type) را به <code>اشتراک</code> (Subscription) تغییر دهید
+۴. لینک اشتراک را در فیلد URL جایگذاری کنید
+۵. برای ذخیره روی تأیید (OK) کلیک کنید
+۶. روی گروه کلیک راست کرده و <code>تازه‌سازی لیست</code> (Refresh List) را انتخاب کنید</p>
+<p><img loading="lazy" src="https://throneproj.github.io/images/configuration/1.png" alt="وارد کردن اشتراک" /></p>
+<p><img loading="lazy" src="https://throneproj.github.io/images/configuration/2.png" alt="تازه‌سازی لیست" /></p>
+<p>اگر لینک درست باشد، لیست پروکسی‌ها تجزیه خواهد شد.</p>
+<p><img loading="lazy" src="https://throneproj.github.io/images/configuration/3.png" alt="لیست پروکسی‌ها" /></p>
+<h2 id="تست-تأخیر-latency">تست تأخیر (Latency)</h2>
+<p>۱. کل لیست را انتخاب کنید، سپس کلیک راست کنید
+۲. گزینه <code>تست URL موارد انتخاب شده</code> (URL Test Selected Items) را انتخاب کنید (میانبر: <code>Ctrl+Shift+S</code>)</p>
+<p><img loading="lazy" src="https://throneproj.github.io/images/configuration/4.png" alt="تست URL" /></p>
+<p>۳. گرهی (node) که کمترین میزان تأخیر را دارد انتخاب کنید، کلیک راست کنید و <code>فعال‌سازی</code> (Enable) را انتخاب کنید یا مستقیماً دکمه <code>Enter</code> را فشار دهید.</p>
+<h2 id="فعالسازی-پروکسی">فعال‌سازی پروکسی</h2>
+<h3 id="پیکربندی-قوانین-rules">پیکربندی قوانین (Rules)</h3>
+<p>چه از حالت TUN و چه از پروکسی سیستم استفاده کنید، باید قوانین مسیریابی (Routing rules) را پیکربندی کنید (با در نظر گرفتن سرزمین اصلی چین به عنوان مثال):</p>
+<p>۱. روی <code>مسیرها</code> (Routes) → <code>دانلود پروفایل تنظیمات</code> (Download Config Profile) کلیک کنید
+۲. <code>Bypass China</code> + <code>Bypass China Blocked</code> را انتخاب کنید
+۳. روی <code>مسیرها</code> (Routes) → <code>تنظیمات مسیریابی</code> (Routing Settings) → <code>مسیرها</code> (Routes) کلیک کنید
+۴. قوانین مسیریابی پیش‌فرض را حذف کرده و فقط دو قانونی که هم‌اکنون دانلود کردید را نگه دارید</p>
+<p><img loading="lazy" src="https://throneproj.github.io/images/configuration/5.png" alt="تنظیمات مسیریابی" /></p>
+<h3 id="راهاندازی-پروکسی">راه‌اندازی پروکسی</h3>
+<blockquote>
+<p>حالت TUN پیشنهاد می‌شود.</p>
+</blockquote>
+<p>۱. ابتدا یک گره (node) را روشن کنید
+۲. سپس یک حالت پروکسی (TUN یا پروکسی سیستم) را انتخاب کنید</p>
+<blockquote>
+<p>توجه: اگر از حالت TUN استفاده می‌کنید، لطفاً هنگام به‌روزرسانی اشتراک، ابتدا TUN را غیرفعال کنید و پس از اتمام به‌روزرسانی، مجدداً آن را فعال کنید.</p>
+</blockquote>
+<p><img loading="lazy" src="https://throneproj.github.io/images/configuration/6.png" alt="راه‌اندازی پروکسی" /></p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>نصب</title>
+      <link>https://throneproj.github.io/fa/get_started/installation/</link>
+      <guid>https://throneproj.github.io/fa/get_started/installation/</guid>
+      <description>چگونه Throne را نصب کنیم و شروع به کار کنیم.</description>
+      <content:encoded><![CDATA[<p>Throne از Windows، Linux و macOS پشتیبانی می کند. روش نصب مناسب برای پلتفرم خود را انتخاب کنید.</p>
+<h2 id="دریافت-فایل-اجرایی">دریافت فایل اجرایی</h2>
+<p>به بروید و فایل مربوط به پلتفرم خود را <a href="https://throneproj.github.io/fa/downloads/">دانلود </a>کنید.</p>
+<h3 id="windows">Windows</h3>
+<h4 id="نسخه-پرتابل-zip">نسخه پرتابل (ZIP)</h4>
+<p>فایل ZIP را استخراج کرده و <code>Throne.exe</code> را اجرا کنید.</p>
+<h4 id="نصبکننده-exe">نصب‌کننده (.exe)</h4>
+<p>فایل <code>Throne-x.x.x-universal-installer.exe</code> را اجرا کنید.</p>
+<h3 id="macos">macOS</h3>
+<p>فایل ZIP را استخراج کنید. با توجه به سیاست های امنیتی سختگیرانه اپل، باید ویژگی قرنطینه را حذف کنید:</p>
+<pre><code class="language-bash hljs">xattr -d com.apple.quarantine /path/to/Throne.app
+</code></pre>
+<p>پیش از اولین اجرا، <code>Throne.app</code> را به پوشه <code>/Applications</code> منتقل کنید. ارتقای دسترسی داخلی، Terminal را باز می‌کند تا بیت setuid-root را روی هسته تنظیم کند و اگر برنامه همچنان داخل <code>~/Downloads</code> باشد، این مرحله ممکن است شکست بخورد.</p>
+<h3 id="linux">Linux</h3>
+<h4 id="نصبکننده-خط-فرمان-پیشنهادی">نصب‌کننده خط فرمان (پیشنهادی)</h4>
+<p>سریع‌ترین راه نصب روی هر توزیعی. اسکریپت، نسخهٔ متناسب با معماری سیستم شما را دانلود می‌کند، آن را در <code>/opt/Throne</code> نصب می‌کند و یک میان‌بر دسکتاپ می‌سازد:</p>
+<pre><code class="language-bash hljs">curl -fsSL https://raw.githubusercontent.com/throneproj/Throne/dev/script/install_linux.py | sudo python3
+</code></pre>
+<p>این اسکریپت به‌صورت یک منوی تعاملی در ترمینال اجرا می‌شود: ابتدا آخرین نسخه‌های پایدار (Stable) و ناپایدار (Unstable) را نشان می‌دهد — و اگر از پیش نسخه‌ای نصب کرده باشید، آن را هم — سپس می‌پرسد که می‌خواهید <strong>Install</strong> کنید یا <strong>Uninstall</strong>، و کدام شاخه نصب شود. به Python 3 و دسترسی root نیاز دارد.</p>
+<p>برای به‌روزرسانی به نسخه‌ای جدیدتر یا برای حذف برنامه، همین دستور را دوباره اجرا کنید. حذف، پوشهٔ <code>/opt/Throne</code> و میان‌بر دسکتاپ را پاک می‌کند اما تنظیمات شما در <code>~/.config/Throne</code> دست‌نخورده باقی می‌ماند.</p>
+<h4 id="نسخه-پرتابل-zip-1">نسخه پرتابل (ZIP)</h4>
+<p>بسته ZIP را دانلود کنید:</p>
+<pre><code class="language-bash hljs">unzip Throne-x.x.x-linux-*.zip
+./Throne
+</code></pre>
+<h4 id="debianubuntu-deb">Debian/Ubuntu (.deb)</h4>
+<pre><code class="language-bash hljs">sudo dpkg -i Throne-x.x.x-debian-*.deb
+</code></pre>
+<p>نسخه <code>-system-qt</code> کتابخانه های Qt را به همراه ندارد و به نسخه های نصب شده در سیستم وابسته است. اگر GUI بارگذاری نشد، نسخه system-qt را امتحان کنید.</p>
+<h2 id="مدیران-بسته-package-managers">مدیران بسته (Package managers)</h2>
+<p>بستگی به توزیع شما، Throne روش‌های مختلفی را برای نصب ارائه می‌دهد.</p>
+<h3 id="winget">WinGet</h3>
+<pre><code class="language-bash hljs">winget install -e --id Throneproj.Throne
+</code></pre>
+<h3 id="scoop">Scoop</h3>
+<pre><code class="language-bash hljs">scoop bucket add extras
+scoop install extras/throne
+</code></pre>
+<h3 id="fedorarhel9">Fedora/RHEL9+</h3>
+<pre><code class="language-bash hljs">sudo curl -o /etc/yum.repos.d/throne.repo https://parhelia512.github.io/throne.repo
+sudo dnf install -y throne --refresh
+</code></pre>
+<p>برای نسخه‌های قدیمی‌تر RHEL، به <a href="https://parhelia512.github.io/">Throne RPM repository</a> مراجعه کنید.</p>
+<h3 id="opensusesles">openSUSE/SLES</h3>
+<pre><code class="language-bash hljs">sudo zypper addrepo -fc https://parhelia512.github.io/throne-sle.repo
+sudo zypper install -y throne
+</code></pre>
+<h3 id="arch-linux-aur">Arch Linux (AUR)</h3>
+<p>برنامه Throne در <strong>Arch User Repository</strong> با نام <code>throne</code> در دسترس است. می‌توانید آن را با استفاده از AUR helper مورد علاقه‌تان نصب کنید.</p>
+<pre><code class="language-bash hljs"># اگر از yay استفاده می‌کنید
+yay -S throne
+
+# اگر از paru استفاده می‌کنید
+paru -S throne
+</code></pre>
+<h3 id="nixos">NixOS</h3>
+<p>کد Nix زیر را به تنظیمات NixOS خود اضافه کنید.</p>
+<pre><code class="language-nix hljs">programs.throne = {
+   enable = true;
+   # tunMode.enable = true; Add this line to enable tun mode
+};
+</code></pre>
+<h3 id="nix">Nix</h3>
+<p>همچنین می‌توانید Throne را با استفاده از مدیر بسته Nix روی هر توزیع پشتیبانی‌شده‌ای نصب کنید.</p>
+<pre><code class="language-bash hljs">nix-env -iA nixos.throne
+</code></pre>
+<p>یا می‌توانید از nix-shell استفاده کنید تا بدون نیاز به نصب، آن را امتحان کنید.</p>
+<pre><code class="language-bash hljs">nix-shell -p throne
+</code></pre>
+<h2 id="ساخت-از-روی-سورس-کد">ساخت از روی سورس کد</h2>
+<p>همچنین این امکان را دارید که Throne را از روی سورس‌کد (کد منبع) کامپایل و نصب کنید.</p>
+<pre><code class="language-bash hljs">git clone --recursive https://github.com/throneproj/Throne.git
+cd Throne
+mkdir build
+cd build
+curl -fLso srslist.h &quot;https://raw.githubusercontent.com/throneproj/routeprofiles/rule-set/srslist.h&quot;
+cmake ..
+make -j$(nproc)
+</code></pre>
+<h2 id="بروزرسانی">بروزرسانی</h2>
+<p>Throne دارای یک عملکرد داخلی برای بروزرسانی است. همچنین می توانید نسخه های جدید را به صورت دستی از <a href="https://github.com/throneproj/Throne/releases">صفحه Releases</a> دانلود کنید.</p>
+<h2 id="عیب-یابی">عیب یابی</h2>
+<h3 id="تشخیص-توسط-آنتی-ویروس">تشخیص توسط آنتی ویروس</h3>
+<p>برخی نرم افزارهای آنتی ویروس ممکن است Throne را به عنوان بدافزار شناسایی کنند زیرا قابلیت بروزرسانی آن فایل ها را دانلود، حذف و جایگزین می کند—که شبیه به رفتار باج افزارها است. به علاوه، ویژگی <code>System DNS</code> تنظیمات DNS سیستم را تغییر می دهد، که برخی از برنامه های آنتی ویروس آن را خطرناک می دانند.</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>
