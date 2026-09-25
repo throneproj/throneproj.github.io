@@ -2,14 +2,28 @@
 name: Hwaro CI/CD
 
 on:
+  push:
+    branches: [main]
+  schedule:
+    # Hourly check for new Throne releases; deploys only when a version changed.
+    - cron: "17 * * * *"
+  repository_dispatch:
+    types: [throne-release]
   workflow_dispatch:
     inputs:
       version:
-        description: "Throne version"
-        required: true
+        description: "Throne desktop version to link (empty = latest release)"
+        required: false
+      android_version:
+        description: "Throne for Android version to link (empty = latest release)"
+        required: false
 
 permissions:
   contents: write
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -19,7 +33,51 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Check docs
+        run: |
+          pip install --quiet pyyaml
+          python scripts/check_docs.py
+
+      - name: Resolve release versions
+        id: versions
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DESKTOP_INPUT: ${{ github.event.inputs.version }}
+          ANDROID_INPUT: ${{ github.event.inputs.android_version }}
+        run: |
+          latest() { gh api "repos/throneproj/$1/releases/latest" --jq .tag_name 2>/dev/null || true; }
+          desktop="${DESKTOP_INPUT:-$(latest Throne)}"
+          android="${ANDROID_INPUT:-$(latest ThroneForAndroid)}"
+          desktop="${desktop#v}"
+          android="${android#v}"
+          if [ -z "$desktop" ] || [ -z "$android" ]; then
+            if [ "$GITHUB_EVENT_NAME" = "schedule" ]; then
+              echo "::warning::Could not read the latest releases; skipping this scheduled deploy."
+              echo "deploy=false" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            echo "::warning::Could not read the latest releases; building with data/versions.yml as committed."
+            desktop="${desktop:-$(sed -n 's/^desktop: "\(.*\)"$/\1/p' data/versions.yml)}"
+            android="${android:-$(sed -n 's/^android: "\(.*\)"$/\1/p' data/versions.yml)}"
+          fi
+          printf 'desktop: "%s"\nandroid: "%s"\n' "$desktop" "$android" > data/versions.yml
+          printf '{"desktop":"%s","android":"%s"}\n' "$desktop" "$android" > static/versions.json
+          deployed="$(curl -fsSL https://throneproj.github.io/versions.json 2>/dev/null || true)"
+          if [ "$GITHUB_EVENT_NAME" = "schedule" ] && [ "$deployed" = "$(cat static/versions.json)" ]; then
+            echo "The site already links desktop $desktop and Android $android."
+            echo "deploy=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Linking desktop $desktop and Android $android."
+            echo "deploy=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Build and Deploy
+        if: steps.versions.outputs.deploy == 'true'
         uses: parhelia512/hwaro@mod
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

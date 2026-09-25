@@ -13,10 +13,19 @@
       <ul class="section-list">
         {{ section.list }}
       </ul>
-      {# Sections are _index.md rather than index.md. See page.html for why the
-         path is rebuilt from the URL. #}
+      {# Sections come from <url>/_index.md. See page.html for why the path is
+         rebuilt from the URL. #}
       {% set src = page.url | replace(lang_prefix ~ "/", "/") %}
+      {% set src_end = src ~ "|" %}
       <footer class="docs-article-footer">
+        {% if page.language == "en" %}
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content{{ src_end | replace("/|", "/_index.md") }}" target="_blank" rel="noopener noreferrer">
+        {% else %}
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content{{ src_end | replace("/|", "/_index." ~ page.language ~ ".md") }}" target="_blank" rel="noopener noreferrer">
+        {% endif %}
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          {{ "ui.edit_page" | t }}
+        </a>
         {% include "partials/prev-next.html" %}
       </footer>
     </article>

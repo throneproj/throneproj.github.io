@@ -10,7 +10,7 @@
     <a href="{{ base_url }}{{ lang_prefix }}/" class="header-logo" aria-label="{{ "ui.home" | t }}">
       <img class="logo" src="{{ base_url }}/images/throne-logo.png" alt="Throne" width="1817" height="346">
     </a>
-    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/{{ env("VERSION") }}" target="_blank" rel="noopener noreferrer">v{{ env("VERSION") }}</a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/{{ site.data.versions.desktop }}" target="_blank" rel="noopener noreferrer">v{{ site.data.versions.desktop }}</a>
 
     <nav class="header-nav" aria-label="{{ "ui.primary_nav_aria" | t }}">
       <a href="{{ base_url }}{{ lang_prefix }}/get_started/">{{ "ui.get_started" | t }}</a>

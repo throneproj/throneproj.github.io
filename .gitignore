@@ -10,3 +10,4 @@ public
 
 # Binary
 src/tailwindcss
+__pycache__/

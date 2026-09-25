@@ -1,5 +1,5 @@
 # UI strings, referenced from templates as {{ "ui.search" | t }}.
-# Every key here must also exist in ko.toml.
+# Every key must exist in all four language files (scripts/check_docs.py checks).
 
 [ui]
 skip_to_content = "پرش به محتوای اصلی"
@@ -42,6 +42,13 @@ link = "لینک"
 installer = "نصب‌کننده"
 portable = "نسخه پرتابل  "
 download = "دانلود"
+install_guide = "راهنمای نصب"
+all_releases = "همه نسخه‌ها"
+android_current_ver = "نسخه فعلی اندروید"
+used_by = "دستگاه‌های رایج"
+abi_arm64 = "بیشتر گوشی‌ها و تبلت‌ها"
+abi_armv7 = "گوشی‌های قدیمی‌تر و بسیاری از باکس‌های تلویزیون"
+abi_x86_64 = "شبیه‌سازها و برخی کروم‌بوک‌ها"
 
 [notfound]
 title = "این صفحه یافت نشد."

@@ -678,7 +678,7 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 2.5rem 0; }
 }
 .prose table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
 .prose thead th {
-  text-align: left; font-weight: 600; color: var(--heading);
+  text-align: start; font-weight: 600; color: var(--heading);
   background: var(--bg-subtle);
   padding: 0.6rem 0.9rem;
   border-bottom: 1px solid var(--border);
@@ -784,7 +784,7 @@ pre.mermaid svg { max-width: 100%; height: auto; margin-inline: auto; }
 }
 .prev-next a:hover { border-color: var(--accent-edge); background: var(--bg-subtle); text-decoration: none; }
 .prevnext-dir { display: block; font-size: var(--fs-xs); color: var(--text-muted); margin-bottom: 0.2rem; }
-.prevnext-next { text-align: right; grid-column: 2; }
+.prevnext-next { text-align: end; grid-column: 2; }
 
 .section-list { list-style: none; padding: 0; display: grid; gap: 0.75rem; margin-top: 1.75rem; }
 .section-list li { margin: 0; }
@@ -919,6 +919,8 @@ pre.mermaid svg { max-width: 100%; height: auto; margin-inline: auto; }
 .downloads-title { font-size: var(--fs-2xl); letter-spacing: -0.03em; }
 .downloads-lede { margin-top: 0.9rem; color: var(--text-secondary); font-size: var(--fs-md); max-width: 60ch; }
 .downloads-intro { margin-top: 1.25rem; }
+.downloads-head + .downloads-head { padding-top: 2.25rem; border-top: 1px solid var(--border-subtle); }
+.downloads-title--sub { font-size: var(--fs-xl); }
 .downloads-intro > * { max-width: 62ch; }
 
 /* -------------------------------------------------------------- 13. Motion */
@@ -1035,7 +1037,9 @@ pre.mermaid svg { max-width: 100%; height: auto; margin-inline: auto; }
   .cell-a, .cell-b, .cell-c, .cell-d, .cell-e { grid-column: span 12; }
   .stat-row { gap: 1.5rem; }
   .prev-next { grid-template-columns: 1fr; }
-  .prevnext-next { grid-column: 1; text-align: left; }
+  .prevnext-next { grid-column: 1; text-align: start; }
+  /* Wide reference tables scroll sideways instead of widening the page. */
+  .prose table { display: block; overflow-x: auto; }
   .footer-links { margin-inline-start: 0; }
   .prose { font-size: 1rem; }
   .flow-cmd { font-size: 0.75rem; }

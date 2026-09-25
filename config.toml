@@ -3,14 +3,14 @@
 # =============================================================================
 
 title = "Throne"
-description = "Powerful, open-source, cross-platform desktop GUI proxy utility."
+description = "Powerful, open-source GUI proxy utility for Windows, Linux, macOS and Android."
 base_url = "https://throneproj.github.io"
 
 # =============================================================================
 # Multilingual
 # =============================================================================
-# Every page must exist in both languages. scripts/check_doc_parity.sh enforces
-# it in CI, because the language switcher would otherwise point at a 404.
+# Every page must exist in every language. scripts/check_docs.py enforces it
+# in CI, because the language switcher would otherwise point at a 404.
 
 default_language = "en"
 

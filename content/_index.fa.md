@@ -1,6 +1,6 @@
 +++
 title = "Throne"
-description = "ابزار پروکسی دسکتاپ با رابط گرافیکی، قدرتمند، متن‌باز و چندپلتفرمی."
+description = "ابزار پروکسی قدرتمند و متن‌باز با رابط گرافیکی برای Windows، Linux، macOS و Android."
 template = "landing"
 +++
 
@@ -24,15 +24,18 @@ template = "landing"
   </div>
   <div class="hero-inner">
     <div class="hero-copy">
-      <h1>ابزار پروکسی دسکتاپ با رابط گرافیکی.</h1>
+      <h1>ابزار پروکسی با رابط گرافیکی برای دسکتاپ و Android.</h1>
       <p class="hero-sub">قدرتمند، متن‌باز، چندپلتفرمی.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="./get_started/">
           شروع کار
-          <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          <svg class="ic" aria-hidden="true"><use href="#i-arrow-left"/></svg>
         </a>
         <a class="btn btn-ghost" href="./downloads/">
-          دانلودها
+          دانلود
+        </a>
+        <a class="btn btn-ghost" href="./android/">
+          Android
         </a>
       </div>
     </div>

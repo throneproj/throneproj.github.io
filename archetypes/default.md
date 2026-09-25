@@ -2,18 +2,17 @@
 title = "{{ title }}"
 description = ""
 weight = 10
-sort_by = "weight"
+toc = true
 +++
 
 <!--
-  Two things before this page is done:
+  Before this page is done:
 
-  1. Create the Korean twin next to it. `<name>.md` needs `<name>.ko.md`, or
-     scripts/check_doc_parity.sh fails the build.
-  2. Add the page to templates/partials/sidebar.html, with an entry in both
-     i18n/en.toml and i18n/ko.toml. A page that is not in the sidebar is an
-     orphan; nothing else links to it.
-
-  `toc = true` is inherited from the section's [cascade], so it is not repeated
-  here. A page with no h2/h3 simply renders no table of contents.
+  1. Create the translations next to it: `<name>.md` needs `<name>.fa.md`,
+     `<name>.ru.md` and `<name>.zh.md`, with the same weight and heading ids.
+  2. Add it to all four data/sidebar_<lang>.yml files, in weight order.
+     A page that is not in the sidebar is an orphan.
+  3. Give every H2 an explicit id (`## Title {#title}`) and link other pages
+     with `@/section/page.md`, never with /section/page/.
+  4. Run `python3 scripts/check_docs.py`.
 -->

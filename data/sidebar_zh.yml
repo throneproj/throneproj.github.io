@@ -1,23 +1,95 @@
-# Sidebar structure for the docs.
-#
-# KEEP IN SYNC WITH FRONT-MATTER WEIGHTS: prev/next navigation and section
-# card grids follow page `weight` (sections sort_by = "weight"), so when you
-# reorder or add links here, mirror the order in the pages' front matter.
-- title: 开始使用
+# 侧边栏结构。链接与顺序必须与 sidebar_en.yml 保持一致。
+- title: "开始使用"
   section: get_started
   items:
-    - title: 概览
+    - title: "概览"
       url: /get_started/
-    - title: 安装
+    - title: "安装"
       url: /get_started/installation/
-    - title: 配置
+    - title: "快速入门"
       url: /get_started/configuration/
-- title: 进阶配置
+- title: "使用指南"
+  section: guides
+  items:
+    - title: "概览"
+      url: /guides/
+    - title: "订阅与分组"
+      url: /guides/subscriptions/
+    - title: "系统代理、TUN 与局域网共享"
+      url: /guides/proxy_modes/
+    - title: "TUN 模式"
+      url: /guides/tun_mode/
+    - title: "路由"
+      url: /guides/routing/
+    - title: "DNS"
+      url: /guides/dns/
+    - title: "测试与自动选择器"
+      url: /guides/testing/
+    - title: "备份、更新与迁移"
+      url: /guides/backup/
+    - title: "常用方案"
+      url: /guides/recipes/
+- title: "Throne for Android"
+  section: android
+  items:
+    - title: "概览"
+      url: /android/
+    - title: "安装与升级"
+      url: /android/installation/
+    - title: "权限与后台运行"
+      url: /android/permissions/
+    - title: "VPN 与代理模式"
+      url: /android/modes/
+    - title: "小部件、图块与自动化"
+      url: /android/widgets/
+    - title: "Android TV"
+      url: /android/tv/
+    - title: "Android 故障排除"
+      url: /android/troubleshooting/
+- title: "进阶配置"
   section: advanced
   items:
-    - title: 概览
+    - title: "概览"
       url: /advanced/
-    - title: Windows 下 TUN 模式进阶
+    - title: "sing-box 与 Xray"
+      url: /advanced/xray/
+    - title: "代理链与自定义配置"
+      url: /advanced/chains/
+    - title: "反审查预设"
+      url: /advanced/presets/
+    - title: "Cloudflare WARP"
+      url: /advanced/warp/
+    - title: "OpenVPN、OpenConnect 与 Tailscale"
+      url: /advanced/vpn_profiles/
+    - title: "Windows DNS 泄漏防护"
       url: /advanced/windows_tun_mode/
-    - title: 深层链接
+    - title: "深度链接"
       url: /advanced/deeplinks/
+- title: "参考"
+  section: reference
+  items:
+    - title: "概览"
+      url: /reference/
+    - title: "协议与导入格式"
+      url: /reference/protocols/
+    - title: "键盘快捷键与托盘"
+      url: /reference/shortcuts/
+    - title: "命令行、文件与日志"
+      url: /reference/files/
+    - title: "隐私与网络请求"
+      url: /reference/privacy/
+    - title: "术语表"
+      url: /reference/glossary/
+- title: "帮助"
+  section: help
+  items:
+    - title: "概览"
+      url: /help/
+    - title: "常见问题"
+      url: /help/faq/
+    - title: "故障排除"
+      url: /help/troubleshooting/
+    - title: "报告 Bug"
+      url: /help/bug_reports/
+    - title: "从 Nekoray / NekoBox 迁移"
+      url: /help/migrating/

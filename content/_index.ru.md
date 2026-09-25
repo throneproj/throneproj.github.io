@@ -1,6 +1,6 @@
 +++
 title = "Throne"
-description = "Мощная, открытая, кроссплатформенная прокси-утилита с графическим интерфейсом."
+description = "Мощная прокси-утилита с открытым исходным кодом и графическим интерфейсом для Windows, Linux, macOS и Android."
 template = "landing"
 +++
 
@@ -24,15 +24,18 @@ template = "landing"
   </div>
   <div class="hero-inner">
     <div class="hero-copy">
-      <h1>Десктопная прокси-утилита с GUI.</h1>
-      <p class="hero-sub">Мощная, с открытым исходным кодом, кроссплатформенная.</p>
+      <h1>Прокси-утилита с GUI для компьютера и Android.</h1>
+      <p class="hero-sub">Мощная, кроссплатформенная, с открытым исходным кодом.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="./get_started/">
           Начать работу
           <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg>
         </a>
         <a class="btn btn-ghost" href="./downloads/">
-          Загрузки
+          Скачать
+        </a>
+        <a class="btn btn-ghost" href="./android/">
+          Android
         </a>
       </div>
     </div>

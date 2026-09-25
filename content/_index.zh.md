@@ -1,6 +1,6 @@
 +++
 title = "Throne"
-description = "功能强大、开源、跨平台的桌面 GUI 代理工具。"
+description = "功能强大、开源的 GUI 代理工具，支持 Windows、Linux、macOS 和 Android。"
 template = "landing"
 +++
 
@@ -24,7 +24,7 @@ template = "landing"
   </div>
   <div class="hero-inner">
     <div class="hero-copy">
-      <h1>桌面 GUI 代理工具。</h1>
+      <h1>适用于桌面和 Android 的 GUI 代理工具。</h1>
       <p class="hero-sub">功能强大，开源，跨平台。</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="./get_started/">
@@ -33,6 +33,9 @@ template = "landing"
         </a>
         <a class="btn btn-ghost" href="./downloads/">
           下载
+        </a>
+        <a class="btn btn-ghost" href="./android/">
+          Android
         </a>
       </div>
     </div>

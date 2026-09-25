@@ -1,5 +1,5 @@
 # UI strings, referenced from templates as {{ "ui.search" | t }}.
-# Every key here must also exist in ko.toml.
+# Every key must exist in all four language files (scripts/check_docs.py checks).
 
 [ui]
 skip_to_content = "跳转到主要内容"
@@ -42,6 +42,13 @@ link = "链接"
 installer = "安装版"
 portable = "便携版"
 download = "下载"
+install_guide = "安装指南"
+all_releases = "所有版本"
+android_current_ver = "当前 Android 版本是"
+used_by = "适用设备"
+abi_arm64 = "大多数手机和平板"
+abi_armv7 = "较旧的手机、许多电视盒子"
+abi_x86_64 = "模拟器、部分 Chromebook"
 
 [notfound]
 title = "页面未找到"

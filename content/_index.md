@@ -1,6 +1,6 @@
 +++
 title = "Throne"
-description = "Powerful, open-source, cross-platform desktop GUI proxy utility."
+description = "Powerful, open-source GUI proxy utility for Windows, Linux, macOS and Android."
 template = "landing"
 +++
 
@@ -24,7 +24,7 @@ template = "landing"
   </div>
   <div class="hero-inner">
     <div class="hero-copy">
-      <h1>Desktop GUI proxy utility.</h1>
+      <h1>GUI proxy utility for desktop and Android.</h1>
       <p class="hero-sub">Powerful, Open-Source, Cross-Platform.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="./get_started/">
@@ -33,6 +33,9 @@ template = "landing"
         </a>
         <a class="btn btn-ghost" href="./downloads/">
           Downloads
+        </a>
+        <a class="btn btn-ghost" href="./android/">
+          Android
         </a>
       </div>
     </div>
