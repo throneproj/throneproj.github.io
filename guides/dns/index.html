@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="How Throne resolves domain names, what each DNS setting does, when FakeIP helps, and how to read a DNS leak test.">
+  <title>DNS - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="DNS">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/guides/dns/">
+  <meta property="og:description" content="How Throne resolves domain names, what each DNS setting does, when FakeIP helps, and how to read a DNS leak test.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="DNS">
+  <meta name="twitter:description" content="How Throne resolves domain names, what each DNS setting does, when FakeIP helps, and how to read a DNS leak test.">
+  <link rel="canonical" href="https://throneproj.github.io/guides/dns/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"DNS","url":"https://throneproj.github.io/guides/dns/","description":"How Throne resolves domain names, what each DNS setting does, when FakeIP helps, and how to read a DNS leak test."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://throneproj.github.io/guides/"},{"@type":"ListItem","position":3,"name":"DNS"}]}</script>
+  <link rel="alternate" hreflang="en" href="https://throneproj.github.io/guides/dns/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/guides/dns/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/guides/dns/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/guides/dns/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/" class="header-logo" aria-label="Throne homepage">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.3.1" target="_blank" rel="noopener noreferrer">v1.3.1</a>
+
+    <nav class="header-nav" aria-label="Primary">
+      <a href="https://throneproj.github.io/get_started/">Get Started</a>
+      <a href="https://throneproj.github.io/downloads/">Downloads</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="Search documentation">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Search</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="Language">
+        
+        <a href="https://throneproj.github.io/guides/dns/" hreflang="en" aria-current="true">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/guides/dns/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/guides/dns/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/guides/dns/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne on GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="Theme">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search documentation" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="Search documentation" placeholder="Search the docs" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Search"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="Documentation">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Get Started</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/installation/">Installation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/configuration/">Quick Start</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Guides</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/guides/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/subscriptions/">Subscriptions & Groups</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/proxy_modes/">System Proxy, TUN & LAN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/tun_mode/">TUN Mode</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/routing/">Routing</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/dns/" aria-current="page">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/testing/">Testing & Auto Selector</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/backup/">Backup, Updates & Migration</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/recipes/">Recipes</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/android/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/installation/">Installation & Upgrade</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/permissions/">Permissions & Background</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/modes/">VPN & Proxy Modes</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/widgets/">Widgets, Tile & Automation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Advanced Configuration</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/xray/">sing-box vs Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/chains/">Chains & Custom Configs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/presets/">Anti-Censorship Presets</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/vpn_profiles/">OpenVPN, OpenConnect & Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/windows_tun_mode/">Windows DNS Leak Protection</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/deeplinks/">Deep Links</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Reference</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/reference/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/protocols/">Protocols & Import Formats</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/shortcuts/">Keyboard Shortcuts & Tray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/files/">Command Line, Files & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/privacy/">Privacy & Network Requests</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/glossary/">Glossary</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Help</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/help/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/faq/">FAQ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/troubleshooting/">Troubleshooting</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/bug_reports/">Reporting a Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/migrating/">Coming from Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">DNS</h1>
+      <p class="docs-lede">How Throne resolves domain names, what each DNS setting does, when FakeIP helps, and how to read a DNS leak test.</p>
+      <div class="prose">
+        <p>Before an app can open a site, a DNS lookup turns the site's name into an IP address. This page explains which DNS server Throne uses for which lookup, what the settings on the <code>DNS</code> tab do, and how to read a DNS leak test. The default settings work for most people.</p>
+<h2 id="how-dns-works">How DNS works in Throne</h2>
+<p>Throne has its own DNS resolver inside the core. It uses three DNS servers:</p>
+<table>
+<thead>
+<tr>
+<th>Server</th>
+<th>How queries travel</th>
+<th>What it is used for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Remote DNS</code></td>
+<td>Through the proxy</td>
+<td>Answers the DNS queries of apps, unless a rule below sends them elsewhere.</td>
+</tr>
+<tr>
+<td><code>Direct DNS</code></td>
+<td>Directly, without the proxy</td>
+<td>Answers queries for domains that your routing profile sends <code>direct</code>. Throne also uses it to look up the address of your proxy server, and the address of a site when it connects to that site directly by name.</td>
+</tr>
+<tr>
+<td><code>Local Override</code></td>
+<td>Directly</td>
+<td>Looks up the names of the two servers above, for example <code>dns.google</code>. Empty means your system&#39;s resolver.</td>
+</tr>
+</tbody>
+</table>
+<p>When an app's query reaches Throne, Throne answers it in this order:</p>
+<ol>
+<li><code>Predefined Answers</code> and <code>Respect Hosts File</code> answer first.</li>
+<li>With <code>Enable FakeIP</code>, address queries get a fake address (see <a href="#fakeip">FakeIP</a>).</li>
+<li>With <code>Enable DNS Routing</code> (on by default), domains that your routing profile sends <code>direct</code> go to Direct DNS. This covers <code>domain:</code>, <code>suffix:</code>, <code>keyword:</code> and <code>regex:</code> rules and built-in <code>geosite-*</code> rule-sets. It does not cover <code>geoip-*</code> rule-sets, IP rules or your own <code>.srs</code> files.</li>
+<li>Everything else goes to the <code>Default DNS server</code>, which is <code>remote</code> by default. If you set it to <code>direct</code>, domains that your routing profile sends to <code>proxy</code> still use Remote DNS, under the same conditions as in step 3.</li>
+</ol>
+<p>Where the queries come from depends on the mode:</p>
+<ul>
+<li><strong>TUN mode.</strong> The DNS queries of your apps go into the tunnel and reach Throne. Throne adds a DNS step to every structured routing profile (the <code>Route DNS</code> or <code>dns-hijack</code> rule in the list does the same), so it answers these queries as described above. A raw routing profile only gets this step if you write it yourself; see <a href="/guides/routing/#raw-profiles">Raw profiles</a>.</li>
+<li><strong>System proxy mode.</strong> Apps that use the proxy send the site's name to Throne. For proxied connections, the proxy server looks the name up. For direct connections, Throne looks it up with Direct DNS. Apps can also look names up themselves with your system's resolver. Those lookups do not pass through Throne.</li>
+</ul>
+<h2 id="settings">Settings</h2>
+<p>Open <code>Settings</code> → <code>Routing Settings</code> → <code>DNS</code>. Changes apply after you click <code>OK</code> and restart the connection.</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Remote DNS</code></td>
+<td><code>https://8.8.8.8/dns-query</code></td>
+<td>The server used through the proxy. The list also offers <code>tls://8.8.8.8</code>, <code>tls://1.1.1.1</code>, <code>8.8.8.8</code> and <code>1.1.1.1</code>.</td>
+</tr>
+<tr>
+<td><code>Direct DNS</code></td>
+<td><code>localhost</code></td>
+<td>The server used without the proxy. <code>localhost</code> means your system&#39;s resolver. Keep it unless it does not work; then choose a server that works on your network without the proxy. The list offers public resolvers in China (<code>223.5.5.5</code>, <code>119.29.29.29</code>), Iran (<code>178.22.122.100</code>) and Russia (<code>77.88.8.8</code>).</td>
+</tr>
+<tr>
+<td><code>Disable IPv6</code> (next to each server)</td>
+<td>off</td>
+<td>Answers IPv6 (AAAA) queries sent to that server with an empty result.</td>
+</tr>
+<tr>
+<td><code>Local Override</code></td>
+<td>empty</td>
+<td>A DNS server used to look up the names of your DNS servers. Set an IP address here when your system&#39;s resolver cannot be used.</td>
+</tr>
+<tr>
+<td><code>Default DNS server</code></td>
+<td><code>remote</code></td>
+<td>The server for queries that no other rule handles: <code>remote</code> or <code>direct</code>.</td>
+</tr>
+<tr>
+<td><code>Enable DNS Routing</code></td>
+<td>on</td>
+<td>Sends queries for domains that go <code>direct</code> to Direct DNS.</td>
+</tr>
+<tr>
+<td><code>Respect Hosts File</code></td>
+<td>off</td>
+<td>Answers A and AAAA queries from your system&#39;s hosts file first. Only domains listed in the file are affected.</td>
+</tr>
+<tr>
+<td><code>Predefined Answers</code></td>
+<td>on</td>
+<td>Fixed answers in hosts-file syntax. The default entry is <code>127.0.0.1 localhost</code>.</td>
+</tr>
+<tr>
+<td><code>Enable FakeIP</code></td>
+<td>off</td>
+<td>See <a href="#fakeip">FakeIP</a>.</td>
+</tr>
+<tr>
+<td><code>FakeIP Disable IPv6</code></td>
+<td>off</td>
+<td>Hands out no fake IPv6 addresses; AAAA queries get an empty answer.</td>
+</tr>
+</tbody>
+</table>
+<p><code>Remote DNS</code>, <code>Direct DNS</code> and <code>Local Override</code> accept these formats:</p>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Plain DNS</td>
+<td><code>8.8.8.8</code> or <code>8.8.8.8:53</code></td>
+</tr>
+<tr>
+<td>DNS over TCP</td>
+<td><code>tcp://8.8.8.8:53</code></td>
+</tr>
+<tr>
+<td>DNS over TLS</td>
+<td><code>tls://1.1.1.1</code></td>
+</tr>
+<tr>
+<td>DNS over HTTPS</td>
+<td><code>https://1.1.1.1/dns-query</code></td>
+</tr>
+<tr>
+<td>DNS over HTTP/3</td>
+<td><code>h3://dns.example.com/dns-query</code></td>
+</tr>
+<tr>
+<td>DNS over QUIC</td>
+<td><code>quic://dns.example.com</code></td>
+</tr>
+<tr>
+<td>The server your network hands out</td>
+<td><code>dhcp://auto</code></td>
+</tr>
+<tr>
+<td>Your system&#39;s resolver (for <code>Direct DNS</code>)</td>
+<td><code>localhost</code></td>
+</tr>
+</tbody>
+</table>
+<p>When the running profile uses Xray and <code>Remote DNS</code> is plain DNS or DNS over QUIC, Throne uses DNS over HTTPS instead. For example, <code>1.1.1.1</code> becomes <code>https://1.1.1.1/dns-query</code>; a server that Throne does not know becomes <code>https://8.8.8.8/dns-query</code>.</p>
+<p><code>Predefined Answers</code> opens an editor with one entry per line:</p>
+<pre><code class="language-text hljs">127.0.0.1 localhost
+10.0.0.5 nas.lan files.lan
+</code></pre>
+<p>A domain that has only an IPv4 address in this list gets &quot;no such domain&quot; for IPv6 queries, and the other way round. This way apps cannot go around your entry.</p>
+<h2 id="fakeip">FakeIP</h2>
+<p>With <code>Enable FakeIP</code>, Throne answers address queries at once with a fake address from <code>198.18.0.0/15</code> (IPv6: <code>fc00::/18</code>), without asking a real DNS server. When the app connects to that address, Throne knows which domain it stands for and routes the connection by name. The real lookup happens later: on the proxy server for proxied connections, or with Direct DNS for direct ones.</p>
+<p>This has two benefits:</p>
+<ul>
+<li>Connections start faster, because apps do not wait for a real DNS answer.</li>
+<li>No DNS query leaves your device before the connection is routed.</li>
+</ul>
+<p>FakeIP only affects queries that reach Throne, so it is useful in TUN mode. It changes nothing for apps in system proxy mode.</p>
+<p>Things to know:</p>
+<ul>
+<li>Answers from <code>Predefined Answers</code> and the hosts file stay real.</li>
+<li>Apps keep fake addresses in their own caches. After you stop Throne, an app that still holds a fake address cannot connect until it looks the name up again. Restart the app if it stays offline.</li>
+<li><code>Advanced Settings</code> → <code>Save Cache To File</code> keeps the fake addresses when Throne restarts.</li>
+</ul>
+<h2 id="advanced">Advanced</h2>
+<p><code>Advanced Settings</code> on the <code>DNS</code> tab controls the DNS cache:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Cache Capacity</code></td>
+<td><code>65536</code></td>
+<td>How many answers the cache keeps.</td>
+</tr>
+<tr>
+<td><code>Query Timeout</code></td>
+<td><code>10s</code></td>
+<td>How long to wait for a DNS server.</td>
+</tr>
+<tr>
+<td><code>Optimistic Cache</code></td>
+<td>off</td>
+<td>Keeps serving an expired answer while it is refreshed in the background. Cannot be combined with <code>Disable Cache</code> or <code>Disable Expire</code>.</td>
+</tr>
+<tr>
+<td><code>Optimistic Timeout</code></td>
+<td><code>3d</code></td>
+<td>How long an expired answer may still be served.</td>
+</tr>
+<tr>
+<td><code>Disable Cache</code></td>
+<td>off</td>
+<td>Turns the DNS cache off.</td>
+</tr>
+<tr>
+<td><code>Disable Expire</code></td>
+<td>off</td>
+<td>Keeps cached answers after they expire.</td>
+</tr>
+<tr>
+<td><code>Save Cache To File</code></td>
+<td>off</td>
+<td>Writes cached answers and FakeIP addresses to the core&#39;s cache file, so they survive a restart. Each entry costs a disk write.</td>
+</tr>
+<tr>
+<td><code>Reverse Mapping</code></td>
+<td>off</td>
+<td>Remembers which domain an answered IP address belongs to, so domain rules can match connections to that address.</td>
+</tr>
+</tbody>
+</table>
+<p>Durations are a number followed by <code>ns</code>, <code>us</code>, <code>ms</code>, <code>s</code>, <code>m</code>, <code>h</code> or <code>d</code>, for example <code>5s</code> or <code>3d</code>.</p>
+<p><code>Use Custom DNS Object</code> replaces everything on this tab with a complete sing-box <code>dns</code> object that you write with <code>Edit DNS Object</code>. The simple settings and <code>Advanced Settings</code> are greyed out while it is on, and features such as DNS routing, FakeIP and predefined answers only work if your object sets them up. In the editor, <code>Format</code> tidies the JSON and <code>Document</code> shows the address of the <a href="https://sing-box.sagernet.org/configuration/dns/">sing-box DNS documentation</a>.</p>
+<aside class="callout callout--warning">
+  <span class="callout-label">Warning</span>
+  <p>Keep a server with the tag <code>dns-direct</code> in a custom DNS object. Throne's routing uses it to look up server addresses.</p>
+
+</aside>
+<h2 id="leak-tests">DNS leak tests</h2>
+<p>A DNS leak test is a website that shows which DNS servers looked up its test names. The result depends on your mode and your routing profile.</p>
+<p>These results are expected:</p>
+<ul>
+<li><strong>Your Remote DNS provider</strong> (Google with the default setting). Your queries went through Remote DNS and the proxy. This is the normal result for sites you proxy.</li>
+<li><strong>Your internet provider, for sites that go direct.</strong> Throne looks up domains that go direct with Direct DNS, which is your system's resolver by default and usually belongs to your internet provider. In system proxy mode, or with FakeIP, this also happens for sites that go direct only because the routing profile's default outbound is <code>direct</code>, as in the &quot;Proxy … Blocked&quot; profiles. Direct traffic reaches the site without the proxy anyway, so your provider sees it either way.</li>
+<li><strong>Your internet provider, in system proxy mode.</strong> Browsers and apps can look up names themselves, outside Throne. Use TUN mode if this matters to you.</li>
+<li><strong>Your browser's own provider,</strong> when the browser uses secure DNS (DNS over HTTPS). Those lookups are ordinary HTTPS connections that follow your routing rules.</li>
+<li><strong>Your internet provider for most names,</strong> when <code>Default DNS server</code> is <code>direct</code>.</li>
+</ul>
+<p>A real problem looks like this: you use TUN mode and a routing profile that sends the test site through the proxy (for example <code>Default</code>), and the test still shows your internet provider. Then some queries go around the tunnel. On Windows, check that <code>Settings</code> → <code>Tun Settings</code> → <code>Strict Route</code> is on (the default on Windows 10 and later), and follow <a href="/advanced/windows_tun_mode/#strict-route">Windows DNS Leak Protection</a>.</p>
+<p>WebRTC tests check a different thing: your IP address, not your DNS. A WebRTC test that shows no public IP address is fine (<a href="https://github.com/throneproj/Throne/issues/1267">#1267</a>). If it shows your real public IP address for a site you proxy, UDP traffic went around the proxy. This is common in system proxy mode; use TUN mode instead.</p>
+<h2 id="deprecated">Hijack and System DNS (deprecated)</h2>
+<p>The <code>Hijack</code> tab of <code>Routing Settings</code> and the Windows <code>System DNS</code> option are deprecated in 1.3.1 and will be removed in the next release. Hijack ran a local DNS server that answered chosen domains with fixed addresses, and <code>System DNS</code> pointed Windows at that server. Both served apps that ignore the system proxy. <code>Tun Mode</code> covers the same use case, so turn them off and use <code>Tun Mode</code> instead.</p>
+<p>While Hijack is enabled, Throne shows a warning at startup. The <code>System DNS</code> checkbox is hidden unless <code>Basic Settings</code> → <code>Style</code> → <code>Show System DNS option</code> is on.</p>
+<h2 id="android">On Android</h2>
+<p>Throne for Android has the same DNS settings in <code>Settings</code> → <code>DNS</code>. FakeIP is called <code>Enable FakeDNS</code> there. In VPN mode, Throne always handles the DNS queries inside the VPN.</p>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/guides/dns.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          Edit this page on GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="Page navigation">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/guides/routing/">
+    <span class="prevnext-dir">Previous</span>
+    Routing
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/guides/testing/">
+    <span class="prevnext-dir">Next</span>
+    Testing & Auto Selector
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="On this page">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    On this page
+  </p>
+  <ul><li><a href="#how-dns-works">How DNS works in Throne</a></li><li><a href="#settings">Settings</a></li><li><a href="#fakeip">FakeIP</a></li><li><a href="#advanced">Advanced</a></li><li><a href="#leak-tests">DNS leak tests</a></li><li><a href="#deprecated">Hijack and System DNS (deprecated)</a></li><li><a href="#android">On Android</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "Copy",
+    copied: "Copied",
+    copyManual: "Press Ctrl C",
+    noResults: "No results for",
+    theme: "Theme",
+    themeAuto: "auto",
+    themeLight: "light",
+    themeDark: "dark"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

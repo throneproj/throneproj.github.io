@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="在 Windows 上，严格路由如何阻止 TUN 模式下的 DNS 泄漏，以及无法使用它时该怎么办。">
+  <title>Windows DNS 泄漏防护 - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="Windows DNS 泄漏防护">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/zh/advanced/windows_tun_mode/">
+  <meta property="og:description" content="在 Windows 上，严格路由如何阻止 TUN 模式下的 DNS 泄漏，以及无法使用它时该怎么办。">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Windows DNS 泄漏防护">
+  <meta name="twitter:description" content="在 Windows 上，严格路由如何阻止 TUN 模式下的 DNS 泄漏，以及无法使用它时该怎么办。">
+  <link rel="canonical" href="https://throneproj.github.io/zh/advanced/windows_tun_mode/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Windows DNS 泄漏防护","url":"https://throneproj.github.io/zh/advanced/windows_tun_mode/","description":"在 Windows 上，严格路由如何阻止 TUN 模式下的 DNS 泄漏，以及无法使用它时该怎么办。"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/zh/"},{"@type":"ListItem","position":2,"name":"进阶配置","item":"https://throneproj.github.io/zh/advanced/"},{"@type":"ListItem","position":3,"name":"Windows DNS 泄漏防护"}]}</script>
+  <link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/advanced/windows_tun_mode/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/advanced/windows_tun_mode/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/advanced/windows_tun_mode/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/advanced/windows_tun_mode/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">跳转到主要内容</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="打开导航" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/zh/" class="header-logo" aria-label="Throne 首页">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.3.1" target="_blank" rel="noopener noreferrer">v1.3.1</a>
+
+    <nav class="header-nav" aria-label="主导航">
+      <a href="https://throneproj.github.io/zh/get_started/">开始使用</a>
+      <a href="https://throneproj.github.io/zh/downloads/">下载</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="搜索文档">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>搜索</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="语言">
+        
+        <a href="https://throneproj.github.io/advanced/windows_tun_mode/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/advanced/windows_tun_mode/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/advanced/windows_tun_mode/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/advanced/windows_tun_mode/" hreflang="zh" aria-current="true">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne 在 GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="主题">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="搜索文档" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="搜索文档" placeholder="搜索文档" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="搜索"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="文档导航">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>开始使用</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/installation/">安装</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/configuration/">快速入门</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>使用指南</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/subscriptions/">订阅与分组</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/proxy_modes/">系统代理、TUN 与局域网共享</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/tun_mode/">TUN 模式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/routing/">路由</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/testing/">测试与自动选择器</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/backup/">备份、更新与迁移</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/recipes/">常用方案</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/installation/">安装与升级</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/permissions/">权限与后台运行</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/modes/">VPN 与代理模式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/widgets/">小部件、图块与自动化</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/troubleshooting/">Android 故障排除</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>进阶配置</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/xray/">sing-box 与 Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/chains/">代理链与自定义配置</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/presets/">反审查预设</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/vpn_profiles/">OpenVPN、OpenConnect 与 Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/windows_tun_mode/" aria-current="page">Windows DNS 泄漏防护</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/deeplinks/">深度链接</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>参考</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/protocols/">协议与导入格式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/shortcuts/">键盘快捷键与托盘</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/files/">命令行、文件与日志</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/privacy/">隐私与网络请求</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/glossary/">术语表</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>帮助</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/faq/">常见问题</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/troubleshooting/">故障排除</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/bug_reports/">报告 Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/migrating/">从 Nekoray / NekoBox 迁移</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">Windows DNS 泄漏防护</h1>
+      <p class="docs-lede">在 Windows 上，严格路由如何阻止 TUN 模式下的 DNS 泄漏，以及无法使用它时该怎么办。</p>
+      <div class="prose">
+        <p>在 TUN 模式下，Windows 仍可能通过你平常的网卡（而不是隧道）发送 DNS 查询。这样你的运营商就能看到你查询了哪些网站，这就是 DNS 泄漏。本页介绍 Throne 如何防止 DNS 泄漏、如何确认防护已开启，以及无法使用该防护时该怎么办。</p>
+<p>本页只涉及 <a href="/zh/guides/tun_mode/">TUN 模式</a>。<code>严格路由</code>（Strict Route）在 <code>系统代理</code>（System Proxy）模式下不起作用；在该模式下，忽略代理的应用会自行连接并解析域名。</p>
+<h2 id="strict-route">严格路由</h2>
+<p>Windows 可能会同时把同一个 DNS 查询发送给所有网卡的 DNS 服务器。即使 Windows 最终采用了来自隧道的应答，该查询也已经在隧道之外、通过你平常的网卡发送出去了。</p>
+<p><code>严格路由</code> 可以阻止这种情况。在 TUN 模式运行期间，Throne 会添加 Windows 防火墙过滤规则，用于：</p>
+<ul>
+<li>在除隧道以外的所有网卡上阻止 DNS 查询（端口 53），使 Windows 从 Throne 获得应答；</li>
+<li>在 <code>Tun 启用 IPv6</code>（Tun Enable IPv6）关闭时阻止其他应用的 IPv6 连接，以免经由 IPv6 泄漏。</li>
+</ul>
+<p>ThroneCore 本身不会被阻止。TUN 模式停止或 Throne 退出时，这些过滤规则会随之消失。它们也可能阻止那些必须在隧道之外访问 DNS 服务器或使用 IPv6 的程序。</p>
+<p>从 Throne 1.2.1 起，<code>严格路由</code> 在 Windows 10 和 11 上默认开启。开启后，你就不需要下文的注册表备用方案。</p>
+<h3 id="check">确认已开启</h3>
+<ol>
+<li>打开 <code>设置</code>（Settings）→ <code>Tun 设置</code>（Tun Settings）。</li>
+<li>确认已勾选 <code>严格路由</code>。</li>
+<li>点击 <code>确定</code>（OK）。</li>
+<li>如果 <code>Tun 模式</code>（Tun Mode）已开启，请将其关闭后再重新开启。Throne 会提示“重启 Tun 以生效。”（Restart Tun to take effect）</li>
+</ol>
+<h3 id="when-off">未开启的情况</h3>
+<p>以下情况下，<code>严格路由</code> 可能处于关闭状态：</p>
+<ul>
+<li><strong>Windows 7、8 或 8.1。</strong> <code>严格路由</code> 无法在 Windows 10 之前的 Windows 上工作，因此 Throne 不会开启它。</li>
+<li><strong>你在出错后关闭了它。</strong> 如果 Windows 无法设置这些过滤规则，配置档将无法启动，Throne 会显示“严格的路由不可用”（Strict routing unavailable）。该消息建议关闭 <code>严格路由</code>，但这样也会失去防护。如果能排除故障原因，请重新开启它。</li>
+<li><strong>你是从 Throne 1.2.0 开始使用的。</strong> 该版本中 <code>严格路由</code> 默认关闭，而更新会保留你已保存的设置。请现在勾选它。</li>
+</ul>
+<p>如果无法使用 <code>严格路由</code>，请采用下文的注册表备用方案。</p>
+<h2 id="registry-fallback">注册表备用方案</h2>
+<p>在不使用 <code>严格路由</code> 的情况下，你可以关闭 Windows 中同时向所有网卡发送 DNS 查询的功能。其组策略名称为 <code>关闭智能多宿主名称解析</code>（Turn off smart multi-homed name resolution）。这种方法的防护效果弱于 <code>严格路由</code>：它只改变 Windows 选择 DNS 服务器的方式，并不阻止任何流量。该策略存在于 Windows 8 及更高版本中，因此 Windows 7 上这两种防护都不可用。</p>
+<h3 id="group-policy">使用组策略（专业版、企业版、教育版）</h3>
+<ol>
+<li>在开始菜单中搜索 <code>编辑组策略</code>（Edit group policy）并打开它。</li>
+<li>依次进入 <code>计算机配置</code>（Computer Configuration）→ <code>管理模板</code>（Administrative Templates）→ <code>网络</code>（Network）→ <code>DNS 客户端</code>（DNS Client）。</li>
+<li>双击 <code>关闭智能多宿主名称解析</code>。</li>
+<li>选择 <code>已启用</code>（Enabled），然后点击 <code>确定</code>（OK）。</li>
+<li>重启 Windows。</li>
+</ol>
+<aside class="callout callout--warning">
+  <span class="callout-label">警告</span>
+  <p>请选择 <code>已启用</code>，而不是 <code>已禁用</code>（Disabled）。启用此策略才会关闭该功能。如果你之前按照旧的说明选择了 <code>已禁用</code>，请将其改为 <code>已启用</code>。</p>
+
+</aside>
+<h3 id="windows-home">使用注册表（Windows 家庭版）</h3>
+<p>Windows 家庭版没有组策略编辑器。以下命令会在注册表中设置相同的策略：</p>
+<pre><code class="language-text hljs">reg add &quot;HKLM\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient&quot; /v DisableSmartNameResolution /t REG_DWORD /d 1 /f
+</code></pre>
+<ol>
+<li>复制上面的命令。</li>
+<li>在开始菜单中搜索 <code>cmd</code>。</li>
+<li>右键点击 <code>命令提示符</code>（Command Prompt），选择 <code>以管理员身份运行</code>（Run as administrator）。</li>
+<li>粘贴命令并按 <code>Enter</code>。</li>
+<li>重启 Windows。</li>
+</ol>
+<p>要撤销此设置，请以同样的方式运行以下命令，然后重启 Windows：</p>
+<pre><code class="language-text hljs">reg delete &quot;HKLM\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient&quot; /v DisableSmartNameResolution /f
+</code></pre>
+<p>如果你使用的是组策略，请改为将该策略设回 <code>未配置</code>（Not Configured）。</p>
+<h2 id="browsers">浏览器</h2>
+<h3 id="encrypted-dns">加密 DNS</h3>
+<p>浏览器可以使用自带的加密 DNS（DNS over HTTPS），Windows 11 也可以为网卡启用它。这些查询不使用端口 53，因此不会被 <code>严格路由</code> 阻止，也不会使用 Throne 的 DNS 设置。此时泄漏测试会显示该 DNS 服务商的服务器。</p>
+<p>如果你希望所有查询都经过 Throne 的 DNS，请在浏览器的隐私或安全设置中关闭安全 DNS 选项，并在 Windows 设置中为网卡关闭 DNS over HTTPS。</p>
+<h3 id="quic">QUIC</h3>
+<p>关闭 QUIC 并不能解决 DNS 泄漏，它针对的是另一个问题。许多网站（例如 Google 和 YouTube）使用 QUIC（基于 UDP 的 HTTP/3），而有些代理服务器对 UDP 的支持很差，甚至完全不支持。如果这些网站通过隧道访问时加载缓慢或无法打开，而其他网站正常，请在浏览器中关闭 QUIC，让它改用 TCP。</p>
+<p>在 Chrome 中：</p>
+<ol>
+<li>打开 <code>chrome://flags/</code>。</li>
+<li>搜索 <code>QUIC</code>。</li>
+<li>将 <code>Experimental QUIC protocol</code> 设为 <code>Disabled</code>。</li>
+<li>点击 <code>Relaunch</code>。</li>
+</ol>
+<h2 id="still-leaking">仍有泄漏？</h2>
+<ul>
+<li><strong>检查路由设置。</strong> 有些结果是正常的。例如，被规则设为直连的域名会有意使用 <code>直连 DNS</code>（Direct DNS）进行解析，而这通常就是你的运营商的 DNS 服务器。<a href="/zh/guides/dns/#leak-tests">DNS 泄漏测试</a>中列出了预期的结果。</li>
+<li><strong>检查安全软件。</strong> 有些杀毒软件和防火墙产品会自行过滤或重定向 DNS。请在暂停它们后再测试，或者为 Throne 添加例外。</li>
+<li><strong>检查其他 VPN 应用。</strong> 使用 TUN 模式时，请断开其他 VPN 客户端，它们也可能修改 DNS 设置和防火墙规则。</li>
+</ul>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/advanced/windows_tun_mode.zh.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          在 GitHub 上编辑此页
+        </a>
+        
+
+<nav class="prev-next" aria-label="页面导航">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/zh/advanced/vpn_profiles/">
+    <span class="prevnext-dir">上一页</span>
+    OpenVPN、OpenConnect 与 Tailscale
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/zh/advanced/deeplinks/">
+    <span class="prevnext-dir">下一页</span>
+    深度链接
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="本页导航">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    本页导航
+  </p>
+  <ul><li><a href="#strict-route">严格路由</a><ul><li><a href="#check">确认已开启</a></li><li><a href="#when-off">未开启的情况</a></li></ul></li><li><a href="#registry-fallback">注册表备用方案</a><ul><li><a href="#group-policy">使用组策略（专业版、企业版、教育版）</a></li><li><a href="#windows-home">使用注册表（Windows 家庭版）</a></li></ul></li><li><a href="#browsers">浏览器</a><ul><li><a href="#encrypted-dns">加密 DNS</a></li><li><a href="#quic">QUIC</a></li></ul></li><li><a href="#still-leaking">仍有泄漏？</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "复制",
+    copied: "已复制",
+    copyManual: "请按 Ctrl C",
+    noResults: "未找到相关结果：",
+    theme: "主题",
+    themeAuto: "自动",
+    themeLight: "浅色",
+    themeDark: "深色"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

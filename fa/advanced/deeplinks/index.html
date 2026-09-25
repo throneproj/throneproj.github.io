@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="با لینک‌های throne:// اشتراک‌ها، نمایه‌های مسیریابی و نمایه‌های پروکسی را با یک کلیک در دسکتاپ و Android اضافه کنید.">
+  <title>لینک‌های عمیق - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="لینک‌های عمیق">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/fa/advanced/deeplinks/">
+  <meta property="og:description" content="با لینک‌های throne:// اشتراک‌ها، نمایه‌های مسیریابی و نمایه‌های پروکسی را با یک کلیک در دسکتاپ و Android اضافه کنید.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="لینک‌های عمیق">
+  <meta name="twitter:description" content="با لینک‌های throne:// اشتراک‌ها، نمایه‌های مسیریابی و نمایه‌های پروکسی را با یک کلیک در دسکتاپ و Android اضافه کنید.">
+  <link rel="canonical" href="https://throneproj.github.io/fa/advanced/deeplinks/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"لینک‌های عمیق","url":"https://throneproj.github.io/fa/advanced/deeplinks/","description":"با لینک‌های throne:// اشتراک‌ها، نمایه‌های مسیریابی و نمایه‌های پروکسی را با یک کلیک در دسکتاپ و Android اضافه کنید."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/fa/"},{"@type":"ListItem","position":2,"name":"پیکربندی پیشرفته","item":"https://throneproj.github.io/fa/advanced/"},{"@type":"ListItem","position":3,"name":"لینک‌های عمیق"}]}</script>
+  <link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/advanced/deeplinks/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/advanced/deeplinks/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/advanced/deeplinks/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/advanced/deeplinks/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="باز کردن منو" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/fa/" class="header-logo" aria-label="صفحه اصلی Throne">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.3.1" target="_blank" rel="noopener noreferrer">v1.3.1</a>
+
+    <nav class="header-nav" aria-label="اصلی">
+      <a href="https://throneproj.github.io/fa/get_started/">شروع کار</a>
+      <a href="https://throneproj.github.io/fa/downloads/">دانلود</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="جستجو در مستندات">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>جستجو</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="زبان">
+        
+        <a href="https://throneproj.github.io/advanced/deeplinks/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/advanced/deeplinks/" hreflang="fa" aria-current="true">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/advanced/deeplinks/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/advanced/deeplinks/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne در GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="تم">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="جستجو در مستندات" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="جستجو در مستندات" placeholder="جستجو در مستندات" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="جستجو"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="مسیریابی مستندات">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>شروع کار</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/installation/">نصب</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/configuration/">شروع سریع</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>راهنماها</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/subscriptions/">اشتراک‌ها و گروه‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/proxy_modes/">پروکسی سیستمی، TUN و اشتراک‌گذاری در شبکهٔ محلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/tun_mode/">حالت TUN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/routing/">مسیریابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/testing/">تست و انتخابگر خودکار</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/backup/">پشتیبان‌گیری، به‌روزرسانی و مهاجرت</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/recipes/">دستورالعمل‌های کاربردی</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne برای Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/installation/">نصب و ارتقا</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/permissions/">مجوزها و اجرا در پس‌زمینه</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/modes/">حالت‌های VPN و پروکسی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/widgets/">ویجت‌ها، کاشی و خودکارسازی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/troubleshooting/">عیب‌یابی Android</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>پیکربندی پیشرفته</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/xray/">sing-box در برابر Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/chains/">زنجیره‌های پروکسی و پیکربندی‌های سفارشی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/presets/">پیش‌تنظیم‌های ضدسانسور</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/vpn_profiles/">OpenVPN، OpenConnect و Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/windows_tun_mode/">محافظت از نشت DNS در Windows</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/deeplinks/" aria-current="page">لینک‌های عمیق</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>مرجع</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/protocols/">پروتکل‌ها و قالب‌های واردکردن</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/shortcuts/">میانبرهای صفحه‌کلید و سینی سیستم</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/files/">خط فرمان، فایل‌ها و گزارش‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/privacy/">حریم خصوصی و درخواست‌های شبکه</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/glossary/">واژه‌نامه</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>پشتیبانی</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/faq/">پرسش‌های متداول</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/troubleshooting/">عیب‌یابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/bug_reports/">گزارش باگ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/migrating/">مهاجرت از Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">لینک‌های عمیق</h1>
+      <p class="docs-lede">با لینک‌های throne:// اشتراک‌ها، نمایه‌های مسیریابی و نمایه‌های پروکسی را با یک کلیک در دسکتاپ و Android اضافه کنید.</p>
+      <div class="prose">
+        <p>لینک عمیق یک URL از نوع <code>throne://</code> است که به Throne می‌گوید یک کار مشخص را انجام دهد: افزودن یک اشتراک، وارد کردن یک نمایهٔ مسیریابی، افزودن نمایه‌های مسیریابی راه‌دور یا افزودن یک نمایهٔ پروکسی. ارائه‌دهندگان، لینک‌های عمیق را در وب‌سایت‌ها و کدهای QR قرار می‌دهند. شما هم می‌توانید از آن‌ها برای به‌اشتراک‌گذاشتن نمایه‌های مسیریابی خودتان استفاده کنید.</p>
+<h2 id="receive">Throne چگونه لینک عمیق را دریافت می‌کند</h2>
+<p>سیستم شما باید بداند که لینک‌های <code>throne://</code> را Throne باز می‌کند. Throne خودش را فقط برای حساب کاربری شما ثبت می‌کند و این کار به دسترسی مدیر (administrator) نیاز ندارد.</p>
+<table>
+<thead>
+<tr>
+<th>سیستم</th>
+<th>ثبت پیش‌فرض</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Linux</td>
+<td>بله</td>
+</tr>
+<tr>
+<td>macOS</td>
+<td>بله، وقتی Throne را از <code>Throne.app</code> اجرا می‌کنید</td>
+</tr>
+<tr>
+<td>Windows، نصب‌شده با نصب‌کننده</td>
+<td>بله</td>
+</tr>
+<tr>
+<td>Windows، استخراج‌شده از فایل ZIP</td>
+<td>خیر</td>
+</tr>
+</tbody>
+</table>
+<p>برای روشن کردن ثبت، برای مثال در یک نسخهٔ ZIP در Windows:</p>
+<ol>
+<li><code>تنظیمات</code> (Settings) ← <code>تنظیمات پایه</code> (Basic Settings) را باز کنید.</li>
+<li>در زبانهٔ <code>متداول</code> (Common)، زیر <code>Links and Files</code>، گزینهٔ <code>Register throne:// links at startup</code> را تیک بزنید.</li>
+<li><code>تایید</code> (OK) را بزنید. Throne بی‌درنگ خودش را ثبت می‌کند.</li>
+</ol>
+<p>تا وقتی این گزینه روشن است، Throne در هر بار اجرا ثبت را بررسی و ترمیم می‌کند، برای مثال پس از جابه‌جا کردن پوشهٔ Throne. اگر چند نسخه در Windows یا Linux نگه می‌دارید، لینک‌ها در آخرین نسخه‌ای باز می‌شوند که با این گزینهٔ روشن اجرا شده است.</p>
+<p>وضعیت کنار این گزینه، وقتی لینک‌ها در همین نسخهٔ Throne باز می‌شوند، <code>Installed</code> را نشان می‌دهد. دکمهٔ <code>Install</code> یک بار ثبت می‌کند، بدون اینکه گزینه را روشن کند. <code>Uninstall</code> ثبت را حذف و گزینه را خاموش می‌کند. برداشتن تیک گزینه به‌تنهایی، ثبت موجود را نگه می‌دارد.</p>
+<p><strong>macOS:</strong> کنترل‌کنندهٔ لینک بخشی از <code>Throne.app</code> است؛ بنابراین دکمه‌های <code>Install</code> و <code>Uninstall</code> وجود ندارند. اگر Throne از بستهٔ برنامه (app bundle) اجرا نشود، این گزینه <code>Not available for this installation</code> را نشان می‌دهد.</p>
+<p>Throne لینک عمیق را به این روش‌ها می‌پذیرد:</p>
+<ul>
+<li><strong>کلیک روی لینک</strong> در مرورگر، برنامهٔ گفت‌وگو یا یک سند. اگر Throne در حال اجرا نباشد، ابتدا اجرا می‌شود و سپس لینک را پردازش می‌کند.</li>
+<li><strong>کپی کردن لینک</strong> و زدن <code>Ctrl+V</code> در پنجرهٔ اصلی، که همان <code>برنامه</code> (Program) ← <code>افزودن نمایه از کلیپ بورد</code> (Add profile from clipboard) است. این روش حتی وقتی ثبت خاموش است کار می‌کند.</li>
+<li><strong>کشیدن متن لینک</strong> و رها کردن آن روی پنجرهٔ اصلی.</li>
+<li><strong>دادن لینک به‌عنوان آرگومان</strong> هنگام اجرای Throne. <a href="/fa/reference/files/#command-line">خط فرمان</a> را ببینید.</li>
+</ul>
+
+<aside class="callout callout--info">
+  <span class="callout-label">نکته</span>
+  <p>در دسکتاپ، <code>کد QR را اسکن کنید</code> (Scan QR Code) و تصویرهای QR که روی پنجره رها می‌شوند، فقط لینک‌های <code>add</code> را وارد می‌کنند. برای لینک عمیق دیگری که در یک کد QR است، متن پس از <code>QR Code Result:</code> را از زبانهٔ <code>گزارش‌ها</code> (Logs) کپی کنید و <code>Ctrl+V</code> را بزنید.</p>
+
+</aside>
+<h2 id="format">ساختار لینک</h2>
+<p>همهٔ لینک‌های عمیق شکل یکسانی دارند:</p>
+<pre><code class="language-text hljs">throne://&lt;command&gt;/&lt;payload&gt;
+</code></pre>
+<ul>
+<li><code>throne://</code> را با حروف کوچک بنویسید. دستور به بزرگی و کوچکی حروف حساس نیست: <code>throne://AddSub/…</code> کار می‌کند.</li>
+<li>پس از دستور باید یک اسلش و محتوا (payload) بیاید. بدون اسلش، بیشتر لینک‌ها کاری انجام نمی‌دهند.</li>
+<li>Throne هر چیزی را که پس از <code>?</code> یا <code>#</code> در لینک بیاید نادیده می‌گیرد. هر چه لینک حمل می‌کند درون محتوا است.</li>
+<li>اگر محتوا percent-encode شده باشد (برای مثال <code>%2B</code> به‌جای <code>+</code>)، Throne ابتدا آن را رمزگشایی می‌کند.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>دستور</th>
+<th>کاربرد</th>
+<th>اول می‌پرسد؟</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>addsub</code></td>
+<td>یک گروه اشتراک اضافه و آن را به‌روز می‌کند</td>
+<td>بله</td>
+</tr>
+<tr>
+<td><code>route</code></td>
+<td>یک نمایهٔ مسیریابی را که درون لینک است وارد می‌کند</td>
+<td>بله</td>
+</tr>
+<tr>
+<td><code>remoteroute</code></td>
+<td>نمایه‌های مسیریابی راه‌دور را با URL اضافه می‌کند</td>
+<td>بله</td>
+</tr>
+<tr>
+<td><code>add</code></td>
+<td>یک نمایهٔ پروکسی به گروه فعلی اضافه می‌کند</td>
+<td>خیر. در Android، وقتی روی لینک در برنامهٔ دیگری بزنید، بله.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="base64">قوانین Base64</h3>
+<p>محتوا متنی با کدگذاری Base64 است. اینکه کدام الفبای Base64 کار کند به دستور بستگی دارد:</p>
+<table>
+<thead>
+<tr>
+<th>دستور</th>
+<th>محتوای پذیرفته‌شده</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>addsub</code>، <code>remoteroute</code></td>
+<td>فقط Base64 استاندارد: حروف، ارقام، <code>+</code> و <code>/</code>. padding با <code>=</code> در انتها اختیاری است.</td>
+</tr>
+<tr>
+<td><code>route</code>، <code>add</code></td>
+<td>Base64 سازگار با URL (<code>-</code> و <code>_</code>) یا Base64 استاندارد، با یا بدون padding. خود Throne، Base64 سازگار با URL و بدون padding می‌نویسد.</td>
+</tr>
+</tbody>
+</table>
+<p>برای <code>addsub</code> و <code>remoteroute</code>، محتوای سازگار با URL که <code>-</code> یا <code>_</code> داشته باشد ناموفق می‌شود. محتوا را در یک خط و بدون فاصله نگه دارید.</p>
+<p>برای کدگذاری محتوا در Linux، یا در Git Bash روی Windows:</p>
+<pre><code class="language-bash hljs">printf '%s' 'https://example.com/sub/abc123#MyProvider' | base64 -w 0
+</code></pre>
+<p>در macOS، <code>-w 0</code> را حذف کنید. در PowerShell:</p>
+<pre><code class="language-powershell hljs">[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes('https://example.com/sub/abc123#MyProvider'))
+</code></pre>
+<p>هر دو فرمان، Base64 استاندارد با padding چاپ می‌کنند.</p>
+<h2 id="addsub"><code>addsub</code>: افزودن اشتراک</h2>
+<p>یک گروه اشتراک جدید اضافه می‌کند و بی‌درنگ آن را به‌روز می‌کند.</p>
+<pre><code class="language-text hljs">throne://addsub/&lt;base64&gt;
+</code></pre>
+<p>محتوا، Base64 یک خط است:</p>
+<pre><code class="language-text hljs">&lt;subscription_url&gt;#&lt;group_name&gt;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>بخش</th>
+<th>الزامی</th>
+<th>توضیح</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;subscription_url&gt;</code></td>
+<td>بله</td>
+<td>URL اشتراک، بدون تغییر. نویسه‌های <code>?</code>، <code>&amp;</code> و <code>/</code> آن درون Base64 بی‌خطرند؛ بنابراین لازم نیست آن را percent-encode کنید.</td>
+</tr>
+<tr>
+<td><code>#&lt;group_name&gt;</code></td>
+<td>خیر</td>
+<td>نام گروه جدید. بدون آن، نام گروه از میزبان (host) URL گرفته می‌شود. percent-encode کردن نام اختیاری است: یک فاصلهٔ ساده هم کار می‌کند.</td>
+</tr>
+</tbody>
+</table>
+<p>برای مثال، برای افزودن <code>https://example.com/sub/abc123</code> به‌عنوان گروهی با نام <code>MyProvider</code>، متن <code>https://example.com/sub/abc123#MyProvider</code> را کدگذاری کنید:</p>
+<pre><code class="language-text hljs">throne://addsub/aHR0cHM6Ly9leGFtcGxlLmNvbS9zdWIvYWJjMTIzI015UHJvdmlkZXI=
+</code></pre>
+<p>Throne پرسش «Add this subscription?» (این اشتراک اضافه شود؟) را با نام گروه، URL و یک کادر انتخاب <code>Auto update</code> تیک‌خورده نشان می‌دهد. پس از تأیید شما، Throne گروه را می‌سازد و آن را به‌روز می‌کند.</p>
+
+<aside class="callout callout--info">
+  <span class="callout-label">نکته</span>
+  <p><code>Auto update</code> فقط تعیین می‌کند که آیا گروه جدید در به‌روزرسانی‌های خودکار شرکت کند یا نه: وقتی تیک خورده باشد، <code>لغو به‌روزرسانی اتوماتیک</code> (Skip automatic update) در تنظیمات گروه خاموش است. به‌روزرسانی‌های خودکار به <code>تنظیمات پایه</code> (Basic Settings) ← <code>اشتراک</code> (Subscription) ← <code>Subscription auto update</code> ← <code>فعال کردن</code> (Enable) هم نیاز دارند که به‌طور پیش‌فرض خاموش است. <a href="/fa/guides/subscriptions/#auto-update">اشتراک‌ها و گروه‌ها</a> را ببینید.</p>
+
+</aside>
+<h2 id="route"><code>route</code>: وارد کردن نمایهٔ مسیریابی</h2>
+<p>یک نمایهٔ مسیریابی کامل (خروجی پیش‌فرض و قوانین) را که درون لینک است وارد می‌کند.</p>
+<pre><code class="language-text hljs">throne://route/&lt;base64&gt;
+</code></pre>
+<p>لازم نیست این لینک‌ها را دستی بسازید. در <code>تنظیمات مسیریابی</code> (Routing Settings)، در زبانهٔ <code>مسیر</code> (Route)، نمایه را انتخاب کنید و <code>استخراج</code> (Export) را بزنید، یا در فهرست <code>Ctrl+C</code> را بزنید. Throne یک لینک <code>throne://route/…</code> را در کلیپ‌بورد کپی می‌کند.</p>
+<p>وقتی کسی لینک را باز کند، Throne پرسش «Add this routing profile?» (این نمایهٔ مسیریابی اضافه شود؟) را همراه با نام نمایه و یادداشت‌هایی دربارهٔ هر چیزی که نتوانسته وارد کند نشان می‌دهد. پس از تأیید، نمایه به فهرست او اضافه می‌شود. اگر نمایه نقطه‌های پایانی (endpoint) VPN داشته باشد، Throne پیش از پرسیدن، آن نمایه‌های OpenVPN یا OpenConnect را می‌سازد و حتی اگر وارد کردن لغو شود آن‌ها را نگه می‌دارد. نمایهٔ واردشده فعال نمی‌شود: آن را در فهرست پایین منوی <code>مسیریابی</code> (Routing) انتخاب کنید.</p>
+<p>محتوا، Base64 یک شیء JSON کوچک مانند این است:</p>
+<pre><code class="language-json hljs">{
+  &quot;kind&quot;: &quot;throne-route-profile&quot;,
+  &quot;v&quot;: 1,
+  &quot;name&quot;: &quot;Example&quot;,
+  &quot;default_outbound&quot;: &quot;proxy&quot;,
+  &quot;rules&quot;: []
+}
+</code></pre>
+<p>این لینک همان JSON را حمل می‌کند:</p>
+<pre><code class="language-text hljs">throne://route/eyJraW5kIjoidGhyb25lLXJvdXRlLXByb2ZpbGUiLCJ2IjoxLCJuYW1lIjoiRXhhbXBsZSIsImRlZmF1bHRfb3V0Ym91bmQiOiJwcm94eSIsInJ1bGVzIjpbXX0
+</code></pre>
+<p><code>default_outbound</code> یکی از <code>proxy</code>، <code>direct</code>، <code>block</code> یا <code>warp-bypass</code> است. یک نمایهٔ خام (بخش <code>route</code> دست‌نویس sing-box) به‌جای <code>rules</code>، مقدار <code>&quot;raw&quot;: true</code> و یک شیء <code>route</code> دارد. Throne سرورهایی را که قوانین استفاده می‌کنند از روی نام پیدا می‌کند و دربارهٔ هر سروری که پیدا نکند به شما اطلاع می‌دهد. برای اطلاعات بیشتر دربارهٔ اشتراک‌گذاری، <a href="/fa/guides/routing/#share-profiles">مسیریابی</a> را ببینید.</p>
+<h3 id="routing-settings-import">وارد کردن در تنظیمات مسیریابی</h3>
+<p>همچنین می‌توانید لینک را در زبانهٔ <code>مسیر</code> (Route) از <code>تنظیمات مسیریابی</code> (Routing Settings) جای‌گذاری کنید: <code>Import</code> را بزنید، یا در فهرست <code>Ctrl+V</code> را بزنید. در پنجرهٔ اصلی، فقط متنی که با <code>throne://</code> شروع شود لینک عمیق به حساب می‌آید. اینجا Throne محتوای Base64 به‌تنهایی، JSON ساده و فهرست JSON قوانین به سبک قدیمی را هم می‌پذیرد؛ فهرست قدیمی در ویرایشگر باز می‌شود تا برایش نام بگذارید. نمایه‌ای که از یک لینک <code>route</code>، Base64 آن یا JSON آن وارد شود، وقتی <code>تایید</code> (OK) را بزنید، <code>نمایه مسیریابی</code> (Routing Profile) انتخاب‌شده در زبانهٔ <code>متداول</code> (Common) هم می‌شود.</p>
+<p>لینک <code>remoteroute</code> که اینجا جای‌گذاری شود، نمایه‌هایش را با به‌روزرسانی خودکار خاموش اضافه می‌کند، چون این پرسش کادر انتخاب <code>Auto update</code> ندارد. بعداً می‌توانید <code>Auto update</code> را در ویرایشگر هر نمایه تیک بزنید.</p>
+<h2 id="remoteroute"><code>remoteroute</code>: افزودن نمایه‌های مسیریابی راه‌دور</h2>
+<p>یک یا چند نمایهٔ مسیریابی راه‌دور اضافه می‌کند. لینک <code>route</code> کل نمایه را حمل می‌کند. لینک <code>remoteroute</code> فقط URLها را حمل می‌کند: Throne هر نمایه را دانلود می‌کند و می‌تواند آن را به‌روز نگه دارد. از آن برای توزیع نمایهٔ مسیریابی‌ای که خودتان نگهداری می‌کنید استفاده کنید.</p>
+<pre><code class="language-text hljs">throne://remoteroute/&lt;base64&gt;
+</code></pre>
+<p>محتوا، Base64 یک فهرست سادهٔ URL است، هر کدام در یک خط. JSON نیست:</p>
+<pre><code class="language-text hljs">&lt;profile_url_1&gt;#&lt;name_1&gt;
+&lt;profile_url_2&gt;#&lt;name_2&gt;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>بخش</th>
+<th>الزامی</th>
+<th>توضیح</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;profile_url&gt;</code></td>
+<td>بله</td>
+<td>یک URL با <code>http://</code> یا <code>https://</code>. خط‌هایی که با یکی از این‌ها شروع نشوند نادیده گرفته می‌شوند.</td>
+</tr>
+<tr>
+<td><code>#&lt;name&gt;</code></td>
+<td>خیر</td>
+<td>نام نمایه. بدون آن، نام نمایه از میزبان (host) URL گرفته می‌شود.</td>
+</tr>
+</tbody>
+</table>
+<p>هر URL باید یک نمایهٔ مسیریابی ساخت‌یافته ارائه کند: یک لینک <code>throne://route/</code>، محتوای Base64 آن یا JSON درون آن. نمایه‌های خام را نمی‌توان به‌عنوان نمایهٔ راه‌دور استفاده کرد.</p>
+<p>برای مثال، این دو خط را کدگذاری کنید:</p>
+<pre><code class="language-bash hljs">printf '%s\n%s' 'https://example.com/routes/bypass-iran.json#BypassIran' 'https://example.com/routes/ads.json' | base64 -w 0
+</code></pre>
+<p>نتیجه این لینک است:</p>
+<pre><code class="language-text hljs">throne://remoteroute/aHR0cHM6Ly9leGFtcGxlLmNvbS9yb3V0ZXMvYnlwYXNzLWlyYW4uanNvbiNCeXBhc3NJcmFuCmh0dHBzOi8vZXhhbXBsZS5jb20vcm91dGVzL2Fkcy5qc29u
+</code></pre>
+<p>Throne نشانی‌ها را زیر پرسش «Add these remote routing profiles?» (این نمایه‌های مسیریابی راه‌دور اضافه شوند؟) فهرست می‌کند، با یک کادر انتخاب <code>Auto update</code> برای همهٔ آن‌ها. این کادر تیک خورده است. پس از تأیید، Throne نمایه‌ها را اضافه و دانلود می‌کند. گزارش‌ها نشان می‌دهند چند نمایه دریافت شده است.</p>
+<ul>
+<li>Throne نمایه‌هایی را که <code>Auto update</code> آن‌ها روشن است، فقط وقتی تازه‌سازی می‌کند که <code>تنظیمات پایه</code> (Basic Settings) ← <code>اشتراک</code> (Subscription) ← <code>Routing profiles auto update</code> ← <code>فعال کردن</code> (Enable) تیک خورده باشد. این گزینه به‌طور پیش‌فرض خاموش است. برای به‌روزرسانی دستی، از <code>Update</code> در زبانهٔ <code>مسیر</code> (Route) از <code>تنظیمات مسیریابی</code> (Routing Settings) استفاده کنید. <a href="/fa/guides/routing/#remote-profiles">نمایه‌های راه‌دور</a> را ببینید.</li>
+<li>هر به‌روزرسانی، قوانین و خروجی پیش‌فرض نمایه را با موارد دانلودشده جایگزین می‌کند. نام نمایه تغییر نمی‌کند.</li>
+<li>URLهای روی <code>raw.githubusercontent.com</code> از راه <code>Remote Rule-set Mirror</code> که در زبانهٔ <code>متداول</code> (Common) از <code>تنظیمات مسیریابی</code> انتخاب شده دانلود می‌شوند (به‌طور پیش‌فرض یک آینهٔ jsDelivr). یک آینه ممکن است تا مدتی پس از تغییر فایل، نسخهٔ قدیمی‌تری را ارائه کند.</li>
+<li><code>مسیریابی</code> (Routing) ← <code>Download Profiles</code> هم به همین شکل کار می‌کند: یک لینک <code>remoteroute</code> را از مخزن نمایه‌های مسیریابی Throne دانلود می‌کند و همان پرسش را نشان می‌دهد.</li>
+</ul>
+<h2 id="add"><code>add</code>: افزودن یک نمایهٔ پروکسی</h2>
+<p>یک نمایهٔ پروکسی به گروه فعلی اضافه می‌کند.</p>
+<pre><code class="language-text hljs">throne://add/&lt;base64&gt;
+</code></pre>
+<p>محتوا، Base64 تنظیمات خروجی نمایه به‌صورت JSON است. در دسکتاپ این لینک تأیید نمی‌خواهد: نمایه بی‌درنگ اضافه می‌شود، درست مانند اینکه یک لینک <code>vless://</code> یا <code>ss://</code> را جای‌گذاری کرده باشید.</p>
+<p>Throne این لینک‌ها را برای شما می‌سازد:</p>
+<ul>
+<li>روی نمایه‌ها در فهرست راست‌کلیک کنید ← <code>اشتراک گذاری</code> (Share) ← <code>Copy links of selected (Deep Links)</code> (<code>Ctrl+Alt+C</code>).</li>
+<li>روی یک نمایه راست‌کلیک کنید ← <code>اشتراک گذاری</code> (Share) ← <code>کد QR و پیوند</code> (QR Code and link). پنجره یا لینک اشتراک‌گذاری معمولی را نشان می‌دهد یا لینک عمیق را. برای جابه‌جایی میان آن‌ها، <code>Deep Link</code> را تیک بزنید.</li>
+<li><code>گروه ها</code> (Groups) ← <code>Edit current Group</code> → <code>Copy profile share links (Deep Links)</code>.</li>
+</ul>
+<p>لینک عمیق پیکربندی کامل نمایه را حمل می‌کند؛ بنابراین برای نوع‌ها و گزینه‌هایی از نمایه که لینک اشتراک‌گذاری استاندارد ندارند هم کار می‌کند. برای چنین نمایه‌هایی، <code>لینک های انتخاب شده را کپی کنید</code> (Copy links of selected) با میانبر <code>Ctrl+C</code> معمولاً به‌طور خودکار یک لینک عمیق کپی می‌کند و پنجرهٔ QR با <code>Deep Link</code> تیک‌خورده باز می‌شود. اگر چنین نمایه‌ای گزینه‌های اتصال پیشرفته داشته باشد، مانند bind interface، به‌جای آن از <code>Copy links of selected (Deep Links)</code> استفاده کنید.</p>
+<p>لینک‌های <code>add</code> هر جا که لینک‌های اشتراک‌گذاری معمولی کار می‌کنند هم کار می‌کنند: درون اشتراک‌ها، در فایل‌ها و در کدهای QR.</p>
+<h2 id="android">در Android</h2>
+<p>Throne برای Android نسخهٔ 2.0.0 همین چهار دستور را پردازش می‌کند. همچنین لینک‌های <code>clash://install-config?url=…&amp;name=…</code> را می‌پذیرد که مانند <code>addsub</code> یک اشتراک اضافه می‌کنند. در این لینک‌ها، مقدار <code>url</code> را percent-encode کنید. طرح (scheme) <code>throne://</code> هنگام نصب برنامه ثبت می‌شود؛ تنظیمی برای آن وجود ندارد.</p>
+<p>روی لینک در برنامهٔ دیگری بزنید، یا در صفحهٔ <code>پیکربندی</code> (Profiles) از <code>اضافه‌کردن پراکسی جدید</code> (Add profile) ← <code>وارد کردن از بریده‌دان</code> (Import from clipboard) یا <code>اسکن از کد QR</code> (Scan QR code) استفاده کنید. در Android، کدهای QR برای هر چهار دستور کار می‌کنند. لینک‌های <code>route</code> و <code>remoteroute</code> با <code>Import</code> در صفحهٔ <code>مسیریابی</code> (Routing) هم کار می‌کنند.</p>
+<p>تفاوت‌ها با دسکتاپ:</p>
+<ul>
+<li>لینک <code>add</code> که در برنامهٔ دیگری روی آن بزنید، ابتدا می‌پرسد «تأیید می‌کنید که می‌خواهید پراکسی … اضافه شود؟» (Confirm you want to import profile …?). لینک‌هایی مانند <code>vless://</code> که در برنامهٔ دیگری روی آن‌ها بزنید هم همین را می‌پرسند. از کلیپ‌بورد یا کد QR، نمایه بدون پرسش وارد می‌شود.</li>
+<li>نمایهٔ مسیریابی واردشده اضافه می‌شود اما فعال نمی‌شود. برای استفاده، روی آن در صفحهٔ <code>مسیریابی</code> (Routing) بزنید.</li>
+<li>نمایه‌های مسیریابی خام از دسکتاپ (<code>&quot;raw&quot;: true</code>) با پیام «raw routing profiles are not supported on Android» (نمایه‌های مسیریابی خام در Android پشتیبانی نمی‌شوند) رد می‌شوند. نقطه‌های پایانی در یک نمایهٔ مسیریابی اشتراکی با یک یادداشت کنار گذاشته می‌شوند.</li>
+<li>دستور ناشناخته پیام «Ignored deeplink with unknown command: …» (لینک عمیق با دستور ناشناخته نادیده گرفته شد) را روی صفحه نشان می‌دهد، نه فقط در گزارش.</li>
+<li>به‌روزرسانی‌های زمان‌بندی‌شده برای اشتراک‌ها به <code>تنظیمات</code> (Settings) ← <code>اشتراک‌ها</code> (Subscriptions) ← <code>Subscription auto update</code> و برای نمایه‌های مسیریابی راه‌دور به <code>تنظیمات</code> ← <code>Routing</code> → <code>Auto update remote profiles</code> نیاز دارند. هر دو به‌طور پیش‌فرض خاموش‌اند.</li>
+</ul>
+<p>برنامهٔ Android هم می‌تواند این لینک‌ها را بسازد: لینک‌های <code>add</code> برای نمایه‌ها و لینک‌های <code>route</code> برای نمایه‌های مسیریابی.</p>
+<h2 id="troubleshooting">عیب‌یابی</h2>
+<p>این پیام‌ها مربوط به Throne دسکتاپ هستند.</p>
+<ul>
+<li><strong>کلیک روی لینک کاری نمی‌کند، یا مرورگر می‌پرسد از کدام برنامه استفاده شود.</strong> کنترل‌کنندهٔ لینک برای این نسخه ثبت نشده است. در نسخهٔ ZIP در Windows، <code>Register throne:// links at startup</code> را روشن کنید (<a href="#receive">Throne چگونه لینک عمیق را دریافت می‌کند</a> را ببینید). در macOS، Throne را از <code>Throne.app</code> اجرا کنید. در غیر این صورت، Throne را یک بار اجرا کنید. اگر چند نسخه نگه می‌دارید، در نسخه‌ای که باید لینک‌ها را باز کند <code>Install</code> را بزنید. همیشه می‌توانید به‌جای آن، لینک را کپی کنید و در Throne <code>Ctrl+V</code> را بزنید.</li>
+<li><strong>Linux: لینک‌ها هنوز باز نمی‌شوند.</strong> ثبت، ابزار <code>update-desktop-database</code> از بستهٔ <code>desktop-file-utils</code> را اجرا می‌کند. اگر این ابزار نصب نبود، آن را نصب کنید، سپس <code>Install</code> را در کنار <code>Register throne:// links at startup</code> بزنید.</li>
+<li><strong>هیچ اتفاقی نمی‌افتد و گزارش خالی می‌ماند.</strong> Throne این لینک‌ها را بدون پیام کنار می‌گذارد:
+<ul>
+<li>لینک <code>addsub</code> که محتوای آن Base64 استاندارد معتبر نیست، برای مثال Base64 سازگار با URL با <code>-</code> یا <code>_</code>، یا محتوایی با فاصله یا شکست خط؛</li>
+<li>لینکی بدون اسلش پس از دستور، به‌جز لینک‌های <code>add</code> و <code>remoteroute</code>؛</li>
+<li>لینکی با دستور ناشناخته که محتوای آن رمزگشایی نمی‌شود.</li>
+</ul>
+</li>
+<li><strong>«Ignored deeplink with unknown command: …» (لینک عمیق با دستور ناشناخته نادیده گرفته شد) در گزارش.</strong> واژهٔ پس از <code>throne://</code> یکی از <code>addsub</code>، <code>route</code>، <code>remoteroute</code> یا <code>add</code> نیست. املای آن را بررسی کنید.</li>
+<li><strong>«The link did not contain a subscription URL.» (لینک، URL اشتراک نداشت.)</strong> محتوای <code>addsub</code> رمزگشایی شد، اما پیش از <code>#</code>، URL وجود ندارد. <code>&lt;url&gt;#&lt;name&gt;</code> را کدگذاری کنید، نه فقط <code>#&lt;name&gt;</code>.</li>
+<li><strong>«Deep link has no data» (لینک عمیق داده ندارد) یا «Base64 is invalid.» (Base64 نامعتبر است.)</strong> این پیام‌ها از لینک‌های <code>remoteroute</code> هستند: پس از <code>throne://remoteroute/</code> چیزی نیامده، یا محتوا Base64 استاندارد نیست.</li>
+<li><strong>«The link did not contain any valid http(s) routing profile URLs.» (لینک هیچ URL معتبر http(s) برای نمایهٔ مسیریابی نداشت.)</strong> محتوای <code>remoteroute</code> رمزگشایی شد، اما هیچ خطی با <code>http://</code> یا <code>https://</code> شروع نمی‌شود. محتوا باید فهرستی از URLها باشد، هر کدام در یک خط، نه JSON.</li>
+<li><strong>«The link did not contain any valid remote routing profiles.» (لینک هیچ نمایهٔ مسیریابی راه‌دور معتبری نداشت.)</strong> لینک پس از <code>remoteroute</code> اسلش ندارد.</li>
+<li><strong>«The link could not be parsed:» (لینک قابل تجزیه نبود:) همراه با یک دلیل.</strong> این پیام از لینک‌های <code>route</code> است:
+<ul>
+<li>«Empty input» (ورودی خالی): پس از <code>throne://route/</code> چیزی نیامده است.</li>
+<li>«Input is not valid JSON, base64, or a Throne route link» (ورودی، JSON، base64 یا لینک route معتبر Throne نیست): محتوا آسیب دیده یا ناقص است.</li>
+<li>«Unrecognized route object» (شیء route ناشناخته): JSON مقدار <code>&quot;kind&quot;: &quot;throne-route-profile&quot;</code> را ندارد.</li>
+</ul>
+</li>
+<li><strong>«0 نمایه وارد شد» (Imported 0 profile(s)) در گزارش.</strong> محتوای یک لینک <code>add</code> آسیب دیده یا ناقص است. یا کد QR اسکن‌شده یک لینک <code>addsub</code>، <code>route</code> یا <code>remoteroute</code> دارد: متن پس از <code>QR Code Result:</code> را از گزارش کپی کنید و <code>Ctrl+V</code> را بزنید.</li>
+<li><strong>«Remote routing profile … failed: …» (نمایهٔ مسیریابی راه‌دور … ناموفق بود: …) در گزارش.</strong> نمایه اضافه شد، اما URL آن دانلود نشد یا نمایهٔ مسیریابی ساخت‌یافته‌ای ارائه نمی‌کند. URL یا فایل را اصلاح کنید، سپس از <code>Update</code> در زبانهٔ <code>مسیر</code> (Route) از <code>تنظیمات مسیریابی</code> (Routing Settings) استفاده کنید.</li>
+</ul>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/advanced/deeplinks.fa.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          ویرایش این صفحه در GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="مسیریابی صفحه">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/fa/advanced/windows_tun_mode/">
+    <span class="prevnext-dir">قبلی</span>
+    محافظت از نشت DNS در Windows
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/fa/reference/">
+    <span class="prevnext-dir">بعدی</span>
+    مرجع
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="در این صفحه">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    در این صفحه
+  </p>
+  <ul><li><a href="#receive">Throne چگونه لینک عمیق را دریافت می‌کند</a></li><li><a href="#format">ساختار لینک</a><ul><li><a href="#base64">قوانین Base64</a></li></ul></li><li><a href="#addsub">addsub: افزودن اشتراک</a></li><li><a href="#route">route: وارد کردن نمایهٔ مسیریابی</a><ul><li><a href="#routing-settings-import">وارد کردن در تنظیمات مسیریابی</a></li></ul></li><li><a href="#remoteroute">remoteroute: افزودن نمایه‌های مسیریابی راه‌دور</a></li><li><a href="#add">add: افزودن یک نمایهٔ پروکسی</a></li><li><a href="#android">در Android</a></li><li><a href="#troubleshooting">عیب‌یابی</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "کپی",
+    copied: "کپی شد",
+    copyManual: "کلید Ctrl C را فشار دهید",
+    noResults: "نتیجه‌ای یافت نشد برای",
+    theme: "تم",
+    themeAuto: "خودکار",
+    themeLight: "روشن",
+    themeDark: "تاریک"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

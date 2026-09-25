@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="از Throne نسخهٔ پشتیبان بگیرید و آن را بازیابی کنید، داده‌هایتان را بین دسکتاپ و Android جابه‌جا کنید، برنامهٔ دسکتاپ را به‌روز کنید و از نسخه‌های قدیمی ارتقا دهید.">
+  <title>پشتیبان‌گیری، به‌روزرسانی و مهاجرت - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="پشتیبان‌گیری، به‌روزرسانی و مهاجرت">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/fa/guides/backup/">
+  <meta property="og:description" content="از Throne نسخهٔ پشتیبان بگیرید و آن را بازیابی کنید، داده‌هایتان را بین دسکتاپ و Android جابه‌جا کنید، برنامهٔ دسکتاپ را به‌روز کنید و از نسخه‌های قدیمی ارتقا دهید.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="پشتیبان‌گیری، به‌روزرسانی و مهاجرت">
+  <meta name="twitter:description" content="از Throne نسخهٔ پشتیبان بگیرید و آن را بازیابی کنید، داده‌هایتان را بین دسکتاپ و Android جابه‌جا کنید، برنامهٔ دسکتاپ را به‌روز کنید و از نسخه‌های قدیمی ارتقا دهید.">
+  <link rel="canonical" href="https://throneproj.github.io/fa/guides/backup/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"پشتیبان‌گیری، به‌روزرسانی و مهاجرت","url":"https://throneproj.github.io/fa/guides/backup/","description":"از Throne نسخهٔ پشتیبان بگیرید و آن را بازیابی کنید، داده‌هایتان را بین دسکتاپ و Android جابه‌جا کنید، برنامهٔ دسکتاپ را به‌روز کنید و از نسخه‌های قدیمی ارتقا دهید."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/fa/"},{"@type":"ListItem","position":2,"name":"راهنماها","item":"https://throneproj.github.io/fa/guides/"},{"@type":"ListItem","position":3,"name":"پشتیبان‌گیری، به‌روزرسانی و مهاجرت"}]}</script>
+  <link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/guides/backup/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/guides/backup/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/guides/backup/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/guides/backup/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="باز کردن منو" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/fa/" class="header-logo" aria-label="صفحه اصلی Throne">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.3.1" target="_blank" rel="noopener noreferrer">v1.3.1</a>
+
+    <nav class="header-nav" aria-label="اصلی">
+      <a href="https://throneproj.github.io/fa/get_started/">شروع کار</a>
+      <a href="https://throneproj.github.io/fa/downloads/">دانلود</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="جستجو در مستندات">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>جستجو</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="زبان">
+        
+        <a href="https://throneproj.github.io/guides/backup/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/guides/backup/" hreflang="fa" aria-current="true">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/guides/backup/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/guides/backup/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne در GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="تم">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="جستجو در مستندات" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="جستجو در مستندات" placeholder="جستجو در مستندات" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="جستجو"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="مسیریابی مستندات">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>شروع کار</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/installation/">نصب</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/configuration/">شروع سریع</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>راهنماها</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/subscriptions/">اشتراک‌ها و گروه‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/proxy_modes/">پروکسی سیستمی، TUN و اشتراک‌گذاری در شبکهٔ محلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/tun_mode/">حالت TUN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/routing/">مسیریابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/testing/">تست و انتخابگر خودکار</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/backup/" aria-current="page">پشتیبان‌گیری، به‌روزرسانی و مهاجرت</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/recipes/">دستورالعمل‌های کاربردی</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne برای Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/installation/">نصب و ارتقا</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/permissions/">مجوزها و اجرا در پس‌زمینه</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/modes/">حالت‌های VPN و پروکسی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/widgets/">ویجت‌ها، کاشی و خودکارسازی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/troubleshooting/">عیب‌یابی Android</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>پیکربندی پیشرفته</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/xray/">sing-box در برابر Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/chains/">زنجیره‌های پروکسی و پیکربندی‌های سفارشی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/presets/">پیش‌تنظیم‌های ضدسانسور</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/vpn_profiles/">OpenVPN، OpenConnect و Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/windows_tun_mode/">محافظت از نشت DNS در Windows</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/deeplinks/">لینک‌های عمیق</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>مرجع</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/protocols/">پروتکل‌ها و قالب‌های واردکردن</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/shortcuts/">میانبرهای صفحه‌کلید و سینی سیستم</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/files/">خط فرمان، فایل‌ها و گزارش‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/privacy/">حریم خصوصی و درخواست‌های شبکه</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/glossary/">واژه‌نامه</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>پشتیبانی</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/faq/">پرسش‌های متداول</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/troubleshooting/">عیب‌یابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/bug_reports/">گزارش باگ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/migrating/">مهاجرت از Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">پشتیبان‌گیری، به‌روزرسانی و مهاجرت</h1>
+      <p class="docs-lede">از Throne نسخهٔ پشتیبان بگیرید و آن را بازیابی کنید، داده‌هایتان را بین دسکتاپ و Android جابه‌جا کنید، برنامهٔ دسکتاپ را به‌روز کنید و از نسخه‌های قدیمی ارتقا دهید.</p>
+      <div class="prose">
+        <p>این صفحه نشان می‌دهد چگونه نمایه‌ها و تنظیمات خود را در یک فایل ذخیره کنید، آن‌ها را بازیابی کنید و بین Throne دسکتاپ و Throne برای Android جابه‌جا کنید. همچنین توضیح می‌دهد چگونه برنامهٔ دسکتاپ را به‌روز کنید و اگر از یک نسخهٔ قدیمی می‌آیید چه کنید. پیش از هر به‌روزرسانی، یک نسخهٔ پشتیبان بسازید.</p>
+<h2 id="backup-restore">پشتیبان‌گیری و بازیابی</h2>
+<p><code>تنظیمات</code> (Settings) ← <code>تنظیمات پایه</code> (Basic Settings) ← <code>Backup and Restore</code> را باز کنید.</p>
+<p>برای ساختن نسخهٔ پشتیبان:</p>
+<ol>
+<li>زیر <code>Create Backup</code>، بخش‌هایی را که می‌خواهید تیک بزنید. همهٔ بخش‌ها به‌طور پیش‌فرض تیک خورده‌اند.</li>
+<li>روی <code>Create Backup...</code> کلیک کنید و محل ذخیرهٔ فایل را انتخاب کنید. نام پیشنهادی <code>Throne-backup.thrbackup</code> در پوشهٔ خانگی شماست.</li>
+<li>Throne ساخته شدن فایل را تأیید می‌کند و بخش‌هایی را که در آن گنجانده است فهرست می‌کند.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>بخش</th>
+<th>محتوا</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Profiles (groups and proxies)</code></td>
+<td>گروه‌ها، اشتراک‌ها و نمایه‌های شما.</td>
+</tr>
+<tr>
+<td><code>Routing profiles</code></td>
+<td>نمایه‌های مسیریابی شما و قوانین آن‌ها.</td>
+</tr>
+<tr>
+<td><code>Settings</code></td>
+<td>همهٔ تنظیمات، از جمله تنظیمات DNS، TUN، WARP و ورودی (inbound).</td>
+</tr>
+<tr>
+<td><code>OTP profiles</code></td>
+<td>ورودی‌های OTP Manager.</td>
+</tr>
+<tr>
+<td><code>Custom icons</code></td>
+<td>آیکون‌های سفارشی شما برای سینی سیستم.</td>
+</tr>
+</tbody>
+</table>
+<p>نسخهٔ پشتیبان شامل تاریخچهٔ ترافیک، گزارش‌ها (logs) یا فایل‌های حافظهٔ نهان هسته نیست. همچنین به خاطر نمی‌سپارد که <code>حالتvpn</code> (Tun Mode) یا <code>پروکسی سیستمی</code> (System Proxy) روشن بوده است یا نه.</p>
+<aside class="callout callout--warning">
+  <span class="callout-label">هشدار</span>
+  <p>نسخهٔ پشتیبان گذرواژه‌های سرورها، لینک‌های اشتراک و دیگر اطلاعات محرمانهٔ شما را در بر دارد. فایل را خصوصی نگه دارید و هرگز آن را به گزارش باگ پیوست نکنید.</p>
+
+</aside>
+<p>برای بازیابی یک نسخهٔ پشتیبان:</p>
+<ol>
+<li>روی <code>Restore from Backup...</code> کلیک کنید و یک فایل <code>.thrbackup</code> انتخاب کنید.</li>
+<li>Throne زمان ساخته شدن نسخهٔ پشتیبان را نشان می‌دهد. بخش‌هایی را که می‌خواهید بازیابی کنید تیک بزنید. بخش‌هایی که در فایل وجود ندارند خاکستری (غیرفعال) هستند.</li>
+<li>روی <code>Restore</code> کلیک کنید. هر بخش انتخاب‌شده جایگزین داده‌های فعلی شما می‌شود. این کار برگشت‌پذیر نیست.</li>
+<li>Throne دوباره راه‌اندازی می‌شود.</li>
+</ol>
+<p>فایل‌های پشتیبانی که با نسخه‌های قدیمی‌تر Throne ساخته شده‌اند، به‌طور عادی بازیابی می‌شوند. فایل پشتیبانی که با نسخهٔ جدیدتری ساخته شده ممکن است با پیام «Unsupported backup format version» (نسخهٔ قالب فایل پشتیبان پشتیبانی نمی‌شود) رد شود؛ در این صورت ابتدا Throne را به‌روز کنید.</p>
+<h2 id="desktop-android">جابه‌جایی بین دسکتاپ و Android</h2>
+<p>Throne دسکتاپ و Throne برای Android از قالب پشتیبان یکسانی استفاده می‌کنند، پس می‌توانید داده‌هایتان را در هر دو جهت جابه‌جا کنید.</p>
+<p>از دسکتاپ به گوشی:</p>
+<ol>
+<li>در دسکتاپ، همان‌طور که در بالا آمد یک نسخهٔ پشتیبان بسازید.</li>
+<li>فایل <code>.thrbackup</code> را به گوشی کپی کنید.</li>
+<li>در گوشی، <code>تنظیمات</code> (Settings) ← <code>Backup &amp; restore</code> یا <code>ابزارها</code> (Tools) را در منوی کناری باز کنید، روی <code>Restore</code> بزنید و فایل را انتخاب کنید. باز کردن فایل از یک مدیر فایل نیز بازیابی آن را پیشنهاد می‌دهد.</li>
+<li>بخش‌هایی را که می‌خواهید بازیابی شوند تیک بزنید و تأیید کنید. Throne دوباره راه‌اندازی می‌شود.</li>
+</ol>
+<p>از گوشی به دسکتاپ:</p>
+<ol>
+<li>در گوشی، <code>تنظیمات</code> (Settings) ← <code>Backup &amp; restore</code> را باز کنید، بخش‌ها را تیک بزنید و روی <code>Create backup</code> بزنید. <code>اشتراک‌گذاری</code> (Share) فایل را به برنامهٔ دیگری می‌فرستد.</li>
+<li>فایل را به رایانه کپی کنید.</li>
+<li>در دسکتاپ، همان‌طور که در بالا آمد آن را بازیابی کنید.</li>
+</ol>
+<p><strong>Android:</strong> همچنین می‌توانید نسخه‌های پشتیبان را روی یک سرور WebDAV نگه دارید: <code>پشتیبان‌گیری در WebDAV</code> (Back up to WebDAV)، <code>بازیابی از WebDAV</code> (Restore from WebDAV) و <code>تنظیمات WebDAV</code> (WebDAV settings) با گزینه‌های <code>نشانی سرور</code> (Server address)، <code>نام کاربری</code> (Username)، <code>گذرواژه</code> (Password)، <code>مسیر پشتیبان</code> (Backup path) و <code>آزمایش اتصال</code> (Test connection). Throne دسکتاپ از WebDAV پشتیبانی نمی‌کند، اما می‌تواند فایلی را که از سرور دانلود می‌کنید بازیابی کند. اطلاعات ورود WebDAV هرگز در نسخهٔ پشتیبان گنجانده نمی‌شوند.</p>
+<p>نسخهٔ پشتیبان دسکتاپ هنگام بازیابی در Android چند چیز را تغییر می‌دهد:</p>
+<table>
+<thead>
+<tr>
+<th>مورد</th>
+<th>در Android چه اتفاقی می‌افتد</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OTP profiles</code> و <code>Custom icons</code></td>
+<td>بازیابی نمی‌شوند.</td>
+</tr>
+<tr>
+<td>تنظیماتی که هر دو برنامه دارند</td>
+<td>مقدارشان را از نسخهٔ پشتیبان می‌گیرند. برای نمونه، MTU حالت TUN برابر 1500 می‌شود (پیش‌فرض Android: 9000) و سطح گزارش (log level) برابر <code>info</code> می‌شود (پیش‌فرض Android: <code>warn</code>).</td>
+</tr>
+<tr>
+<td>تنظیماتی که فقط Android دارد</td>
+<td>مقدار فعلی خود را نگه می‌دارند.</td>
+</tr>
+<tr>
+<td>اتصال از دستگاه‌های دیگر</td>
+<td>وقتی <code>Settings</code> را بازیابی می‌کنید و نسخهٔ پشتیبان اجازهٔ اتصال به دستگاه‌های دیگر را می‌دهد اما گوشی شما نمی‌داد، Throne گزینهٔ <code>اجازه اتصال از شبکه محلی</code> (Allow connections from the LAN) را خاموش می‌کند و یک هشدار نشان می‌دهد.</td>
+</tr>
+<tr>
+<td>نمایه‌های مسیریابی خام</td>
+<td>نگه داشته می‌شوند، اما فقط‌خواندنی. Android نمی‌تواند از آن‌ها استفاده کند؛ اگر یکی از آن‌ها فعال بوده باشد، نخستین نمایهٔ مسیریابی قابل استفاده فعال می‌شود.</td>
+</tr>
+<tr>
+<td>نقطه‌های پایانی OpenVPN و OpenConnect یک نمایهٔ مسیریابی</td>
+<td>همراه نمایه نگه داشته می‌شوند، اما در Android اجرا نمی‌شوند.</td>
+</tr>
+<tr>
+<td>نمایه‌های Tailscale و هستهٔ اضافی (Extra Core)</td>
+<td>بازیابی می‌شوند، اما در Android نمی‌توان آن‌ها را آغاز کرد.</td>
+</tr>
+</tbody>
+</table>
+<p>در جهت مخالف، قوانینی که با برنامه‌های Android منطبق می‌شوند و تنظیمات پروکسی به‌تفکیک برنامه، در دسکتاپ هیچ اثری ندارند.</p>
+<h2 id="updating">به‌روزرسانی برنامهٔ دسکتاپ</h2>
+<p>نمایه‌ها و تنظیمات شما در پوشهٔ داده‌ها قرار دارند که به‌روزرسانی آن را حفظ می‌کند (<a href="/fa/reference/files/#data-folder">پوشهٔ داده‌ها</a> را ببینید). با این حال، ابتدا یک نسخهٔ پشتیبان بسازید.</p>
+<ol>
+<li><code>Tools</code> → <code>Check For Update</code> را باز کنید. Throne آخرین نسخه را از GitHub می‌پرسد. اگر همان نسخه را اجرا می‌کنید، پیام «بدون بروزرسانی جدید» (No update) را می‌بینید.</li>
+<li>اگر نسخهٔ جدیدتری وجود داشته باشد، Throne یادداشت‌های انتشار آن را همراه با دکمه‌های <code>بروزرسانی</code> (Update)، <code>در مرور گر باز شود</code> (Open in browser) و <code>بستن</code> (Close) نشان می‌دهد.</li>
+<li>روی <code>بروزرسانی</code> (Update) کلیک کنید. Throne نسخهٔ جدید را دانلود می‌کند و می‌پرسد «به روز رسانی آماده است، برای نصب مجدد راه اندازی شود؟» (Update is ready, restart to install?).</li>
+<li>روی <code>بله</code> (Yes) کلیک کنید. Throne بسته می‌شود و برنامهٔ به‌روزرسان (updater) نسخهٔ جدید را نصب می‌کند.</li>
+</ol>
+<p><code>بروزرسانی</code> (Update) یک‌کلیکی فقط برای نسخه‌های ZIP و برای نصب پیش‌فرض نصب‌کنندهٔ Windows برای کاربر فعلی کار می‌کند، که در آن‌ها Throne داده‌هایش را کنار برنامه نگه می‌دارد. نصب‌های دیگر فقط <code>در مرور گر باز شود</code> (Open in browser) را دارند. در macOS، در بسته‌های system-Qt و در نصب با اسکریپت نصب Linux، هیچ برنامهٔ به‌روزرسانی همراه Throne عرضه نمی‌شود، پس <code>Check For Update</code> خاکستری (غیرفعال) است. هر نوع نصب را این‌گونه به‌روز کنید:</p>
+<table>
+<thead>
+<tr>
+<th>روش نصب</th>
+<th>نحوهٔ به‌روزرسانی</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>فایل ZIP</td>
+<td><code>بروزرسانی</code>، یا ZIP جدید را دانلود کنید و فایل‌های برنامه را جایگزین کنید. پوشهٔ <code>config</code> را نگه دارید.</td>
+</tr>
+<tr>
+<td>نصب‌کنندهٔ Windows، برای کاربر فعلی (پیش‌فرض)</td>
+<td><code>بروزرسانی</code>، یا نصب‌کنندهٔ جدید را دانلود و اجرا کنید.</td>
+</tr>
+<tr>
+<td>نصب‌کنندهٔ Windows، برای همهٔ کاربران</td>
+<td>نصب‌کنندهٔ جدید را دانلود و اجرا کنید.</td>
+</tr>
+<tr>
+<td>بستهٔ <code>.deb</code> یا <code>.rpm</code></td>
+<td>بستهٔ جدید را دانلود و نصب کنید.</td>
+</tr>
+<tr>
+<td>اسکریپت نصب Linux</td>
+<td>اسکریپت را دوباره اجرا کنید.</td>
+</tr>
+<tr>
+<td>macOS</td>
+<td>نسخهٔ جدید را دانلود کنید و <code>Throne.app</code> را جایگزین کنید. <a href="/fa/get_started/installation/#macos">نصب</a> را ببینید.</td>
+</tr>
+<tr>
+<td>WinGet، Scoop، AUR، Nix یا مخزن RPM</td>
+<td>از مدیر بسته استفاده کنید. <a href="/fa/get_started/installation/#package-managers">مدیران بسته</a> را ببینید.</td>
+</tr>
+</tbody>
+</table>
+<p>اگر با نصب‌کنندهٔ Windows برنامه را حذف و دوباره نصب می‌کنید، وقتی حذف‌کننده می‌پرسد «Also delete your Throne profiles, settings and logs?» (نمایه‌ها، تنظیمات و گزارش‌های Throne هم حذف شوند؟)، پاسخ <code>No</code> بدهید. در غیر این صورت داده‌های شما حذف می‌شوند.</p>
+<p>برخی برنامه‌های آنتی‌ویروس به‌روزرسان را مشکوک تشخیص می‌دهند، چون فایل‌های برنامه را جایگزین می‌کند. اگر به‌روزرسانی ناموفق بود، بررسی کنید که Throne درون پوشهٔ Downloads شما نباشد (<a href="https://github.com/throneproj/Throne/issues/1109">#1109</a>) و دوباره امتحان کنید، یا نسخهٔ جدید را از <a href="/fa/downloads/">صفحهٔ دانلود</a> دانلود کنید.</p>
+<h2 id="beta">نسخه‌های بتا</h2>
+<p>نسخه‌های بتا (پیش‌انتشار) قابلیت‌ها و اصلاحات جدید را زودتر دریافت می‌کنند، اما ممکن است باگ‌های بیشتری داشته باشند. پیش از نصب یکی از آن‌ها، یک نسخهٔ پشتیبان بسازید.</p>
+<ul>
+<li><strong>دسکتاپ:</strong> <code>تنظیمات</code> (Settings) ← <code>تنظیمات پایه</code> (Basic Settings) ← <code>Miscellaneous</code> → <code>Allow updating to beta versions</code> را روشن کنید. پس از آن <code>Check For Update</code> نسخه‌های پیش‌انتشار را هم پیشنهاد می‌دهد و عنوان پنجرهٔ آن «(Pre-release)» (پیش‌انتشار) را نشان می‌دهد.</li>
+<li><strong>Android:</strong> <code>تنظیمات</code> (Settings) ← <code>General</code> → <code>Allow updating to beta versions</code> را روشن کنید. پس از آن <code>درباره برنامه</code> (About) ← <code>Check for updates</code> عبارت «Channel: stable and pre-releases» (کانال: نسخه‌های پایدار و پیش‌انتشار) را نشان می‌دهد. <a href="/fa/android/installation/#updater">به‌روزرسان درون‌برنامه‌ای</a> را ببینید.</li>
+</ul>
+<p>برای بازگشت، این گزینه را خاموش کنید. به‌روزرسان فقط نسخه‌هایی را پیشنهاد می‌دهد که از نسخهٔ در حال اجرای شما جدیدترند، پس تا انتشار یک نسخهٔ پایدار جدیدتر روی نسخهٔ بتا می‌مانید، مگر اینکه خودتان یک نسخهٔ پایدار نصب کنید.</p>
+<h2 id="old-versions">نسخه‌های قدیمی</h2>
+<ul>
+<li><strong>Throne دسکتاپ قدیمی‌تر از 1.1.0.</strong> نسخهٔ 1.1.0 همهٔ داده‌ها را به یک فایل پایگاه‌داده، <code>throne.db</code>، منتقل کرد. پیکربندی‌های قدیمی‌تر تبدیل نمی‌شوند. اشتراک‌ها و نمایه‌هایتان را دوباره اضافه کنید، یا اسکریپت‌های جامعهٔ کاربران در <a href="https://github.com/throneproj/Throne/issues/1202">#1202</a> را امتحان کنید. <code>Backup and Restore</code> از نسخهٔ 1.1.3 وجود دارد، پس فایل‌های پشتیبان نسخهٔ 1.1.3 و بعد از آن در نسخه‌های جدیدتر بازیابی می‌شوند.</li>
+<li><strong>Nekoray یا NekoBox.</strong> <a href="/fa/help/migrating/">مهاجرت از Nekoray / NekoBox</a> را ببینید.</li>
+<li><strong>Throne برای Android قدیمی‌تر از 2.0.0.</strong> نسخهٔ 2.0.0 با کلید جدیدی امضا شده است، پس نمی‌توان آن را روی نسخهٔ قدیمی‌تر نصب کرد. ابتدا برنامهٔ قدیمی را حذف کنید؛ نسخهٔ 2.0.0 خالی آغاز می‌شود. نسخه‌های پشتیبان قدیمی Android (فایل‌های <code>throne_backup_*.json</code> و فایل‌های <code>.zip</code> در WebDAV) قابل بازیابی نیستند، فقط فایل‌های <code>.thrbackup</code>. پیش از حذف، لینک‌های اشتراک خود را یادداشت کنید. اگر از Throne دسکتاپ هم استفاده می‌کنید، می‌توانید به‌جای آن همه‌چیز را با یک نسخهٔ پشتیبان دسکتاپ منتقل کنید. <a href="/fa/android/installation/#upgrading">نصب و ارتقا</a> را ببینید.</li>
+</ul>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/guides/backup.fa.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          ویرایش این صفحه در GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="مسیریابی صفحه">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/fa/guides/testing/">
+    <span class="prevnext-dir">قبلی</span>
+    تست و انتخابگر خودکار
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/fa/guides/recipes/">
+    <span class="prevnext-dir">بعدی</span>
+    دستورالعمل‌های کاربردی
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="در این صفحه">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    در این صفحه
+  </p>
+  <ul><li><a href="#backup-restore">پشتیبان‌گیری و بازیابی</a></li><li><a href="#desktop-android">جابه‌جایی بین دسکتاپ و Android</a></li><li><a href="#updating">به‌روزرسانی برنامهٔ دسکتاپ</a></li><li><a href="#beta">نسخه‌های بتا</a></li><li><a href="#old-versions">نسخه‌های قدیمی</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "کپی",
+    copied: "کپی شد",
+    copyManual: "کلید Ctrl C را فشار دهید",
+    noResults: "نتیجه‌ای یافت نشد برای",
+    theme: "تم",
+    themeAuto: "خودکار",
+    themeLight: "روشن",
+    themeDark: "تاریک"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

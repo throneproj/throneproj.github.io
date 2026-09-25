@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="رفع مشکلات رایج Throne برای Android: VPN اجرا نمی‌شود یا ترافیک ندارد، در پس‌زمینه متوقف می‌شود، و خطاهای اشتراک و مسیریابی.">
+  <title>عیب‌یابی Android - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="عیب‌یابی Android">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/fa/android/troubleshooting/">
+  <meta property="og:description" content="رفع مشکلات رایج Throne برای Android: VPN اجرا نمی‌شود یا ترافیک ندارد، در پس‌زمینه متوقف می‌شود، و خطاهای اشتراک و مسیریابی.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="عیب‌یابی Android">
+  <meta name="twitter:description" content="رفع مشکلات رایج Throne برای Android: VPN اجرا نمی‌شود یا ترافیک ندارد، در پس‌زمینه متوقف می‌شود، و خطاهای اشتراک و مسیریابی.">
+  <link rel="canonical" href="https://throneproj.github.io/fa/android/troubleshooting/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"عیب‌یابی Android","url":"https://throneproj.github.io/fa/android/troubleshooting/","description":"رفع مشکلات رایج Throne برای Android: VPN اجرا نمی‌شود یا ترافیک ندارد، در پس‌زمینه متوقف می‌شود، و خطاهای اشتراک و مسیریابی."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/fa/"},{"@type":"ListItem","position":2,"name":"Throne برای Android","item":"https://throneproj.github.io/fa/android/"},{"@type":"ListItem","position":3,"name":"عیب‌یابی Android"}]}</script>
+  <link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/android/troubleshooting/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/android/troubleshooting/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/android/troubleshooting/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/android/troubleshooting/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="باز کردن منو" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/fa/" class="header-logo" aria-label="صفحه اصلی Throne">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.3.1" target="_blank" rel="noopener noreferrer">v1.3.1</a>
+
+    <nav class="header-nav" aria-label="اصلی">
+      <a href="https://throneproj.github.io/fa/get_started/">شروع کار</a>
+      <a href="https://throneproj.github.io/fa/downloads/">دانلود</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="جستجو در مستندات">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>جستجو</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="زبان">
+        
+        <a href="https://throneproj.github.io/android/troubleshooting/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/android/troubleshooting/" hreflang="fa" aria-current="true">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/android/troubleshooting/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/android/troubleshooting/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne در GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="تم">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="جستجو در مستندات" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="جستجو در مستندات" placeholder="جستجو در مستندات" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="جستجو"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="مسیریابی مستندات">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>شروع کار</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/installation/">نصب</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/configuration/">شروع سریع</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>راهنماها</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/subscriptions/">اشتراک‌ها و گروه‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/proxy_modes/">پروکسی سیستمی، TUN و اشتراک‌گذاری در شبکهٔ محلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/tun_mode/">حالت TUN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/routing/">مسیریابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/testing/">تست و انتخابگر خودکار</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/backup/">پشتیبان‌گیری، به‌روزرسانی و مهاجرت</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/recipes/">دستورالعمل‌های کاربردی</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne برای Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/installation/">نصب و ارتقا</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/permissions/">مجوزها و اجرا در پس‌زمینه</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/modes/">حالت‌های VPN و پروکسی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/widgets/">ویجت‌ها، کاشی و خودکارسازی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/troubleshooting/" aria-current="page">عیب‌یابی Android</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>پیکربندی پیشرفته</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/xray/">sing-box در برابر Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/chains/">زنجیره‌های پروکسی و پیکربندی‌های سفارشی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/presets/">پیش‌تنظیم‌های ضدسانسور</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/vpn_profiles/">OpenVPN، OpenConnect و Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/windows_tun_mode/">محافظت از نشت DNS در Windows</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/deeplinks/">لینک‌های عمیق</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>مرجع</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/protocols/">پروتکل‌ها و قالب‌های واردکردن</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/shortcuts/">میانبرهای صفحه‌کلید و سینی سیستم</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/files/">خط فرمان، فایل‌ها و گزارش‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/privacy/">حریم خصوصی و درخواست‌های شبکه</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/glossary/">واژه‌نامه</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>پشتیبانی</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/faq/">پرسش‌های متداول</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/troubleshooting/">عیب‌یابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/bug_reports/">گزارش باگ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/migrating/">مهاجرت از Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">عیب‌یابی Android</h1>
+      <p class="docs-lede">رفع مشکلات رایج Throne برای Android: VPN اجرا نمی‌شود یا ترافیک ندارد، در پس‌زمینه متوقف می‌شود، و خطاهای اشتراک و مسیریابی.</p>
+      <div class="prose">
+        <p>پیام یا نشانه‌ای را که می‌بینید پیدا کنید و سپس مراحل را دنبال کنید. پیام‌ها همان‌طور نقل شده‌اند که نسخهٔ فارسی برنامه نشان می‌دهد؛ پیام‌هایی که در برنامه ترجمهٔ فارسی ندارند به انگلیسی آمده‌اند و ترجمهٔ آن‌ها در پرانتز است. برای مشکلات Throne دسکتاپ، <a href="/fa/help/troubleshooting/">عیب‌یابی</a> را ببینید.</p>
+<h2 id="connection">VPN اجرا نمی‌شود یا ترافیک ندارد</h2>
+<p>وقتی اجرا ناموفق باشد، Throne دلیل آن را در نواری در پایین صفحه، همراه با دکمهٔ <code>آمار و اطلاعات</code> (Logs)، نشان می‌دهد. این پیام باقی می‌ماند تا وقتی که آن را با کشیدن کنار بزنید، روی <code>آمار و اطلاعات</code> بزنید یا دوباره اجرا کنید.</p>
+<h3 id="vpn-denied">«اجازه ایجاد سرویس VPN داده نشد.»</h3>
+<p>Android مجوز VPN را به Throne نداده است. معمولاً شما درخواست را رد کرده‌اید. همچنین وقتی برنامهٔ VPN دیگری روی Always-on VPN (VPN همیشه روشن) تنظیم شده باشد، Android بدون پرسیدن رد می‌کند.</p>
+<ol>
+<li>دوباره دکمهٔ اتصال را بزنید و درخواست را تأیید کنید.</li>
+<li>اگر درخواستی ظاهر نشد، تنظیمات VPN در Android را باز کنید و Always-on VPN را برای برنامهٔ دیگر خاموش کنید.</li>
+<li>اگر Throne پیام «VPN confirmation unavailable» (تأیید VPN در دسترس نیست) را نشان داد، دستگاه شما صفحه‌ای برای این درخواست ندارد. <a href="/fa/android/permissions/#vpn-permission">مجوز VPN</a> را ببینید.</li>
+</ol>
+<h3 id="vpn-failed">Android از ساختن VPN خودداری می‌کند</h3>
+<p>Android مجوز را داده، اما سپس از ساختن رابط VPN خودداری کرده است. در این حالت پیام «ناموفق: …» معمولاً شامل «configure tun interface» است.</p>
+<ol>
+<li>اتصال برنامه‌های VPN دیگر را قطع کنید و در تنظیمات VPN در Android بررسی کنید که هیچ‌کدام روی Always-on VPN تنظیم نشده باشند.</li>
+<li>دستگاه را دوباره راه‌اندازی کنید و دوباره متصل شوید.</li>
+</ol>
+<h3 id="start-errors">پیام‌های دیگر هنگام اتصال</h3>
+<table>
+<thead>
+<tr>
+<th>پیام</th>
+<th>علت</th>
+<th>چه باید کرد</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>«لطفاً یک پراکسی را انتخاب کنید.»</td>
+<td>هیچ نمایه‌ای انتخاب نشده است.</td>
+<td>روی یک نمایه بزنید و سپس متصل شوید.</td>
+</tr>
+<tr>
+<td>«ناموفق: Profile … has a type this build cannot use: …» (نوع نمایهٔ … در این نسخه قابل استفاده نیست: …)</td>
+<td>نوع نمایه فقط در دسکتاپ وجود دارد؛ برای نمونه Tailscale یا هستهٔ اضافی (Extra Core).</td>
+<td>از نمایهٔ دیگری استفاده کنید. <a href="#desktop-vs-android">پایین‌تر</a> را ببینید.</td>
+</tr>
+<tr>
+<td>پیامی دربارهٔ مسیریابی یا WARP</td>
+<td>مشکلی در نمایهٔ مسیریابی یا در تنظیمات WARP.</td>
+<td><a href="#routing">خطاهای مسیریابی</a> و <a href="#warp">خطاهای WARP</a> را ببینید.</td>
+</tr>
+<tr>
+<td>هر پیام «ناموفق: …» دیگر</td>
+<td>هسته خطایی گزارش کرده است.</td>
+<td>روی <code>آمار و اطلاعات</code> (Logs) بزنید و آخرین خط‌ها را بخوانید.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="no-traffic">متصل است، اما چیزی بارگذاری نمی‌شود</h3>
+<ol>
+<li>روی نوار پایین صفحه بزنید. «اتصال موفق! سرعت برقراری ارتباط HTTP: …ms» یعنی نمایه کار می‌کند. «ناموفق بود: …» یعنی نمایه یا سرور آن کار نمی‌کند.</li>
+<li>اگر ناموفق بود، روی ⋮ ← <code>URL test</code> بزنید و نمایه‌ای را که کار می‌کند انتخاب کنید. <a href="/fa/guides/testing/">تست و انتخابگر خودکار</a> را ببینید.</li>
+<li>پروکسی به‌تفکیک برنامه را بررسی کنید: برای دیدن فهرست برنامه‌ها، <code>تنظیمات</code> (Settings) ← <code>TUN / VPN</code> ← <code>تانل‌کردن اپلیکیشن‌ها</code> (Apps VPN mode) را باز کنید. با <code>اتصال با پراکسی</code> (Proxy)، فقط برنامه‌های انتخاب‌شده از VPN استفاده می‌کنند. با <code>پراکسی نشوند</code> (Bypass)، برنامه‌های انتخاب‌شده از آن استفاده نمی‌کنند. اگر هیچ برنامه‌ای انتخاب نشده باشد، همهٔ برنامه‌ها از VPN استفاده می‌کنند. <a href="/fa/android/modes/#per-app-proxy">پروکسی به‌تفکیک برنامه</a> را ببینید.</li>
+<li>با ⋮ ← <code>Routing profile</code> به نمایهٔ مسیریابی <code>Default</code> بروید و دوباره تست کنید. اگر حالا کار کرد، علت، یکی از قوانین نمایهٔ مسیریابی خود شماست. <a href="/fa/guides/routing/">مسیریابی</a> را ببینید.</li>
+<li>DNS را بررسی کنید: <code>تنظیمات</code> ← <code>DNS</code> → <code>DNS ریموت</code> (Remote DNS) که پیش‌فرض آن <code>https://8.8.8.8/dns-query</code> است. سرور دیگری را امتحان کنید. <a href="/fa/guides/dns/">DNS</a> را ببینید.</li>
+<li>اگر <code>Tun IPv6</code> یا <code>Tun routing</code> را در <code>تنظیمات</code> ← <code>TUN / VPN</code> روشن کرده‌اید، آن‌ها را خاموش کنید و دوباره تست کنید. <code>Tun IPv6</code> را فقط وقتی به کار ببرید که سرور شما از IPv6 پشتیبانی کند. اگر برخی برنامه‌ها یا وب‌سایت‌ها کار نمی‌کنند در حالی که بقیه کار می‌کنند، <code>MTU</code> را در همان صفحه روی <code>1500</code> بگذارید و دوباره متصل شوید.</li>
+<li>برای اینکه بفهمید آیا علت مشکل حالت VPN است، <code>تنظیمات</code> ← <code>General</code> ← <code>حالت سرویس</code> (Service mode) را روی <code>فقط به حالت پراکسی</code> (Proxy only) بگذارید و متصل شوید. سپس برنامه‌ای را که تنظیم پروکسی خودش را دارد، روی پروکسی SOCKS5 با نشانی <code>127.0.0.1</code> و پورت <code>2080</code> تنظیم کنید (<code>تنظیمات</code> ← <code>Inbound</code> ← <code>پورت پراکسی</code> (Proxy port) را ببینید). اگر آن برنامه کار کرد، به حالت <code>VPN</code> برگردید و <code>پیاده‌سازی TUN</code> (TUN implementation) دیگری را امتحان کنید. <a href="/fa/android/modes/#tun-settings">حالت‌های VPN و پروکسی</a> را ببینید.</li>
+</ol>
+<h3 id="blocked-without-vpn">وقتی Throne خاموش است اینترنت ندارید</h3>
+<p>Always-on VPN در Android همراه با «Block connections without VPN» (مسدود کردن اتصال‌های بدون VPN) روشن است. در این حالت Android تا وقتی Throne متصل نیست کل ترافیک را مسدود می‌کند. Throne را با یک نمایهٔ سالم متصل کنید، یا این گزینه را در تنظیمات VPN در Android خاموش کنید. <a href="/fa/android/permissions/#always-on">Always-on VPN</a> را ببینید.</p>
+<h3 id="fakedns">برخی برنامه‌ها پس از قطع اتصال اینترنت ندارند</h3>
+<p><code>تنظیمات</code> ← <code>DNS</code> ← <code>فعال کردن FakeDNS</code> (Enable FakeDNS) به برنامه‌ها نشانی‌های جعلی می‌دهد که فقط از طریق Throne کار می‌کنند. Throne دربارهٔ این موضوع هشدار می‌دهد: «ممکن است نیاز باشد که برنامه‌های دیگر را برای اتصال مجدد، دوباره راه‌اندازی کنید.» آن برنامه‌ها را دوباره راه‌اندازی کنید، یا <code>فعال کردن FakeDNS</code> را خاموش کنید.</p>
+<h2 id="killed-in-background">Throne در پس‌زمینه متوقف می‌شود</h2>
+<p>نشانه‌های معمول: VPN وقتی صفحه خاموش است قطع می‌شود، اعلان ناپدید می‌شود، اتصال پس از باز کردن قفل گوشی از کار می‌افتد، یا دکمه‌های اعلان یا ویجت کاری انجام نمی‌دهند.</p>
+<ol>
+<li><code>تنظیمات</code> ← <code>General</code> → <code>Battery optimization</code> را باز کنید. باید «Unrestricted» (بدون محدودیت) را نشان دهد. اگر این‌طور نیست، روی آن بزنید و اجازه دهید Throne بدون محدودیت اجرا شود. <a href="/fa/android/permissions/#battery">بهینه‌سازی باتری</a> را ببینید.</li>
+<li><code>تنظیمات</code> ← <code>General</code> → <code>Background &amp; auto-start</code> را باز کنید. اجازه دهید Throne به‌طور خودکار اجرا شود و در پس‌زمینه کار کند. <a href="/fa/android/permissions/#oem">تنظیمات سازندهٔ دستگاه</a> را ببینید.</li>
+<li><code>بازنشانی اتصال خروجی، هنگام روشن‌شدن صفحه موبایل</code> (Reset outbound connections when device wakes from sleep) را روشن نگه دارید (پیش‌فرض). وقتی دستگاه از خواب عمیق بیدار می‌شود، Throne اتصال‌های قدیمی را می‌بندد و برنامه‌ها دوباره وصل می‌شوند. <code>بازنشانی اتصال خروجی، هنگام تغییر شبکه</code> (Reset outbound connections when network changes) را هم روشن نگه دارید.</li>
+<li>Always-on VPN را روشن کنید تا Android خودش دوباره Throne را اجرا کند. <a href="/fa/android/permissions/#always-on">Always-on VPN</a> را ببینید.</li>
+<li>در برخی دستگاه‌ها، کنار زدن Throne از فهرست برنامه‌های اخیر آن را متوقف می‌کند. آن را در فهرست باقی بگذارید، یا اگر دستگاهتان این امکان را دارد، آن را در همان‌جا قفل کنید.</li>
+</ol>
+<h2 id="subscriptions">مشکلات اشتراک</h2>
+<p>وقتی اشتراکی را دستی به‌روزرسانی می‌کنید، خطاها در پایین صفحه به شکل نام گروه و سپس متن پیام ظاهر می‌شوند. به‌روزرسانی‌های خودکار خطاهای خود را فقط در <code>آمار و اطلاعات</code> (Logs) می‌نویسند.</p>
+<table>
+<thead>
+<tr>
+<th>پیام</th>
+<th>علت</th>
+<th>چه باید کرد</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>«Request with proxy but no profile started.» (درخواست با پروکسی اما هیچ نمایه‌ای شروع نشده است.)</td>
+<td><code>Use proxy</code> در <code>تنظیمات</code> ← <code>اشتراک‌ها</code> (Subscriptions) روشن است، یا حالت سرویس <code>فقط به حالت پراکسی</code> است، و Throne متصل نیست.</td>
+<td>ابتدا متصل شوید. در حالت <code>VPN</code> می‌توانید <code>Use proxy</code> را هم خاموش کنید.</td>
+</tr>
+<tr>
+<td>«Error transferring … - server replied: …» (خطا در انتقال …؛ پاسخ سرور: …)</td>
+<td>سرور درخواست را رد کرده است؛ برای نمونه با 403 یا 404.</td>
+<td>نشانی را بررسی کنید. بسیاری از ارائه‌دهندگان فقط برخی برنامه‌ها را می‌پذیرند: همان user agent را که ارائه‌دهنده‌تان اعلام کرده تنظیم کنید، یا ارسال HWID را روشن کنید.</td>
+</tr>
+<tr>
+<td>«No profiles found in the subscription; it was left unchanged.» (هیچ نمایه‌ای در اشتراک پیدا نشد؛ اشتراک بدون تغییر ماند.)</td>
+<td>پاسخ هیچ نمایه‌ای ندارد که Throne بتواند بخواند؛ برای نمونه یک صفحهٔ وب است.</td>
+<td>اغلب همان مشکل user agent یا HWID است. <a href="/fa/reference/protocols/#import-formats">قالب‌های واردکردن</a> را هم بررسی کنید.</td>
+</tr>
+<tr>
+<td>«Insecure redirect» (تغییر مسیر ناامن)</td>
+<td>سرور یک نشانی <code>https://</code> را به <code>http://</code> تغییر مسیر داده است. Throne از چنین تغییر مسیرهایی پیروی نمی‌کند.</td>
+<td>نشانی <code>https://</code> درست را از ارائه‌دهندهٔ خود بخواهید.</td>
+</tr>
+<tr>
+<td>«Too many redirects» (تغییر مسیرهای بیش از حد)</td>
+<td>سرور در یک حلقه تغییر مسیر می‌دهد.</td>
+<td>نشانی را با ارائه‌دهندهٔ خود بررسی کنید.</td>
+</tr>
+<tr>
+<td>«Response larger than 64 MB» (پاسخ بزرگ‌تر از 64 MB است)</td>
+<td>اشتراک بیش از حد بزرگ است.</td>
+<td>فهرست کوچک‌تری از ارائه‌دهندهٔ خود بخواهید.</td>
+</tr>
+<tr>
+<td>«Still in use, so kept instead of deleted» (هنوز در حال استفاده است، پس به‌جای حذف نگه داشته شد) یا «The running profile was kept.» (نمایهٔ در حال اجرا نگه داشته شد.)</td>
+<td>به‌روزرسانی، یا یکی از گزینه‌های پاک‌سازی پس از آن، نمایه‌ای را که به آن متصل هستید حذف می‌کرد، بنابراین Throne آن را نگه داشت. این پیام را در گزارش تغییرات یا در <code>آمار و اطلاعات</code> می‌بینید.</td>
+<td>کاری لازم نیست. برای حذف آن در هر صورت، <code>Allow stopping the active profile</code> را در <code>تنظیمات</code> ← <code>اشتراک‌ها</code> روشن کنید.</td>
+</tr>
+</tbody>
+</table>
+<p>برای تغییر user agent یا HWID یک گروه، <code>گروه‌ها</code> (Groups) را در منوی کناری باز کنید، دکمهٔ <code>ویرایش</code> (Edit) گروه را بزنید و <code>Advanced</code> را باز کنید. این بخش <code>User agent</code> و <code>Send HWID</code> را دارد. تنظیمات همهٔ گروه‌ها در <code>تنظیمات</code> ← <code>اشتراک‌ها</code> قرار دارد. <a href="/fa/guides/subscriptions/#user-agent-and-hwid">User-Agent و HWID</a> را ببینید.</p>
+<h3 id="direct-updates">ارائه‌دهنده فقط به‌روزرسانی از اتصال خود شما را می‌پذیرد</h3>
+<p>وقتی Throne متصل است، درخواست‌های خود آن، مانند به‌روزرسانی اشتراک‌ها، هم از Throne عبور می‌کنند و از نمایهٔ مسیریابی شما پیروی می‌کنند. برخی ارائه‌دهندگان درخواست‌های به‌روزرسانی را فقط از اتصال اینترنت خود شما می‌پذیرند. قانونی اضافه کنید که دامنهٔ اشتراک را به <code>direct</code> بفرستد:</p>
+<ol>
+<li><code>مسیریابی</code> (Routing) را در منوی کناری باز کنید. منوی نمایهٔ مسیریابی فعلی را باز کنید و <code>ویرایش</code> را انتخاب کنید.</li>
+<li><code>Add rule</code> را انتخاب کنید.</li>
+<li><code>Outbound</code> را روی <code>direct</code> بگذارید. در <code>Domain suffix</code>، نام میزبان نشانی اشتراک را وارد کنید؛ برای نمونه <code>sub.example.com</code>.</li>
+<li>قانون و نمایهٔ مسیریابی را ذخیره کنید. قانون را بالاتر از قوانین دیگری قرار دهید که با همان دامنه تطبیق دارند.</li>
+</ol>
+<p>اگر ارائه‌دهنده می‌خواهد درخواست از یکی از سرورهای خودش بیاید، به‌جای آن همان سرور را به‌عنوان <code>Outbound</code> انتخاب کنید.</p>
+<h2 id="routing">خطاهای مسیریابی</h2>
+<table>
+<thead>
+<tr>
+<th>پیام</th>
+<th>علت</th>
+<th>چه باید کرد</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>«The routing profile is referencing outbounds that no longer exist, consider revising your settings» (نمایهٔ مسیریابی به خروجی‌هایی ارجاع می‌دهد که دیگر وجود ندارند؛ تنظیمات خود را بازبینی کنید)</td>
+<td>یک قانون ترافیک را به نمایهٔ سروری می‌فرستد که حذف شده است؛ برای نمونه با به‌روزرسانی اشتراک.</td>
+<td>نمایهٔ مسیریابی را باز کنید (<code>مسیریابی</code> ← منوی آن ← <code>ویرایش</code>). قوانینی که سرورشان حذف شده «Missing server (#…)» (سرور موجود نیست) را نشان می‌دهند. خروجی دیگری انتخاب کنید.</td>
+</tr>
+<tr>
+<td>«Unknown rule-set &quot;…&quot; in rule &quot;…&quot; of routing profile &quot;…&quot;» (مجموعه‌قوانین ناشناخته «…» در قانون «…» از نمایهٔ مسیریابی «…»)</td>
+<td>یک قانون از نام مجموعه‌قوانینی (rule-set) استفاده می‌کند که Throne آن را نمی‌شناسد.</td>
+<td>در <code>مسیریابی</code>، روی <code>Refresh repository list</code> بزنید، یا از نشانی یک فایل <code>.srs</code> استفاده کنید.</td>
+</tr>
+<tr>
+<td>«The rule-set list is not available. …» (فهرست مجموعه‌قوانین در دسترس نیست. …)</td>
+<td>فهرست نام مجموعه‌قوانین دانلود نشده است.</td>
+<td>در <code>مسیریابی</code>، روی <code>Refresh repository list</code> بزنید.</td>
+</tr>
+<tr>
+<td>«raw routing profiles are not supported on Android» (نمایه‌های مسیریابی خام در Android پشتیبانی نمی‌شوند)</td>
+<td>یک نمایهٔ مسیریابی خام را از Throne دسکتاپ وارد کرده‌اید.</td>
+<td>از نمایهٔ مسیریابی ساخت‌یافته (structured) یا راه‌دور (remote) استفاده کنید.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="warp">خطاهای WARP</h2>
+<table>
+<thead>
+<tr>
+<th>پیام</th>
+<th>علت</th>
+<th>چه باید کرد</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>«WARP is enabled but its config has not been generated. Generate it in Settings › Routing › WARP.» (WARP روشن است، اما پیکربندی آن ساخته نشده است؛ آن را در تنظیمات › Routing › WARP بسازید.)</td>
+<td>WARP روشن است، اما برای حالت انتخاب‌شده پیکربندی WARP وجود ندارد.</td>
+<td><code>تنظیمات</code> ← <code>Routing</code> → <code>WARP</code> را باز کنید و روی <code>ایجاد پیکربندی</code> (Generate WARP config) بزنید.</td>
+</tr>
+<tr>
+<td>«ناموفق: Warp is enabled but its config has not been generated. Please generate the Warp config first in Routing Settings.» (Warp روشن است، اما پیکربندی آن ساخته نشده است؛ ابتدا پیکربندی Warp را در تنظیمات مسیریابی بسازید.)</td>
+<td>همان مشکل، که هنگام اتصال نشان داده می‌شود.</td>
+<td>همان کار.</td>
+</tr>
+<tr>
+<td>«Failed to generate WARP config» (ساخت پیکربندی WARP ناموفق بود)</td>
+<td>ثبت‌نام در Cloudflare ناموفق بود. این کار در برخی شبکه‌ها مسدود است.</td>
+<td>به یک نمایهٔ سالم متصل شوید، <code>Use proxy</code> را در <code>تنظیمات</code> ← <code>اشتراک‌ها</code> روشن کنید و دوباره بسازید.</td>
+</tr>
+<tr>
+<td>پیامی نمایش داده نمی‌شود، اما وقتی WARP روشن است چیزی بارگذاری نمی‌شود</td>
+<td>در حالت <code>WireGuard</code>، WARP به نمایه‌ای نیاز دارد که UDP را عبور دهد.</td>
+<td><code>Mode</code> را روی <code>MASQUE</code> و <code>HTTP version</code> را روی <code>HTTP/2</code> بگذارید که فقط به TCP نیاز دارد. برای حالت جدید یک پیکربندی بسازید.</td>
+</tr>
+</tbody>
+</table>
+<p><a href="/fa/advanced/warp/">Cloudflare WARP</a> را ببینید.</p>
+<h2 id="updates">مشکلات به‌روزرسانی</h2>
+<ul>
+<li>«The download is signed with a different key than this build, so Android cannot install it as an update. Back up, uninstall this build and install the release from GitHub.» (فایل دانلودشده با کلیدی متفاوت از این نسخه امضا شده است و Android نمی‌تواند آن را به‌عنوان به‌روزرسانی نصب کند؛ پشتیبان بگیرید، این نسخه را حذف کنید و نسخهٔ انتشار را از GitHub نصب کنید.) نسخهٔ شما با کلید انتشار Throne امضا نشده است. یک پشتیبان بسازید (منوی کناری ← <code>ابزارها</code> (Tools) ← <code>Create backup</code>)، Throne را حذف کنید، APK را از GitHub نصب کنید و پشتیبان را بازیابی کنید.</li>
+<li>«This update cannot be installed from the app (…). Download it from the release page.» (این به‌روزرسانی را نمی‌توان از داخل برنامه نصب کرد (…)؛ آن را از صفحهٔ انتشار دانلود کنید.) روی <code>Open in browser</code> بزنید، APK مناسب دستگاه خود را دانلود کنید و آن را روی برنامهٔ فعلی نصب کنید.</li>
+<li>«Could not check for updates» (بررسی به‌روزرسانی ممکن نشد): Throne نتوانست به GitHub دسترسی پیدا کند. به یک نمایهٔ سالم متصل شوید و دوباره تلاش کنید.</li>
+<li>Android نسخهٔ 2.0.0 را روی نسخهٔ قدیمی‌تر Throne برای Android نصب نمی‌کند. <a href="/fa/android/installation/#upgrading">ارتقا از 1.x یا NekoBox</a> را ببینید.</li>
+</ul>
+<h2 id="desktop-vs-android">نمایه‌ای که در دسکتاپ کار می‌کند اما در Android نه</h2>
+<ol>
+<li>نوع نمایه را بررسی کنید. نمایه‌های Tailscale و هستهٔ اضافی (Extra Core) در Android کار نمی‌کنند. تنظیمات TLS spoof در Android نادیده گرفته می‌شوند.</li>
+<li>تنظیماتی را که نحوهٔ اتصال نمایه‌ها را تغییر می‌دهند مقایسه کنید: پیش‌تنظیم‌های <code>تنظیمات</code> ← <code>Presets</code> (multiplex، TLS fragment، TLS tricks، uTLS) و <code>تنظیمات</code> ← <code>Core</code> → <code>Xray VLESS preference</code>. ترجیح VLESS هنگام وارد کردن نمایه‌ها اعمال می‌شود، پس پس از تغییر آن، اشتراک را دوباره به‌روزرسانی کنید. <a href="/fa/advanced/xray/#vless-preference">sing-box در برابر Xray</a> را ببینید.</li>
+<li>برای داشتن همان تنظیمات دسکتاپ، یک پشتیبان دسکتاپ را بازیابی کنید. <a href="/fa/guides/backup/#desktop-android">جابه‌جایی بین دسکتاپ و Android</a> را ببینید.</li>
+<li>اگر باز هم کار نکرد، مشکل را گزارش کنید و گزارش‌های هر دو برنامه را پیوست کنید.</li>
+</ol>
+<h2 id="logs">گزارش‌ها</h2>
+<p><code>آمار و اطلاعات</code> (Logs) را در منوی کناری باز کنید. این صفحه گزارش هسته را نشان می‌دهد. نوار ابزار این گزینه‌ها را دارد: <code>به‌روزرسانی گروه</code> (Update) که نما را دوباره بارگذاری می‌کند، <code>Share logs</code> و <code>پاک‌کردن اطلاعات Logcat</code> (Clear logs). منو گزینه‌های <code>Save logs…</code>، <code>Hide sensitive data</code> و <code>Hide destinations</code> را دارد.</p>
+<p><code>Share logs</code> و <code>Save logs…</code> یک فایل متنی می‌سازند که شامل این موارد است:</p>
+<ul>
+<li>سرآیندی با نسخهٔ برنامه و هسته، نسخهٔ Android، مدل دستگاه، ABI، حالت سرویس و برخی تنظیمات که هیچ اطلاعات محرمانه‌ای ندارند؛</li>
+<li>گزارش هسته، و گزارش هستهٔ اتصال قبلی؛</li>
+<li>آخرین 2000 خط از گزارش سیستمی برنامه.</li>
+</ul>
+<p><code>Hide sensitive data</code> به‌طور پیش‌فرض روشن است. آن را روشن نگه دارید. این گزینه در فایل خروجی این موارد را جایگزین می‌کند:</p>
+<ul>
+<li>مسیر (path) و پرس‌وجوی (query) هر نشانی، و نام‌های کاربری و گذرواژه‌های درون نشانی‌ها (نام میزبان باقی می‌ماند)؛</li>
+<li>گذرواژه‌ها، کلیدها، توکن‌ها، UUIDها و مقادیر مشابه؛</li>
+<li>نشانی سرورها، SNI و نام‌های میزبان در پیکربندی؛</li>
+<li>نشانی‌های IP عمومی (نشانی‌های خصوصی باقی می‌مانند)؛</li>
+<li>نام‌های Wi-Fi.</li>
+</ul>
+<p><code>Hide destinations</code> نام دامنه‌ها را در خط‌های مربوط به اتصال‌ها و DNS هم پنهان می‌کند. فقط وقتی <code>Hide sensitive data</code> روشن است می‌توانید آن را روشن کنید، و Throne پس از راه‌اندازی دوبارهٔ برنامه آن را حفظ نمی‌کند. این پنهان‌سازی کامل تضمین نمی‌شود: پیش از انتشار فایل، آن را بخوانید.</p>
+<p>برای جزئیات بیشتر، <code>تنظیمات</code> ← <code>Core</code> ← <code>سطح ثبت آمار</code> (Log level) را روی <code>info</code> یا <code>debug</code> بگذارید و برای راه‌اندازی دوبارهٔ برنامه روی <code>اعمال تغییرات</code> (Apply) بزنید. مشکل را دوباره ایجاد کنید و سپس گزارش‌ها را به اشتراک بگذارید. پس از آن، سطح را به <code>warn</code> برگردانید.</p>
+<p>پس از یک کرش (crash)، Throne دوباره اجرا می‌شود و پیشنهاد می‌دهد یک فایل گزارش با اطلاعات حساسِ پنهان‌شده به اشتراک بگذارید.</p>
+<h2 id="report">گزارش مشکل</h2>
+<aside class="callout callout--warning">
+  <span class="callout-label">هشدار</span>
+  <p>هرگز نشانی اشتراک، لینک‌های اشتراک‌گذاری، پشتیبان‌ها یا پیکربندی‌ها را به‌طور عمومی منتشر نکنید. هر کسی که آن‌ها را داشته باشد می‌تواند از اشتراک شما استفاده کند. کاربری که پیکربندی خود را در یک issue منتشر کرده بود، مجبور شد اشتراک را بازنشانی کند.</p>
+
+</aside>
+<p>مشکلات برنامهٔ Android را در <a href="https://github.com/throneproj/ThroneForAndroid/issues">github.com/throneproj/ThroneForAndroid/issues</a> گزارش کنید. این موارد را ضمیمه کنید:</p>
+<ul>
+<li>چه کاری انجام دادید، چه انتظاری داشتید و چه اتفاقی افتاد؛</li>
+<li>فایل گزارش از <code>Share logs</code> یا <code>Save logs…</code>، در حالی که <code>Hide sensitive data</code> روشن است؛</li>
+<li>نوع نمایه (برای نمونه VLESS با REALITY) و حالت سرویس.</li>
+</ul>
+<p>فایل گزارش از قبل نسخهٔ برنامه، نسخهٔ هسته و مدل دستگاه را دارد. برای توصیه‌های کلی، <a href="/fa/help/bug_reports/">گزارش باگ</a> را ببینید.</p>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/android/troubleshooting.fa.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          ویرایش این صفحه در GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="مسیریابی صفحه">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/fa/android/tv/">
+    <span class="prevnext-dir">قبلی</span>
+    Android TV
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/fa/advanced/">
+    <span class="prevnext-dir">بعدی</span>
+    پیکربندی پیشرفته
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="در این صفحه">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    در این صفحه
+  </p>
+  <ul><li><a href="#connection">VPN اجرا نمی‌شود یا ترافیک ندارد</a><ul><li><a href="#vpn-denied">«اجازه ایجاد سرویس VPN داده نشد.»</a></li><li><a href="#vpn-failed">Android از ساختن VPN خودداری می‌کند</a></li><li><a href="#start-errors">پیام‌های دیگر هنگام اتصال</a></li><li><a href="#no-traffic">متصل است، اما چیزی بارگذاری نمی‌شود</a></li><li><a href="#blocked-without-vpn">وقتی Throne خاموش است اینترنت ندارید</a></li><li><a href="#fakedns">برخی برنامه‌ها پس از قطع اتصال اینترنت ندارند</a></li></ul></li><li><a href="#killed-in-background">Throne در پس‌زمینه متوقف می‌شود</a></li><li><a href="#subscriptions">مشکلات اشتراک</a><ul><li><a href="#direct-updates">ارائه‌دهنده فقط به‌روزرسانی از اتصال خود شما را می‌پذیرد</a></li></ul></li><li><a href="#routing">خطاهای مسیریابی</a></li><li><a href="#warp">خطاهای WARP</a></li><li><a href="#updates">مشکلات به‌روزرسانی</a></li><li><a href="#desktop-vs-android">نمایه‌ای که در دسکتاپ کار می‌کند اما در Android نه</a></li><li><a href="#logs">گزارش‌ها</a></li><li><a href="#report">گزارش مشکل</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "کپی",
+    copied: "کپی شد",
+    copyManual: "کلید Ctrl C را فشار دهید",
+    noResults: "نتیجه‌ای یافت نشد برای",
+    theme: "تم",
+    themeAuto: "خودکار",
+    themeLight: "روشن",
+    themeDark: "تاریک"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

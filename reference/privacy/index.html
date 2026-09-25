@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="What Throne sends to subscription providers, every network request the app makes by itself, and who can use its local proxy port.">
+  <title>Privacy &amp; Network Requests - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="Privacy &amp; Network Requests">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/reference/privacy/">
+  <meta property="og:description" content="What Throne sends to subscription providers, every network request the app makes by itself, and who can use its local proxy port.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Privacy &amp; Network Requests">
+  <meta name="twitter:description" content="What Throne sends to subscription providers, every network request the app makes by itself, and who can use its local proxy port.">
+  <link rel="canonical" href="https://throneproj.github.io/reference/privacy/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Privacy \u0026 Network Requests","url":"https://throneproj.github.io/reference/privacy/","description":"What Throne sends to subscription providers, every network request the app makes by itself, and who can use its local proxy port."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/"},{"@type":"ListItem","position":2,"name":"Reference","item":"https://throneproj.github.io/reference/"},{"@type":"ListItem","position":3,"name":"Privacy \u0026 Network Requests"}]}</script>
+  <link rel="alternate" hreflang="en" href="https://throneproj.github.io/reference/privacy/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/reference/privacy/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/reference/privacy/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/reference/privacy/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/" class="header-logo" aria-label="Throne homepage">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.3.1" target="_blank" rel="noopener noreferrer">v1.3.1</a>
+
+    <nav class="header-nav" aria-label="Primary">
+      <a href="https://throneproj.github.io/get_started/">Get Started</a>
+      <a href="https://throneproj.github.io/downloads/">Downloads</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="Search documentation">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Search</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="Language">
+        
+        <a href="https://throneproj.github.io/reference/privacy/" hreflang="en" aria-current="true">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/reference/privacy/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/reference/privacy/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/reference/privacy/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne on GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="Theme">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search documentation" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="Search documentation" placeholder="Search the docs" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Search"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="Documentation">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Get Started</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/installation/">Installation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/configuration/">Quick Start</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Guides</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/guides/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/subscriptions/">Subscriptions & Groups</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/proxy_modes/">System Proxy, TUN & LAN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/tun_mode/">TUN Mode</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/routing/">Routing</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/testing/">Testing & Auto Selector</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/backup/">Backup, Updates & Migration</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/recipes/">Recipes</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/android/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/installation/">Installation & Upgrade</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/permissions/">Permissions & Background</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/modes/">VPN & Proxy Modes</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/widgets/">Widgets, Tile & Automation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Advanced Configuration</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/xray/">sing-box vs Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/chains/">Chains & Custom Configs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/presets/">Anti-Censorship Presets</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/vpn_profiles/">OpenVPN, OpenConnect & Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/windows_tun_mode/">Windows DNS Leak Protection</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/deeplinks/">Deep Links</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Reference</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/reference/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/protocols/">Protocols & Import Formats</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/shortcuts/">Keyboard Shortcuts & Tray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/files/">Command Line, Files & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/privacy/" aria-current="page">Privacy & Network Requests</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/glossary/">Glossary</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Help</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/help/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/faq/">FAQ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/troubleshooting/">Troubleshooting</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/bug_reports/">Reporting a Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/migrating/">Coming from Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">Privacy &amp; Network Requests</h1>
+      <p class="docs-lede">What Throne sends to subscription providers, every network request the app makes by itself, and who can use its local proxy port.</p>
+      <div class="prose">
+        <p>Throne sends your traffic where your profiles and routing rules say. This page covers what Throne sends on its own: device information for subscriptions (HWID), the network requests the app makes by itself, and who can use its local proxy port. Throne does not send usage statistics, and it does not upload logs or crash dumps.</p>
+<h2 id="hwid">HWID and device information</h2>
+<p>Some providers want to know which device requests a subscription. Throne can send four headers with subscription requests. This is off by default.</p>
+<table>
+<thead>
+<tr>
+<th>Header</th>
+<th>Windows</th>
+<th>Linux</th>
+<th>macOS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x-hwid</code></td>
+<td>The Windows <code>MachineGuid</code></td>
+<td>The content of <code>/etc/machine-id</code> (or <code>/var/lib/dbus/machine-id</code>)</td>
+<td>The hardware UUID of the Mac</td>
+</tr>
+<tr>
+<td><code>x-device-os</code></td>
+<td><code>Windows</code></td>
+<td><code>Linux</code></td>
+<td><code>macOS</code></td>
+</tr>
+<tr>
+<td><code>x-ver-os</code></td>
+<td>The Windows version, for example <code>10.0.26100</code></td>
+<td>The kernel version</td>
+<td>The macOS version, for example <code>14.5</code></td>
+</tr>
+<tr>
+<td><code>x-device-model</code></td>
+<td>The computer model (and motherboard) reported by Windows</td>
+<td>The name of the distribution, for example <code>Ubuntu 24.04.1 LTS</code></td>
+<td>The macOS name and version, for example <code>macOS Sonoma (14.5)</code></td>
+</tr>
+</tbody>
+</table>
+<p>To turn it on:</p>
+<ol>
+<li>Open <code>Settings</code> → <code>Basic Settings</code> → <code>Subscription</code>.</li>
+<li>Turn on <code>Enable sending HWID, device model, and OS version when updating subscription</code>.</li>
+<li>Click <code>OK</code>.</li>
+</ol>
+<p>Hover over the checkbox to see the values that Throne found on your computer.</p>
+<ul>
+<li>Throne sends these headers only with subscription requests, never with any other request.</li>
+<li><code>Custom System Parameters (optional)</code> replaces values that Throne sends. Use the form <code>hwid=value,os=value,osVersion=value,model=value</code> and list only the values you want to replace.</li>
+<li>Each subscription group can decide for itself: choose <code>Groups</code> → <code>Edit current Group</code>, and click <code>Advanced</code> in the <code>Subscription</code> section. <code>Send HWID</code> is <code>Keep Default</code> (follow the setting above), <code>On</code> or <code>Off</code>. The <code>HWID</code>, <code>OS</code>, <code>OS Version</code> and <code>Device Model</code> fields replace the values for this group only.</li>
+<li>Every subscription request also sends a User-Agent: <code>Throne/&lt;version&gt;</code>, for example <code>Throne/1.3.1</code>, unless you set another <code>User Agent</code> in the same tab or for the group.</li>
+</ul>
+<p>See <a href="/guides/subscriptions/#user-agent-and-hwid">User-Agent and HWID</a> for when a provider needs these settings.</p>
+<p><strong>Android:</strong> <code>Settings</code> → <code>Subscriptions</code> has the same switch (off by default) and <code>Custom HWID parameters (optional)</code>. Throne for Android sends the Android ID (<code>ANDROID_ID</code>) as HWID. If the Android ID is not available, it creates a random ID once and keeps sending that. It sends <code>Android</code> as OS, the Android version, and the device model. Its default User-Agent is <code>Throne/Android/&lt;version&gt;</code>.</p>
+<h2 id="network-requests">Network requests</h2>
+<p>Besides the traffic of your apps, Throne sends the requests in the table below. Many of them follow the &quot;<code>Use proxy</code> rule&quot;:</p>
+<ul>
+<li>They go out directly by default.</li>
+<li>If <code>Settings</code> → <code>Basic Settings</code> → <code>Miscellaneous</code> → <code>Use proxy</code> is on, or <code>System Proxy</code> is on, they go through Throne's local proxy port instead.</li>
+<li>If they should use the local proxy port but no profile is running, they fail with &quot;Request with proxy but no profile started.&quot;</li>
+</ul>
+<p>A request that goes through the local proxy port enters Throne like the traffic of any other app, so your routing profile decides where it goes.</p>
+<table>
+<thead>
+<tr>
+<th>Request</th>
+<th>When</th>
+<th>Destination</th>
+<th>Route</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Subscription update</td>
+<td>When you add or update a subscription, and on schedule if <code>Subscription auto update</code> is on (off by default)</td>
+<td>The URL of your provider</td>
+<td><code>Use proxy</code> rule</td>
+</tr>
+<tr>
+<td>Remote routing profile</td>
+<td>When you add or update one, and on schedule if <code>Routing profiles auto update</code> is on (off by default)</td>
+<td>The URL of the profile. Addresses on <code>raw.githubusercontent.com</code> go through the <code>Remote Rule-set Mirror</code>.</td>
+<td><code>Use proxy</code> rule</td>
+</tr>
+<tr>
+<td>Routing profile list</td>
+<td>When you choose <code>Routing</code> → <code>Download Profiles</code> → a country</td>
+<td>The throneproj/routeprofiles repository on GitHub, through the mirror</td>
+<td><code>Use proxy</code> rule</td>
+</tr>
+<tr>
+<td>Rule-sets</td>
+<td>When a profile starts and its routing needs a rule-set (or <code>Enable AdBlock</code>) that is not in <code>cache.db</code> yet, about once a day while a profile runs, and when you choose <code>Routing</code> → <code>Update Rule-Sets</code></td>
+<td>GitHub through the <code>Remote Rule-set Mirror</code> (<code>jsDelivr(Cloudflare)</code> by default), or a <code>.srs</code> URL you added</td>
+<td>Sent by the core through the default outbound of your routing profile (directly if it is <code>block</code>)</td>
+</tr>
+<tr>
+<td>Location lookup</td>
+<td>After every start of a profile, and when you open the <code>Runtime Stats</code> tab while a profile runs</td>
+<td><code>http://ip-api.com/json/</code></td>
+<td>Always the local proxy port</td>
+</tr>
+<tr>
+<td>URL test</td>
+<td>When you run a URL test or click the status bar, when you open the <code>Runtime Stats</code> tab, while an auto selector runs, and after a subscription update if the group&#39;s <code>Run URL test</code> is on</td>
+<td>The <code>Latency Test URL</code>, by default <code>http://cp.cloudflare.com/</code></td>
+<td>Through each tested profile</td>
+</tr>
+<tr>
+<td>IP test</td>
+<td>Only when you choose <code>Resolve Selected Out IP</code> or <code>Resolve out IP for group</code></td>
+<td><code>https://api.ip2location.io/</code></td>
+<td>Through each tested profile</td>
+</tr>
+<tr>
+<td>Speed test</td>
+<td>Only when you run a speed test</td>
+<td>The Speedtest.net server list and a nearby Speedtest server. In <code>Simple Download</code> mode, the <code>Simple Download URL</code> (by default <code>http://cachefly.cachefly.net/1mb.test</code>).</td>
+<td>Through each tested profile</td>
+</tr>
+<tr>
+<td>Connectivity check</td>
+<td>While an auto selector runs, only if you set a <code>Direct Test URL</code> or a <code>Connectivity URL</code> (both empty by default)</td>
+<td>That URL</td>
+<td>Direct</td>
+</tr>
+<tr>
+<td>Domain lookup</td>
+<td>Only when you choose <code>Resolve Domain for group</code> or <code>Resolve Selected Domain</code></td>
+<td>DNS lookups of the domain names of your servers</td>
+<td>Your system&#39;s DNS resolver</td>
+</tr>
+<tr>
+<td>Update check</td>
+<td>Only when you choose <code>Tools</code> → <code>Check For Update</code>. The download starts only when you click <code>Update</code>. On macOS, in the system-Qt packages and in copies from the Linux install script, this menu item is disabled.</td>
+<td><code>api.github.com</code> and the release file on GitHub</td>
+<td><code>Use proxy</code> rule</td>
+</tr>
+<tr>
+<td>WARP registration</td>
+<td>Only when you generate a WARP config or identity</td>
+<td><code>api.cloudflareclient.com</code>, or the <code>Registration Domains…</code> you set</td>
+<td><code>Use proxy</code> rule</td>
+</tr>
+<tr>
+<td>Xray geo files</td>
+<td>Only when an Xray config needs <code>geoip.dat</code> or <code>geosite.dat</code> and you agree to download them, or when you click <code>Download</code></td>
+<td>The <code>GeoIP Asset URL</code> and <code>GeoSite Asset URL</code> (GitHub by default)</td>
+<td><code>Use proxy</code> rule</td>
+</tr>
+<tr>
+<td>Web dashboard</td>
+<td><code>Tools</code> → <code>Open Web dashboard</code>, only if your build has no built-in dashboard. Official builds have one.</td>
+<td>GitHub</td>
+<td>Always the local proxy port</td>
+</tr>
+<tr>
+<td>NTP</td>
+<td>Only if you turn on <code>NTP Settings</code></td>
+<td>The NTP server you enter</td>
+<td>The <code>outbound</code> you choose, <code>direct</code> by default</td>
+</tr>
+</tbody>
+</table>
+<p>About the location lookup:</p>
+<ul>
+<li>Throne uses it to show the country and city of your connection in the status bar, the window title and the <code>Runtime Stats</code> tab.</li>
+<li>It always goes through the local proxy port. With the built-in <code>Default</code> routing profile it leaves through your proxy, so ip-api.com sees the address of your proxy, not your own.</li>
+<li>It uses plain HTTP and sends Throne's User-Agent.</li>
+<li>After a start, Throne skips it when the exit of the running profile is an OpenVPN or OpenConnect profile.</li>
+<li>There is no setting to turn it off.</li>
+</ul>
+<p>DNS queries for the traffic of your apps go to the servers in <code>Routing Settings</code> → <code>DNS</code>. See <a href="/guides/dns/">DNS</a>.</p>
+<p><strong>Android:</strong> Throne for Android makes the same kinds of requests for subscriptions, routing profiles, rule-sets, tests and WARP registration. With <code>Settings</code> → <code>Subscriptions</code> → <code>Use proxy</code> on, or in <code>Proxy only</code> mode, its own requests use the local proxy. While no profile runs, subscription updates and WARP registration fail with &quot;Request with proxy but no profile started.&quot;, but update checks, routing profile downloads and the rule-set list still work: they go out directly. Throne for Android does not look up your location after you connect. It checks GitHub for updates only when you tap <code>Check for updates</code>, or once a day if you turn on <code>Check for updates daily</code> (off by default). <code>Refresh repository list</code> on the <code>Routing</code> screen downloads the list of routing profiles from GitHub.</p>
+<h2 id="local-proxy">Local proxy port</h2>
+<p>While a profile runs, Throne listens on a local proxy port that accepts SOCKS5 and HTTP connections. By default this is <code>127.0.0.1:2080</code>. Only programs on your own computer can reach <code>127.0.0.1</code>, but every one of them can use the port without a password.</p>
+<p>The settings are in <code>Settings</code> → <code>Basic Settings</code> → <code>Common</code> → <code>Inbound Settings</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Listen Address</code></td>
+<td><code>127.0.0.1</code></td>
+<td><code>::</code> or <code>0.0.0.0</code> opens the port to other devices.</td>
+</tr>
+<tr>
+<td><code>Listen Port</code></td>
+<td><code>2080</code></td>
+<td>The port number.</td>
+</tr>
+<tr>
+<td><code>Random port</code></td>
+<td>Off</td>
+<td>Uses a free random port at every start.</td>
+</tr>
+<tr>
+<td><code>Enable Authorization</code></td>
+<td>Off</td>
+<td>Requires the <code>Inbound Username</code> and <code>Inbound Password</code>.</td>
+</tr>
+<tr>
+<td><code>Disable Mixed Inbound</code></td>
+<td>Off</td>
+<td>Turns the port off. <code>System Proxy</code> then cannot be used.</td>
+</tr>
+</tbody>
+</table>
+<p><code>Allow other devices to connect</code> in the <code>Program</code> menu and in the tray menu sets <code>Listen Address</code> to <code>::</code>. Then every device that can reach your computer can use your proxy. Turn on <code>Enable Authorization</code> when you do this. See <a href="/guides/proxy_modes/#lan-sharing">LAN sharing</a>.</p>
+<p>Other local ports:</p>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Default</th>
+<th>Who can reach it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DNS Server Port</code> (<code>Basic Settings</code> → <code>Miscellaneous</code>)</td>
+<td><code>5533</code></td>
+<td>Only this computer (<code>127.0.0.1</code>).</td>
+</tr>
+<tr>
+<td>Clash API (<code>Basic Settings</code> → <code>Core</code>)</td>
+<td>Off (empty <code>Listen Port</code>)</td>
+<td>The Clash API <code>Listen Address</code>, <code>127.0.0.1</code> by default. Set a <code>Secret</code> when you turn it on.</td>
+</tr>
+<tr>
+<td>sing-box API / Dashboard (<code>Basic Settings</code> → <code>Core</code>)</td>
+<td>Off (empty <code>Listen Port</code>)</td>
+<td>Only this computer. A random <code>Secret</code> protects it.</td>
+</tr>
+</tbody>
+</table>
+<p>When a profile uses Xray, the core also opens internal ports on <code>127.0.0.1</code>, each protected by a random password. Throne and its core talk to each other through a local socket, not through a network port.</p>
+<p><strong>Android:</strong> <code>Settings</code> → <code>Inbound</code> has the same kind of options: <code>Proxy port</code>, <code>Allow connections from the LAN</code> (off by default) and <code>Enable authorization</code>.</p>
+<h2 id="website">This website</h2>
+<p>This documentation site counts visits with Yandex Metrika. It records page views, the referring page, clicks on the page and on links, and how long visitors stay. Session recording is turned off. The Throne apps do not include this counter.</p>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/reference/privacy.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          Edit this page on GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="Page navigation">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/reference/files/">
+    <span class="prevnext-dir">Previous</span>
+    Command Line, Files & Logs
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/reference/glossary/">
+    <span class="prevnext-dir">Next</span>
+    Glossary
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="On this page">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    On this page
+  </p>
+  <ul><li><a href="#hwid">HWID and device information</a></li><li><a href="#network-requests">Network requests</a></li><li><a href="#local-proxy">Local proxy port</a></li><li><a href="#website">This website</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "Copy",
+    copied: "Copied",
+    copyManual: "Press Ctrl C",
+    noResults: "No results for",
+    theme: "Theme",
+    themeAuto: "auto",
+    themeLight: "light",
+    themeDark: "dark"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

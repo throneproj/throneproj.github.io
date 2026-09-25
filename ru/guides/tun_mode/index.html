@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Как включить режим TUN, выдать Throne необходимые права в Windows, Linux и macOS, настроить параметры TUN и решить типичные проблемы с TUN.">
+  <title>Режим TUN - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="Режим TUN">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/ru/guides/tun_mode/">
+  <meta property="og:description" content="Как включить режим TUN, выдать Throne необходимые права в Windows, Linux и macOS, настроить параметры TUN и решить типичные проблемы с TUN.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Режим TUN">
+  <meta name="twitter:description" content="Как включить режим TUN, выдать Throne необходимые права в Windows, Linux и macOS, настроить параметры TUN и решить типичные проблемы с TUN.">
+  <link rel="canonical" href="https://throneproj.github.io/ru/guides/tun_mode/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Режим TUN","url":"https://throneproj.github.io/ru/guides/tun_mode/","description":"Как включить режим TUN, выдать Throne необходимые права в Windows, Linux и macOS, настроить параметры TUN и решить типичные проблемы с TUN."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/ru/"},{"@type":"ListItem","position":2,"name":"Руководства","item":"https://throneproj.github.io/ru/guides/"},{"@type":"ListItem","position":3,"name":"Режим TUN"}]}</script>
+  <link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/guides/tun_mode/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/guides/tun_mode/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/guides/tun_mode/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/guides/tun_mode/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к основному содержимому</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="Открыть навигацию" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/ru/" class="header-logo" aria-label="Главная страница Throne">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.3.1" target="_blank" rel="noopener noreferrer">v1.3.1</a>
+
+    <nav class="header-nav" aria-label="Основная навигация">
+      <a href="https://throneproj.github.io/ru/get_started/">Начало работы</a>
+      <a href="https://throneproj.github.io/ru/downloads/">Скачать</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="Поиск по документации">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Поиск</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="Язык">
+        
+        <a href="https://throneproj.github.io/guides/tun_mode/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/guides/tun_mode/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/guides/tun_mode/" hreflang="ru" aria-current="true">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/guides/tun_mode/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne на GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="Тема">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Поиск по документации" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="Поиск по документации" placeholder="Поиск по документации" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Поиск"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="Навигация по документации">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Начало работы</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/get_started/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/get_started/installation/">Установка</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/get_started/configuration/">Быстрый старт</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Руководства</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/subscriptions/">Подписки и группы</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/proxy_modes/">Системный прокси, TUN и доступ из локальной сети</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/tun_mode/" aria-current="page">Режим TUN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/routing/">Маршрутизация</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/testing/">Тестирование и автовыбор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/backup/">Резервное копирование, обновление и перенос</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/recipes/">Рецепты</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne для Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/installation/">Установка и обновление</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/permissions/">Разрешения и работа в фоне</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/modes/">Режимы VPN и прокси</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/widgets/">Виджеты, плитка и автоматизация</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/troubleshooting/">Устранение неполадок на Android</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Расширенная конфигурация</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/xray/">sing-box или Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/chains/">Цепочки прокси и пользовательские конфигурации</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/presets/">Пресеты для обхода цензуры</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/vpn_profiles/">OpenVPN, OpenConnect и Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/windows_tun_mode/">Защита от утечек DNS в Windows</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/deeplinks/">Глубокие ссылки</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Справочник</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/protocols/">Протоколы и форматы импорта</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/shortcuts/">Сочетания клавиш и трей</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/files/">Командная строка, файлы и логи</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/privacy/">Конфиденциальность и сетевые запросы</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/glossary/">Глоссарий</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Помощь</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/faq/">FAQ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/troubleshooting/">Устранение неполадок</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/bug_reports/">Как сообщить об ошибке</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/migrating/">Переход с Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">Режим TUN</h1>
+      <p class="docs-lede">Как включить режим TUN, выдать Throne необходимые права в Windows, Linux и macOS, настроить параметры TUN и решить типичные проблемы с TUN.</p>
+      <div class="prose">
+        <p>В режиме TUN Throne создаёт виртуальный сетевой адаптер и направляет через него трафик всего компьютера. Так охватываются и приложения, игнорирующие настройки прокси, и DNS-запросы. Используйте этот режим, когда системного прокси недостаточно. Сравнение обоих режимов — в разделе <a href="/ru/guides/proxy_modes/#which-mode">Какой режим выбрать</a>.</p>
+<h2 id="enable">Включение режима TUN</h2>
+<ol>
+<li>Установите флажок <code>Режим TUN</code> (Tun Mode) в главном окне или выберите <code>Режим работы</code> (Operation Mode) → <code>Режим TUN</code> в меню трея.</li>
+<li>При первом включении Throne запросит права, необходимые для TUN. Подтвердите запрос (см. ниже).</li>
+<li>Запустите профиль, если ни один не запущен.</li>
+</ol>
+<p>Пока режим TUN активен, в заголовке окна отображается <code>[Tun]</code>. Если у Throne есть права для TUN, заголовок начинается с <code>[Admin]</code>. Включение и выключение режима TUN перезапускает запущенный профиль.</p>
+<p>Режим TUN работает, только пока запущен профиль. Когда вы останавливаете профиль, приложения снова используют ваше обычное подключение. Функции kill switch в Throne нет; см. <a href="/ru/help/faq/#kill-switch">FAQ</a>. Если включён параметр <code>Программа</code> (Program) → <code>Запомнить последний профиль</code> (Remember last profile), Throne при запуске снова запускает последний профиль и включает режим TUN, если он был включён, когда вы закрыли программу.</p>
+<p>Что происходит при первом включении:</p>
+<ul>
+<li><strong>Windows:</strong> Throne выводит запрос «Пожалуйста, запустите Throne от имени администратора» (Please run Throne as admin). Нажмите <code>Да</code> (Yes). Throne закроется и снова запустится от имени администратора с включённым режимом TUN; перед этим Windows покажет запрос контроля учётных записей (UAC). Затем брандмауэр Windows может спросить о <code>ThroneCore</code>. Разрешите доступ: если его заблокировать, TUN подключится, но ничего не будет загружаться.</li>
+<li><strong>Linux:</strong> Throne выводит запрос «Пожалуйста, предоставьте ядру права root» (Please give the core root privileges). Нажмите <code>Да</code> и введите пароль в системном запросе. После этого Throne выдаст ядру права root. Снова установите флажок <code>Режим TUN</code>.</li>
+<li><strong>macOS:</strong> Throne выводит запрос «Пожалуйста, предоставьте ядру права root». Нажмите <code>Да</code>. Откроется Терминал и выполнит команду <code>sudo</code>. Введите пароль в Терминале, затем снова установите флажок <code>Режим TUN</code>.</li>
+</ul>
+<h2 id="privileges">Права</h2>
+<p>Режиму TUN нужны системные права, чтобы создать адаптер и изменить маршруты компьютера.</p>
+<h3 id="privileges-windows">Windows</h3>
+<ul>
+<li>Throne должен работать от имени администратора. При первом нажатии на <code>Режим TUN</code> программа предлагает перезапуститься от имени администратора.</li>
+<li>После того как Throne один раз запустился от имени администратора, он запрашивает права администратора при каждом запуске. Чтобы это прекратить, установите флажок <code>Настройки</code> (Settings) → <code>Основные настройки</code> (Basic Settings) → <code>Безопасность</code> (Security) → <code>Всегда запускать Throne от имени обычного пользователя</code> (Always Start as Standard User). Тогда Throne будет запрашивать права каждый раз, когда вы включаете режим TUN.</li>
+<li>Если включить <code>Программа</code> → <code>Запускать вместе с системой</code> (Start with system), пока Throne работает от имени администратора, Throne будет запускаться с правами администратора при входе в систему, без запроса.</li>
+</ul>
+<p>См. также <a href="/ru/help/faq/#tun-admin">FAQ</a>.</p>
+<h3 id="privileges-linux">Linux</h3>
+<ul>
+<li>Права root нужны только ядру — <code>ThroneCore</code>. Throne выдаёт их с помощью <code>pkexec</code>: делает root владельцем <code>ThroneCore</code> и устанавливает бит SUID (<code>chown root:root</code> и <code>chmod u+s</code>).</li>
+<li><code>pkexec</code> входит в состав polkit. Если его нет, Throne показывает сообщение «Please install &quot;pkexec&quot; first.» (сначала установите pkexec).</li>
+<li>Никогда не запускайте сам Throne через <code>sudo</code>.</li>
+<li>Вместо бита SUID можно выдать ядру пять возможностей (capabilities): <code>CAP_NET_ADMIN</code>, <code>CAP_NET_RAW</code>, <code>CAP_NET_BIND_SERVICE</code>, <code>CAP_SYS_PTRACE</code> и <code>CAP_DAC_READ_SEARCH</code>. Throne считает ядро привилегированным, только если у него есть все пять.</li>
+</ul>
+<pre><code class="language-bash hljs">sudo setcap cap_net_admin,cap_net_raw,cap_net_bind_service,cap_sys_ptrace,cap_dac_read_search+ep /path/to/Throne/ThroneCore
+</code></pre>
+<p>Некоторые сторонние пакеты не могут сами изменить ядро. Они показывают сообщение «This installation cannot grant the core privileges by itself.» (эта установка не может сама выдать ядру права) вместе с инструкциями от пакета. См. также <a href="/ru/help/faq/#linux-suid">FAQ</a>.</p>
+<h3 id="privileges-macos">macOS</h3>
+<ul>
+<li>Перед включением режима TUN переместите <code>Throne.app</code> в <code>/Applications</code>. Права выдаются через Терминал, и это может не сработать, пока приложение находится в папке <code>Downloads</code>.</li>
+<li>Throne открывает Терминал с командой <code>sudo chown root:wheel … &amp;&amp; sudo chmod u+s …</code> для ядра. Введите там свой пароль, затем снова установите флажок <code>Режим TUN</code>.</li>
+<li>Для <code>sudo</code> нужна учётная запись администратора. Под стандартной учётной записью можно пользоваться системным прокси, но не режимом TUN.</li>
+</ul>
+<h3 id="disable-privilege-request">Отключение запросов прав</h3>
+<p><code>Настройки</code> → <code>Основные настройки</code> → <code>Безопасность</code> → <code>Откл. привилегированный запрос</code> (Disable Privilege request) запрещает Throne запрашивать права. Тогда Throne запускает режим TUN с теми правами, которые у него есть, а в логе появляется сообщение «Пользователь решил не запрашивать привилегии, некоторые функции могут не работать» (User opted for no privilege req, some features may not work). Используйте этот параметр, только если выдаёте права самостоятельно, например всегда запускаете Throne от имени администратора или задали описанные выше возможности (capabilities).</p>
+<h2 id="settings">Параметры TUN</h2>
+<p>Откройте <code>Настройки</code> → <code>Настройки режима TUN</code> (Tun Settings). Если при нажатии <code>OK</code> режим TUN включён, Throne покажет сообщение «Перезапустите TUN, чтобы изменения вступили в силу» (Restart Tun to take effect). Выключите и снова включите <code>Режим TUN</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>По умолчанию</th>
+<th>Назначение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Stack</code></td>
+<td><code>system</code> в Windows 10 и новее и в Linux, <code>gvisor</code> в macOS</td>
+<td>Как ядро обрабатывает трафик адаптера. <code>system</code> использует сетевой стек операционной системы, <code>gvisor</code> — сетевой стек внутри ядра, а <code>mixed</code> использует <code>system</code> для TCP и <code>gvisor</code> для UDP. В Windows 7 и 8 всегда используется <code>gvisor</code>.</td>
+</tr>
+<tr>
+<td><code>MTU</code></td>
+<td><code>1500</code></td>
+<td>Максимальный размер пакета для адаптера. Выберите <code>1500</code> или <code>9000</code> либо введите значение от 1000 до 10000. Другие значения заменяются на 9000.</td>
+</tr>
+<tr>
+<td><code>Вкл. IPv6 в TUN</code> (Tun Enable IPv6)</td>
+<td>выкл.</td>
+<td>Назначает адаптеру IPv6-адрес, чтобы трафик IPv6 шёл через туннель.</td>
+</tr>
+<tr>
+<td><code>Строгий маршрут</code> (Strict Route)</td>
+<td>вкл. в Windows 10 и новее, выкл. в остальных системах</td>
+<td>В Windows блокирует DNS-запросы, которые пытаются пройти в обход туннеля. См. <a href="/ru/advanced/windows_tun_mode/#strict-route">Защита от утечек DNS в Windows</a>.</td>
+</tr>
+<tr>
+<td><code>Вкл. TUN-маршрутизацию</code> (Enable Tun Routing)</td>
+<td>выкл.</td>
+<td>Выводит из туннеля диапазоны IP и наборы правил <code>geoip-*</code>, которые ваша маршрутизация направляет в <code>direct</code>, чтобы система маршрутизировала их в обход ядра. Большие наборы правил могут вызывать очень высокую нагрузку на процессор в Windows.</td>
+</tr>
+<tr>
+<td><code>Автоматическое перенаправление</code> (Auto Redirect)</td>
+<td>вкл.</td>
+<td>Только Linux. Нужно на новых версиях ядра Linux для стеков <code>system</code> и <code>mixed</code>. Пока параметр включён, этот компьютер нельзя использовать как сетевой шлюз для других устройств.</td>
+</tr>
+<tr>
+<td><code>L3 Bridge Bypass</code></td>
+<td>выкл.</td>
+<td>Отправляет трафик UDP и ICMP, который ваши правила направляют в <code>direct</code>, прямо через сетевой адаптер, а не открывает для него новое подключение. Это быстрее и сохраняет работу NAT для игр и P2P. TCP идёт обычным прямым путём. Недоступно в Windows на ARM.</td>
+</tr>
+<tr>
+<td><code>IPv4 CIDR</code></td>
+<td><code>172.19.0.1/24</code></td>
+<td>IPv4-адрес адаптера. Меняйте его, только если он пересекается с сетью, которой вы пользуетесь. <code>Восстановить адреса по умолчанию</code> (Restore default addresses) сбрасывает оба адреса.</td>
+</tr>
+<tr>
+<td><code>IPv6 CIDR</code></td>
+<td><code>fdfe:dcba:9876::1/96</code></td>
+<td>IPv6-адрес адаптера. Используется только вместе с <code>Вкл. IPv6 в TUN</code>.</td>
+</tr>
+<tr>
+<td><code>Обход частного диапазона</code> (Private Range Bypass)</td>
+<td>вкл.</td>
+<td>Диапазоны адресов, трафик к которым идёт прямо на ваш сетевой адаптер, а не через ядро, — по одному в строке. <code>Восстановить диапазоны по умолчанию</code> (Restore default ranges) восстанавливает список. Адреса loopback и широковещательные адреса всегда идут в обход туннеля.</td>
+</tr>
+<tr>
+<td><code>Диагностика</code> (Troubleshooting) → <code>Сброс</code> (Reset)</td>
+<td>–</td>
+<td>Перезапускает процесс ядра. Используйте, если режим TUN не запускается.</td>
+</tr>
+</tbody>
+</table>
+<p>По умолчанию список <code>Обход частного диапазона</code> содержит <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code>, <code>192.168.0.0/16</code>, <code>169.254.0.0/16</code>, <code>224.0.0.0/4</code>, <code>fc00::/7</code>, <code>fe80::/10</code> и <code>ff00::/8</code>.</p>
+<h2 id="side-effects">Побочные эффекты</h2>
+<h3 id="side-effects-lan">Локальная сеть</h3>
+<p>Когда <code>Обход частного диапазона</code> включён, компьютер обращается к принтерам, сетевым дискам, странице настроек роутера и другим локальным устройствам напрямую, вне туннеля. Если его выключить, локальный трафик идёт через ядро, и куда он направится, решают ваши правила маршрутизации. Если правило маршрутизации направляет частный диапазон в прокси или блокирует его, этот диапазон остаётся в туннеле, чтобы правило срабатывало.</p>
+<h3 id="side-effects-hotspot">Мобильный хот-спот и общий доступ к подключению в Windows</h3>
+<p>Если мобильный хот-спот Windows или общий доступ к подключению к интернету (Internet Connection Sharing) раздаёт ваш обычный сетевой адаптер, Windows игнорирует настройки, которые не пускают собственные подключения Throne в туннель. Тогда режим TUN перестаёт работать, и Throne предупреждает: «IPv4 forwarding breaks Tun mode» (переадресация IPv4 нарушает работу режима TUN). Вместо этого раздавайте через хот-спот подключение адаптера <code>throne-tun</code>: в параметрах мобильного хот-спота Windows в поле «Share my internet connection from» (с какого подключения раздавать интернет) выберите <code>throne-tun</code>. Или выключайте хот-спот, пока пользуетесь режимом TUN. См. <a href="/ru/guides/recipes/#hotspot">Рецепты</a>.</p>
+<h3 id="side-effects-vms">Docker, WSL и виртуальные машины</h3>
+<p>У контейнеров и виртуальных машин есть собственные виртуальные сети. Трафик между ними и вашим компьютером использует частные адреса, поэтому обычно идёт в обход туннеля. Если такая сеть использует диапазон, которого нет в списке <code>Обход частного диапазона</code>, добавьте его. В Linux помните, что <code>Автоматическое перенаправление</code> (Auto Redirect) не даёт компьютеру работать сетевым шлюзом. См. <a href="/ru/guides/recipes/#docker-wsl-vms">Рецепты</a>.</p>
+<h3 id="side-effects-vpn">Другие VPN</h3>
+<p>Два VPN на одном компьютере конкурируют за маршруты и DNS. Выключайте другие VPN-приложения, пока включён режим TUN. Как одновременно пользоваться корпоративной сетью, см. на странице <a href="/ru/guides/recipes/#corporate-vpn">Рецепты</a>.</p>
+<h3 id="side-effects-ipv6">IPv6</h3>
+<p><code>Вкл. IPv6 в TUN</code> (Tun Enable IPv6) по умолчанию выключен. Включайте его, только если ваш сервер поддерживает IPv6. Иначе возможны проблемы с подключением.</p>
+<h3 id="side-effects-dns">DNS</h3>
+<p>В режиме TUN DNS-запросы всех приложений попадают в Throne. Тест на утечку DNS всё равно может показывать DNS-сервер вашего интернет-провайдера для сайтов, которые ваши правила направляют напрямую. Это ожидаемо; см. <a href="/ru/guides/dns/#leak-tests">DNS</a>.</p>
+<h2 id="troubleshooting">Устранение неполадок</h2>
+<p>Откройте вкладку <code>Логи</code> (Logs) и найдите ошибки, возникающие при запуске режима TUN. Общие шаги описаны на странице <a href="/ru/help/troubleshooting/#tun">Устранение неполадок</a>.</p>
+<h3 id="troubleshooting-windows">Windows</h3>
+<p><strong>Подключено, но ничего не загружается.</strong> Брандмауэр Windows может блокировать <code>ThroneCore</code>. Windows спрашивает об этом только один раз — при первом включении режима TUN. Если вы тогда заблокировали доступ, разрешите <code>ThroneCore</code> в <code>Безопасность Windows</code> (Windows Security) → <code>Брандмауэр и безопасность сети</code> (Firewall &amp; network protection) → <code>Разрешить работу с приложением через брандмауэр</code> (Allow an app through firewall) для частных и общественных сетей.</p>
+<p><strong>Антивирус.</strong> Некоторые антивирусы, например Avast и ESET, блокируют адаптер или ядро. Добавьте папку Throne в исключения.</p>
+<p><strong>Другой стек.</strong> В окне <code>Настройки TUN</code> (Tun Settings) установите для <code>Stack</code> значение <code>gvisor</code> и попробуйте снова.</p>
+<p><strong>«Строгая маршрутизация недоступна» (Strict routing unavailable).</strong> Windows не удалось включить строгую маршрутизацию. Снимите флажок <code>Строгий маршрут</code> (Strict Route) в окне <code>Настройки TUN</code> и снова запустите профиль. Без него DNS-запросы могут утекать; см. <a href="/ru/advanced/windows_tun_mode/">Защита от утечек DNS в Windows</a>.</p>
+<p><strong>«Некорректное поведение устройства TUN» (Tun device misbehaving).</strong> Нажмите <code>Сброс</code> (Reset), чтобы перезапустить ядро, затем снова запустите профиль.</p>
+<p><strong>После сбоя или принудительного завершения.</strong> Виртуальный адаптер может остаться в системе. Перезагрузите Windows.</p>
+<p><strong>Режим TUN очень долго запускается.</strong> При запуске режима TUN Throne очищает DNS-кэш Windows. Очень большой файл HOSTS, например список блокировки рекламы на 100 000 записей, сильно замедляет эту операцию. Уменьшите файл HOSTS.</p>
+<p><strong>Мобильный хот-спот.</strong> См. <a href="#side-effects-hotspot">Мобильный хот-спот и общий доступ к подключению</a>.</p>
+<h3 id="troubleshooting-linux">Linux</h3>
+<p><strong>«Please install &quot;pkexec&quot; first.» (сначала установите pkexec).</strong> Установите polkit с помощью менеджера пакетов или задайте возможности (capabilities), описанные в разделе <a href="#privileges-linux">Права в Linux</a>.</p>
+<p><strong>«file exists» при запуске режима TUN.</strong> Эта ошибка возникала из-за параметра <code>Автоматическое перенаправление</code> (Auto Redirect) и была исправлена в версии 1.2.2. Если вы всё ещё видите её, выключите <code>Автоматическое перенаправление</code> и установите для <code>Stack</code> значение <code>gvisor</code>.</p>
+<p><strong>Нет DNS при использовании systemd-resolved.</strong> Если в <code>/etc/systemd/resolved.conf</code> параметр <code>DNSOverTLS</code> включён для всех интерфейсов, режим TUN перестаёт работать. Выключите его там или выключите его для адаптера Throne, пока адаптер существует:</p>
+<pre><code class="language-bash hljs">sudo resolvectl dnsovertls throne-tun no
+</code></pre>
+<p><strong>Пакеты из AUR, Nix и других репозиториев.</strong> Их поддерживает сообщество. Если в них режим TUN не работает, попробуйте официальную сборку; см. <a href="/ru/help/faq/#third-party-packages">FAQ</a>.</p>
+<p><strong>Throne запущен через <code>sudo</code>.</strong> Закройте его и запустите от имени обычного пользователя. Права root нужны только ядру.</p>
+<h3 id="troubleshooting-macos">macOS</h3>
+<p><strong>macOS сообщает, что приложение повреждено или не может быть открыто.</strong> Снимите атрибут карантина:</p>
+<pre><code class="language-bash hljs">xattr -d com.apple.quarantine /Applications/Throne.app
+</code></pre>
+<p><strong>Запрос прав завершается ошибкой.</strong> Переместите <code>Throne.app</code> в <code>/Applications</code>, запустите его оттуда и снова установите флажок <code>Режим TUN</code>.</p>
+<p><strong>Стандартная учётная запись.</strong> Для режима TUN нужна учётная запись администратора. Пользуйтесь системным прокси или войдите под учётной записью администратора.</p>
+<p>О дополнительной защите от утечек DNS в Windows см. <a href="/ru/advanced/windows_tun_mode/">Защита от утечек DNS в Windows</a>.</p>
+<h2 id="android">На Android</h2>
+<p>В режиме <code>VPN</code> Throne для Android работает так же, как режим TUN. Его параметры находятся в <code>Настройки</code> (Settings) → <code>TUN / VPN</code>. Там по умолчанию используется стек gVisor, MTU по умолчанию — 9000, а строгий маршрут включён всегда. См. <a href="/ru/android/modes/#tun-settings">Режимы VPN и прокси</a>.</p>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/guides/tun_mode.ru.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          Редактировать эту страницу на GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="Навигация по странице">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/ru/guides/proxy_modes/">
+    <span class="prevnext-dir">Назад</span>
+    Системный прокси, TUN и доступ из локальной сети
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/ru/guides/routing/">
+    <span class="prevnext-dir">Вперед</span>
+    Маршрутизация
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="На этой странице">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    На этой странице
+  </p>
+  <ul><li><a href="#enable">Включение режима TUN</a></li><li><a href="#privileges">Права</a><ul><li><a href="#privileges-windows">Windows</a></li><li><a href="#privileges-linux">Linux</a></li><li><a href="#privileges-macos">macOS</a></li><li><a href="#disable-privilege-request">Отключение запросов прав</a></li></ul></li><li><a href="#settings">Параметры TUN</a></li><li><a href="#side-effects">Побочные эффекты</a><ul><li><a href="#side-effects-lan">Локальная сеть</a></li><li><a href="#side-effects-hotspot">Мобильный хот-спот и общий доступ к подключению в Windows</a></li><li><a href="#side-effects-vms">Docker, WSL и виртуальные машины</a></li><li><a href="#side-effects-vpn">Другие VPN</a></li><li><a href="#side-effects-ipv6">IPv6</a></li><li><a href="#side-effects-dns">DNS</a></li></ul></li><li><a href="#troubleshooting">Устранение неполадок</a><ul><li><a href="#troubleshooting-windows">Windows</a></li><li><a href="#troubleshooting-linux">Linux</a></li><li><a href="#troubleshooting-macos">macOS</a></li></ul></li><li><a href="#android">На Android</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "Копировать",
+    copied: "Скопировано",
+    copyManual: "Нажмите Ctrl C",
+    noResults: "Ничего не найдено по запросу",
+    theme: "Тема",
+    themeAuto: "авто",
+    themeLight: "светлая",
+    themeDark: "темная"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

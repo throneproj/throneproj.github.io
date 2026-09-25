@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Выбирайте, какой трафик идёт через прокси, какой — напрямую, а какой блокируется, с помощью готовых профилей или собственных правил.">
+  <title>Маршрутизация - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="Маршрутизация">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/ru/guides/routing/">
+  <meta property="og:description" content="Выбирайте, какой трафик идёт через прокси, какой — напрямую, а какой блокируется, с помощью готовых профилей или собственных правил.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Маршрутизация">
+  <meta name="twitter:description" content="Выбирайте, какой трафик идёт через прокси, какой — напрямую, а какой блокируется, с помощью готовых профилей или собственных правил.">
+  <link rel="canonical" href="https://throneproj.github.io/ru/guides/routing/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Маршрутизация","url":"https://throneproj.github.io/ru/guides/routing/","description":"Выбирайте, какой трафик идёт через прокси, какой — напрямую, а какой блокируется, с помощью готовых профилей или собственных правил."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/ru/"},{"@type":"ListItem","position":2,"name":"Руководства","item":"https://throneproj.github.io/ru/guides/"},{"@type":"ListItem","position":3,"name":"Маршрутизация"}]}</script>
+  <link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/guides/routing/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/guides/routing/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/guides/routing/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/guides/routing/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к основному содержимому</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="Открыть навигацию" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/ru/" class="header-logo" aria-label="Главная страница Throne">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.3.1" target="_blank" rel="noopener noreferrer">v1.3.1</a>
+
+    <nav class="header-nav" aria-label="Основная навигация">
+      <a href="https://throneproj.github.io/ru/get_started/">Начало работы</a>
+      <a href="https://throneproj.github.io/ru/downloads/">Скачать</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="Поиск по документации">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Поиск</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="Язык">
+        
+        <a href="https://throneproj.github.io/guides/routing/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/guides/routing/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/guides/routing/" hreflang="ru" aria-current="true">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/guides/routing/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne на GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="Тема">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Поиск по документации" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="Поиск по документации" placeholder="Поиск по документации" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Поиск"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="Навигация по документации">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Начало работы</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/get_started/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/get_started/installation/">Установка</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/get_started/configuration/">Быстрый старт</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Руководства</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/subscriptions/">Подписки и группы</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/proxy_modes/">Системный прокси, TUN и доступ из локальной сети</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/tun_mode/">Режим TUN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/routing/" aria-current="page">Маршрутизация</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/testing/">Тестирование и автовыбор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/backup/">Резервное копирование, обновление и перенос</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/recipes/">Рецепты</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne для Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/installation/">Установка и обновление</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/permissions/">Разрешения и работа в фоне</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/modes/">Режимы VPN и прокси</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/widgets/">Виджеты, плитка и автоматизация</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/troubleshooting/">Устранение неполадок на Android</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Расширенная конфигурация</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/xray/">sing-box или Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/chains/">Цепочки прокси и пользовательские конфигурации</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/presets/">Пресеты для обхода цензуры</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/vpn_profiles/">OpenVPN, OpenConnect и Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/windows_tun_mode/">Защита от утечек DNS в Windows</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/deeplinks/">Глубокие ссылки</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Справочник</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/protocols/">Протоколы и форматы импорта</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/shortcuts/">Сочетания клавиш и трей</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/files/">Командная строка, файлы и логи</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/privacy/">Конфиденциальность и сетевые запросы</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/glossary/">Глоссарий</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Помощь</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/faq/">FAQ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/troubleshooting/">Устранение неполадок</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/bug_reports/">Как сообщить об ошибке</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/migrating/">Переход с Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">Маршрутизация</h1>
+      <p class="docs-lede">Выбирайте, какой трафик идёт через прокси, какой — напрямую, а какой блокируется, с помощью готовых профилей или собственных правил.</p>
+      <div class="prose">
+        <p>Маршрутизация решает, куда направляется каждое соединение: через ваш прокси, напрямую в интернет или никуда. На этой странице показано, как скачать готовый профиль маршрутизации для вашей страны, написать собственные правила и поделиться профилями. Если вы хотите, чтобы весь трафик шёл через прокси, ничего менять не нужно.</p>
+<h2 id="how-routing-works">Как работает маршрутизация</h2>
+<p>Профиль маршрутизации — это список правил плюс outbound по умолчанию. Когда начинается соединение, Throne проверяет правила сверху вниз. Первое подходящее правило решает, куда пойдёт соединение. Если ни одно правило не подошло, соединение использует outbound по умолчанию.</p>
+<p>Outbound — это направление, куда может пойти трафик:</p>
+<table>
+<thead>
+<tr>
+<th>Outbound</th>
+<th>Куда идёт трафик</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>proxy</code></td>
+<td>Через запущенный вами профиль. Когда WARP включён, он добавляется последним звеном.</td>
+</tr>
+<tr>
+<td><code>direct</code></td>
+<td>Прямо в интернет, без прокси.</td>
+</tr>
+<tr>
+<td><code>block</code></td>
+<td>Никуда. Соединение отклоняется.</td>
+</tr>
+<tr>
+<td><code>warp-bypass</code></td>
+<td>Через запущенный вами профиль, но без WARP. Когда WARP выключен — то же, что <code>proxy</code>. См. <a href="/ru/advanced/warp/#warp-bypass">WARP</a>.</td>
+</tr>
+<tr>
+<td>Сохранённый профиль</td>
+<td>Через этот профиль вместо запущенного. Только в расширенных правилах.</td>
+</tr>
+</tbody>
+</table>
+<p>Одновременно активен ровно один профиль маршрутизации. Встроенный профиль <code>Default</code> содержит только правило для DNS (<code>Route DNS</code>) и направляет всё в <code>proxy</code>.</p>
+<p>Сменить активный профиль маршрутизации можно любым из способов:</p>
+<ul>
+<li>Список внизу меню <code>Маршруты</code> (Routing). Активный профиль отмечен галочкой.</li>
+<li>Меню трея → <code>Выбор маршрутизации</code> (Select Routing).</li>
+<li><code>Настройки</code> (Settings) → <code>Настройки маршрутизации</code> (Routing Settings) → <code>Основные</code> (Common) → <code>Профиль маршрутизации</code> (Routing Profile), затем <code>OK</code>.</li>
+</ul>
+<p>Выбор профиля маршрутизации в меню <code>Маршруты</code> (Routing) или в трее перезапускает активное подключение, поэтому новые правила сразу вступают в силу. Если активен не <code>Default</code>, название активного профиля маршрутизации показано в заголовке окна.</p>
+<h2 id="download-profiles">Скачивание готовых профилей</h2>
+<p>Throne может скачать профили маршрутизации, которые поддерживаются в актуальном состоянии для Китая, Ирана и России.</p>
+<ol>
+<li>Откройте меню <code>Маршруты</code> (Routing) → <code>Скачать профили</code> (Download Profiles) и выберите <code>China</code>, <code>Iran</code> или <code>Russia</code>.</li>
+<li>Throne перечислит профили, которые добавит («Добавить эти удалённые профили маршрутизации?»). Оставьте флажок <code>Авто-обновление</code> (Auto update) установленным и нажмите <code>OK</code>.</li>
+<li>Снова откройте меню <code>Маршруты</code> (Routing) и выберите внизу один из новых профилей. Само скачивание не меняет активный профиль.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Страна</th>
+<th>Профиль</th>
+<th>Что он делает</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Китай</td>
+<td><code>Bypass China</code></td>
+<td>Проксирует всё, кроме китайских сайтов, китайских IP-адресов и вашей локальной сети — они идут напрямую. Сайты из списка для обхода цензуры всегда идут через прокси.</td>
+</tr>
+<tr>
+<td>Китай</td>
+<td><code>Proxy China Blocked</code></td>
+<td>Направляет всё напрямую, кроме сайтов, которые заведомо заблокированы в Китае.</td>
+</tr>
+<tr>
+<td>Иран</td>
+<td><code>Bypass Iran</code></td>
+<td>Проксирует всё, кроме иранских сайтов, иранских IP-адресов и вашей локальной сети.</td>
+</tr>
+<tr>
+<td>Россия</td>
+<td><code>Bypass Russia</code></td>
+<td>Проксирует всё, кроме российских сайтов и IP-адресов, сайтов, которые работают только внутри России, и вашей локальной сети.</td>
+</tr>
+<tr>
+<td>Россия</td>
+<td><code>Proxy Russia Blocked</code></td>
+<td>Направляет всё напрямую, кроме сайтов и IP-адресов, заблокированных в России.</td>
+</tr>
+<tr>
+<td>Россия</td>
+<td><code>Proxy Antizapret</code></td>
+<td>Направляет всё напрямую, кроме сайтов из списка блокировок Antizapret.</td>
+</tr>
+<tr>
+<td>Россия</td>
+<td><code>Proxy Refilter</code></td>
+<td>Направляет всё напрямую, кроме сайтов и IP-адресов из списка блокировок Re:filter.</td>
+</tr>
+</tbody>
+</table>
+<p>Профиль вида «Bypass» подойдёт, если большинство сайтов, которые вы посещаете, находятся за рубежом. Профиль вида «Proxy … Blocked» пропускает через ваш сервер меньше трафика, что помогает, если сервер медленный или у него ограничен объём трафика. Недостаток: заблокированный сайт, которого нет в списке, не откроется.</p>
+<p>Эти профили — альтернативы друг другу. Активируйте нужный, а остальные просто оставьте: удалять их не нужно. Это <a href="#remote-profiles">удалённые профили</a>, поэтому они умеют обновляться сами. Списки ведутся в репозитории <a href="https://github.com/throneproj/routeprofiles">throneproj/routeprofiles</a> и со временем могут меняться.</p>
+<p>Если скачивание завершается ошибкой «Ошибка запроса профиля», выберите другое зеркало в настройке <code>Источник профилей маршрутизации</code> (Remote Rule-set Mirror), описанной ниже, и повторите попытку.</p>
+<h2 id="profiles">Профили маршрутизации</h2>
+<p><code>Настройки</code> (Settings) → <code>Настройки маршрутизации</code> (Routing Settings) — это также первый пункт меню <code>Маршруты</code> (Routing) — открывает окно «Маршруты» (Routes):</p>
+<table>
+<thead>
+<tr>
+<th>Вкладка</th>
+<th>Что на ней</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Основные</code> (Common)</td>
+<td>Активный профиль маршрутизации, стратегии доменов и зеркало наборов правил.</td>
+</tr>
+<tr>
+<td><code>Перехват</code> (Hijack)</td>
+<td>Устарела. Вместо неё используйте <code>Режим TUN</code> (Tun Mode); см. <a href="/ru/guides/dns/#deprecated">DNS</a>.</td>
+</tr>
+<tr>
+<td><code>Warp</code></td>
+<td>Cloudflare WARP; см. <a href="/ru/advanced/warp/#generate">WARP</a>.</td>
+</tr>
+<tr>
+<td><code>DNS</code></td>
+<td>DNS-серверы и их параметры; см. <a href="/ru/guides/dns/#settings">DNS</a>.</td>
+</tr>
+<tr>
+<td><code>Маршрут</code> (Route)</td>
+<td>Ваши профили маршрутизации.</td>
+</tr>
+</tbody>
+</table>
+<p>Настройки на вкладке <code>Основные</code> (Common):</p>
+<table>
+<thead>
+<tr>
+<th>Настройка</th>
+<th>По умолчанию</th>
+<th>Что делает</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Профиль маршрутизации</code> (Routing Profile)</td>
+<td><code>Default</code></td>
+<td>Активный профиль маршрутизации.</td>
+</tr>
+<tr>
+<td><code>Стратегия доменов по умолчанию</code> (Default Domain Strategy)</td>
+<td>пусто</td>
+<td>Предпочтение IPv4 или IPv6, когда Throne определяет адрес сервера или сайта, который идёт напрямую.</td>
+</tr>
+<tr>
+<td><code>Стратегия разрешения доменов</code> (Resolve Domain Strategy)</td>
+<td>пусто</td>
+<td>Если задана, Throne определяет IP-адрес каждого запрошенного домена до применения правил, так что IP-правила срабатывают и для доменов.</td>
+</tr>
+<tr>
+<td><code>Источник профилей маршрутизации</code> (Remote Rule-set Mirror)</td>
+<td><code>jsDelivr (Cloudflare)</code></td>
+<td>Откуда скачиваются наборы правил и профили, хранящиеся на GitHub. <code>GitHub</code> скачивает их напрямую.</td>
+</tr>
+</tbody>
+</table>
+<p>Доступные стратегии: <code>ipv4_only</code>, <code>ipv6_only</code>, <code>prefer_ipv4</code> и <code>prefer_ipv6</code>. Не выбирайте <code>ipv6_only</code> в сети без IPv6.</p>
+<p>Кнопки на вкладке <code>Маршрут</code> (Route):</p>
+<table>
+<thead>
+<tr>
+<th>Кнопка</th>
+<th>Что делает</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Новый</code> (New)</td>
+<td>Создаёт <code>Структурированный профиль</code> (Structured profile), <code>Raw-профиль</code> (Raw profile) или <code>Удалённый профиль</code> (Remote profile).</td>
+</tr>
+<tr>
+<td><code>Клонировать</code> (Clone)</td>
+<td>Копирует выбранный профиль.</td>
+</tr>
+<tr>
+<td><code>Экспорт</code> (Export)</td>
+<td>Копирует выбранный профиль в виде ссылки <code>throne://route/</code> (<code>Ctrl+C</code>).</td>
+</tr>
+<tr>
+<td><code>Импорт</code> (Import)</td>
+<td>Добавляет профиль из буфера обмена (<code>Ctrl+V</code>).</td>
+</tr>
+<tr>
+<td><code>Редактировать</code> (Edit)</td>
+<td>Открывает выбранный профиль. Двойной щелчок по нему делает то же самое.</td>
+</tr>
+<tr>
+<td><code>Удалить</code> (Delete)</td>
+<td>Удаляет выбранный профиль (<code>Del</code>). Последний профиль удалить нельзя.</td>
+</tr>
+<tr>
+<td><code>Обновление</code> (Update)</td>
+<td><code>Обновить выбранные</code> (Update selected) или <code>Обновить все</code> (Update all) заново скачивают удалённые профили.</td>
+</tr>
+</tbody>
+</table>
+<p>Изменения в окне «Маршруты» сохраняются, когда вы нажимаете <code>OK</code>. Если подключение активно, главное окно затем показывает «Settings changed, restart to apply» (настройки изменены, перезапустите для применения). Нажмите там <code>Restart</code>, чтобы применить новые правила.</p>
+<p>Есть три вида профилей маршрутизации: структурированные профили, которые вы редактируете в Throne с помощью <a href="#simple-rules">простых правил</a> и <a href="#advanced-rules">расширенных правил</a>; <a href="#remote-profiles">удалённые профили</a>, которые скачиваются по URL; и <a href="#raw-profiles">raw-профили</a>, написанные в виде JSON sing-box. Большинству пользователей нужны только структурированные.</p>
+<p>Чтобы создать структурированный профиль:</p>
+<ol>
+<li>На вкладке <code>Маршрут</code> (Route) нажмите <code>Новый</code> (New) → <code>Структурированный профиль</code> (Structured profile).</li>
+<li>Введите <code>Название</code> (Name) и выберите <code>Outbound по умолчанию</code> (Default outbound).</li>
+<li>Добавьте правила на вкладке <code>Основные настройки</code> (Basic) или на вкладке <code>Дополнительно</code> (Advanced).</li>
+<li>Нажмите <code>OK</code>. На вкладке <code>Основные</code> (Common) выберите этот профиль в поле <code>Профиль маршрутизации</code> (Routing Profile), затем нажмите <code>OK</code>.</li>
+</ol>
+<p>Новый профиль начинается с правила <code>dns-hijack</code>. Throne в любом случае добавляет такой же шаг DNS в каждый структурированный профиль (см. <a href="/ru/guides/dns/#how-dns-works">DNS</a>), поэтому правило можно оставить как есть.</p>
+<p>Вкладка <code>Конечные точки</code> (Endpoints) появляется, если у вас есть профили OpenVPN или OpenConnect. С её помощью они работают рядом с вашим прокси для тех сетей, которые они объявляют; см. <a href="/ru/advanced/vpn_profiles/#split-tunnel">раздельное туннелирование</a>.</p>
+<h2 id="simple-rules">Простые правила</h2>
+<p>На вкладке <code>Основные настройки</code> (Basic) профиля есть четыре поля: <code>Напрямую</code> (Direct), <code>Прокси</code> (Proxy), <code>Блокировать</code> (Block) и <code>Warp-bypass</code>. Каждая строка в поле направляет подходящий трафик туда, куда указывает это поле. Кнопка <code>Как пользоваться</code> (How to use) показывает краткую справку по синтаксису.</p>
+<table>
+<thead>
+<tr>
+<th>Строка</th>
+<th>Что совпадает</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>domain:example.com</code></td>
+<td>Только <code>example.com</code>.</td>
+</tr>
+<tr>
+<td><code>suffix:example.com</code></td>
+<td><code>example.com</code> и все его поддомены, например <code>www.example.com</code>.</td>
+</tr>
+<tr>
+<td><code>keyword:example</code></td>
+<td>Любой домен, который содержит <code>example</code>.</td>
+</tr>
+<tr>
+<td><code>regex:^cdn[0-9]*\.example\.com$</code></td>
+<td>Домены, подходящие под регулярное выражение (синтаксис Go RE2).</td>
+</tr>
+<tr>
+<td><code>ruleset:geosite-youtube</code></td>
+<td>Всё, что входит в <a href="#rule-sets">набор правил</a>: встроенное имя или URL файла <code>.srs</code>.</td>
+</tr>
+<tr>
+<td><code>ip:10.0.0.0/8</code></td>
+<td>IP-адреса из диапазона. Подойдёт и отдельный адрес, например <code>1.2.3.4</code>.</td>
+</tr>
+<tr>
+<td><code>processName:Telegram.exe</code></td>
+<td>Соединения программы по имени файла.</td>
+</tr>
+<tr>
+<td><code>processPath:C:\Program Files\App\app.exe</code></td>
+<td>Соединения программы по полному пути.</td>
+</tr>
+</tbody>
+</table>
+<p>Правила записи строк:</p>
+<ul>
+<li>Пишите по одной записи в строке. Пустые строки игнорируются.</li>
+<li>Пишите префикс точно так, как показано, с учётом регистра (<code>processName</code>, а не <code>processname</code>).</li>
+<li>Значения <code>domain:</code>, <code>suffix:</code> и <code>keyword:</code> сохраняются в нижнем регистре.</li>
+<li>Имя процесса должно совпадать точно, с учётом регистра и <code>.exe</code> в Windows. Точное имя показывает <a href="#connections-tab">вкладка «Подключения»</a>.</li>
+<li>Throne проверяет строки, когда вы переключаете вкладки или нажимаете <code>OK</code>, и перечисляет строки, которые не может использовать, под заголовком «Некоторые правила не удалось добавить». При переключении вкладок эти строки отбрасываются. <code>OK</code> не сохранит профиль, пока вы их не исправите.</li>
+</ul>
+
+<aside class="callout callout--info">
+  <span class="callout-label">Примечание</span>
+  <p>Правила для процессов видят только трафик, который доходит до Throne. В режиме системного прокси программы, игнорирующие прокси, до него не доходят, поэтому для правил процессов включайте <code>Режим TUN</code> (Tun Mode). См. <a href="/ru/guides/tun_mode/#enable">Режим TUN</a>.</p>
+
+</aside>
+<p><strong>Пример 1: проксировать всё, кроме местных сайтов, и блокировать рекламу.</strong> Установите <code>Outbound по умолчанию</code> (Default outbound) в значение <code>proxy</code>. В поле <code>Напрямую</code> (Direct):</p>
+<pre><code class="language-text hljs">suffix:example.com
+ruleset:geosite-ir
+ruleset:geoip-ir
+</code></pre>
+<p>В поле <code>Блокировать</code> (Block):</p>
+<pre><code class="language-text hljs">ruleset:geosite-category-ads-all
+</code></pre>
+<p>Замените <code>ir</code> кодом своей страны, например <code>cn</code> или <code>ru</code>.</p>
+<p><strong>Пример 2: через прокси идут только одна программа и один сайт.</strong> Установите <code>Outbound по умолчанию</code> (Default outbound) в значение <code>direct</code>. В поле <code>Прокси</code> (Proxy):</p>
+<pre><code class="language-text hljs">processName:Telegram.exe
+suffix:example.org
+</code></pre>
+<h3 id="simple-rules-order">Порядок простых правил</h3>
+<p>Каждое поле превращается в обычные правила на вкладке <code>Дополнительно</code> (Advanced), названные по этому полю, например <code>Simple Address Bypass</code> (адреса из поля <code>Напрямую</code>) или <code>Simple Process Name Proxy</code> (программы из поля <code>Прокси</code>). В новом профиле они добавляются в таком порядке: <code>Напрямую</code>, <code>Блокировать</code>, <code>Прокси</code>, <code>Warp-bypass</code>. Поскольку срабатывает первое совпадение, строка в поле <code>Прокси</code> ни на что не влияет, если более широкая строка в поле <code>Напрямую</code> уже подходит под тот же трафик.</p>
+<p>Чтобы сделать исключение, переместите его выше на вкладке <code>Дополнительно</code> (Advanced). Например, чтобы проксировать <code>example.ir</code> в профиле, который направляет <code>geosite-ir</code> напрямую:</p>
+<ol>
+<li>Добавьте <code>suffix:example.ir</code> в поле <code>Прокси</code> (Proxy).</li>
+<li>Откройте вкладку <code>Дополнительно</code> (Advanced) и выберите <code>Simple Address Proxy</code>.</li>
+<li>Нажимайте <code>Поднять выше</code> (Move Up), пока это правило не окажется выше правила, которое содержит <code>geosite-ir</code>.</li>
+</ol>
+<h2 id="advanced-rules">Расширенные правила</h2>
+<p>Вкладка <code>Дополнительно</code> (Advanced) показывает все правила профиля по порядку, с кнопками <code>Новый</code> (New), <code>Поднять выше</code> (Move Up), <code>Опустить ниже</code> (Move Down) и <code>Удалить</code> (Delete). Справа показаны <code>Название</code> (Name) правила и <code>Предпросмотр</code> (Preview) правила в формате JSON sing-box.</p>
+<p>Чтобы добавить правило:</p>
+<ol>
+<li>Нажмите <code>Новый</code> (New).</li>
+<li>Выберите <code>Действие</code> (Action).</li>
+<li>Откройте вкладку <code>+</code> и отметьте нужные атрибуты. Каждый атрибут становится вкладкой. Если снять отметку с атрибута, его значение очищается.</li>
+<li>Заполните вкладки. Списки принимают по одной записи в строке.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Действие</th>
+<th>Что делает</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>route</code></td>
+<td>Направляет подходящий трафик в <code>outbound</code> правила: <code>proxy</code>, <code>direct</code>, <code>warp-bypass</code> или сохранённый профиль. Новое правило направляет трафик в <code>direct</code>, пока вы не отметите <code>outbound</code> и не выберете другой.</td>
+</tr>
+<tr>
+<td><code>reject</code></td>
+<td>Блокирует подходящий трафик. <code>method</code> и <code>no_drop</code> меняют способ блокировки.</td>
+</tr>
+<tr>
+<td><code>hijack-dns</code></td>
+<td>Отвечает на DNS-запросы с помощью DNS Throne.</td>
+</tr>
+<tr>
+<td><code>route-options</code></td>
+<td>Задаёт параметры, например <code>override_address</code>, <code>override_port</code> или <code>tls_spoof</code>, и переходит к следующим правилам.</td>
+</tr>
+<tr>
+<td><code>sniff</code></td>
+<td>Определяет протокол и домен соединения и переходит дальше.</td>
+</tr>
+<tr>
+<td><code>resolve</code></td>
+<td>Определяет IP-адрес домена (с учётом <code>strategy</code>) и переходит дальше.</td>
+</tr>
+<tr>
+<td><code>bypass</code></td>
+<td>Только в Linux, для продвинутых конфигураций. См. <a href="https://sing-box.sagernet.org/configuration/route/rule_action/">документацию sing-box</a>.</td>
+</tr>
+</tbody>
+</table>
+<p>Чтобы заблокировать трафик в расширенном правиле, используйте <code>reject</code>. Имя <code>block</code> существует только как outbound по умолчанию и как поле <code>Блокировать</code> (Block).</p>
+<table>
+<thead>
+<tr>
+<th>Атрибуты</th>
+<th>Что проверяют</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>domain</code>, <code>domain_suffix</code>, <code>domain_keyword</code>, <code>domain_regex</code></td>
+<td>Запрошенный домен.</td>
+</tr>
+<tr>
+<td><code>ip_cidr</code>, <code>ip_is_private</code></td>
+<td>Адрес назначения; <code>ip_is_private</code> охватывает частные и локальные диапазоны.</td>
+</tr>
+<tr>
+<td><code>rule_set</code></td>
+<td>Имена встроенных наборов правил или URL файлов <code>.srs</code>.</td>
+</tr>
+<tr>
+<td><code>port</code>, <code>port_range</code></td>
+<td>Порт назначения, например <code>443</code> или <code>1000:2000</code>.</td>
+</tr>
+<tr>
+<td><code>source_ip_cidr</code>, <code>source_ip_is_private</code>, <code>source_port</code>, <code>source_port_range</code></td>
+<td>Откуда пришло соединение, например с другого устройства в вашей сети.</td>
+</tr>
+<tr>
+<td><code>process_name</code>, <code>process_path</code>, <code>process_path_regex</code></td>
+<td>Программа на этом компьютере.</td>
+</tr>
+<tr>
+<td><code>network</code>, <code>protocol</code>, <code>ip_version</code></td>
+<td><code>tcp</code>, <code>udp</code> или <code>icmp</code>; обнаруженный протокол, например <code>tls</code>, <code>quic</code> или <code>bittorrent</code>; <code>4</code> или <code>6</code>.</td>
+</tr>
+<tr>
+<td><code>inbound</code></td>
+<td>Где соединение вошло в Throne: <code>mixed-in</code> (порт прокси) или <code>tun-in</code> (режим TUN).</td>
+</tr>
+<tr>
+<td><code>wifi_ssid</code>, <code>wifi_bssid</code></td>
+<td>Сеть Wi-Fi, к которой вы подключены. Недоступно в macOS.</td>
+</tr>
+<tr>
+<td><code>package_name</code></td>
+<td>Приложения Android. На компьютере правило с этим атрибутом никогда не срабатывает.</td>
+</tr>
+<tr>
+<td><code>invert</code></td>
+<td><code>true</code> заставляет правило срабатывать, когда его условия не выполняются.</td>
+</tr>
+</tbody>
+</table>
+<p>Внутри одного правила атрибуты домена, IP и <code>rule_set</code> срабатывают, если совпадает любой из них. Остальные атрибуты, например <code>port</code> или <code>process_name</code>, тоже должны совпасть.</p>
+<p>Советы:</p>
+<ul>
+<li><strong>Исключения — первыми.</strong> Ставьте правило для одного сайта выше правила для целой страны или списка.</li>
+<li><strong>Правила для процессов</strong> видят только программы, трафик которых доходит до Throne. Чтобы охватить программы, игнорирующие системный прокси, используйте режим TUN; см. примечание в разделе <a href="#simple-rules">Простые правила</a>.</li>
+<li><strong>Направить трафик на конкретный сервер.</strong> Отметьте <code>outbound</code> и выберите сохранённый профиль — он показан как <code>[group] name</code>. Throne запускает этот профиль рядом с тем, который запустили вы. Профили дополнительного ядра (Extra Core) и полные пользовательские конфигурации здесь использовать нельзя.</li>
+<li><strong>Правила, которые нельзя редактировать.</strong> Правило с именем «… route prefer» относится к вкладке <code>Конечные точки</code> (Endpoints). Его можно только перемещать.</li>
+</ul>
+<h2 id="rule-sets">Наборы правил</h2>
+<p>Набор правил (rule-set) — это список доменов или диапазонов IP, хранящийся в отдельном файле. Используйте его в простом правиле (<code>ruleset:&lt;name&gt;</code>) или в атрибуте <code>rule_set</code> расширенного правила.</p>
+<ul>
+<li><strong>Встроенные имена.</strong> Throne знает по имени более 2000 наборов правил. Имена, начинающиеся с <code>geosite-</code>, содержат домены, например <code>geosite-youtube</code>, <code>geosite-cn</code> или <code>geosite-category-ads-all</code>. Имена, начинающиеся с <code>geoip-</code>, содержат диапазоны IP, например <code>geoip-ir</code>, <code>geoip-telegram</code> или <code>geoip-private</code>. Когда вы вводите <code>ruleset:</code> в поле простых правил или на вкладке <code>rule_set</code>, Throne подсказывает подходящие имена.</li>
+<li><strong>Собственные файлы.</strong> Подойдёт URL любого бинарного набора правил sing-box, например <code>ruleset:https://example.com/lists/my-sites.srs</code>. Имя файла в URL должно содержать <code>.srs</code>.</li>
+</ul>
+<p>Throne скачивает наборы правил профиля при его запуске и хранит их в кэше ядра. <code>Маршруты</code> (Routing) → <code>Update Rule-Sets</code> скачивает свежие копии. Этот пункт доступен, пока подключение активно, и сообщает, сколько наборов правил он обновил.</p>
+<p>Встроенные наборы правил хранятся на GitHub. Если GitHub в вашей сети заблокирован или работает медленно, измените <code>Настройки маршрутизации</code> (Routing Settings) → <code>Основные</code> (Common) → <code>Источник профилей маршрутизации</code> (Remote Rule-set Mirror). Зеркало также применяется к списку AdBlock и к профилям маршрутизации, которые хранятся на GitHub. Ваши собственные URL <code>.srs</code> всегда используются в том виде, в каком они записаны.</p>
+<h2 id="remote-profiles">Удалённые профили</h2>
+<p>Удалённый профиль — это структурированный профиль, который Throne скачивает по URL. Профили, полученные через меню <a href="#download-profiles">Скачать профили</a>, — удалённые. Провайдер также может передать вам такой профиль <a href="/ru/advanced/deeplinks/#remoteroute">ссылкой <code>throne://remoteroute/</code></a>.</p>
+<p>Чтобы добавить удалённый профиль самостоятельно:</p>
+<ol>
+<li>На вкладке <code>Маршрут</code> (Route) нажмите <code>Новый</code> (New) → <code>Удалённый профиль</code> (Remote profile).</li>
+<li>Введите <code>Название</code> (Name) и <code>URL</code>. По этому адресу может отдаваться ссылка <code>throne://route/</code>, её текст в Base64 или JSON профиля.</li>
+<li>Нажмите <code>Предпросмотр</code> (Preview), чтобы посмотреть профиль, ничего не меняя, или <code>Получить</code> (Fetch), чтобы сразу загрузить его правила.</li>
+<li>Отметьте <code>Авто-обновление</code> (Auto update), чтобы профиль оставался актуальным, затем нажмите <code>OK</code>.</li>
+</ol>
+<p>URL должен отдавать структурированный профиль. Raw-профили не могут быть удалёнными.</p>
+<p>Для автоматических обновлений нужны две вещи: флажок <code>Авто-обновление</code> (Auto update) в профиле и параметр <code>Настройки</code> (Settings) → <code>Основные настройки</code> (Basic Settings) → <code>Подписка</code> (Subscription) → <code>Авто-обновление профилей маршрутизации</code> (Routing profiles auto update). Второй по умолчанию выключен. Его интервал задаётся в минутах (по умолчанию 1440, то есть раз в сутки); значения меньше 30 отключают его. Вкладка <code>Статистика выполнения</code> (Runtime Stats) показывает <code>След. обновл. удаленной маршрутизации</code> (Next remote route update). Чтобы обновить профиль сразу, используйте <code>Обновление</code> (Update) на вкладке <code>Маршрут</code> (Route).</p>
+<p>Обновление заменяет правила и outbound по умолчанию скачанными, поэтому ваши собственные изменения в профиле теряются. Чтобы безопасно изменить удалённый профиль, клонируйте его кнопкой <code>Клонировать</code> (Clone), откройте копию и снимите флажок <code>Авто-обновление</code> (Auto update). Обновление не перезапускает активное подключение: новые правила применяются при следующем запуске профиля.</p>
+<h2 id="raw-profiles">Raw-профили</h2>
+<p>Raw-профиль — это полный объект <code>route</code> sing-box в формате JSON. Используйте его, когда нужны возможности sing-box, которых нет в редакторе правил.</p>
+<p>На вкладке <code>Маршрут</code> (Route) нажмите <code>Новый</code> (New) → <code>Raw-профиль</code> (Raw profile). Редактор проверяет JSON, и в нём есть кнопка <code>Форматирование JSON</code> (Format JSON). Outbound указываются числами:</p>
+<table>
+<thead>
+<tr>
+<th>Число</th>
+<th>Outbound</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-1</code></td>
+<td><code>proxy</code></td>
+</tr>
+<tr>
+<td><code>-2</code></td>
+<td><code>direct</code></td>
+</tr>
+<tr>
+<td><code>-5</code></td>
+<td><code>warp-bypass</code></td>
+</tr>
+<tr>
+<td>ID профиля</td>
+<td>Сохранённый профиль. После <code>&quot;outbound&quot;:</code> или <code>&quot;final&quot;:</code> редактор подсказывает ваши профили по имени и вставляет число.</td>
+</tr>
+</tbody>
+</table>
+<p>Если <code>final</code> отсутствует, Throne использует <code>proxy</code>. Имена встроенных наборов правил за вас не определены: добавьте в JSON собственные записи <code>rule_set</code>. Throne также не добавляет шаг DNS, который структурированные профили получают автоматически. Для режима TUN начинайте правила так:</p>
+<pre><code class="language-json hljs">{
+  &quot;rules&quot;: [
+    { &quot;action&quot;: &quot;sniff&quot; },
+    { &quot;protocol&quot;: &quot;dns&quot;, &quot;action&quot;: &quot;hijack-dns&quot; },
+    { &quot;domain_suffix&quot;: [&quot;example.com&quot;], &quot;outbound&quot;: -2 }
+  ],
+  &quot;final&quot;: -1
+}
+</code></pre>
+<p><code>Запретить изменения</code> (Prevent modifications) использует объект точно в том виде, в каком он написан; Throne лишь заменяет номера outbound на теги. Ничего своего Throne при этом не добавляет, поэтому DNS, профили Xray, цепочки и другие функции могут перестать работать. Используйте этот параметр, только если хорошо знаете sing-box.</p>
+<p><code>Включить AdBlock</code> (Enable AdBlock), <code>Включить DNS-маршрутизацию</code> (Enable DNS Routing) и действия <code>Append</code> на вкладке «Подключения» не работают с raw-профилями. Throne для Android не может использовать raw-профили.</p>
+<h2 id="connections-tab">Вкладка «Подключения»</h2>
+<p>Вкладка <code>Подключения</code> (Connections) внизу главного окна показывает открытые соединения, сгруппированные по программам. Для каждого соединения указаны адрес назначения, протокол, использованный outbound и объём трафика. Это самый быстрый способ узнать, куда идёт трафик сайта, и добавить для него правило.</p>
+<p>Щёлкните соединение правой кнопкой мыши:</p>
+<table>
+<thead>
+<tr>
+<th>Пункт меню</th>
+<th>Что делает</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Append &quot;&lt;host&gt;&quot; to</code> → <code>Direct</code> / <code>Proxy</code> / <code>Block</code></td>
+<td>Добавляет <code>suffix:&lt;host&gt;</code> в соответствующее поле активного профиля маршрутизации. Для IP-адреса добавляется <code>ip:&lt;address&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>Append process &quot;&lt;name&gt;&quot; to</code> → <code>Direct</code> / <code>Proxy</code> / <code>Block</code></td>
+<td>Добавляет <code>processName:&lt;name&gt;</code> в это поле.</td>
+</tr>
+<tr>
+<td><code>Copy Destination</code>, <code>Copy Process Name</code></td>
+<td>Копирует значение.</td>
+</tr>
+<tr>
+<td><code>Close connection</code></td>
+<td>Закрывает соединение.</td>
+</tr>
+</tbody>
+</table>
+<p>После добавления правила нажмите <code>Restart</code> в уведомлении «Settings changed, restart to apply» (настройки изменены, перезапустите для применения). Новая строка присоединяется к уже существующему простому правилу этого поля. Если поле было пустым, его правило добавляется в конец списка, где более широкое правило выше может сработать первым. Проверьте порядок на вкладке <code>Дополнительно</code> (Advanced).</p>
+<p>Пункты <code>Append</code> неактивны, если активный профиль маршрутизации — raw-профиль, заблокирован параметром <code>Запретить изменения</code> (Prevent modifications) или является удалённым профилем с установленным флажком <code>Авто-обновление</code> (Auto update). Наведите курсор на пункт, чтобы увидеть причину. Удалённый профиль сначала клонируйте, как описано в разделе <a href="#remote-profiles">Удалённые профили</a>.</p>
+<p>Для работы вкладки нужен параметр <code>Настройки</code> (Settings) → <code>Основные настройки</code> (Basic Settings) → <code>Интерфейс</code> (Style) → <code>Статистика подключения</code> (Connection statistics) → <code>Включить</code> (Enable); по умолчанию он включён.</p>
+<h2 id="adblock">AdBlock</h2>
+<p><code>Маршруты</code> (Routing) → <code>Включить AdBlock</code> (Enable AdBlock) блокирует рекламу в любом активном профиле маршрутизации. Throne добавляет правило блокировки для общедоступного набора правил блокировки рекламы (<code>adblocksingbox</code> из проекта 217heidai/adblockfilters). Это правило срабатывает раньше ваших собственных правил <code>route</code>, поэтому реклама блокируется и в прямом, и в проксируемом трафике. Включение или выключение AdBlock перезапускает активное подключение.</p>
+<ul>
+<li>AdBlock работает со структурированными и удалёнными профилями, но не с raw-профилями.</li>
+<li>Если какой-то сайт перестал работать, выключите AdBlock, чтобы проверить, не блокирует ли его список.</li>
+<li>Чтобы блокировать рекламу только в одном профиле, вместо этого добавьте <code>ruleset:geosite-category-ads-all</code> в его поле <code>Блокировать</code> (Block).</li>
+</ul>
+<h2 id="share-profiles">Обмен профилями</h2>
+<p>Чтобы поделиться профилем маршрутизации, выберите его на вкладке <code>Маршрут</code> (Route) и нажмите <code>Экспорт</code> (Export) — или <code>Ctrl+C</code> в списке. Throne скопирует ссылку <code>throne://route/</code>. Отправьте её кому угодно.</p>
+<p>Чтобы импортировать профиль:</p>
+<ul>
+<li><strong>В настройках маршрутизации.</strong> Скопируйте ссылку, откройте вкладку <code>Маршрут</code> (Route) и нажмите <code>Импорт</code> (Import) — или <code>Ctrl+V</code> в списке. Throne спросит «Импортировать профиль маршрутизации „…“ из буфера обмена?». Если в буфере обмена нет профиля, откроется окно, куда можно вставить ссылку маршрута Throne, ссылку удалённого маршрута, текст в Base64 или массив правил в JSON. Импортированный профиль также выбирается на вкладке <code>Основные</code> (Common), поэтому он станет активным, когда вы нажмёте <code>OK</code>.</li>
+<li><strong>Откуда угодно.</strong> Щёлкните ссылку или скопируйте её и нажмите <code>Ctrl+V</code> в главном окне. Throne спросит «Добавить этот профиль маршрутизации?» и добавит его, не делая активным.</li>
+</ul>
+<p>Что содержит ссылка:</p>
+<ul>
+<li>Название, outbound по умолчанию и правила.</li>
+<li>Правила, которые направляют трафик в сохранённый профиль, ссылаются на него по имени. На другом компьютере Throne использует профиль с таким же именем или <code>proxy</code>, если такого нет, и сообщает вам об этом.</li>
+<li>Конечные точки VPN — без их учётных данных. Когда вы импортируете такую ссылку, Throne создаёт профили OpenVPN или OpenConnect до того, как спросит «Добавить этот профиль маршрутизации?», и сохраняет их, даже если вы отмените импорт.</li>
+</ul>
+<p>Формат ссылки описан на странице <a href="/ru/advanced/deeplinks/#route">Глубокие ссылки</a>.</p>
+<h2 id="android">На Android</h2>
+<p>В Throne для Android есть те же профили маршрутизации, правила и наборы правил. Откройте <code>Маршруты</code> (Routing) в боковом меню; нажмите на профиль, чтобы сделать его активным. Отличия:</p>
+<ul>
+<li><strong>Правила для приложений.</strong> В редакторе правил есть поле <code>Apps</code>, которое проверяет приложения Android. Версия для компьютера не видит приложения Android, поэтому там правило с условием по приложению никогда не срабатывает. При экспорте профиля с такими правилами Android показывает примечание.</li>
+<li><strong>Правила для Wi-Fi.</strong> Для <code>Wi-Fi SSID</code> и <code>Wi-Fi BSSID</code> нужен доступ к точному местоположению с вариантом «Разрешить в любом режиме» (Allow all the time) и включённая геолокация, потому что иначе Android скрывает имя сети Wi-Fi. Throne запросит доступ, когда вы сохраните такое правило. Если доступа нет, появляется уведомление «Wi-Fi rules are inactive» (правила Wi-Fi не действуют).</li>
+<li><strong>Raw-профили.</strong> Android отклоняет raw-ссылки <code>throne://route/</code> («raw routing profiles are not supported on Android» — raw-профили маршрутизации на Android не поддерживаются). Raw-профили из резервной копии с компьютера сохраняются, но использовать их нельзя («Raw (Throne desktop) · read-only» — только для чтения).</li>
+<li><strong>Конечные точки VPN</strong> в импортированной ссылке отбрасываются с предупреждением.</li>
+<li><strong>Быстрое переключение.</strong> На экране <code>Конфигурация</code> (Profiles) пункт меню (⋮) → <code>Routing profile</code> показывает список ваших профилей маршрутизации. В том же диалоге есть кнопка <code>Enable WARP</code> / <code>Disable WARP</code>.</li>
+<li><strong>Ссылки.</strong> Ссылка <code>throne://route/</code> добавляет профиль, но не делает его активным.</li>
+</ul>
+<p><code>Download profiles</code>, <code>Update rule-sets</code> и удалённые профили работают так же, как на компьютере. <code>AdBlock</code> и <code>Auto update remote profiles</code> находятся в <code>Настройки</code> (Settings) → <code>Routing</code>.</p>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/guides/routing.ru.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          Редактировать эту страницу на GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="Навигация по странице">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/ru/guides/tun_mode/">
+    <span class="prevnext-dir">Назад</span>
+    Режим TUN
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/ru/guides/dns/">
+    <span class="prevnext-dir">Вперед</span>
+    DNS
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="На этой странице">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    На этой странице
+  </p>
+  <ul><li><a href="#how-routing-works">Как работает маршрутизация</a></li><li><a href="#download-profiles">Скачивание готовых профилей</a></li><li><a href="#profiles">Профили маршрутизации</a></li><li><a href="#simple-rules">Простые правила</a><ul><li><a href="#simple-rules-order">Порядок простых правил</a></li></ul></li><li><a href="#advanced-rules">Расширенные правила</a></li><li><a href="#rule-sets">Наборы правил</a></li><li><a href="#remote-profiles">Удалённые профили</a></li><li><a href="#raw-profiles">Raw-профили</a></li><li><a href="#connections-tab">Вкладка «Подключения»</a></li><li><a href="#adblock">AdBlock</a></li><li><a href="#share-profiles">Обмен профилями</a></li><li><a href="#android">На Android</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "Копировать",
+    copied: "Скопировано",
+    copyManual: "Нажмите Ctrl C",
+    noResults: "Ничего не найдено по запросу",
+    theme: "Тема",
+    themeAuto: "авто",
+    themeLight: "светлая",
+    themeDark: "темная"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

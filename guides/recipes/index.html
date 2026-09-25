@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Step-by-step setups for common tasks: proxy only blocked sites, share the proxy, hotspot, calls and games, VMs, a corporate VPN and per-app routing.">
+  <title>Recipes - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="Recipes">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/guides/recipes/">
+  <meta property="og:description" content="Step-by-step setups for common tasks: proxy only blocked sites, share the proxy, hotspot, calls and games, VMs, a corporate VPN and per-app routing.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Recipes">
+  <meta name="twitter:description" content="Step-by-step setups for common tasks: proxy only blocked sites, share the proxy, hotspot, calls and games, VMs, a corporate VPN and per-app routing.">
+  <link rel="canonical" href="https://throneproj.github.io/guides/recipes/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Recipes","url":"https://throneproj.github.io/guides/recipes/","description":"Step-by-step setups for common tasks: proxy only blocked sites, share the proxy, hotspot, calls and games, VMs, a corporate VPN and per-app routing."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://throneproj.github.io/guides/"},{"@type":"ListItem","position":3,"name":"Recipes"}]}</script>
+  <link rel="alternate" hreflang="en" href="https://throneproj.github.io/guides/recipes/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/guides/recipes/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/guides/recipes/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/guides/recipes/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/" class="header-logo" aria-label="Throne homepage">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.3.1" target="_blank" rel="noopener noreferrer">v1.3.1</a>
+
+    <nav class="header-nav" aria-label="Primary">
+      <a href="https://throneproj.github.io/get_started/">Get Started</a>
+      <a href="https://throneproj.github.io/downloads/">Downloads</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="Search documentation">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Search</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="Language">
+        
+        <a href="https://throneproj.github.io/guides/recipes/" hreflang="en" aria-current="true">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/guides/recipes/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/guides/recipes/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/guides/recipes/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne on GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="Theme">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search documentation" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="Search documentation" placeholder="Search the docs" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Search"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="Documentation">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Get Started</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/installation/">Installation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/configuration/">Quick Start</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Guides</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/guides/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/subscriptions/">Subscriptions & Groups</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/proxy_modes/">System Proxy, TUN & LAN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/tun_mode/">TUN Mode</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/routing/">Routing</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/testing/">Testing & Auto Selector</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/backup/">Backup, Updates & Migration</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/recipes/" aria-current="page">Recipes</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/android/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/installation/">Installation & Upgrade</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/permissions/">Permissions & Background</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/modes/">VPN & Proxy Modes</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/widgets/">Widgets, Tile & Automation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Advanced Configuration</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/xray/">sing-box vs Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/chains/">Chains & Custom Configs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/presets/">Anti-Censorship Presets</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/vpn_profiles/">OpenVPN, OpenConnect & Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/windows_tun_mode/">Windows DNS Leak Protection</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/deeplinks/">Deep Links</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Reference</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/reference/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/protocols/">Protocols & Import Formats</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/shortcuts/">Keyboard Shortcuts & Tray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/files/">Command Line, Files & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/privacy/">Privacy & Network Requests</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/glossary/">Glossary</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Help</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/help/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/faq/">FAQ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/troubleshooting/">Troubleshooting</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/bug_reports/">Reporting a Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/migrating/">Coming from Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">Recipes</h1>
+      <p class="docs-lede">Step-by-step setups for common tasks: proxy only blocked sites, share the proxy, hotspot, calls and games, VMs, a corporate VPN and per-app routing.</p>
+      <div class="prose">
+        <p>This page gives short, step-by-step setups for common tasks. Each recipe links to the pages that explain the features in detail.</p>
+<h2 id="proxy-only-blocked-sites">Proxy only blocked sites</h2>
+<p>Send only blocked sites through the proxy and everything else directly. Local sites stay fast, and your server carries less traffic.</p>
+<p><strong>With a ready-made profile (China, Russia):</strong></p>
+<ol>
+<li>Open the <code>Routing</code> menu → <code>Download Profiles</code> and choose <code>China</code> or <code>Russia</code>.</li>
+<li>Keep <code>Auto update</code> ticked and click <code>OK</code>.</li>
+<li>Open the <code>Routing</code> menu again and choose <code>Proxy China Blocked</code>, or for Russia <code>Proxy Russia Blocked</code>, <code>Proxy Antizapret</code> or <code>Proxy Refilter</code>.</li>
+</ol>
+<p><strong>With your own list (any country):</strong></p>
+<ol>
+<li>Open <code>Settings</code> → <code>Routing Settings</code> → <code>Route</code> and click <code>New</code> → <code>Structured profile</code>.</li>
+<li>Enter a <code>Name</code>, for example <code>Blocked sites</code>, and set <code>Default outbound</code> to <code>direct</code>.</li>
+<li>On the <code>Basic</code> tab, write the sites in the <code>Proxy</code> box, one per line (see the example below).</li>
+<li>Click <code>OK</code>. On the <code>Common</code> tab, choose <code>Blocked sites</code> as <code>Routing Profile</code> and click <code>OK</code>.</li>
+</ol>
+<pre><code class="language-text hljs">ruleset:geosite-youtube
+ruleset:geosite-telegram
+ruleset:geoip-telegram
+suffix:example.com
+</code></pre>
+<p>If a blocked site still does not load, it uses more domains than you listed. Open the site, find its connections in the <code>Connections</code> tab, right-click one and choose <code>Append &quot;&lt;host&gt;&quot; to</code> → <code>Proxy</code>. For large services, a <code>geosite-</code> rule-set is easier than single domains. Some apps, such as Telegram, also connect to IP addresses, so add their <code>geoip-</code> rule-set and use <code>Tun Mode</code>. See <a href="/guides/routing/#simple-rules">Routing</a>.</p>
+<h2 id="share-with-devices">Share the proxy with other devices</h2>
+<p>Other devices on your network, such as a phone, a TV or a game console, can use Throne on your computer as their proxy.</p>
+<ol>
+<li>Open the <code>Program</code> menu and turn on <code>Allow other devices to connect</code>. It is also in the tray menu.</li>
+<li>Look at the middle of the status bar. It now shows <code>Mixed: &lt;address&gt;:2080</code>: the address and port that other devices use.</li>
+<li>Recommended: open <code>Settings</code> → <code>Basic Settings</code> → <code>Common</code>, tick <code>Enable Authorization</code> and set <code>Inbound Username</code> and <code>Inbound Password</code>.</li>
+<li>On the other device, set an HTTP or SOCKS5 proxy with that address and port, and the username and password if you set them.</li>
+</ol>
+<p>Things to know:</p>
+<ul>
+<li>Throne must keep running on the computer. The other device's traffic follows your active routing profile.</li>
+<li>Authorization applies to everyone who uses the port, including apps on your computer that use the system proxy.</li>
+<li>If a device cannot connect, check that the computer's firewall allows incoming connections to <code>ThroneCore</code>.</li>
+<li><strong>Android:</strong> turn on <code>Settings</code> → <code>Inbound</code> → <code>Allow connections from the LAN</code>. See <a href="/android/modes/#lan-sharing">LAN sharing on Android</a>.</li>
+</ul>
+<p>For more about the proxy port, see <a href="/guides/proxy_modes/#lan-sharing">LAN sharing</a>.</p>
+<h2 id="hotspot">Windows Mobile Hotspot with TUN mode</h2>
+<p>When Windows shares your normal network adapter through Mobile Hotspot or Internet Connection Sharing while <code>Tun Mode</code> is on, Throne shows &quot;IPv4 forwarding breaks Tun mode&quot;. Windows then ignores the setting that keeps Throne's own connections out of the tunnel, so they loop back into it and fail.</p>
+<p>Throne's warning suggests a workaround, which users also reported in <a href="https://github.com/throneproj/Throne/issues/1916">#1916</a>: share the connection of Throne's TUN adapter instead.</p>
+<ol>
+<li>Turn on <code>Tun Mode</code> in Throne and start a profile.</li>
+<li>In Windows, open <code>Settings</code> → <code>Mobile hotspot</code> → <code>Share my internet connection from</code> and choose <code>throne-tun</code>.</li>
+<li>Turn on the hotspot.</li>
+</ol>
+<p>The <code>throne-tun</code> adapter exists only while <code>Tun Mode</code> is on. Connection sharing is a Windows feature that Throne does not control. If the workaround does not work for you, turn the hotspot off while you use <code>Tun Mode</code>, or let the devices use the proxy port instead (see <a href="#share-with-devices">Share the proxy with other devices</a>).</p>
+<h2 id="calls-and-games">Voice calls and games</h2>
+<p>Voice calls in Discord and Telegram, and many games, use UDP and often ignore the system proxy.</p>
+<ul>
+<li>Use <code>Tun Mode</code>, so that this traffic reaches Throne at all.</li>
+<li>Your server and its protocol must carry UDP. Not every protocol can (an HTTP proxy cannot), and some servers turn UDP off. If calls fail on one server, try another one.</li>
+<li>For a low delay, choose a nearby server. See <a href="/guides/testing/#url-test">URL test</a>.</li>
+<li>If a game does not need the proxy, send it direct: put its program in the <code>Direct</code> box, for example <code>processName:game.exe</code>.</li>
+<li>For games and peer-to-peer apps that go direct in TUN mode, try <code>Settings</code> → <code>Tun Settings</code> → <code>L3 Bridge Bypass</code>. It sends direct UDP and ICMP traffic straight out of your network adapter, which is faster and keeps NAT working.</li>
+</ul>
+<h2 id="docker-wsl-vms">Docker, WSL and virtual machines</h2>
+<p>Containers, WSL and virtual machines have their own virtual networks. There are two ways to give them the proxy.</p>
+<p><strong>Point them at Throne's proxy port.</strong> This is the simplest and most reliable way.</p>
+<ol>
+<li>Turn on <code>Program</code> → <code>Allow other devices to connect</code>.</li>
+<li>Inside the container or virtual machine, set the proxy to <code>http://&lt;address&gt;:2080</code>. Use an address of your computer that the guest can reach, for example the one in the status bar.</li>
+</ol>
+<p>Many command-line tools on Linux read these variables:</p>
+<pre><code class="language-bash hljs">export http_proxy=http://192.168.1.10:2080
+export https_proxy=http://192.168.1.10:2080
+</code></pre>
+<p>The same port also accepts SOCKS5.</p>
+<p><strong>Use TUN mode on the computer.</strong> Whether a guest's traffic enters the tunnel depends on how its virtual network is built. If guests lose their connection, or you cannot reach them from the computer, check these settings in <code>Settings</code> → <code>Tun Settings</code>:</p>
+<ul>
+<li>Keep <code>Private Range Bypass</code> on (the default). It keeps private address ranges, which virtual networks usually use, out of the tunnel.</li>
+<li><code>Enable Tun Routing</code> also keeps the IP ranges of your <code>direct</code> rules out of the tunnel. Large rule-sets can cause high CPU use on Windows, so turn it on with care.</li>
+<li><strong>Linux:</strong> <code>Auto Redirect</code> (on by default) is needed on newer kernels for the <code>system</code> and <code>mixed</code> stacks. While it is on, this computer cannot act as a network gateway for other devices, and containers or virtual machines whose traffic it forwards can be affected. Use the proxy port for them instead.</li>
+</ul>
+<p>See <a href="/guides/tun_mode/#settings">TUN Mode</a>.</p>
+<h2 id="corporate-vpn">Corporate VPN side by side</h2>
+<p>To reach company resources through your corporate VPN while everything else uses Throne, keep the company's traffic away from the proxy. Choose one of these ways.</p>
+<p><strong>Send company traffic direct.</strong> Add the company's domains and networks to the <code>Direct</code> box of your routing profile:</p>
+<pre><code class="language-text hljs">suffix:corp.example.com
+ip:10.20.0.0/16
+</code></pre>
+<p>With <code>Enable DNS Routing</code> on (the default), the company's domains are looked up with Direct DNS instead of Remote DNS. In TUN mode, private ranges such as <code>10.0.0.0/8</code> already stay out of the tunnel (<code>Private Range Bypass</code>). For company networks in public ranges, turn on <code>Tun Settings</code> → <code>Enable Tun Routing</code>, which keeps the IP ranges of <code>direct</code> rules out of the tunnel.</p>
+<p><strong>Bind to the VPN's network adapter.</strong> Use this when direct traffic leaves through the wrong adapter.</p>
+<ol>
+<li>Open <code>Program</code> → <code>New profile</code>, choose the type <code>Direct</code> and give it a name, for example <code>Corporate</code>.</li>
+<li>Click <code>Advanced Settings</code>, enter the name of the corporate VPN adapter in <code>Bind Interface</code> and click <code>OK</code>. Save the profile with <code>OK</code>.</li>
+<li>In your routing profile, add an <a href="/guides/routing/#advanced-rules">advanced rule</a> with the company's <code>domain_suffix</code> and <code>ip_cidr</code>, the action <code>route</code>, and <code>outbound</code> set to <code>[group] Corporate</code>. Move it above your other rules.</li>
+</ol>
+<p><strong>Run the VPN inside Throne.</strong> Throne can run an OpenVPN or OpenConnect profile next to your proxy, only for the networks that it announces. See <a href="/advanced/vpn_profiles/#split-tunnel">split tunnel</a>.</p>
+<p>Other VPN programs can interfere with <code>Tun Mode</code>. If problems appear only in TUN mode, use system proxy mode while the corporate VPN is connected.</p>
+<h2 id="per-app">Per-app routing</h2>
+<p>Choose which programs use the proxy.</p>
+<p><strong>Desktop:</strong></p>
+<ol>
+<li>Turn on <code>Tun Mode</code>. Only in TUN mode does the traffic of every program reach Throne.</li>
+<li>Start the program and let it connect.</li>
+<li>In the <code>Connections</code> tab, right-click one of its connections and choose <code>Append process &quot;&lt;name&gt;&quot; to</code> → <code>Proxy</code>, <code>Direct</code> or <code>Block</code>.</li>
+<li>Click <code>Restart</code> in the &quot;Settings changed, restart to apply&quot; notice.</li>
+</ol>
+<p>You can also write the rules yourself on the <code>Basic</code> tab of your routing profile, for example <code>processName:Telegram.exe</code> or <code>processPath:C:\Program Files\App\app.exe</code>. Names must match exactly, including upper and lower case.</p>
+<ul>
+<li><strong>Only some programs through the proxy:</strong> set <code>Default outbound</code> to <code>direct</code> and put the programs in the <code>Proxy</code> box.</li>
+<li><strong>All programs except some:</strong> keep <code>Default outbound</code> at <code>proxy</code> and put the exceptions in the <code>Direct</code> box.</li>
+</ul>
+<p>If the <code>Append</code> items are disabled, the active routing profile cannot be changed from there, for example because it is a remote profile that updates itself. See <a href="/guides/routing/#connections-tab">Connections tab</a>.</p>
+<p><strong>Android:</strong> choose the apps in <code>Settings</code> → <code>TUN / VPN</code> → <code>Apps VPN mode</code>, or use the <code>Apps</code> field of a routing rule. See <a href="/android/modes/#per-app-proxy">per-app proxy</a>.</p>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/guides/recipes.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          Edit this page on GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="Page navigation">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/guides/backup/">
+    <span class="prevnext-dir">Previous</span>
+    Backup, Updates & Migration
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/android/">
+    <span class="prevnext-dir">Next</span>
+    Throne for Android
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="On this page">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    On this page
+  </p>
+  <ul><li><a href="#proxy-only-blocked-sites">Proxy only blocked sites</a></li><li><a href="#share-with-devices">Share the proxy with other devices</a></li><li><a href="#hotspot">Windows Mobile Hotspot with TUN mode</a></li><li><a href="#calls-and-games">Voice calls and games</a></li><li><a href="#docker-wsl-vms">Docker, WSL and virtual machines</a></li><li><a href="#corporate-vpn">Corporate VPN side by side</a></li><li><a href="#per-app">Per-app routing</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "Copy",
+    copied: "Copied",
+    copyManual: "Press Ctrl C",
+    noResults: "No results for",
+    theme: "Theme",
+    themeAuto: "auto",
+    themeLight: "light",
+    themeDark: "dark"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

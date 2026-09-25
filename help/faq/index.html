@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Short answers to common questions about Throne: Nekoray, antivirus alerts, kill switch, TUN rights, packages and old systems.">
+  <title>FAQ - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="FAQ">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/help/faq/">
+  <meta property="og:description" content="Short answers to common questions about Throne: Nekoray, antivirus alerts, kill switch, TUN rights, packages and old systems.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="FAQ">
+  <meta name="twitter:description" content="Short answers to common questions about Throne: Nekoray, antivirus alerts, kill switch, TUN rights, packages and old systems.">
+  <link rel="canonical" href="https://throneproj.github.io/help/faq/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"FAQ","url":"https://throneproj.github.io/help/faq/","description":"Short answers to common questions about Throne: Nekoray, antivirus alerts, kill switch, TUN rights, packages and old systems."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/"},{"@type":"ListItem","position":2,"name":"Help","item":"https://throneproj.github.io/help/"},{"@type":"ListItem","position":3,"name":"FAQ"}]}</script>
+  <link rel="alternate" hreflang="en" href="https://throneproj.github.io/help/faq/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/help/faq/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/help/faq/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/help/faq/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/" class="header-logo" aria-label="Throne homepage">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.3.1" target="_blank" rel="noopener noreferrer">v1.3.1</a>
+
+    <nav class="header-nav" aria-label="Primary">
+      <a href="https://throneproj.github.io/get_started/">Get Started</a>
+      <a href="https://throneproj.github.io/downloads/">Downloads</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="Search documentation">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Search</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="Language">
+        
+        <a href="https://throneproj.github.io/help/faq/" hreflang="en" aria-current="true">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/help/faq/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/help/faq/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/help/faq/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne on GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="Theme">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search documentation" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="Search documentation" placeholder="Search the docs" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Search"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="Documentation">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Get Started</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/installation/">Installation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/configuration/">Quick Start</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Guides</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/guides/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/subscriptions/">Subscriptions & Groups</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/proxy_modes/">System Proxy, TUN & LAN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/tun_mode/">TUN Mode</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/routing/">Routing</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/testing/">Testing & Auto Selector</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/backup/">Backup, Updates & Migration</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/recipes/">Recipes</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/android/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/installation/">Installation & Upgrade</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/permissions/">Permissions & Background</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/modes/">VPN & Proxy Modes</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/widgets/">Widgets, Tile & Automation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Advanced Configuration</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/xray/">sing-box vs Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/chains/">Chains & Custom Configs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/presets/">Anti-Censorship Presets</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/vpn_profiles/">OpenVPN, OpenConnect & Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/windows_tun_mode/">Windows DNS Leak Protection</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/deeplinks/">Deep Links</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Reference</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/reference/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/protocols/">Protocols & Import Formats</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/shortcuts/">Keyboard Shortcuts & Tray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/files/">Command Line, Files & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/privacy/">Privacy & Network Requests</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/glossary/">Glossary</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Help</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/help/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/faq/" aria-current="page">FAQ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/troubleshooting/">Troubleshooting</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/bug_reports/">Reporting a Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/migrating/">Coming from Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">FAQ</h1>
+      <p class="docs-lede">Short answers to common questions about Throne: Nekoray, antivirus alerts, kill switch, TUN rights, packages and old systems.</p>
+      <div class="prose">
+        <p>Short answers to common questions about Throne desktop. Each answer links to the page with the details. If something does not work, go to <a href="/help/troubleshooting/">Troubleshooting</a>.</p>
+<h2 id="nekoray">How is Throne different from Nekoray?</h2>
+<p>Throne continues Nekoray. Nekoray is no longer developed, and its repository is archived. Throne started from the Nekoray code and has changed a lot since then:</p>
+<ul>
+<li>The core is ThroneCore, which is based on sing-box. Xray runs inside it only for Xray profiles, such as <code>VLESS (Xray)</code>.</li>
+<li>There are many new features, for example the Auto Selector, Cloudflare WARP, OpenVPN and OpenConnect profiles, backup and restore, and an Android app.</li>
+<li>Old features that were no longer useful were removed or simplified.</li>
+</ul>
+<p>Throne cannot read Nekoray's configuration. To move your servers and settings, see <a href="/help/migrating/">Coming from Nekoray / NekoBox</a>.</p>
+<h2 id="portable">Is there a portable mode?</h2>
+<p>Yes. The ZIP builds for Windows and Linux are portable: Throne keeps all its data in the <code>config</code> folder next to the program. To move Throne to another folder or computer, copy the whole <code>Throne</code> folder. A per-user install from the Windows installer (the default) also keeps <code>config</code> next to the program.</p>
+<p>The <code>.deb</code> and <code>.rpm</code> packages, the Linux install script and the macOS app keep the data in your user profile instead. When the program folder is not writable, for example an all-users install in <code>Program Files</code>, Throne also uses your user profile and copies the existing data there. <code>Settings</code> → <code>Open Config Folder</code> opens the folder in use. See <a href="/reference/files/#data-folder">Command Line, Files &amp; Logs</a>.</p>
+<h2 id="android">Can I use Throne on Android and move my setup there?</h2>
+<p>Yes. <a href="/android/">Throne for Android</a> 2.0.0 (formerly NekoBox for Android) uses the same core and the same backup format as the desktop app. Create a backup on the desktop in <code>Settings</code> → <code>Basic Settings</code> → <code>Backup and Restore</code>, copy the <code>.thrbackup</code> file to the phone, and restore it in the Android app. This also works from Android to the desktop. See <a href="/guides/backup/#desktop-android">Backup, Updates &amp; Migration</a>.</p>
+<h2 id="antivirus">Why does my antivirus flag Throne?</h2>
+<p>These are false positives. Some antivirus programs react to things that Throne does for normal features:</p>
+<ul>
+<li>The built-in updater downloads a new release and replaces the program files. Malware also replaces files, so this looks suspicious.</li>
+<li>On Windows, Throne writes registry keys: the <code>throne://</code> link registration under <code>HKEY_CURRENT_USER\Software\Classes</code>, the installer's record of the install folder, and, when Throne runs as administrator, Windows Error Reporting settings that save crash dumps to Throne's <code>crashes</code> folder. These keys are not a backdoor (<a href="https://github.com/throneproj/Throne/issues/1127">#1127</a>).</li>
+<li>In TUN mode, the core creates a virtual network adapter and changes network settings.</li>
+</ul>
+<p>Download Throne only from the official <a href="/downloads/">downloads page</a>, and add the Throne folder as an exception in your antivirus. Antivirus network protection can also block TUN mode without any message; see <a href="/help/troubleshooting/#tun">Troubleshooting</a>.</p>
+<h2 id="hwid">Is my device ID (HWID) sent to anyone?</h2>
+<p>Only if you turn it on. <code>Settings</code> → <code>Basic Settings</code> → <code>Subscription</code> → <code>Enable sending HWID, device model, and OS version when updating subscription</code> is off by default. When it is on, Throne adds these values as HTTP headers to subscription requests, and to no other requests. Since 1.3.1, each group can override this setting with <code>Send HWID</code> in its <code>Advanced</code> subscription settings. Some providers require it. See <a href="/reference/privacy/#hwid">Privacy &amp; Network Requests</a>.</p>
+<h2 id="kill-switch">Is there a kill switch?</h2>
+<p>No. Throne has no kill switch, and the maintainers do not plan to add one (<a href="https://github.com/throneproj/Throne/issues/827">#827</a>, <a href="https://github.com/throneproj/Throne/issues/912">#912</a>). When the profile stops, or when the core stops unexpectedly, your apps connect directly, without the proxy.</p>
+<p><strong>Android:</strong> Android itself can block all traffic while the VPN is not connected. Set Throne as the always-on VPN and turn on the system option that blocks connections without VPN. See <a href="/android/permissions/#always-on">Permissions &amp; Background</a>.</p>
+<h2 id="tun-admin">Why does TUN mode need administrator or root rights?</h2>
+<p>TUN mode creates a virtual network adapter and sends the system's traffic into it. Operating systems allow this only for administrators. System proxy mode needs no special rights.</p>
+<ul>
+<li><strong>Windows:</strong> Throne asks &quot;Please run Throne as admin&quot; and restarts itself with administrator rights. After that, it starts as administrator every time. To stop this, turn on <code>Settings</code> → <code>Basic Settings</code> → <code>Security</code> → <code>Always Start as Standard User</code>.</li>
+<li><strong>Linux:</strong> only the core (<code>ThroneCore</code>) gets root rights, not the Throne window. See the <a href="#linux-suid">next question</a>.</li>
+<li><strong>macOS:</strong> Throne opens Terminal and runs <code>sudo</code> to give the core root rights. This needs an administrator account.</li>
+</ul>
+<p>See <a href="/guides/tun_mode/#privileges">TUN Mode</a>.</p>
+<h2 id="linux-suid">Is the SUID bit really needed on Linux?</h2>
+<p>TUN mode needs a core with root rights, but the Throne window must run as your normal user. Do not start Throne itself with <code>sudo</code>.</p>
+<p>When you turn on <code>Tun Mode</code>, Throne asks &quot;Please give the core root privileges&quot;. If you agree, it uses <code>pkexec</code> to make <code>ThroneCore</code> owned by root and to set its SUID bit. <code>pkexec</code> (polkit) must be installed.</p>
+<p>Instead of the SUID bit, you can give the core five capabilities. Throne treats the core as privileged only when it has all of them:</p>
+<pre><code class="language-bash hljs">sudo setcap cap_net_admin,cap_net_raw,cap_net_bind_service,cap_sys_ptrace,cap_dac_read_search+ep /opt/Throne/ThroneCore
+</code></pre>
+<p>This path is for the <code>.deb</code> and <code>.rpm</code> packages and the Linux install script. For a ZIP copy, use the <code>ThroneCore</code> file in your Throne folder.</p>
+<p>To stop Throne from asking, turn on <code>Settings</code> → <code>Basic Settings</code> → <code>Security</code> → <code>Disable Privilege request</code>. TUN mode and other features that need root then work only if you give the rights yourself. Some distribution packages cannot change the core; Throne then shows &quot;This installation cannot grant the core privileges by itself.&quot; with instructions from the packager.</p>
+<h2 id="force-quit">Why does my internet stop working after Throne was force-closed?</h2>
+<p>With <code>System Proxy</code> on, Throne points your system's proxy setting at its local port (<code>127.0.0.1:2080</code> by default) while a profile runs. It removes the setting when the profile stops and when you exit Throne. If Throne is killed, for example from Task Manager or by a power loss, the setting stays, and apps try to use a proxy that is no longer running.</p>
+<p>To fix it:</p>
+<ol>
+<li>Start Throne.</li>
+<li>Tick <code>System Proxy</code> if it is not ticked, and start any profile.</li>
+<li>Stop the profile, or exit Throne with <code>Program</code> → <code>Exit</code>.</li>
+</ol>
+<p>Throne removes the proxy setting in step 3. You can also turn off the proxy in your system's network settings.</p>
+<h2 id="system-proxy-off">Why does the system proxy turn off when the profile stops?</h2>
+<p>Since 1.1.3, Throne sets the system proxy only while a profile runs. When the profile stops, Throne removes the setting, so apps do not try to use a proxy that is not running. The <code>System Proxy</code> checkbox stays on, and Throne sets the system proxy again when you start a profile. See <a href="/guides/proxy_modes/#system-proxy">System Proxy, TUN &amp; LAN sharing</a>.</p>
+<h2 id="dns-leak-test">Why does a DNS leak test show my ISP's DNS server?</h2>
+<p>Often this is expected. For example, domains that match your <code>direct</code> rules are looked up with <code>Direct DNS</code>, which is your system's DNS by default and usually your ISP's. In system proxy mode, apps can also look up names themselves, and browsers may use their own DNS settings, so these lookups never reach Throne. <a href="/guides/dns/#leak-tests">DNS leak tests</a> lists the expected results and explains what to change when a result is not expected.</p>
+<h2 id="profile-after-update">Why did my profile stop, or keep running, after a subscription update?</h2>
+<p>A subscription update does not stop the running profile unless you allow it:</p>
+<ul>
+<li>If the new list no longer contains the running profile, or a clean-up option would remove it, Throne keeps the profile in the group, and it keeps running. The change report shows it under &quot;Still in use, so kept instead of deleted&quot;, or says &quot;The running profile was kept.&quot;</li>
+<li>If you turn on <code>Settings</code> → <code>Basic Settings</code> → <code>Subscription</code> → <code>Allow stopping the active profile</code>, Throne stops and deletes the running profile in this case.</li>
+<li>If the provider only changed some settings of the running profile, Throne updates the saved profile but does not restart the connection. Start the profile again to use the new settings.</li>
+</ul>
+<p>An auto selector that uses the group rebuilds itself when the update replaces the profiles it runs on. See <a href="/guides/subscriptions/#running-profile">Subscriptions &amp; Groups</a>.</p>
+<h2 id="custom-config-import">Why does my subscription show <code>Custom</code> profiles?</h2>
+<p>Throne splits sing-box and Xray JSON into one profile per server. A few things become custom profiles on purpose. The <code>Type</code> column shows them as:</p>
+<ul>
+<li><code>Custom Xray Config</code>: a subscription that is a list of complete Xray configs, each with its own <code>outbounds</code>, gives one such profile per config. These configs can contain balancers or chains that must run unchanged.</li>
+<li><code>Custom Xray … Outbound</code>: an Xray outbound of a protocol other than VLESS.</li>
+<li><code>Custom … Outbound</code>: a single sing-box outbound, that is, one JSON object with a <code>type</code> field.</li>
+</ul>
+<p>Group outbounds such as <code>selector</code> and <code>urltest</code> are not imported. To pick the best server automatically, use an <a href="/guides/testing/#auto-selector">Auto Selector</a>.</p>
+<p>Throne 1.1.0 and 1.1.1 imported a whole sing-box config that had <code>inbounds</code> as one custom config. Since 1.1.2, such a config is split into profiles again. See <a href="/reference/protocols/#import-formats">Protocols &amp; Import Formats</a>.</p>
+<h2 id="route-profiles-source">Where do the downloadable routing profiles come from?</h2>
+<p>From the <a href="https://github.com/throneproj/routeprofiles">throneproj/routeprofiles</a> repository. <code>Routing</code> → <code>Download Profiles</code> gets the country profiles from it. The list of built-in rule-sets (<code>geoip-…</code> and <code>geosite-…</code>) is also kept there; the rule-set files come from projects such as MetaCubeX meta-rules-dat, Chocolate4U Iran-sing-box-rules and runetfreedom russia-v2ray-rules-dat. Throne downloads them through the mirror chosen in <code>Routing Settings</code> → <code>Common</code> → <code>Remote Rule-set Mirror</code>. See <a href="/guides/routing/#download-profiles">Routing</a>.</p>
+<h2 id="deb-variants">What is the difference between the <code>.deb</code> packages?</h2>
+<ul>
+<li><code>Throne-&lt;version&gt;-debian-amd64.deb</code> includes its own copy of the Qt libraries. It is larger, but it does not depend on the Qt version of your system.</li>
+<li><code>Throne-&lt;version&gt;-debian-amd64-system-qt.deb</code> does not include Qt. It uses the Qt 6 libraries of your distribution and installs them as dependencies.</li>
+</ul>
+<p>Start with the normal package. Use the <code>system-qt</code> package if the normal one does not start, for example on processors without SSE4.2 (<a href="https://github.com/throneproj/Throne/issues/845">#845</a>). The same pair exists for arm64 (<code>debian-arm64.deb</code> and <code>debian-arm64-system-qt.deb</code>) and as <code>.rpm</code> packages for Fedora and RHEL (<code>fedora-amd64.rpm</code>, <code>fedora-amd64-system-qt.rpm</code> and the arm64 versions). See <a href="/get_started/installation/#linux">Installation</a>.</p>
+<h2 id="third-party-packages">Are the WinGet, Scoop, AUR, Nix and RPM-repository packages official?</h2>
+<p>The Throne developers publish Throne on the <a href="https://github.com/throneproj/Throne/releases">GitHub releases page</a>: the ZIP files, the Windows installer, and the <code>.deb</code> and <code>.rpm</code> packages (<code>.rpm</code> since 1.3.0). The Linux install script from the Throne repository installs the release ZIP.</p>
+<p>The WinGet, Scoop, AUR and Nix/NixOS packages are made by community members, and the developers do not support them (<a href="https://github.com/throneproj/Throne/issues/1182">#1182</a>, <a href="https://github.com/throneproj/Throne/issues/1622">#1622</a>). If a problem happens only with such a package, test an official build, and report packaging problems to the package maintainer.</p>
+<p>The RPM repository at <code>parhelia512.github.io</code> is run by parhelia512, a member of the throneproj organization on GitHub, and the Throne README links to it. It is separate from the release files. See <a href="/get_started/installation/#package-managers">Package managers</a>.</p>
+<h2 id="old-systems">Which build do I need for Windows 7, old macOS or an old processor?</h2>
+<ul>
+<li><strong>Windows 7 SP1 and Windows 8:</strong> use <code>windowslegacy64.zip</code> (64-bit) or <code>windows32.zip</code> (32-bit). The universal installer also works: on 32-bit Windows and on 64-bit Windows older than Windows 10 1809, it installs the legacy build by itself. The normal <code>windows64.zip</code> needs Windows 10 1809 or later. On Windows 7 and 8, TUN mode can only use the <code>gvisor</code> stack (<a href="https://github.com/throneproj/Throne/issues/1291">#1291</a>).</li>
+<li><strong>macOS 10.15 to 12:</strong> use <code>macoslegacy-amd64.zip</code>. The normal macOS builds need macOS 13 or later. Older macOS versions are not supported.</li>
+<li><strong>Old processors on Linux:</strong> if Throne does not start and prints <code>This Qt build requires the following features: sse4.2 popcnt</code>, install the <code>system-qt</code> package (<a href="https://github.com/throneproj/Throne/issues/845">#845</a>).</li>
+</ul>
+<p>The <a href="/downloads/">downloads</a> table lists the minimum system for each file.</p>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/help/faq.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          Edit this page on GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="Page navigation">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/help/">
+    <span class="prevnext-dir">Previous</span>
+    Help
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/help/troubleshooting/">
+    <span class="prevnext-dir">Next</span>
+    Troubleshooting
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="On this page">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    On this page
+  </p>
+  <ul><li><a href="#nekoray">How is Throne different from Nekoray?</a></li><li><a href="#portable">Is there a portable mode?</a></li><li><a href="#android">Can I use Throne on Android and move my setup there?</a></li><li><a href="#antivirus">Why does my antivirus flag Throne?</a></li><li><a href="#hwid">Is my device ID (HWID) sent to anyone?</a></li><li><a href="#kill-switch">Is there a kill switch?</a></li><li><a href="#tun-admin">Why does TUN mode need administrator or root rights?</a></li><li><a href="#linux-suid">Is the SUID bit really needed on Linux?</a></li><li><a href="#force-quit">Why does my internet stop working after Throne was force-closed?</a></li><li><a href="#system-proxy-off">Why does the system proxy turn off when the profile stops?</a></li><li><a href="#dns-leak-test">Why does a DNS leak test show my ISP's DNS server?</a></li><li><a href="#profile-after-update">Why did my profile stop, or keep running, after a subscription update?</a></li><li><a href="#custom-config-import">Why does my subscription show Custom profiles?</a></li><li><a href="#route-profiles-source">Where do the downloadable routing profiles come from?</a></li><li><a href="#deb-variants">What is the difference between the .deb packages?</a></li><li><a href="#third-party-packages">Are the WinGet, Scoop, AUR, Nix and RPM-repository packages official?</a></li><li><a href="#old-systems">Which build do I need for Windows 7, old macOS or an old processor?</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "Copy",
+    copied: "Copied",
+    copyManual: "Press Ctrl C",
+    noResults: "No results for",
+    theme: "Theme",
+    themeAuto: "auto",
+    themeLight: "light",
+    themeDark: "dark"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

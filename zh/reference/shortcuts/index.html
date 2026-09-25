@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Throne 桌面版的键盘快捷键、如何更改它们、全局热键，以及托盘图标及其菜单的作用。">
+  <title>键盘快捷键与托盘 - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="键盘快捷键与托盘">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/zh/reference/shortcuts/">
+  <meta property="og:description" content="Throne 桌面版的键盘快捷键、如何更改它们、全局热键，以及托盘图标及其菜单的作用。">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="键盘快捷键与托盘">
+  <meta name="twitter:description" content="Throne 桌面版的键盘快捷键、如何更改它们、全局热键，以及托盘图标及其菜单的作用。">
+  <link rel="canonical" href="https://throneproj.github.io/zh/reference/shortcuts/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"键盘快捷键与托盘","url":"https://throneproj.github.io/zh/reference/shortcuts/","description":"Throne 桌面版的键盘快捷键、如何更改它们、全局热键，以及托盘图标及其菜单的作用。"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/zh/"},{"@type":"ListItem","position":2,"name":"参考","item":"https://throneproj.github.io/zh/reference/"},{"@type":"ListItem","position":3,"name":"键盘快捷键与托盘"}]}</script>
+  <link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/reference/shortcuts/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/reference/shortcuts/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/reference/shortcuts/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/reference/shortcuts/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">跳转到主要内容</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="打开导航" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/zh/" class="header-logo" aria-label="Throne 首页">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.3.1" target="_blank" rel="noopener noreferrer">v1.3.1</a>
+
+    <nav class="header-nav" aria-label="主导航">
+      <a href="https://throneproj.github.io/zh/get_started/">开始使用</a>
+      <a href="https://throneproj.github.io/zh/downloads/">下载</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="搜索文档">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>搜索</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="语言">
+        
+        <a href="https://throneproj.github.io/reference/shortcuts/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/reference/shortcuts/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/reference/shortcuts/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/reference/shortcuts/" hreflang="zh" aria-current="true">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne 在 GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="主题">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="搜索文档" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="搜索文档" placeholder="搜索文档" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="搜索"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="文档导航">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>开始使用</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/installation/">安装</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/configuration/">快速入门</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>使用指南</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/subscriptions/">订阅与分组</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/proxy_modes/">系统代理、TUN 与局域网共享</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/tun_mode/">TUN 模式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/routing/">路由</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/testing/">测试与自动选择器</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/backup/">备份、更新与迁移</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/recipes/">常用方案</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/installation/">安装与升级</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/permissions/">权限与后台运行</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/modes/">VPN 与代理模式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/widgets/">小部件、图块与自动化</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/troubleshooting/">Android 故障排除</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>进阶配置</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/xray/">sing-box 与 Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/chains/">代理链与自定义配置</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/presets/">反审查预设</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/vpn_profiles/">OpenVPN、OpenConnect 与 Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/windows_tun_mode/">Windows DNS 泄漏防护</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/deeplinks/">深度链接</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>参考</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/protocols/">协议与导入格式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/shortcuts/" aria-current="page">键盘快捷键与托盘</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/files/">命令行、文件与日志</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/privacy/">隐私与网络请求</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/glossary/">术语表</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>帮助</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/faq/">常见问题</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/troubleshooting/">故障排除</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/bug_reports/">报告 Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/migrating/">从 Nekoray / NekoBox 迁移</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">键盘快捷键与托盘</h1>
+      <p class="docs-lede">Throne 桌面版的键盘快捷键、如何更改它们、全局热键，以及托盘图标及其菜单的作用。</p>
+      <div class="prose">
+        <p>本页列出了 Throne 桌面版的键盘快捷键、可以设置的全局热键，以及托盘图标的作用。快捷键在 Throne 窗口处于活动状态时生效。全局热键在任何应用中都有效，即使 Throne 窗口已隐藏也是如此。</p>
+<p><strong>macOS：</strong> 本页中的 <code>Ctrl</code> 在 Mac 上指 <code>Cmd</code>，<code>Alt</code> 指 <code>Option</code>。例如，<code>Ctrl+Shift+S</code> 即 <code>Cmd+Shift+S</code>。在 Mac 笔记本键盘上，<code>Del</code> 为 <code>Fn+Delete</code>。</p>
+<h2 id="main-window">主窗口</h2>
+<p>工具栏按钮 <code>程序</code>（Program）、<code>设置</code>（Settings）、<code>分组</code>（Groups）、<code>路由</code>（Routing）和 <code>工具</code>（Tools）用于打开主窗口的各个菜单。<code>设置</code>（Settings）和 <code>路由</code>（Routing）菜单没有快捷键。</p>
+<p>“可更改”一列表示能否在 <code>设置</code>（Settings）→ <code>热键设置</code>（Hotkey Settings）中为该操作设置其他快捷键。参见<a href="#change-shortcuts">更改快捷键</a>。</p>
+<h3 id="program-menu">程序菜单</h3>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>快捷键</th>
+<th>可更改</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>隐藏窗口</code>（Hide window）</td>
+<td><code>Ctrl+H</code>（macOS 上还可用 <code>Cmd+W</code>）</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>新建配置档</code>（New profile）</td>
+<td><code>Ctrl+N</code></td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>添加剪贴板中的配置档</code>（Add profile from clipboard）</td>
+<td><code>Ctrl+V</code></td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>添加文件中的配置档</code>（Add profile from File(s)）</td>
+<td><code>Ctrl+O</code></td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>扫描二维码</code>（Scan QR Code）</td>
+<td><code>Ctrl+Shift+Q</code></td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+<p>你也可以把文件、含二维码的图片或链接拖放到窗口上来导入它们。</p>
+<h3 id="groups-menu">分组菜单</h3>
+<p>分组操作作用于当前打开的标签页所对应的分组。</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>快捷键</th>
+<th>可更改</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>URL 测试本组</code>（Url Test Group）</td>
+<td><code>Ctrl+Shift+G</code></td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>速度测试本组</code>（Speedtest Group）</td>
+<td><code>Ctrl+Alt+P</code></td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>为本组解析域名</code>（Resolve Domain for group）</td>
+<td><code>Ctrl+Shift+I</code></td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>清除本组测试结果</code>（Clear Group test result）</td>
+<td><code>Ctrl+Shift+C</code></td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>更新订阅</code>（Update subscription）</td>
+<td><code>Ctrl+U</code></td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>移除重复项</code>（Remove Duplicates）</td>
+<td><code>Ctrl+Shift+D</code></td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>移除不可用项</code>（Remove Unavailable）</td>
+<td><code>Ctrl+Shift+R</code></td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>移除无效项</code>（Remove Invalid）</td>
+<td><code>Ctrl+Alt+I</code></td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>停止测试</code>（Stop Testing）</td>
+<td><code>Ctrl+.</code></td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+<p><code>停止测试</code>（Stop Testing）仅在测试运行时才会出现在菜单中。</p>
+<p>右键点击分组标签页，即可打开该分组及其菜单。标签页菜单包含 <code>添加新分组</code>（Add new Group）、<code>编辑选定分组</code>（Edit selected Group）、<code>删除选定分组</code>（Delete selected Group）、<code>更新订阅</code>（Update subscription）、<code>URL 测试选定分组</code>（Url Test selected Group）和 <code>速度测试选定分组</code>（Speed Test selected Group）。拖动标签页可以调整分组的顺序。</p>
+<h3 id="tools-menu">工具菜单</h3>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>快捷键</th>
+<th>可更改</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>速度测试当前项</code>（Speedtest Current）</td>
+<td><code>F6</code></td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+<p><code>速度测试当前项</code>（Speedtest Current）仅在有配置档运行时可用。</p>
+<h3 id="status-bar">状态栏</h3>
+<ul>
+<li>点击状态栏左侧正在运行的配置档，可以对它进行 URL 测试。</li>
+<li>点击状态栏中间的 <code>Mixed: …</code>，可以打开 <code>基本设置</code>（Basic Settings）。</li>
+</ul>
+<h2 id="profile-list">配置档列表</h2>
+<p>右键点击配置档列表可以打开它的菜单。该菜单包含与 <code>程序</code>（Program）菜单相同的四个“添加”操作，另外还有以下操作：</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>快捷键</th>
+<th>可更改</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>启动</code>（Start）</td>
+<td><code>Enter</code></td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>停止</code>（Stop）</td>
+<td><code>Ctrl+S</code></td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>分享</code>（Share）→ <code>导出 Sing-box 配置</code>（Export Sing-box config）</td>
+<td><code>Ctrl+E</code></td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>分享</code> → <code>复制选定项的链接</code>（Copy links of selected）</td>
+<td><code>Ctrl+C</code></td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>分享</code> → <code>复制选定项的链接 (深度链接)</code>（Copy links of selected (Deep Links)）</td>
+<td><code>Ctrl+Alt+C</code></td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>删除</code>（Delete）</td>
+<td><code>Del</code></td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>全选</code>（Select All）</td>
+<td><code>Ctrl+A</code></td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>克隆</code>（Clone）</td>
+<td><code>Ctrl+D</code></td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>URL 测试选定项</code>（Url Test Selected）</td>
+<td><code>Ctrl+Shift+S</code></td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>速度测试选定项</code>（Speedtest Selected）</td>
+<td><code>Ctrl+Shift+P</code></td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>重置流量</code>（Reset Traffic）</td>
+<td><code>Ctrl+R</code></td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+<p>列表中的其他按键和鼠标操作：</p>
+<table>
+<thead>
+<tr>
+<th>按键或操作</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>双击配置档</td>
+<td>打开配置档编辑器。</td>
+</tr>
+<tr>
+<td><code>Esc</code></td>
+<td>清除选择。</td>
+</tr>
+<tr>
+<td>拖动某一行</td>
+<td>移动该配置档。筛选生效时无法移动。</td>
+</tr>
+<tr>
+<td>点击列标题</td>
+<td>按该列排序。再次点击则按相反方向排序。</td>
+</tr>
+<tr>
+<td><code>Ctrl+F</code></td>
+<td>显示或隐藏筛选行。隐藏筛选行会清除筛选条件。</td>
+</tr>
+<tr>
+<td>在第一行按 <code>Up</code></td>
+<td>移到筛选行（如果筛选行已打开）。</td>
+</tr>
+<tr>
+<td>在筛选行按 <code>Down</code></td>
+<td>返回列表。</td>
+</tr>
+<tr>
+<td>在筛选行按 <code>Esc</code></td>
+<td>关闭筛选行。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="no-default">没有默认快捷键的操作</h3>
+<p>以下操作默认没有快捷键，你可以为它们设置快捷键：<code>二维码和链接</code>（QR Code and link）、<code>复制测试结果</code>（Copy Test Result）、<code>解析选定域名</code>（Resolve Selected Domain）、<code>解析选定的出口 IP</code>（Resolve Selected Out IP）、<code>清理测试结果</code>（Clear Test Result）、<code>为本组解析 IP</code>（Resolve out IP for group）、<code>更新所有订阅</code>（Update all subscriptions）、<code>移除不安全的配置</code>（Remove Insecure Configs）和 <code>刷新列宽</code>（Refresh Column Widths）。</p>
+<h2 id="change-shortcuts">更改快捷键</h2>
+<ol>
+<li>打开 <code>设置</code>（Settings）→ <code>热键设置</code>（Hotkey Settings）。</li>
+<li>打开 <code>快捷键</code>（Shortcuts）标签页。其中列出了所有可以更改快捷键的操作。</li>
+<li>点击某个操作旁边的输入框，然后按下新的组合键。要删除快捷键，请点击输入框并按 <code>Backspace</code>。</li>
+<li>点击 <code>确定</code>（OK）。</li>
+</ol>
+<p>如果两个操作使用相同的快捷键，则两者都不会生效。上面表格中标为“否”的快捷键无法更改，<code>Ctrl+F</code> 也无法更改。</p>
+<h2 id="global-hotkeys">全局热键</h2>
+<p>全局热键在任何应用中都有效，即使 Throne 窗口已隐藏也是如此。所有全局热键默认都为空。</p>
+<ol>
+<li>打开 <code>设置</code>（Settings）→ <code>热键设置</code>（Hotkey Settings）。</li>
+<li>在 <code>全局</code>（Global）标签页中，点击某个热键的输入框。</li>
+<li>按下组合键。</li>
+<li>点击 <code>确定</code>（OK）。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>热键</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>显示/隐藏主窗口</code>（Trigger main window）</td>
+<td>显示主窗口；如果主窗口处于活动状态，则将其隐藏。与点击托盘图标的效果相同。</td>
+</tr>
+<tr>
+<td><code>显示分组</code>（Show groups）</td>
+<td>打开 <code>管理分组</code>（Manage Groups）窗口。</td>
+</tr>
+<tr>
+<td><code>显示路由</code>（Show routes）</td>
+<td>打开 <code>路由设置</code>（Routing Settings）。</td>
+</tr>
+<tr>
+<td><code>代理模式</code>（Proxy mode）</td>
+<td>在鼠标指针处打开 <code>操作模式</code>（Operation Mode）菜单，其中包含 <code>系统代理</code>（System Proxy）和 <code>Tun 模式</code>（Tun Mode）。</td>
+</tr>
+<tr>
+<td><code>切换系统代理</code>（Toggle System Proxy）</td>
+<td>开启或关闭 <code>系统代理</code>。</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>如果两个全局热键使用相同的按键，Throne 不会注册其中任何一个。</li>
+<li>如果某个组合键已被其他程序占用，该热键将无法生效。请换一个组合键。</li>
+<li><code>热键设置</code>（Hotkey Settings）窗口打开期间，全局热键会暂停工作。</li>
+<li><strong>macOS：</strong> <code>显示/隐藏主窗口</code>（Trigger main window）不起作用。请改用托盘菜单中的 <code>显示窗口</code>（Show Window）。</li>
+<li><strong>Linux：</strong> 全局热键使用 X11。在 Wayland 会话中它们可能无法工作。</li>
+</ul>
+<h2 id="tray">托盘图标</h2>
+<p>Throne 会在系统托盘中显示一个图标。在 macOS 上，该图标位于菜单栏中。当有配置档正在运行，以及 <code>系统代理</code>（System Proxy）或 <code>Tun 模式</code>（Tun Mode）开启时，图标会发生变化。将鼠标悬停在图标上，可以查看正在运行的配置档及其地理位置。开启了某种模式时，提示信息中还会显示该模式；当活动的路由配置档不是 <code>Default</code> 时，也会显示该路由配置档。</p>
+<ul>
+<li><strong>Windows 和 Linux：</strong> 点击图标可以显示窗口；如果窗口处于活动状态，则会将其隐藏。右键点击图标可以打开托盘菜单。</li>
+<li><strong>macOS：</strong> 点击图标可以打开托盘菜单。</li>
+</ul>
+<p>关闭窗口并不会退出 Throne。窗口会隐藏，Throne 继续在托盘中运行。要退出，请在托盘菜单或 <code>程序</code>（Program）菜单中选择 <code>退出</code>（Exit）。</p>
+<p><strong>macOS：</strong> 窗口隐藏时，Throne 不会在程序坞（Dock）中显示图标。</p>
+<p><strong>Linux：</strong> GNOME 只有在安装了 AppIndicator 扩展后才会显示托盘图标（<a href="https://github.com/throneproj/Throne/issues/1623">#1623</a>）。即使没有托盘图标，你仍然可以找回隐藏的窗口：再次启动 Throne，正在运行的 Throne 就会显示它的窗口。</p>
+<h3 id="tray-menu">托盘菜单</h3>
+<table>
+<thead>
+<tr>
+<th>菜单项</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>显示窗口</code>（Show Window）</td>
+<td>显示主窗口。</td>
+</tr>
+<tr>
+<td><code>随系统启动</code>（Start with system）</td>
+<td>在你登录时启动 Throne。</td>
+</tr>
+<tr>
+<td><code>记住上次的配置档</code>（Remember last profile）</td>
+<td>下次启动时，Throne 会重新启动上次运行的配置档；如果之前开启了 <code>系统代理</code> 和 <code>Tun 模式</code>，也会重新开启它们。</td>
+</tr>
+<tr>
+<td><code>允许其他设备连接</code>（Allow other devices to connect）</td>
+<td>向你网络中的其他设备开放本地代理端口。参见<a href="/zh/guides/proxy_modes/#lan-sharing">局域网共享</a>。</td>
+</tr>
+<tr>
+<td><code>选择配置档</code>（Select Profile）</td>
+<td>打开一个列出你的分组的小列表。先选择一个分组，再选择其中的配置档即可启动它；也可以直接输入文字来搜索所有配置档。正在运行的配置档带有勾选标记，<code>停止: &lt;name&gt;</code>（<code>Stop: &lt;name&gt;</code>）按钮可以停止它。</td>
+</tr>
+<tr>
+<td><code>选择路由</code>（Select Routing）</td>
+<td>列出你的路由配置档。选择其中一个会将其设为活动的路由配置档，并重新启动正在运行的配置档。</td>
+</tr>
+<tr>
+<td><code>OTP 代码</code>（OTP Codes）</td>
+<td>列出你的 OTP 配置档。点击其中一个即可复制它当前的代码。</td>
+</tr>
+<tr>
+<td><code>操作模式</code>（Operation Mode）→ <code>系统代理</code>、<code>Tun 模式</code></td>
+<td>开启或关闭系统代理或 TUN 模式。</td>
+</tr>
+<tr>
+<td><code>重启核心</code>（Restart Core）</td>
+<td>重新启动核心。</td>
+</tr>
+<tr>
+<td><code>重启程序</code>（Restart Program）</td>
+<td>重新启动 Throne。</td>
+</tr>
+<tr>
+<td><code>退出</code>（Exit）</td>
+<td>退出 Throne。</td>
+</tr>
+</tbody>
+</table>
+<p><code>随系统启动</code>（Start with system）在各个系统上的工作方式不同：</p>
+<ul>
+<li><strong>Windows：</strong> Throne 会添加一个任务计划程序（Task Scheduler）任务。除非开启了 <code>启动时隐藏仪表盘</code>（Hide dashboard at startup），否则登录时会打开窗口。Throne 每次启动时，都会把该任务设置为与当前运行的 Throne 相同的权限：如果 Throne 以管理员身份运行，该任务也会以管理员身份启动它，除非开启了 <code>始终以标准用户身份启动</code>（Always Start as Standard User）。</li>
+<li><strong>Linux：</strong> Throne 会把带有 <code>-tray</code> 选项的 <code>Throne.desktop</code> 添加到 <code>~/.config/autostart</code>，因此它会在托盘中启动。</li>
+<li><strong>macOS：</strong> Throne 会添加一个登录项。除非开启了 <code>启动时隐藏仪表盘</code>（Hide dashboard at startup），否则登录时会打开窗口。</li>
+</ul>
+<h3 id="tray-settings">托盘设置</h3>
+<p>这些设置位于 <code>设置</code>（Settings）→ <code>基本设置</code>（Basic Settings）→ <code>样式</code>（Style）。</p>
+<table>
+<thead>
+<tr>
+<th>设置</th>
+<th>默认值</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>启动时隐藏仪表盘</code>（Hide dashboard at startup）</td>
+<td>关闭</td>
+<td>Throne 启动时只显示托盘图标，窗口保持隐藏。命令行选项 <code>-tray</code> 的效果相同。</td>
+</tr>
+<tr>
+<td><code>禁用托盘</code>（Disable tray）</td>
+<td>关闭</td>
+<td>移除托盘图标。此时关闭窗口就会退出 Throne。</td>
+</tr>
+</tbody>
+</table>
+<aside class="callout callout--warning">
+  <span class="callout-label">警告</span>
+  <p>不要在开启 <code>启动时隐藏仪表盘</code>（Hide dashboard at startup）或使用 <code>-tray</code> 的同时开启 <code>禁用托盘</code>（Disable tray）。否则 Throne 启动后既没有窗口，也没有托盘图标。如果出现这种情况，请再次启动 Throne：正在运行的 Throne 会显示它的窗口。</p>
+
+</aside>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/reference/shortcuts.zh.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          在 GitHub 上编辑此页
+        </a>
+        
+
+<nav class="prev-next" aria-label="页面导航">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/zh/reference/protocols/">
+    <span class="prevnext-dir">上一页</span>
+    协议与导入格式
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/zh/reference/files/">
+    <span class="prevnext-dir">下一页</span>
+    命令行、文件与日志
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="本页导航">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    本页导航
+  </p>
+  <ul><li><a href="#main-window">主窗口</a><ul><li><a href="#program-menu">程序菜单</a></li><li><a href="#groups-menu">分组菜单</a></li><li><a href="#tools-menu">工具菜单</a></li><li><a href="#status-bar">状态栏</a></li></ul></li><li><a href="#profile-list">配置档列表</a><ul><li><a href="#no-default">没有默认快捷键的操作</a></li></ul></li><li><a href="#change-shortcuts">更改快捷键</a></li><li><a href="#global-hotkeys">全局热键</a></li><li><a href="#tray">托盘图标</a><ul><li><a href="#tray-menu">托盘菜单</a></li><li><a href="#tray-settings">托盘设置</a></li></ul></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "复制",
+    copied: "已复制",
+    copyManual: "请按 Ctrl C",
+    noResults: "未找到相关结果：",
+    theme: "主题",
+    themeAuto: "自动",
+    themeLight: "浅色",
+    themeDark: "深色"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

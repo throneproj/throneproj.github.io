@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="解决 Throne for Android 的常见问题：VPN 无法启动或没有流量、在后台被停止，以及订阅和路由错误。">
+  <title>Android 故障排除 - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="Android 故障排除">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/zh/android/troubleshooting/">
+  <meta property="og:description" content="解决 Throne for Android 的常见问题：VPN 无法启动或没有流量、在后台被停止，以及订阅和路由错误。">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Android 故障排除">
+  <meta name="twitter:description" content="解决 Throne for Android 的常见问题：VPN 无法启动或没有流量、在后台被停止，以及订阅和路由错误。">
+  <link rel="canonical" href="https://throneproj.github.io/zh/android/troubleshooting/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Android 故障排除","url":"https://throneproj.github.io/zh/android/troubleshooting/","description":"解决 Throne for Android 的常见问题：VPN 无法启动或没有流量、在后台被停止，以及订阅和路由错误。"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/zh/"},{"@type":"ListItem","position":2,"name":"Throne for Android","item":"https://throneproj.github.io/zh/android/"},{"@type":"ListItem","position":3,"name":"Android 故障排除"}]}</script>
+  <link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/android/troubleshooting/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/android/troubleshooting/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/android/troubleshooting/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/android/troubleshooting/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">跳转到主要内容</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="打开导航" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/zh/" class="header-logo" aria-label="Throne 首页">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.3.1" target="_blank" rel="noopener noreferrer">v1.3.1</a>
+
+    <nav class="header-nav" aria-label="主导航">
+      <a href="https://throneproj.github.io/zh/get_started/">开始使用</a>
+      <a href="https://throneproj.github.io/zh/downloads/">下载</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="搜索文档">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>搜索</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="语言">
+        
+        <a href="https://throneproj.github.io/android/troubleshooting/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/android/troubleshooting/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/android/troubleshooting/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/android/troubleshooting/" hreflang="zh" aria-current="true">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne 在 GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="主题">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="搜索文档" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="搜索文档" placeholder="搜索文档" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="搜索"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="文档导航">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>开始使用</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/installation/">安装</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/configuration/">快速入门</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>使用指南</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/subscriptions/">订阅与分组</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/proxy_modes/">系统代理、TUN 与局域网共享</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/tun_mode/">TUN 模式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/routing/">路由</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/testing/">测试与自动选择器</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/backup/">备份、更新与迁移</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/recipes/">常用方案</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/installation/">安装与升级</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/permissions/">权限与后台运行</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/modes/">VPN 与代理模式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/widgets/">小部件、图块与自动化</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/troubleshooting/" aria-current="page">Android 故障排除</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>进阶配置</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/xray/">sing-box 与 Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/chains/">代理链与自定义配置</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/presets/">反审查预设</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/vpn_profiles/">OpenVPN、OpenConnect 与 Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/windows_tun_mode/">Windows DNS 泄漏防护</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/deeplinks/">深度链接</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>参考</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/protocols/">协议与导入格式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/shortcuts/">键盘快捷键与托盘</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/files/">命令行、文件与日志</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/privacy/">隐私与网络请求</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/glossary/">术语表</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>帮助</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/faq/">常见问题</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/troubleshooting/">故障排除</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/bug_reports/">报告 Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/migrating/">从 Nekoray / NekoBox 迁移</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">Android 故障排除</h1>
+      <p class="docs-lede">解决 Throne for Android 的常见问题：VPN 无法启动或没有流量、在后台被停止，以及订阅和路由错误。</p>
+      <div class="prose">
+        <p>找到你看到的消息或症状，然后按照相应步骤操作。消息按应用简体中文界面的显示引用；应用中尚未翻译的消息保留英文原文，并在括号中附上中文译文。有关 Throne 桌面版的问题，请参见<a href="/zh/help/troubleshooting/">故障排除</a>。</p>
+<h2 id="connection">VPN 无法启动或没有流量</h2>
+<p>启动失败时，Throne 会在屏幕底部的提示条中显示原因，并附带 <code>日志</code>（Logs）按钮。该消息会一直显示，直到你将其滑走、点按 <code>日志</code> 或再次启动。</p>
+<h3 id="vpn-denied">“VPN 服务权限请求被拒绝”</h3>
+<p>Android 没有授予 Throne VPN 权限。通常是你拒绝了请求。当另一个 VPN 应用被设为始终开启的 VPN 时，Android 也会不经询问直接拒绝。</p>
+<ol>
+<li>再次点按连接按钮，并允许请求。</li>
+<li>如果没有出现请求，请打开 Android 的 VPN 设置，为另一个应用关闭始终开启的 VPN。</li>
+<li>如果 Throne 显示“VPN confirmation unavailable”（VPN 确认界面不可用），说明你的设备没有用于此请求的界面。参见 <a href="/zh/android/permissions/#vpn-permission">VPN 权限</a>。</li>
+</ol>
+<h3 id="vpn-failed">Android 拒绝创建 VPN</h3>
+<p>Android 授予了权限，但随后拒绝创建 VPN 接口。此时“失败: …”消息中通常包含“configure tun interface”（配置 TUN 接口）。</p>
+<ol>
+<li>断开其他 VPN 应用，并在 Android 的 VPN 设置中确认它们都没有被设为始终开启的 VPN。</li>
+<li>重启设备并重新连接。</li>
+</ol>
+<h3 id="start-errors">连接时出现的其他消息</h3>
+<table>
+<thead>
+<tr>
+<th>消息</th>
+<th>原因</th>
+<th>解决方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“请选择一个服务器配置”</td>
+<td>没有选择配置。</td>
+<td>点按一个配置，然后连接。</td>
+</tr>
+<tr>
+<td>“失败: Profile … has a type this build cannot use: …”（配置 … 的类型在此版本中无法使用：…）</td>
+<td>该配置类型仅存在于桌面版，例如 Tailscale 或额外核心（Extra Core）。</td>
+<td>使用其他配置。参见<a href="#desktop-vs-android">下文</a>。</td>
+</tr>
+<tr>
+<td>与路由或 WARP 有关的消息</td>
+<td>路由配置或 WARP 设置中存在问题。</td>
+<td>参见<a href="#routing">路由错误</a>和 <a href="#warp">WARP 错误</a>。</td>
+</tr>
+<tr>
+<td>其他任何“失败: …”消息</td>
+<td>核心报告了错误。</td>
+<td>点按 <code>日志</code>（Logs），阅读最后几行。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="no-traffic">已连接，但无法加载任何内容</h3>
+<ol>
+<li>点按屏幕底部的横栏。“连接成功: HTTP 握手耗时 …ms”表示该配置可用。“失败: …”表示该配置或其服务器不可用。</li>
+<li>如果测试失败，请点按 ⋮ → <code>URL test</code>，然后选择一个可用的配置。参见<a href="/zh/guides/testing/">测试与自动选择器</a>。</li>
+<li>检查分应用代理：打开 <code>设置</code>（Settings）→ <code>TUN / VPN</code> → <code>分应用代理</code>（Apps VPN mode）查看应用列表。选择 <code>代理</code>（Proxy）时，只有所选应用使用 VPN；选择 <code>绕过</code>（Bypass）时，所选应用不使用 VPN。如果没有选择任何应用，所有应用都会使用 VPN。参见<a href="/zh/android/modes/#per-app-proxy">分应用代理</a>。</li>
+<li>通过 ⋮ → <code>Routing profile</code> 切换到 <code>Default</code> 路由配置，然后再次测试。如果现在可以正常工作，问题出在你自己的路由配置中的某条规则。参见<a href="/zh/guides/routing/">路由</a>。</li>
+<li>检查 DNS：<code>设置</code> → <code>DNS</code> → <code>远程 DNS</code>（Remote DNS），默认为 <code>https://8.8.8.8/dns-query</code>。请尝试其他服务器。参见 <a href="/zh/guides/dns/">DNS</a>。</li>
+<li>如果你在 <code>设置</code> → <code>TUN / VPN</code> 中开启了 <code>Tun IPv6</code> 或 <code>Tun routing</code>，请关闭它们后再次测试。仅当你的服务器支持 IPv6 时才使用 <code>Tun IPv6</code>。如果某些应用或网站无法访问而其他的正常，请在同一界面中将 <code>MTU</code> 设为 <code>1500</code> 并重新连接。</li>
+<li>要确定问题是否由 VPN 模式引起，请将 <code>设置</code> → <code>General</code> → <code>运行模式</code>（Service mode）设为 <code>仅代理</code>（Proxy only）并连接。然后在一个自带代理设置的应用中，将代理设为 SOCKS5 代理 <code>127.0.0.1</code>、端口 <code>2080</code>（参见 <code>设置</code> → <code>Inbound</code> → <code>代理端口</code>（Proxy port））。如果该应用可以正常工作，请切换回 <code>VPN</code> 模式，并尝试其他 <code>TUN 实现</code>（TUN implementation）。参见 <a href="/zh/android/modes/#tun-settings">VPN 与代理模式</a>。</li>
+</ol>
+<h3 id="blocked-without-vpn">Throne 关闭时无法上网</h3>
+<p>Android 的“始终开启的 VPN”与“屏蔽未使用 VPN 的所有连接”（Block connections without VPN）同时处于开启状态。此时只要 Throne 未连接，Android 就会阻止所有流量。请使用可用的配置连接 Throne，或在 Android 的 VPN 设置中关闭该选项。参见<a href="/zh/android/permissions/#always-on">始终开启的 VPN</a>。</p>
+<h3 id="fakedns">断开连接后某些应用无法上网</h3>
+<p><code>设置</code>（Settings）→ <code>DNS</code> → <code>启用 FakeDNS</code>（Enable FakeDNS）会为应用提供只能通过 Throne 使用的虚假地址。Throne 会对此发出警告：“可能导致其他应用程序在代理停止后需要重新启动以重新连接到网络”。请重启这些应用，或关闭 <code>启用 FakeDNS</code>。</p>
+<h2 id="killed-in-background">Throne 在后台被停止</h2>
+<p>典型迹象：屏幕关闭时 VPN 断开、通知消失、解锁手机后连接不再工作，或者通知或小部件上的按钮没有反应。</p>
+<ol>
+<li>打开 <code>设置</code>（Settings）→ <code>General</code> → <code>Battery optimization</code>。它必须显示“Unrestricted”（不受限制）。如果不是，请点按它，并允许 Throne 不受限制地运行。参见<a href="/zh/android/permissions/#battery">电池优化</a>。</li>
+<li>打开 <code>设置</code> → <code>General</code> → <code>Background &amp; auto-start</code>。允许 Throne 自动启动并在后台运行。参见<a href="/zh/android/permissions/#oem">厂商设置</a>。</li>
+<li>保持 <code>当设备从睡眠状态唤醒时重置出站连接</code>（Reset outbound connections when device wakes from sleep）开启（默认）。设备从深度睡眠中唤醒时，Throne 会关闭旧连接，应用随后重新连接。同时也请保持 <code>当网络发生变化时重置出站连接</code>（Reset outbound connections when network changes）开启。</li>
+<li>启用始终开启的 VPN，让 Android 自行重新启动 Throne。参见<a href="/zh/android/permissions/#always-on">始终开启的 VPN</a>。</li>
+<li>在某些设备上，在最近任务列表中划掉 Throne 会停止它。请将它保留在列表中；如果设备支持，也可以将它锁定在列表中。</li>
+</ol>
+<h2 id="subscriptions">订阅问题</h2>
+<p>手动更新订阅时，错误会显示在屏幕底部，格式为分组名称后跟消息。自动更新只会将错误写入 <code>日志</code>（Logs）。</p>
+<table>
+<thead>
+<tr>
+<th>消息</th>
+<th>原因</th>
+<th>解决方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“Request with proxy but no profile started.”（请求需要经过代理，但没有启动任何配置。）</td>
+<td><code>设置</code>（Settings）→ <code>订阅</code>（Subscriptions）中开启了 <code>Use proxy</code>，或运行模式为 <code>仅代理</code>（Proxy only），而 Throne 未连接。</td>
+<td>先连接。在 <code>VPN</code> 模式下，你也可以关闭 <code>Use proxy</code>。</td>
+</tr>
+<tr>
+<td>“Error transferring … - server replied: …”（传输 … 时出错，服务器回复：…）</td>
+<td>服务器拒绝了请求，例如返回 403 或 404。</td>
+<td>检查 URL。许多服务商只接受部分应用：请设置服务商指定的 User-Agent，或开启 HWID 发送。</td>
+</tr>
+<tr>
+<td>“No profiles found in the subscription; it was left unchanged.”（订阅中未找到配置，订阅保持不变。）</td>
+<td>返回内容中没有 Throne 能读取的配置，例如返回的是一个网页。</td>
+<td>通常同样是 User-Agent 或 HWID 的问题。另请检查<a href="/zh/reference/protocols/#import-formats">导入格式</a>。</td>
+</tr>
+<tr>
+<td>“Insecure redirect”（不安全的重定向）</td>
+<td>服务器将 <code>https://</code> URL 重定向到了 <code>http://</code>。Throne 不会跟随这类重定向。</td>
+<td>向服务商索取正确的 <code>https://</code> URL。</td>
+</tr>
+<tr>
+<td>“Too many redirects”（重定向次数过多）</td>
+<td>服务器进行了循环重定向。</td>
+<td>与服务商核对 URL。</td>
+</tr>
+<tr>
+<td>“Response larger than 64 MB”（响应大于 64 MB）</td>
+<td>订阅过大。</td>
+<td>向服务商索取更小的列表。</td>
+</tr>
+<tr>
+<td>“Still in use, so kept instead of deleted”（仍在使用，因此已保留而未删除）或“The running profile was kept.”（正在运行的配置已保留。）</td>
+<td>此次更新或其后的某个清理选项本会移除你正在连接的配置，因此 Throne 保留了它。你会在变更报告或 <code>日志</code> 中看到这条消息。</td>
+<td>无需处理。如果仍要移除它，请在 <code>设置</code> → <code>订阅</code> 中开启 <code>Allow stopping the active profile</code>。</td>
+</tr>
+</tbody>
+</table>
+<p>要为单个分组更改 User-Agent 或 HWID，请在侧边菜单中打开 <code>分组</code>（Groups），点按该分组的 <code>编辑</code>（Edit）按钮，然后打开 <code>Advanced</code>。其中有 <code>User agent</code> 和 <code>Send HWID</code>。适用于所有分组的设置位于 <code>设置</code>（Settings）→ <code>订阅</code>（Subscriptions）。参见 <a href="/zh/guides/subscriptions/#user-agent-and-hwid">User-Agent 与 HWID</a>。</p>
+<h3 id="direct-updates">服务商只接受来自你自己网络连接的更新</h3>
+<p>Throne 连接期间，它自己的请求（例如订阅更新）也会经过 Throne，并遵循你的路由配置。有些服务商只接受来自你自己网络连接的更新请求。请添加一条将订阅域名发往 <code>direct</code> 的规则：</p>
+<ol>
+<li>在侧边菜单中打开 <code>路由</code>（Routing）。打开当前路由配置的菜单，选择 <code>编辑</code>（Edit）。</li>
+<li>选择 <code>Add rule</code>。</li>
+<li>将 <code>Outbound</code> 设为 <code>direct</code>。在 <code>Domain suffix</code> 中输入订阅 URL 的主机名，例如 <code>sub.example.com</code>。</li>
+<li>保存该规则和路由配置。把该规则放在匹配同一域名的其他规则之上。</li>
+</ol>
+<p>如果服务商要求请求来自其某台服务器，请改为选择该服务器作为 <code>Outbound</code>。</p>
+<h2 id="routing">路由错误</h2>
+<table>
+<thead>
+<tr>
+<th>消息</th>
+<th>原因</th>
+<th>解决方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“The routing profile is referencing outbounds that no longer exist, consider revising your settings”（路由配置引用了已不存在的出站，请检查你的设置）</td>
+<td>某条规则把流量发往一个已被删除的服务器配置，例如被订阅更新删除。</td>
+<td>打开该路由配置（<code>路由</code>（Routing）→ 其菜单 → <code>编辑</code>（Edit））。引用已删除服务器的规则会显示“Missing server (#…)”（缺少服务器）。请选择其他出站。</td>
+</tr>
+<tr>
+<td>“Unknown rule-set &quot;…&quot; in rule &quot;…&quot; of routing profile &quot;…&quot;”（路由配置“…”的规则“…”中有未知的规则集“…”）</td>
+<td>某条规则使用了 Throne 不认识的规则集名称。</td>
+<td>在 <code>路由</code> 中点按 <code>Refresh repository list</code>，或使用 <code>.srs</code> 文件的 URL。</td>
+</tr>
+<tr>
+<td>“The rule-set list is not available. …”（规则集列表不可用。…）</td>
+<td>规则集名称列表尚未下载。</td>
+<td>在 <code>路由</code> 中点按 <code>Refresh repository list</code>。</td>
+</tr>
+<tr>
+<td>“raw routing profiles are not supported on Android”（Android 不支持原始路由配置）</td>
+<td>你导入了来自 Throne 桌面版的原始（raw）路由配置。</td>
+<td>使用结构化路由配置或远程路由配置。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="warp">WARP 错误</h2>
+<table>
+<thead>
+<tr>
+<th>消息</th>
+<th>原因</th>
+<th>解决方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“WARP is enabled but its config has not been generated. Generate it in Settings › Routing › WARP.”（WARP 已启用，但尚未生成其配置。请在“设置 › Routing › WARP”中生成。）</td>
+<td>WARP 已开启，但所选模式没有 WARP 配置。</td>
+<td>打开 <code>设置</code>（Settings）→ <code>Routing</code> → <code>WARP</code>，点按 <code>生成配置</code>（Generate WARP config）。</td>
+</tr>
+<tr>
+<td>“失败: Warp is enabled but its config has not been generated. Please generate the Warp config first in Routing Settings.”（Warp 已启用，但尚未生成其配置。请先在路由设置中生成 Warp 配置。）</td>
+<td>同一问题，在连接时显示。</td>
+<td>同上。</td>
+</tr>
+<tr>
+<td>“Failed to generate WARP config”（生成 WARP 配置失败）</td>
+<td>在 Cloudflare 注册失败。某些网络会阻止注册。</td>
+<td>连接到一个可用的配置，在 <code>设置</code> → <code>订阅</code>（Subscriptions）中开启 <code>Use proxy</code>，然后重新生成。</td>
+</tr>
+<tr>
+<td>没有消息，但开启 WARP 时无法加载任何内容</td>
+<td>在 <code>WireGuard</code> 模式下，WARP 需要一个能转发 UDP 的配置。</td>
+<td>将 <code>Mode</code> 设为 <code>MASQUE</code>，将 <code>HTTP version</code> 设为 <code>HTTP/2</code>，这样只需要 TCP。为新模式生成配置。</td>
+</tr>
+</tbody>
+</table>
+<p>参见 <a href="/zh/advanced/warp/">Cloudflare WARP</a>。</p>
+<h2 id="updates">更新问题</h2>
+<ul>
+<li>“The download is signed with a different key than this build, so Android cannot install it as an update. Back up, uninstall this build and install the release from GitHub.”（下载的文件与当前版本的签名密钥不同，因此 Android 无法将其作为更新安装。请先备份，卸载当前版本，然后安装 GitHub 上的正式版本。）你的副本不是用 Throne 发布密钥签名的。请创建备份（侧边菜单 → <code>工具</code>（Tools）→ <code>Create backup</code>），卸载 Throne，安装 GitHub 上的 APK，然后恢复备份。</li>
+<li>“This update cannot be installed from the app (…). Download it from the release page.”（此更新无法在应用内安装（…）。请从发布页面下载。）点按 <code>Open in browser</code>，下载适用于你设备的 APK，并将其覆盖安装到当前应用之上。</li>
+<li>“Could not check for updates”（无法检查更新）：Throne 无法访问 GitHub。请连接到一个可用的配置后重试。</li>
+<li>Android 不会在旧版 Throne for Android 之上安装 2.0.0。参见<a href="/zh/android/installation/#upgrading">从 1.x 或 NekoBox 升级</a>。</li>
+</ul>
+<h2 id="desktop-vs-android">配置在桌面版上可用，但在 Android 上不可用</h2>
+<ol>
+<li>检查配置类型。Tailscale 和额外核心（Extra Core）配置无法在 Android 上工作。TLS 伪装设置在 Android 上会被忽略。</li>
+<li>比较会影响配置连接方式的设置：<code>设置</code>（Settings）→ <code>Presets</code> 中的预设（多路复用、TLS 分片、TLS 技巧、uTLS），以及 <code>设置</code> → <code>Core</code> → <code>Xray VLESS preference</code>。VLESS 首选项在导入配置时生效，因此更改后请重新更新订阅。参见 <a href="/zh/advanced/xray/#vless-preference">sing-box 与 Xray</a>。</li>
+<li>要获得与桌面版相同的设置，请恢复桌面版备份。参见<a href="/zh/guides/backup/#desktop-android">在桌面版与 Android 之间迁移</a>。</li>
+<li>如果仍然失败，请附上两个应用的日志报告问题。</li>
+</ol>
+<h2 id="logs">日志</h2>
+<p>在侧边菜单中打开 <code>日志</code>（Logs）。它显示核心的日志。工具栏中有 <code>更新</code>（Update），用于重新加载视图，以及 <code>Share logs</code> 和 <code>清空日志</code>（Clear logs）。菜单中有 <code>Save logs…</code>、<code>Hide sensitive data</code> 和 <code>Hide destinations</code>。</p>
+<p><code>Share logs</code> 和 <code>Save logs…</code> 会创建一个文本文件，其中包含：</p>
+<ul>
+<li>文件头，包括应用和核心的版本、Android 版本、设备型号、ABI、运行模式以及一些不包含机密信息的设置；</li>
+<li>核心日志，以及上一次连接的核心日志；</li>
+<li>应用系统日志的最后 2000 行。</li>
+</ul>
+<p><code>Hide sensitive data</code> 默认开启，请保持开启。在导出的文件中，它会替换：</p>
+<ul>
+<li>每个 URL 的路径和查询部分，以及 URL 中的用户名和密码（主机名保留）；</li>
+<li>密码、密钥、令牌、UUID 以及类似的值；</li>
+<li>配置中的服务器地址、SNI 和主机名；</li>
+<li>公网 IP 地址（私有地址保留）；</li>
+<li>Wi-Fi 名称。</li>
+</ul>
+<p><code>Hide destinations</code> 还会隐藏连接日志行和 DNS 日志行中的域名。只有在 <code>Hide sensitive data</code> 开启时才能开启它，并且应用重启后 Throne 不会保留该设置。隐藏只是尽力而为：发布文件之前，请先自己读一遍。</p>
+<p>如需更详细的信息，请将 <code>设置</code>（Settings）→ <code>Core</code> → <code>日志级别</code>（Log level）设为 <code>info</code> 或 <code>debug</code>，然后点按 <code>应用</code>（Apply）重启应用。重现问题后分享日志。之后请将级别改回 <code>warn</code>。</p>
+<p>崩溃后，Throne 会重新启动，并提示你分享一份已隐藏敏感数据的日志文件。</p>
+<h2 id="report">报告问题</h2>
+<aside class="callout callout--warning">
+  <span class="callout-label">警告</span>
+  <p>切勿公开发布订阅 URL、分享链接、备份或配置。任何拿到它们的人都可以使用你的订阅。曾有用户在 issue 中发布了配置，结果不得不重置订阅。</p>
+
+</aside>
+<p>请在 <a href="https://github.com/throneproj/ThroneForAndroid/issues">github.com/throneproj/ThroneForAndroid/issues</a> 报告 Android 应用的问题。请附上：</p>
+<ul>
+<li>你做了什么、预期结果是什么，以及实际发生了什么；</li>
+<li>通过 <code>Share logs</code> 或 <code>Save logs…</code> 生成的日志文件，并开启 <code>Hide sensitive data</code>；</li>
+<li>配置类型（例如使用 REALITY 的 VLESS）和运行模式。</li>
+</ul>
+<p>日志文件中已经包含应用版本、核心版本和设备型号。一般性建议请参见<a href="/zh/help/bug_reports/">报告 Bug</a>。</p>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/android/troubleshooting.zh.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          在 GitHub 上编辑此页
+        </a>
+        
+
+<nav class="prev-next" aria-label="页面导航">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/zh/android/tv/">
+    <span class="prevnext-dir">上一页</span>
+    Android TV
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/zh/advanced/">
+    <span class="prevnext-dir">下一页</span>
+    进阶配置
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="本页导航">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    本页导航
+  </p>
+  <ul><li><a href="#connection">VPN 无法启动或没有流量</a><ul><li><a href="#vpn-denied">“VPN 服务权限请求被拒绝”</a></li><li><a href="#vpn-failed">Android 拒绝创建 VPN</a></li><li><a href="#start-errors">连接时出现的其他消息</a></li><li><a href="#no-traffic">已连接，但无法加载任何内容</a></li><li><a href="#blocked-without-vpn">Throne 关闭时无法上网</a></li><li><a href="#fakedns">断开连接后某些应用无法上网</a></li></ul></li><li><a href="#killed-in-background">Throne 在后台被停止</a></li><li><a href="#subscriptions">订阅问题</a><ul><li><a href="#direct-updates">服务商只接受来自你自己网络连接的更新</a></li></ul></li><li><a href="#routing">路由错误</a></li><li><a href="#warp">WARP 错误</a></li><li><a href="#updates">更新问题</a></li><li><a href="#desktop-vs-android">配置在桌面版上可用，但在 Android 上不可用</a></li><li><a href="#logs">日志</a></li><li><a href="#report">报告问题</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "复制",
+    copied: "已复制",
+    copyManual: "请按 Ctrl C",
+    noResults: "未找到相关结果：",
+    theme: "主题",
+    themeAuto: "自动",
+    themeLight: "浅色",
+    themeDark: "深色"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

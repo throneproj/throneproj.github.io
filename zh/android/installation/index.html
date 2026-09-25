@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="选择合适的 APK，安装 Throne for Android，从 1.x 或 NekoBox 升级，并让应用保持最新。">
+  <title>安装与升级 - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="安装与升级">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/zh/android/installation/">
+  <meta property="og:description" content="选择合适的 APK，安装 Throne for Android，从 1.x 或 NekoBox 升级，并让应用保持最新。">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="安装与升级">
+  <meta name="twitter:description" content="选择合适的 APK，安装 Throne for Android，从 1.x 或 NekoBox 升级，并让应用保持最新。">
+  <link rel="canonical" href="https://throneproj.github.io/zh/android/installation/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"安装与升级","url":"https://throneproj.github.io/zh/android/installation/","description":"选择合适的 APK，安装 Throne for Android，从 1.x 或 NekoBox 升级，并让应用保持最新。"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/zh/"},{"@type":"ListItem","position":2,"name":"Throne for Android","item":"https://throneproj.github.io/zh/android/"},{"@type":"ListItem","position":3,"name":"安装与升级"}]}</script>
+  <link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/android/installation/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/android/installation/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/android/installation/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/android/installation/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">跳转到主要内容</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="打开导航" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/zh/" class="header-logo" aria-label="Throne 首页">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.3.1" target="_blank" rel="noopener noreferrer">v1.3.1</a>
+
+    <nav class="header-nav" aria-label="主导航">
+      <a href="https://throneproj.github.io/zh/get_started/">开始使用</a>
+      <a href="https://throneproj.github.io/zh/downloads/">下载</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="搜索文档">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>搜索</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="语言">
+        
+        <a href="https://throneproj.github.io/android/installation/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/android/installation/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/android/installation/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/android/installation/" hreflang="zh" aria-current="true">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne 在 GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="主题">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="搜索文档" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="搜索文档" placeholder="搜索文档" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="搜索"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="文档导航">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>开始使用</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/installation/">安装</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/configuration/">快速入门</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>使用指南</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/subscriptions/">订阅与分组</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/proxy_modes/">系统代理、TUN 与局域网共享</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/tun_mode/">TUN 模式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/routing/">路由</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/testing/">测试与自动选择器</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/backup/">备份、更新与迁移</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/recipes/">常用方案</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/installation/" aria-current="page">安装与升级</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/permissions/">权限与后台运行</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/modes/">VPN 与代理模式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/widgets/">小部件、图块与自动化</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/troubleshooting/">Android 故障排除</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>进阶配置</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/xray/">sing-box 与 Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/chains/">代理链与自定义配置</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/presets/">反审查预设</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/vpn_profiles/">OpenVPN、OpenConnect 与 Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/windows_tun_mode/">Windows DNS 泄漏防护</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/deeplinks/">深度链接</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>参考</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/protocols/">协议与导入格式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/shortcuts/">键盘快捷键与托盘</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/files/">命令行、文件与日志</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/privacy/">隐私与网络请求</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/glossary/">术语表</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>帮助</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/faq/">常见问题</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/troubleshooting/">故障排除</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/bug_reports/">报告 Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/migrating/">从 Nekoray / NekoBox 迁移</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">安装与升级</h1>
+      <p class="docs-lede">选择合适的 APK，安装 Throne for Android，从 1.x 或 NekoBox 升级，并让应用保持最新。</p>
+      <div class="prose">
+        <p>本页说明应下载哪个 APK、如何安装、如何从旧版本迁移，以及更新如何进行。Throne for Android 需要 Android 7.0 或更高版本，可在手机、平板和 Android TV 设备上运行。</p>
+<h2 id="choose-apk">选择合适的 APK</h2>
+<p>每个版本都为每种处理器类型（ABI）各提供一个 APK。没有能在所有设备上运行的通用 APK，因此请选择与你的设备匹配的文件：</p>
+<table>
+<thead>
+<tr>
+<th>APK</th>
+<th>典型设备</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Throne-&lt;version&gt;-arm64-v8a.apk</code></td>
+<td>近几年的几乎所有手机和平板</td>
+</tr>
+<tr>
+<td><code>Throne-&lt;version&gt;-armeabi-v7a.apk</code></td>
+<td>较旧的 32 位手机，以及许多 Android TV 盒子和电视棒</td>
+</tr>
+<tr>
+<td><code>Throne-&lt;version&gt;-x86_64.apk</code></td>
+<td>模拟器、部分 Chromebook 和 PC</td>
+</tr>
+</tbody>
+</table>
+<p>没有面向 32 位 x86 设备的版本。</p>
+<p>起决定作用的是 Android 系统，而不是处理器。许多电视盒子使用 64 位处理器，但运行的是 32 位 Android，它们需要 <code>armeabi-v7a</code>。</p>
+<p>要查看设备的 ABI，请打开一个设备信息类应用，查找 ABI 或指令集。如果你有一台装有 adb 的电脑，可以用以下命令输出 ABI：</p>
+<pre><code class="language-bash hljs">adb shell getprop ro.product.cpu.abi
+</code></pre>
+<p>如果不确定，请先尝试 <code>arm64-v8a</code>。如果 Android 提示该应用不兼容，或者不安装它，请改用 <code>armeabi-v7a</code>。</p>
+<h2 id="download">下载与校验</h2>
+<p>从<a href="/zh/downloads/">下载</a>页面或 <a href="https://github.com/throneproj/ThroneForAndroid/releases">GitHub 发布页</a>下载 APK。版本标签以 <code>v</code> 开头，例如 <code>v2.0.0</code>。</p>
+<p>每个版本还包含 <code>SHA256SUMS</code>，即该版本各 APK 的 SHA-256 校验和。校验是可选的，它可以确认文件在下载过程中没有被更改或损坏。请把 APK 和 <code>SHA256SUMS</code> 放在电脑上的同一个文件夹中，然后运行适用于你系统的命令。</p>
+<p><strong>Linux：</strong></p>
+<pre><code class="language-bash hljs">sha256sum -c --ignore-missing SHA256SUMS
+</code></pre>
+<p>输出中你的文件必须显示 <code>OK</code>，例如 <code>Throne-2.0.0-arm64-v8a.apk: OK</code>。</p>
+<p><strong>macOS：</strong></p>
+<pre><code class="language-bash hljs">shasum -a 256 Throne-2.0.0-arm64-v8a.apk
+</code></pre>
+<p><strong>Windows：</strong></p>
+<pre><code class="language-powershell hljs">Get-FileHash .\Throne-2.0.0-arm64-v8a.apk -Algorithm SHA256
+</code></pre>
+<p>在 macOS 和 Windows 上，请将输出的校验和与 <code>SHA256SUMS</code> 中对应你文件的那一行进行比较。字母大小写无关紧要。</p>
+<h2 id="install">安装</h2>
+<p>如果已安装 Throne for Android 1.x，请先阅读<a href="#upgrading">从 1.x 或 NekoBox 升级</a>。</p>
+<ol>
+<li>打开下载的 APK，例如从浏览器的下载列表或文件管理器中打开。</li>
+<li>如果 Android 阻止安装，请允许你用来打开该文件的应用安装应用。在 Android 8 及更高版本上，点按提示中的 <code>设置</code>（Settings），然后开启 <code>允许来自此来源的应用</code>（Allow from this source）。在 Android 7 上，请在 Android 的安全设置中开启 <code>未知来源</code>（Unknown sources）。</li>
+<li>返回并点按 <code>安装</code>（Install）。</li>
+<li>打开 Throne 并回答首次启动时的问题。参见<a href="/zh/android/permissions/">权限与后台运行</a>。</li>
+</ol>
+<p>关于 Android TV，请参见 <a href="/zh/android/tv/#install-tv">Android TV</a>。</p>
+<h2 id="upgrading">从 1.x 或 NekoBox 升级</h2>
+<p>Throne for Android 2.0.0 基于桌面版核心重新构建。它使用新的密钥签名，并采用新的数据格式：</p>
+<ul>
+<li>Android 无法在 Throne for Android 1.x 之上安装 2.0.0。在你卸载旧版本之前，安装都会失败。</li>
+<li>2.0.0 启动时没有任何配置、分组或设置。它无法读取旧应用的数据。</li>
+<li>它无法恢复旧备份，即 <code>throne_backup_….json</code> 文件以及 WebDAV 上的 <code>.zip</code> 文件。它只能恢复 <code>.thrbackup</code> 文件，也就是 Throne 桌面版的备份格式。</li>
+</ul>
+<aside class="callout callout--warning">
+  <span class="callout-label">警告</span>
+  <p>卸载旧应用会删除它的所有数据：配置、分组、路由规则和设置。卸载前请保存你需要的内容。</p>
+
+</aside>
+<ol>
+<li>在旧应用中复制每个订阅的 URL，并保存在安全的地方，例如一条私密笔记中。要找到它，请在侧边菜单中打开 <code>分组</code>（Group），点按该分组的编辑按钮（铅笔图标），然后复制 <code>订阅链接</code>（Subscription Link）。不要使用 <code>分享订阅</code>（Share Subscription）：它复制的是 2.0.0 无法读取的 <code>sn://</code> 链接。</li>
+<li>导出不是来自订阅的配置：打开该分组的菜单，选择 <code>导出</code>（Export）→ <code>导出到文件</code>（Export to file）。该文件以分享链接的形式包含这些配置。对于某些类型，例如 WireGuard、SSH、ShadowTLS、Mieru、代理链和自定义配置类型的配置，旧应用会写出 2.0.0 无法导入的 <code>sn://</code> 链接。请记下这些配置的设置，以便重新创建它们。</li>
+<li>如果你在 Throne 桌面版中使用相同的配置，也可以改为在桌面版中创建备份（<code>设置</code>（Settings）→ <code>基本设置</code>（Basic Settings）→ <code>备份和恢复</code>（Backup and Restore）），之后在手机上恢复。参见<a href="/zh/guides/backup/#desktop-android">在桌面版与 Android 之间迁移</a>。</li>
+<li>卸载旧应用。</li>
+<li>按照<a href="#install">安装</a>中的说明安装 2.0.0。</li>
+<li>重新添加订阅（<code>添加服务器配置</code>（Add profile）→ <code>从剪切板导入</code>（Import from clipboard）→ <code>Create new subscription group</code>），导入导出的文件（<code>添加服务器配置</code> → <code>从文件中导入</code>（Import from file）），或恢复桌面版备份（侧边菜单 → <code>工具</code>（Tools）→ <code>Restore</code>）。</li>
+</ol>
+<p><strong>NekoBox for Android：</strong> 原版 NekoBox 应用的包名不同，因此 Android 会把 Throne 与它并列安装。Throne 无法读取 NekoBox 的数据或备份。请通过订阅链接迁移你的订阅。同一时间只能有一个 VPN 应用处于连接状态。</p>
+<h2 id="preview">稳定版与预览版</h2>
+<p>稳定版以普通发布版本（release）的形式发布在 GitHub 上，例如 <code>v2.0.0</code>。预览版会自动以 GitHub 预发布版本（pre-release）的形式发布，标签形如 <code>v&lt;version&gt;-pre.&lt;number&gt;</code>。它们包含最新的更改，用于测试，因此可能存在 bug。</p>
+<p>预览版在应用打开时会显示一条警告：“本应用为预览版，可能存在诸多问题。若您不愿参与测试，请前往GitHub下载正式发布版本！”在你点按 <code>不再显示</code>（Don't show again）之前，每次启动都会再次显示该警告。更新到较新的预览版后，警告会重新出现。</p>
+<p>稳定版和预览版使用同一个密钥签名，因此较新的版本可以直接覆盖安装在较旧的版本之上，无需卸载。要在应用内更新程序中接收预览版，请开启 <code>Allow updating to beta versions</code>。</p>
+<h2 id="updater">应用内更新程序</h2>
+<p>从 GitHub 获取的版本可以自行更新：</p>
+<ol>
+<li>在侧边菜单中打开 <code>关于</code>（About），点按 <code>Check for updates</code>。其下方的一行显示更新渠道：“Channel: stable releases”（渠道：稳定版）或“Channel: stable and pre-releases”（渠道：稳定版和预发布版）。</li>
+<li>如果有新版本，Throne 会显示“发现新版本”，并列出版本号、下载大小和更新说明。点按 <code>Update</code>。</li>
+<li>在 Android 8 及更高版本上，Throne 第一次会询问“Allow installing updates”（允许安装更新）。点按 <code>打开设置</code>（Open settings），允许 Throne 安装应用，然后返回。</li>
+<li>Throne 会下载并检查 APK，然后 Android 会请你确认安装。</li>
+</ol>
+<p>替换应用期间连接会停止，更新完成后会重新启动。</p>
+<p>更新设置位于 <code>设置</code>（Settings）→ <code>General</code> 的 <code>Updates</code> 部分：</p>
+<table>
+<thead>
+<tr>
+<th>设置</th>
+<th>默认值</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Allow updating to beta versions</code></td>
+<td>关闭</td>
+<td>同时提供预发布版本（预览版）。</td>
+</tr>
+<tr>
+<td><code>Check for updates daily</code></td>
+<td>关闭</td>
+<td>每天检查一次，并显示通知“Throne … is available”（Throne … 已发布）。该通知带有 <code>Skip this version</code> 按钮。</td>
+</tr>
+</tbody>
+</table>
+<p>在安装任何内容之前，Throne 会检查下载的文件：</p>
+<ul>
+<li>其大小和 SHA-256 校验和，需与该版本的更新清单（<code>throne-update.json</code>）中列出的一致；</li>
+<li>它是 Throne，并且比已安装的版本更新；</li>
+<li>它与已安装的应用使用同一个密钥签名，并且使用 Throne 发布密钥签名。</li>
+</ul>
+<p>如果任何一项检查失败，都不会安装任何内容。如果你的副本不是用 Throne 发布密钥签名的（例如来自其他来源的构建），更新程序会显示“The download is signed with a different key than this build, so Android cannot install it as an update. Back up, uninstall this build and install the release from GitHub.”（下载的文件与当前版本的签名密钥不同，因此 Android 无法将其作为更新安装。请先备份，卸载当前版本，然后安装 GitHub 上的正式版本。）</p>
+<p>更新程序还有以下行为：</p>
+<ul>
+<li>它会安装与你已安装版本相同 ABI 的 APK，例如 <code>arm64-v8a</code>。它绝不会切换到其他 ABI。</li>
+<li>有些版本无法在应用内安装：没有更新清单的版本，以及没有适用于你的 ABI 的 APK 的版本。此时 Throne 会显示“This update cannot be installed from the app (…). Download it from the release page.”（此更新无法在应用内安装（…）。请从发布页面下载。），并提供 <code>Open in browser</code> 按钮。</li>
+<li>当 <code>设置</code> → <code>订阅</code>（Subscriptions）中的 <code>Use proxy</code> 开启，或运行模式为 <code>仅代理</code>（Proxy only），并且 Throne 已连接时，检查和下载会经由 Throne 的本地代理进行。没有配置在运行时，它们会直接连接。开启 <code>禁用混合入站</code>（Disable mixed inbound）时，它们不会使用本地代理。</li>
+<li>更新时绝不会忽略 TLS 证书错误，即使开启了 <code>Ignore TLS errors</code> 也是如此。</li>
+</ul>
+<h2 id="fdroid">F-Droid 版本</h2>
+<p>源代码中还有第二个构建变体 <code>fdroid</code>，供 F-Droid 使用。它没有应用内更新程序：没有 <code>关于</code>（About）→ <code>Check for updates</code> 和 <code>Updates</code> 设置，应用也不会请求安装应用的权限。Throne for Android 目前尚未上架 F-Droid，已在 <a href="https://github.com/throneproj/ThroneForAndroid/issues/37">#37</a> 中请求上架。</p>
+<p>只有当更新与已安装的应用使用同一个密钥签名时，Android 才会安装它。因此，使用其他密钥签名的版本与来自 GitHub 的版本无法相互更新。要切换版本，请先备份数据（侧边菜单 → <code>工具</code>（Tools）→ <code>Create backup</code>），卸载应用，安装另一个版本，然后恢复备份。</p>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/android/installation.zh.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          在 GitHub 上编辑此页
+        </a>
+        
+
+<nav class="prev-next" aria-label="页面导航">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/zh/android/">
+    <span class="prevnext-dir">上一页</span>
+    Throne for Android
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/zh/android/permissions/">
+    <span class="prevnext-dir">下一页</span>
+    权限与后台运行
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="本页导航">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    本页导航
+  </p>
+  <ul><li><a href="#choose-apk">选择合适的 APK</a></li><li><a href="#download">下载与校验</a></li><li><a href="#install">安装</a></li><li><a href="#upgrading">从 1.x 或 NekoBox 升级</a></li><li><a href="#preview">稳定版与预览版</a></li><li><a href="#updater">应用内更新程序</a></li><li><a href="#fdroid">F-Droid 版本</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "复制",
+    copied: "已复制",
+    copyManual: "请按 Ctrl C",
+    noResults: "未找到相关结果：",
+    theme: "主题",
+    themeAuto: "自动",
+    themeLight: "浅色",
+    themeDark: "深色"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Test profiles for latency, exit IP and speed, sort and filter the list, remove dead profiles, and let the auto selector pick the best server.">
+  <title>Testing &amp; Auto Selector - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="Testing &amp; Auto Selector">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/guides/testing/">
+  <meta property="og:description" content="Test profiles for latency, exit IP and speed, sort and filter the list, remove dead profiles, and let the auto selector pick the best server.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Testing &amp; Auto Selector">
+  <meta name="twitter:description" content="Test profiles for latency, exit IP and speed, sort and filter the list, remove dead profiles, and let the auto selector pick the best server.">
+  <link rel="canonical" href="https://throneproj.github.io/guides/testing/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Testing \u0026 Auto Selector","url":"https://throneproj.github.io/guides/testing/","description":"Test profiles for latency, exit IP and speed, sort and filter the list, remove dead profiles, and let the auto selector pick the best server."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://throneproj.github.io/guides/"},{"@type":"ListItem","position":3,"name":"Testing \u0026 Auto Selector"}]}</script>
+  <link rel="alternate" hreflang="en" href="https://throneproj.github.io/guides/testing/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/guides/testing/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/guides/testing/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/guides/testing/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/" class="header-logo" aria-label="Throne homepage">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.3.1" target="_blank" rel="noopener noreferrer">v1.3.1</a>
+
+    <nav class="header-nav" aria-label="Primary">
+      <a href="https://throneproj.github.io/get_started/">Get Started</a>
+      <a href="https://throneproj.github.io/downloads/">Downloads</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="Search documentation">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Search</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="Language">
+        
+        <a href="https://throneproj.github.io/guides/testing/" hreflang="en" aria-current="true">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/guides/testing/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/guides/testing/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/guides/testing/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne on GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="Theme">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search documentation" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="Search documentation" placeholder="Search the docs" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Search"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="Documentation">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Get Started</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/installation/">Installation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/configuration/">Quick Start</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Guides</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/guides/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/subscriptions/">Subscriptions & Groups</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/proxy_modes/">System Proxy, TUN & LAN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/tun_mode/">TUN Mode</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/routing/">Routing</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/testing/" aria-current="page">Testing & Auto Selector</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/backup/">Backup, Updates & Migration</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/recipes/">Recipes</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/android/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/installation/">Installation & Upgrade</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/permissions/">Permissions & Background</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/modes/">VPN & Proxy Modes</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/widgets/">Widgets, Tile & Automation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Advanced Configuration</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/xray/">sing-box vs Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/chains/">Chains & Custom Configs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/presets/">Anti-Censorship Presets</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/vpn_profiles/">OpenVPN, OpenConnect & Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/windows_tun_mode/">Windows DNS Leak Protection</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/deeplinks/">Deep Links</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Reference</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/reference/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/protocols/">Protocols & Import Formats</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/shortcuts/">Keyboard Shortcuts & Tray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/files/">Command Line, Files & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/privacy/">Privacy & Network Requests</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/glossary/">Glossary</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Help</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/help/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/faq/">FAQ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/troubleshooting/">Troubleshooting</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/bug_reports/">Reporting a Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/migrating/">Coming from Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">Testing &amp; Auto Selector</h1>
+      <p class="docs-lede">Test profiles for latency, exit IP and speed, sort and filter the list, remove dead profiles, and let the auto selector pick the best server.</p>
+      <div class="prose">
+        <p>Throne can test your profiles and help you keep only the good ones. This page covers the URL test, the IP and country test and the speed test, sorting and filtering, cleaning up, and the auto selector, which picks the best server for you.</p>
+<p>Tests do not stop the running profile. They skip auto selector profiles; test the group that the auto selector uses instead.</p>
+<h2 id="url-test">URL test</h2>
+<p>The URL test checks that a profile works and measures its latency. Throne requests the <code>Latency Test URL</code> through the profile two times and shows how long the second request took, in milliseconds.</p>
+<p>To start a URL test:</p>
+<ul>
+<li><strong>Selected profiles:</strong> right-click them and choose <code>Url Test Selected</code> (<code>Ctrl+Shift+S</code>).</li>
+<li><strong>The whole group:</strong> choose <code>Groups</code> → <code>Url Test Group</code> (<code>Ctrl+Shift+G</code>), or right-click the group tab and choose <code>Url Test selected Group</code>.</li>
+<li><strong>The running profile:</strong> click the profile name at the left of the status bar. Throne tests the live connection once and shows <code>Test Result:</code> with the time, or <code>Unavailable</code>, in the status bar.</li>
+</ul>
+<p>While a test runs, <code>Stop Testing</code> (<code>Ctrl+.</code>) appears in the right-click menu and in the <code>Groups</code> menu.</p>
+<p>The <code>Test Result</code> column shows one of these:</p>
+<table>
+<thead>
+<tr>
+<th>Result</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A time such as <code>85 ms</code></td>
+<td>The profile works. The time is green up to 100 ms, yellow up to 300 ms and red above that.</td>
+</tr>
+<tr>
+<td><code>Unavailable</code></td>
+<td>The test failed. The log has a line with <code>test error</code> and the reason.</td>
+</tr>
+<tr>
+<td><code>Connect OK</code></td>
+<td>An OpenVPN or OpenConnect profile connected, but the test URL did not answer through it.</td>
+</tr>
+</tbody>
+</table>
+<p>The test settings are in <code>Settings</code> → <code>Basic Settings</code> → <code>Common</code>, under <code>Testing</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Latency Test URL</code></td>
+<td><code>http://cp.cloudflare.com/</code></td>
+<td>The address that Throne requests through each profile.</td>
+</tr>
+<tr>
+<td><code>Timeout</code> (next to <code>Concurrency</code>)</td>
+<td><code>3000</code> ms</td>
+<td>The time limit for each request. Do not set it too low: profiles with multiplexing need more time for their first request, and a short timeout marks them as failed.</td>
+</tr>
+<tr>
+<td><code>Concurrency</code></td>
+<td><code>10</code></td>
+<td>How many profiles are tested at the same time.</td>
+</tr>
+<tr>
+<td><code>Direct Test URL</code></td>
+<td>empty</td>
+<td>Fetched without any proxy, so that the auto selector can tell a dead Internet connection from dead servers. Use an address that works on your network without a proxy. Empty means that Throne uses the network state of the operating system.</td>
+</tr>
+</tbody>
+</table>
+<p>To copy the results of selected profiles, right-click them and choose <code>Share</code> → <code>Copy Test Result</code>.</p>
+<h2 id="ip-test">IP and country test</h2>
+<p>This test shows the exit IP address of each profile and its country. This is the address that websites see.</p>
+<ul>
+<li><strong>Selected profiles:</strong> right-click them and choose <code>Resolve Selected Out IP</code>.</li>
+<li><strong>The whole group:</strong> choose <code>Groups</code> → <code>Resolve out IP for group</code>.</li>
+</ul>
+<p>Throne requests <code>https://api.ip2location.io/</code> through each profile. The <code>Test Result</code> column then shows the country flag, and the exit IP if <code>Out IP</code> is included (see <a href="#sort-filter">Sort and filter</a>). The test uses the <code>Timeout</code> and <code>Concurrency</code> of the URL test.</p>
+<p>The country is used by the country filter and by the auto selector's <code>Only countries</code> option. For the services that Throne contacts, see <a href="/reference/privacy/#network-requests">Privacy</a>.</p>
+<h2 id="speed-test">Speed test</h2>
+<p>The speed test measures the download and upload speed of a profile.</p>
+<ul>
+<li><strong>Selected profiles:</strong> right-click them and choose <code>Speedtest Selected</code> (<code>Ctrl+Shift+P</code>).</li>
+<li><strong>The whole group:</strong> choose <code>Groups</code> → <code>Speedtest Group</code> (<code>Ctrl+Alt+P</code>), or right-click the group tab and choose <code>Speed Test selected Group</code>.</li>
+<li><strong>The live connection:</strong> while a profile runs, choose <code>Tools</code> → <code>Speedtest Current</code> (<code>F6</code>).</li>
+</ul>
+<p>Throne tests the profiles one at a time. The <code>Test Result</code> column then shows the download speed after <code>↓</code> and the upload speed after <code>↑</code>, if <code>Speed</code> is included.</p>
+<p>Choose what the test does in <code>Settings</code> → <code>Basic Settings</code> → <code>Common</code> → <code>Speedtest mode</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Download + Upload</code> (default)</td>
+<td>Finds a nearby Speedtest server, then measures download and upload.</td>
+</tr>
+<tr>
+<td><code>Only Download</code></td>
+<td>Measures download only.</td>
+</tr>
+<tr>
+<td><code>Only Upload</code></td>
+<td>Measures upload only.</td>
+</tr>
+<tr>
+<td><code>Simple Download</code></td>
+<td>Downloads the file at <code>Simple Download URL</code>, by default <code>http://cachefly.cachefly.net/1mb.test</code>. No server search.</td>
+</tr>
+<tr>
+<td><code>Only Country</code></td>
+<td>Only finds the nearest Speedtest server and shows its country. It is fast, uses almost no data and tests many profiles at the same time.</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>Timeout</code> next to <code>Speedtest mode</code> (default <code>5000</code> ms) limits each part of the test.</p>
+<aside class="callout callout--warning">
+  <span class="callout-label">Warning</span>
+  <p>A speed test transfers as much data as it can until the timeout, for every profile. Testing a large group can use a lot of data, which matters if your plan has a data limit. The data counts in the <code>Traffic</code> column of each profile.</p>
+
+</aside>
+<h2 id="sort-filter">Sort and filter</h2>
+<p>To sort the profiles of a group:</p>
+<ul>
+<li>Click a column header to sort by that column. Click it again to reverse the order. Throne saves the new order.</li>
+<li>When you sort by latency with the first click, the fastest profiles come first. Failed profiles follow, and untested profiles come last.</li>
+<li>Right-click the <code>Test Result</code> header to choose what the column shows (<code>Include:</code> <code>Out IP</code>, <code>Speed</code>) and what it sorts by (<code>Sort By:</code> <code>Latency</code>, <code>Download Speed</code>, <code>Upload Speed</code>, <code>IP Out</code>).</li>
+<li>Right-click the <code>Traffic</code> header to sort by <code>Total</code>, <code>Downloaded</code> or <code>Uploaded</code>.</li>
+<li>Drag rows to put them in any order. This does not work while the filter is on.</li>
+</ul>
+<p>A subscription update puts the profiles back in the provider's order. To sort a subscription group after each update, use its <code>Sort by latency</code> option; see <a href="/guides/subscriptions/#after-update">After each update</a>.</p>
+<p>To filter the list:</p>
+<ol>
+<li>Press <code>Ctrl+F</code>, or click the filter button at the right end of the group tab bar.</li>
+<li>Type in the field under the <code>Type</code>, <code>Address</code> or <code>Name</code> header, or in <code>Filter by country...</code> under <code>Test Result</code>.</li>
+</ol>
+<p>The list then shows only the profiles that contain the text; case does not matter. In the <code>Address</code> field, <code>port=443</code> shows the profiles on port 443, and <code>port=1000:2000</code> the profiles on a port from 1000 to 2000. One end of the range can be empty, for example <code>port=8000:</code>. The country field matches the country code from the IP or speed test, for example <code>DE</code>. Press <code>Ctrl+F</code> again to hide the fields; this also clears them.</p>
+<h2 id="clean-up">Clean up</h2>
+<p>These commands are in the <code>Groups</code> menu. They work on the current group.</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Shortcut</th>
+<th>What it removes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Remove Duplicates</code></td>
+<td><code>Ctrl+Shift+D</code></td>
+<td>Profiles that are exact copies of an earlier profile, including the name. The first copy stays.</td>
+</tr>
+<tr>
+<td><code>Remove Unavailable</code></td>
+<td><code>Ctrl+Shift+R</code></td>
+<td>Profiles whose last test failed. It never removes the running profile.</td>
+</tr>
+<tr>
+<td><code>Remove Invalid</code></td>
+<td><code>Ctrl+Alt+I</code></td>
+<td>Profiles that the core rejects as invalid.</td>
+</tr>
+<tr>
+<td><code>Remove Insecure Configs</code></td>
+<td>–</td>
+<td>Profiles whose traffic is not properly protected: no encryption, TLS without certificate checks, or old Shadowsocks ciphers.</td>
+</tr>
+<tr>
+<td><code>Clear Group test result</code></td>
+<td><code>Ctrl+Shift+C</code></td>
+<td>Only the test results. The profiles stay.</td>
+</tr>
+</tbody>
+</table>
+<p>Throne asks before it deletes anything, unless <code>Settings</code> → <code>Basic Settings</code> → <code>Style</code> → <code>Skip confirmation When Deleting Profiles</code> is on. If <code>Remove Duplicates</code>, <code>Remove Invalid</code> or <code>Remove Insecure Configs</code> removes the running profile, Throne stops it.</p>
+<p>To see which profiles count as insecure, turn on <code>Settings</code> → <code>Basic Settings</code> → <code>Style</code> → <code>Show Config Security</code>. The <code>Type</code> column then shows the security of each profile, and insecure profiles get a warning sign.</p>
+<p>To clean up automatically:</p>
+<ul>
+<li>The group option <code>Auto Clear Unavailable Profiles</code> deletes failed profiles after every URL test of the group, without asking. See <a href="/guides/subscriptions/#group-options">Group options</a>.</li>
+<li>A subscription group can remove duplicate, insecure, invalid and failed profiles after each update. See <a href="/guides/subscriptions/#after-update">After each update</a>.</li>
+</ul>
+<h2 id="auto-selector">Auto selector</h2>
+<p>An auto selector is a special profile. When you start it, it picks the best working profile from one group, keeps checking the others, and switches when the current one gets worse or fails. New servers from a subscription update join it by themselves.</p>
+<p>To create one:</p>
+<ol>
+<li>Select the tab of the group that it should use.</li>
+<li>Choose <code>Program</code> → <code>New profile</code> (<code>Ctrl+N</code>). The editor opens with <code>Auto Selector</code> already chosen as the <code>Type</code>.</li>
+<li>Enter a <code>Name</code>.</li>
+<li>Check <code>Servers from</code>. It is the group that the auto selector picks from.</li>
+<li>Click <code>OK</code>, then start the new profile like any other profile.</li>
+</ol>
+<p>The editor shows a summary of what will happen, for example how many profiles of the group can be used. The basic options are:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Servers from</code></td>
+<td>the current group</td>
+<td>The group whose profiles the auto selector uses.</td>
+</tr>
+<tr>
+<td><code>Only names matching</code></td>
+<td>empty</td>
+<td>An optional regular expression. Only profiles whose name matches are used, for example to pick one country or provider. Case does not matter.</td>
+</tr>
+<tr>
+<td><code>Share traffic between the best profiles</code></td>
+<td>off</td>
+<td>Off: one profile carries all traffic, and the other ready profiles stand by. On: traffic is spread over the working profiles; see <code>Load balancing</code> below.</td>
+</tr>
+<tr>
+<td><code>Preferred profile</code></td>
+<td>–</td>
+<td>Appears only after you chose a profile with <code>Use this profile</code> in the stats window. <code>Use automatic</code> returns the choice to the auto selector.</td>
+</tr>
+</tbody>
+</table>
+<p><code>Advanced…</code> shows more options, in the parts <code>Which profiles to use</code>, <code>Health checks</code>, <code>Switching</code>, <code>Load balancing</code> and <code>Test endpoints</code>. All of them have working defaults.</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Only countries</code></td>
+<td>empty</td>
+<td>Country codes separated by commas, for example <code>DE,NL,FR</code>. Uses the country from the IP test, so profiles that were never IP-tested are skipped while this is set.</td>
+</tr>
+<tr>
+<td><code>Run the best</code></td>
+<td>300 profiles</td>
+<td>How many profiles are loaded into the running config. The auto selector switches between them without reconnecting.</td>
+</tr>
+<tr>
+<td><code>Rank at most</code></td>
+<td>1000 profiles</td>
+<td>How many profiles are measured and kept in the ranked list. Replacements come from this list.</td>
+</tr>
+<tr>
+<td><code>Trust results for</code></td>
+<td>1440 min</td>
+<td>URL test results this recent are reused instead of testing again. 0 means always test again.</td>
+</tr>
+<tr>
+<td><code>Skip failed profiles</code></td>
+<td>on</td>
+<td>Leaves out profiles whose last test failed, while that result is still trusted.</td>
+</tr>
+<tr>
+<td><code>Keep ready</code></td>
+<td>3 profiles</td>
+<td>How many profiles are kept confirmed working, so that a failure is covered at once.</td>
+</tr>
+<tr>
+<td><code>Check closely</code></td>
+<td>8 profiles</td>
+<td>How many of the best profiles are checked at every <code>Check interval</code>.</td>
+</tr>
+<tr>
+<td><code>Check interval</code></td>
+<td>300 s</td>
+<td>How often the closely checked profiles are measured.</td>
+</tr>
+<tr>
+<td><code>Full sweep every</code></td>
+<td>600 s</td>
+<td>How long one pass over all running profiles takes.</td>
+</tr>
+<tr>
+<td><code>Watch profile in use</code></td>
+<td>15 s</td>
+<td>How often the profile that carries your traffic is checked on its own.</td>
+</tr>
+<tr>
+<td><code>Samples kept</code></td>
+<td>10</td>
+<td>How many recent checks the ranking uses for average latency and jitter.</td>
+</tr>
+<tr>
+<td><code>Switch tolerance</code></td>
+<td>300 ms</td>
+<td>Another profile must be at least this much faster before the auto selector switches to it.</td>
+</tr>
+<tr>
+<td><code>Maximum latency</code></td>
+<td>no limit</td>
+<td>Profiles slower than this are never chosen.</td>
+</tr>
+<tr>
+<td><code>Failover attempts</code></td>
+<td>2</td>
+<td>When the chosen profile fails to connect, how many others are tried at once before the app sees an error.</td>
+</tr>
+<tr>
+<td><code>Drop connections on switch</code></td>
+<td>on</td>
+<td>On: after a switch caused by a problem, all connections move to the new profile at once. Off: open downloads finish on the old profile.</td>
+</tr>
+<tr>
+<td><code>Mode</code> (load balancing)</td>
+<td><code>Rotate on a timer (keeps sessions stable)</code></td>
+<td>Used with <code>Share traffic between the best profiles</code>. The other mode is <code>Per connection (widest spread)</code>, where every new connection can take a different profile and your exit IP can change during a session.</td>
+</tr>
+<tr>
+<td><code>Rotate every</code></td>
+<td>30 s</td>
+<td>For the timer mode: how long the auto selector stays on one profile before new connections move to the next.</td>
+</tr>
+<tr>
+<td><code>Test URL</code></td>
+<td>empty</td>
+<td>The address used to measure profiles. Empty means the global <code>Latency Test URL</code>.</td>
+</tr>
+<tr>
+<td><code>Connectivity URL</code></td>
+<td>empty</td>
+<td>Fetched without the proxy to notice when your Internet connection is down. Empty means the <code>Direct Test URL</code> from the test settings.</td>
+</tr>
+</tbody>
+</table>
+<p>How it runs:</p>
+<ul>
+<li>Before it starts, it URL-tests the profiles that have no result newer than <code>Trust results for</code> and ranks them. Then it loads the best of them, as many as <code>Run the best</code>, into the running config. The log shows lines that start with <code>[Auto selector]</code>.</li>
+<li>If all running profiles stop working for 20 seconds, it rebuilds from the next best profiles. It waits longer between repeated rebuilds, from 60 seconds up to 10 minutes.</li>
+<li>If your computer has no network connection, the checks pause until it comes back.</li>
+</ul>
+<p>While an auto selector runs, <code>Tools</code> → <code>Auto Selector Stats</code> opens its stats window. The table shows each profile with <code>Profile</code>, <code>Status</code> (<code>Working</code>, <code>Unstable</code>, <code>Not checked</code>, <code>Failing</code> or <code>Paused</code>), <code>Latency</code>, <code>Jitter</code>, <code>Checks</code>, <code>Connects</code>, <code>Last OK</code> and <code>Notes</code>. <code>Only show profiles with problems</code> hides the working ones. The buttons are:</p>
+<ul>
+<li><code>Use this profile</code>: keep the selected profile in use instead of the ranking's choice.</li>
+<li><code>Back to automatic</code>: let the ranking choose again.</li>
+<li><code>Check all now</code>: measure all running profiles now.</li>
+</ul>
+<p>Limits:</p>
+<ul>
+<li>An auto selector cannot be a hop in a chain, or the <code>Front Proxy</code> or <code>Landing Proxy</code> of a group.</li>
+<li>It skips these profiles of the group: chains and other auto selectors, OpenVPN and OpenConnect, Tailscale, Extra Core, custom sing-box full configs, and custom configs that cannot be read. Xray full configs are skipped when they cannot be combined with the group's front or landing proxy.</li>
+</ul>
+<h2 id="android">On Android</h2>
+<p>Throne for Android has the same tests and the same auto selector.</p>
+<ul>
+<li>On the Profiles screen, the <code>⋮</code> menu has <code>URL test</code>, <code>IP &amp; country test</code>, <code>Speed test</code>, <code>Speed test current connection</code> and <code>Stop testing</code> for the current group. It also has <code>Clear test results</code>, <code>Remove</code> (<code>Duplicates</code>, <code>Unavailable</code>, <code>Invalid</code>, <code>Insecure configs</code>) and <code>Sort</code>. For selected profiles, use <code>Test</code> in the selection menu.</li>
+<li>Before a speed test of more than one profile, the app asks for confirmation: &quot;Speed testing can use significant data.&quot;</li>
+<li>A test panel shows the progress, the counts <code>Working</code>, <code>Failed</code>, <code>Pending</code> and <code>Skipped</code>, a latency chart (≤100 ms, ≤300 ms, &gt;300 ms, fail), the fastest profile, the countries and the number of distinct exit IPs. It also offers actions such as <code>Sort by latency</code> or <code>Sort by speed</code>, <code>Remove unavailable</code> (with the number of failed profiles), <code>Connect to fastest</code> (<code>Select fastest</code> when you are not connected) and <code>Dismiss test results</code>.</li>
+<li>While connected, tap the statistics bar (&quot;Connected, tap to check connection&quot;) to test the live connection. The result looks like &quot;Success: HTTP handshake took 120ms&quot; or &quot;Failed: …&quot;.</li>
+<li>To create an auto selector, choose <code>Add profile</code> → <code>Manual settings</code> → <code>Auto selector</code>. The options and defaults are the same as on desktop, written in sentence case, for example <code>Servers from</code>, <code>Only names matching</code> and <code>Run the best</code>. Tap the auto selector's status line on the Profiles screen to open <code>Auto selector stats</code>, with <code>Use this profile</code>, <code>Back to automatic</code> and <code>Check all now</code>.</li>
+</ul>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/guides/testing.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          Edit this page on GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="Page navigation">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/guides/dns/">
+    <span class="prevnext-dir">Previous</span>
+    DNS
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/guides/backup/">
+    <span class="prevnext-dir">Next</span>
+    Backup, Updates & Migration
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="On this page">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    On this page
+  </p>
+  <ul><li><a href="#url-test">URL test</a></li><li><a href="#ip-test">IP and country test</a></li><li><a href="#speed-test">Speed test</a></li><li><a href="#sort-filter">Sort and filter</a></li><li><a href="#clean-up">Clean up</a></li><li><a href="#auto-selector">Auto selector</a></li><li><a href="#android">On Android</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "Copy",
+    copied: "Copied",
+    copyManual: "Press Ctrl C",
+    noResults: "No results for",
+    theme: "Theme",
+    themeAuto: "auto",
+    themeLight: "light",
+    themeDark: "dark"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>
