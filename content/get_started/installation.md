@@ -141,19 +141,19 @@ scoop install extras/throne
 
 ### Fedora, RHEL and openSUSE {#rpm-repository}
 
-The RPM repository at [parhelia512.github.io](https://parhelia512.github.io/) is run by parhelia512, a member of the throneproj organization on GitHub, and the Throne README links to it. It is separate from the release files. The official `.rpm` files are attached to every release since 1.3.0.
+Official RPM repository for Throne is now available.
 
 Fedora and RHEL 9 or newer:
 
 ```bash
-sudo curl -o /etc/yum.repos.d/throne.repo https://parhelia512.github.io/throne.repo
+sudo curl -o /etc/yum.repos.d/throne.repo http://throneproj.github.io/Throne/rpm/throne.repo
 sudo dnf install -y throne --refresh
 ```
 
 openSUSE and SLES:
 
 ```bash
-sudo zypper addrepo -fc https://parhelia512.github.io/throne-sle.repo
+sudo zypper addrepo -fc http://throneproj.github.io/Throne/rpm/throne.repo
 sudo zypper install -y throne
 ```
 
