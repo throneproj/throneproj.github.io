@@ -1,0 +1,164 @@
+# Throne
+
+> Powerful, open-source GUI proxy utility for Windows, Linux, macOS and Android.
+
+Throne documentation.
+
+## Pages
+
+- [Throne](https://throneproj.github.io/): Powerful, open-source GUI proxy utility for Windows, Linux, macOS and Android.
+- [Download Throne](https://throneproj.github.io/download/)
+- [Downloads](https://throneproj.github.io/downloads/)
+- [Throne](https://throneproj.github.io/fa/): ابزار پروکسی قدرتمند و متن‌باز با رابط گرافیکی برای Windows، Linux، macOS و Android.
+- [دانلود](https://throneproj.github.io/fa/downloads/)
+- [Throne](https://throneproj.github.io/ru/): Мощная прокси-утилита с открытым исходным кодом и графическим интерфейсом для Windows, Linux, macOS и Android.
+- [Скачать](https://throneproj.github.io/ru/downloads/)
+- [Throne](https://throneproj.github.io/zh/): 功能强大、开源的 GUI 代理工具，支持 Windows、Linux、macOS 和 Android。
+- [下载](https://throneproj.github.io/zh/downloads/)
+
+## 进阶配置
+
+- [Proxy Chains & Custom Configs](https://throneproj.github.io/advanced/chains/): Chain several profiles, add front and landing proxies to a group, write raw sing-box or Xray JSON, and run another proxy program as an Extra Core.
+- [Deep Links](https://throneproj.github.io/advanced/deeplinks/): Use throne:// links to add subscriptions, routing profiles and proxy profiles with one click, on desktop and Android.
+- [Anti-Censorship Presets](https://throneproj.github.io/advanced/presets/): What TLS fragment, TLS tricks, uTLS, Multiplex, ECH and TLS spoof do, when they help, what they cost, and how presets and profile settings combine.
+- [OpenVPN, OpenConnect & Tailscale](https://throneproj.github.io/advanced/vpn_profiles/): Import and set up OpenVPN, OpenConnect and Tailscale profiles, sign in with one-time codes, and run a work VPN next to your proxy.
+- [Cloudflare WARP](https://throneproj.github.io/advanced/warp/): Add Cloudflare WARP as an extra exit behind your proxy, generate its config, turn it on, and let chosen traffic skip it.
+- [Windows DNS Leak Protection](https://throneproj.github.io/advanced/windows_tun_mode/): How Strict Route stops DNS leaks in TUN mode on Windows, and what to do when you cannot use it.
+- [sing-box vs Xray](https://throneproj.github.io/advanced/xray/): Which core runs your profiles, how the Xray VLESS Preference works, and how to fix Reality errors with newer Xray servers.
+- [زنجیره‌های پروکسی و پیکربندی‌های سفارشی](https://throneproj.github.io/fa/advanced/chains/): چند نمایه را زنجیر کنید، به یک گروه پروکسی front و پروکسی مقصد بدهید، JSON خام sing-box یا Xray بنویسید و یک برنامهٔ پروکسی دیگر را به‌عنوان هستهٔ اضافی (Extra Core) اجرا کنید.
+- [لینک‌های عمیق](https://throneproj.github.io/fa/advanced/deeplinks/): با لینک‌های throne:// اشتراک‌ها، نمایه‌های مسیریابی و نمایه‌های پروکسی را با یک کلیک در دسکتاپ و Android اضافه کنید.
+- [پیش‌تنظیم‌های ضدسانسور](https://throneproj.github.io/fa/advanced/presets/): کارکرد TLS fragment، TLS tricks، uTLS، Multiplex، ECH و TLS spoof، زمانی که کمک می‌کنند، هزینهٔ آن‌ها و نحوهٔ ترکیب پیش‌تنظیم‌ها با تنظیمات نمایه.
+- [OpenVPN، OpenConnect و Tailscale](https://throneproj.github.io/fa/advanced/vpn_profiles/): نمایه‌های OpenVPN، OpenConnect و Tailscale را وارد و تنظیم کنید، با کدهای یک‌بارمصرف وارد شوید و VPN محل کار را کنار پروکسی خود اجرا کنید.
+- [Cloudflare WARP](https://throneproj.github.io/fa/advanced/warp/): Cloudflare WARP را به‌عنوان یک خروجی اضافه پشت پروکسی خود قرار دهید، پیکربندی آن را بسازید، روشنش کنید و بگذارید ترافیک انتخاب‌شده بدون آن عبور کند.
+- [محافظت از نشت DNS در Windows](https://throneproj.github.io/fa/advanced/windows_tun_mode/): اینکه Strict Route چگونه جلوی نشت DNS را در حالت TUN روی Windows می‌گیرد و وقتی نمی‌توانید از آن استفاده کنید چه باید کرد.
+- [sing-box در برابر Xray](https://throneproj.github.io/fa/advanced/xray/): کدام هسته نمایه‌های شما را اجرا می‌کند، Xray VLESS Preference چگونه کار می‌کند و خطاهای Reality با سرورهای جدیدتر Xray چگونه برطرف می‌شوند.
+- [Цепочки прокси и пользовательские конфигурации](https://throneproj.github.io/ru/advanced/chains/): Как связать несколько профилей в цепочку, добавить группе фронт-прокси и выходной прокси, написать JSON для sing-box или Xray вручную и запустить другую прокси-программу как дополнительное ядро.
+- [Глубокие ссылки](https://throneproj.github.io/ru/advanced/deeplinks/): Добавляйте подписки, профили маршрутизации и профили прокси одним щелчком по ссылкам throne:// на компьютере и Android.
+- [Пресеты для обхода цензуры](https://throneproj.github.io/ru/advanced/presets/): Что делают фрагментация TLS, TLS tricks, uTLS, мультиплексирование, ECH и TLS spoof, когда они помогают, каковы их издержки и как сочетаются пресеты и настройки профиля.
+- [OpenVPN, OpenConnect и Tailscale](https://throneproj.github.io/ru/advanced/vpn_profiles/): Импорт и настройка профилей OpenVPN, OpenConnect и Tailscale, вход с одноразовыми кодами и корпоративный VPN параллельно с прокси.
+- [Cloudflare WARP](https://throneproj.github.io/ru/advanced/warp/): Как добавить Cloudflare WARP дополнительным выходом после прокси, сгенерировать его конфигурацию, включить его и пустить выбранный трафик в обход WARP.
+- [Защита от утечек DNS в Windows](https://throneproj.github.io/ru/advanced/windows_tun_mode/): Как параметр «Строгий маршрут» (Strict Route) предотвращает утечки DNS в режиме TUN в Windows и что делать, если его нельзя использовать.
+- [sing-box или Xray](https://throneproj.github.io/ru/advanced/xray/): Какое ядро запускает ваши профили, как работает настройка «Предпочтение Xray для VLESS» и как исправить ошибки Reality с новыми серверами Xray.
+- [代理链与自定义配置](https://throneproj.github.io/zh/advanced/chains/): 串联多个配置档、为分组添加前置与落地代理、编写原始 sing-box 或 Xray JSON，以及将其他代理程序作为额外核心运行。
+- [深度链接](https://throneproj.github.io/zh/advanced/deeplinks/): 在桌面版和 Android 上使用 throne:// 链接，一键添加订阅、路由配置档和代理配置档。
+- [反审查预设](https://throneproj.github.io/zh/advanced/presets/): TLS 分片、TLS 技巧、uTLS、多路复用、ECH 和 TLS 伪装的作用、适用场景与代价，以及预设与配置档设置如何配合。
+- [OpenVPN、OpenConnect 与 Tailscale](https://throneproj.github.io/zh/advanced/vpn_profiles/): 导入并设置 OpenVPN、OpenConnect 和 Tailscale 配置档，使用一次性验证码登录，并让工作 VPN 与代理同时运行。
+- [Cloudflare WARP](https://throneproj.github.io/zh/advanced/warp/): 将 Cloudflare WARP 添加为代理之后的额外出口：生成配置、开启 WARP，并让指定流量绕过它。
+- [Windows DNS 泄漏防护](https://throneproj.github.io/zh/advanced/windows_tun_mode/): 在 Windows 上，严格路由如何阻止 TUN 模式下的 DNS 泄漏，以及无法使用它时该怎么办。
+- [sing-box 与 Xray](https://throneproj.github.io/zh/advanced/xray/): 哪个核心运行你的配置档、Xray VLESS 首选项如何起作用，以及如何修复较新 Xray 服务器导致的 Reality 错误。
+
+## Throne for Android
+
+- [Installation & Upgrade](https://throneproj.github.io/android/installation/): Choose the right APK, install Throne for Android, upgrade from 1.x or NekoBox, and keep the app up to date.
+- [VPN & Proxy Modes](https://throneproj.github.io/android/modes/): Choose between VPN and Proxy only mode, pick which apps use Throne, share the proxy with other devices, and adjust the TUN and inbound settings.
+- [Permissions & Background](https://throneproj.github.io/android/permissions/): Which permissions Throne for Android asks for, what happens if you deny them, and how to keep the VPN running in the background.
+- [Android Troubleshooting](https://throneproj.github.io/android/troubleshooting/): Fix common problems in Throne for Android: the VPN does not start or has no traffic, stops in the background, subscription and routing errors.
+- [Android TV](https://throneproj.github.io/android/tv/): Install Throne on Android TV boxes and sticks, control it with the remote, add profiles without a camera, and fix a missing VPN permission screen.
+- [Widgets, Tile & Automation](https://throneproj.github.io/android/widgets/): Control Throne for Android from home-screen widgets, the notification, the Quick Settings tile, launcher shortcuts and automation apps such as Tasker.
+- [نصب و ارتقا](https://throneproj.github.io/fa/android/installation/): APK مناسب را انتخاب کنید، Throne برای Android را نصب کنید، از نسخهٔ 1.x یا NekoBox ارتقا دهید و برنامه را به‌روز نگه دارید.
+- [حالت‌های VPN و پروکسی](https://throneproj.github.io/fa/android/modes/): بین حالت VPN و حالت فقط پروکسی انتخاب کنید، مشخص کنید کدام برنامه‌ها از Throne استفاده کنند، پروکسی را با دستگاه‌های دیگر به اشتراک بگذارید و تنظیمات TUN و ورودی را تغییر دهید.
+- [مجوزها و اجرا در پس‌زمینه](https://throneproj.github.io/fa/android/permissions/): Throne برای Android چه مجوزهایی درخواست می‌کند، اگر آن‌ها را رد کنید چه می‌شود و چگونه VPN را در پس‌زمینه در حال اجرا نگه دارید.
+- [عیب‌یابی Android](https://throneproj.github.io/fa/android/troubleshooting/): رفع مشکلات رایج Throne برای Android: VPN اجرا نمی‌شود یا ترافیک ندارد، در پس‌زمینه متوقف می‌شود، و خطاهای اشتراک و مسیریابی.
+- [Android TV](https://throneproj.github.io/fa/android/tv/): Throne را روی باکس‌ها و دانگل‌های Android TV نصب کنید، آن را با کنترل از راه دور به کار ببرید، بدون دوربین نمایه اضافه کنید و مشکل نبودن صفحهٔ مجوز VPN را برطرف کنید.
+- [ویجت‌ها، کاشی و خودکارسازی](https://throneproj.github.io/fa/android/widgets/): Throne برای Android را از ویجت‌های صفحهٔ اصلی، اعلان، کاشی تنظیمات سریع، میانبرهای لانچر و برنامه‌های خودکارسازی مانند Tasker کنترل کنید.
+- [Установка и обновление](https://throneproj.github.io/ru/android/installation/): Выбор нужного APK, установка Throne для Android, переход с 1.x или NekoBox и поддержание приложения в актуальном состоянии.
+- [Режимы VPN и прокси](https://throneproj.github.io/ru/android/modes/): Выбор между режимами VPN и «Только прокси», выбор приложений, которые используют Throne, общий доступ к прокси для других устройств и настройка TUN и входящих подключений.
+- [Разрешения и работа в фоне](https://throneproj.github.io/ru/android/permissions/): Какие разрешения запрашивает Throne для Android, что будет, если их не дать, и как сохранить работу VPN в фоне.
+- [Устранение неполадок на Android](https://throneproj.github.io/ru/android/troubleshooting/): Решение частых проблем в Throne для Android: VPN не запускается или нет трафика, приложение останавливается в фоне, ошибки подписок и маршрутизации.
+- [Android TV](https://throneproj.github.io/ru/android/tv/): Установка Throne на ТВ-приставки и ТВ-стики с Android TV, управление с пульта, добавление профилей без камеры и что делать, если нет экрана разрешения VPN.
+- [Виджеты, плитка и автоматизация](https://throneproj.github.io/ru/android/widgets/): Управление Throne для Android с помощью виджетов главного экрана, уведомления, плитки быстрых настроек, ярлыков лончера и приложений автоматизации, например Tasker.
+- [安装与升级](https://throneproj.github.io/zh/android/installation/): 选择合适的 APK，安装 Throne for Android，从 1.x 或 NekoBox 升级，并让应用保持最新。
+- [VPN 与代理模式](https://throneproj.github.io/zh/android/modes/): 在 VPN 模式和仅代理模式之间做出选择，指定哪些应用使用 Throne，与其他设备共享代理，并调整 TUN 和入站设置。
+- [权限与后台运行](https://throneproj.github.io/zh/android/permissions/): Throne for Android 会请求哪些权限、拒绝后会怎样，以及如何让 VPN 在后台保持运行。
+- [Android 故障排除](https://throneproj.github.io/zh/android/troubleshooting/): 解决 Throne for Android 的常见问题：VPN 无法启动或没有流量、在后台被停止，以及订阅和路由错误。
+- [Android TV](https://throneproj.github.io/zh/android/tv/): 在 Android TV 盒子和电视棒上安装 Throne，用遥控器操作它，在没有相机的情况下添加配置，并解决缺少 VPN 权限界面的问题。
+- [小部件、图块与自动化](https://throneproj.github.io/zh/android/widgets/): 通过主屏幕小部件、通知、快捷设置图块、启动器快捷方式以及 Tasker 等自动化应用控制 Throne for Android。
+
+## 开始使用
+
+- [شروع سریع](https://throneproj.github.io/fa/get_started/configuration/): سرورهای خود را اضافه کنید، آن‌ها را تست کنید، یک نمایهٔ مسیریابی انتخاب کنید و با Throne در Windows، Linux یا macOS متصل شوید.
+- [نصب](https://throneproj.github.io/fa/get_started/installation/): Throne را روی Windows، macOS یا Linux نصب کنید، آن را به‌روز نگه دارید یا از سورس بسازید.
+- [Quick Start](https://throneproj.github.io/get_started/configuration/): Add your servers, test them, choose a routing profile and connect with Throne on Windows, Linux or macOS.
+- [Installation](https://throneproj.github.io/get_started/installation/): Install Throne on Windows, macOS or Linux, keep it up to date, or build it from source.
+- [Быстрый старт](https://throneproj.github.io/ru/get_started/configuration/): Добавьте серверы, проверьте их, выберите профиль маршрутизации и подключитесь через Throne в Windows, Linux или macOS.
+- [Установка](https://throneproj.github.io/ru/get_started/installation/): Установка Throne в Windows, macOS или Linux, обновление до новых версий и сборка из исходного кода.
+- [快速入门](https://throneproj.github.io/zh/get_started/configuration/): 在 Windows、Linux 或 macOS 上使用 Throne 添加服务器、测试服务器、选择路由配置档并连接。
+- [安装](https://throneproj.github.io/zh/get_started/installation/): 在 Windows、macOS 或 Linux 上安装 Throne、保持更新，或从源码构建。
+
+## 使用指南
+
+- [پشتیبان‌گیری، به‌روزرسانی و مهاجرت](https://throneproj.github.io/fa/guides/backup/): از Throne نسخهٔ پشتیبان بگیرید و آن را بازیابی کنید، داده‌هایتان را بین دسکتاپ و Android جابه‌جا کنید، برنامهٔ دسکتاپ را به‌روز کنید و از نسخه‌های قدیمی ارتقا دهید.
+- [DNS](https://throneproj.github.io/fa/guides/dns/): Throne چگونه نام‌های دامنه را به نشانی IP تبدیل می‌کند، هر تنظیم DNS چه می‌کند، FakeIP کی کمک می‌کند و نتیجهٔ تست نشت DNS را چگونه بخوانید.
+- [پروکسی سیستمی، TUN و اشتراک‌گذاری در شبکهٔ محلی](https://throneproj.github.io/fa/guides/proxy_modes/): میان پروکسی سیستمی و حالت TUN انتخاب کنید، Throne را با دستگاه‌های دیگر شبکه‌تان به اشتراک بگذارید و پورت پروکسی محلی را تنظیم کنید.
+- [دستورالعمل‌های کاربردی](https://throneproj.github.io/fa/guides/recipes/): راه‌اندازی گام‌به‌گام برای کارهای رایج: پروکسی فقط برای سایت‌های مسدود، اشتراک‌گذاری پروکسی، هات‌اسپات، تماس و بازی، ماشین‌های مجازی، VPN سازمانی و مسیریابی به‌تفکیک برنامه.
+- [مسیریابی](https://throneproj.github.io/fa/guides/routing/): تعیین کنید کدام ترافیک از پروکسی عبور کند، کدام مستقیم برود و کدام مسدود شود؛ با نمایه‌های آماده یا قوانین خودتان.
+- [اشتراک‌ها و گروه‌ها](https://throneproj.github.io/fa/guides/subscriptions/): اشتراک‌ها را اضافه و به‌روزرسانی کنید، گزینه‌های گروه، User-Agent و HWID و پروکسی‌های front و مقصد را تنظیم کنید و مشکلات به‌روزرسانی را برطرف کنید.
+- [تست و انتخابگر خودکار](https://throneproj.github.io/fa/guides/testing/): نمایه‌ها را از نظر تأخیر، IP خروجی و سرعت تست کنید، فهرست را مرتب و فیلتر کنید، نمایه‌های از کار افتاده را حذف کنید و بگذارید انتخابگر خودکار بهترین سرور را انتخاب کند.
+- [حالت TUN](https://throneproj.github.io/fa/guides/tun_mode/): حالت TUN را روشن کنید، دسترسی‌های لازم را در Windows، Linux و macOS به Throne بدهید، تنظیمات TUN را تغییر دهید و مشکلات رایج TUN را برطرف کنید.
+- [Backup, Updates & Migration](https://throneproj.github.io/guides/backup/): Back up and restore Throne, move your data between desktop and Android, update the desktop app, and upgrade from old versions.
+- [DNS](https://throneproj.github.io/guides/dns/): How Throne resolves domain names, what each DNS setting does, when FakeIP helps, and how to read a DNS leak test.
+- [System Proxy, TUN & LAN Sharing](https://throneproj.github.io/guides/proxy_modes/): Choose between the system proxy and TUN mode, share Throne with other devices on your network, and set up the local proxy port.
+- [Recipes](https://throneproj.github.io/guides/recipes/): Step-by-step setups for common tasks: proxy only blocked sites, share the proxy, hotspot, calls and games, VMs, a corporate VPN and per-app routing.
+- [Routing](https://throneproj.github.io/guides/routing/): Choose which traffic goes through the proxy, which goes direct and which is blocked, with ready-made profiles or your own rules.
+- [Subscriptions & Groups](https://throneproj.github.io/guides/subscriptions/): Add and update subscriptions, set group options, User-Agent and HWID, front and landing proxies, and fix update problems.
+- [Testing & Auto Selector](https://throneproj.github.io/guides/testing/): Test profiles for latency, exit IP and speed, sort and filter the list, remove dead profiles, and let the auto selector pick the best server.
+- [TUN Mode](https://throneproj.github.io/guides/tun_mode/): Turn on TUN mode, give Throne the rights it needs on Windows, Linux and macOS, adjust the TUN settings, and fix common TUN problems.
+- [Резервное копирование, обновление и перенос](https://throneproj.github.io/ru/guides/backup/): Резервное копирование и восстановление Throne, перенос данных между компьютером и Android, обновление приложения для компьютера и переход со старых версий.
+- [DNS](https://throneproj.github.io/ru/guides/dns/): Как Throne разрешает доменные имена, что делает каждая настройка DNS, когда помогает FakeIP и как читать результаты теста на утечку DNS.
+- [Системный прокси, TUN и доступ из локальной сети](https://throneproj.github.io/ru/guides/proxy_modes/): Как выбрать между системным прокси и режимом TUN, открыть доступ к Throne для других устройств в вашей сети и настроить локальный прокси-порт.
+- [Рецепты](https://throneproj.github.io/ru/guides/recipes/): Пошаговые настройки для типичных задач: прокси только для заблокированных сайтов, общий доступ к прокси, точка доступа, звонки и игры, виртуальные машины, корпоративный VPN и маршрутизация по приложениям.
+- [Маршрутизация](https://throneproj.github.io/ru/guides/routing/): Выбирайте, какой трафик идёт через прокси, какой — напрямую, а какой блокируется, с помощью готовых профилей или собственных правил.
+- [Подписки и группы](https://throneproj.github.io/ru/guides/subscriptions/): Как добавлять и обновлять подписки, настраивать параметры групп, User-Agent и HWID, фронт- и выходной прокси и решать проблемы с обновлением.
+- [Тестирование и автовыбор](https://throneproj.github.io/ru/guides/testing/): Как проверять профили на задержку, выходной IP и скорость, сортировать и фильтровать список, удалять нерабочие профили и поручить автовыбору поиск лучшего сервера.
+- [Режим TUN](https://throneproj.github.io/ru/guides/tun_mode/): Как включить режим TUN, выдать Throne необходимые права в Windows, Linux и macOS, настроить параметры TUN и решить типичные проблемы с TUN.
+- [备份、更新与迁移](https://throneproj.github.io/zh/guides/backup/): 备份和恢复 Throne，在桌面版与 Android 之间迁移数据，更新桌面版，以及从旧版本升级。
+- [DNS](https://throneproj.github.io/zh/guides/dns/): Throne 如何解析域名、各项 DNS 设置的作用、FakeIP 何时有用，以及如何解读 DNS 泄漏测试。
+- [系统代理、TUN 与局域网共享](https://throneproj.github.io/zh/guides/proxy_modes/): 在系统代理和 TUN 模式之间做出选择，与网络中的其他设备共享 Throne，并设置本地代理端口。
+- [常用方案](https://throneproj.github.io/zh/guides/recipes/): 常见任务的分步设置：仅代理被封锁的网站、共享代理、移动热点、通话与游戏、虚拟机、企业 VPN 以及按应用分流。
+- [路由](https://throneproj.github.io/zh/guides/routing/): 借助现成的路由配置档或你自己编写的规则，决定哪些流量经过代理、哪些直连、哪些被阻止。
+- [订阅与分组](https://throneproj.github.io/zh/guides/subscriptions/): 添加和更新订阅，设置分组选项、User-Agent 和 HWID、前置代理与落地代理，并解决更新问题。
+- [测试与自动选择器](https://throneproj.github.io/zh/guides/testing/): 测试配置档的延迟、出口 IP 和速度，对列表进行排序和筛选，移除失效的配置档，并让自动选择器挑选最佳服务器。
+- [TUN 模式](https://throneproj.github.io/zh/guides/tun_mode/): 开启 TUN 模式，在 Windows、Linux 和 macOS 上授予 Throne 所需的权限，调整 TUN 设置，并解决常见的 TUN 问题。
+
+## 帮助
+
+- [گزارش باگ](https://throneproj.github.io/fa/help/bug_reports/): پیش از گزارش باگ چه چیزهایی را بررسی کنید، گزارش‌های برنامه و داده‌های تشخیصی را چگونه جمع‌آوری کنید و چه چیزهایی را در issue بنویسید.
+- [پرسش‌های متداول](https://throneproj.github.io/fa/help/faq/): پاسخ‌های کوتاه به پرسش‌های رایج دربارهٔ Throne: Nekoray، هشدارهای آنتی‌ویروس، کیل‌سوییچ، دسترسی‌های TUN، بسته‌ها و سیستم‌های قدیمی.
+- [مهاجرت از Nekoray / NekoBox](https://throneproj.github.io/fa/help/migrating/): قابلیت‌های Nekoray و NekoBox در کجای Throne قرار دارند و چگونه سرورها، اشتراک‌ها و تنظیمات خود را منتقل کنید.
+- [عیب‌یابی](https://throneproj.github.io/fa/help/troubleshooting/): بررسی‌های گام‌به‌گام برای مشکلات حالت TUN، DNS، اشتراک‌ها، پروکسی سیستمی، کارایی و اجرای Throne دسکتاپ.
+- [Reporting a Bug](https://throneproj.github.io/help/bug_reports/): What to check before you report a bug, how to collect logs and diagnostics, and what to include in the issue.
+- [FAQ](https://throneproj.github.io/help/faq/): Short answers to common questions about Throne: Nekoray, antivirus alerts, kill switch, TUN rights, packages and old systems.
+- [Coming from Nekoray / NekoBox](https://throneproj.github.io/help/migrating/): Where Nekoray and NekoBox features are in Throne, and how to move your servers, subscriptions and settings.
+- [Troubleshooting](https://throneproj.github.io/help/troubleshooting/): Step-by-step checks for TUN mode, DNS, subscriptions, the system proxy, performance and startup problems in Throne desktop.
+- [Как сообщить об ошибке](https://throneproj.github.io/ru/help/bug_reports/): Что проверить перед отправкой сообщения об ошибке, как собрать логи и данные диагностики и что указать в issue.
+- [FAQ](https://throneproj.github.io/ru/help/faq/): Краткие ответы на частые вопросы о Throne: отличия от Nekoray, срабатывания антивирусов, kill switch, права для TUN, пакеты и старые системы.
+- [Переход с Nekoray / NekoBox](https://throneproj.github.io/ru/help/migrating/): Где в Throne находятся функции Nekoray и NekoBox и как перенести серверы, подписки и настройки.
+- [Устранение неполадок](https://throneproj.github.io/ru/help/troubleshooting/): Пошаговые проверки для проблем с режимом TUN, DNS, подписками, системным прокси, производительностью и запуском Throne для компьютера.
+- [报告 Bug](https://throneproj.github.io/zh/help/bug_reports/): 报告 Bug 前需要检查什么、如何收集日志和诊断信息，以及 issue 中应包含哪些内容。
+- [常见问题](https://throneproj.github.io/zh/help/faq/): 关于 Throne 的常见问题简答：Nekoray、杀毒软件报警、断网保护、TUN 权限、软件包和旧系统。
+- [从 Nekoray / NekoBox 迁移](https://throneproj.github.io/zh/help/migrating/): Nekoray 和 NekoBox 的功能在 Throne 中的位置，以及如何迁移你的服务器、订阅和设置。
+- [故障排除](https://throneproj.github.io/zh/help/troubleshooting/): 针对 Throne 桌面版中 TUN 模式、DNS、订阅、系统代理、性能和启动问题的逐步检查。
+
+## 参考
+
+- [خط فرمان، فایل‌ها و گزارش‌ها](https://throneproj.github.io/fa/reference/files/): گزینه‌های خط فرمان Throne دسکتاپ، محل نگهداری داده‌های شما در هر سیستم‌عامل، محتوای فایل‌های پوشهٔ config، گزارش‌ها و روش بازنشانی.
+- [واژه‌نامه](https://throneproj.github.io/fa/reference/glossary/): توضیح کوتاه اصطلاحاتی که در Throne با آن‌ها روبه‌رو می‌شوید، از نمایه‌ها و مسیریابی تا حالت TUN، DNS و گزینه‌های ضدسانسور.
+- [حریم خصوصی و درخواست‌های شبکه](https://throneproj.github.io/fa/reference/privacy/): آنچه Throne برای ارائه‌دهندگان اشتراک ارسال می‌کند، همهٔ درخواست‌های شبکه‌ای که برنامه خودبه‌خود انجام می‌دهد و اینکه چه کسانی می‌توانند از پورت پروکسی محلی آن استفاده کنند.
+- [پروتکل‌ها و قالب‌های واردکردن](https://throneproj.github.io/fa/reference/protocols/): انواع نمایه‌هایی که Throne در دسکتاپ و Android پشتیبانی می‌کند، لینک‌ها و فایل‌هایی که می‌تواند وارد کند و روش اشتراک‌گذاری یک نمایه به‌صورت لینک یا کد QR.
+- [میانبرهای صفحه‌کلید و سینی سیستم](https://throneproj.github.io/fa/reference/shortcuts/): میانبرهای صفحه‌کلید Throne دسکتاپ، روش تغییر آن‌ها، کلیدهای میانبر سراسری و کاری که آیکون سینی سیستم و منوی آن انجام می‌دهند.
+- [Command Line, Files & Logs](https://throneproj.github.io/reference/files/): Command-line options of Throne desktop, where it keeps your data on each system, what the files in the config folder hold, the logs, and how to reset.
+- [Glossary](https://throneproj.github.io/reference/glossary/): Short explanations of the terms you meet in Throne, from profiles and routing to TUN mode, DNS and anti-censorship options.
+- [Privacy & Network Requests](https://throneproj.github.io/reference/privacy/): What Throne sends to subscription providers, every network request the app makes by itself, and who can use its local proxy port.
+- [Protocols & Import Formats](https://throneproj.github.io/reference/protocols/): Profile types Throne supports on desktop and Android, the links and files it can import, and how to share a profile as a link or QR code.
+- [Keyboard Shortcuts & Tray](https://throneproj.github.io/reference/shortcuts/): Keyboard shortcuts of Throne desktop, how to change them, global hotkeys, and what the tray icon and its menu do.
+- [Командная строка, файлы и логи](https://throneproj.github.io/ru/reference/files/): Параметры командной строки Throne для компьютера, где он хранит ваши данные в каждой системе, что содержат файлы в папке конфигурации, логи и как выполнить сброс.
+- [Глоссарий](https://throneproj.github.io/ru/reference/glossary/): Краткие объяснения терминов, которые встречаются в Throne: от профилей и маршрутизации до режима TUN, DNS и параметров обхода цензуры.
+- [Конфиденциальность и сетевые запросы](https://throneproj.github.io/ru/reference/privacy/): Что Throne отправляет провайдерам подписок, все сетевые запросы, которые приложение выполняет само, и кто может пользоваться его локальным портом прокси.
+- [Протоколы и форматы импорта](https://throneproj.github.io/ru/reference/protocols/): Типы профилей, которые Throne поддерживает на компьютере и на Android, ссылки и файлы, которые он может импортировать, и как поделиться профилем в виде ссылки или QR-кода.
+- [Сочетания клавиш и трей](https://throneproj.github.io/ru/reference/shortcuts/): Сочетания клавиш Throne для компьютера, как их изменить, глобальные горячие клавиши и что делают значок в трее и его меню.
+- [命令行、文件与日志](https://throneproj.github.io/zh/reference/files/): Throne 桌面版的命令行选项、它在各个系统上存放数据的位置、配置文件夹中各个文件的内容、日志，以及如何重置。
+- [术语表](https://throneproj.github.io/zh/reference/glossary/): 对 Throne 中常见术语的简要解释，涵盖配置档、路由、TUN 模式、DNS 以及反审查选项。
+- [隐私与网络请求](https://throneproj.github.io/zh/reference/privacy/): Throne 会向订阅服务商发送哪些信息、应用自行发出的所有网络请求，以及谁可以使用它的本地代理端口。
+- [协议与导入格式](https://throneproj.github.io/zh/reference/protocols/): Throne 桌面版和 Android 版支持的配置档类型、可以导入的链接和文件，以及如何以链接或二维码的形式分享配置档。
+- [键盘快捷键与托盘](https://throneproj.github.io/zh/reference/shortcuts/): Throne 桌面版的键盘快捷键、如何更改它们、全局热键，以及托盘图标及其菜单的作用。
+
