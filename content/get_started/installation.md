@@ -157,8 +157,6 @@ sudo zypper addrepo -fc http://throneproj.github.io/Throne/rpm/throne.repo
 sudo zypper install -y throne
 ```
 
-For RHEL 8, follow the steps on the repository page.
-
 ### Arch Linux (AUR) {#aur}
 
 Throne is in the Arch User Repository as `throne`. Install it with an AUR helper, for example `yay -S throne` or `paru -S throne`.
