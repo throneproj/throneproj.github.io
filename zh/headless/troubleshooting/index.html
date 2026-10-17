@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="无界面 Throne 的常见问题，从无法启动的单元到 TUN 冲突和被拒绝的 API 请求，以及 Bug 报告中应包含的内容。">
+  <title>故障排除 - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="故障排除">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/zh/headless/troubleshooting/">
+  <meta property="og:description" content="无界面 Throne 的常见问题，从无法启动的单元到 TUN 冲突和被拒绝的 API 请求，以及 Bug 报告中应包含的内容。">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="故障排除">
+  <meta name="twitter:description" content="无界面 Throne 的常见问题，从无法启动的单元到 TUN 冲突和被拒绝的 API 请求，以及 Bug 报告中应包含的内容。">
+  <link rel="canonical" href="https://throneproj.github.io/zh/headless/troubleshooting/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"故障排除","url":"https://throneproj.github.io/zh/headless/troubleshooting/","description":"无界面 Throne 的常见问题，从无法启动的单元到 TUN 冲突和被拒绝的 API 请求，以及 Bug 报告中应包含的内容。"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/zh/"},{"@type":"ListItem","position":2,"name":"无界面 Throne","item":"https://throneproj.github.io/zh/headless/"},{"@type":"ListItem","position":3,"name":"故障排除"}]}</script>
+  <link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/headless/troubleshooting/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/headless/troubleshooting/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/headless/troubleshooting/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/headless/troubleshooting/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">跳转到主要内容</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="打开导航" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/zh/" class="header-logo" aria-label="Throne 首页">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.3.2" target="_blank" rel="noopener noreferrer">v1.3.2</a>
+
+    <nav class="header-nav" aria-label="主导航">
+      <a href="https://throneproj.github.io/zh/get_started/">开始使用</a>
+      <a href="https://throneproj.github.io/zh/downloads/">下载</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="搜索文档">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>搜索</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="语言">
+        
+        <a href="https://throneproj.github.io/headless/troubleshooting/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/headless/troubleshooting/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/headless/troubleshooting/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/headless/troubleshooting/" hreflang="zh" aria-current="true">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne 在 GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="主题">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="搜索文档" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="搜索文档" placeholder="搜索文档" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="搜索"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="文档导航">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>开始使用</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/installation/">安装</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/configuration/">快速入门</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>使用指南</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/subscriptions/">订阅与分组</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/proxy_modes/">系统代理、TUN 与局域网共享</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/tun_mode/">TUN 模式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/routing/">路由</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/testing/">测试与自动选择器</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/backup/">备份、更新与迁移</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/recipes/">常用方案</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/installation/">安装与升级</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/permissions/">权限与后台运行</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/modes/">VPN 与代理模式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/widgets/">小部件、图块与自动化</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/troubleshooting/">Android 故障排除</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>无界面 Throne</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/installation/">安装与服务</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/thronectl/">使用 thronectl 管理</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/command_line/">命令行与数据目录</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/monitoring/">健康检查与日志</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/recovery/">防锁定与恢复</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/troubleshooting/" aria-current="page">故障排除</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>进阶配置</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/xray/">sing-box 与 Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/chains/">代理链与自定义配置</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/presets/">反审查预设</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/vpn_profiles/">OpenVPN、OpenConnect 与 Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/windows_tun_mode/">Windows DNS 泄漏防护</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/kill_switch/">Kill Switch（断网保护）</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/deeplinks/">深度链接</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/api/">Throne API 与 thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>参考</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/protocols/">协议与导入格式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/shortcuts/">键盘快捷键与托盘</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/files/">命令行、文件与日志</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/privacy/">隐私与网络请求</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/glossary/">术语表</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>帮助</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/faq/">常见问题</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/troubleshooting/">故障排除</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/bug_reports/">报告 Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/migrating/">从 Nekoray / NekoBox 迁移</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">故障排除</h1>
+      <p class="docs-lede">无界面 Throne 的常见问题，从无法启动的单元到 TUN 冲突和被拒绝的 API 请求，以及 Bug 报告中应包含的内容。</p>
+      <div class="prose">
+        <p>首先以 Throne 的用户身份、使用相同的 <code>--data-dir</code> 运行 <code>Throne --check</code> 和 <code>Throne --health</code>（参见<a href="/zh/headless/monitoring/">健康检查与日志</a>），并阅读日志的最后几行。<code>EXIT &lt;code&gt;: &lt;reason&gt;</code> 这一行说明了 Throne 退出的原因；<a href="/zh/headless/command_line/#exit-codes">退出码</a>解释了每个退出码。</p>
+<h2 id="symptoms">常见问题</h2>
+<table>
+<thead>
+<tr>
+<th>症状</th>
+<th>原因与解决方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单元立即失败，日志显示 <code>refusing to run as root with /var/lib/throne</code></td>
+<td>其他用户可以写入数据目录。请运行 <code>sudo chmod go-w /var/lib/throne /var/lib/throne/config</code>。</td>
+</tr>
+<tr>
+<td>退出码 3：<code>… is in use by …</code></td>
+<td>另一个 Throne 占用了该数据目录：桌面版、用户单元或第二个服务。请停止另一个。</td>
+</tr>
+<tr>
+<td>桌面版提示“Throne 正在后台运行”（Throne is running in the background）后退出</td>
+<td>有一个无界面 Throne（通常是用户单元）在使用桌面版的数据目录。请运行 <code>systemctl --user stop throne</code>，或者用 <code>thronectl</code> 管理它。参见<a href="/zh/headless/#beside-desktop">与桌面版 Throne 同时运行</a>。</td>
+</tr>
+<tr>
+<td><code>degraded: api_unavailable</code>，并且日志显示 <code>[API] Not listening on 127.0.0.1:9095</code></td>
+<td>另一个程序占用了端口 9095。Throne 每 30 秒重试一次。<code>--api-listen PORT</code> 可以选择另一个端口。</td>
+</tr>
+<tr>
+<td><code>--print-connection</code>：<code>The API key is not in a file</code></td>
+<td>数据目录的设置用自己的密钥开启了 API，就像桌面版那样。请把该密钥用作 <code>THRONE_KEY</code>（在桌面版中：<code>Integration Settings</code> → <code>Throne API</code> → <code>Copy for scripts</code>），或者用 <code>--api-key-file</code> 启动 Throne。</td>
+</tr>
+<tr>
+<td><code>--health</code> 或 <code>--print-connection</code>：<code>No headless Throne answered</code></td>
+<td>请以 Throne 的用户身份、使用相同的 <code>--data-dir</code> 运行它。对于系统单元，请使用 <code>sudo</code>。</td>
+</tr>
+<tr>
+<td>Windows：<code>[Instance] Not talking to … access denied</code></td>
+<td>该服务的管道只供 Administrators 和 SYSTEM 使用。请在以管理员身份运行的命令行窗口中运行该命令，并加上 <code>--data-dir C:\ProgramData\Throne</code>。</td>
+</tr>
+<tr>
+<td>thronectl：<code>Throne closed the connection without a response</code></td>
+<td>密钥错误，或者你的地址在 5 次失败尝试后被拒绝 60 秒，例如由另一个使用旧密钥的客户端造成。请检查 <code>THRONE_KEY_FILE</code>，并等待一分钟。</td>
+</tr>
+<tr>
+<td>thronectl：<code>forbidden</code></td>
+<td>来自其他设备的<a href="/zh/headless/thronectl/#admin-requests">管理请求</a>。请用 <code>--api-admin-lan</code> 启动 Throne，或者在 Throne 所在的设备上运行该命令。</td>
+</tr>
+<tr>
+<td>thronectl：无法连接</td>
+<td>Throne 没有运行，或者 <code>THRONE_ADDR</code> 指向了别处。请检查 <code>systemctl status throne</code> 和 <code>Throne --print-connection</code>。</td>
+</tr>
+<tr>
+<td><code>thronectl tun on</code>：<code>needs_privileges</code></td>
+<td>Throne 缺少 TUN 所需的权限。请运行 <code>Throne --check</code>，并参见 <a href="/zh/headless/installation/#linux-privileges">Linux 上的权限</a>。</td>
+</tr>
+<tr>
+<td><code>thronectl proxy on</code>：<code>system_proxy_unsupported</code></td>
+<td>无界面 Throne 没有系统代理。请让其他程序使用混合入站，或者使用 TUN。</td>
+</tr>
+<tr>
+<td><code>tun_conflict</code>：<code>the Tun address 172.19.0.1 is already used by the network interface br-…</code></td>
+<td>Docker 网络（或其他网络）使用了 Throne 的 TUN 地址范围。请用 <code>thronectl settings set tun_ipv4_cidr=172.29.0.1/24</code>（任何没有被这台电脑上的网卡使用的范围都可以）把 TUN 移到空闲的范围，然后再次运行 <code>thronectl tun on</code>。或者为该 Docker 网络分配另一个子网。</td>
+</tr>
+<tr>
+<td><code>tun_conflict</code>：<code>port 5533 on 127.0.0.1 (the core&#39;s DNS server, dns_in_port) is in use</code></td>
+<td>另一个程序占用了 DNS 端口。请用一个空闲端口运行 <code>thronectl settings set dns_in_port=PORT</code>，然后再次运行 <code>thronectl tun on</code>。</td>
+</tr>
+<tr>
+<td>提到另一个 Throne 的 <code>tun_conflict</code></td>
+<td>这台电脑上的另一个 Throne（例如桌面版 Throne）正在运行 TUN。同一时间只能有一个 Throne 运行 TUN。</td>
+</tr>
+<tr>
+<td>配置档被拒绝：<code>kill_switch_inactive</code></td>
+<td>Kill Switch 已开启，但无法工作。<code>thronectl --json status</code> 中的 <code>kill_switch_error</code> 和日志行 <code>[Kill switch] Not active (&lt;code&gt;)</code> 会说明原因：<code>privilege</code>、<code>unsupported</code>、<code>config</code> 或 <code>overridden</code>。<code>thronectl settings set kill_switch=false</code> 可以将其关闭。参见 <a href="/zh/advanced/kill_switch/">Kill Switch</a>。</td>
+</tr>
+<tr>
+<td><code>degraded: resume_suppressed</code></td>
+<td>恢复的配置档在连续三次启动中都导致 Throne 或其核心停止。请修复该配置档，然后用 <code>thronectl connect &lt;id&gt;</code> 启动它。</td>
+</tr>
+<tr>
+<td><code>degraded: core_gave_up</code></td>
+<td>核心反复失败。Throne 会<a href="/zh/headless/recovery/#protection">保持运行</a>，并每 5 分钟重试一次。日志中表示放弃的那一行末尾是核心的最后一个错误。</td>
+</tr>
+<tr>
+<td><code>degraded: vpn_challenge_pending</code> 或 <code>vpn_auth_failed</code></td>
+<td>VPN 配置档需要无界面 Throne 无法提供的登录，或者其已保存的凭据被拒绝。请为该配置档关联一个用于一次性验证码的 <a href="/zh/advanced/vpn_profiles/#otp-manager">OTP 条目</a>，或者在桌面版 Throne 中修正凭据，然后用<a href="/zh/headless/thronectl/#from-desktop">备份</a>迁移过来。</td>
+</tr>
+<tr>
+<td><code>previous_crash: true</code></td>
+<td>上一次运行没有正常结束。它的日志是数据目录中的 <code>config/logs/crashed-&lt;time&gt;.log</code>。</td>
+</tr>
+<tr>
+<td>Docker：发布的端口 2080 没有响应</td>
+<td>入站监听的是 <code>127.0.0.1</code>。请运行 <code>thronectl settings set inbound_address=0.0.0.0</code>，然后重新启动配置档。</td>
+</tr>
+<tr>
+<td>Docker：<code>thronectl shutdown</code> 之后容器又回来了</td>
+<td><code>restart: unless-stopped</code> 会在每次退出后启动它。请用 <code>docker compose stop</code> 停止它。</td>
+</tr>
+<tr>
+<td>macOS：Throne 每 10 秒启动一次又退出</td>
+<td>这是 launchd 不断重试的配置错误。请阅读 <code>/Library/Logs/Throne/throne.log</code>。</td>
+</tr>
+<tr>
+<td>Windows：服务立即停止</td>
+<td><code>sc.exe query Throne</code> 会把 Throne 的退出码显示为 <code>SERVICE_EXIT_CODE</code>。日志位于 <code>C:\ProgramData\Throne\config\logs</code>。退出码 78 通常表示<a href="/zh/headless/installation/#windows-data-folder">数据文件夹</a>有问题。</td>
+</tr>
+<tr>
+<td>Kill Switch 或 TUN 把你锁在外面</td>
+<td>用 <code>--no-resume --no-kill-switch</code> 启动 Throne 一次。参见<a href="/zh/headless/recovery/#recovery">恢复访问</a>。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reporting">Bug 报告中应包含的内容</h2>
+<p>如果问题仍然存在，请<a href="/zh/help/bug_reports/">报告 Bug</a>，并附上：</p>
+<ul>
+<li><code>Throne --check</code> 的输出；</li>
+<li><code>Throne --health</code> 的输出；</li>
+<li>Throne 的运行方式：软件包或镜像及其版本，以及服务管理器；</li>
+<li>从启动到出现问题为止的日志，如果能复现问题，请使用 <code>--debug</code>。如果是崩溃，还请附上 <code>config/logs/crashed-&lt;time&gt;.log</code>。</li>
+</ul>
+<p>发布之前，请删除其中的服务器地址、订阅 URL 和密钥。切勿发布 <code>api.key</code>。</p>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/headless/troubleshooting.zh.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          在 GitHub 上编辑此页
+        </a>
+        
+
+<nav class="prev-next" aria-label="页面导航">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/zh/headless/recovery/">
+    <span class="prevnext-dir">上一页</span>
+    防锁定与恢复
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/zh/advanced/">
+    <span class="prevnext-dir">下一页</span>
+    进阶配置
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="本页导航">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    本页导航
+  </p>
+  <ul><li><a href="#symptoms">常见问题</a></li><li><a href="#reporting">Bug 报告中应包含的内容</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "复制",
+    copied: "已复制",
+    copyManual: "请按 Ctrl C",
+    noResults: "未找到相关结果：",
+    theme: "主题",
+    themeAuto: "自动",
+    themeLight: "浅色",
+    themeDark: "深色"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>
