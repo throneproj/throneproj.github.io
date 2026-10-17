@@ -23,7 +23,7 @@ Throne for Android（前身为 NekoBox for Android）是 Throne 的 Android 应�
 | 系统 | 要求 | 安装包类型 |
 |---|---|---|
 | Windows | Windows 10 1809 或更高版本（x64、ARM64）。使用 legacy 版本时支持 Windows 7 SP1 或更高版本（x64、32 位 x86）。 | 安装程序、便携版 ZIP |
-| Linux | x64 或 ARM64，glibc 2.34 或更高版本（自带 Qt 的 ARM64 版本需要 2.38） | 便携版 ZIP、`.deb`、`.rpm`、安装脚本 |
+| Linux | x64 或 ARM64，glibc 2.34 或更高版本（自带 Qt 的 ARM64 版本需要 2.38） | 便携版 ZIP、`.deb`、`.rpm`、安装脚本、[APT 和 RPM 软件源](@/get_started/installation.zh.md#apt-repository)、[AUR](@/get_started/installation.zh.md#aur) |
 | macOS | macOS 13 或更高版本（Apple Silicon 和 Intel）。使用 legacy 版本时支持 macOS 10.15 或更高版本（Intel）。 | ZIP |
 | Android | Android 7.0 或更高版本 | APK |
 

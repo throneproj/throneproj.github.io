@@ -137,6 +137,8 @@ sudo apt install throne
 
 之后，`sudo apt upgrade` 也会更新 Throne。
 
+如果你之前从[下载](@/downloads.zh.md)页面安装了普通的 `.deb`，`apt upgrade` 从软件源安装的第一个新版本会把它替换为使用系统 Qt 的软件包，因为这两个软件包都叫 `throne`。如果想继续使用普通软件包，请不要添加软件源，而是从[下载](@/downloads.zh.md)页面安装新版本。
+
 ### RPM 软件源 {#rpm-repository}
 
 位于 `throneproj.github.io/Throne/rpm` 的 RPM 软件源提供适用于 x86_64 和 aarch64 的使用系统 Qt 的软件包，因此你的发行版必须提供 Qt 6.5 或更高版本。它包含每一个稳定版，但不包含 Beta 版，软件包和软件源都经过签名。
@@ -156,6 +158,8 @@ sudo zypper install throne
 ```
 
 首次使用时，`dnf` 和 `zypper` 会请你确认是否信任该软件源的签名密钥。
+
+如果你之前从[下载](@/downloads.zh.md)页面安装了普通的 `.rpm`，`dnf upgrade` 或 `zypper update` 从软件源安装的第一个新版本会把它替换为使用系统 Qt 的软件包，因为这两个软件包都叫 `throne`。如果想继续使用普通软件包，请不要添加软件源，而是从[下载](@/downloads.zh.md)页面安装新版本。
 
 ### 使用系统 Qt 的软件包 {#system-qt}
 

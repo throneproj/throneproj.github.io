@@ -137,6 +137,8 @@ sudo apt install throne
 
 After that, `sudo apt upgrade` also updates Throne.
 
+If you installed a normal `.deb` from [Downloads](@/downloads.md) before, the first new version that `apt upgrade` installs from the repository replaces it with the system-Qt package, because both packages are named `throne`. To keep the normal package, do not add the repository, and install new versions from [Downloads](@/downloads.md).
+
 ### RPM repository {#rpm-repository}
 
 The RPM repository at `throneproj.github.io/Throne/rpm` has the system-Qt packages for x86_64 and aarch64, so your distribution must provide Qt 6.5 or newer. It gets every stable release, but no beta versions, and the packages and the repository are signed.
@@ -156,6 +158,8 @@ sudo zypper install throne
 ```
 
 The first time, `dnf` and `zypper` ask you to trust the signing key of the repository.
+
+If you installed a normal `.rpm` from [Downloads](@/downloads.md) before, the first new version that `dnf upgrade` or `zypper update` installs from the repository replaces it with the system-Qt package, because both packages are named `throne`. To keep the normal package, do not add the repository, and install new versions from [Downloads](@/downloads.md).
 
 ### System Qt packages {#system-qt}
 
