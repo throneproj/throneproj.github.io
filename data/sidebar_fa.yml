@@ -46,6 +46,23 @@
       url: /android/tv/
     - title: "عیب‌یابی Android"
       url: /android/troubleshooting/
+- title: "Throne بدون رابط گرافیکی (Headless)"
+  section: headless
+  items:
+    - title: "نمای کلی"
+      url: /headless/
+    - title: "نصب و سرویس‌ها"
+      url: /headless/installation/
+    - title: "مدیریت با thronectl"
+      url: /headless/thronectl/
+    - title: "خط فرمان و پوشهٔ داده‌ها"
+      url: /headless/command_line/
+    - title: "بررسی سلامت و گزارش‌ها"
+      url: /headless/monitoring/
+    - title: "محافظت در برابر قطع دسترسی و بازیابی"
+      url: /headless/recovery/
+    - title: "عیب‌یابی"
+      url: /headless/troubleshooting/
 - title: "پیکربندی پیشرفته"
   section: advanced
   items:
@@ -63,8 +80,12 @@
       url: /advanced/vpn_profiles/
     - title: "محافظت از نشت DNS در Windows"
       url: /advanced/windows_tun_mode/
+    - title: "کیل‌سوییچ (Kill Switch)"
+      url: /advanced/kill_switch/
     - title: "لینک‌های عمیق"
       url: /advanced/deeplinks/
+    - title: "Throne API و thronectl"
+      url: /advanced/api/
 - title: "مرجع"
   section: reference
   items:

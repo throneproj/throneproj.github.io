@@ -13,12 +13,13 @@ toc = true
 
 | 系统 | 是否默认注册 |
 | --- | --- |
-| Linux | 是 |
+| Linux，通过 `.deb` 或 `.rpm` 软件包或安装脚本安装 | 是 |
+| Linux，从 ZIP 文件解压或以其他方式安装 | 自 1.4.0 起为否。1.4.0 之前，所有 Linux 副本都会注册自己。 |
 | macOS | 是（从 `Throne.app` 运行 Throne 时） |
 | Windows，通过安装程序安装 | 是 |
 | Windows，从 ZIP 文件解压 | 否 |
 
-要开启注册（例如对于从 ZIP 解压的 Windows 副本）：
+在 Linux 上，当软件包或安装脚本创建的应用菜单项启动这份副本时，Throne 默认会注册自己。要开启注册（例如对于从 ZIP 解压的副本）：
 
 1. 打开 `设置`（Settings）→ `基本设置`（Basic Settings）。
 2. 在 `通用`（Common）标签页的 `链接和文件`（Links and Files）下，勾选 `启动时注册 throne:// 链接`（Register throne:// links at startup）。
@@ -36,6 +37,8 @@ Throne 可以通过以下方式接收深度链接：
 - **复制链接**，然后在主窗口中按 `Ctrl+V`，对应菜单 `程序`（Program）→ `添加剪贴板中的配置档`（Add profile from clipboard）。即使没有开启注册，此方法也有效。
 - 将**链接文本拖放**到主窗口上。
 - 启动 Throne 时**将链接作为参数传入**。参见[命令行](@/reference/files.zh.md#command-line)。
+
+[无界面 Throne](@/headless/_index.zh.md) 不处理 `throne://` 链接。请用 `thronectl sub add` 添加订阅，用 `thronectl import` 导入 `add` 链接（文件中的 `add` 链接也可以）。参见 [Throne API 与 thronectl](@/advanced/api.zh.md#commands)。
 
 {% alert_info() %}
 在桌面版上，`扫描二维码`（Scan QR Code）和拖放的二维码图片只会导入 `add` 链接。如果二维码中是其他深度链接，请从 `日志`（Logs）标签页复制 `QR Code Result:` 之后的文本，然后按 `Ctrl+V`。
@@ -111,7 +114,7 @@ throne://addsub/<base64>
 throne://addsub/aHR0cHM6Ly9leGFtcGxlLmNvbS9zdWIvYWJjMTIzI015UHJvdmlkZXI=
 ```
 
-Throne 会显示“添加这个订阅吗?”（Add this subscription?），其中包含分组名称和 URL，以及一个默认已勾选的 `自动更新`（Auto update）复选框。确认后，Throne 会创建该分组并更新它。
+Throne 会显示“添加这个订阅吗?”（Add this subscription?），其中包含分组名称和 URL，以及一个默认已勾选的 `自动更新`（Auto update）复选框。确认后，Throne 会创建该分组并更新它。自 1.4.0 起，如果这次首次更新失败或跳过了某些条目，Throne 会显示一份列出问题的报告。
 
 {% alert_info() %}
 `自动更新` 只决定新分组是否参与自动更新：勾选时，分组设置中的 `跳过自动更新`（Skip automatic update）为关闭状态。自动更新还需要开启 `基本设置` → `订阅`（Subscription）→ `订阅自动更新`（Subscription auto update）→ `启用`（Enable），该选项默认关闭。参见[订阅与分组](@/guides/subscriptions.zh.md#auto-update)。
@@ -236,7 +239,7 @@ Android 应用也可以生成这些链接：为配置档生成 `add` 链接，�
 
 以下消息来自 Throne 桌面版。
 
-- **点击链接没有反应，或浏览器询问要使用哪个应用。** 当前副本没有注册链接处理程序。对于从 ZIP 解压的 Windows 副本，请开启 `启动时注册 throne:// 链接`（见 [Throne 如何接收深度链接](#receive)）。在 macOS 上，请从 `Throne.app` 运行 Throne。其他情况下，启动一次 Throne 即可。如果你保留了多个副本，请在应当打开链接的那个副本中点击 `安装`。你也始终可以复制链接，然后在 Throne 中按 `Ctrl+V`。
+- **点击链接没有反应，或浏览器询问要使用哪个应用。** 当前副本没有注册链接处理程序。对于从 ZIP 解压的 Windows 或 Linux 副本，请开启 `启动时注册 throne:// 链接`（见 [Throne 如何接收深度链接](#receive)）。在 macOS 上，请从 `Throne.app` 运行 Throne。其他情况下，启动一次 Throne 即可。如果你保留了多个副本，请在应当打开链接的那个副本中点击 `安装`。你也始终可以复制链接，然后在 Throne 中按 `Ctrl+V`。
 - **Linux：链接仍然无法打开。** 注册过程会运行 `desktop-file-utils` 软件包中的 `update-desktop-database` 工具。如果之前缺少该工具，请先安装，然后点击 `启动时注册 throne:// 链接` 旁边的 `安装`。
 - **没有任何反应，日志也是空的。** Throne 会不加提示地丢弃以下链接：
   - 载荷不是有效标准 Base64 的 `addsub` 链接，例如带有 `-` 或 `_` 的 URL 安全 Base64，或者包含空格或换行的载荷；

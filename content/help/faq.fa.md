@@ -1,6 +1,6 @@
 +++
 title = "پرسش‌های متداول"
-description = "پاسخ‌های کوتاه به پرسش‌های رایج دربارهٔ Throne: Nekoray، هشدارهای آنتی‌ویروس، کیل‌سوییچ، دسترسی‌های TUN، بسته‌ها و سیستم‌های قدیمی."
+description = "پاسخ‌های کوتاه به پرسش‌های رایج دربارهٔ Throne: Nekoray، هشدارهای آنتی‌ویروس، کیل‌سوییچ، سرورهای بدون رابط گرافیکی، اسکریپت‌ها، دسترسی‌های TUN، بسته‌ها و سیستم‌های قدیمی."
 weight = 10
 toc = true
 +++
@@ -27,6 +27,16 @@ Throne نمی‌تواند پیکربندی Nekoray را بخواند. برای 
 
 بله. [Throne برای Android](@/android/_index.fa.md) 2.0.0 (پیش‌تر با نام NekoBox for Android) از همان هسته و همان قالب پشتیبان‌گیری نسخهٔ دسکتاپ استفاده می‌کند. در دسکتاپ با `تنظیمات` (Settings) ← `تنظیمات پایه` (Basic Settings) ← `Backup and Restore` یک پشتیبان بسازید، فایل `.thrbackup` را به گوشی کپی کنید و آن را در برنامهٔ Android بازیابی کنید. این کار از Android به دسکتاپ هم انجام می‌شود. [پشتیبان‌گیری، به‌روزرسانی و مهاجرت](@/guides/backup.fa.md#desktop-android) را ببینید.
 
+## آیا Throne می‌تواند بدون پنجره روی سرور اجرا شود؟ {#headless}
+
+بله، از نسخهٔ 1.4.0. `Throne --headless` همان برنامه را بدون پنجره، آیکون سینی سیستم یا کادر گفت‌وگو اجرا می‌کند: روی سرور، روتر، Raspberry Pi یا در کانتینر. بسته‌های `.deb` و `.rpm` یک سرویس systemd برای آن دارند که هرگز خودشان آن را روشن نمی‌کنند، و یک ایمیج Docker هم وجود دارد. Throne بدون رابط گرافیکی را با `thronectl` و از طریق Throne API کنترل می‌کنید. [Throne بدون رابط گرافیکی](@/headless/_index.fa.md) را ببینید.
+
+## آیا می‌توانم Throne را از یک اسکریپت یا Stream Deck کنترل کنم؟ {#scripts}
+
+بله، از نسخهٔ 1.4.0. Throne API را در `تنظیمات` (Settings) ← `Integration Settings` → `Throne API` روشن کنید و از `thronectl` استفاده کنید. برای مثال، `thronectl toggle` با یک کلید از Stream Deck یا یک صفحه‌کلید ماکرو (macro pad) متصل می‌شود و اتصال را قطع می‌کند، و `thronectl connect best` نمایه‌ای را اجرا می‌کند که کمترین تأخیر را دارد. [Throne API و thronectl](@/advanced/api.fa.md) را ببینید.
+
+بدون API هم، [کلیدهای میانبر سراسری](@/reference/shortcuts.fa.md#global-hotkeys) `Start/Stop Profile` و `Toggle Tun Mode` از هر برنامه‌ای کار می‌کنند.
+
 ## چرا آنتی‌ویروس من Throne را خطرناک تشخیص می‌دهد؟ {#antivirus}
 
 این‌ها هشدارهای کاذب (false positive) هستند. برخی آنتی‌ویروس‌ها به کارهایی واکنش نشان می‌دهند که Throne برای قابلیت‌های عادی خود انجام می‌دهد:
@@ -43,7 +53,9 @@ Throne را فقط از [صفحهٔ دانلود](@/downloads.fa.md) رسمی د
 
 ## آیا کیل‌سوییچ (kill switch) وجود دارد؟ {#kill-switch}
 
-خیر. Throne کیل‌سوییچ ندارد و نگه‌دارندگان پروژه برنامه‌ای برای افزودن آن ندارند ([#827](https://github.com/throneproj/Throne/issues/827)، [#912](https://github.com/throneproj/Throne/issues/912)). وقتی نمایه متوقف می‌شود، یا وقتی هسته به‌طور غیرمنتظره متوقف می‌شود، برنامه‌های شما بدون پروکسی و به‌صورت مستقیم متصل می‌شوند.
+بله، از نسخهٔ 1.4.0، به‌عنوان یک قابلیت آزمایشی. `تنظیمات` (Settings) ← `تنظیمات پایه` (Basic Settings) ← `امنیت` (Security) ← `Kill Switch` را روشن کنید. تا وقتی Throne در حال اجراست، همهٔ ترافیکی را که از Throne عبور نمی‌کند مسدود می‌کند، حتی وقتی هیچ نمایه‌ای در حال اجرا نیست. شبکهٔ محلی در دسترس می‌ماند، مگر اینکه `Private Range Bypass` در `تنظیمات vpn` (Tun Settings) خاموش باشد. کیل‌سوییچ به همان دسترسی‌های حالت TUN نیاز دارد: دسترسی مدیر در Windows، و هسته‌ای با دسترسی root در Linux و macOS. [کیل‌سوییچ (Kill Switch)](@/advanced/kill_switch.fa.md) را ببینید.
+
+Throne 1.3 و نسخه‌های قدیمی‌تر کیل‌سوییچ ندارند. وقتی نمایه متوقف می‌شود، یا وقتی هسته به‌طور غیرمنتظره متوقف می‌شود، برنامه‌های شما بدون پروکسی و به‌صورت مستقیم متصل می‌شوند.
 
 **Android:** خود Android می‌تواند تا زمانی که VPN وصل نیست، همهٔ ترافیک را مسدود کند. Throne را به‌عنوان Always-on VPN (VPN همیشه روشن) تنظیم کنید و گزینهٔ سیستمی مسدود کردن اتصال‌های بدون VPN را روشن کنید. [مجوزها و اجرا در پس‌زمینه](@/android/permissions.fa.md#always-on) را ببینید.
 
@@ -124,19 +136,19 @@ Throne 1.1.0 و 1.1.1 یک پیکربندی کامل sing-box را که `inbound
 - `Throne-<version>-debian-amd64.deb` نسخهٔ خودش از کتابخانه‌های Qt را همراه دارد. حجمش بیشتر است، اما به نسخهٔ Qt سیستم شما وابسته نیست.
 - `Throne-<version>-debian-amd64-system-qt.deb` شامل Qt نیست. از کتابخانه‌های Qt 6 توزیع شما استفاده می‌کند و آن‌ها را به‌عنوان وابستگی نصب می‌کند.
 
-با بستهٔ معمولی شروع کنید. اگر بستهٔ معمولی اجرا نشد، برای مثال روی پردازنده‌های بدون SSE4.2 ([#845](https://github.com/throneproj/Throne/issues/845))، از بستهٔ `system-qt` استفاده کنید. همین دو گونه برای arm64 (`debian-arm64.deb` و `debian-arm64-system-qt.deb`) و به‌صورت بسته‌های `.rpm` برای Fedora و RHEL (`fedora-amd64.rpm`، `fedora-amd64-system-qt.rpm` و نسخه‌های arm64) هم وجود دارد. [نصب](@/get_started/installation.fa.md#linux) را ببینید.
+با بستهٔ معمولی شروع کنید. اگر بستهٔ معمولی اجرا نشد، برای مثال روی پردازنده‌های بدون SSE4.2 ([#845](https://github.com/throneproj/Throne/issues/845))، از بستهٔ `system-qt` استفاده کنید. همین دو گونه برای arm64 (`debian-arm64.deb` و `debian-arm64-system-qt.deb`) و به‌صورت بسته‌های `.rpm` برای Fedora و RHEL (`fedora-amd64.rpm`، `fedora-amd64-system-qt.rpm` و نسخه‌های arm64) هم وجود دارد. مخزن‌های APT و RPM مربوط به Throne بسته‌های `system-qt` را دارند. [نصب](@/get_started/installation.fa.md#linux) را ببینید.
 
-## آیا بسته‌های WinGet، Scoop، AUR، Nix و مخزن RPM رسمی هستند؟ {#third-party-packages}
+## کدام بسته‌ها رسمی هستند؟ {#third-party-packages}
 
 توسعه‌دهندگان Throne آن را در [صفحهٔ Releases در GitHub](https://github.com/throneproj/Throne/releases) منتشر می‌کنند: فایل‌های ZIP، نصب‌کنندهٔ Windows و بسته‌های `.deb` و `.rpm` (`.rpm` از نسخهٔ 1.3.0). اسکریپت نصب Linux که در مخزن Throne قرار دارد، فایل ZIP همان نسخهٔ منتشرشده را نصب می‌کند.
 
-بسته‌های WinGet، Scoop، AUR و Nix/NixOS را اعضای جامعهٔ کاربری می‌سازند و توسعه‌دهندگان از آن‌ها پشتیبانی نمی‌کنند ([#1182](https://github.com/throneproj/Throne/issues/1182)، [#1622](https://github.com/throneproj/Throne/issues/1622)). اگر مشکلی فقط با چنین بسته‌ای رخ می‌دهد، یک بیلد رسمی را امتحان کنید و مشکلات بسته‌بندی را به نگه‌دارندهٔ آن بسته گزارش دهید.
+آن‌ها همچنین یک مخزن APT و یک مخزن RPM در `throneproj.github.io/Throne` با بسته‌های `system-qt` هر نسخهٔ پایدار اداره می‌کنند، و گردش‌کار انتشار Throne بستهٔ `throne` را در AUR به‌روز می‌کند. [نصب](@/get_started/installation.fa.md#apt-repository) را ببینید.
 
-مخزن RPM در `parhelia512.github.io` را parhelia512، یکی از اعضای سازمان throneproj در GitHub، اداره می‌کند و README پروژهٔ Throne به آن لینک داده است. این مخزن از فایل‌های منتشرشده جداست. [مدیران بسته](@/get_started/installation.fa.md#package-managers) را ببینید.
+بسته‌های WinGet، Scoop و Nix/NixOS، و بسته‌های دیگر AUR مانند `throne-bin`، را اعضای جامعهٔ کاربری می‌سازند و توسعه‌دهندگان از آن‌ها پشتیبانی نمی‌کنند ([#1182](https://github.com/throneproj/Throne/issues/1182)، [#1622](https://github.com/throneproj/Throne/issues/1622)). اگر مشکلی فقط با چنین بسته‌ای رخ می‌دهد، یک بیلد رسمی را امتحان کنید و مشکلات بسته‌بندی را به نگه‌دارندهٔ آن بسته گزارش دهید. [مدیران بسته](@/get_started/installation.fa.md#package-managers) را ببینید.
 
 ## برای Windows 7، macOS قدیمی یا پردازندهٔ قدیمی به کدام بیلد نیاز دارم؟ {#old-systems}
 
-- **Windows 7 SP1 و Windows 8:** از `windowslegacy64.zip` (64 بیتی) یا `windows32.zip` (32 بیتی) استفاده کنید. نصب‌کنندهٔ universal هم کار می‌کند: روی Windows 32 بیتی و روی Windows 64 بیتیِ قدیمی‌تر از Windows 10 1809، خودش بیلد legacy را نصب می‌کند. فایل معمولی `windows64.zip` به Windows 10 1809 یا جدیدتر نیاز دارد. روی Windows 7 و 8، حالت TUN فقط می‌تواند از پشتهٔ `gvisor` استفاده کند ([#1291](https://github.com/throneproj/Throne/issues/1291)).
+- **Windows 7 SP1 و Windows 8:** از `windowslegacy64.zip` (64 بیتی) یا `windows32.zip` (32 بیتی) استفاده کنید. نصب‌کنندهٔ universal هم کار می‌کند: روی Windows 32 بیتی و روی Windows 64 بیتیِ قدیمی‌تر از Windows 10 1809، خودش بیلد legacy را نصب می‌کند. فایل معمولی `windows64.zip` به Windows 10 1809 یا جدیدتر نیاز دارد. در Throne 1.3 و نسخه‌های قدیمی‌تر، حالت TUN روی Windows 7 و 8 فقط با پشتهٔ `gvisor` کار می‌کند ([#1291](https://github.com/throneproj/Throne/issues/1291))؛ از نسخهٔ 1.4.0، `تنظیمات vpn` (Tun Settings) تنظیم `Stack` ندارد.
 - **macOS 10.15 تا 12:** از `macoslegacy-amd64.zip` استفاده کنید. بیلدهای معمولی macOS به macOS 13 یا جدیدتر نیاز دارند. نسخه‌های قدیمی‌تر macOS پشتیبانی نمی‌شوند.
 - **پردازنده‌های قدیمی در Linux:** اگر Throne اجرا نمی‌شود و پیام `This Qt build requires the following features: sse4.2 popcnt` را چاپ می‌کند، بستهٔ `system-qt` را نصب کنید ([#845](https://github.com/throneproj/Throne/issues/845)).
 

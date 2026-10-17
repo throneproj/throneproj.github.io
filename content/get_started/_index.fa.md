@@ -14,6 +14,8 @@ Throne (پیش‌تر با نام Nekoray) یک کلاینت پروکسی رای
 
 Throne برای Android (پیش‌تر با نام NekoBox for Android) برنامهٔ Android آن است. این برنامه از نسخهٔ 2.0.0 همان هسته، همان ساختار تنظیمات و همان قالب پشتیبان‌گیری نسخهٔ دسکتاپ را به کار می‌برد، بنابراین می‌توانید تنظیمات خود را بین رایانه و گوشی جابه‌جا کنید. [Throne برای Android](@/android/_index.fa.md) را ببینید.
 
+از نسخهٔ 1.4.0، همین برنامهٔ Throne بدون پنجره هم اجرا می‌شود، روی یک سرور، یک روتر یا در یک کانتینر، و آن را با ابزار خط فرمان `thronectl` کنترل می‌کنید. [Throne بدون رابط گرافیکی](@/headless/_index.fa.md) را ببینید.
+
 اگر پیش‌تر از Nekoray یا NekoBox استفاده می‌کردید، [مهاجرت از Nekoray / NekoBox](@/help/migrating.fa.md) را بخوانید.
 
 ## پلتفرم‌ها {#platforms}
@@ -38,6 +40,9 @@ Throne برای Android (پیش‌تر با نام NekoBox for Android) برنا
 - گزینه‌های ضدسانسور مانند TLS fragment، uTLS و ECH: [پیش‌تنظیم‌های ضدسانسور](@/advanced/presets.fa.md).
 - Cloudflare WARP داخلی: [Cloudflare WARP](@/advanced/warp.fa.md).
 - پشتیبان‌هایی که هم در نسخهٔ دسکتاپ و هم در برنامهٔ Android کار می‌کنند: [پشتیبان‌گیری، به‌روزرسانی و مهاجرت](@/guides/backup.fa.md).
+- کیل‌سوییچی که ترافیک خارج از Throne را مسدود می‌کند (از نسخهٔ 1.4.0): [کیل‌سوییچ (Kill Switch)](@/advanced/kill_switch.fa.md).
+- Throne API، برای کنترل و مدیریت Throne از اسکریپت‌ها، کلیدهای میانبر و دستگاه‌های دیگر با `thronectl` (از نسخهٔ 1.4.0): [Throne API و thronectl](@/advanced/api.fa.md).
+- حالت بدون رابط گرافیکی (headless) برای سرورها و کانتینرها (از نسخهٔ 1.4.0): [Throne بدون رابط گرافیکی (Headless)](@/headless/_index.fa.md).
 
 ## از کجا شروع کنیم {#where-to-start}
 
@@ -58,5 +63,4 @@ Throne بر پایهٔ این پروژه‌ها ساخته شده است:
 - [simple-protobuf](https://github.com/tonda-kriz/simple-protobuf): پیام‌های میان رابط کاربری و هسته
 - [fkYAML](https://github.com/fktn-k/fkYAML): وارد کردن فایل‌های YAML مربوط به Clash
 - [quirc](https://github.com/dlbeer/quirc): خواندن کد QR
-- [QHotkey](https://github.com/Skycoder42/QHotkey): کلیدهای میانبر سراسری
 - [srombauts/sqlitecpp](https://github.com/srombauts/sqlitecpp): پایگاه‌دادهٔ نمایه‌ها و تنظیمات

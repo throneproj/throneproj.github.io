@@ -38,6 +38,7 @@ With `A` on top and `B` below it, traffic goes: your device → `A` → `B` → 
 - A chain can hold one `Custom (Xray config)` profile. It must also be the top hop, and it cannot be combined with an Extra Core profile or with other Xray hops.
 - All Xray hops must be next to each other: sing-box hops, then Xray hops, then sing-box hops. See [Xray in chains](@/advanced/xray.md#xray-in-chains).
 - URL tests skip chains that contain an Extra Core or `Custom (Xray config)` profile.
+- When the hop above a server is a WireGuard, MASQUE, OpenVPN, OpenConnect, Tailscale or SOCKS4 profile, Throne looks up that server's name with Direct DNS. Before 1.3.2, the lookup went through the proxy itself, and such chains could fail to connect.
 
 Throne checks some rules when you add a hop or save the chain, and the others when you start it. A failed check shows its reason in a message or in the log.
 
@@ -80,6 +81,8 @@ A minimal `Custom (sing-box outbound)`:
   "server_port": 1080
 }
 ```
+
+To start from the JSON that Throne generates for a working profile or chain, right-click it → `Share` → `Export config` (since 1.4.0). The window shows the sing-box config and, when the profile uses Xray, the Xray config on separate tabs. `Copy` copies the tab you see.
 
 When you import JSON:
 

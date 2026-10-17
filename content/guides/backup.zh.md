@@ -23,6 +23,7 @@ toc = true
 | `路由配置档`（Routing profiles） | 你的路由配置档及其规则。 |
 | `设置`（Settings） | 所有设置，包括 DNS、TUN、WARP 和入站设置。 |
 | `OTP 配置档`（OTP profiles） | OTP 管理器中的条目。 |
+| `IP lists and scans` | 你的 IP 列表和 [IP 扫描器](@/guides/testing.zh.md#ip-scanner)的扫描及其结果（自 1.4.0 起）。 |
 | `自定义图标`（Custom icons） | 你的自定义托盘图标。 |
 
 备份不包含流量历史、日志或核心的缓存文件。它也不会记录 `Tun 模式`（Tun Mode）或 `系统代理`（System Proxy）是否处于开启状态。
@@ -38,7 +39,9 @@ toc = true
 3. 点击 `恢复`（Restore）。每个选中的部分都会替换你当前的数据。此操作无法撤销。
 4. Throne 会重启。
 
-旧版本 Throne 创建的备份可以正常恢复。较新版本创建的备份可能会被拒绝，并提示“不支持的备份格式版本”；请先更新 Throne。
+旧版本 Throne 创建的备份可以正常恢复。较新版本创建的备份可能会被拒绝，并提示“不支持的备份格式版本”；请先更新 Throne。自 1.3.2 起，如果备份中的路由规则使用了此版本 Throne 不支持的条件（例如来自较新版本的规则），Throne 会跳过这些规则，并告诉你跳过了多少条。
+
+要备份或恢复无界面（headless）运行的 Throne，或把桌面版的备份发送给它，请参见 [thronectl](@/headless/thronectl.zh.md#from-desktop)。
 
 ## 在桌面版与 Android 之间迁移 {#desktop-android}
 
@@ -63,10 +66,11 @@ Throne 桌面版和 Throne for Android 使用相同的备份格式，因此你�
 
 | 项目 | 在 Android 上的结果 |
 | --- | --- |
-| `OTP 配置档` 和 `自定义图标` | 不会恢复。 |
+| `OTP 配置档`、`IP lists and scans` 和 `自定义图标` | 不会恢复。Android 没有 IP 扫描器，因此分组的 `Server Address` 也不会恢复。 |
 | 两个应用都有的设置 | 采用备份中的值。例如，TUN MTU 会变为 1500（Android 默认值：9000），日志级别会变为 `info`（Android 默认值：`warn`）。 |
 | 仅 Android 才有的设置 | 保留当前值。 |
 | 来自其他设备的连接 | 当你恢复 `Settings` 部分，且备份允许其他设备连接而你的手机原先不允许时，Throne 会关闭 `允许来自局域网的连接`（Allow connections from the LAN）并显示警告。 |
+| 使用 Android 不支持的条件的路由规则 | 会被跳过，并显示一条说明跳过数量的警告（自 2.0.2 起）。 |
 | 原始路由配置档 | 会保留，但为只读。Android 无法使用它们；如果其中某个原本处于活动状态，则第一个可用的路由配置档会成为活动配置档。 |
 | 路由配置档中的 OpenVPN 和 OpenConnect 端点 | 随配置档一起保留，但不会在 Android 上运行。 |
 | Tailscale 和额外核心（Extra Core）配置档 | 会恢复，但无法在 Android 上启动。 |
@@ -92,7 +96,7 @@ Throne 桌面版和 Throne for Android 使用相同的备份格式，因此你�
 | `.deb` 或 `.rpm` 软件包 | 下载并安装新的软件包。 |
 | Linux 安装脚本 | 再次运行该脚本。 |
 | macOS | 下载新版本并替换 `Throne.app`。参见[安装](@/get_started/installation.zh.md#macos)。 |
-| WinGet、Scoop、AUR、Nix 或 RPM 仓库 | 使用包管理器更新。参见[包管理器](@/get_started/installation.zh.md#package-managers)。 |
+| WinGet、Scoop、AUR、Nix，或 APT、RPM 仓库 | 使用包管理器更新。参见[包管理器](@/get_started/installation.zh.md#package-managers)。 |
 
 如果你使用 Windows 安装程序卸载后重新安装，当卸载程序询问“Also delete your Throne profiles, settings and logs?”（是否同时删除你的 Throne 配置档、设置和日志？）时，请选择 `否`（No）。否则你的数据会被删除。
 

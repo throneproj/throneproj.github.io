@@ -31,7 +31,7 @@ ruleset:geoip-telegram
 suffix:example.com
 ```
 
-If a blocked site still does not load, it uses more domains than you listed. Open the site, find its connections in the `Connections` tab, right-click one and choose `Append "<host>" to` → `Proxy`. For large services, a `geosite-` rule-set is easier than single domains. Some apps, such as Telegram, also connect to IP addresses, so add their `geoip-` rule-set and use `Tun Mode`. See [Routing](@/guides/routing.md#simple-rules).
+If a blocked site still does not load, it uses more domains than you listed. Open the site, find its connections in the `Connections` tab, right-click one and choose `Proxy`. In the window that opens, tick the domain, for example `*.example.com`, and click `OK`. Before 1.4.0, the menu item was `Append "<host>" to` → `Proxy`. For large services, a `geosite-` rule-set is easier than single domains. Some apps, such as Telegram, also connect to IP addresses, so add their `geoip-` rule-set and use `Tun Mode`. See [Routing](@/guides/routing.md#simple-rules).
 
 ## Share the proxy with other devices {#share-with-devices}
 
@@ -95,7 +95,7 @@ The same port also accepts SOCKS5.
 
 - Keep `Private Range Bypass` on (the default). It keeps private address ranges, which virtual networks usually use, out of the tunnel.
 - `Enable Tun Routing` also keeps the IP ranges of your `direct` rules out of the tunnel. Large rule-sets can cause high CPU use on Windows, so turn it on with care.
-- **Linux:** `Auto Redirect` (on by default) is needed on newer kernels for the `system` and `mixed` stacks. While it is on, this computer cannot act as a network gateway for other devices, and containers or virtual machines whose traffic it forwards can be affected. Use the proxy port for them instead.
+- **Linux:** `Auto Redirect` (on by default) improves TUN routing with nftables. While it is on, this computer cannot act as a network gateway for other devices, and containers or virtual machines whose traffic it forwards can be affected. Use the proxy port for them instead.
 
 See [TUN Mode](@/guides/tun_mode.md#settings).
 
@@ -130,14 +130,29 @@ Choose which programs use the proxy.
 
 1. Turn on `Tun Mode`. Only in TUN mode does the traffic of every program reach Throne.
 2. Start the program and let it connect.
-3. In the `Connections` tab, right-click one of its connections and choose `Append process "<name>" to` → `Proxy`, `Direct` or `Block`.
-4. Click `Restart` in the "Settings changed, restart to apply" notice.
+3. In the `Connections` tab, right-click one of its connections and choose `Proxy`, `Direct` or `Block`.
+4. In the window that opens, tick `Process` and the program name, for example `Process Telegram.exe`, and click `OK`. Before 1.4.0, the menu item was `Append process "<name>" to`.
+5. Click `Restart` in the "Settings changed, restart to apply" notice.
 
 You can also write the rules yourself on the `Basic` tab of your routing profile, for example `processName:Telegram.exe` or `processPath:C:\Program Files\App\app.exe`. Names must match exactly, including upper and lower case.
 
 - **Only some programs through the proxy:** set `Default outbound` to `direct` and put the programs in the `Proxy` box.
 - **All programs except some:** keep `Default outbound` at `proxy` and put the exceptions in the `Direct` box.
 
-If the `Append` items are disabled, the active routing profile cannot be changed from there, for example because it is a remote profile that updates itself. See [Connections tab](@/guides/routing.md#connections-tab).
+If `Proxy`, `Direct` and `Block` are disabled, the active routing profile cannot be changed from there, for example because it is a remote profile that updates itself. See [Connections tab](@/guides/routing.md#connections-tab).
 
 **Android:** choose the apps in `Settings` → `TUN / VPN` → `Apps VPN mode`, or use the `Apps` field of a routing rule. See [per-app proxy](@/android/modes.md#per-app-proxy).
+
+## Find a working CDN address {#cdn-address}
+
+If your provider's servers are behind a CDN such as Cloudflare, profiles can fail because the CDN addresses they use are blocked on your network, while other addresses of the same CDN still work. Since 1.4.0, the IP scanner can find such an address, and a group can send all its profiles to it.
+
+1. Open `Tools` → `IP Scanner`, click `New scan`, keep `Generic scan` and click `OK`.
+2. On the `Targets` tab, choose the `Base IP list` of your CDN, for example `Cloudflare CDN`, and enter the port of your profiles in `Ports`, usually `443`. Set `Stop after (results)` to a small number, for example `20`.
+3. On the `Phases` tab, keep `TCP connect`, tick `Config test` and choose one of the group's profiles as `Profile`.
+4. Click `Start` and wait until the scan completes.
+5. On the `Results` tab, click `Save as IP list` and enter a name.
+6. Open the options of the group, click `Advanced`, set `Server Address` to `IP list` and choose the new list. Click `OK` twice.
+7. Run a URL test of the group.
+
+The profiles then connect to the first address of the list and keep sending the original domain as the TLS server name. This works only for profiles whose server really is behind that CDN, usually WebSocket, gRPC, HTTPUpgrade or XHTTP over TLS with a domain name. See [IP scanner](@/guides/testing.md#ip-scanner) and [Server address](@/guides/subscriptions.md#server-address).

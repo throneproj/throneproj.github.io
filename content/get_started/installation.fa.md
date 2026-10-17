@@ -73,6 +73,7 @@ Throne داده‌های شما را در پوشهٔ کاربری‌تان نگ�
 | `Throne-<version>-debian-amd64.deb`، `…-debian-arm64.deb` | Debian، Ubuntu، Linux Mint و دیگر سیستم‌های مبتنی بر Debian |
 | `Throne-<version>-fedora-amd64.rpm`، `…-fedora-arm64.rpm` | Fedora و سیستم‌های مبتنی بر RHEL (از نسخهٔ 1.3.0) |
 | فایل‌هایی که به `-system-qt.deb` یا `-system-qt.rpm` ختم می‌شوند | همان بسته‌ها، اما از کتابخانه‌های Qt سیستم شما استفاده می‌کنند |
+| [مخزن APT](#apt-repository) و [مخزن RPM](#rpm-repository) | بسته‌های system-Qt، که مدیر بستهٔ شما آن‌ها را به‌روز نگه می‌دارد |
 
 بیلدهای Linux به glibc 2.34 یا جدیدتر نیاز دارند. فایل‌های ARM64 که Qt را همراه دارند به glibc 2.38 یا جدیدتر نیاز دارند.
 
@@ -108,13 +109,53 @@ cd Throne
 sudo apt install ./Throne-x.x.x-debian-amd64.deb
 ```
 
+برای دریافت نسخه‌های جدید با `apt upgrade`، به‌جای آن از [مخزن APT](#apt-repository) استفاده کنید.
+
 ### Fedora و RHEL (.rpm) {#rpm}
 
 ```bash
 sudo dnf install ./Throne-x.x.x-fedora-amd64.rpm
 ```
 
+برای دریافت نسخه‌های جدید با `dnf upgrade` یا `zypper update`، به‌جای آن از [مخزن RPM](#rpm-repository) استفاده کنید.
+
 هر دو بسته Throne را در `/opt/Throne` نصب می‌کنند و آن را به منوی برنامه‌ها اضافه می‌کنند. در این حالت Throne داده‌های شما را در `~/.config/Throne` نگه می‌دارد.
+
+از نسخهٔ 1.4.0، این بسته‌ها یک سرویس systemd برای [Throne بدون رابط گرافیکی](@/headless/_index.fa.md)، یعنی `/usr/lib/systemd/system/throne.service`، و فایل تنظیمات آن، `/etc/throne/throne.env`، را هم نصب می‌کنند. بسته هرگز این سرویس را فعال یا اجرا نمی‌کند، بنابراین کار پنجرهٔ Throne را تغییر نمی‌دهد. [نصب و سرویس‌ها](@/headless/installation.fa.md#linux-packages) را ببینید.
+
+### مخزن APT {#apt-repository}
+
+مخزن APT در `throneproj.github.io/Throne/apt` بسته‌های system-Qt را برای amd64 و arm64 دارد ([بسته‌های System Qt](#system-qt) را ببینید). این مخزن همهٔ نسخه‌های پایدار را دریافت می‌کند، اما نسخه‌های بتا را نه، و امضا شده است. برای افزودن آن در Debian، Ubuntu و دیگر سیستم‌های مبتنی بر Debian:
+
+```bash
+sudo install -d -m 0755 /etc/apt/keyrings
+sudo curl -fsSLo /etc/apt/keyrings/throne.asc https://throneproj.github.io/Throne/throne.asc
+sudo curl -fsSLo /etc/apt/sources.list.d/throne.list https://throneproj.github.io/Throne/apt/throne.list
+sudo apt update
+sudo apt install throne
+```
+
+پس از آن، `sudo apt upgrade` هم Throne را به‌روز می‌کند.
+
+### مخزن RPM {#rpm-repository}
+
+مخزن RPM در `throneproj.github.io/Throne/rpm` بسته‌های system-Qt را برای x86_64 و aarch64 دارد؛ بنابراین توزیع شما باید Qt 6.5 یا جدیدتر را فراهم کند. این مخزن همهٔ نسخه‌های پایدار را دریافت می‌کند، اما نسخه‌های بتا را نه، و هم بسته‌ها و هم خود مخزن امضا شده‌اند.
+
+Fedora و RHEL 9 یا جدیدتر:
+
+```bash
+sudo curl -fsSLo /etc/yum.repos.d/throne.repo https://throneproj.github.io/Throne/rpm/throne.repo
+sudo dnf install throne --refresh
+```
+
+openSUSE و SLES:
+
+```bash
+sudo zypper addrepo -fc https://throneproj.github.io/Throne/rpm/throne.repo
+sudo zypper install throne
+```
+
+بار اول، `dnf` و `zypper` از شما می‌خواهند که به کلید امضای مخزن اعتماد کنید.
 
 ### بسته‌های System Qt {#system-qt}
 
@@ -123,7 +164,7 @@ Qt جعبه‌ابزار پنجرهٔ Throne است. بسته‌های معمو�
 ## مدیران بسته {#package-managers}
 
 {% alert_warning() %}
-بسته‌های WinGet، Scoop، AUR و Nix را اعضای جامعهٔ کاربری ساخته‌اند، نه توسعه‌دهندگان Throne. این بسته‌ها ممکن است از آخرین نسخهٔ منتشرشده قدیمی‌تر باشند و رفتارشان با بیلدهای رسمی فرق کند. مشکلات چنین بسته‌ای را به نگه‌دارندهٔ آن گزارش دهید. اگر مطمئن نیستید مشکل از Throne است یا از بسته، ابتدا یک بیلد رسمی را از صفحهٔ [دانلود](@/downloads.fa.md) امتحان کنید. [پرسش‌های متداول](@/help/faq.fa.md#third-party-packages) را هم ببینید.
+بسته‌های WinGet، Scoop و Nix، و بسته‌های AUR به‌جز `throne`، را اعضای جامعهٔ کاربری ساخته‌اند، نه توسعه‌دهندگان Throne. این بسته‌ها ممکن است از آخرین نسخهٔ منتشرشده قدیمی‌تر باشند و رفتارشان با بیلدهای رسمی فرق کند. مشکلات چنین بسته‌ای را به نگه‌دارندهٔ آن گزارش دهید. اگر مطمئن نیستید مشکل از Throne است یا از بسته، ابتدا یک بیلد رسمی را از صفحهٔ [دانلود](@/downloads.fa.md) امتحان کنید. [پرسش‌های متداول](@/help/faq.fa.md#third-party-packages) را هم ببینید.
 {% end %}
 
 ### WinGet {#winget}
@@ -139,29 +180,13 @@ scoop bucket add extras
 scoop install extras/throne
 ```
 
-### Fedora، RHEL و openSUSE {#rpm-repository}
-
-مخزن RPM در [parhelia512.github.io](https://parhelia512.github.io/) را parhelia512، یکی از اعضای سازمان throneproj در GitHub، اداره می‌کند و README پروژهٔ Throne به آن لینک داده است. این مخزن از فایل‌های منتشرشده جداست. فایل‌های رسمی `.rpm` از نسخهٔ 1.3.0 به هر نسخهٔ منتشرشده پیوست می‌شوند.
-
-Fedora و RHEL 9 یا جدیدتر:
-
-```bash
-sudo curl -o /etc/yum.repos.d/throne.repo https://parhelia512.github.io/throne.repo
-sudo dnf install -y throne --refresh
-```
-
-openSUSE و SLES:
-
-```bash
-sudo zypper addrepo -fc https://parhelia512.github.io/throne-sle.repo
-sudo zypper install -y throne
-```
-
-برای RHEL 8، مراحل صفحهٔ مخزن را دنبال کنید.
+برای Debian، Ubuntu، Fedora، RHEL و openSUSE، Throne [مخزن APT](#apt-repository) و [مخزن RPM](#rpm-repository) خودش را دارد.
 
 ### Arch Linux (AUR) {#aur}
 
 Throne با نام `throne` در Arch User Repository موجود است. آن را با یک AUR helper نصب کنید، برای مثال `yay -S throne` یا `paru -S throne`.
+
+بستهٔ `throne`، Throne را از سورس می‌سازد و آن را در `/usr/lib/throne` نصب می‌کند. اسکریپت ساخت آن در مخزن Throne نگهداری می‌شود و گردش‌کار انتشار Throne این بسته را برای هر نسخهٔ پایدار به‌روز می‌کند. Throne داده‌های شما را در `~/.config/Throne` نگه می‌دارد.
 
 ### NixOS {#nixos}
 
@@ -190,7 +215,7 @@ Throne دو بخش دارد که جداگانه ساخته می‌شوند: را
 
 | بخش | پیش‌نیازها |
 |---|---|
-| رابط کاربری | CMake 3.20 یا جدیدتر، یک کامپایلر C++20، Qt 6.2 یا جدیدتر (Widgets، Network، LinguistTools و در Linux، DBus)، هدرهای توسعهٔ X11 در Linux |
+| رابط کاربری | CMake 3.20 یا جدیدتر، یک کامپایلر C++20، Qt 6.2 یا جدیدتر (Widgets، Network، LinguistTools و در Linux، DBus)، هدرهای توسعهٔ X11 و xcb در Linux |
 | هسته | Go 1.26 یا جدیدتر، `protoc`، `protoc-gen-go` و `protoc-gen-go-grpc`. CGO در Linux و macOS: در Linux زنجیرهٔ ابزار Chromium از cronet-go (خروجی NaïveProxy به آن نیاز دارد) و در macOS ابزارهای خط فرمان Xcode. |
 
 نمونه برای Ubuntu 22.04 یا جدیدتر روی x64:
@@ -253,11 +278,13 @@ Throne دو بخش دارد که جداگانه ساخته می‌شوند: را
 - **macOS:** گزینهٔ `-DNKR_PACKAGE_MACOS=1` را به دستور `cmake` اضافه کنید؛ با این کار `Throne.app` ساخته می‌شود. هسته را با `GOOS=darwin` بسازید و `ThroneCore` را در `Throne.app/Contents/MacOS/` کپی کنید.
 - **Windows:** بیلدهای رسمی رابط کاربری را با MSVC و Ninja کامپایل می‌کنند و هسته را با `GOOS=windows` روی Linux کراس‌کامپایل می‌کنند (اسکریپت برای Windows، CGO را خاموش می‌کند). `ThroneCore.exe` و `libcronet.dll` را از پوشهٔ `DEST` در کنار `Throne.exe` کپی کنید.
 
-مراحل دقیق بیلدهای رسمی در `.github/workflows/build.yml` در [مخزن Throne](https://github.com/throneproj/Throne) آمده است.
+مراحل دقیق بیلدهای رسمی در `.github/workflows/build.yml` در [مخزن Throne](https://github.com/throneproj/Throne) آمده است. بیلدهای legacy برای Windows 7 و macOS 10.15 هسته را با [نسخهٔ MetaCubeX از Go](https://github.com/MetaCubeX/go) 1.26 کامپایل می‌کنند، چون Go رسمی دیگر از این سیستم‌ها پشتیبانی نمی‌کند.
 
 ## به‌روزرسانی {#updating}
 
 نسخه‌های ZIP و نصب پیش‌فرضِ مخصوص کاربر با نصب‌کنندهٔ Windows می‌توانند خودشان را به‌روزرسانی کنند: روی `Tools` → `Check For Update` و سپس `بروزرسانی` (Update) کلیک کنید. بقیهٔ نسخه‌ها را به همان روشی به‌روزرسانی کنید که نصب کرده‌اید: نصب‌کنندهٔ جدید را اجرا کنید، بستهٔ `.deb` یا `.rpm` جدید را نصب کنید، اسکریپت نصب را دوباره اجرا کنید، در macOS `Throne.app` را جایگزین کنید، یا از مدیر بستهٔ خود استفاده کنید. نمایه‌ها و تنظیمات شما باقی می‌مانند.
+
+از نسخهٔ 1.4.0، تا وقتی یک [Throne بدون رابط گرافیکی](@/headless/_index.fa.md) از همان نصب اجرا می‌شود، `Check For Update` دکمهٔ `بروزرسانی` را نشان نمی‌دهد. ابتدا Throne بدون رابط گرافیکی را متوقف کنید.
 
 برای جزئیات، نسخه‌های بتا و پشتیبان‌گیری، [پشتیبان‌گیری، به‌روزرسانی و مهاجرت](@/guides/backup.fa.md#updating) را ببینید. پس از به‌روزرسانی در Linux یا macOS، Throne ممکن است دسترسی‌هایی را که برای حالت TUN لازم دارد دوباره درخواست کند.
 

@@ -44,7 +44,7 @@ All other `vless://` links become `VLESS` profiles that run on sing-box.
 
 The preference applies only to `vless://` links:
 
-- **Clash / Mihomo YAML:** a VLESS entry gets Xray only when it uses XHTTP or VLESS encryption. Reality entries stay on sing-box.
+- **Clash / Mihomo YAML:** a VLESS entry gets Xray when it uses XHTTP or VLESS encryption. Since 1.4.0, a Reality entry over TCP, WebSocket or gRPC gets Xray too, unless the preference is `XHTTP Only`. Other VLESS entries stay on sing-box, also with `All VLESS`.
 - **Xray JSON:** every VLESS outbound becomes `VLESS (Xray)`.
 - **sing-box JSON:** VLESS outbounds stay on sing-box.
 - **Profile editor:** you choose `VLESS` or `VLESS (Xray)` in the `Type` list yourself.
@@ -67,7 +67,7 @@ If `Keep working profiles` is on in the group's `Advanced` subscription settings
 
 Look at the `Type` column of the profile list. `VLESS` runs on sing-box. `VLESS (Xray)`, `Custom Xray … Outbound` and `Custom Xray Config` run on Xray.
 
-To also see the security layer, such as Reality, in that column, turn on `Settings` → `Basic Settings` → `Style` → `Show Config Security`. For `VLESS (Xray)` and `Custom (Xray outbound)` profiles, and for chains, the right-click menu also has `Share` → `Export Xray config`.
+To also see the security layer, such as Reality, in that column, turn on `Settings` → `Basic Settings` → `Style` → `Show Config Security`. To see the configs that Throne generates for a profile, right-click it → `Share` → `Export config` (since 1.4.0). The window has a `sing-box` tab and, when the profile uses Xray, an `Xray` tab. `Copy` copies the tab you see. Up to 1.3.2, there were separate `Export Sing-box config` and `Export Xray config` items.
 
 ## Reality errors with newer Xray servers {#reality}
 
@@ -84,9 +84,20 @@ The fix is to run the profile on Xray:
 4. Update the subscription, or add the link again (see [After you change the preference](#after-change)).
 5. Check that the `Type` column now shows `VLESS (Xray)`.
 
-This does not help for Reality entries from a Clash / Mihomo YAML subscription, because they always stay on sing-box. If your provider also offers the subscription as a list of links, use that format.
+Up to 1.3.2, this did not help for Reality entries from a Clash / Mihomo YAML subscription, because they always stayed on sing-box. Since 1.4.0, they follow the preference when they use TCP, WebSocket or gRPC. For other transports, use the subscription as a list of links, if your provider offers it.
 
 If you run an Xray server from 26.7.11 to 26.7.28 yourself, you can also add `"minClientVer": "0.0.0"` to the `realitySettings` of its VLESS inbound. This lets older clients connect. It does not help with Xray 26.9.9 and newer.
+
+## Old Xray settings {#old-settings}
+
+Newer Xray versions refuse some old settings, and a profile or config that uses them does not start. Since 1.4.0, the Xray in Throne accepts them again:
+
+- VLESS and Trojan without TLS or other encryption to a server on the internet. Newer Xray allows this only for private addresses.
+- `allowInsecure` in the TLS settings of an Xray config.
+- The old Shadowsocks ciphers `aes-128-cfb`, `aes-256-cfb`, `chacha20` and `chacha20-ietf`, and `none` or `plain`, in Xray configs.
+- The VMess security types `none` and `zero` in Xray configs.
+
+Xray's warnings about deprecated features appear only when `Xray Log level` is `debug`. These settings are less safe or easier to detect. Use them only for servers that need them.
 
 ## Xray in chains {#xray-in-chains}
 
@@ -111,3 +122,4 @@ If a rule names a category that the file does not contain, Throne shows "Geo ass
 
 - The same setting is in `Settings` → `Core` → `Xray VLESS preference`, with `XHTTP only`, `XHTTP and Reality` (default) and `All VLESS`. It also applies only when you import, so update the subscription after you change it.
 - The profile types are `VLESS` and `VLESS (Xray)`, and the limits for Xray in chains are the same.
+- Since 2.0.2, Throne for Android downloads `geoip.dat` and `geosite.dat` by itself when an Xray config with `geoip:` or `geosite:` rules starts or is tested, and the notification shows the progress. Choose where they come from in `Settings` → `Core` → `Xray geo assets`: `Source` offers the same four sources as the desktop app, or `Custom` addresses. Tap a file under `Files` to download it again, or tap `Download now` for both.

@@ -1,6 +1,6 @@
 +++
 title = "常见问题"
-description = "关于 Throne 的常见问题简答：Nekoray、杀毒软件报警、断网保护、TUN 权限、软件包和旧系统。"
+description = "关于 Throne 的常见问题简答：Nekoray、杀毒软件报警、断网保护、无界面服务器、脚本、TUN 权限、软件包和旧系统。"
 weight = 10
 toc = true
 +++
@@ -27,6 +27,16 @@ Throne 无法读取 Nekoray 的配置。要迁移你的服务器和设置，请�
 
 可以。[Throne for Android](@/android/_index.zh.md) 2.0.0（前身为 NekoBox for Android）与桌面版使用相同的核心和相同的备份格式。在桌面版的 `设置` → `基本设置`（Basic Settings）→ `备份和恢复`（Backup and Restore）中创建备份，将 `.thrbackup` 文件复制到手机，然后在 Android 应用中恢复。反过来从 Android 迁移到桌面版也可以。参见[备份、更新与迁移](@/guides/backup.zh.md#desktop-android)。
 
+## Throne 能在没有窗口的服务器上运行吗？ {#headless}
+
+可以，自 1.4.0 起。`Throne --headless` 以无窗口方式运行同一个程序，没有窗口、托盘图标或对话框：可以运行在服务器、路由器、树莓派或容器中。`.deb` 和 `.rpm` 软件包包含一个用于它的 systemd 服务（软件包从不自行启用它），另外还有 Docker 镜像。你可以用 `thronectl` 通过 Throne API 控制无界面 Throne。参见[无界面 Throne](@/headless/_index.zh.md)。
+
+## 我可以用脚本或 Stream Deck 控制 Throne 吗？ {#scripts}
+
+可以，自 1.4.0 起。在 `设置`（Settings）→ `Integration Settings` → `Throne API` 中开启 Throne API，然后使用 `thronectl`。例如，`thronectl toggle` 可以用 Stream Deck 或宏键盘上的一个按键连接和断开，`thronectl connect best` 会启动延迟最低的配置档。参见 [Throne API 与 thronectl](@/advanced/api.zh.md)。
+
+不使用 API 时，[全局热键](@/reference/shortcuts.zh.md#global-hotkeys) `Start/Stop Profile` 和 `Toggle Tun Mode` 也可以在任何应用中使用。
+
 ## 为什么杀毒软件会将 Throne 标记为威胁？ {#antivirus}
 
 这些都是误报。一些杀毒软件会对 Throne 为实现正常功能所做的操作产生反应：
@@ -43,7 +53,9 @@ Throne 无法读取 Nekoray 的配置。要迁移你的服务器和设置，请�
 
 ## 有断网保护（kill switch）吗？ {#kill-switch}
 
-没有。Throne 没有断网保护功能，维护者也不打算添加（[#827](https://github.com/throneproj/Throne/issues/827)、[#912](https://github.com/throneproj/Throne/issues/912)）。当配置档停止，或者核心意外停止时，你的应用会不经代理直接连接。
+有，自 1.4.0 起作为实验性功能提供。请开启 `设置` → `基本设置` → `安全`（Security）→ `Kill Switch`。Throne 运行期间，它会拦截所有不经过 Throne 的流量，即使没有配置档运行时也是如此。除非在 `Tun 设置`（Tun Settings）中关闭了 `私有地址范围绕过`（Private Range Bypass），否则本地网络仍可访问。断网保护需要与 TUN 模式相同的权限：在 Windows 上需要管理员权限，在 Linux 和 macOS 上需要具有 root 权限的核心。参见 [Kill Switch（断网保护）](@/advanced/kill_switch.zh.md)。
+
+Throne 1.3 及更早版本没有断网保护。当配置档停止，或者核心意外停止时，你的应用会不经代理直接连接。
 
 **Android：** Android 系统本身可以在 VPN 未连接时阻止所有流量。将 Throne 设为始终开启的 VPN，并开启系统中阻止未使用 VPN 的连接的选项。参见[权限与后台运行](@/android/permissions.zh.md#always-on)。
 
@@ -124,19 +136,19 @@ Throne 1.1.0 和 1.1.1 会将带有 `inbounds` 的完整 sing-box 配置作为�
 - `Throne-<version>-debian-amd64.deb` 自带一份 Qt 库。它的体积较大，但不依赖系统的 Qt 版本。
 - `Throne-<version>-debian-amd64-system-qt.deb` 不包含 Qt。它使用你的发行版提供的 Qt 6 库，并将其作为依赖安装。
 
-请先使用普通软件包。如果普通软件包无法启动，例如在不支持 SSE4.2 的处理器上（[#845](https://github.com/throneproj/Throne/issues/845)），请使用 `system-qt` 软件包。arm64 也有同样的一对软件包（`debian-arm64.deb` 和 `debian-arm64-system-qt.deb`），用于 Fedora 和 RHEL 的 `.rpm` 软件包也是如此（`fedora-amd64.rpm`、`fedora-amd64-system-qt.rpm` 以及对应的 arm64 版本）。参见[安装](@/get_started/installation.zh.md#linux)。
+请先使用普通软件包。如果普通软件包无法启动，例如在不支持 SSE4.2 的处理器上（[#845](https://github.com/throneproj/Throne/issues/845)），请使用 `system-qt` 软件包。arm64 也有同样的一对软件包（`debian-arm64.deb` 和 `debian-arm64-system-qt.deb`），用于 Fedora 和 RHEL 的 `.rpm` 软件包也是如此（`fedora-amd64.rpm`、`fedora-amd64-system-qt.rpm` 以及对应的 arm64 版本）。Throne 的 APT 和 RPM 软件源提供的是 `system-qt` 软件包。参见[安装](@/get_started/installation.zh.md#linux)。
 
-## WinGet、Scoop、AUR、Nix 和 RPM 软件源中的软件包是官方的吗？ {#third-party-packages}
+## 哪些软件包是官方的？ {#third-party-packages}
 
 Throne 开发者在 [GitHub 发布页面](https://github.com/throneproj/Throne/releases)上发布 Throne：ZIP 文件、Windows 安装程序，以及 `.deb` 和 `.rpm` 软件包（`.rpm` 自 1.3.0 起提供）。Throne 仓库中的 Linux 安装脚本安装的是发布页面上的 ZIP。
 
-WinGet、Scoop、AUR 和 Nix/NixOS 软件包由社区成员制作，开发者不为其提供支持（[#1182](https://github.com/throneproj/Throne/issues/1182)、[#1622](https://github.com/throneproj/Throne/issues/1622)）。如果问题只在这类软件包中出现，请测试官方版本，并将打包问题报告给软件包的维护者。
+他们还在 `throneproj.github.io/Throne` 运行一个 APT 软件源和一个 RPM 软件源，提供每个稳定版的 `system-qt` 软件包；Throne 的发布工作流还会更新 AUR 中的 `throne` 软件包。参见[安装](@/get_started/installation.zh.md#apt-repository)。
 
-`parhelia512.github.io` 上的 RPM 软件源由 GitHub 上 throneproj 组织的成员 parhelia512 维护，Throne 的 README 中也有指向它的链接。它独立于发布文件。参见[包管理器](@/get_started/installation.zh.md#package-managers)。
+WinGet、Scoop 和 Nix/NixOS 软件包，以及 `throne-bin` 等其他 AUR 软件包，由社区成员制作，开发者不为其提供支持（[#1182](https://github.com/throneproj/Throne/issues/1182)、[#1622](https://github.com/throneproj/Throne/issues/1622)）。如果问题只在这类软件包中出现，请测试官方版本，并将打包问题报告给软件包的维护者。参见[包管理器](@/get_started/installation.zh.md#package-managers)。
 
 ## Windows 7、旧版 macOS 或旧处理器需要哪个版本？ {#old-systems}
 
-- **Windows 7 SP1 和 Windows 8：** 使用 `windowslegacy64.zip`（64 位）或 `windows32.zip`（32 位）。通用安装程序同样可用：在 32 位 Windows 以及早于 Windows 10 1809 的 64 位 Windows 上，它会自动安装 legacy 版本。普通的 `windows64.zip` 需要 Windows 10 1809 或更高版本。在 Windows 7 和 8 上，TUN 模式只能使用 `gvisor` 协议栈（[#1291](https://github.com/throneproj/Throne/issues/1291)）。
+- **Windows 7 SP1 和 Windows 8：** 使用 `windowslegacy64.zip`（64 位）或 `windows32.zip`（32 位）。通用安装程序同样可用：在 32 位 Windows 以及早于 Windows 10 1809 的 64 位 Windows 上，它会自动安装 legacy 版本。普通的 `windows64.zip` 需要 Windows 10 1809 或更高版本。在 Throne 1.3 及更早版本中，Windows 7 和 8 上的 TUN 模式只能使用 `gvisor` 协议栈（[#1291](https://github.com/throneproj/Throne/issues/1291)）；自 1.4.0 起，`Tun 设置`（Tun Settings）中已没有 `Stack` 设置。
 - **macOS 10.15 至 12：** 使用 `macoslegacy-amd64.zip`。普通的 macOS 版本需要 macOS 13 或更高版本。更旧的 macOS 版本不受支持。
 - **Linux 上的旧处理器：** 如果 Throne 无法启动并输出 `This Qt build requires the following features: sse4.2 popcnt`，请安装 `system-qt` 软件包（[#845](https://github.com/throneproj/Throne/issues/845)）。
 

@@ -14,6 +14,8 @@ Throne（前身为 Nekoray）是一款适用于 Windows、Linux 和 macOS 的免
 
 Throne for Android（前身为 NekoBox for Android）是 Throne 的 Android 应用。从 2.0.0 版本起，它与桌面版使用相同的核心、相同的设置模型和相同的备份格式，因此你可以在电脑和手机之间迁移你的整套设置。参见 [Throne for Android](@/android/_index.zh.md)。
 
+自 1.4.0 起，同一个 Throne 程序也可以在没有窗口的情况下运行在服务器、路由器或容器中，你可以用命令行工具 `thronectl` 控制它。参见[无界面 Throne](@/headless/_index.zh.md)。
+
 如果你以前使用过 Nekoray 或 NekoBox，请阅读[从 Nekoray / NekoBox 迁移](@/help/migrating.zh.md)。
 
 ## 平台 {#platforms}
@@ -38,6 +40,9 @@ Throne for Android（前身为 NekoBox for Android）是 Throne 的 Android 应�
 - TLS 分片、uTLS 和 ECH 等反审查选项：[反审查预设](@/advanced/presets.zh.md)。
 - 内置 Cloudflare WARP：[Cloudflare WARP](@/advanced/warp.zh.md)。
 - 桌面版和 Android 应用通用的备份：[备份、更新与迁移](@/guides/backup.zh.md)。
+- 断网保护，用于拦截不经过 Throne 的流量（自 1.4.0 起）：[Kill Switch（断网保护）](@/advanced/kill_switch.zh.md)。
+- Throne API，可通过 `thronectl` 从脚本、热键和其他设备控制和管理 Throne（自 1.4.0 起）：[Throne API 与 thronectl](@/advanced/api.zh.md)。
+- 适用于服务器和容器的无界面模式（自 1.4.0 起）：[无界面 Throne](@/headless/_index.zh.md)。
 
 ## 从哪里开始 {#where-to-start}
 
@@ -58,5 +63,4 @@ Throne 基于以下项目构建：
 - [simple-protobuf](https://github.com/tonda-kriz/simple-protobuf)：界面与核心之间的消息通信
 - [fkYAML](https://github.com/fktn-k/fkYAML)：Clash YAML 导入
 - [quirc](https://github.com/dlbeer/quirc)：二维码识别
-- [QHotkey](https://github.com/Skycoder42/QHotkey)：全局热键
 - [srombauts/sqlitecpp](https://github.com/srombauts/sqlitecpp)：配置档和设置数据库

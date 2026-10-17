@@ -9,6 +9,8 @@ Throne can take the traffic of your apps in two ways: as the system proxy, or in
 
 Both modes work only while a profile runs. Throne then also listens on a local proxy port, the mixed port. By default it is `127.0.0.1:2080`, and it accepts both SOCKS and HTTP proxy connections.
 
+When no profile runs, or when an app goes around the system proxy, its traffic uses your normal connection. To block such traffic instead, turn on the [kill switch](@/advanced/kill_switch.md) (since 1.4.0).
+
 ## System proxy {#system-proxy}
 
 Tick `System Proxy` on the main window, or use `Operation Mode` → `System Proxy` in the tray menu. While a profile runs, Throne sets the proxy setting of your operating system to the mixed port. When you stop the profile or quit Throne, it removes the setting again.
@@ -68,9 +70,7 @@ You can turn on both modes at the same time. Apps that follow the system proxy t
 
 With `Program` → `Remember last profile` on, Throne starts the last profile when it starts, and turns `System Proxy` and `Tun Mode` back on if they were on when you quit.
 
-{% alert_warning() %}
-Throne 1.3.1 still has the `Hijack` tab in `Routing Settings` and, on Windows, the `System DNS` option. Both are deprecated and will be removed in the next release. Use `Tun Mode` instead.
-{% end %}
+Since 1.4.0, the `Hijack` tab of `Routing Settings` and the Windows `System DNS` option are gone. They served apps that ignore the system proxy; use `Tun Mode` for them instead.
 
 ## Share the proxy with other devices {#lan-sharing}
 

@@ -104,7 +104,7 @@ Throne needs a selected profile. On Android 10 and newer:
 
 On Android 7 to 9, Throne does neither: it shows no notification without a profile, and in `Proxy only` mode the always-on start does not connect. Keep `Service mode` on `VPN` there.
 
-Android's option "Block connections without VPN" blocks all network traffic while Throne is not connected. This is the closest thing to a kill switch on Android. While it is on, apps have no internet when Throne is stopped or cannot connect. To turn it off, open Android's VPN settings again.
+Android's option "Block connections without VPN" blocks all network traffic while Throne is not connected. Throne for Android has no kill switch of its own, unlike [Throne desktop](@/advanced/kill_switch.md), so this option is the closest thing on Android. While it is on, apps have no internet when Throne is stopped or cannot connect. To turn it off, open Android's VPN settings again.
 
 ## Auto connect {#auto-connect}
 
@@ -129,7 +129,7 @@ Wi-Fi rules need:
 
 Throne asks when you save a rule with Wi-Fi conditions, and once when you connect with a routing profile that has such rules. If access is missing while Throne runs, the notification "Wi-Fi rules are inactive" appears. Tap it to fix it. If you denied the request permanently, Throne says "Location access is denied. Allow it in the app settings for Wi-Fi rules to match." and offers `Open system settings`.
 
-Other rules work without location access. For routing profiles and rules, see [Routing](@/guides/routing.md#profiles).
+Other rules work without location access. This includes the conditions `Network type` and `Metered network` (since 2.0.2): they check the kind of the current network, such as Wi-Fi or mobile data, not which network it is. For routing profiles and rules, see [Routing](@/guides/routing.md#profiles) and [Routing on Android](@/guides/routing.md#android).
 
 ## Installed apps {#installed-apps}
 

@@ -72,7 +72,7 @@ Throne 在核心中内置了自己的 DNS 解析器。它使用三个 DNS 服务
 
 ## FakeIP {#fakeip}
 
-开启 `启用 FakeIP`（Enable FakeIP）后，Throne 会立即用 `198.18.0.0/15`（IPv6：`fc00::/18`）中的虚假地址应答地址查询，而不询问真实的 DNS 服务器。当应用连接到该地址时，Throne 知道它代表哪个域名，并按名称对连接进行路由。真正的查询稍后才会进行：经过代理的连接在代理服务器上查询，直连的连接则使用直连 DNS 查询。
+开启 `启用 FakeIP`（Enable FakeIP）后，Throne 会立即用 `198.18.0.0/15`（IPv6：`2001:db8::/32`）中的虚假地址应答地址查询，而不询问真实的 DNS 服务器。当应用连接到该地址时，Throne 知道它代表哪个域名，并按名称对连接进行路由。真正的查询稍后才会进行：经过代理的连接在代理服务器上查询，直连的连接则使用直连 DNS 查询。
 
 这样做有两个好处：
 
@@ -86,6 +86,7 @@ FakeIP 只影响到达 Throne 的查询，因此它在 TUN 模式下才有用。
 - 来自 `预定义回答` 和 hosts 文件的应答仍是真实的。
 - 应用会在自己的缓存中保留虚假地址。停止 Throne 后，仍持有虚假地址的应用在重新查询该名称之前将无法连接。如果应用一直处于离线状态，请重启该应用。
 - `高级设置`（Advanced Settings）→ `保存缓存到文件`（Save Cache To File）可在 Throne 重启后保留这些虚假地址。
+- 在 1.4.0 之前，虚假的 IPv6 地址来自 `fc00::/18`。在 TUN 模式下，`私有地址范围绕过`（Private Range Bypass）会让它们绕过隧道，因此优先尝试 IPv6 的应用无法连接。自 1.4.0 起，它们来自 `2001:db8::/32`，这个地址范围在互联网上从不使用。
 
 ## 高级设置 {#advanced}
 
@@ -126,12 +127,16 @@ DNS 泄漏测试是一类网站，它会显示是哪些 DNS 服务器查询了�
 
 WebRTC 测试检查的是另一件事：你的 IP 地址，而不是 DNS。WebRTC 测试未显示任何公网 IP 地址是正常的（[#1267](https://github.com/throneproj/Throne/issues/1267)）。如果对于你走代理的网站，它显示了你真实的公网 IP 地址，说明 UDP 流量绕过了代理。这在系统代理模式下很常见；请改用 TUN 模式。
 
-## 劫持与系统 DNS（已弃用） {#deprecated}
+## 劫持与系统 DNS（已移除） {#deprecated}
 
-`路由设置`（Routing Settings）中的 `劫持`（Hijack）标签页和 Windows 上的 `系统 DNS`（System DNS）选项已在 1.3.1 中弃用，并将在下一个版本中移除。劫持功能会运行一个本地 DNS 服务器，用固定地址应答选定的域名，而 `系统 DNS` 会让 Windows 使用该服务器。两者都是为忽略系统代理的应用而设的。`Tun 模式`（Tun Mode）可以覆盖相同的使用场景，因此请关闭它们，改用 `Tun 模式`。
+在 1.3.2 及更早版本中，`路由设置`（Routing Settings）窗口有一个 `劫持`（Hijack）标签页，Windows 上还有一个 `系统 DNS`（System DNS）选项。劫持功能会运行一个本地 DNS 服务器，用固定地址应答选定的域名，而 `系统 DNS` 会让 Windows 使用该服务器。两者都是为忽略系统代理的应用而设的。
 
-启用劫持功能时，Throne 会在启动时显示警告。除非开启了 `基本设置`（Basic Settings）→ `样式`（Style）→ `显示系统 DNS 选项`（Show System DNS option），否则 `系统 DNS` 复选框会被隐藏。
+自 1.4.0 起，两者都已移除，Throne 会忽略它们的旧设置。对这类应用请改用 `Tun 模式`（Tun Mode）；参见 [TUN 模式](@/guides/tun_mode.zh.md#enable)。
 
 ## Android 版 {#android}
 
-Throne for Android 在 `设置`（Settings）→ `DNS` 中提供相同的 DNS 设置。FakeIP 在那里称为 `启用 FakeDNS`（Enable FakeDNS）。在 VPN 模式下，Throne 始终会处理 VPN 内的 DNS 查询。
+Throne for Android 在 `设置`（Settings）→ `DNS` 中提供相同的 DNS 设置。FakeIP 在那里称为 `启用 FakeDNS`（Enable FakeDNS）。在 VPN 模式下，Throne 始终会处理 VPN 内的 DNS 查询。不同之处如下：
+
+- **`localhost` 作为直连 DNS。** 自 2.0.1 起，它会像在 Windows 上一样，直接询问当前 Wi-Fi 或移动网络的 DNS 服务器。只有当网络没有指定 DNS 服务器时，才会使用 Android 自身的解析器。此前，Throne 始终使用 Android 的解析器，而该解析器还会应用私人 DNS（Private DNS），可能使每次查询都卡住。如果连接时网络的 DNS 服务器没有应答，Throne 会提示“无法连接：网络的 DNS (…) 未应答。请设置可用的直连 DNS。”（Could not connect: the network's DNS (…) did not answer. Set a working Direct DNS.）。提示中的 `DNS` 按钮会打开 DNS 设置。
+- **虚假的 IPv6 地址**自 2.0.2 起来自 `2001:db8::/32`，与桌面版相同。
+- **供其他应用使用的本地 DNS 服务器。** Throne 在 `127.0.0.1` 上运行一个 DNS 服务器，设备上的其他应用都可以使用它。自 2.0.2 起，你可以在 `设置`（Settings）→ `入站`（Inbound）→ `DNS 服务器端口`（DNS server port）中更改其端口（默认 `5533`）。

@@ -19,8 +19,8 @@ Find your problem below and go through the checks in order. Each area ends with 
 ### TUN is on, but nothing loads {#tun-no-traffic}
 
 1. Turn `Tun Mode` off and test the same profile with `System Proxy`. If that also fails, fix the profile or the server first.
-2. Open `Settings` → `Tun Settings` and set `Stack` to `gvisor`. If this works, you can keep `gvisor`, or look for what blocks the `system` stack, for example a firewall or an antivirus.
-3. Close other VPN apps. Other VPNs and virtual network adapters can take over the routes.
+2. Close other VPN apps. Other VPNs and virtual network adapters can take over the routes.
+3. Check whether a firewall or an antivirus blocks the TUN adapter; see the notes for your system below.
 
 **Windows:**
 
@@ -31,7 +31,7 @@ Find your problem below and go through the checks in order. Each area ends with 
 **Linux:**
 
 1. If you turned on DNS over TLS for the whole system in systemd-resolved, TUN mode stops working. Turn it off ([#1146](https://github.com/throneproj/Throne/issues/1146)).
-2. Keep `Auto Redirect` on in `Tun Settings`. Newer kernels need it for the `system` and `mixed` stacks. If these stacks still pass no traffic, use `gvisor`.
+2. Keep `Auto Redirect` on in `Tun Settings`. It is on by default and improves TUN routing and performance with nftables.
 
 ### TUN does not start {#tun-start}
 
@@ -39,6 +39,7 @@ Find your problem below and go through the checks in order. Each area ends with 
 - **"Strict routing unavailable"** (Windows): Windows could not turn on strict routing. Open `Tun Settings`, turn off `Strict Route`, and start the profile again.
 - **"Tun device misbehaving":** the virtual adapter is in a bad state, for example after Throne was force-closed. Click `Reset` in the message, or use `Tun Settings` → `Troubleshooting` → `Reset`, and start the profile again. If it still fails, restart the computer.
 - **The start hangs**, and Throne suggests restarting the software: on Windows, a very large HOSTS file can make the DNS cache flush hang ([#1906](https://github.com/throneproj/Throne/issues/1906)). Keep the HOSTS file small.
+- **"A background Throne (PID …) owns Tun on this computer; stop it or use thronectl."** A headless Throne runs on this computer. See [Throne is running in the background](#background-throne).
 
 ### TUN breaks other things {#tun-side-effects}
 
@@ -169,5 +170,16 @@ Turn on `Program` → `Remember last profile`. At the next start, Throne starts 
 
 ### `throne://` links do nothing {#deeplinks}
 
-- **Windows:** ZIP copies do not register `throne://` links by default. Turn on `Basic Settings` → `Common` → `Register throne:// links at startup`, or click `Install` next to it.
+- **Windows and Linux:** ZIP copies do not register `throne://` links by default (on Linux since 1.4.0). Turn on `Basic Settings` → `Common` → `Register throne:// links at startup`, or click `Install` next to it.
 - More checks: [Deep Links](@/advanced/deeplinks.md#troubleshooting).
+
+### Throne is running in the background {#background-throne}
+
+Since 1.4.0, Throne can also run as [headless Throne](@/headless/_index.md), without a window, for example as a systemd service or a systemd user unit. The Throne window notices a headless Throne on the same computer:
+
+- **Throne does not start and says "Throne is running in the background (PID …). Stop the service or use thronectl."** A headless Throne uses the same data folder, for example a systemd user unit that uses `~/.config/Throne`. Stop it, for example with `systemctl --user stop throne`, and start the Throne window again. Or leave it running and manage it with [thronectl](@/advanced/api.md).
+- **At start, the log shows "A background Throne (PID …) is running on this computer", and a notice says "Throne is running in the background".** A headless Throne with another data folder runs on this computer. The Throne window works, but without TUN mode.
+- **`Tun Mode` cannot be turned on: "A background Throne (PID …) owns Tun on this computer; stop it or use thronectl."** Only one Throne at a time can use TUN mode on a computer. While a headless Throne runs, the Throne window refuses TUN mode, even when the headless one does not use TUN itself. Stop the headless Throne to use TUN mode in the window.
+- **`Check For Update` has no `Update` button and says "Update is unavailable while a background Throne (PID …) runs from this installation; stop it first."** The headless Throne runs from the same program files that the update would replace. Stop it, update, and start it again.
+
+If Throne says "Another Throne instance (PID …) is using this data directory", another Throne holds the data folder but did not answer within 10 seconds, for example because it hangs. Quit it, or end the process with that PID, and start Throne again.

@@ -5,7 +5,7 @@ weight = 10
 toc = true
 +++
 
-本页列出了 Throne 桌面版 1.3.1 和 Throne for Android 2.0.0 中的所有配置档类型、Throne 可以导入的链接和文件，以及分享配置档的各种方式。导入服务器之前，可以用本页确认 Throne 是否支持它。
+本页列出了 Throne 桌面版和 Throne for Android 中的所有配置档类型、Throne 可以导入的链接和文件，以及分享配置档的各种方式。导入服务器之前，可以用本页确认 Throne 是否支持它。
 
 ## 配置档类型 {#protocols}
 
@@ -30,7 +30,7 @@ toc = true
 | `Mieru` | 支持 | 支持 | |
 | `Snell` | 支持 | 支持 | Snell 版本 4 或 6。 |
 | `ShadowTLS` | 支持 | 支持 | |
-| `WireGuard` | 支持 | 支持 | 如需使用 AmneziaWG，请勾选 `启用 Amnezia`（Enable Amnezia；Android 上为 `Enable AmneziaWG`）。可以创建 Cloudflare WARP 账户，参见 [WARP](@/advanced/warp.zh.md#generate)。 |
+| `WireGuard` | 支持 | 支持 | 如需使用 AmneziaWG，请勾选 `启用 Amnezia`（Enable Amnezia；Android 上为 `Enable AmneziaWG`）。自 1.4.0 起（Android：2.0.2 之后），`Amnezia Options` → `Generate QUIC Signature...`（Android 上为 `生成 QUIC 签名…`（Generate QUIC signature…））会填写签名包 I1–I5，使握手看起来像是到你所选域名的 HTTP/3 连接。可以创建 Cloudflare WARP 账户，参见 [WARP](@/advanced/warp.zh.md#generate)。 |
 | `MASQUE` | 支持 | 支持 | HTTP/3 或 HTTP/2。可以创建 Cloudflare WARP 身份。 |
 | `OpenVPN` | 支持 | 支持 | 可导入 `.ovpn` 文件。一次性密码（OTP）仅在桌面版上可用。参见 [OpenVPN](@/advanced/vpn_profiles.zh.md#openvpn)。 |
 | `OpenConnect` | 支持 | 支持 | 支持 AnyConnect、GlobalProtect、Fortinet、F5、Pulse 和 Juniper（`nc`）服务器。OTP 仅在桌面版上可用。参见 [OpenConnect](@/advanced/vpn_profiles.zh.md#openconnect)。 |
@@ -53,7 +53,7 @@ Throne 的核心 ThroneCore 使用 sing-box 运行所有类型的配置档，但
 
 Throne for Android 使用相同的核心，因此同样适用这些规则。代理链可以混用两种引擎，但顺序只能是：先是 sing-box 跳点，然后是 Xray 跳点，最后又是 sing-box 跳点。
 
-导入 `vless://` 链接时，由 `设置`（Settings）→ `基本设置`（Basic Settings）→ `核心`（Core）→ `Xray VLESS 首选项`（Xray VLESS Preference）决定它成为哪种类型。在默认值 `XHTTP And Reality` 下，使用 XHTTP 或 REALITY 的链接会成为 `VLESS (Xray)`，其他链接则成为 `VLESS`。需要仅 Xray 才有的功能（例如 VLESS 加密）的链接，总是成为 `VLESS (Xray)`。参见 [sing-box 与 Xray](@/advanced/xray.zh.md#vless-preference)。
+导入 `vless://` 链接时，由 `设置`（Settings）→ `基本设置`（Basic Settings）→ `核心`（Core）→ `Xray VLESS 首选项`（Xray VLESS Preference）决定它成为哪种类型。在默认值 `XHTTP And Reality` 下，使用 XHTTP 或 REALITY 的链接会成为 `VLESS (Xray)`，其他链接则成为 `VLESS`。需要仅 Xray 才有的功能（例如 VLESS 加密）的链接，总是成为 `VLESS (Xray)`。自 1.4.0 起，Clash YAML 中使用 REALITY 的 VLESS 条目也遵循这一设置。参见 [sing-box 与 Xray](@/advanced/xray.zh.md#vless-preference)。
 
 ## 导入格式 {#import-formats}
 
@@ -75,7 +75,7 @@ Throne 桌面版和 Throne for Android 在粘贴的文本、文件、二维码�
 
 | 格式 | 结果 |
 |---|---|
-| 分享链接，每行一个：`vless://`、`vmess://`、`ss://`、`trojan://`、`socks://`、`socks4://`、`socks4a://`、`socks5://`、`http://`、`https://`、`hysteria://`、`hysteria2://`、`hy2://`、`tuic://`、`juicity://`、`anytls://`、`mieru://`、`mierus://`、`snell://`、`tt://`（TrustTunnel）、`shadowtls://`、`wg://`、`wireguard://`、`ssh://`、`naive+https://`、`naive+quic://` | 每个链接生成一个配置档 |
+| 分享链接，每行一个：`vless://`、`vmess://`、`ss://`、`trojan://`、`socks://`、`socks4://`、`socks4a://`、`socks5://`、`http://`、`https://`、`hysteria://`、`hysteria2://`、`hy2://`、`tuic://`、`juicity://`、`anytls://`、`mieru://`、`mierus://`、`snell://`、`tt://`（TrustTunnel）、`shadowtls://`、`wg://`、`wireguard://`、`awg://`（桌面版，自 1.4.0 起）、`ssh://`、`naive+https://`、`naive+quic://` | 每个链接生成一个配置档 |
 | Throne 链接：`throne://add/…` 以及较旧的 `json://…` | 一个任意类型的配置档 |
 | AmneziaVPN 链接：`vpn://…` | 链接中包含的各个配置 |
 | sing-box JSON：完整配置，或出站数组 | 每个受支持的出站生成一个配置档 |
@@ -84,7 +84,7 @@ Throne 桌面版和 Throne for Android 在粘贴的文本、文件、二维码�
 | Xray JSON：完整配置的数组 | 每个配置生成一个 `自定义 (Xray 配置)` 配置档 |
 | SIP008 JSON（Shadowsocks） | `Shadowsocks` 配置档 |
 | 含有 `proxies:` 列表的 Clash 或 Mihomo YAML | 为 `socks5`、`http`、`ss`、`vmess`、`vless`、`trojan`、`anytls`、`snell`、`hysteria`、`hysteria2`、`tuic`、`masque` 和 `ssh` 条目生成配置档 |
-| WireGuard 或 AmneziaWG 的 `.conf` 文件 | 一个 `WireGuard` 配置档 |
+| WireGuard 或 AmneziaWG 的 `.conf` 文件 | 一个 `WireGuard` 配置档，以 `# Name =` 或 `# remarks:` 注释命名，或者以 `[Peer]` 上方的注释命名（桌面版自 1.4.0 起，Android 自 2.0.2 起） |
 | OpenVPN 的 `.ovpn` 文件 | 一个 `OpenVPN` 配置档 |
 | AnyConnect XML 配置文件、`openconnect` 命令行，或含有 `protocol=` 行的文件 | `OpenConnect` 配置档 |
 | 以上任意格式经 Base64 编码后的内容 | 先解码，再导入 |
@@ -101,6 +101,7 @@ Throne 桌面版和 Throne for Android 在粘贴的文本、文件、二维码�
 - 在其他应用中点按协议链接（例如 `vless://…`）或 `throne://` 链接时，Throne 会打开，并在导入配置档之前先征求你的确认。
 - Android 的分享面板只会为二进制文件（`application/octet-stream`）提供 Throne 选项，例如备份文件。要从聊天应用导入链接，请复制该链接并使用 `从剪切板导入`（Import from clipboard）。其他文件请使用 `从文件中导入`（Import from file）。
 - `Tailscale` 和 `额外核心`（Extra Core）配置档无法在 Android 上使用。
+- 自 2.0.2 起，Throne for Android 在导入和更新时会跳过其核心无法运行的条目，例如非 VLESS 类型配置档上的 XHTTP。日志会把每个这样的条目标为 `Skipped`，并注明类型、名称和原因。
 
 ## 分享链接 {#share-links}
 
@@ -112,11 +113,24 @@ Throne 桌面版和 Throne for Android 在粘贴的文本、文件、二维码�
 | Throne 链接 | `throne://add/…` | Throne 桌面版和 Throne for Android |
 | 旧版 Throne 链接 | `json://…` | Throne，仅可导入 |
 
-**标准链接**使用该协议通常的链接格式。有些类型没有标准链接：`自动选择器`（Auto Selector）、`链式代理`（Chain Proxy）、各种 `自定义`（Custom）类型、`直连`（Direct）、`额外核心`（Extra Core）、`MASQUE`、`OpenVPN` 和 `OpenConnect`。对于这些类型，Throne 会改为提供 Throne 链接。如果这类配置档设置了高级连接选项（例如绑定接口），Throne 显示的将不是 Throne 链接，而是一条只包含这些选项的不完整链接。对于这些配置档，请勾选 `Deep Link`，或使用 `复制选定项的链接 (深度链接)`（Copy links of selected (Deep Links)）。对于 `Tailscale`，也请分享 Throne 链接：Throne 1.3.1 无法导入它为这类配置档显示的 `ts://` 链接。
+**标准链接**使用该协议通常的链接格式。有些类型没有标准链接：`自动选择器`（Auto Selector）、`链式代理`（Chain Proxy）、各种 `自定义`（Custom）类型、`直连`（Direct）、`额外核心`（Extra Core）、`MASQUE`、`OpenVPN` 和 `OpenConnect`。对于这些类型，Throne 会改为提供 Throne 链接。如果这类配置档设置了高级连接选项（例如绑定接口），Throne 显示的将不是 Throne 链接，而是一条只包含这些选项的不完整链接。对于这些配置档，请勾选 `Deep Link`，或使用 `复制选定项的链接 (深度链接)`（Copy links of selected (Deep Links)）。对于 `Tailscale`，也请分享 Throne 链接：Throne 无法导入它为这类配置档显示的 `ts://` 链接。
 
 **Throne 链接**以 Base64 编码的 JSON 保存配置档的设置。它适用于所有配置档类型，包括没有标准链接的类型，但只有 Throne 能识别。参见[深度链接](@/advanced/deeplinks.zh.md#add)。`json://` 链接是 1.2.0 之前使用的 Throne 链接格式，Throne 仍然可以导入。
 
 `链式代理`（Chain Proxy）或 `自动选择器`（Auto Selector）的链接只保存其所用配置档或分组的内部编号，而不保存服务器本身。因此它只在同一个 Throne 安装中有用。
+
+### 链接中的 ECH 与证书固定 {#ech-links}
+
+自桌面版 1.4.0 和 Android 版 2.0.2 起，Throne 会在标准链接中读写以下 TLS 参数：
+
+| 参数 | 含义 |
+|---|---|
+| `ech=1` 或 `ech=true` | 开启 ECH。核心会在 DNS 中查找 ECH 配置。 |
+| `ech=` 一个域名，或域名加 `+` 再加 DNS 服务器 URL | 开启 ECH，并指定要查询的域名，以及可选的要询问的 DNS 服务器，例如 `cloudflare-ech.com+https://1.1.1.1/dns-query`。它会填入 `ECH Query Name / Resolver`。 |
+| `ech=` 其他任意值 | 使用这段 Base64 编码的 ECH 配置开启 ECH。 |
+| `pcs=` | 服务器证书的 SHA-256 哈希，十六进制，以逗号分隔。匹配的证书会代替通常的 CA 校验被接受。它会填入 `证书 SHA256`（Certificate SHA256）。 |
+
+对于 `VLESS (Xray)` 配置档，`ech` 的值会原样填入 `ECH Config List`。Throne 生成的链接也会保留旧的 `ech_enabled`、`ech_config` 和 `ech_server_name` 参数。关于 ECH 的作用，请参见 [ECH](@/advanced/presets.zh.md#ech)。
 
 ### 在桌面版上分享 {#share-desktop}
 
@@ -130,7 +144,7 @@ Throne 桌面版和 Throne for Android 在粘贴的文本、文件、二维码�
 
 要复制整个分组的链接，请打开 `分组`（Groups）→ `编辑当前分组`（Edit current Group），然后点击 `复制配置档分享链接`（Copy profile share links）或 `复制配置档分享链接(深度链接)`（Copy profile share links (Deep Links)）。
 
-`分享`（Share）→ `导出 Sing-box 配置`（Export Sing-box config）和 `导出 Xray 配置`（Export Xray config）会复制 Throne 为该配置档生成的核心配置。这是供其他客户端使用的配置文件，而不是分享链接。
+`分享`（Share）→ `导出配置`（Export config，`Ctrl+E`）会显示 Throne 为该配置档生成的核心配置，包含一个 `sing-box` 标签页；对于使用 Xray 的配置档，还有一个 `Xray` 标签页。`复制`（Copy）会复制当前显示的标签页。这是供其他客户端使用的配置文件，而不是分享链接。在 1.4.0 之前，这里是 `导出 Sing-box 配置`（Export Sing-box config）和 `导出 Xray 配置`（Export Xray config）。
 
 要导入屏幕上显示的二维码，请使用 `程序`（Program）→ `扫描二维码`（Scan QR Code，快捷键 `Ctrl+Shift+Q`）。要从图片文件导入二维码，请把文件拖放到主窗口上，或通过 `程序`（Program）→ `添加文件中的配置档`（Add profile from File(s)）打开它。
 

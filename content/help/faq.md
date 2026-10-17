@@ -1,6 +1,6 @@
 +++
 title = "FAQ"
-description = "Short answers to common questions about Throne: Nekoray, antivirus alerts, kill switch, TUN rights, packages and old systems."
+description = "Short answers to common questions about Throne: Nekoray, antivirus alerts, kill switch, headless servers, scripts, TUN rights, packages and old systems."
 weight = 10
 toc = true
 +++
@@ -27,6 +27,16 @@ The `.deb` and `.rpm` packages, the Linux install script and the macOS app keep 
 
 Yes. [Throne for Android](@/android/_index.md) 2.0.0 (formerly NekoBox for Android) uses the same core and the same backup format as the desktop app. Create a backup on the desktop in `Settings` → `Basic Settings` → `Backup and Restore`, copy the `.thrbackup` file to the phone, and restore it in the Android app. This also works from Android to the desktop. See [Backup, Updates & Migration](@/guides/backup.md#desktop-android).
 
+## Can Throne run on a server without a window? {#headless}
+
+Yes, since 1.4.0. `Throne --headless` runs the same program without a window, tray icon or dialogs: on a server, a router, a Raspberry Pi or in a container. The `.deb` and `.rpm` packages include a systemd service for it, which they never turn on by themselves, and there is a Docker image. You control headless Throne with `thronectl` through the Throne API. See [Headless Throne](@/headless/_index.md).
+
+## Can I control Throne from a script or a Stream Deck? {#scripts}
+
+Yes, since 1.4.0. Turn on the Throne API in `Settings` → `Integration Settings` → `Throne API`, and use `thronectl`. For example, `thronectl toggle` connects and disconnects with one key of a Stream Deck or a macro pad, and `thronectl connect best` starts the profile with the lowest latency. See [Throne API & thronectl](@/advanced/api.md).
+
+Without the API, the [global hotkeys](@/reference/shortcuts.md#global-hotkeys) `Start/Stop Profile` and `Toggle Tun Mode` also work from any app.
+
 ## Why does my antivirus flag Throne? {#antivirus}
 
 These are false positives. Some antivirus programs react to things that Throne does for normal features:
@@ -43,7 +53,9 @@ Only if you turn it on. `Settings` → `Basic Settings` → `Subscription` → `
 
 ## Is there a kill switch? {#kill-switch}
 
-No. Throne has no kill switch, and the maintainers do not plan to add one ([#827](https://github.com/throneproj/Throne/issues/827), [#912](https://github.com/throneproj/Throne/issues/912)). When the profile stops, or when the core stops unexpectedly, your apps connect directly, without the proxy.
+Yes, since 1.4.0, as an experimental feature. Turn on `Settings` → `Basic Settings` → `Security` → `Kill Switch`. While Throne is running, it blocks all traffic that does not go through Throne, also while no profile runs. The local network stays reachable unless `Private Range Bypass` is turned off in `Tun Settings`. The kill switch needs the same rights as TUN mode: administrator rights on Windows, and a core with root rights on Linux and macOS. See [Kill Switch](@/advanced/kill_switch.md).
+
+Throne 1.3 and older have no kill switch. When the profile stops, or when the core stops unexpectedly, your apps connect directly, without the proxy.
 
 **Android:** Android itself can block all traffic while the VPN is not connected. Set Throne as the always-on VPN and turn on the system option that blocks connections without VPN. See [Permissions & Background](@/android/permissions.md#always-on).
 
@@ -124,19 +136,19 @@ From the [throneproj/routeprofiles](https://github.com/throneproj/routeprofiles)
 - `Throne-<version>-debian-amd64.deb` includes its own copy of the Qt libraries. It is larger, but it does not depend on the Qt version of your system.
 - `Throne-<version>-debian-amd64-system-qt.deb` does not include Qt. It uses the Qt 6 libraries of your distribution and installs them as dependencies.
 
-Start with the normal package. Use the `system-qt` package if the normal one does not start, for example on processors without SSE4.2 ([#845](https://github.com/throneproj/Throne/issues/845)). The same pair exists for arm64 (`debian-arm64.deb` and `debian-arm64-system-qt.deb`) and as `.rpm` packages for Fedora and RHEL (`fedora-amd64.rpm`, `fedora-amd64-system-qt.rpm` and the arm64 versions). See [Installation](@/get_started/installation.md#linux).
+Start with the normal package. Use the `system-qt` package if the normal one does not start, for example on processors without SSE4.2 ([#845](https://github.com/throneproj/Throne/issues/845)). The same pair exists for arm64 (`debian-arm64.deb` and `debian-arm64-system-qt.deb`) and as `.rpm` packages for Fedora and RHEL (`fedora-amd64.rpm`, `fedora-amd64-system-qt.rpm` and the arm64 versions). The APT and RPM repositories of Throne have the `system-qt` packages. See [Installation](@/get_started/installation.md#linux).
 
-## Are the WinGet, Scoop, AUR, Nix and RPM-repository packages official? {#third-party-packages}
+## Which packages are official? {#third-party-packages}
 
 The Throne developers publish Throne on the [GitHub releases page](https://github.com/throneproj/Throne/releases): the ZIP files, the Windows installer, and the `.deb` and `.rpm` packages (`.rpm` since 1.3.0). The Linux install script from the Throne repository installs the release ZIP.
 
-The WinGet, Scoop, AUR and Nix/NixOS packages are made by community members, and the developers do not support them ([#1182](https://github.com/throneproj/Throne/issues/1182), [#1622](https://github.com/throneproj/Throne/issues/1622)). If a problem happens only with such a package, test an official build, and report packaging problems to the package maintainer.
+They also run an APT and an RPM repository at `throneproj.github.io/Throne`, with the `system-qt` packages of every stable release, and the release workflow of Throne updates the `throne` package in the AUR. See [Installation](@/get_started/installation.md#apt-repository).
 
-The RPM repository at `parhelia512.github.io` is run by parhelia512, a member of the throneproj organization on GitHub, and the Throne README links to it. It is separate from the release files. See [Package managers](@/get_started/installation.md#package-managers).
+The WinGet, Scoop and Nix/NixOS packages, and other AUR packages such as `throne-bin`, are made by community members, and the developers do not support them ([#1182](https://github.com/throneproj/Throne/issues/1182), [#1622](https://github.com/throneproj/Throne/issues/1622)). If a problem happens only with such a package, test an official build, and report packaging problems to the package maintainer. See [Package managers](@/get_started/installation.md#package-managers).
 
 ## Which build do I need for Windows 7, old macOS or an old processor? {#old-systems}
 
-- **Windows 7 SP1 and Windows 8:** use `windowslegacy64.zip` (64-bit) or `windows32.zip` (32-bit). The universal installer also works: on 32-bit Windows and on 64-bit Windows older than Windows 10 1809, it installs the legacy build by itself. The normal `windows64.zip` needs Windows 10 1809 or later. On Windows 7 and 8, TUN mode can only use the `gvisor` stack ([#1291](https://github.com/throneproj/Throne/issues/1291)).
+- **Windows 7 SP1 and Windows 8:** use `windowslegacy64.zip` (64-bit) or `windows32.zip` (32-bit). The universal installer also works: on 32-bit Windows and on 64-bit Windows older than Windows 10 1809, it installs the legacy build by itself. The normal `windows64.zip` needs Windows 10 1809 or later. In Throne 1.3 and older, TUN mode on Windows 7 and 8 works only with the `gvisor` stack ([#1291](https://github.com/throneproj/Throne/issues/1291)); since 1.4.0, `Tun Settings` has no `Stack` setting.
 - **macOS 10.15 to 12:** use `macoslegacy-amd64.zip`. The normal macOS builds need macOS 13 or later. Older macOS versions are not supported.
 - **Old processors on Linux:** if Throne does not start and prints `This Qt build requires the following features: sse4.2 popcnt`, install the `system-qt` package ([#845](https://github.com/throneproj/Throne/issues/845)).
 

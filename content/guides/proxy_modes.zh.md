@@ -9,6 +9,8 @@ Throne 可以通过两种方式接管应用的流量：作为系统代理，或�
 
 两种模式都只在配置档运行时生效。此时 Throne 还会监听一个本地代理端口，即混合端口。默认情况下它是 `127.0.0.1:2080`，同时接受 SOCKS 和 HTTP 代理连接。
 
+当没有配置档运行，或者某个应用绕过了系统代理时，它的流量会使用你的普通连接。要改为拦截这类流量，请开启[断网保护（kill switch）](@/advanced/kill_switch.zh.md)（自 1.4.0 起）。
+
 ## 系统代理 {#system-proxy}
 
 在主窗口勾选 `系统代理`（System Proxy），或在托盘菜单中使用 `操作模式`（Operation Mode）→ `系统代理`（System Proxy）。配置档运行时，Throne 会把操作系统的代理设置指向混合端口。当你停止配置档或退出 Throne 时，它会再次移除该设置。
@@ -68,9 +70,7 @@ $env:HTTP_PROXY = "http://127.0.0.1:2080"; $env:HTTPS_PROXY = "http://127.0.0.1:
 
 开启 `程序`（Program）→ `记住上次的配置档`（Remember last profile）后，Throne 启动时会启动上次的配置档；如果你退出时 `系统代理`（System Proxy）和 `Tun 模式`（Tun Mode）处于开启状态，还会重新开启它们。
 
-{% alert_warning() %}
-Throne 1.3.1 仍在 `路由设置`（Routing Settings）中保留 `劫持`（Hijack）标签页，并在 Windows 上保留 `系统 DNS`（System DNS）选项。两者均已弃用，将在下一个版本中移除。请改用 `Tun 模式`（Tun Mode）。
-{% end %}
+自 1.4.0 起，`路由设置`（Routing Settings）中的 `劫持`（Hijack）标签页和 Windows 上的 `系统 DNS`（System DNS）选项已被移除。它们原本用于忽略系统代理的应用；对这些应用请改用 `Tun 模式`（Tun Mode）。
 
 ## 与其他设备共享代理 {#lan-sharing}
 

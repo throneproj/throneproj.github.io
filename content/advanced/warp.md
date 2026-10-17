@@ -50,6 +50,8 @@ Cloudflare's registration server, `api.cloudflareclient.com`, is blocked in some
 
 If no profile is running while `Use proxy` or `System Proxy` is on, generation fails with "Request with proxy but no profile started."
 
+With the [kill switch](@/advanced/kill_switch.md) on, Throne's own requests are blocked unless they go through Throne. Generate the config while a profile runs in TUN mode, or with `Use proxy` on.
+
 `Registration Domains…` holds the domains of the Cloudflare API, one per line. Throne tries them in order and uses the first one that accepts the registration. An empty list means `api.cloudflareclient.com`.
 
 ## Turn WARP on {#enable}

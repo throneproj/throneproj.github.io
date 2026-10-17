@@ -44,7 +44,7 @@ Xray 的消息同样显示在 `日志`（Logs）标签页中。其详细程度�
 
 该首选项只对 `vless://` 链接生效：
 
-- **Clash / Mihomo YAML：** VLESS 条目只有在使用 XHTTP 或 VLESS 加密时才会使用 Xray。Reality 条目仍使用 sing-box。
+- **Clash / Mihomo YAML：** VLESS 条目在使用 XHTTP 或 VLESS 加密时会使用 Xray。自 1.4.0 起，基于 TCP、WebSocket 或 gRPC 的 Reality 条目也会使用 Xray，除非首选项为 `XHTTP Only`。其他 VLESS 条目仍使用 sing-box，即使首选项为 `All VLESS` 也是如此。
 - **Xray JSON：** 每个 VLESS 出站都会成为 `VLESS (Xray)`。
 - **sing-box JSON：** VLESS 出站仍使用 sing-box。
 - **配置档编辑器：** 由你自己在 `类型` 列表中选择 `VLESS` 或 `VLESS (Xray)`。
@@ -67,7 +67,7 @@ Xray 的消息同样显示在 `日志`（Logs）标签页中。其详细程度�
 
 查看配置档列表中的 `类型` 列。`VLESS` 运行在 sing-box 上；`VLESS (Xray)`、`Custom Xray … Outbound` 和 `Custom Xray Config` 运行在 Xray 上。
 
-如果想在该列中同时看到安全层（例如 Reality），请开启 `设置` → `基本设置` → `样式`（Style）→ `显示配置安全信息`（Show Config Security）。对于 `VLESS (Xray)` 和 `自定义 (Xray 出站)` 配置档以及代理链，右键菜单中还有 `分享`（Share）→ `导出 Xray 配置`（Export Xray config）。
+如果想在该列中同时看到安全层（例如 Reality），请开启 `设置` → `基本设置` → `样式`（Style）→ `显示配置安全信息`（Show Config Security）。要查看 Throne 为某个配置档生成的配置，请右键点击它 → `分享`（Share）→ `导出配置`（Export config）（自 1.4.0 起）。窗口中有一个 `sing-box` 标签页，当配置档使用 Xray 时还有一个 `Xray` 标签页。`复制`（Copy）会复制你当前看到的标签页。在 1.3.2 及更早版本中，菜单中是单独的 `导出 Sing-box 配置`（Export Sing-box config）和 `导出 Xray 配置`（Export Xray config）菜单项。
 
 ## 较新 Xray 服务器的 Reality 错误 {#reality}
 
@@ -84,9 +84,20 @@ Xray 的消息同样显示在 `日志`（Logs）标签页中。其详细程度�
 4. 更新订阅，或重新添加链接（见[更改首选项之后](#after-change)）。
 5. 确认 `类型` 列现在显示为 `VLESS (Xray)`。
 
-对于来自 Clash / Mihomo YAML 订阅的 Reality 条目，这种方法无效，因为它们始终使用 sing-box。如果你的服务商也以链接列表的形式提供订阅，请改用该格式。
+在 1.3.2 及更早版本中，这种方法对来自 Clash / Mihomo YAML 订阅的 Reality 条目无效，因为它们始终使用 sing-box。自 1.4.0 起，当它们使用 TCP、WebSocket 或 gRPC 时，也会遵循该首选项。对于其他传输方式，如果你的服务商以链接列表的形式提供订阅，请改用该格式。
 
 如果你自己运行的是 26.7.11 至 26.7.28 版本的 Xray 服务器，也可以在其 VLESS 入站的 `realitySettings` 中添加 `"minClientVer": "0.0.0"`，以允许较旧的客户端连接。此方法对 Xray 26.9.9 及更新版本无效。
+
+## 旧的 Xray 设置 {#old-settings}
+
+较新的 Xray 版本会拒绝一些旧设置，使用这些设置的配置档或配置无法启动。自 1.4.0 起，Throne 中的 Xray 重新接受这些设置：
+
+- 连接互联网上的服务器、但不使用 TLS 或其他加密的 VLESS 和 Trojan。较新的 Xray 只允许对私有地址这样做。
+- Xray 配置的 TLS 设置中的 `allowInsecure`。
+- Xray 配置中旧的 Shadowsocks 加密方式 `aes-128-cfb`、`aes-256-cfb`、`chacha20` 和 `chacha20-ietf`，以及 `none` 或 `plain`。
+- Xray 配置中的 VMess 安全类型 `none` 和 `zero`。
+
+只有当 `Xray 日志级别`（Xray Log level）为 `debug` 时，才会显示 Xray 关于已弃用功能的警告。这些设置安全性较低，或者更容易被识别。只对需要它们的服务器使用。
 
 ## 代理链中的 Xray {#xray-in-chains}
 
@@ -111,3 +122,4 @@ Xray 的消息同样显示在 `日志`（Logs）标签页中。其详细程度�
 
 - 同样的设置位于 `设置`（Settings）→ `Core` → `Xray VLESS preference`，选项为 `XHTTP only`、`XHTTP and Reality`（默认）和 `All VLESS`。它同样只在导入时生效，因此更改后请更新订阅。
 - 配置档类型同样为 `VLESS` 和 `VLESS (Xray)`，代理链中使用 Xray 的限制也相同。
+- 从 2.0.2 起，当带有 `geoip:` 或 `geosite:` 规则的 Xray 配置启动或测试时，Android 版 Throne 会自动下载 `geoip.dat` 和 `geosite.dat`，通知中会显示下载进度。在 `设置`（Settings）→ `核心`（Core）→ `Xray Geo 资源`（Xray geo assets）中选择下载来源：`来源`（Source）提供与桌面版相同的四个来源，也可以选择 `自定义`（Custom）地址。在 `文件`（Files）中点按某个文件可重新下载它，点按 `立即下载`（Download now）则下载两个文件。

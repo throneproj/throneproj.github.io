@@ -1,6 +1,6 @@
 +++
 title = "术语表"
-description = "对 Throne 中常见术语的简要解释，涵盖配置档、路由、TUN 模式、DNS 以及反审查选项。"
+description = "对 Throne 中常见术语的简要解释，涵盖配置档、路由、TUN 模式、DNS、反审查选项以及 Throne API。"
 weight = 50
 toc = true
 +++
@@ -34,7 +34,7 @@ toc = true
 | Mixed port（混合端口） | 同时接受 SOCKS5 和 HTTP 代理连接的本地端口，默认为 `127.0.0.1:2080`。 | [入站设置](@/guides/proxy_modes.zh.md#inbound-settings) |
 | System proxy（系统代理） | 即 `系统代理`（System Proxy）模式，它把系统的代理设置指向混合端口，从而让遵循该设置的应用使用 Throne。 | [系统代理](@/guides/proxy_modes.zh.md#system-proxy) |
 | TUN（TUN 模式） | 即 `Tun 模式`（Tun Mode），它会创建一个虚拟网卡，使所有应用的流量都经过 Throne。 | [TUN 模式](@/guides/tun_mode.zh.md) |
-| Stack（协议栈） | TUN 模式处理数据包的方式：`system`（系统的网络协议栈）、`gvisor`（核心内置的协议栈）或 `mixed`（TCP 使用 system，UDP 使用 gVisor）。 | [TUN 设置](@/guides/tun_mode.zh.md#settings) |
+| Stack（协议栈） | TUN 模式处理数据包的方式；旧版本允许你选择 `system`、`gvisor` 或 `mixed`，但 Throne 1.4.0 和 Throne for Android 2.0.2 已没有此设置。 | [TUN 设置](@/guides/tun_mode.zh.md#settings) |
 | Strict route（严格路由） | TUN 的一个选项，用于防止流量绕过隧道；在 Windows 10 及更高版本上默认开启。 | [Windows DNS 泄漏防护](@/advanced/windows_tun_mode.zh.md#strict-route) |
 | MTU（最大传输单元） | TUN 网卡的最大数据包大小：桌面版默认为 1500，Android 上默认为 9000。 | [TUN 设置](@/guides/tun_mode.zh.md#settings) |
 
@@ -76,3 +76,13 @@ toc = true
 | OTP（一次性密码） | 某些 OpenVPN 和 OpenConnect 服务器要求输入的一次性密码（TOTP 或 HOTP 代码）；Throne 将它们保存在 `工具`（Tools）→ `OTP 管理器`（OTP Manager）中。 | [OTP 管理器](@/advanced/vpn_profiles.zh.md#otp-manager) |
 | .thrbackup | Throne 的备份文件；桌面版和 Android 应用都可以创建和恢复它。 | [备份与恢复](@/guides/backup.zh.md#backup-restore) |
 | Portable mode（便携模式） | Throne 将数据保存在程序旁边的 `config` 文件夹中，而不是你的用户文件夹中。 | [数据文件夹](@/reference/files.zh.md#data-folder) |
+| Kill switch（断网保护） | 一项设置，用于拦截所有不经过 Throne 的流量，即使没有配置档运行时也是如此（自 1.4.0 起）。 | [Kill Switch（断网保护）](@/advanced/kill_switch.zh.md) |
+
+## 自动化与无界面 Throne {#automation}
+
+| 术语 | 含义 | 了解更多 |
+| --- | --- | --- |
+| Throne API | 一种加密接口，在桌面版中默认关闭；脚本和其他设备可以凭密钥通过它控制和管理 Throne（自 1.4.0 起）。 | [Throne API 与 thronectl](@/advanced/api.zh.md) |
+| thronectl | Throne API 的命令行客户端，适用于终端、脚本和热键工具。 | [Throne API 与 thronectl](@/advanced/api.zh.md#commands) |
+| Admin request（管理请求） | 用于导入、删除、更改设置、备份、恢复、重启或退出的 Throne API 请求；除非你允许局域网访问，否则 Throne 只响应来自本机的此类请求。 | [管理请求](@/advanced/api.zh.md#admin-requests) |
+| Headless Throne（无界面 Throne） | 以 `--headless` 启动的 Throne：没有窗口、托盘图标或对话框，适用于服务器、路由器和容器，通过 thronectl 控制（自 1.4.0 起）。 | [无界面 Throne](@/headless/_index.zh.md) |

@@ -23,6 +23,7 @@ To create a backup:
 | `Routing profiles` | Your routing profiles and their rules. |
 | `Settings` | All settings, including DNS, TUN, WARP and inbound settings. |
 | `OTP profiles` | The entries of the OTP Manager. |
+| `IP lists and scans` | Your IP lists and the scans of the [IP scanner](@/guides/testing.md#ip-scanner), with their results (since 1.4.0). |
 | `Custom icons` | Your custom tray icons. |
 
 A backup does not contain traffic history, logs or the core's cache files. It also does not remember whether `Tun Mode` or `System Proxy` was on.
@@ -38,7 +39,9 @@ To restore a backup:
 3. Click `Restore`. Each selected part replaces your current data. This cannot be undone.
 4. Throne restarts.
 
-Backups from older versions of Throne restore normally. A backup from a newer version can be refused with "Unsupported backup format version"; update Throne first.
+Backups from older versions of Throne restore normally. A backup from a newer version can be refused with "Unsupported backup format version"; update Throne first. Since 1.3.2, if the backup has routing rules with conditions that this version of Throne does not support, for example rules from a newer version, Throne leaves those rules out and tells you how many it skipped.
+
+To back up or restore a headless Throne, or to send a desktop backup to one, see [thronectl](@/headless/thronectl.md#from-desktop).
 
 ## Move between desktop and Android {#desktop-android}
 
@@ -63,10 +66,11 @@ A desktop backup changes a few things when you restore it on Android:
 
 | Item | What happens on Android |
 | --- | --- |
-| `OTP profiles` and `Custom icons` | Not restored. |
+| `OTP profiles`, `IP lists and scans` and `Custom icons` | Not restored. Android has no IP scanner, so the `Server Address` of groups is not restored either. |
 | Settings that both apps have | Take the values from the backup. For example, the TUN MTU becomes 1500 (Android default: 9000) and the log level becomes `info` (Android default: `warn`). |
 | Settings that only Android has | Keep their current values. |
 | Connections from other devices | When you restore `Settings` and the backup allows other devices to connect, but your phone did not, Throne turns `Allow connections from the LAN` off and shows a warning. |
+| Routing rules with conditions that Android does not support | Skipped, with a warning that says how many (since 2.0.2). |
 | Raw routing profiles | Kept, but read-only. Android cannot use them; if one was active, the first usable routing profile becomes active. |
 | OpenVPN and OpenConnect endpoints of a routing profile | Kept with the profile, but they do not run on Android. |
 | Tailscale and Extra Core profiles | Restored, but they cannot be started on Android. |
@@ -92,7 +96,7 @@ The one-click `Update` works only for ZIP copies and for the Windows installer's
 | `.deb` or `.rpm` package | Download and install the new package. |
 | Linux install script | Run the script again. |
 | macOS | Download the new version and replace `Throne.app`. See [Installation](@/get_started/installation.md#macos). |
-| WinGet, Scoop, AUR, Nix or the RPM repository | Use the package manager. See [Package managers](@/get_started/installation.md#package-managers). |
+| WinGet, Scoop, AUR, Nix, or the APT or RPM repository | Use the package manager. See [Package managers](@/get_started/installation.md#package-managers). |
 
 If you uninstall and reinstall with the Windows installer, answer `No` when the uninstaller asks "Also delete your Throne profiles, settings and logs?". Otherwise your data is deleted.
 

@@ -12,7 +12,7 @@ Throne 是 Nekoray 的延续，因此大多数功能的使用方式相同，但�
 | 在 Nekoray / NekoBox 中你使用的是… | 在 Throne 中你使用的是… |
 | --- | --- |
 | `服务器`（Server）菜单 | 右键点击配置档列表。菜单栏已隐藏。 |
-| `首选项`（Preferences）菜单 | 工具栏中的 `设置`（Settings）按钮：`基本设置`（Basic Settings）、`路由设置`（Routing Settings）、`Tun 设置`（Tun Settings）、`热键设置`（Hotkey Settings）等。 |
+| `首选项`（Preferences）菜单 | 工具栏中的 `设置`（Settings）按钮：`基本设置`（Basic Settings）、`路由设置`（Routing Settings）、`Tun 设置`（Tun Settings）、`Integration Settings`（热键和 Throne API；1.4.0 之前为 `热键设置`（Hotkey Settings））等。 |
 | 订阅分组 | 同样的分组，位于 `分组`（Groups）按钮下。要更新某个分组，请右键点击其标签页 → `更新订阅`（Update subscription）。 |
 | `Tun 设置` → `Bypass Process Name`（绕过隧道的程序） | 路由配置档中 `直连`（Direct）输入框里的 `processName:` 规则，例如 `processName:game.exe`。或者在 `连接`（Connections）标签页中右键点击某个连接 → `追加进程 "<name>" 到`（`Append process "<name>" to`）→ `直连`。 |
 | `Tun 设置` → `Whitelist mode`（只有列出的程序使用隧道） | 一个 `默认出站`（Default outbound）设为 `direct` 的路由配置档，并将程序（`processName:…`）或网站放在 `代理`（Proxy）输入框中。 |
@@ -21,7 +21,7 @@ Throne 是 Nekoray 的延续，因此大多数功能的使用方式相同，但�
 | `默认出站` 设为 `bypass` 或 `block` | 在路由配置档中将 `默认出站` 设为 `direct` 或 `block`。`block` 自 1.2.0 起可用。 |
 | FlatGray、LightBlue 和 BlackSoft 等主题 | `基本设置` → `样式`（Style）→ `主题`（Theme）。这些主题自 1.1.5 起已恢复。 |
 | `Copy links of selected (Neko Links)` | 标准分享链接。Throne 无法读取 `nekoray://` 或 `sn://` 链接。 |
-| Throne 1.3.1 及更早版本中的 `劫持`（Hijack，包括其 DNS 服务器和 `重定向设置`（Redirect Settings））或 `系统 DNS`（System DNS） | `Tun 模式`（Tun Mode）。这些功能已在 1.3.1 中弃用，并将在下一个版本中移除。 |
+| Throne 1.3.2 及更早版本中的 `劫持`（Hijack，包括其 DNS 服务器和 `重定向设置`（Redirect Settings））或 `系统 DNS`（System DNS） | `Tun 模式`（Tun Mode）。这些功能已在 1.4.0 中移除。 |
 | NekoBox for Android | Throne for Android 2.0.0。参见[下文](#from-nekobox-android)。 |
 
 要按应用进行路由，请开启 `Tun 模式`。忽略系统代理的应用永远不会到达 Throne，因此在系统代理模式下，规则无法作用于这些应用。参见[路由](@/guides/routing.zh.md#simple-rules)和[连接标签页](@/guides/routing.zh.md#connections-tab)。

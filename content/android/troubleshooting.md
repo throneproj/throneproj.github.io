@@ -32,18 +32,21 @@ Android gave the permission but then refused to create the VPN interface. The "F
 | --- | --- | --- |
 | "Please select a profile" | No profile is selected. | Tap a profile, then connect. |
 | "Failed: Profile … has a type this build cannot use: …" | The profile type exists only on desktop, for example Tailscale or Extra Core. | Use another profile. See [below](#desktop-vs-android). |
+| "Could not connect: the network's DNS (…) did not answer. Set a working Direct DNS." or "Could not connect: the system DNS did not answer. Set a working Direct DNS." | Since 2.0.1. The `Direct DNS` did not answer while the connection started. With the default `Direct DNS` (`localhost`), Throne asks the DNS servers of the current network itself. See [DNS on Android](@/guides/dns.md#android). | Tap `DNS` in the message and set `Direct DNS` to a DNS server that answers on this network, for example `tls://1.1.1.1`. |
+| "Could not download the rule-sets: …" | Since 2.0.2. A routing rule uses a rule-set that Throne has not downloaded before, and the download failed. | Tap `Connect anyway`, then `Connect`. Rules with these rule-sets match nothing until Throne has downloaded them. See [Routing on Android](@/guides/routing.md#android). |
+| "Could not download geoip.dat from …: …" or "… geosite.dat …", followed by "Check the source in Settings › Core › Xray geo assets, or connect with another profile and use Download now there." | Since 2.0.2. The profile is an Xray config with `geoip:` or `geosite:` rules, and Throne could not download the file it needs. | Tap `Geo assets`. Connect with another profile, then tap `Download now`, or choose another `Source`. See [A profile works on desktop but not on Android](#desktop-vs-android). |
 | A message about routing or WARP | A problem in the routing profile or in the WARP settings. | See [Routing errors](#routing) and [WARP errors](#warp). |
 | Any other "Failed: …" message | The core reported an error. | Tap `Logs` and read the last lines. |
 
 ### Connected, but nothing loads {#no-traffic}
 
-1. Tap the bar at the bottom of the screen. "Success: HTTP handshake took …ms" means that the profile works. "Failed: …" means that the profile or its server does not work.
+1. Tap the bar at the bottom of the screen. "Success: HTTP handshake took …ms" (after 2.0.2: "HTTP: … ms") means that the profile works. "Failed: …" means that the profile or its server does not work.
 2. If it failed, tap ⋮ → `URL test` and select a profile that works. See [Testing & Auto Selector](@/guides/testing.md).
 3. Check per-app proxy: open `Settings` → `TUN / VPN` → `Apps VPN mode` to see the app list. With `Proxy`, only the selected apps use the VPN. With `Bypass`, the selected apps do not use it. If no app is selected, all apps use the VPN. See [Per-app proxy](@/android/modes.md#per-app-proxy).
 4. Switch to the `Default` routing profile with ⋮ → `Routing profile`, and test again. If it works now, a rule in your own routing profile is the cause. See [Routing](@/guides/routing.md).
 5. Check DNS: `Settings` → `DNS` → `Remote DNS` (default `https://8.8.8.8/dns-query`). Try another server. See [DNS](@/guides/dns.md).
 6. If you turned on `Tun IPv6` or `Tun routing` in `Settings` → `TUN / VPN`, turn them off and test again. Use `Tun IPv6` only when your server supports IPv6. If some apps or websites fail while others work, set `MTU` on the same screen to `1500` and reconnect.
-7. To find out whether VPN mode causes the problem, set `Settings` → `General` → `Service mode` to `Proxy only` and connect. Then set an app that has its own proxy setting to the SOCKS5 proxy `127.0.0.1`, port `2080` (see `Settings` → `Inbound` → `Proxy port`). If that app works, go back to `VPN` mode and try another `TUN implementation`. See [VPN & Proxy Modes](@/android/modes.md#tun-settings).
+7. To find out whether VPN mode causes the problem, set `Settings` → `General` → `Service mode` to `Proxy only` and connect. Then set an app that has its own proxy setting to the SOCKS5 proxy `127.0.0.1`, port `2080` (see `Settings` → `Inbound` → `Proxy port`). If that app works, the problem is in VPN mode: go back to `VPN` mode and check steps 3 and 6 again. In 2.0.1 and older, also try another `TUN implementation`. See [VPN & Proxy Modes](@/android/modes.md#tun-settings).
 
 ### No internet while Throne is off {#blocked-without-vpn}
 
@@ -65,19 +68,21 @@ Typical signs: the VPN disconnects while the screen is off, the notification dis
 
 ## Subscription problems {#subscriptions}
 
-When you update a subscription by hand, errors appear at the bottom of the screen as the group name followed by the message. Automatic updates write their errors only to `Logs`.
+When you update a subscription by hand, errors appear at the bottom of the screen as the group name followed by the message. After 2.0.2, an update that finds no profiles opens a window "Update of …" with the reasons instead. Automatic updates write their errors only to `Logs`.
 
 | Message | Cause | What to do |
 | --- | --- | --- |
 | "Request with proxy but no profile started." | `Use proxy` is on in `Settings` → `Subscriptions`, or the service mode is `Proxy only`, and Throne is not connected. | Connect first. In `VPN` mode, you can also turn off `Use proxy`. |
 | "Error transferring … - server replied: …" | The server refused the request, for example with 403 or 404. | Check the URL. Many providers accept only some apps: set the user agent your provider names, or turn on HWID sending. |
 | "No profiles found in the subscription; it was left unchanged." | The answer contains no profiles that Throne can read, for example a web page. | Often the same user agent or HWID problem. Also check the [import formats](@/reference/protocols.md#import-formats). |
+| "The server returned a web page instead of a subscription. …" | After 2.0.2. The server sent a web page, often a CAPTCHA or a bot check. | In the group's `Advanced` settings, try another `TLS version`, `HTTP version` or `User agent`. |
+| "The name filters left out all … profiles of the subscription; it was left unchanged." | Since 2.0.2. The name filters of the group removed every profile. | Edit the group and check `Only names matching` and `Remove names matching` under `Filter`. |
 | "Insecure redirect" | The server redirected an `https://` URL to `http://`. Throne does not follow such redirects. | Ask your provider for the correct `https://` URL. |
 | "Too many redirects" | The server redirects in a loop. | Check the URL with your provider. |
 | "Response larger than 64 MB" | The subscription is too large. | Ask your provider for a smaller list. |
 | "Still in use, so kept instead of deleted" or "The running profile was kept." | The update, or a clean-up option after it, would remove the profile you are connected to, so Throne kept it. You see this in the change report or in `Logs`. | Nothing. To remove it anyway, turn on `Allow stopping the active profile` in `Settings` → `Subscriptions`. |
 
-To change the user agent or HWID for one group, open `Groups` in the drawer, tap the `Edit` button of the group, and open `Advanced`. It has `User agent` and `Send HWID`. The settings for all groups are in `Settings` → `Subscriptions`. See [User-Agent and HWID](@/guides/subscriptions.md#user-agent-and-hwid).
+To change the user agent or HWID for one group, open `Groups` in the drawer, tap the `Edit` button of the group, and open `Advanced`. It has `User agent` and `Send HWID`, and after 2.0.2 also `TLS version` and `HTTP version`. The settings for all groups are in `Settings` → `Subscriptions`. See [User-Agent and HWID](@/guides/subscriptions.md#user-agent-and-hwid).
 
 ### The provider accepts updates only from your own connection {#direct-updates}
 
@@ -120,13 +125,17 @@ See [Cloudflare WARP](@/advanced/warp.md).
 ## A profile works on desktop but not on Android {#desktop-vs-android}
 
 1. Check the profile type. Tailscale and Extra Core profiles do not work on Android. TLS spoof settings are ignored on Android.
-2. Compare the settings that change how profiles connect: the presets in `Settings` → `Presets` (multiplex, TLS fragment, TLS tricks, uTLS) and `Settings` → `Core` → `Xray VLESS preference`. The VLESS preference is applied when profiles are imported, so update the subscription again after you change it. See [sing-box vs Xray](@/advanced/xray.md#vless-preference).
-3. To get the same settings as on desktop, restore a desktop backup. See [Moving between desktop and Android](@/guides/backup.md#desktop-android).
-4. If it still fails, report the problem with the logs of both apps.
+2. If a profile of a subscription is missing on Android: since 2.0.2, Throne does not import profiles that the core cannot run on Android, for example a transport that sing-box does not have, or XHTTP on a profile type other than VLESS. `Logs` shows the reason for each skipped profile.
+3. If the profile is an Xray config with `geoip:` or `geosite:` rules, it needs the files `geoip.dat` and `geosite.dat`. Since 2.0.2, Throne downloads them when such a config first starts, from the `Source` in `Settings` → `Core` → `Xray geo assets`. If Throne says that the installed file does not contain a category that the config needs, choose a source that has it, for example the one that your desktop uses.
+4. Compare the settings that change how profiles connect: the presets in `Settings` → `Presets` (multiplex, TLS fragment, TLS tricks, uTLS) and `Settings` → `Core` → `Xray VLESS preference`. The VLESS preference is applied when profiles are imported, so update the subscription again after you change it. See [sing-box vs Xray](@/advanced/xray.md#vless-preference).
+5. To get the same settings as on desktop, restore a desktop backup. See [Moving between desktop and Android](@/guides/backup.md#desktop-android).
+6. If it still fails, report the problem with the logs of both apps.
 
 ## Logs {#logs}
 
 Open `Logs` in the drawer. It shows the log of the core. The toolbar has `Update` (reloads the view), `Share logs` and `Clear logs`. The menu has `Save logs…`, `Hide sensitive data` and `Hide destinations`.
+
+After 2.0.2, the toolbar also has `Filter`. It shows only the lines that contain the text you type. `Match case` and `Regular expression` change how the text is compared. The menu also has `Font size`. When you scroll up, the view stops following new lines, and `Jump to latest` takes you back to the end.
 
 `Share logs` and `Save logs…` create one text file with:
 
@@ -147,6 +156,18 @@ Open `Logs` in the drawer. It shows the log of the core. The toolbar has `Update
 For more detail, set `Settings` → `Core` → `Log level` to `info` or `debug`, and tap `Apply` to restart the app. Reproduce the problem, then share the logs. Set the level back to `warn` afterwards.
 
 After a crash, Throne restarts and offers to share a log file with sensitive data hidden.
+
+### Diagnostics {#diagnostics}
+
+For freezes, high CPU use or a fast-draining battery, the developers may ask for a Diagnostics file (after 2.0.2). It records what the core does for 30 seconds.
+
+1. Bring Throne into the state with the problem, for example connect and wait until it hangs.
+2. Open `Settings` → `Diagnostics`.
+3. Turn on the options the developers asked for: `Lock contention`, `Execution trace (larger file)` or `Include Throne logs`. With logs included, keep `Hide sensitive data` on.
+4. Tap `Start`. The recording goes on when you leave the screen, so you can reproduce the problem meanwhile. `Stop` ends it early.
+5. Tap `Share` or `Save…` and attach the file `throne-profile-<date>-<time>.zip`.
+
+The recording contains no information about your configs. It lists the app and core versions, the Android version, the device model, the ABI and a few settings, such as the service mode and the type of the running profile. `Include Throne logs` adds the log file described above. The desktop has the same feature. See [Diagnostics](@/help/bug_reports.md#diagnostics).
 
 ## Reporting a problem {#report}
 

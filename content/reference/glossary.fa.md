@@ -1,6 +1,6 @@
 +++
 title = "واژه‌نامه"
-description = "توضیح کوتاه اصطلاحاتی که در Throne با آن‌ها روبه‌رو می‌شوید، از نمایه‌ها و مسیریابی تا حالت TUN، DNS و گزینه‌های ضدسانسور."
+description = "توضیح کوتاه اصطلاحاتی که در Throne با آن‌ها روبه‌رو می‌شوید، از نمایه‌ها و مسیریابی تا حالت TUN، DNS، گزینه‌های ضدسانسور و Throne API."
 weight = 50
 toc = true
 +++
@@ -34,7 +34,7 @@ toc = true
 | Mixed port (پورت mixed) | پورت محلی که هم اتصال‌های پروکسی SOCKS5 و هم HTTP را می‌پذیرد؛ به‌طور پیش‌فرض `127.0.0.1:2080`. | [تنظیمات ورودی](@/guides/proxy_modes.fa.md#inbound-settings) |
 | System proxy (پروکسی سیستمی) | حالت `پروکسی سیستمی` (System Proxy) که تنظیم پروکسی سیستم شما را به پورت mixed هدایت می‌کند تا برنامه‌هایی که از این تنظیم پیروی می‌کنند از Throne استفاده کنند. | [پروکسی سیستمی](@/guides/proxy_modes.fa.md#system-proxy) |
 | TUN (حالت TUN) | گزینهٔ `حالتvpn` (Tun Mode) که یک آداپتور شبکهٔ مجازی می‌سازد تا ترافیک همهٔ برنامه‌ها از Throne عبور کند. | [حالت TUN](@/guides/tun_mode.fa.md) |
-| Stack (پشته) | نحوهٔ پردازش بسته‌ها در حالت TUN: `system` (پشتهٔ شبکهٔ سیستم شما)، `gvisor` (پشته‌ای که درون هسته ساخته شده است) یا `mixed` (system برای TCP و gVisor برای UDP). | [تنظیمات TUN](@/guides/tun_mode.fa.md#settings) |
+| Stack (پشته) | نحوهٔ پردازش بسته‌ها در حالت TUN؛ نسخه‌های قدیمی‌تر اجازه می‌دادند `system`، `gvisor` یا `mixed` را انتخاب کنید، اما Throne 1.4.0 و Throne برای Android 2.0.2 چنین تنظیمی ندارند. | [تنظیمات TUN](@/guides/tun_mode.fa.md#settings) |
 | Strict route (مسیر سخت‌گیرانه) | گزینه‌ای در حالت TUN که مانع می‌شود ترافیک تونل را دور بزند؛ در Windows 10 و نسخه‌های بعدی به‌طور پیش‌فرض روشن است. | [محافظت از نشت DNS در Windows](@/advanced/windows_tun_mode.fa.md#strict-route) |
 | MTU | بزرگ‌ترین اندازهٔ بسته در آداپتور TUN: به‌طور پیش‌فرض 1500 در دسکتاپ و 9000 در Android. | [تنظیمات TUN](@/guides/tun_mode.fa.md#settings) |
 
@@ -76,3 +76,13 @@ toc = true
 | OTP (گذرواژهٔ یک‌بارمصرف) | گذرواژه‌های یک‌بارمصرف (کدهای TOTP یا HOTP) که برخی سرورهای OpenVPN و OpenConnect درخواست می‌کنند؛ Throne آن‌ها را در `Tools` → `OTP Manager` نگه می‌دارد. | [مدیر OTP](@/advanced/vpn_profiles.fa.md#otp-manager) |
 | .thrbackup | فایل پشتیبان Throne؛ هم برنامهٔ دسکتاپ و هم برنامهٔ Android می‌توانند آن را بسازند و بازیابی کنند. | [پشتیبان‌گیری و بازیابی](@/guides/backup.fa.md#backup-restore) |
 | Portable mode (حالت قابل‌حمل) | Throne داده‌هایش را به‌جای پوشهٔ کاربری شما، در یک پوشهٔ `config` کنار برنامه نگه می‌دارد. | [پوشهٔ داده‌ها](@/reference/files.fa.md#data-folder) |
+| Kill switch (کیل‌سوییچ) | تنظیمی که همهٔ ترافیکی را که از Throne عبور نمی‌کند مسدود می‌کند، حتی وقتی هیچ نمایه‌ای در حال اجرا نیست (از نسخهٔ 1.4.0). | [کیل‌سوییچ (Kill Switch)](@/advanced/kill_switch.fa.md) |
+
+## خودکارسازی و حالت بدون رابط گرافیکی {#automation}
+
+| اصطلاح | معنی | بیشتر |
+| --- | --- | --- |
+| Throne API | رابطی رمزگذاری‌شده، که در برنامهٔ دسکتاپ به‌طور پیش‌فرض خاموش است و اسکریپت‌ها و دستگاه‌های دیگر از طریق آن و با یک کلید مخفی Throne را کنترل و مدیریت می‌کنند (از نسخهٔ 1.4.0). | [Throne API و thronectl](@/advanced/api.fa.md) |
+| thronectl | کلاینت خط فرمان Throne API، برای ترمینال‌ها، اسکریپت‌ها و ابزارهای کلید میانبر. | [Throne API و thronectl](@/advanced/api.fa.md#commands) |
+| Admin request (درخواست مدیریتی) | درخواستی از Throne API که وارد می‌کند، حذف می‌کند، تنظیمات را تغییر می‌دهد، پشتیبان می‌گیرد، بازیابی می‌کند، Throne را دوباره راه‌اندازی می‌کند یا از آن خارج می‌شود؛ Throne فقط از رایانهٔ خودش به آن پاسخ می‌دهد، مگر اینکه شبکهٔ محلی را مجاز کنید. | [درخواست‌های مدیریتی](@/advanced/api.fa.md#admin-requests) |
+| Headless Throne (Throne بدون رابط گرافیکی) | Throne که با `--headless` اجرا شده است: بدون پنجره، آیکون سینی سیستم یا کادر گفت‌وگو، برای سرورها، روترها و کانتینرها، و با thronectl کنترل می‌شود (از نسخهٔ 1.4.0). | [Throne بدون رابط گرافیکی (Headless)](@/headless/_index.fa.md) |

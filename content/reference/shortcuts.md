@@ -13,7 +13,7 @@ This page lists the keyboard shortcuts of Throne desktop, the global hotkeys you
 
 The toolbar buttons `Program`, `Settings`, `Groups`, `Routing` and `Tools` open the menus of the main window. The `Settings` and `Routing` menus have no shortcuts.
 
-The column "Can change" shows whether you can set another shortcut in `Settings` → `Hotkey Settings`. See [Change a shortcut](#change-shortcuts).
+The column "Can change" shows whether you can set another shortcut in `Settings` → `Integration Settings` (`Hotkey Settings` before 1.4.0). See [Change a shortcut](#change-shortcuts).
 
 ### Program menu {#program-menu}
 
@@ -38,12 +38,12 @@ The group actions work on the group of the open tab.
 | `Resolve Domain for group` | `Ctrl+Shift+I` | Yes |
 | `Clear Group test result` | `Ctrl+Shift+C` | Yes |
 | `Update subscription` | `Ctrl+U` | Yes |
-| `Remove Duplicates` | `Ctrl+Shift+D` | Yes |
-| `Remove Unavailable` | `Ctrl+Shift+R` | Yes |
-| `Remove Invalid` | `Ctrl+Alt+I` | Yes |
+| `Clean up` → `Remove Duplicates` | `Ctrl+Shift+D` | Yes |
+| `Clean up` → `Remove Unavailable` | `Ctrl+Shift+R` | Yes |
+| `Clean up` → `Remove Invalid` | `Ctrl+Alt+I` | Yes |
 | `Stop Testing` | `Ctrl+.` | Yes |
 
-`Stop Testing` appears in the menu only while a test is running.
+`Stop Testing` appears in the menu only while a test is running. Since 1.4.0, the remove actions, together with `Remove Insecure Configs`, are in the `Clean up` submenu.
 
 Right-click a group tab to open that group and its menu. The tab menu has `Add new Group`, `Edit selected Group`, `Delete selected Group`, `Update subscription`, `Url Test selected Group` and `Speed Test selected Group`. Drag a tab to change the order of the groups.
 
@@ -68,7 +68,7 @@ Right-click the profile list to open its menu. It has the same four "add" action
 | --- | --- | --- |
 | `Start` | `Enter` | No |
 | `Stop` | `Ctrl+S` | No |
-| `Share` → `Export Sing-box config` | `Ctrl+E` | Yes |
+| `Share` → `Export config` | `Ctrl+E` | Yes |
 | `Share` → `Copy links of selected` | `Ctrl+C` | No |
 | `Share` → `Copy links of selected (Deep Links)` | `Ctrl+Alt+C` | No |
 | `Delete` | `Del` | No |
@@ -77,6 +77,8 @@ Right-click the profile list to open its menu. It has the same four "add" action
 | `Url Test Selected` | `Ctrl+Shift+S` | Yes |
 | `Speedtest Selected` | `Ctrl+Shift+P` | Yes |
 | `Reset Traffic` | `Ctrl+R` | Yes |
+
+Since 1.4.0, `Export config` opens a window with the generated sing-box config and, for profiles that use Xray, the Xray config on its own tab. `Copy` copies the config of the open tab. Before 1.4.0, the item was `Export Sing-box config`, and some profiles also had `Export Xray config`.
 
 Other keys and mouse actions in the list:
 
@@ -93,43 +95,46 @@ Other keys and mouse actions in the list:
 
 ### Actions without a default shortcut {#no-default}
 
-You can give a shortcut to these actions, which have none by default: `QR Code and link`, `Copy Test Result`, `Resolve Selected Domain`, `Resolve Selected Out IP`, `Clear Test Result`, `Resolve out IP for group`, `Update all subscriptions`, `Remove Insecure Configs` and `Refresh Column Widths`.
+You can give a shortcut to these actions, which have none by default: `QR Code and link`, `Copy Test Result`, `Resolve Selected Domain`, `Resolve Selected Out IP`, `Clear Test Result`, `Resolve out IP for group`, `Update all subscriptions`, `Remove Insecure Configs`, `IP Scanner` and `Refresh Column Widths`.
 
 ## Change a shortcut {#change-shortcuts}
 
-1. Open `Settings` → `Hotkey Settings`.
+1. Open `Settings` → `Integration Settings`.
 2. Open the `Shortcuts` tab. It lists every action whose shortcut you can change.
 3. Click the field next to an action and press the new key combination. To remove a shortcut, click the field and press `Backspace`.
 4. Click `OK`.
 
-If two actions have the same shortcut, neither of them works. The shortcuts marked "No" in the tables above cannot be changed, and `Ctrl+F` cannot be changed either.
+The shortcuts marked "No" in the tables above cannot be changed, and `Ctrl+F` cannot be changed either. Since 1.4.0, the window marks a key combination that another action or a global hotkey already uses, names the conflict next to the buttons, and does not save until you change one of them.
 
 ## Global hotkeys {#global-hotkeys}
 
 Global hotkeys work in any app, even when the Throne window is hidden. All of them are empty by default.
 
-1. Open `Settings` → `Hotkey Settings`.
-2. On the `Global` tab, click the field of a hotkey.
+1. Open `Settings` → `Integration Settings`.
+2. On the `Global Hotkeys` tab (`Global` before 1.4.0), click the field of a hotkey.
 3. Press the key combination.
 4. Click `OK`.
 
 | Hotkey | What it does |
 | --- | --- |
-| `Trigger main window` | Shows the main window, or hides it if it is active. This is the same as clicking the tray icon. |
+| `Trigger main window` | Shows the main window, or hides it if it is active. This is the same as clicking the tray icon. Since 1.4.0, it also works on macOS. |
 | `Show groups` | Opens the `Manage Groups` window. |
 | `Show routes` | Opens `Routing Settings`. |
 | `Proxy mode` | Opens the `Operation Mode` menu (`System Proxy`, `Tun Mode`) at the mouse pointer. |
 | `Toggle System Proxy` | Turns `System Proxy` on or off. |
+| `Start/Stop Profile` | Stops the running profile, or starts the last profile when none runs (since 1.4.0). |
+| `Toggle Tun Mode` | Turns `Tun Mode` on or off (since 1.4.0). |
 
-- If two global hotkeys use the same keys, Throne registers none of them.
-- If another program already uses a key combination, that hotkey does not work. Choose a different one.
-- Global hotkeys are paused while the `Hotkey Settings` window is open.
-- **macOS:** `Trigger main window` has no effect. Use `Show Window` in the tray menu instead.
-- **Linux:** global hotkeys use X11. In a Wayland session they may not work.
+- A global hotkey is one key combination. It needs `Ctrl`, `Alt` or `Meta` (`Cmd` on macOS), unless it is a function key such as `F9`, so that it does not block typing in other apps.
+- If another program or a system shortcut already uses a key combination, that hotkey does not work. After you click `OK`, Throne lists the hotkeys it could not register, and the log shows "Global hotkey not registered" with the reason. Choose a different combination.
+- Global hotkeys are paused while the `Integration Settings` window is open.
+- **Linux:** since 1.4.0, global hotkeys work in X11 sessions and in KDE Plasma Wayland sessions. On KDE Plasma, they also appear in the system settings for shortcuts, under `Throne`. In other Wayland sessions they are not available, and the `Global Hotkeys` tab says "Global hotkeys are not supported in this desktop session."
+
+To control Throne from a macro pad, a Stream Deck or a script, you can also use [thronectl](@/advanced/api.md#example-hotkey).
 
 ## Tray icon {#tray}
 
-Throne shows an icon in the system tray. On macOS, the icon is in the menu bar. The icon changes when a profile is running and when `System Proxy` or `Tun Mode` is on. Hover over it to see the running profile and its location. The tooltip also shows the mode when one is on, and the active routing profile when it is not `Default`.
+Throne shows an icon in the system tray. On macOS, the icon is in the menu bar. The icon changes when a profile is running and when `System Proxy` or `Tun Mode` is on. Since 1.4.0, it also shows when a profile is starting or stopping. Hover over it to see the running profile and its location. The tooltip also shows the mode when one is on, and the active routing profile when it is not `Default`.
 
 - **Windows and Linux:** click the icon to show the window, or to hide it if it is active. Right-click the icon to open the tray menu.
 - **macOS:** click the icon to open the tray menu.
@@ -145,6 +150,7 @@ Closing the window does not quit Throne. The window hides, and Throne keeps runn
 | Item | What it does |
 | --- | --- |
 | `Show Window` | Shows the main window. |
+| `Connect` / `Disconnect` | Starts a profile when none runs, or stops the running one (since 1.4.0). It starts the profile that is selected in the list. With nothing selected, it starts the last profile, else the first profile of the open group. While a profile starts or stops, the item reads `Connecting` or `Disconnecting` and cannot be clicked. |
 | `Start with system` | Starts Throne when you log in. |
 | `Remember last profile` | At the next start, Throne starts the last running profile again and turns `System Proxy` and `Tun Mode` back on if they were on. |
 | `Allow other devices to connect` | Opens the local proxy port to other devices on your network. See [LAN sharing](@/guides/proxy_modes.md#lan-sharing). |
@@ -161,6 +167,8 @@ Closing the window does not quit Throne. The window hides, and Throne keeps runn
 - **Windows:** Throne adds a Task Scheduler task. The window opens at login unless `Hide dashboard at startup` is on. Each time Throne starts, it sets the task to the rights of the running Throne: if Throne runs as administrator, the task also starts it as administrator, unless `Always Start as Standard User` is on.
 - **Linux:** Throne adds `Throne.desktop` to `~/.config/autostart` with the option `-tray`, so it starts in the tray.
 - **macOS:** Throne adds a login item. The window opens at login unless `Hide dashboard at startup` is on.
+
+If Throne cannot change the autostart entry, it shows "Could not update the autostart entry:" with the reason (since 1.3.2).
 
 ### Tray settings {#tray-settings}
 

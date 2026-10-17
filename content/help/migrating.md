@@ -12,7 +12,7 @@ Throne continues Nekoray, so most things work the same way, but some features mo
 | In Nekoray / NekoBox you used… | In Throne you use… |
 | --- | --- |
 | The `Server` menu | Right-click the profile list. The menu bar is hidden. |
-| The `Preferences` menu | The `Settings` button in the toolbar: `Basic Settings`, `Routing Settings`, `Tun Settings`, `Hotkey Settings` and more. |
+| The `Preferences` menu | The `Settings` button in the toolbar: `Basic Settings`, `Routing Settings`, `Tun Settings`, `Integration Settings` (hotkeys and the Throne API; `Hotkey Settings` before 1.4.0) and more. |
 | Subscription groups | The same groups, under the `Groups` button. To update one, right-click its tab → `Update subscription`. |
 | `Tun Settings` → `Bypass Process Name` (programs that skip the tunnel) | `processName:` rules in the `Direct` box of your routing profile, for example `processName:game.exe`. Or right-click a connection in the `Connections` tab → `Append process "<name>" to` → `Direct`. |
 | `Tun Settings` → `Whitelist mode` (only listed programs use the tunnel) | A routing profile with `Default outbound` set to `direct`, and the programs (`processName:…`) or sites in the `Proxy` box. |
@@ -21,7 +21,7 @@ Throne continues Nekoray, so most things work the same way, but some features mo
 | `Default Outbound` set to `bypass` or `block` | `Default outbound` set to `direct` or `block` in the routing profile. `block` is available since 1.2.0. |
 | Themes such as FlatGray, LightBlue and BlackSoft | `Basic Settings` → `Style` → `Theme`. These themes are back since 1.1.5. |
 | `Copy links of selected (Neko Links)` | Standard share links. Throne cannot read `nekoray://` or `sn://` links. |
-| `Hijack` (its DNS server and `Redirect Settings`) or `System DNS` in Throne 1.3.1 and older | `Tun Mode`. These features are deprecated in 1.3.1 and will be removed in the next release. |
+| `Hijack` (its DNS server and `Redirect Settings`) or `System DNS` in Throne 1.3.2 and older | `Tun Mode`. These features were removed in 1.4.0. |
 | NekoBox for Android | Throne for Android 2.0.0. See [below](#from-nekobox-android). |
 
 For per-app routing, turn on `Tun Mode`. Apps that ignore the system proxy never reach Throne, so rules cannot apply to them in system proxy mode. See [Routing](@/guides/routing.md#simple-rules) and [Connections tab](@/guides/routing.md#connections-tab).

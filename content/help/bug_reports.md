@@ -40,7 +40,7 @@ To record a detailed log:
 3. Raise `Max log lines`, for example to `2000`. Throne drops core log lines above this number per second, and the `Logs` tab keeps only this many lines.
 4. Click `OK`, then restart Throne with `Program` → `Restart Program`.
 5. Reproduce the problem.
-6. Attach `logs/throne.log` to the issue. You can also click in the `Logs` tab, press `Ctrl+A`, then `Ctrl+C`, and paste the text.
+6. Attach `logs/throne.log` to the issue. You can also click in the `Logs` tab, press `Ctrl+A`, then `Ctrl+C`, and paste the text. If the filter bar of the `Logs` tab is open, close it first, so that the tab shows all lines.
 7. When you are done, set the sing-box log level back to `info` and the Xray log level back to `warning`.
 
 Good to know:
@@ -70,6 +70,8 @@ For freezes, hangs and high CPU use, the developers may ask for a Diagnostics fi
 
 `Start` works only while the core is running. The recording contains no information about your configs, but it lists your Throne version, operating system and a few settings, such as whether TUN mode is on and the type of the running profile. `Include Throne logs` adds your logs, which contain visited domains and server addresses.
 
+**Android:** versions after 2.0.2 have the same feature in `Settings` → `Diagnostics`. Tap `Share` or `Save…` to get the file. See [Diagnostics](@/android/troubleshooting.md#diagnostics).
+
 ## What to include {#what-to-include}
 
 Use the issue template and fill in every field:
@@ -78,8 +80,8 @@ Use the issue template and fill in every field:
 | --- | --- |
 | Throne version | Desktop: the window title, for example `Throne 1.3.1`, or the first lines of `throne.log`. Android: `About`. |
 | Operating system and version | For example Windows 11 24H2, Ubuntu 24.04, macOS 15 or Android 14. |
-| Installation type | ZIP, Windows installer, `.deb`, `.rpm`, Linux install script, or a package manager (WinGet, Scoop, AUR, Nix, RPM repository). |
-| Mode | `Tun Mode`, `System Proxy` or both. For TUN mode, also the `Stack` from `Tun Settings`. |
+| Installation type | ZIP, Windows installer, `.deb`, `.rpm`, Linux install script, the APT or RPM repository, or a package manager (WinGet, Scoop, AUR, Nix). Say whether you use the window or [headless Throne](@/headless/_index.md). |
+| Mode | `Tun Mode`, `System Proxy` or both, and whether the [kill switch](@/advanced/kill_switch.md) is on. |
 | Profile type | The `Type` column of the profile list, for example `VLESS (Xray)`. Not the link. |
 | Steps to reproduce | Numbered steps that show the problem from the start. |
 | Expected and actual result | What you expected, and what happened instead. Copy error messages as text. |
@@ -87,4 +89,6 @@ Use the issue template and fill in every field:
 
 For routing problems, choose the `Routing Issue` template. It asks for your routing profile: open `Settings` → `Routing Settings` → `Route`, select the profile and click `Export`. This copies a `throne://route/…` link. Check it for private domains or addresses before you post it.
 
-If a developer asks for your configuration, right-click the profile → `Share` → `Export Sing-box config`. Replace passwords, UUIDs, keys and server addresses with `xxxx` before you post it.
+If a developer asks for your configuration, right-click the profile → `Share` → `Export config` (`Export Sing-box config` before 1.4.0), and click `Copy` on the `sing-box` tab, or on the `Xray` tab if the developer asks for it. Replace passwords, UUIDs, keys and server addresses with `xxxx` before you post it.
+
+For headless Throne, also see [What to include in a bug report](@/headless/troubleshooting.md#reporting).

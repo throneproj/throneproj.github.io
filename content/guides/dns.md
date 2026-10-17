@@ -72,7 +72,7 @@ A domain that has only an IPv4 address in this list gets "no such domain" for IP
 
 ## FakeIP {#fakeip}
 
-With `Enable FakeIP`, Throne answers address queries at once with a fake address from `198.18.0.0/15` (IPv6: `fc00::/18`), without asking a real DNS server. When the app connects to that address, Throne knows which domain it stands for and routes the connection by name. The real lookup happens later: on the proxy server for proxied connections, or with Direct DNS for direct ones.
+With `Enable FakeIP`, Throne answers address queries at once with a fake address from `198.18.0.0/15` (IPv6: `2001:db8::/32`), without asking a real DNS server. When the app connects to that address, Throne knows which domain it stands for and routes the connection by name. The real lookup happens later: on the proxy server for proxied connections, or with Direct DNS for direct ones.
 
 This has two benefits:
 
@@ -86,6 +86,7 @@ Things to know:
 - Answers from `Predefined Answers` and the hosts file stay real.
 - Apps keep fake addresses in their own caches. After you stop Throne, an app that still holds a fake address cannot connect until it looks the name up again. Restart the app if it stays offline.
 - `Advanced Settings` → `Save Cache To File` keeps the fake addresses when Throne restarts.
+- Before 1.4.0, the fake IPv6 addresses came from `fc00::/18`. In TUN mode, `Private Range Bypass` sent them past the tunnel, so apps that tried IPv6 first could not connect. Since 1.4.0, they come from `2001:db8::/32`, a range that is never used on the internet.
 
 ## Advanced {#advanced}
 
@@ -126,12 +127,16 @@ A real problem looks like this: you use TUN mode and a routing profile that send
 
 WebRTC tests check a different thing: your IP address, not your DNS. A WebRTC test that shows no public IP address is fine ([#1267](https://github.com/throneproj/Throne/issues/1267)). If it shows your real public IP address for a site you proxy, UDP traffic went around the proxy. This is common in system proxy mode; use TUN mode instead.
 
-## Hijack and System DNS (deprecated) {#deprecated}
+## Hijack and System DNS (removed) {#deprecated}
 
-The `Hijack` tab of `Routing Settings` and the Windows `System DNS` option are deprecated in 1.3.1 and will be removed in the next release. Hijack ran a local DNS server that answered chosen domains with fixed addresses, and `System DNS` pointed Windows at that server. Both served apps that ignore the system proxy. `Tun Mode` covers the same use case, so turn them off and use `Tun Mode` instead.
+Up to 1.3.2, the `Routing Settings` window had a `Hijack` tab, and Windows had a `System DNS` option. Hijack ran a local DNS server that answered chosen domains with fixed addresses, and `System DNS` pointed Windows at that server. Both served apps that ignore the system proxy.
 
-While Hijack is enabled, Throne shows a warning at startup. The `System DNS` checkbox is hidden unless `Basic Settings` → `Style` → `Show System DNS option` is on.
+Since 1.4.0, both are gone, and Throne ignores their old settings. Use `Tun Mode` for such apps instead; see [TUN Mode](@/guides/tun_mode.md#enable).
 
 ## On Android {#android}
 
-Throne for Android has the same DNS settings in `Settings` → `DNS`. FakeIP is called `Enable FakeDNS` there. In VPN mode, Throne always handles the DNS queries inside the VPN.
+Throne for Android has the same DNS settings in `Settings` → `DNS`. FakeIP is called `Enable FakeDNS` there. In VPN mode, Throne always handles the DNS queries inside the VPN. The differences:
+
+- **`localhost` as Direct DNS.** Since 2.0.1, it asks the DNS servers of the current Wi-Fi or mobile network directly, as on Windows. Android's own resolver is used only when the network names no DNS server. Before, Throne always used Android's resolver, which also applies Private DNS and could stall every lookup. If the network's DNS servers do not answer when you connect, Throne shows "Could not connect: the network's DNS (…) did not answer. Set a working Direct DNS." Its `DNS` button opens the DNS settings.
+- **Fake IPv6 addresses** come from `2001:db8::/32` since 2.0.2, as on the desktop.
+- **A local DNS server for other apps.** Throne runs a DNS server on `127.0.0.1` that other apps on the device can use. Since 2.0.2, you can change its port in `Settings` → `Inbound` → `DNS server port` (default `5533`).

@@ -15,7 +15,7 @@ In TUN mode, Throne creates a virtual network adapter and sends the traffic of t
 
 While TUN mode is active, the window title shows `[Tun]`. It starts with `[Admin]` when Throne has the rights for TUN. Turning TUN mode on or off restarts the running profile.
 
-TUN mode works only while a profile runs. When you stop the profile, your apps use your normal connection again. Throne has no kill switch; see [FAQ](@/help/faq.md#kill-switch). With `Program` → `Remember last profile` on, Throne starts the last profile again when it starts, and turns TUN mode back on if it was on when you quit.
+TUN mode works only while a profile runs. When you stop the profile, your apps use your normal connection again. To block their traffic while no profile runs, turn on the [kill switch](@/advanced/kill_switch.md) (since 1.4.0). With `Program` → `Remember last profile` on, Throne starts the last profile again when it starts, and turns TUN mode back on if it was on when you quit.
 
 What happens the first time:
 
@@ -64,12 +64,11 @@ Open `Settings` → `Tun Settings`. If TUN mode is on when you click `OK`, Thron
 
 | Setting | Default | What it does |
 | --- | --- | --- |
-| `Stack` | `system` on Windows 10 and later and on Linux, `gvisor` on macOS | How the core processes the adapter's traffic. `system` uses the network stack of the operating system, `gvisor` a network stack inside the core, and `mixed` uses `system` for TCP and `gvisor` for UDP. On Windows 7 and 8 it is always `gvisor`. |
-| `MTU` | `1500` | The largest packet size of the adapter. Choose `1500` or `9000`, or type a value from 1000 to 10000. Other values are replaced with 9000. |
+| `MTU` | `1500` | The largest packet size of the adapter. Choose `1500` or `9000`, or type a value from 1000 to 10000. Since 1.4.0, `OK` does not accept other values, and Throne warns when `Tun Enable IPv6` is on and the value is below 1280, because the system may then drop IPv6. |
 | `Tun Enable IPv6` | off | Gives the adapter an IPv6 address, so that IPv6 traffic goes through the tunnel. |
 | `Strict Route` | on for Windows 10 and later, off elsewhere | On Windows, blocks DNS queries that try to go around the tunnel. See [Windows DNS Leak Protection](@/advanced/windows_tun_mode.md#strict-route). |
 | `Enable Tun Routing` | off | Leaves the IP ranges and `geoip-*` rule-sets that your routing sends `direct` out of the tunnel, so the system routes them past the core. Large rule-sets can cause very high CPU use on Windows. |
-| `Auto Redirect` | on | Linux only. Needed on newer kernels for the `system` and `mixed` stacks. While it is on, this computer cannot be used as a network gateway for other devices. |
+| `Auto Redirect` | on | Linux only. Improves TUN routing and speed with nftables. While it is on, this computer cannot be used as a network gateway for other devices. |
 | `L3 Bridge Bypass` | off | Sends UDP and ICMP traffic that your rules send `direct` straight out of the network adapter, instead of opening a new connection for it. This is faster and keeps NAT working for games and P2P. TCP keeps the normal direct path. Not available on Windows on ARM. |
 | `IPv4 CIDR` | `172.19.0.1/24` | The IPv4 address of the adapter. Change it only if it clashes with a network you use. `Restore default addresses` resets both addresses. |
 | `IPv6 CIDR` | `fdfe:dcba:9876::1/96` | The IPv6 address of the adapter. Used only with `Tun Enable IPv6`. |
@@ -77,6 +76,8 @@ Open `Settings` → `Tun Settings`. If TUN mode is on when you click `OK`, Thron
 | `Troubleshooting` → `Reset` | – | Restarts the core process. Use it when TUN mode does not start. |
 
 The default `Private Range Bypass` list is `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `169.254.0.0/16`, `224.0.0.0/4`, `fc00::/7`, `fe80::/10` and `ff00::/8`.
+
+Since 1.4.0, `Tun Settings` has no `Stack` setting. Throne always uses the network stack that is built into the core, and ignores a stack that you chose in an older version.
 
 ## Side effects {#side-effects}
 
@@ -114,8 +115,6 @@ Open the `Logs` tab and look for errors when TUN mode starts. For general steps,
 
 **Antivirus.** Some antivirus programs, for example Avast and ESET, block the adapter or the core. Add an exception for the Throne folder.
 
-**Another stack.** Set `Stack` to `gvisor` in `Tun Settings` and try again.
-
 **"Strict routing unavailable".** Windows could not turn on strict routing. Untick `Strict Route` in `Tun Settings` and start the profile again. Without it, DNS queries can leak; see [Windows DNS Leak Protection](@/advanced/windows_tun_mode.md).
 
 **"Tun device misbehaving".** Click `Reset` to restart the core, then start the profile again.
@@ -130,7 +129,7 @@ Open the `Logs` tab and look for errors when TUN mode starts. For general steps,
 
 **"Please install "pkexec" first."** Install polkit with your package manager, or set the capabilities shown in [Linux privileges](#privileges-linux).
 
-**"file exists" when TUN mode starts.** This error came from `Auto Redirect` and was fixed in 1.2.2. If you still see it, turn off `Auto Redirect` and set `Stack` to `gvisor`.
+**"file exists" when TUN mode starts.** This error came from `Auto Redirect` and was fixed in 1.2.2. If you still see it, turn off `Auto Redirect`.
 
 **No DNS with systemd-resolved.** If `DNSOverTLS` is turned on for all interfaces in `/etc/systemd/resolved.conf`, TUN mode breaks. Turn it off there, or turn it off for the Throne adapter while the adapter exists:
 
@@ -158,4 +157,4 @@ For DNS leak hardening on Windows, see [Windows DNS Leak Protection](@/advanced/
 
 ## On Android {#android}
 
-In `VPN` mode, Throne for Android works like TUN mode. Its settings are in `Settings` → `TUN / VPN`. There, the default stack is gVisor, the default MTU is 9000, and strict route is always on. See [VPN & Proxy Modes](@/android/modes.md#tun-settings).
+In `VPN` mode, Throne for Android works like TUN mode. Its settings are in `Settings` → `TUN / VPN`. There, the default MTU is 9000, and strict route is always on. Since 2.0.2, the stack cannot be chosen there either. See [VPN & Proxy Modes](@/android/modes.md#tun-settings).

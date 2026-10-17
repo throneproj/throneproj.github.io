@@ -40,7 +40,7 @@ Throne 会在主窗口底部的 `日志`（Logs）标签页中显示日志，并
 3. 调高 `最多日志行数`（Max log lines），例如设为 `2000`。每秒超过此数量的核心日志行会被 Throne 丢弃，并且 `日志` 标签页只保留这么多行。
 4. 点击 `确定`（OK），然后通过 `程序`（Program）→ `重启程序`（Restart Program）重启 Throne。
 5. 重现问题。
-6. 将 `logs/throne.log` 附加到 issue 中。你也可以点击 `日志` 标签页，按 `Ctrl+A`，再按 `Ctrl+C`，然后粘贴文本。
+6. 将 `logs/throne.log` 附加到 issue 中。你也可以点击 `日志` 标签页，按 `Ctrl+A`，再按 `Ctrl+C`，然后粘贴文本。如果 `日志` 标签页的筛选栏处于打开状态，请先将其关闭，使标签页显示所有行。
 7. 完成后，将 sing-box 日志级别改回 `info`，将 Xray 日志级别改回 `warning`。
 
 需要了解的几点：
@@ -70,6 +70,8 @@ Throne 会在主窗口底部的 `日志`（Logs）标签页中显示日志，并
 
 `启动` 只有在核心运行时才可用。录制内容不包含关于你的配置的信息，但会列出你的 Throne 版本、操作系统和少量设置，例如 TUN 模式是否开启，以及正在运行的配置档的类型。`包含 Throne 日志` 会加入你的日志，而日志中包含你访问过的域名和服务器地址。
 
+**Android：** 2.0.2 之后的版本在 `设置`（Settings）→ `诊断`（Diagnostics）中提供相同的功能。点按 `分享`（Share）或 `保存…`（Save…）即可获取文件。参见[诊断](@/android/troubleshooting.zh.md#diagnostics)。
+
 ## 应包含的内容 {#what-to-include}
 
 使用 issue 模板，并填写每一个字段：
@@ -78,8 +80,8 @@ Throne 会在主窗口底部的 `日志`（Logs）标签页中显示日志，并
 | --- | --- |
 | Throne 版本 | 桌面版：窗口标题，例如 `Throne 1.3.1`，或 `throne.log` 的前几行。Android：`关于`（About）。 |
 | 操作系统及版本 | 例如 Windows 11 24H2、Ubuntu 24.04、macOS 15 或 Android 14。 |
-| 安装类型 | ZIP、Windows 安装程序、`.deb`、`.rpm`、Linux 安装脚本，或包管理器（WinGet、Scoop、AUR、Nix、RPM 软件源）。 |
-| 模式 | `Tun 模式`（Tun Mode）、`系统代理`（System Proxy）或两者都开启。如果使用 TUN 模式，还需提供 `Tun 设置`（Tun Settings）中的 `Stack`。 |
+| 安装类型 | ZIP、Windows 安装程序、`.deb`、`.rpm`、Linux 安装脚本、APT 或 RPM 软件源，或包管理器（WinGet、Scoop、AUR、Nix）。请说明你使用的是窗口版还是[无界面 Throne](@/headless/_index.zh.md)。 |
+| 模式 | `Tun 模式`（Tun Mode）、`系统代理`（System Proxy）或两者都开启，以及[断网保护（kill switch）](@/advanced/kill_switch.zh.md)是否开启。 |
 | 配置档类型 | 配置档列表中的 `类型`（Type）列，例如 `VLESS (Xray)`。不要提供链接。 |
 | 重现步骤 | 从头开始展示问题的编号步骤。 |
 | 预期结果与实际结果 | 你预期会发生什么，以及实际发生了什么。请以文本形式复制错误信息。 |
@@ -87,4 +89,6 @@ Throne 会在主窗口底部的 `日志`（Logs）标签页中显示日志，并
 
 对于路由问题，请选择 `Routing Issue` 模板。它会要求你提供路由配置档：打开 `设置` → `路由设置`（Routing Settings）→ `路由`（Route），选中该配置档并点击 `导出`（Export）。这会复制一条 `throne://route/…` 链接。发布之前，请检查其中是否包含私有域名或地址。
 
-如果开发者要求提供你的配置，请右键点击该配置档 → `分享`（Share）→ `导出 Sing-box 配置`（Export Sing-box config）。发布之前，请将密码、UUID、密钥和服务器地址替换为 `xxxx`。
+如果开发者要求提供你的配置，请右键点击该配置档 → `分享`（Share）→ `导出配置`（Export config）（1.4.0 之前为 `导出 Sing-box 配置`（Export Sing-box config）），然后在 `sing-box` 标签页上点击 `复制`（Copy）；如果开发者需要 Xray 配置，则在 `Xray` 标签页上点击。发布之前，请将密码、UUID、密钥和服务器地址替换为 `xxxx`。
+
+对于无界面 Throne，另请参见 [Bug 报告中应包含的内容](@/headless/troubleshooting.zh.md#reporting)。

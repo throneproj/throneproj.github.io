@@ -5,7 +5,7 @@ weight = 40
 toc = true
 +++
 
-Throne 会按照你的配置档和路由规则发送你的流量。本页介绍 Throne 自行发送的内容：用于订阅的设备信息（HWID）、应用自行发出的网络请求，以及谁可以使用它的本地代理端口。Throne 不会发送使用统计，也不会上传日志或崩溃转储。
+Throne 会按照你的配置档和路由规则发送你的流量。本页介绍 Throne 自行发送的内容：用于订阅的设备信息（HWID）、应用自行发出的网络请求，以及谁可以使用它的本地代理端口和 Throne API。Throne 不会发送使用统计，也不会上传日志或崩溃转储。
 
 ## HWID 与设备信息 {#hwid}
 
@@ -13,7 +13,7 @@ Throne 会按照你的配置档和路由规则发送你的流量。本页介绍 
 
 | 请求头 | Windows | Linux | macOS |
 | --- | --- | --- | --- |
-| `x-hwid` | Windows 的 `MachineGuid` | `/etc/machine-id`（或 `/var/lib/dbus/machine-id`）的内容 | Mac 的硬件 UUID |
+| `x-hwid` | Windows 的 `MachineGuid` | `/etc/machine-id`（或 `/var/lib/dbus/machine-id`）的内容。两者都没有时，为 Throne 创建一次的 ID（自 1.4.0 起） | Mac 的硬件 UUID |
 | `x-device-os` | `Windows` | `Linux` | `macOS` |
 | `x-ver-os` | Windows 版本，例如 `10.0.26100` | 内核版本 | macOS 版本，例如 `14.5` |
 | `x-device-model` | Windows 报告的电脑型号（及主板） | 发行版名称，例如 `Ubuntu 24.04.1 LTS` | macOS 名称和版本，例如 `macOS Sonoma (14.5)` |
@@ -25,6 +25,8 @@ Throne 会按照你的配置档和路由规则发送你的流量。本页介绍 
 3. 点击 `确定`（OK）。
 
 将鼠标悬停在该复选框上，可以查看 Throne 在你的电脑上获取到的值。
+
+**Linux：** 自 1.4.0 起，在没有有效机器 ID 的系统上（例如容器中），Throne 会生成一次随机 ID，并将其保存在配置文件夹中的 `hwid` 文件里（只有你可以读取），使该 ID 保持不变。如果你删除该文件，Throne 会创建一个新的 ID。如果它无法写入该文件，就不会发送 ID。关于无界面 Throne，另请参见[设备 ID](@/headless/_index.zh.md#device-id)。
 
 - Throne 只在订阅请求中发送这些请求头，绝不会在其他任何请求中发送。
 - `自定义系统参数(可选)`（Custom System Parameters (optional)）可以替换 Throne 发送的值。请使用 `hwid=value,os=value,osVersion=value,model=value` 的格式，并且只列出你想替换的值。
@@ -59,7 +61,9 @@ Throne 会按照你的配置档和路由规则发送你的流量。本页介绍 
 | 域名解析 | 仅在选择 `为本组解析域名`（Resolve Domain for group）或 `解析选定域名`（Resolve Selected Domain）时 | 对你的服务器域名进行 DNS 查询 | 你的系统 DNS 解析器 |
 | 更新检查 | 仅在选择 `工具`（Tools）→ `检查更新`（Check For Update）时。只有点击 `更新`（Update）后才会开始下载。在 macOS 上、使用系统 Qt 的软件包中，以及通过 Linux 安装脚本安装的副本中，该菜单项处于禁用状态。 | `api.github.com` 以及 GitHub 上的发布文件 | `使用代理` 规则 |
 | WARP 注册 | 仅在生成 WARP 配置或身份时 | `api.cloudflareclient.com`，或你在 `注册域名...`（Registration Domains…）中设置的域名 | `使用代理` 规则 |
-| Xray geo 文件 | 仅当某个 Xray 配置需要 `geoip.dat` 或 `geosite.dat` 且你同意下载时，或你点击 `下载`（Download）时 | `GeoIP 资源 URL`（GeoIP Asset URL）和 `GeoSite 资源的 URL`（GeoSite Asset URL），默认指向 GitHub | `使用代理` 规则 |
+| Xray geo 文件 | 仅当某个 Xray 配置需要 `geoip.dat` 或 `geosite.dat` 且你同意下载时、你点击 `下载`（Download）时，或 Throne API 客户端请求下载时 | `GeoIP 资源 URL`（GeoIP Asset URL）和 `GeoSite 资源的 URL`（GeoSite Asset URL），默认指向 GitHub | `使用代理` 规则 |
+| IP 扫描 | 仅在你于 `工具`（Tools）→ `IP Scanner` 中开始扫描时（自 1.4.0 起） | 先与公共 DNS 服务器（例如 `1.1.1.1:443` 和 `8.8.8.8:443`）建立 TCP 连接以检查网络；然后是你扫描的 IP 列表中的地址 | 直连，经由你的网卡，TUN 模式开启时也是如此 |
+| IP 列表更新 | 更新带有 URL 或规则集来源的 IP 列表时；如果你为该列表开启了自动更新（默认关闭），还会定时进行（自 1.4.0 起） | 该列表的 URL；内置列表来自 GitHub 上的规则集，经由 `远程规则集镜像`（Remote Rule-set Mirror）访问 | `使用代理` 规则 |
 | 网络仪表盘 | `工具` → `打开网络仪表盘`（Open Web dashboard），仅当你的版本没有内置仪表盘时。官方版本都内置了仪表盘。 | GitHub | 始终经由本地代理端口 |
 | NTP | 仅当你开启 `NTP 设置`（NTP Settings）时 | 你输入的 NTP 服务器 | 你选择的 `出站`（outbound），默认为 `direct` |
 
@@ -71,9 +75,13 @@ Throne 会按照你的配置档和路由规则发送你的流量。本页介绍 
 - 启动之后，如果正在运行的配置档的出口是 OpenVPN 或 OpenConnect 配置档，Throne 会跳过此查询。
 - 没有可以关闭它的设置。
 
+自 1.3.2 起，更新检查和更新下载始终会验证 GitHub 的 TLS 证书，即使开启了 `基本设置` → `杂项` → `忽略 TLS 错误`（Ignore TLS errors）也是如此，因为发布文件没有其他签名。
+
+来自 [Throne API](@/advanced/api.zh.md) 客户端的请求（例如订阅更新、从 URL 导入和 geo 文件下载）与上述请求相同，并遵循相同的路由方式。[无界面 Throne](@/headless/_index.zh.md) 不进行位置查询，并且会在不询问的情况下下载缺少的 Xray geo 文件。
+
 你的应用流量所产生的 DNS 查询，会发往 `路由设置`（Routing Settings）→ `DNS` 中设置的服务器。参见 [DNS](@/guides/dns.zh.md)。
 
-**Android：** Throne for Android 会为订阅、路由配置档、规则集、测试和 WARP 注册发出同类请求。开启 `设置`（Settings）→ `订阅`（Subscriptions）→ `Use proxy` 时，或处于 `仅代理`（Proxy only）模式时，它自身的请求会使用本地代理。此时如果没有配置档在运行，订阅更新和 WARP 注册会失败，并提示“Request with proxy but no profile started.”（请求需要经过代理，但没有启动任何配置档。）；但更新检查、路由配置档下载和规则集列表仍然可用：它们会直接发出。Throne for Android 在你连接后不会查询你的位置。它只在你点按 `Check for updates` 时，或在你开启 `Check for updates daily`（该选项默认关闭）后每天一次，向 GitHub 检查更新。`路由`（Routing）界面上的 `Refresh repository list` 会从 GitHub 下载路由配置档列表。
+**Android：** Throne for Android 会为订阅、路由配置档、规则集、测试和 WARP 注册发出同类请求。开启 `设置`（Settings）→ `订阅`（Subscriptions）→ `Use proxy` 时，或处于 `仅代理`（Proxy only）模式时，它自身的请求会使用本地代理。此时如果没有配置档在运行，订阅更新和 WARP 注册会失败，并提示“Request with proxy but no profile started.”（请求需要经过代理，但没有启动任何配置档。）；但更新检查、路由配置档下载和规则集列表仍然可用：它们会直接发出。自 2.0.2 起，Throne for Android 在每次连接后以及从底栏进行连接测试后，也会通过 `http://ip-api.com/json/` 查询你的出口位置；该请求经由本地代理发出，在关闭混合入站时则经由 VPN 发出。同样自 2.0.2 起，当带有 `geoip:` 或 `geosite:` 规则的 Xray 配置启动或被测试时，它会从 GitHub 下载 `geoip.dat` 和 `geosite.dat`（默认来自 Loyalsoldier）。它只在你点按 `Check for updates` 时，或在你开启 `Check for updates daily`（该选项默认关闭）后每天一次，向 GitHub 检查更新。`路由`（Routing）界面上的 `Refresh repository list` 会从 GitHub 下载路由配置档列表。
 
 ## 本地代理端口 {#local-proxy}
 
@@ -98,10 +106,13 @@ Throne 会按照你的配置档和路由规则发送你的流量。本页介绍 
 | `DNS 服务器端口`（DNS Server Port）：`基本设置` → `杂项` | `5533` | 仅限本机（`127.0.0.1`）。 |
 | Clash API：`基本设置` → `核心`（Core） | 关闭（`监听端口` 为空） | Clash API 的 `监听地址`，默认为 `127.0.0.1`。开启时请设置 `密钥`（Secret）。 |
 | sing-box API / 仪表盘：`基本设置` → `核心` | 关闭（`监听端口` 为空） | 仅限本机。由随机生成的 `密钥` 保护。 |
+| Throne API：`Integration Settings` → `Throne API`（自 1.4.0 起） | 关闭；开启时端口为 `9095` | 仅限本机（`127.0.0.1`）；如果 `Listen on` 设为 `Local network`，则为所有能访问你电脑的设备，并受 `Allowed addresses` 限制。每个客户端都需要密钥。参见 [Throne API 与 thronectl](@/advanced/api.zh.md#security)。 |
 
 当配置档使用 Xray 时，核心还会在 `127.0.0.1` 上打开若干内部端口，每个端口都由随机密码保护。Throne 与其核心之间通过本地套接字通信，而不是通过网络端口。
 
-**Android：** `设置`（Settings）→ `Inbound` 中有同类选项：`代理端口`（Proxy port）、`允许来自局域网的连接`（Allow connections from the LAN）和 `Enable authorization`，其中 `允许来自局域网的连接` 默认关闭。
+[无界面 Throne](@/headless/_index.zh.md) 在首次启动时就会开启 Throne API，监听 `127.0.0.1:9095`，密钥保存在一个只有其运行用户可以读取的文件中。
+
+**Android：** `设置`（Settings）→ `Inbound` 中有同类选项：`代理端口`（Proxy port）、`允许来自局域网的连接`（Allow connections from the LAN）和 `Enable authorization`，其中 `允许来自局域网的连接` 默认关闭。自 2.0.2 起，`设置` → `核心`（Core）中的 sing-box API 默认开启，监听 `127.0.0.1:9091` 并使用随机密钥；它用应用内的文件为侧边菜单中的 `sing-box 仪表板`（sing-box dashboard）提供服务。Throne for Android 没有 Throne API。
 
 ## 本网站 {#website}
 

@@ -1,6 +1,6 @@
 +++
 title = "FAQ"
-description = "Краткие ответы на частые вопросы о Throne: отличия от Nekoray, срабатывания антивирусов, kill switch, права для TUN, пакеты и старые системы."
+description = "Краткие ответы на частые вопросы о Throne: отличия от Nekoray, срабатывания антивирусов, kill switch, headless-серверы, скрипты, права для TUN, пакеты и старые системы."
 weight = 10
 toc = true
 +++
@@ -27,6 +27,16 @@ Throne не умеет читать конфигурацию Nekoray. О пер�
 
 Да. [Throne для Android](@/android/_index.ru.md) 2.0.0 (ранее NekoBox for Android) использует то же ядро и тот же формат резервных копий, что и приложение для компьютера. Создайте резервную копию на компьютере в `Настройки` (Settings) → `Основные настройки` (Basic Settings) → `Резервное копирование и восстановление` (Backup and Restore), скопируйте файл `.thrbackup` на телефон и восстановите его в приложении для Android. В обратную сторону, с Android на компьютер, это тоже работает. См. [Резервное копирование, обновление и перенос](@/guides/backup.ru.md#desktop-android).
 
+## Может ли Throne работать на сервере без окна? {#headless}
+
+Да, начиная с 1.4.0. `Throne --headless` запускает ту же программу без окна, значка в трее и диалогов: на сервере, роутере, Raspberry Pi или в контейнере. Пакеты `.deb` и `.rpm` содержат для этого службу systemd, которую они никогда не включают сами, а ещё есть образ Docker. Headless Throne управляют с помощью `thronectl` через Throne API. См. [Headless Throne](@/headless/_index.ru.md).
+
+## Можно ли управлять Throne из скрипта или со Stream Deck? {#scripts}
+
+Да, начиная с 1.4.0. Включите Throne API в `Настройки` (Settings) → `Integration Settings` → `Throne API` и используйте `thronectl`. Например, `thronectl toggle` подключает и отключает Throne одной клавишей Stream Deck или макропада, а `thronectl connect best` запускает профиль с наименьшей задержкой. См. [Throne API и thronectl](@/advanced/api.ru.md).
+
+Без API из любого приложения также работают [глобальные горячие клавиши](@/reference/shortcuts.ru.md#global-hotkeys) `Start/Stop Profile` и `Toggle Tun Mode`.
+
 ## Почему антивирус считает Throne опасным? {#antivirus}
 
 Это ложные срабатывания. Некоторые антивирусы реагируют на действия, которые Throne выполняет в рамках обычных функций:
@@ -43,7 +53,9 @@ Throne не умеет читать конфигурацию Nekoray. О пер�
 
 ## Есть ли kill switch? {#kill-switch}
 
-Нет. В Throne нет kill switch, и сопровождающие не планируют его добавлять ([#827](https://github.com/throneproj/Throne/issues/827), [#912](https://github.com/throneproj/Throne/issues/912)). Когда профиль останавливается или ядро неожиданно завершает работу, ваши приложения подключаются напрямую, без прокси.
+Да, начиная с 1.4.0, как экспериментальная функция. Включите `Настройки` (Settings) → `Основные настройки` (Basic Settings) → `Безопасность` (Security) → `Kill Switch`. Пока Throne работает, он блокирует весь трафик, который идёт не через Throne, даже когда ни один профиль не запущен. Локальная сеть остаётся доступной, если в `Настройки режима TUN` (Tun Settings) не выключен `Обход частного диапазона` (Private Range Bypass). Kill switch нужны те же права, что и режиму TUN: права администратора в Windows и ядро с правами root в Linux и macOS. См. [Kill Switch](@/advanced/kill_switch.ru.md).
+
+В Throne 1.3 и более старых версиях kill switch нет. Когда профиль останавливается или ядро неожиданно завершает работу, ваши приложения подключаются напрямую, без прокси.
 
 **Android:** сам Android умеет блокировать весь трафик, пока VPN не подключён. Назначьте Throne постоянной VPN (always-on VPN) и включите системный параметр, который блокирует подключения без VPN. См. [Разрешения и работа в фоне](@/android/permissions.ru.md#always-on).
 
@@ -124,19 +136,19 @@ Throne 1.1.0 и 1.1.1 импортировали целую конфигурац
 - `Throne-<version>-debian-amd64.deb` содержит собственную копию библиотек Qt. Он больше по размеру, но не зависит от версии Qt в вашей системе.
 - `Throne-<version>-debian-amd64-system-qt.deb` не содержит Qt. Он использует библиотеки Qt 6 вашего дистрибутива и устанавливает их как зависимости.
 
-Начните с обычного пакета. Если он не запускается, например на процессорах без SSE4.2 ([#845](https://github.com/throneproj/Throne/issues/845)), используйте пакет `system-qt`. Такая же пара есть для arm64 (`debian-arm64.deb` и `debian-arm64-system-qt.deb`) и в виде пакетов `.rpm` для Fedora и RHEL (`fedora-amd64.rpm`, `fedora-amd64-system-qt.rpm` и версии для arm64). См. [Установка](@/get_started/installation.ru.md#linux).
+Начните с обычного пакета. Если он не запускается, например на процессорах без SSE4.2 ([#845](https://github.com/throneproj/Throne/issues/845)), используйте пакет `system-qt`. Такая же пара есть для arm64 (`debian-arm64.deb` и `debian-arm64-system-qt.deb`) и в виде пакетов `.rpm` для Fedora и RHEL (`fedora-amd64.rpm`, `fedora-amd64-system-qt.rpm` и версии для arm64). В APT- и RPM-репозиториях Throne есть пакеты `system-qt`. См. [Установка](@/get_started/installation.ru.md#linux).
 
-## Официальные ли пакеты WinGet, Scoop, AUR, Nix и RPM-репозитория? {#third-party-packages}
+## Какие пакеты официальные? {#third-party-packages}
 
 Разработчики Throne публикуют его на [странице релизов GitHub](https://github.com/throneproj/Throne/releases): ZIP-файлы, установщик для Windows и пакеты `.deb` и `.rpm` (`.rpm` — начиная с 1.3.0). Установочный скрипт для Linux из репозитория Throne устанавливает ZIP-архив релиза.
 
-Пакеты WinGet, Scoop, AUR и Nix/NixOS создают участники сообщества, и разработчики их не поддерживают ([#1182](https://github.com/throneproj/Throne/issues/1182), [#1622](https://github.com/throneproj/Throne/issues/1622)). Если проблема возникает только с таким пакетом, проверьте официальную сборку, а о проблемах упаковки сообщайте сопровождающему пакета.
+Кроме того, они ведут APT- и RPM-репозиторий на `throneproj.github.io/Throne` с пакетами `system-qt` каждого стабильного релиза, а процесс выпуска релизов Throne обновляет пакет `throne` в AUR. См. [Установка](@/get_started/installation.ru.md#apt-repository).
 
-RPM-репозиторий `parhelia512.github.io` ведёт parhelia512, участник организации throneproj на GitHub; ссылка на этот репозиторий есть в README Throne. Он существует отдельно от файлов релизов. См. [Менеджеры пакетов](@/get_started/installation.ru.md#package-managers).
+Пакеты WinGet, Scoop и Nix/NixOS, а также другие пакеты AUR, например `throne-bin`, создают участники сообщества, и разработчики их не поддерживают ([#1182](https://github.com/throneproj/Throne/issues/1182), [#1622](https://github.com/throneproj/Throne/issues/1622)). Если проблема возникает только с таким пакетом, проверьте официальную сборку, а о проблемах упаковки сообщайте сопровождающему пакета. См. [Менеджеры пакетов](@/get_started/installation.ru.md#package-managers).
 
 ## Какая сборка нужна для Windows 7, старой macOS или старого процессора? {#old-systems}
 
-- **Windows 7 SP1 и Windows 8:** используйте `windowslegacy64.zip` (64-битная система) или `windows32.zip` (32-битная). Универсальный установщик тоже подойдёт: на 32-битной Windows и на 64-битной Windows, более ранней, чем Windows 10 1809, он сам устанавливает legacy-сборку. Обычному `windows64.zip` нужна Windows 10 1809 или новее. В Windows 7 и 8 режим TUN может использовать только стек `gvisor` ([#1291](https://github.com/throneproj/Throne/issues/1291)).
+- **Windows 7 SP1 и Windows 8:** используйте `windowslegacy64.zip` (64-битная система) или `windows32.zip` (32-битная). Универсальный установщик тоже подойдёт: на 32-битной Windows и на 64-битной Windows, более ранней, чем Windows 10 1809, он сам устанавливает legacy-сборку. Обычному `windows64.zip` нужна Windows 10 1809 или новее. В Throne 1.3 и более старых версиях режим TUN в Windows 7 и 8 работает только со стеком `gvisor` ([#1291](https://github.com/throneproj/Throne/issues/1291)); начиная с 1.4.0 в `Настройки режима TUN` (Tun Settings) нет параметра `Stack`.
 - **macOS с 10.15 по 12:** используйте `macoslegacy-amd64.zip`. Обычным сборкам для macOS нужна macOS 13 или новее. Более старые версии macOS не поддерживаются.
 - **Старые процессоры в Linux:** если Throne не запускается и выводит `This Qt build requires the following features: sse4.2 popcnt`, установите пакет `system-qt` ([#845](https://github.com/throneproj/Throne/issues/845)).
 

@@ -73,6 +73,7 @@ Throne keeps your data in your user folder, not inside `Throne.app`, so you can 
 | `Throne-<version>-debian-amd64.deb`, `…-debian-arm64.deb` | Debian, Ubuntu, Linux Mint and other Debian-based systems |
 | `Throne-<version>-fedora-amd64.rpm`, `…-fedora-arm64.rpm` | Fedora and RHEL-based systems (since 1.3.0) |
 | Files that end in `-system-qt.deb` or `-system-qt.rpm` | The same packages, but they use the Qt libraries of your system |
+| [APT repository](#apt-repository) and [RPM repository](#rpm-repository) | The system-Qt packages, kept up to date by your package manager |
 
 The Linux builds need glibc 2.34 or newer. The ARM64 files that include Qt need glibc 2.38 or newer.
 
@@ -108,13 +109,53 @@ cd Throne
 sudo apt install ./Throne-x.x.x-debian-amd64.deb
 ```
 
+To get new versions with `apt upgrade`, use the [APT repository](#apt-repository) instead.
+
 ### Fedora and RHEL (.rpm) {#rpm}
 
 ```bash
 sudo dnf install ./Throne-x.x.x-fedora-amd64.rpm
 ```
 
+To get new versions with `dnf upgrade` or `zypper update`, use the [RPM repository](#rpm-repository) instead.
+
 Both packages install Throne to `/opt/Throne` and add it to the application menu. Throne then keeps your data in `~/.config/Throne`.
+
+Since 1.4.0, the packages also install a systemd service for [headless Throne](@/headless/_index.md), `/usr/lib/systemd/system/throne.service`, and its settings file `/etc/throne/throne.env`. The package never enables or starts the service, so it does not change how the Throne window works. See [Installation & Services](@/headless/installation.md#linux-packages).
+
+### APT repository {#apt-repository}
+
+The APT repository at `throneproj.github.io/Throne/apt` has the system-Qt packages for amd64 and arm64 (see [System Qt packages](#system-qt)). It gets every stable release, but no beta versions, and it is signed. To add it on Debian, Ubuntu and other Debian-based systems:
+
+```bash
+sudo install -d -m 0755 /etc/apt/keyrings
+sudo curl -fsSLo /etc/apt/keyrings/throne.asc https://throneproj.github.io/Throne/throne.asc
+sudo curl -fsSLo /etc/apt/sources.list.d/throne.list https://throneproj.github.io/Throne/apt/throne.list
+sudo apt update
+sudo apt install throne
+```
+
+After that, `sudo apt upgrade` also updates Throne.
+
+### RPM repository {#rpm-repository}
+
+The RPM repository at `throneproj.github.io/Throne/rpm` has the system-Qt packages for x86_64 and aarch64, so your distribution must provide Qt 6.5 or newer. It gets every stable release, but no beta versions, and the packages and the repository are signed.
+
+Fedora and RHEL 9 or newer:
+
+```bash
+sudo curl -fsSLo /etc/yum.repos.d/throne.repo https://throneproj.github.io/Throne/rpm/throne.repo
+sudo dnf install throne --refresh
+```
+
+openSUSE and SLES:
+
+```bash
+sudo zypper addrepo -fc https://throneproj.github.io/Throne/rpm/throne.repo
+sudo zypper install throne
+```
+
+The first time, `dnf` and `zypper` ask you to trust the signing key of the repository.
 
 ### System Qt packages {#system-qt}
 
@@ -123,7 +164,7 @@ Qt is the toolkit of the Throne window. The normal packages include their own co
 ## Package managers {#package-managers}
 
 {% alert_warning() %}
-The WinGet, Scoop, AUR and Nix packages are made by community members, not by the Throne developers. They can be older than the latest release and can work differently from the official builds. Report problems with such a package to its maintainer. If you are not sure whether a problem comes from Throne or from the package, test an official build from [Downloads](@/downloads.md) first. See also the [FAQ](@/help/faq.md#third-party-packages).
+The WinGet, Scoop and Nix packages, and the AUR packages other than `throne`, are made by community members, not by the Throne developers. They can be older than the latest release and can work differently from the official builds. Report problems with such a package to its maintainer. If you are not sure whether a problem comes from Throne or from the package, test an official build from [Downloads](@/downloads.md) first. See also the [FAQ](@/help/faq.md#third-party-packages).
 {% end %}
 
 ### WinGet {#winget}
@@ -139,27 +180,13 @@ scoop bucket add extras
 scoop install extras/throne
 ```
 
-### Fedora, RHEL and openSUSE {#rpm-repository}
-
-Official RPM repository for Throne is now available.
-
-Fedora and RHEL 9 or newer:
-
-```bash
-sudo curl -o /etc/yum.repos.d/throne.repo http://throneproj.github.io/Throne/rpm/throne.repo
-sudo dnf install -y throne --refresh
-```
-
-openSUSE and SLES:
-
-```bash
-sudo zypper addrepo -fc http://throneproj.github.io/Throne/rpm/throne.repo
-sudo zypper install -y throne
-```
+For Debian, Ubuntu, Fedora, RHEL and openSUSE, Throne has its own [APT repository](#apt-repository) and [RPM repository](#rpm-repository).
 
 ### Arch Linux (AUR) {#aur}
 
 Throne is in the Arch User Repository as `throne`. Install it with an AUR helper, for example `yay -S throne` or `paru -S throne`.
+
+The `throne` package builds Throne from source and installs it to `/usr/lib/throne`. Its build script is kept in the Throne repository, and the release workflow of Throne updates the package for every stable release. Throne keeps your data in `~/.config/Throne`.
 
 ### NixOS {#nixos}
 
@@ -188,7 +215,7 @@ Throne has two parts that you build separately: the interface (`Throne`, written
 
 | Part | Requirements |
 |---|---|
-| Interface | CMake 3.20 or newer, a C++20 compiler, Qt 6.2 or newer (Widgets, Network, LinguistTools, and DBus on Linux), X11 development headers on Linux |
+| Interface | CMake 3.20 or newer, a C++20 compiler, Qt 6.2 or newer (Widgets, Network, LinguistTools, and DBus on Linux), X11 and xcb development headers on Linux |
 | Core | Go 1.26 or newer, `protoc`, `protoc-gen-go` and `protoc-gen-go-grpc`. CGO on Linux and macOS: on Linux the Chromium toolchain from cronet-go (the NaïveProxy outbound needs it), on macOS the Xcode command line tools. |
 
 Example for Ubuntu 22.04 or newer on x64:
@@ -251,11 +278,13 @@ On ARM64, use `--target=linux/arm64` and `GOARCH=arm64`.
 - **macOS:** add `-DNKR_PACKAGE_MACOS=1` to the `cmake` command; this builds `Throne.app`. Build the core with `GOOS=darwin` and copy `ThroneCore` into `Throne.app/Contents/MacOS/`.
 - **Windows:** the official builds compile the interface with MSVC and Ninja, and cross-compile the core on Linux with `GOOS=windows` (the script turns CGO off for Windows). Copy `ThroneCore.exe` and `libcronet.dll` from the `DEST` folder next to `Throne.exe`.
 
-The exact steps of the official builds are in `.github/workflows/build.yml` in the [Throne repository](https://github.com/throneproj/Throne).
+The exact steps of the official builds are in `.github/workflows/build.yml` in the [Throne repository](https://github.com/throneproj/Throne). The legacy builds for Windows 7 and macOS 10.15 compile the core with the [MetaCubeX fork of Go](https://github.com/MetaCubeX/go) 1.26, because the official Go no longer supports these systems.
 
 ## Updating {#updating}
 
 ZIP copies and the default per-user installation of the Windows installer can update themselves: click `Tools` → `Check For Update`, then `Update`. Update all other copies the way you installed them: run the new installer, install the new `.deb` or `.rpm` package, run the install script again, replace `Throne.app` on macOS, or use your package manager. Your profiles and settings stay.
+
+Since 1.4.0, `Check For Update` shows no `Update` button while a [headless Throne](@/headless/_index.md) runs from the same installation. Stop the headless Throne first.
 
 For the details, beta versions and backups, see [Backup, Updates & Migration](@/guides/backup.md#updating). After an update on Linux or macOS, Throne may ask again for the rights it needs for TUN mode.
 

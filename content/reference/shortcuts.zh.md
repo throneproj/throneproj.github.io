@@ -13,7 +13,7 @@ toc = true
 
 工具栏按钮 `程序`（Program）、`设置`（Settings）、`分组`（Groups）、`路由`（Routing）和 `工具`（Tools）用于打开主窗口的各个菜单。`设置`（Settings）和 `路由`（Routing）菜单没有快捷键。
 
-“可更改”一列表示能否在 `设置`（Settings）→ `热键设置`（Hotkey Settings）中为该操作设置其他快捷键。参见[更改快捷键](#change-shortcuts)。
+“可更改”一列表示能否在 `设置`（Settings）→ `Integration Settings`（1.4.0 之前为 `热键设置`（Hotkey Settings））中为该操作设置其他快捷键。参见[更改快捷键](#change-shortcuts)。
 
 ### 程序菜单 {#program-menu}
 
@@ -38,12 +38,12 @@ toc = true
 | `为本组解析域名`（Resolve Domain for group） | `Ctrl+Shift+I` | 是 |
 | `清除本组测试结果`（Clear Group test result） | `Ctrl+Shift+C` | 是 |
 | `更新订阅`（Update subscription） | `Ctrl+U` | 是 |
-| `移除重复项`（Remove Duplicates） | `Ctrl+Shift+D` | 是 |
-| `移除不可用项`（Remove Unavailable） | `Ctrl+Shift+R` | 是 |
-| `移除无效项`（Remove Invalid） | `Ctrl+Alt+I` | 是 |
+| `清理`（Clean up）→ `移除重复项`（Remove Duplicates） | `Ctrl+Shift+D` | 是 |
+| `清理` → `移除不可用项`（Remove Unavailable） | `Ctrl+Shift+R` | 是 |
+| `清理` → `移除无效项`（Remove Invalid） | `Ctrl+Alt+I` | 是 |
 | `停止测试`（Stop Testing） | `Ctrl+.` | 是 |
 
-`停止测试`（Stop Testing）仅在测试运行时才会出现在菜单中。
+`停止测试`（Stop Testing）仅在测试运行时才会出现在菜单中。自 1.4.0 起，这些移除操作与 `移除不安全的配置`（Remove Insecure Configs）一起位于 `清理`（Clean up）子菜单中。
 
 右键点击分组标签页，即可打开该分组及其菜单。标签页菜单包含 `添加新分组`（Add new Group）、`编辑选定分组`（Edit selected Group）、`删除选定分组`（Delete selected Group）、`更新订阅`（Update subscription）、`URL 测试选定分组`（Url Test selected Group）和 `速度测试选定分组`（Speed Test selected Group）。拖动标签页可以调整分组的顺序。
 
@@ -68,7 +68,7 @@ toc = true
 | --- | --- | --- |
 | `启动`（Start） | `Enter` | 否 |
 | `停止`（Stop） | `Ctrl+S` | 否 |
-| `分享`（Share）→ `导出 Sing-box 配置`（Export Sing-box config） | `Ctrl+E` | 是 |
+| `分享`（Share）→ `导出配置`（Export config） | `Ctrl+E` | 是 |
 | `分享` → `复制选定项的链接`（Copy links of selected） | `Ctrl+C` | 否 |
 | `分享` → `复制选定项的链接 (深度链接)`（Copy links of selected (Deep Links)） | `Ctrl+Alt+C` | 否 |
 | `删除`（Delete） | `Del` | 否 |
@@ -77,6 +77,8 @@ toc = true
 | `URL 测试选定项`（Url Test Selected） | `Ctrl+Shift+S` | 是 |
 | `速度测试选定项`（Speedtest Selected） | `Ctrl+Shift+P` | 是 |
 | `重置流量`（Reset Traffic） | `Ctrl+R` | 是 |
+
+自 1.4.0 起，`导出配置`（Export config）会打开一个窗口，显示生成的 sing-box 配置；对于使用 Xray 的配置档，Xray 配置位于单独的标签页中。`复制`（Copy）会复制当前打开的标签页中的配置。1.4.0 之前，该菜单项为 `导出 Sing-box 配置`（Export Sing-box config），某些配置档还有 `导出 Xray 配置`（Export Xray config）。
 
 列表中的其他按键和鼠标操作：
 
@@ -93,43 +95,46 @@ toc = true
 
 ### 没有默认快捷键的操作 {#no-default}
 
-以下操作默认没有快捷键，你可以为它们设置快捷键：`二维码和链接`（QR Code and link）、`复制测试结果`（Copy Test Result）、`解析选定域名`（Resolve Selected Domain）、`解析选定的出口 IP`（Resolve Selected Out IP）、`清理测试结果`（Clear Test Result）、`为本组解析 IP`（Resolve out IP for group）、`更新所有订阅`（Update all subscriptions）、`移除不安全的配置`（Remove Insecure Configs）和 `刷新列宽`（Refresh Column Widths）。
+以下操作默认没有快捷键，你可以为它们设置快捷键：`二维码和链接`（QR Code and link）、`复制测试结果`（Copy Test Result）、`解析选定域名`（Resolve Selected Domain）、`解析选定的出口 IP`（Resolve Selected Out IP）、`清理测试结果`（Clear Test Result）、`为本组解析 IP`（Resolve out IP for group）、`更新所有订阅`（Update all subscriptions）、`移除不安全的配置`（Remove Insecure Configs）、`IP Scanner` 和 `刷新列宽`（Refresh Column Widths）。
 
 ## 更改快捷键 {#change-shortcuts}
 
-1. 打开 `设置`（Settings）→ `热键设置`（Hotkey Settings）。
+1. 打开 `设置`（Settings）→ `Integration Settings`。
 2. 打开 `快捷键`（Shortcuts）标签页。其中列出了所有可以更改快捷键的操作。
 3. 点击某个操作旁边的输入框，然后按下新的组合键。要删除快捷键，请点击输入框并按 `Backspace`。
 4. 点击 `确定`（OK）。
 
-如果两个操作使用相同的快捷键，则两者都不会生效。上面表格中标为“否”的快捷键无法更改，`Ctrl+F` 也无法更改。
+上面表格中标为“否”的快捷键无法更改，`Ctrl+F` 也无法更改。自 1.4.0 起，如果某个组合键已被另一个操作或某个全局热键使用，窗口会将其标出，在按钮旁边写明冲突，并且在你更改其中一个之前不会保存。
 
 ## 全局热键 {#global-hotkeys}
 
 全局热键在任何应用中都有效，即使 Throne 窗口已隐藏也是如此。所有全局热键默认都为空。
 
-1. 打开 `设置`（Settings）→ `热键设置`（Hotkey Settings）。
-2. 在 `全局`（Global）标签页中，点击某个热键的输入框。
+1. 打开 `设置`（Settings）→ `Integration Settings`。
+2. 在 `Global Hotkeys` 标签页（1.4.0 之前为 `全局`（Global））中，点击某个热键的输入框。
 3. 按下组合键。
 4. 点击 `确定`（OK）。
 
 | 热键 | 作用 |
 | --- | --- |
-| `显示/隐藏主窗口`（Trigger main window） | 显示主窗口；如果主窗口处于活动状态，则将其隐藏。与点击托盘图标的效果相同。 |
+| `显示/隐藏主窗口`（Trigger main window） | 显示主窗口；如果主窗口处于活动状态，则将其隐藏。与点击托盘图标的效果相同。自 1.4.0 起，它在 macOS 上也有效。 |
 | `显示分组`（Show groups） | 打开 `管理分组`（Manage Groups）窗口。 |
 | `显示路由`（Show routes） | 打开 `路由设置`（Routing Settings）。 |
 | `代理模式`（Proxy mode） | 在鼠标指针处打开 `操作模式`（Operation Mode）菜单，其中包含 `系统代理`（System Proxy）和 `Tun 模式`（Tun Mode）。 |
 | `切换系统代理`（Toggle System Proxy） | 开启或关闭 `系统代理`。 |
+| `Start/Stop Profile` | 停止正在运行的配置档；如果没有配置档在运行，则启动上次的配置档（自 1.4.0 起）。 |
+| `Toggle Tun Mode` | 开启或关闭 `Tun 模式`（自 1.4.0 起）。 |
 
-- 如果两个全局热键使用相同的按键，Throne 不会注册其中任何一个。
-- 如果某个组合键已被其他程序占用，该热键将无法生效。请换一个组合键。
-- `热键设置`（Hotkey Settings）窗口打开期间，全局热键会暂停工作。
-- **macOS：** `显示/隐藏主窗口`（Trigger main window）不起作用。请改用托盘菜单中的 `显示窗口`（Show Window）。
-- **Linux：** 全局热键使用 X11。在 Wayland 会话中它们可能无法工作。
+- 一个全局热键就是一个组合键。它必须包含 `Ctrl`、`Alt` 或 `Meta`（macOS 上为 `Cmd`），除非它是 `F9` 这样的功能键，这样它就不会妨碍你在其他应用中打字。
+- 如果某个组合键已被其他程序或系统快捷键占用，该热键将无法生效。点击 `确定`（OK）后，Throne 会列出它无法注册的热键，日志中会显示“Global hotkey not registered”（全局热键未注册）及原因。请换一个组合键。
+- `Integration Settings` 窗口打开期间，全局热键会暂停工作。
+- **Linux：** 自 1.4.0 起，全局热键可以在 X11 会话和 KDE Plasma Wayland 会话中使用。在 KDE Plasma 上，它们还会出现在系统设置的快捷键部分中，位于 `Throne` 下。在其他 Wayland 会话中无法使用全局热键，`Global Hotkeys` 标签页会显示“Global hotkeys are not supported in this desktop session.”（此桌面会话不支持全局热键）。
+
+要通过宏键盘、Stream Deck 或脚本控制 Throne，你也可以使用 [thronectl](@/advanced/api.zh.md#example-hotkey)。
 
 ## 托盘图标 {#tray}
 
-Throne 会在系统托盘中显示一个图标。在 macOS 上，该图标位于菜单栏中。当有配置档正在运行，以及 `系统代理`（System Proxy）或 `Tun 模式`（Tun Mode）开启时，图标会发生变化。将鼠标悬停在图标上，可以查看正在运行的配置档及其地理位置。开启了某种模式时，提示信息中还会显示该模式；当活动的路由配置档不是 `Default` 时，也会显示该路由配置档。
+Throne 会在系统托盘中显示一个图标。在 macOS 上，该图标位于菜单栏中。当有配置档正在运行，以及 `系统代理`（System Proxy）或 `Tun 模式`（Tun Mode）开启时，图标会发生变化。自 1.4.0 起，图标还会显示配置档正在启动或停止。将鼠标悬停在图标上，可以查看正在运行的配置档及其地理位置。开启了某种模式时，提示信息中还会显示该模式；当活动的路由配置档不是 `Default` 时，也会显示该路由配置档。
 
 - **Windows 和 Linux：** 点击图标可以显示窗口；如果窗口处于活动状态，则会将其隐藏。右键点击图标可以打开托盘菜单。
 - **macOS：** 点击图标可以打开托盘菜单。
@@ -145,6 +150,7 @@ Throne 会在系统托盘中显示一个图标。在 macOS 上，该图标位于
 | 菜单项 | 作用 |
 | --- | --- |
 | `显示窗口`（Show Window） | 显示主窗口。 |
+| `连接`（Connect）/ `断开连接`（Disconnect） | 没有配置档运行时启动一个配置档，否则停止正在运行的配置档（自 1.4.0 起）。它启动列表中选中的配置档。如果没有选中任何配置档，它会启动上次的配置档，否则启动当前打开的分组中的第一个配置档。配置档启动或停止期间，该菜单项显示为 `正在连接`（Connecting）或 `正在断开`（Disconnecting），并且无法点击。 |
 | `随系统启动`（Start with system） | 在你登录时启动 Throne。 |
 | `记住上次的配置档`（Remember last profile） | 下次启动时，Throne 会重新启动上次运行的配置档；如果之前开启了 `系统代理` 和 `Tun 模式`，也会重新开启它们。 |
 | `允许其他设备连接`（Allow other devices to connect） | 向你网络中的其他设备开放本地代理端口。参见[局域网共享](@/guides/proxy_modes.zh.md#lan-sharing)。 |
@@ -161,6 +167,8 @@ Throne 会在系统托盘中显示一个图标。在 macOS 上，该图标位于
 - **Windows：** Throne 会添加一个任务计划程序（Task Scheduler）任务。除非开启了 `启动时隐藏仪表盘`（Hide dashboard at startup），否则登录时会打开窗口。Throne 每次启动时，都会把该任务设置为与当前运行的 Throne 相同的权限：如果 Throne 以管理员身份运行，该任务也会以管理员身份启动它，除非开启了 `始终以标准用户身份启动`（Always Start as Standard User）。
 - **Linux：** Throne 会把带有 `-tray` 选项的 `Throne.desktop` 添加到 `~/.config/autostart`，因此它会在托盘中启动。
 - **macOS：** Throne 会添加一个登录项。除非开启了 `启动时隐藏仪表盘`（Hide dashboard at startup），否则登录时会打开窗口。
+
+如果 Throne 无法更改自启动项，它会显示“Could not update the autostart entry:”（无法更新自启动项）及原因（自 1.3.2 起）。
 
 ### 托盘设置 {#tray-settings}
 

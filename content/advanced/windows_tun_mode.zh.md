@@ -102,3 +102,4 @@ reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" /v DisableSma
 - **检查路由设置。** 有些结果是正常的。例如，被规则设为直连的域名会有意使用 `直连 DNS`（Direct DNS）进行解析，而这通常就是你的运营商的 DNS 服务器。[DNS 泄漏测试](@/guides/dns.zh.md#leak-tests)中列出了预期的结果。
 - **检查安全软件。** 有些杀毒软件和防火墙产品会自行过滤或重定向 DNS。请在暂停它们后再测试，或者为 Throne 添加例外。
 - **检查其他 VPN 应用。** 使用 TUN 模式时，请断开其他 VPN 客户端，它们也可能修改 DNS 设置和防火墙规则。
+- **使用断网保护。** 自 1.4.0 起，[断网保护（kill switch）](@/advanced/kill_switch.zh.md)会拦截所有不经过 Throne 的流量，包括发往你本地网络的 DNS 查询，即使没有配置档运行时也是如此。

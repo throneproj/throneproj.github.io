@@ -14,6 +14,8 @@ Throne (formerly Nekoray) is a free, open-source (GPL-3.0) proxy client for Wind
 
 Throne for Android (formerly NekoBox for Android) is the Android app. Since version 2.0.0 it uses the same core, the same settings model and the same backup format as the desktop app, so you can move your setup between your computer and your phone. See [Throne for Android](@/android/_index.md).
 
+Since 1.4.0, the same Throne program also runs without a window, on a server, a router or in a container, and you control it with the `thronectl` command-line tool. See [Headless Throne](@/headless/_index.md).
+
 If you used Nekoray or NekoBox before, read [Coming from Nekoray / NekoBox](@/help/migrating.md).
 
 ## Platforms {#platforms}
@@ -38,6 +40,9 @@ Get the files from [Downloads](@/downloads.md).
 - Anti-censorship options such as TLS fragment, uTLS and ECH: [Anti-Censorship Presets](@/advanced/presets.md).
 - Built-in Cloudflare WARP: [Cloudflare WARP](@/advanced/warp.md).
 - Backups that work in both the desktop and the Android app: [Backup, Updates & Migration](@/guides/backup.md).
+- A kill switch that blocks traffic outside Throne (since 1.4.0): [Kill Switch](@/advanced/kill_switch.md).
+- The Throne API, to control and manage Throne from scripts, hotkeys and other devices with `thronectl` (since 1.4.0): [Throne API & thronectl](@/advanced/api.md).
+- Headless mode for servers and containers (since 1.4.0): [Headless Throne](@/headless/_index.md).
 
 ## Where to start {#where-to-start}
 
@@ -58,5 +63,4 @@ Throne is built on these projects:
 - [simple-protobuf](https://github.com/tonda-kriz/simple-protobuf): messages between the interface and the core
 - [fkYAML](https://github.com/fktn-k/fkYAML): Clash YAML import
 - [quirc](https://github.com/dlbeer/quirc): QR code reading
-- [QHotkey](https://github.com/Skycoder42/QHotkey): global hotkeys
 - [srombauts/sqlitecpp](https://github.com/srombauts/sqlitecpp): the profile and settings database

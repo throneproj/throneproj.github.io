@@ -62,10 +62,11 @@ If the download fails with "Requesting profile error", choose another `Remote Ru
 | Tab | What it contains |
 | --- | --- |
 | `Common` | The active routing profile, domain strategies and the rule-set mirror. |
-| `Hijack` | Deprecated. Use `Tun Mode` instead; see [DNS](@/guides/dns.md#deprecated). |
 | `Warp` | Cloudflare WARP; see [WARP](@/advanced/warp.md#generate). |
 | `DNS` | DNS servers and options; see [DNS](@/guides/dns.md#settings). |
 | `Route` | Your routing profiles. |
+
+Up to 1.3.2, there was also a `Hijack` tab. It was removed in 1.4.0; see [DNS](@/guides/dns.md#deprecated).
 
 Settings on the `Common` tab:
 
@@ -126,7 +127,7 @@ Rules for writing lines:
 - Write the prefix exactly as shown, including upper and lower case (`processName`, not `processname`).
 - `domain:`, `suffix:` and `keyword:` values are saved in lower case.
 - A process name must match exactly, including upper and lower case and `.exe` on Windows. The [Connections tab](#connections-tab) shows the exact name.
-- Throne checks the lines when you switch tabs or click `OK`, and lists the lines it cannot use under "Some rules could not be added". Switching tabs drops those lines. `OK` does not save until you fix them.
+- Throne checks the lines when you switch tabs or click `OK`, and lists the lines it cannot use under "Some rules could not be added". Switching tabs drops those lines. `OK` does not save until you fix them. Since 1.4.0, the editor also marks such lines while you type.
 
 {% alert_info() %}
 Process rules only see traffic that reaches Throne. In system proxy mode, programs that ignore the proxy never reach it, so use process rules together with `Tun Mode`. See [TUN Mode](@/guides/tun_mode.md#enable).
@@ -187,6 +188,8 @@ To add a rule:
 | `bypass` | Linux only, for advanced setups. See the [sing-box documentation](https://sing-box.sagernet.org/configuration/route/rule_action/). |
 
 To block traffic in an advanced rule, use `reject`. The name `block` exists only as a default outbound and as the `Block` box.
+
+Since 1.4.0, the `route`, `route-options` and `bypass` actions also offer `tls_fragment`, `tls_fragment_fallback_delay` and `tls_record_fragment`. They split the TLS handshake of the matching connections, like the [TLS fragment](@/advanced/presets.md#tls-fragment) options of a profile. This helps for connections that go `direct`, for example to a site that a simple filter blocks by its name. `tls_fragment_fallback_delay` works only together with `tls_fragment`.
 
 | Attributes | What they match |
 | --- | --- |
@@ -267,24 +270,40 @@ If `final` is missing, Throne uses `proxy`. Built-in rule-set names are not defi
 
 `Prevent modifications` uses the object exactly as written; Throne only turns the outbound numbers into tags. Throne then adds nothing of its own, so DNS, Xray profiles, chains and other features may stop working. Use it only if you know sing-box well.
 
-`Enable AdBlock`, `Enable DNS Routing` and the `Append` actions of the Connections tab do not work with raw profiles. Throne for Android cannot use raw profiles.
+`Enable AdBlock`, `Enable DNS Routing` and the rule actions of the Connections tab do not work with raw profiles. Throne for Android cannot use raw profiles.
 
 ## Connections tab {#connections-tab}
 
-The `Connections` tab at the bottom of the main window lists open connections, grouped by program. For each connection it shows the destination, the protocol, the outbound it used and its traffic. It is the quickest way to see where a site goes and to add a rule for it.
+The `Connections` tab at the bottom of the main window lists open connections, grouped by program. The groups start collapsed; click a program to see its connections. For each connection, the tab shows the destination, the protocol, the outbound it used and its traffic. It is the quickest way to see where a site goes and to add a rule for it.
+
+Since 1.4.0, the `Outbound` column shows the name of the profile that carried the connection, instead of an internal name such as `proxy`. For an auto selector, it shows the profile that the selector picked; for the WARP hop, it shows `WARP`.
+
+The buttons at the top right of the tab: `Enable Filter` shows filter fields above the columns, `Expand All` or `Collapse All` opens or closes all program groups, and `Close every connection listed below` closes the listed connections.
 
 Right-click a connection:
 
 | Menu item | What it does |
 | --- | --- |
-| `Append "<host>" to` → `Direct` / `Proxy` / `Block` | Adds `suffix:<host>` to that box of the active routing profile. For an IP address it adds `ip:<address>`. |
-| `Append process "<name>" to` → `Direct` / `Proxy` / `Block` | Adds `processName:<name>` to that box. |
-| `Copy Destination`, `Copy Process Name` | Copies the value. |
-| `Close connection` | Closes the connection. |
+| `Modify rules in "…"` | A heading with the name of the active routing profile. |
+| `Direct` / `Proxy` / `Block` | Opens the targets for that box of the active routing profile (since 1.4.0, see below). |
+| `Copy Destination (…)`, `Copy Process Name (…)` | Copies the value. |
+| `Close connection` | Closes the connection. On a program, `Close all connections for "…"` closes all of its connections. |
+| `Expand All`, `Collapse All` | Opens or closes all program groups. |
 
-After you add a rule, click `Restart` in the "Settings changed, restart to apply" notice. The new line joins the existing simple rule of that box. If the box was empty, its rule is added at the end of the list, where a broader rule above it can still match first. Check the order on the `Advanced` tab.
+`Direct`, `Proxy` and `Block` open a list of targets with check boxes:
 
-The `Append` items are disabled when the active routing profile is raw, is locked with `Prevent modifications`, or is a remote profile with `Auto update` on. Hover over the item to see the reason. For a remote profile, clone it first as described in [Remote profiles](#remote-profiles).
+- **Every domain level** of the host, as a `suffix:` rule. For `tile.openstreetmap.org`, the targets are `*.tile.openstreetmap.org`, `*.openstreetmap.org` and, below a line, the top-level domain `*.org`.
+- **The name of the site** as a `keyword:` rule, such as `*openstreetmap*`. It also catches the site's other domains. It is offered only for names with 4 or more letters.
+- **An IP address** as an `ip:` rule, when the connection has no domain.
+- **The program**, below a line, as a `processName:` rule (`Process …`). On a program group, this is the only target.
+
+A ticked target is already in that box; untick it to remove its rule. A target marked "(in Proxy)" or similar is in another box: ticking it moves the rule, so that it is never in two boxes at once. "(covered by … in …)" means that a broader rule in another box matches first, so this rule would never apply. Hover over a target to see its rule.
+
+Click `OK`, then `Restart` in the "Settings changed, restart to apply" notice. A new line joins the existing simple rule of that box. If the box was empty, its rule is added at the end of the list, where a broader rule above it can still match first. Check the order on the `Advanced` tab.
+
+`Direct`, `Proxy` and `Block` are disabled when the active routing profile is raw, is locked with `Prevent modifications`, or is a remote profile with `Auto update` on. Hover over the item to see the reason. For a remote profile, clone it first as described in [Remote profiles](#remote-profiles).
+
+Up to 1.3.2, the menu had `Append "…" to` and `Append process "…" to` instead. They added only the exact host or program to a box.
 
 The tab needs `Settings` → `Basic Settings` → `Style` → `Connection statistics` → `Enable`, which is on by default.
 
@@ -311,13 +330,17 @@ What the link carries:
 - Rules that send traffic to a saved profile refer to it by name. On the other computer, Throne uses a profile with the same name, or `proxy` if there is none, and tells you.
 - VPN endpoints, shared without their credentials. When you import such a link, Throne creates the OpenVPN or OpenConnect profiles before it asks "Add this routing profile?", and keeps them if you cancel.
 
+Since 1.3.2, Throne leaves out a rule that uses a condition it cannot store, for example an Android-only condition such as a network type or a package name regex. The question before the import lists such rules ("rule … dropped: unsupported field …"). Throne drops the whole rule, because without that condition it would match more connections. If no rule is left, the import fails.
+
 For the link format, see [Deep Links](@/advanced/deeplinks.md#route).
 
 ## On Android {#android}
 
 Throne for Android has the same routing profiles, rules and rule-sets. Open `Routing` from the drawer; tap a profile to make it active. The differences:
 
-- **App rules.** The rule editor has an `Apps` field that matches Android apps. The desktop cannot see Android apps, so there a rule with an app condition never matches. Android shows a note when you export a profile with such rules.
+- **App rules.** The rule editor has an `Apps` field that matches Android apps. Its list starts with `Unknown apps`, for connections whose app cannot be found (since 2.0.2). Under `Advanced`, `Package name regex` (since 2.0.2) takes regular expressions, one per line in Go RE2 syntax, for example `^com\.google\.`. An app whose package name matches one of them counts as listed in `Apps`. An expression can match any part of the name; use `^` and `$` to match the whole name. The desktop cannot see Android apps, so there a rule with an app condition never matches.
+- **Network rules** (since 2.0.2). `Network type` matches `Wi-Fi`, `Mobile data`, `Ethernet` or `Other`. `Metered network`, under `Advanced`, matches only while the current network is metered, such as mobile data or a Wi-Fi marked as metered.
+- **Export and import.** Android shows a note when you export a profile with app or network rules. The desktop leaves out rules with a network type, a metered network or a package name regex when it imports the link (see [Share profiles](#share-profiles)). In the other direction, Android leaves out rules with conditions that it does not support, and warns about them (since 2.0.2).
 - **Wi-Fi rules.** `Wi-Fi SSID` and `Wi-Fi BSSID` need precise location access set to "Allow all the time", and location turned on, because Android hides the Wi-Fi name otherwise. Throne asks when you save such a rule. If access is missing, the notification "Wi-Fi rules are inactive" appears.
 - **Raw profiles.** Android refuses raw `throne://route/` links ("raw routing profiles are not supported on Android"). Raw profiles from a desktop backup are kept but cannot be used ("Raw (Throne desktop) · read-only").
 - **VPN endpoints** in an imported link are dropped with a warning.
@@ -325,3 +348,5 @@ Throne for Android has the same routing profiles, rules and rule-sets. Open `Rou
 - **Links.** A `throne://route/` link adds the profile but does not make it active.
 
 `Download profiles`, `Update rule-sets` and remote profiles work as on the desktop. `AdBlock` and `Auto update remote profiles` are in `Settings` → `Routing`.
+
+Since 2.0.2, a connection can start even when a rule-set cannot be downloaded. Throne shows "Could not download the rule-sets: …" with a `Connect anyway` button. If you confirm, Throne connects without the missing rule-sets. Rules that use them match nothing until Throne has downloaded them through the proxy, right after connecting. Throne keeps them for later connections.

@@ -46,6 +46,23 @@
       url: /android/tv/
     - title: "Устранение неполадок на Android"
       url: /android/troubleshooting/
+- title: "Throne в режиме headless"
+  section: headless
+  items:
+    - title: "Обзор"
+      url: /headless/
+    - title: "Установка и службы"
+      url: /headless/installation/
+    - title: "Управление через thronectl"
+      url: /headless/thronectl/
+    - title: "Командная строка и каталог данных"
+      url: /headless/command_line/
+    - title: "Проверки состояния и логи"
+      url: /headless/monitoring/
+    - title: "Защита от потери доступа и восстановление"
+      url: /headless/recovery/
+    - title: "Устранение неполадок"
+      url: /headless/troubleshooting/
 - title: "Расширенная конфигурация"
   section: advanced
   items:
@@ -63,8 +80,12 @@
       url: /advanced/vpn_profiles/
     - title: "Защита от утечек DNS в Windows"
       url: /advanced/windows_tun_mode/
+    - title: "Kill Switch"
+      url: /advanced/kill_switch/
     - title: "Глубокие ссылки"
       url: /advanced/deeplinks/
+    - title: "Throne API и thronectl"
+      url: /advanced/api/
 - title: "Справочник"
   section: reference
   items:

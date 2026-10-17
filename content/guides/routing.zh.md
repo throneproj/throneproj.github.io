@@ -62,10 +62,11 @@ Throne 可以下载为中国、伊朗和俄罗斯维护的路由配置档。
 | 标签页 | 内容 |
 | --- | --- |
 | `通用`（Common） | 活动的路由配置档、域策略和规则集镜像。 |
-| `劫持`（Hijack） | 已弃用。请改用 `Tun 模式`（Tun Mode）；参见 [DNS](@/guides/dns.zh.md#deprecated)。 |
 | `Warp` | Cloudflare WARP；参见 [WARP](@/advanced/warp.zh.md#generate)。 |
 | `DNS` | DNS 服务器和选项；参见 [DNS](@/guides/dns.zh.md#settings)。 |
 | `路由`（Route） | 你的路由配置档。 |
+
+在 1.3.2 及更早版本中，还有一个 `劫持`（Hijack）标签页。它已在 1.4.0 中移除；参见 [DNS](@/guides/dns.zh.md#deprecated)。
 
 `通用`（Common）标签页上的设置：
 
@@ -126,7 +127,7 @@ Throne 可以下载为中国、伊朗和俄罗斯维护的路由配置档。
 - 前缀必须与上表完全一致，包括大小写（写 `processName`，而不是 `processname`）。
 - `domain:`、`suffix:` 和 `keyword:` 的值会以小写形式保存。
 - 进程名必须完全匹配，包括大小写，在 Windows 上还包括 `.exe`。[连接标签页](#connections-tab)会显示确切的名称。
-- 当你切换标签页或点击 `确定`（OK）时，Throne 会检查这些行，并在“无法添加某些规则”下列出无法使用的行。切换标签页会丢弃这些行。在你修正它们之前，`确定` 不会保存。
+- 当你切换标签页或点击 `确定`（OK）时，Throne 会检查这些行，并在“无法添加某些规则”下列出无法使用的行。切换标签页会丢弃这些行。在你修正它们之前，`确定` 不会保存。自 1.4.0 起，编辑器还会在你输入时标出这些行。
 
 {% alert_info() %}
 进程规则只能看到到达 Throne 的流量。在系统代理模式下，忽略代理的程序根本不会到达 Throne，因此请将进程规则与 `Tun 模式`（Tun Mode）配合使用。参见 [TUN 模式](@/guides/tun_mode.zh.md#enable)。
@@ -187,6 +188,8 @@ suffix:example.org
 | `bypass` | 仅限 Linux，用于高级配置。参见 [sing-box 文档](https://sing-box.sagernet.org/configuration/route/rule_action/)。 |
 
 要在高级规则中阻止流量，请使用 `reject`。`block` 这个名称只作为默认出站和 `阻止`（Block）输入框存在。
+
+自 1.4.0 起，`route`、`route-options` 和 `bypass` 动作还提供 `tls_fragment`、`tls_fragment_fallback_delay` 和 `tls_record_fragment`。它们会拆分匹配连接的 TLS 握手，与配置档的 [TLS 分片](@/advanced/presets.zh.md#tls-fragment)选项类似。这对走 `direct` 的连接很有帮助，例如访问某个被简单过滤器按名称拦截的网站。`tls_fragment_fallback_delay` 只能与 `tls_fragment` 一起使用。
 
 | 属性 | 匹配内容 |
 | --- | --- |
@@ -267,24 +270,40 @@ Throne 会在配置档启动时下载该配置档的规则集，并将它们保�
 
 `防止修改`（Prevent modifications）会完全按原样使用该对象；Throne 只会把出站数字转换为标签（tag）。此时 Throne 不会添加任何自己的内容，因此 DNS、Xray 配置档、代理链和其他功能可能会失效。只有在你非常熟悉 sing-box 时才使用它。
 
-`启用 AdBlock (广告屏蔽)`（Enable AdBlock）、`启用 DNS 路由`（Enable DNS Routing）以及连接标签页中的 `追加`（Append）操作都不适用于原始配置档。Throne for Android 无法使用原始配置档。
+`启用 AdBlock (广告屏蔽)`（Enable AdBlock）、`启用 DNS 路由`（Enable DNS Routing）以及连接标签页中的规则操作都不适用于原始配置档。Throne for Android 无法使用原始配置档。
 
 ## 连接标签页 {#connections-tab}
 
-主窗口底部的 `连接`（Connections）标签页按程序分组列出当前打开的连接。对于每个连接，它会显示目标、协议、所用的出站及其流量。这是查看某个网站的流量去向并为其添加规则的最快方式。
+主窗口底部的 `连接`（Connections）标签页按程序分组列出当前打开的连接。分组一开始是折叠的；点击某个程序即可查看它的连接。对于每个连接，该标签页会显示目标、协议、所用的出站及其流量。这是查看某个网站的流量去向并为其添加规则的最快方式。
+
+自 1.4.0 起，`出站`（Outbound）列显示的是承载该连接的配置档的名称，而不是 `proxy` 之类的内部名称。对于自动选择器，它显示选择器选中的配置档；对于 WARP 这一跳，它显示 `WARP`。
+
+标签页右上角的按钮：`启用筛选`（Enable Filter）会在各列上方显示筛选输入框，`展开全部`（Expand All）或 `折叠全部`（Collapse All）会展开或折叠所有程序分组，`关闭下面列出的每个连接`（Close every connection listed below）会关闭列出的连接。
 
 右键点击某个连接：
 
 | 菜单项 | 作用 |
 | --- | --- |
-| `追加 "<host>" 到`（`Append "<host>" to`）→ `直连` / `代理` / `阻止` | 将 `suffix:<host>` 添加到活动路由配置档的对应输入框中。对于 IP 地址，则添加 `ip:<address>`。 |
-| `追加进程 "<name>" 到`（`Append process "<name>" to`）→ `直连` / `代理` / `阻止` | 将 `processName:<name>` 添加到对应输入框中。 |
-| `复制目标`（Copy Destination）、`复制进程名称`（Copy Process Name） | 复制相应的值。 |
-| `关闭连接`（Close connection） | 关闭该连接。 |
+| `Modify rules in "…"` | 一个标题，显示活动路由配置档的名称。 |
+| `直连`（Direct）/ `代理`（Proxy）/ `阻止`（Block） | 打开活动路由配置档中对应输入框的目标列表（自 1.4.0 起，见下文）。 |
+| `复制目标 (…)`（Copy Destination (…)）、`复制进程名称 (…)`（Copy Process Name (…)） | 复制相应的值。 |
+| `关闭连接`（Close connection） | 关闭该连接。在程序上，`关闭 "…" 的所有连接 (…)`（Close all connections for "…" (…)）会关闭它的所有连接。 |
+| `展开全部`（Expand All）、`折叠全部`（Collapse All） | 展开或折叠所有程序分组。 |
 
-添加规则后，点击“设置已更改，重启进行应用”提示中的 `重启`（Restart）。新行会并入该输入框已有的简单规则。如果该输入框原本为空，其规则会被添加到列表末尾，此时位于其上方、范围更广的规则仍可能先匹配。请在 `高级`（Advanced）标签页上检查顺序。
+`直连`、`代理` 和 `阻止` 会打开一个带复选框的目标列表：
 
-当活动的路由配置档是原始配置档、被 `防止修改`（Prevent modifications）锁定，或者是开启了 `自动更新`（Auto update）的远程配置档时，`追加`（Append）菜单项会被禁用。将鼠标悬停在菜单项上可查看原因。对于远程配置档，请先按照[远程配置档](#remote-profiles)中的说明克隆它。
+- 主机的**每一级域名**，作为 `suffix:` 规则。对于 `tile.openstreetmap.org`，目标为 `*.tile.openstreetmap.org`、`*.openstreetmap.org`，以及分隔线下方的顶级域名 `*.org`。
+- **网站的名称**，作为 `keyword:` 规则，例如 `*openstreetmap*`。它还能匹配该网站的其他域名。只有名称包含 4 个或更多字母时才会提供。
+- **IP 地址**，作为 `ip:` 规则，在连接没有域名时提供。
+- **程序**，位于分隔线下方，作为 `processName:` 规则（`Process …`）。在程序分组上，这是唯一的目标。
+
+已勾选的目标已经在该输入框中；取消勾选即可删除其规则。标有“(in 代理)”或类似字样的目标位于另一个输入框中：勾选它会移动该规则，因此同一条规则永远不会同时出现在两个输入框中。“(covered by … in …)”表示另一个输入框中范围更广的规则会先匹配，因此这条规则永远不会生效。将鼠标悬停在目标上可查看其规则。
+
+点击 `确定`（OK），然后点击“设置已更改，重启进行应用”提示中的 `重启`（Restart）。新行会并入该输入框已有的简单规则。如果该输入框原本为空，其规则会被添加到列表末尾，此时位于其上方、范围更广的规则仍可能先匹配。请在 `高级`（Advanced）标签页上检查顺序。
+
+当活动的路由配置档是原始配置档、被 `防止修改`（Prevent modifications）锁定，或者是开启了 `自动更新`（Auto update）的远程配置档时，`直连`、`代理` 和 `阻止` 会被禁用。将鼠标悬停在菜单项上可查看原因。对于远程配置档，请先按照[远程配置档](#remote-profiles)中的说明克隆它。
+
+在 1.3.2 及更早版本中，菜单中是 `追加 "…" 到`（Append "…" to）和 `追加进程 "…" 到`（Append process "…" to）。它们只会把确切的主机或程序添加到输入框中。
 
 该标签页需要开启 `设置`（Settings）→ `基本设置`（Basic Settings）→ `样式`（Style）→ `连接统计`（Connection statistics）→ `启用`（Enable），此项默认开启。
 
@@ -311,13 +330,17 @@ Throne 会在配置档启动时下载该配置档的规则集，并将它们保�
 - 将流量发送到已保存配置档的规则会按名称引用该配置档。在另一台电脑上，Throne 会使用同名的配置档；如果没有同名配置档，则使用 `proxy`，并告知你。
 - VPN 端点，分享时不包含其凭据。导入此类链接时，Throne 会在询问“添加这个路由配置档吗?”之前先创建 OpenVPN 或 OpenConnect 配置档；即使你取消，这些配置档也会保留。
 
+自 1.3.2 起，如果某条规则使用了 Throne 无法保存的条件，例如网络类型或包名正则这类仅限 Android 的条件，Throne 会将其排除在外。导入前的询问会以“rule … dropped: unsupported field …”（规则 … 已被舍弃：不支持的字段 …）列出这些规则。Throne 会舍弃整条规则，因为缺少该条件时，它会匹配更多的连接。如果没有剩下任何规则，导入就会失败。
+
 关于链接格式，请参见[深度链接](@/advanced/deeplinks.zh.md#route)。
 
 ## Android 版 {#android}
 
 Throne for Android 拥有相同的路由配置档、规则和规则集。从侧边菜单打开 `路由`（Routing），点按某个配置档即可将其设为活动配置档。不同之处如下：
 
-- **应用规则。** 规则编辑器中有一个 `Apps` 字段，用于匹配 Android 应用。桌面版无法识别 Android 应用，因此在桌面版上，带有应用条件的规则永远不会匹配。当你导出包含此类规则的配置档时，Android 会显示一条提示。
+- **应用规则。** 规则编辑器中有一个 `应用`（Apps）字段，用于匹配 Android 应用。它的列表以 `未知应用`（Unknown apps）开头，用于找不到所属应用的连接（自 2.0.2 起）。在 `高级`（Advanced）下，`包名正则`（Package name regex，自 2.0.2 起）接受正则表达式，每行一个，使用 Go RE2 语法，例如 `^com\.google\.`。包名与其中任意一个表达式匹配的应用，视为已列在 `应用` 中。表达式可以匹配名称的任意部分；要匹配整个名称，请使用 `^` 和 `$`。桌面版无法识别 Android 应用，因此在桌面版上，带有应用条件的规则永远不会匹配。
+- **网络规则**（自 2.0.2 起）。`网络类型`（Network type）匹配 `Wi-Fi`、`移动数据`（Mobile data）、`Ethernet` 或 `其他`（Other）。位于 `高级`（Advanced）下的 `按流量计费网络`（Metered network）只在当前网络按流量计费时匹配，例如移动数据或被标记为按流量计费的 Wi-Fi。
+- **导出与导入。** 当你导出包含应用规则或网络规则的配置档时，Android 会显示一条提示。桌面版在导入链接时，会排除带有网络类型、按流量计费网络或包名正则条件的规则（参见[分享配置档](#share-profiles)）。反过来，Android 会排除使用其不支持的条件的规则，并发出警告（自 2.0.2 起）。
 - **Wi-Fi 规则。** `Wi-Fi SSID` 和 `Wi-Fi BSSID` 需要将精确位置权限设为“始终允许”（Allow all the time），并开启位置信息，否则 Android 会隐藏 Wi-Fi 名称。保存此类规则时，Throne 会请求该权限。如果缺少权限，会出现“Wi-Fi rules are inactive”（Wi-Fi 规则未生效）通知。
 - **原始配置档。** Android 会拒绝原始配置档的 `throne://route/` 链接，并提示“raw routing profiles are not supported on Android”（Android 不支持原始路由配置档）。来自桌面版备份的原始配置档会被保留，但无法使用，显示为“Raw (Throne desktop) · read-only”（原始配置档，来自 Throne 桌面版，只读）。
 - 导入的链接中的 **VPN 端点**会被丢弃，并显示警告。
@@ -325,3 +348,5 @@ Throne for Android 拥有相同的路由配置档、规则和规则集。从侧�
 - **链接。** `throne://route/` 链接会添加配置档，但不会将其设为活动配置档。
 
 `Download profiles`、`Update rule-sets` 和远程配置档的用法与桌面版相同。`AdBlock` 和 `Auto update remote profiles` 位于 `设置`（Settings）→ `Routing` 中。
+
+自 2.0.2 起，即使某个规则集无法下载，连接也可以启动。Throne 会显示“无法下载规则集：…”（Could not download the rule-sets: …），并提供 `仍然连接`（Connect anyway）按钮。确认后，Throne 会在缺少这些规则集的情况下连接。使用它们的规则在 Throne 下载到它们之前不会匹配任何内容；Throne 会在连接后立即通过代理下载它们，并保留下来供以后的连接使用。

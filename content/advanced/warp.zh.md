@@ -50,6 +50,8 @@ Cloudflare 的注册服务器 `api.cloudflareclient.com` 在一些国家被封�
 
 如果在开启了 `使用代理` 或 `系统代理` 的情况下没有运行任何配置档，生成会失败，并提示“有用代理的请求，但未启动配置档。”（Request with proxy but no profile started.）
 
+开启[断网保护（kill switch）](@/advanced/kill_switch.zh.md)后，Throne 自身的请求只要不经过 Throne 就会被拦截。请在配置档以 TUN 模式运行时生成配置，或者开启 `使用代理` 后再生成。
+
 `注册域名...`（Registration Domains…）中保存 Cloudflare API 的域名，每行一个。Throne 会按顺序尝试，并使用第一个接受注册的域名。列表为空时使用 `api.cloudflareclient.com`。
 
 ## 开启 WARP {#enable}

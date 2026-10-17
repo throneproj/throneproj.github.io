@@ -91,11 +91,13 @@ Uninstalling the old app deletes all its data: profiles, groups, routing rules a
 
 ## Stable and preview builds {#preview}
 
-Stable releases are published on GitHub as normal releases, for example `v2.0.0`. Preview builds are published automatically as GitHub pre-releases with tags like `v<version>-pre.<number>`. They contain the newest changes and are meant for testing, so they can have bugs.
+Stable releases are published on GitHub as normal releases, for example `v2.0.2`. Preview builds contain the newest changes and are meant for testing, so they can have bugs.
+
+Until 2.0.0, preview builds were published as GitHub pre-releases with tags like `v<version>-pre.<number>`. Since 2.0.1 they are no longer published on the releases page. The developers build a preview by hand when they need testers. It is attached to the GitHub Actions run that built it for 14 days, and downloading it needs a GitHub account.
+
+These newer preview builds have their own package name, `com.nb4a.throne.debug`. Android installs a preview next to the stable app as a second app, with its own profiles and settings. The in-app updater does not offer previews, and a preview does not update itself. In adb commands and automation apps, use `com.nb4a.throne.debug` instead of `com.nb4a.throne` for a preview.
 
 A preview build shows a warning when the app opens: "This application is a preview version and may contain many problems. If you do not want to test it, please go to GitHub to download the release version!" The warning appears again at every start until you tap `Don't show again`. After an update to a newer preview, it appears again.
-
-Stable and preview builds are signed with the same key, so a newer build installs over an older one without uninstalling. To receive previews in the in-app updater, turn on `Allow updating to beta versions`.
 
 ## In-app updater {#updater}
 
@@ -112,7 +114,7 @@ The update settings are in `Settings` → `General`, in the `Updates` group:
 
 | Setting | Default | What it does |
 | --- | --- | --- |
-| `Allow updating to beta versions` | Off | Also offers pre-releases (preview builds). |
+| `Allow updating to beta versions` | Off | Also offers pre-releases from the GitHub releases page. Newer preview builds are not published there. See [Stable and preview builds](#preview). |
 | `Check for updates daily` | Off | Checks once a day and shows the notification "Throne … is available". The notification has a `Skip this version` button. |
 
 Before anything is installed, Throne checks the download:

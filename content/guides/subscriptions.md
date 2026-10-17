@@ -47,7 +47,7 @@ Throne creates a group named after the host name in the address and downloads it
 
 Creating a group does not download it. The group stays empty until the first update in step 6.
 
-`Groups` → `Manage Groups` opens a window with all groups. You can also create groups there with `New group`. Each row shows the type, the number of profiles, the address and the time of the last update. If the provider sends quota information (the `Subscription-UserInfo` header), the row also shows `Used`, `Remain` and `Expire`. Each row has `Edit` and `Remove` buttons, and subscription rows also have `Update Subscription`.
+`Groups` → `Manage Groups` opens a window with all groups. You can also create groups there with `New group`. Each row shows the type, the number of profiles, the address and the time of the last update. If the provider sends quota information, the row also shows `Used`, `Remain` and `Expire`, the time left and, while automatic updates are on, the update interval. See [Provider information](#provider-info). Each row has `Edit` and `Remove` buttons, and subscription rows also have `Update Subscription`.
 
 ### From a throne:// link {#from-link}
 
@@ -66,8 +66,8 @@ To update one group, use one of these:
 During an update, Throne:
 
 - Downloads the list and compares it with the profiles in the group. Profiles that did not change keep their test results. Changed profiles are updated. New profiles are added, and profiles that are no longer in the list are deleted.
-- Puts the profiles in the same order as the provider's list.
-- Changes nothing if the response contains no profiles at all. The log then says "No profiles found in the subscription: *group* was left unchanged." This protects your group from an empty or blocked response.
+- Puts the profiles in the same order as the provider's list. If you sorted the group by a column, Throne sorts it again after the update (since 1.4.0). See [Sort and filter](@/guides/testing.md#sort-filter).
+- Changes nothing if the response contains no profiles at all. The log then says "No profiles found in the subscription: *group* was left unchanged." This protects your group from an empty or blocked response. If the provider sent an announcement with the empty list, Throne shows it too.
 - Gives up if the server sends no data for 10 seconds, or if the response is larger than 64 MB.
 
 With `Settings` → `Basic Settings` → `Subscription` → `Clear servers before updating subscription` (off by default), Throne deletes the profiles of the group before each update, so their test results are lost.
@@ -78,11 +78,27 @@ Every update writes a report to the `Logs` tab. It starts with `Change of` and t
 
 After you update one group by hand, Throne also shows the report in a window. To turn the window off, untick `Settings` → `Basic Settings` → `Subscription` → `Show the changes window after a manual subscription update`. Automatic updates and `Update all subscriptions` only write to the log.
 
+Since 1.4.0, the report also lists problems: how many entries could not be imported or were imported with warnings, and why, for example an invalid port. When a manual update or an import from the clipboard or a file has problems, Throne shows them in a window, with the full list in its details.
+
 ### The profile you are using {#running-profile}
 
 An update does not stop or delete the profile you are connected to. If the provider removed it, Throne keeps it and lists it in the report under "Still in use, so kept instead of deleted". To let Throne stop and delete such a profile instead, turn on `Settings` → `Basic Settings` → `Subscription` → `Allow stopping the active profile`.
 
 If the provider changed the settings of the running profile, Throne saves the new settings, but the connection keeps the old ones. Start the profile again to use the new settings. A running [auto selector](@/guides/testing.md#auto-selector) restarts by itself when an update replaces profiles that it uses.
+
+## Provider information {#provider-info}
+
+Many providers send details about your plan with the subscription: the traffic you used and your total, the expiry date, a title, links to their website and support, an announcement, and how often to update. Throne reads them from the response headers `Subscription-UserInfo`, `Profile-Title`, `Profile-Web-Page-Url`, `Support-Url`, `Announce` and `profile-update-interval`, or from `#` comment lines with the same names at the top of the subscription.
+
+Since 1.3.2, a card above the profile list shows these details for the current group:
+
+- **Traffic:** a bar with the used and total traffic and the percentage, or `∞` when there is no total. The bar turns red at 90 % and when the plan has expired.
+- **Expiry:** the time left, for example `12d left`, or `Expired`. It turns red when 3 days or less are left. Hover over it to see the date.
+- **Update interval:** for example `Every 12h`, while automatic updates are on. Hover over it to see where the interval comes from.
+- **`Portal` and `Support`:** open the provider's links in your browser.
+- **Announcement:** the provider's message. Click it to read the whole text.
+
+The card appears only when the provider sends at least one of these details. Hovering over the group's tab shows the same details, and `Groups` → `Manage Groups` shows the traffic and the expiry.
 
 ## Automatic updates {#auto-update}
 
@@ -95,11 +111,21 @@ Automatic updates are off by default. To turn them on:
 
 How automatic updates work:
 
-- One interval applies to all groups. Each time it has passed, Throne updates every subscription group except groups with `Skip automatic update`.
-- An interval of less than 30 minutes counts as off.
+- Each subscription group has its own schedule. Throne updates a group when its interval has passed since the group's last update. Groups with `Skip automatic update` are left out.
+- By default every group uses the interval above. Since 1.3.2, a group can set its own `Update Interval` in its advanced options; see below.
+- An interval of less than 30 minutes counts as off. The `Enable` switch above must be on for any automatic update, including groups with their own interval.
 - Throne checks once a minute, and 10 seconds after it starts. An update that became due while Throne was closed runs soon after you open it.
-- The `Runtime Stats` tab shows the time left in `Next sub update`.
-- The log shows `Auto-update: running subscriptions` each time. Automatic updates never open the changes window.
+- The `Runtime Stats` tab shows the time left until the next group update in `Next sub update`.
+- Automatic updates never open the changes window. They write the same log lines as a manual update.
+
+Since 1.3.2, you can also follow the interval that the provider suggests in the `profile-update-interval` header, in hours. Tick `Use the update interval sent by the server` on the `Subscription` tab (off by default). Groups whose provider sends no interval keep using the normal interval.
+
+For one group, open the group options, click `Advanced`, and use the `Update` part:
+
+| Setting | What it does |
+| --- | --- |
+| `Update Interval` | Minutes between automatic updates of this group, at least 30. `Keep Default` uses the interval from the `Subscription` tab. |
+| `Server Interval` | `Use` or `Ignore` the interval that the provider sends. `Keep Default` follows `Use the update interval sent by the server`. When the provider sends none, `Update Interval` applies. |
 
 ## Group options {#group-options}
 
@@ -114,7 +140,7 @@ To change a group, right-click its tab and choose `Edit selected Group`, or choo
 | `Auto Clear Unavailable Profiles` | off | After a URL test of this group's profiles, deletes the profiles that failed, without asking. |
 | `URL` | – | The subscription address. Only for subscription groups. |
 | `Skip automatic update` | off | Leaves this group out of automatic updates. Manual updates still work. |
-| `Advanced` | – | Opens `Advanced Subscription Settings` (since 1.3.1). See [After each update](#after-update) and [User-Agent and HWID](#user-agent-and-hwid). |
+| `Advanced` | – | Opens `Advanced Group Settings` (since 1.3.1). See [Automatic updates](#auto-update), [After each update](#after-update), [User-Agent and HWID](#user-agent-and-hwid), [TLS and HTTP version](#tls-http-version) and [Server address](#server-address). Since 1.4.0, basic groups have it too, with only the `Server Address` part. |
 
 If the group has profiles, the window also has `Copy profile share links` and `Copy profile share links (Deep Links)`. They copy the links of all profiles in the group.
 
@@ -154,6 +180,15 @@ hwid=value,os=value,osVersion=value,model=value
 
 Throne sends these values in the headers `x-hwid`, `x-device-os`, `x-ver-os` and `x-device-model`. For what they contain, see [Privacy](@/reference/privacy.md#hwid).
 
+## TLS and HTTP version {#tls-http-version}
+
+Some subscription servers answer Throne's normal connection with a CAPTCHA, a block page or an error. Since 1.3.2, you can change how Throne connects to them:
+
+- For all groups: `Settings` → `Basic Settings` → `Subscription` → `TLS Version` (`Auto`, `TLS 1.2` or `TLS 1.3`) and `HTTP Version` (`Auto` or `HTTP/1.1`). Both are `Auto` by default. With `Auto`, Throne uses HTTP/2 when the server offers it.
+- For one group: group options → `Advanced` → `Request` → `TLS Version` and `HTTP Version`. `Keep Default` follows the global setting.
+
+`TLS 1.2` often gets through when the default handshake gets a CAPTCHA. `TLS 1.3` is greyed out if your system's TLS library does not support it.
+
 ## Front and landing proxy {#front-landing-proxy}
 
 A group can send the traffic of all its profiles through two extra profiles:
@@ -165,6 +200,24 @@ A group can send the traffic of all its profiles through two extra profiles:
 
 You can choose any saved profile from any group; type in the field to search. Auto selectors are not offered, because they change servers on their own. For chains and the rules for mixing cores, see [Proxy Chains & Custom Configs](@/advanced/chains.md#front-landing).
 
+## Server address {#server-address}
+
+Since 1.4.0, a group can make all its profiles connect to another address than the one in their settings. This helps when the provider's servers are behind a CDN and you want to use a CDN address that works on your network, for example one that the [IP scanner](@/guides/testing.md#ip-scanner) found.
+
+Open the group options, click `Advanced`, and choose under `Server Address`:
+
+| Choice | What it does |
+| --- | --- |
+| `Profiles' own addresses` (default) | Each profile connects to its own server. |
+| `Fixed address` | Every profile connects to the host name or IP address that you enter. Enter it without a port. |
+| `IP list` | Every profile connects to the first address of an IP list. The window shows which address that is. Greyed out while you have no IP lists. |
+
+The profiles keep their own ports. If a profile's server was a domain name, Throne still sends that name as the TLS server name (SNI) and as the `Host` of WebSocket, HTTPUpgrade, HTTP and XHTTP transports, unless the profile sets them itself. The `Address` column shows the address that each profile really uses. If the IP list is empty or was deleted, the profiles use their own addresses, and the log says so.
+
+A profile can override its group: in the profile editor, click `Advanced Settings` and set `Server Address` to `Inherit from group` (default), `Own address` or `IP list`. Profiles without one fixed server address, such as chains, auto selectors, `Direct`, `Tailscale`, `Extra Core` and custom configs, do not have this setting and are not changed by the group.
+
+When you change the server address of a group while one of its profiles runs, Throne restarts the profile.
+
 ## Supported formats {#formats}
 
 A subscription can return:
@@ -175,7 +228,7 @@ A subscription can return:
 - Xray JSON. The outbounds of a config become profiles. A list of complete Xray configs becomes one `Custom Xray Config` profile per config.
 - SIP008 (Shadowsocks JSON), WireGuard and AmneziaWG `.conf` files, OpenVPN `.ovpn` files, AnyConnect XML profiles and AmneziaVPN `vpn://` links.
 
-Whether a `vless://` link becomes a sing-box or an Xray profile depends on `Settings` → `Basic Settings` → `Core` → `Xray VLESS Preference`. Throne applies it when it imports, so update your subscriptions again after you change it. See [sing-box vs Xray](@/advanced/xray.md#vless-preference). The full list of formats is in [Protocols & Import Formats](@/reference/protocols.md#import-formats).
+Whether a `vless://` link becomes a sing-box or an Xray profile depends on `Settings` → `Basic Settings` → `Core` → `Xray VLESS Preference`. Since 1.4.0, VLESS entries with REALITY in Clash YAML follow this setting too. Throne applies it when it imports, so update your subscriptions again after you change it. See [sing-box vs Xray](@/advanced/xray.md#vless-preference). The full list of formats is in [Protocols & Import Formats](@/reference/protocols.md#import-formats).
 
 ## Problems {#problems}
 
@@ -184,6 +237,12 @@ Open the `Logs` tab first. Each update writes lines that start with `>>>>>>>>` a
 ### The provider refuses Throne or sends no profiles {#problem-user-agent}
 
 Some providers only answer apps that they know. The log then shows an error such as status code 403, or "No profiles found in the subscription". Set the group's `User Agent` (group options → `Advanced`) to the value your provider expects. Values that users needed include `ClashMeta`, `sing-box` and `Happ/1.0`.
+
+### The server returns a web page or a CAPTCHA {#problem-web-page}
+
+Since 1.4.0, Throne says "The server returned a web page instead of a subscription" when the answer is a web page, for example a CAPTCHA or a bot check. Try `TLS 1.2` or `HTTP/1.1` in the group's advanced options (see [TLS and HTTP version](#tls-http-version)), or another `User Agent`.
+
+When you add a subscription and its first download fails, Throne keeps the new group and says so (since 1.4.0). Change its settings and update it again; you do not need to add it again.
 
 ### The provider requires a device ID {#problem-hwid}
 
@@ -216,7 +275,10 @@ For more help, see [Troubleshooting](@/help/troubleshooting.md#subscriptions).
 Throne for Android has the same groups, options and update behavior.
 
 - Open `Groups` from the side menu. Use `New group` and `Update all subscriptions` at the top. Each group shows its type, the number of profiles, the last update and, if the provider sends it, the quota ("Used … · … left · expires …").
-- The group editor has the same options, written in sentence case: `Front proxy`, `Landing proxy`, `Auto clear unavailable profiles`, `Skip automatic update` and `Advanced`.
+- The group editor has the same basic options, written in sentence case: `Front proxy`, `Landing proxy`, `Auto clear unavailable profiles`, `Skip automatic update` and `Advanced`. After 2.0.2, `Advanced` also has `TLS version`, `HTTP version`, `Update interval (minutes)` and `Server interval`, and `Settings` → `Subscriptions` has `Use the update interval sent by the server`, `Subscription TLS version` and `Subscription HTTP version`. The app then also says when the server returns a web page, and shows problems of an import or update in a report window. Throne for Android has no `Server Address` setting.
+- Since 2.0.2, a card above the profile list shows the [provider information](#provider-info): the traffic, the time left, `Portal` and `Support`, and the announcement. Tap the announcement to read all of it. To hide the card for one group, turn off `Subscription info card` in the group editor.
+- Since 2.0.2, a subscription group has a `Filter` category with two regular expressions. `Only names matching` keeps only the profiles whose name matches, for example `HK|SG|Japan`. `Remove names matching` removes the profiles whose name matches, for example `expire|traffic|website`. Case does not matter. The filters apply at every update, and the change report says how many profiles they filtered out. If they would leave no profile, the update stops and the group stays unchanged.
+- Since 2.0.2, entries that the Android core cannot run are skipped. See [Android differences](@/reference/protocols.md#android-import).
 - `URL` also accepts a `content://` address, so a subscription can come from a file that another app provides. For a plain `http://` address, the editor warns "Cleartext HTTP traffic is insecure".
 - The global options are in `Settings` → `Subscriptions`. If `User agent` is empty, the app sends `Throne/Android/` and its version.
 - `Add profile` → `Import from clipboard` with an address asks the same "How to update?" question.

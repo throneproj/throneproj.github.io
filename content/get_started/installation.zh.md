@@ -73,6 +73,7 @@ Throne 将你的数据保存在你的用户文件夹中，而不是 `Throne.app`
 | `Throne-<version>-debian-amd64.deb`、`…-debian-arm64.deb` | Debian、Ubuntu、Linux Mint 及其他基于 Debian 的系统 |
 | `Throne-<version>-fedora-amd64.rpm`、`…-fedora-arm64.rpm` | Fedora 及基于 RHEL 的系统（自 1.3.0 起） |
 | 以 `-system-qt.deb` 或 `-system-qt.rpm` 结尾的文件 | 与上面相同的软件包，但使用系统自带的 Qt 库 |
+| [APT 软件源](#apt-repository)和 [RPM 软件源](#rpm-repository) | 使用系统 Qt 的软件包，由你的包管理器保持更新 |
 
 Linux 版本需要 glibc 2.34 或更高版本。包含 Qt 的 ARM64 文件需要 glibc 2.38 或更高版本。
 
@@ -108,13 +109,53 @@ cd Throne
 sudo apt install ./Throne-x.x.x-debian-amd64.deb
 ```
 
+要通过 `apt upgrade` 获取新版本，请改用 [APT 软件源](#apt-repository)。
+
 ### Fedora 和 RHEL（.rpm） {#rpm}
 
 ```bash
 sudo dnf install ./Throne-x.x.x-fedora-amd64.rpm
 ```
 
+要通过 `dnf upgrade` 或 `zypper update` 获取新版本，请改用 [RPM 软件源](#rpm-repository)。
+
 这两种软件包都会将 Throne 安装到 `/opt/Throne`，并将其添加到应用程序菜单。之后 Throne 会将你的数据保存在 `~/.config/Throne` 中。
+
+自 1.4.0 起，这些软件包还会为[无界面 Throne](@/headless/_index.zh.md) 安装一个 systemd 服务 `/usr/lib/systemd/system/throne.service` 及其设置文件 `/etc/throne/throne.env`。软件包从不启用或启动该服务，因此它不会改变 Throne 窗口的工作方式。参见[安装与服务](@/headless/installation.zh.md#linux-packages)。
+
+### APT 软件源 {#apt-repository}
+
+位于 `throneproj.github.io/Throne/apt` 的 APT 软件源提供适用于 amd64 和 arm64 的使用系统 Qt 的软件包（参见[使用系统 Qt 的软件包](#system-qt)）。它包含每一个稳定版，但不包含 Beta 版，并且经过签名。要在 Debian、Ubuntu 及其他基于 Debian 的系统上添加它：
+
+```bash
+sudo install -d -m 0755 /etc/apt/keyrings
+sudo curl -fsSLo /etc/apt/keyrings/throne.asc https://throneproj.github.io/Throne/throne.asc
+sudo curl -fsSLo /etc/apt/sources.list.d/throne.list https://throneproj.github.io/Throne/apt/throne.list
+sudo apt update
+sudo apt install throne
+```
+
+之后，`sudo apt upgrade` 也会更新 Throne。
+
+### RPM 软件源 {#rpm-repository}
+
+位于 `throneproj.github.io/Throne/rpm` 的 RPM 软件源提供适用于 x86_64 和 aarch64 的使用系统 Qt 的软件包，因此你的发行版必须提供 Qt 6.5 或更高版本。它包含每一个稳定版，但不包含 Beta 版，软件包和软件源都经过签名。
+
+Fedora 和 RHEL 9 或更高版本：
+
+```bash
+sudo curl -fsSLo /etc/yum.repos.d/throne.repo https://throneproj.github.io/Throne/rpm/throne.repo
+sudo dnf install throne --refresh
+```
+
+openSUSE 和 SLES：
+
+```bash
+sudo zypper addrepo -fc https://throneproj.github.io/Throne/rpm/throne.repo
+sudo zypper install throne
+```
+
+首次使用时，`dnf` 和 `zypper` 会请你确认是否信任该软件源的签名密钥。
 
 ### 使用系统 Qt 的软件包 {#system-qt}
 
@@ -123,7 +164,7 @@ Qt 是 Throne 窗口所使用的工具包。普通软件包自带一份 Qt。`-s
 ## 包管理器 {#package-managers}
 
 {% alert_warning() %}
-WinGet、Scoop、AUR 和 Nix 软件包由社区成员制作，而不是由 Throne 开发者制作。它们可能比最新版本旧，行为也可能与官方版本不同。请将这类软件包的问题报告给其维护者。如果你不确定问题来自 Throne 还是软件包，请先测试[下载](@/downloads.zh.md)页面中的官方版本。另请参阅[常见问题](@/help/faq.zh.md#third-party-packages)。
+WinGet、Scoop 和 Nix 软件包，以及除 `throne` 之外的 AUR 软件包，由社区成员制作，而不是由 Throne 开发者制作。它们可能比最新版本旧，行为也可能与官方版本不同。请将这类软件包的问题报告给其维护者。如果你不确定问题来自 Throne 还是软件包，请先测试[下载](@/downloads.zh.md)页面中的官方版本。另请参阅[常见问题](@/help/faq.zh.md#third-party-packages)。
 {% end %}
 
 ### WinGet {#winget}
@@ -139,29 +180,13 @@ scoop bucket add extras
 scoop install extras/throne
 ```
 
-### Fedora、RHEL 和 openSUSE {#rpm-repository}
-
-[parhelia512.github.io](https://parhelia512.github.io/) 上的 RPM 软件源由 GitHub 上 throneproj 组织的成员 parhelia512 维护，Throne 的 README 中也有指向它的链接。它独立于发布文件。自 1.3.0 起，每个版本的发布都附带官方 `.rpm` 文件。
-
-Fedora 和 RHEL 9 或更高版本：
-
-```bash
-sudo curl -o /etc/yum.repos.d/throne.repo https://parhelia512.github.io/throne.repo
-sudo dnf install -y throne --refresh
-```
-
-openSUSE 和 SLES：
-
-```bash
-sudo zypper addrepo -fc https://parhelia512.github.io/throne-sle.repo
-sudo zypper install -y throne
-```
-
-对于 RHEL 8，请按照软件源页面上的步骤操作。
+对于 Debian、Ubuntu、Fedora、RHEL 和 openSUSE，Throne 有自己的 [APT 软件源](#apt-repository)和 [RPM 软件源](#rpm-repository)。
 
 ### Arch Linux（AUR） {#aur}
 
 Throne 已收录在 Arch 用户软件仓库（AUR）中，包名为 `throne`。请使用 AUR 助手安装，例如 `yay -S throne` 或 `paru -S throne`。
+
+`throne` 软件包会从源码构建 Throne，并将其安装到 `/usr/lib/throne`。它的构建脚本保存在 Throne 仓库中，Throne 的发布工作流会在每个稳定版发布时更新该软件包。Throne 会将你的数据保存在 `~/.config/Throne` 中。
 
 ### NixOS {#nixos}
 
@@ -190,7 +215,7 @@ Throne 由两部分组成，需要分别构建：界面（`Throne`，使用 C++ 
 
 | 部分 | 要求 |
 |---|---|
-| 界面 | CMake 3.20 或更高版本、C++20 编译器、Qt 6.2 或更高版本（Widgets、Network、LinguistTools，在 Linux 上还需要 DBus），在 Linux 上还需要 X11 开发头文件 |
+| 界面 | CMake 3.20 或更高版本、C++20 编译器、Qt 6.2 或更高版本（Widgets、Network、LinguistTools，在 Linux 上还需要 DBus），在 Linux 上还需要 X11 和 xcb 开发头文件 |
 | 核心 | Go 1.26 或更高版本，以及 `protoc`、`protoc-gen-go` 和 `protoc-gen-go-grpc`。在 Linux 和 macOS 上需要 CGO：Linux 上需要 cronet-go 提供的 Chromium 工具链（NaïveProxy 出站需要它），macOS 上需要 Xcode 命令行工具。 |
 
 以 x64 上的 Ubuntu 22.04 或更高版本为例：
@@ -253,11 +278,13 @@ Throne 由两部分组成，需要分别构建：界面（`Throne`，使用 C++ 
 - **macOS：** 在 `cmake` 命令中添加 `-DNKR_PACKAGE_MACOS=1`，这样会构建出 `Throne.app`。使用 `GOOS=darwin` 构建核心，并将 `ThroneCore` 复制到 `Throne.app/Contents/MacOS/` 中。
 - **Windows：** 官方构建使用 MSVC 和 Ninja 编译界面，并在 Linux 上以 `GOOS=windows` 交叉编译核心（脚本会为 Windows 关闭 CGO）。将 `DEST` 文件夹中的 `ThroneCore.exe` 和 `libcronet.dll` 复制到 `Throne.exe` 旁边。
 
-官方构建的具体步骤见 [Throne 仓库](https://github.com/throneproj/Throne)中的 `.github/workflows/build.yml`。
+官方构建的具体步骤见 [Throne 仓库](https://github.com/throneproj/Throne)中的 `.github/workflows/build.yml`。适用于 Windows 7 和 macOS 10.15 的 legacy 版本使用 [MetaCubeX 的 Go 分支](https://github.com/MetaCubeX/go) 1.26 编译核心，因为官方 Go 已不再支持这些系统。
 
 ## 更新 {#updating}
 
 ZIP 版以及 Windows 安装程序默认的按用户安装可以自行更新：点击 `工具`（Tools）→ `检查更新`（Check For Update），然后点击 `更新`（Update）。其他安装方式请按原来的安装方式更新：运行新的安装程序、安装新的 `.deb` 或 `.rpm` 软件包、再次运行安装脚本、在 macOS 上替换 `Throne.app`，或使用你的包管理器。你的配置档和设置会保留。
+
+自 1.4.0 起，当有[无界面 Throne](@/headless/_index.zh.md) 从同一安装位置运行时，`检查更新`（Check For Update）不会显示 `更新`（Update）按钮。请先停止无界面 Throne。
 
 有关详细信息、Beta 版和备份，请参阅[备份、更新与迁移](@/guides/backup.zh.md#updating)。在 Linux 或 macOS 上更新后，Throne 可能会再次请求 TUN 模式所需的权限。
 

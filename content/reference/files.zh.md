@@ -18,6 +18,8 @@ Throne 接受以下选项：
 | `-tray` | 启动时隐藏窗口，只显示托盘图标。 |
 | 一条 `throne://` 链接 | 像你点击了该链接一样处理它。参见[深度链接](@/advanced/deeplinks.zh.md)。 |
 | 文件路径或 `file://` URL | 导入这些文件，效果与 `程序`（Program）→ `添加文件中的配置档`（Add profile from File(s)）相同。 |
+| `--headless` | 以无窗口方式运行 Throne，作为服务或在容器中运行（自 1.4.0 起）。参见[无界面 Throne](@/headless/_index.zh.md)。 |
+| `--check`、`--health`、`--print-connection` | 检查这台电脑能否运行无界面 Throne、询问正在运行的无界面 Throne 的状态，或打印 `thronectl` 所需的设置（自 1.4.0 起）。 |
 
 示例：
 
@@ -32,7 +34,8 @@ Throne 接受以下选项：
 ```
 
 - Throne 会把 `-appdata` 后面的词当作文件夹，除非它以 `-` 开头。
-- 每个数据文件夹只能运行一个 Throne。如果 Throne 已在运行，新启动的实例会把它收到的链接或文件交给正在运行的 Throne，将其窗口调到前台，然后退出。
+- 每个数据文件夹只能运行一个 Throne。如果 Throne 已在运行，新启动的实例会把它收到的链接或文件交给正在运行的 Throne，将其窗口调到前台，然后退出。如果某个无界面 Throne 正在使用该数据文件夹，新启动的实例会显示“Throne is running in the background”（Throne 正在后台运行）并退出；参见[故障排除](@/help/troubleshooting.zh.md#background-throne)。
+- 无界面 Throne 有更多选项，也有自己的数据文件夹。参见[命令行与数据目录](@/headless/command_line.zh.md)。
 - **macOS：** 要传递选项，请运行应用包内的程序，例如 `/Applications/Throne.app/Contents/MacOS/Throne -tray`。你点击的链接会由 macOS 交给正在运行的 Throne。
 
 ## 数据文件夹 {#data-folder}
@@ -67,7 +70,7 @@ Throne 有两种工作模式：
 - 如果 Throne 无法写入自己的文件夹（例如位于 `Program Files` 中时），它会自动切换到 appdata 模式。第一次切换时，它会把你现有的 `config` 文件夹复制过去。此后，即使你以管理员身份运行，它也会继续使用这个用户专属文件夹。
 - 来自其他来源的软件包（WinGet、Scoop、AUR、Nix）可能使用其他文件夹。`打开配置文件夹`（Open Config Folder）总会打开正确的那个。
 
-有少数文件存放在 `config` 文件夹旁边，而不是其中：Xray 的 geo 文件 `geoip.dat` 和 `geosite.dat`，以及存放 `基本设置`（Basic Settings）→ `诊断`（Diagnostics）所生成文件的 `diagnostics` 文件夹。在便携模式下，这个位置是 Throne 程序文件夹；在 appdata 模式下，则是用户专属文件夹，例如 `%LOCALAPPDATA%\Throne`，即使你通过 `-appdata` 指定了其他文件夹也是如此。
+有少数文件存放在 `config` 文件夹旁边，而不是其中：Xray 的 geo 文件 `geoip.dat` 和 `geosite.dat`，以及存放 `基本设置`（Basic Settings）→ `诊断`（Diagnostics）所生成文件的 `diagnostics` 文件夹。在便携模式下，这个位置是 Throne 程序文件夹；在 appdata 模式下，则是用户专属文件夹，例如 `%LOCALAPPDATA%\Throne`。如果你通过 `-appdata` 指定了其他文件夹，自 1.4.0 起就是那个文件夹；首次启动时，Throne 会把 geo 文件从用户专属文件夹复制过去。1.4.0 之前，这些文件始终留在用户专属文件夹中。
 
 ### 配置文件夹中的文件 {#config-files}
 
@@ -78,7 +81,9 @@ Throne 有两种工作模式：
 | `cache.db` | 核心的缓存：已下载的规则集、自动选择器上一次的选择；如果开启了 `保存缓存到文件`（Save Cache To File），还包括 DNS 缓存。 |
 | `logs/` | 日志文件。参见[日志](#logs)。 |
 | `crashes/` | 崩溃转储（仅限 Windows）。保留最新的 5 个。 |
-| `icons/` | 来自 `基本设置` → `样式` → `启用自定义图标`（Enable Custom Icons）的自定义托盘图标。 |
+| `icons/` | 来自 `基本设置` → `样式` → `启用自定义图标`（Enable Custom Icons）的自定义托盘图标：`Off.png`、`Throne.png`（有配置档运行）、`Proxy.png`、`Tun.png`，以及自 1.4.0 起的 `Connecting.png`。没有 `Connecting.png` 时，配置档启动或停止期间 Throne 会显示 `Off.png`。 |
+| `hwid` | 仅限 Linux，自 1.4.0 起：由于系统中没有可用的 `/etc/machine-id` 或 `/var/lib/dbus/machine-id`，Throne 自行创建的设备 ID。参见 [HWID](@/reference/privacy.zh.md#hwid)。 |
+| `.lock` | 自 1.4.0 起：表示有一个 Throne 正在使用此文件夹。Throne 从不删除它。 |
 | `dashboard/` | 用于 Clash API 的网络仪表盘文件。Throne 创建该文件夹时会放入一个占位页面；请将它替换为仪表盘文件。 |
 | `sb-dashboard/` | `工具` → `打开网络仪表盘`（Open Web dashboard）所打开的网络仪表盘。 |
 
@@ -88,15 +93,21 @@ Throne 有两种工作模式：
 
 主窗口底部的 `日志`（Logs）标签页显示来自 Throne 和核心的消息。右键点击日志可以复制文本，或选择 `清除`（Clear）将其清空。
 
+- **滚动：** 当你位于底部时，标签页会显示每一行新日志。自 1.4.0 起，当你向上滚动时，视图会停留在原处，新的行会等待显示。标签页右上角的 `回到最新`（Jump to latest）按钮会显示有多少行在等待；点击它或滚动回底部即可看到这些行。
+- **筛选：** 自 1.4.0 起，标签页右上角的筛选按钮会打开一个筛选栏。在 `筛选日志`（Filter logs）中输入文字，即可只显示匹配的行，并高亮匹配的内容。`区分大小写`（Match case）和 `正则表达式`（Regular expression）会改变文字的匹配方式，筛选栏还会显示有多少行匹配。按 `Esc` 或再次点击筛选按钮会关闭筛选栏，并重新显示所有行。此筛选只改变显示，不会改变 Throne 保留的行。
+
 日志设置位于 `设置`（Settings）→ `基本设置`（Basic Settings）→ `日志`（Logging）：
 
 | 设置 | 默认值 | 作用 |
 | --- | --- | --- |
-| `最多日志行数`（Max log lines） | `200` | `日志` 标签页保留的行数。 |
-| `自动滚动日志`（Auto-scroll log） | 开启 | 让最新的一行始终可见。 |
+| `最多日志行数`（Max log lines） | `500`（1.4.0 之前为 `200`） | `日志` 标签页保留的行数。 |
 | `Sing-box 日志级别`（Sing-box Log level） | `info` | 核心写入日志的详细程度：`trace`、`debug`、`info`、`warn`、`error`、`fatal` 或 `panic`。 |
 | `Xray 日志级别`（Xray Log level） | `warning` | Xray 写入日志的详细程度：`debug`、`info`、`warning`、`error` 或 `none`。 |
-| `日志筛选`（Log Filtering） | 关闭 | `启用「包含」规则`（Enable Include Rules）只显示与你的关键词或正则表达式匹配的行；`启用「排除」规则`（Enable Exclude Rules）会隐藏匹配的行。筛选只影响 `日志` 标签页，不影响日志文件。 |
+| `日志筛选`（Log Filtering） | 关闭 | `启用「包含」规则`（Enable Include Rules）只显示与你的关键词或正则表达式匹配的行；`启用「排除」规则`（Enable Exclude Rules）会隐藏匹配的行。被这些规则隐藏的行永远不会出现在 `日志` 标签页中，但仍会保留在日志文件中。 |
+
+`自动滚动日志`（Auto-scroll log）设置已在 1.4.0 中移除。
+
+自 1.4.0 起，`日志` 标签页使用等宽字体。要选择其他字体，请使用 `设置`（Settings）→ `基本设置`（Basic Settings）→ `样式`（Style）中的 `日志浏览器字体`（Log Browser Font）和 `日志浏览器字体大小`（Log Browser Font Size）。列表中只显示等宽字体。默认情况下，Throne 会使用 Consolas、Menlo、SF Mono、DejaVu Sans Mono、Noto Sans Mono 和 Ubuntu Mono 中第一个已安装的字体，字号与界面字体相同。
 
 如需提交 Bug 报告，请将 `Sing-box 日志级别`（Sing-box Log level）设为 `debug`，重新启动配置档，然后复现问题。之后请按照[报告 Bug](@/help/bug_reports.zh.md#logs) 中的说明操作。
 

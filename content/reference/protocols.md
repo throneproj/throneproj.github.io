@@ -5,7 +5,7 @@ weight = 10
 toc = true
 +++
 
-This page lists every profile type in Throne desktop 1.3.1 and Throne for Android 2.0.0, the links and files Throne can import, and the ways to share a profile. Use it to check whether Throne supports your server before you import it.
+This page lists every profile type in Throne desktop and Throne for Android, the links and files Throne can import, and the ways to share a profile. Use it to check whether Throne supports your server before you import it.
 
 ## Profile types {#protocols}
 
@@ -30,7 +30,7 @@ To create a profile by hand, use `Program` → `New profile` (`Ctrl+N`) on the d
 | `Mieru` | Yes | Yes | |
 | `Snell` | Yes | Yes | Snell version 4 or 6. |
 | `ShadowTLS` | Yes | Yes | |
-| `WireGuard` | Yes | Yes | For AmneziaWG, tick `Enable Amnezia` (Android: `Enable AmneziaWG`). Can create a Cloudflare WARP account, see [WARP](@/advanced/warp.md#generate). |
+| `WireGuard` | Yes | Yes | For AmneziaWG, tick `Enable Amnezia` (Android: `Enable AmneziaWG`). Since 1.4.0 (Android: after 2.0.2), `Amnezia Options` → `Generate QUIC Signature...` (Android: `Generate QUIC signature…`) fills the signature packets I1–I5 so that the handshake looks like an HTTP/3 connection to a domain you choose. Can create a Cloudflare WARP account, see [WARP](@/advanced/warp.md#generate). |
 | `MASQUE` | Yes | Yes | HTTP/3 or HTTP/2. Can create a Cloudflare WARP identity. |
 | `OpenVPN` | Yes | Yes | Imports `.ovpn` files. One-time passwords (OTP) work only on the desktop. See [OpenVPN](@/advanced/vpn_profiles.md#openvpn). |
 | `OpenConnect` | Yes | Yes | AnyConnect, GlobalProtect, Fortinet, F5, Pulse and Juniper (`nc`) servers. OTP works only on the desktop. See [OpenConnect](@/advanced/vpn_profiles.md#openconnect). |
@@ -53,7 +53,7 @@ ThroneCore, the core of Throne, runs every profile type with sing-box, with two 
 
 Throne for Android uses the same core, so the same rules apply there. A chain can mix both engines, but only in this order: sing-box hops, then Xray hops, then sing-box hops.
 
-When you import a `vless://` link, `Settings` → `Basic Settings` → `Core` → `Xray VLESS Preference` decides which type it becomes. With the default, `XHTTP And Reality`, links that use XHTTP or REALITY become `VLESS (Xray)`, and the others become `VLESS`. Links that need a feature only Xray has, such as VLESS encryption, always become `VLESS (Xray)`. See [sing-box vs Xray](@/advanced/xray.md#vless-preference).
+When you import a `vless://` link, `Settings` → `Basic Settings` → `Core` → `Xray VLESS Preference` decides which type it becomes. With the default, `XHTTP And Reality`, links that use XHTTP or REALITY become `VLESS (Xray)`, and the others become `VLESS`. Links that need a feature only Xray has, such as VLESS encryption, always become `VLESS (Xray)`. Since 1.4.0, VLESS entries with REALITY in Clash YAML follow the same setting. See [sing-box vs Xray](@/advanced/xray.md#vless-preference).
 
 ## Import formats {#import-formats}
 
@@ -75,7 +75,7 @@ Throne desktop and Throne for Android read the same formats in pasted text, file
 
 | Format | Result |
 |---|---|
-| Share links, one per line: `vless://`, `vmess://`, `ss://`, `trojan://`, `socks://`, `socks4://`, `socks4a://`, `socks5://`, `http://`, `https://`, `hysteria://`, `hysteria2://`, `hy2://`, `tuic://`, `juicity://`, `anytls://`, `mieru://`, `mierus://`, `snell://`, `tt://` (TrustTunnel), `shadowtls://`, `wg://`, `wireguard://`, `ssh://`, `naive+https://`, `naive+quic://` | One profile per link |
+| Share links, one per line: `vless://`, `vmess://`, `ss://`, `trojan://`, `socks://`, `socks4://`, `socks4a://`, `socks5://`, `http://`, `https://`, `hysteria://`, `hysteria2://`, `hy2://`, `tuic://`, `juicity://`, `anytls://`, `mieru://`, `mierus://`, `snell://`, `tt://` (TrustTunnel), `shadowtls://`, `wg://`, `wireguard://`, `awg://` (desktop, since 1.4.0), `ssh://`, `naive+https://`, `naive+quic://` | One profile per link |
 | Throne links: `throne://add/…` and the older `json://…` | One profile of any type |
 | AmneziaVPN links: `vpn://…` | The configs inside the link |
 | sing-box JSON: a full config, or an array of outbounds | One profile for each supported outbound |
@@ -84,7 +84,7 @@ Throne desktop and Throne for Android read the same formats in pasted text, file
 | Xray JSON: an array of complete configs | One `Custom (Xray config)` profile for each config |
 | SIP008 JSON (Shadowsocks) | `Shadowsocks` profiles |
 | Clash or Mihomo YAML with a `proxies:` list | Profiles for the `socks5`, `http`, `ss`, `vmess`, `vless`, `trojan`, `anytls`, `snell`, `hysteria`, `hysteria2`, `tuic`, `masque` and `ssh` entries |
-| WireGuard or AmneziaWG `.conf` file | One `WireGuard` profile |
+| WireGuard or AmneziaWG `.conf` file | One `WireGuard` profile, named after a `# Name =` or `# remarks:` comment, or after the comment above `[Peer]` (desktop since 1.4.0, Android since 2.0.2) |
 | OpenVPN `.ovpn` file | One `OpenVPN` profile |
 | AnyConnect XML profile, an `openconnect` command line, or a file with a `protocol=` line | `OpenConnect` profiles |
 | Any of the above, encoded in Base64 | Decoded first, then imported |
@@ -101,6 +101,7 @@ Both apps refuse import files larger than 50 MB (on Android, `.zip` files are no
 - When you tap a protocol link (for example `vless://…`) or a `throne://` link in another app, Throne opens and asks before it imports the profile.
 - The Android share sheet offers Throne only for binary files (`application/octet-stream`), such as backups. To import a link from a chat app, copy it and use `Import from clipboard`. For other files, use `Import from file`.
 - `Tailscale` and `Extra Core` profiles cannot be used on Android.
+- Since 2.0.2, Throne for Android skips entries that its core cannot run, for example XHTTP on a profile type other than VLESS, when it imports or updates. The log lists each one as `Skipped`, with the type, the name and the reason.
 
 ## Share links {#share-links}
 
@@ -112,11 +113,24 @@ Both apps refuse import files larger than 50 MB (on Android, `.zip` files are no
 | Throne link | `throne://add/…` | Throne desktop and Throne for Android |
 | Old Throne link | `json://…` | Throne, for import only |
 
-A **standard link** uses the usual link format of the protocol. Some types have no standard link: `Auto Selector`, `Chain Proxy`, the `Custom` types, `Direct`, `Extra Core`, `MASQUE`, `OpenVPN` and `OpenConnect`. For these, Throne gives you the Throne link instead. If such a profile has advanced connection options, such as a bind interface, Throne shows a partial link that contains only those options instead of the Throne link. For these profiles, tick `Deep Link` or use `Copy links of selected (Deep Links)`. For `Tailscale`, share the Throne link too: Throne 1.3.1 cannot import the `ts://` link that it shows for these profiles.
+A **standard link** uses the usual link format of the protocol. Some types have no standard link: `Auto Selector`, `Chain Proxy`, the `Custom` types, `Direct`, `Extra Core`, `MASQUE`, `OpenVPN` and `OpenConnect`. For these, Throne gives you the Throne link instead. If such a profile has advanced connection options, such as a bind interface, Throne shows a partial link that contains only those options instead of the Throne link. For these profiles, tick `Deep Link` or use `Copy links of selected (Deep Links)`. For `Tailscale`, share the Throne link too: Throne cannot import the `ts://` link that it shows for these profiles.
 
 A **Throne link** holds the settings of the profile as Base64-encoded JSON. It works for every profile type, including the types without a standard link, but only Throne can read it. See [Deep Links](@/advanced/deeplinks.md#add). `json://` links are the Throne link format used before 1.2.0; Throne still imports them.
 
 A `Chain Proxy` or `Auto Selector` link stores only the internal numbers of the profiles or the group it uses, not the servers themselves. It is useful only in the same Throne installation.
+
+### ECH and certificate pins in links {#ech-links}
+
+Since desktop 1.4.0 and Android 2.0.2, Throne reads and writes these TLS parameters in standard links:
+
+| Parameter | Meaning |
+|---|---|
+| `ech=1` or `ech=true` | Turns ECH on. The core looks up the ECH configuration in DNS. |
+| `ech=` a domain, or a domain, `+` and a DNS server URL | Turns ECH on and names the domain to look up, and optionally the DNS server to ask, for example `cloudflare-ech.com+https://1.1.1.1/dns-query`. It fills `ECH Query Name / Resolver`. |
+| `ech=` any other value | Turns ECH on with this Base64 ECH configuration. |
+| `pcs=` | SHA-256 hashes of the server certificate, in hex and separated by commas. A matching certificate is accepted instead of the usual CA check. It fills `Certificate SHA256`. |
+
+For `VLESS (Xray)` profiles, the `ech` value goes unchanged into `ECH Config List`. Links that Throne creates also keep the older `ech_enabled`, `ech_config` and `ech_server_name` parameters. For what ECH does, see [ECH](@/advanced/presets.md#ech).
 
 ### Share on the desktop {#share-desktop}
 
@@ -130,7 +144,7 @@ Right-click a profile in the list and open `Share`:
 
 To copy the links of a whole group, open `Groups` → `Edit current Group` and click `Copy profile share links` or `Copy profile share links (Deep Links)`.
 
-`Share` → `Export Sing-box config` and `Export Xray config` copy the core configuration that Throne generates for the profile. This is a config file for other clients, not a share link.
+`Share` → `Export config` (`Ctrl+E`) shows the core configuration that Throne generates for the profile, with a `sing-box` tab and, for profiles that use Xray, an `Xray` tab. `Copy` copies the tab you see. This is a config file for other clients, not a share link. Before 1.4.0, these were `Export Sing-box config` and `Export Xray config`.
 
 To import a QR code that is shown on your screen, use `Program` → `Scan QR Code` (`Ctrl+Shift+Q`). To import a QR code from an image file, drop the file on the main window or open it with `Program` → `Add profile from File(s)`.
 

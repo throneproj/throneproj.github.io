@@ -13,12 +13,13 @@ Your system must know that Throne opens `throne://` links. Throne registers itse
 
 | System | Registered by default |
 | --- | --- |
-| Linux | Yes |
+| Linux, installed with the `.deb` or `.rpm` package or the install script | Yes |
+| Linux, unpacked from a ZIP file or installed another way | No, since 1.4.0. Before 1.4.0, every Linux copy registered itself. |
 | macOS | Yes, when you run Throne from `Throne.app` |
 | Windows, installed with the installer | Yes |
 | Windows, unpacked from a ZIP file | No |
 
-To turn registration on, for example for a Windows ZIP copy:
+On Linux, Throne registers itself by default when the application menu entry of the package or the install script starts this copy. To turn registration on, for example for a ZIP copy:
 
 1. Open `Settings` → `Basic Settings`.
 2. On the `Common` tab, under `Links and Files`, tick `Register throne:// links at startup`.
@@ -36,6 +37,8 @@ Throne accepts a deep link in these ways:
 - **Copy the link** and press `Ctrl+V` in the main window (`Program` → `Add profile from clipboard`). This works even when registration is off.
 - **Drag the link text** onto the main window.
 - **Pass the link as an argument** when you start Throne. See [Command line](@/reference/files.md#command-line).
+
+[Headless Throne](@/headless/_index.md) does not handle `throne://` links. Add a subscription with `thronectl sub add`, and import `add` links, which also work inside a file, with `thronectl import`. See [Throne API & thronectl](@/advanced/api.md#commands).
 
 {% alert_info() %}
 On desktop, `Scan QR Code` and dropped QR images import only `add` links. For another deep link in a QR code, copy the text after `QR Code Result:` from the `Logs` tab and press `Ctrl+V`.
@@ -111,7 +114,7 @@ For example, to add `https://example.com/sub/abc123` as a group named `MyProvide
 throne://addsub/aHR0cHM6Ly9leGFtcGxlLmNvbS9zdWIvYWJjMTIzI015UHJvdmlkZXI=
 ```
 
-Throne shows "Add this subscription?" with the group name and the URL, and an `Auto update` checkbox that is ticked. After you confirm, Throne creates the group and updates it.
+Throne shows "Add this subscription?" with the group name and the URL, and an `Auto update` checkbox that is ticked. After you confirm, Throne creates the group and updates it. Since 1.4.0, if this first update fails or skips entries, Throne shows a report with the problems.
 
 {% alert_info() %}
 `Auto update` only sets whether the new group takes part in automatic updates: when it is ticked, `Skip automatic update` is off in the group settings. Automatic updates also need `Basic Settings` → `Subscription` → `Subscription auto update` → `Enable`, which is off by default. See [Subscriptions](@/guides/subscriptions.md#auto-update).
@@ -236,7 +239,7 @@ The Android app can also create these links: `add` links for profiles and `route
 
 These messages are from Throne desktop.
 
-- **Clicking a link does nothing, or the browser asks which app to use.** The link handler is not registered for this copy. On a Windows ZIP copy, turn on `Register throne:// links at startup` (see [How Throne receives a deep link](#receive)). On macOS, run Throne from `Throne.app`. Otherwise start Throne once. If you keep several copies, press `Install` in the copy that should open links. You can always copy the link and press `Ctrl+V` in Throne instead.
+- **Clicking a link does nothing, or the browser asks which app to use.** The link handler is not registered for this copy. On a ZIP copy for Windows or Linux, turn on `Register throne:// links at startup` (see [How Throne receives a deep link](#receive)). On macOS, run Throne from `Throne.app`. Otherwise start Throne once. If you keep several copies, press `Install` in the copy that should open links. You can always copy the link and press `Ctrl+V` in Throne instead.
 - **Linux: links still do not open.** Registration runs the `update-desktop-database` tool from the `desktop-file-utils` package. If the tool was missing, install it, then press `Install` next to `Register throne:// links at startup`.
 - **Nothing happens and the log stays empty.** Throne drops these links without a message:
   - an `addsub` link whose payload is not valid standard Base64, for example URL-safe Base64 with `-` or `_`, or a payload with spaces or line breaks;

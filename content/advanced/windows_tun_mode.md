@@ -102,3 +102,4 @@ In Chrome:
 - **Check your routing.** Some results are expected. For example, domains that your rules send direct are looked up with `Direct DNS` on purpose, and that is usually the DNS server of your internet provider. [DNS leak tests](@/guides/dns.md#leak-tests) lists the expected results.
 - **Check security software.** Some antivirus and firewall products filter or redirect DNS themselves. Test with them paused, or add an exception for Throne.
 - **Check other VPN apps.** Disconnect other VPN clients while you use TUN mode. They can change DNS settings and firewall rules too.
+- **Use the kill switch.** Since 1.4.0, the [kill switch](@/advanced/kill_switch.md) blocks all traffic that does not go through Throne, including DNS queries to your local network, also while no profile runs.

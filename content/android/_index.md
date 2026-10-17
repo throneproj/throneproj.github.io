@@ -33,7 +33,7 @@ The `Documentation` item in the app's side menu (the drawer) opens this website.
 8. Tap ⋮ (`More options`) → `URL test`. A panel shows the progress and a summary of the results. Each profile shows its own result in the list.
 9. When the test finishes, tap `Select fastest`, or tap a profile that works.
 10. Tap the round connect button at the bottom of the screen. The first time, Android asks whether Throne may set up a VPN connection. Allow it.
-11. To check the connection, tap the bar at the bottom of the screen ("Connected, tap to check connection"). It shows "Success: HTTP handshake took …ms" when traffic passes through the profile.
+11. To check the connection, tap the bar at the bottom of the screen ("Connected, tap to check connection"). It shows "Success: HTTP handshake took …ms" (after 2.0.2: "HTTP: … ms") when traffic passes through the profile. Since 2.0.2, the bar also shows the location where your traffic leaves the internet. Throne asks ip-api.com for it through the connection.
 
 If your provider gives you a `throne://addsub/…` link, open it on the phone instead of steps 4–6. Throne asks "Add this subscription?", adds the group, downloads its profiles and opens the `Groups` screen. Then open the `Profiles` screen and continue with step 7.
 
@@ -53,10 +53,18 @@ The two apps share the core and most settings. These things work differently:
 | A `throne://add/…` link opened from another app | Imports the profile at once | Asks "Import profile" first |
 | Raw routing profiles | Supported | Not supported. Raw profiles from a desktop backup are kept read-only. |
 | TLS spoof, Tailscale and Extra Core profiles, OTP Manager, OpenVPN and OpenConnect endpoints in routing profiles | Available | Not available |
+| sing-box dashboard | `Tools` → `Open Web dashboard`. The sing-box API that serves it is off by default. | Drawer → `sing-box dashboard` (since 2.0.2). The sing-box API is on by default and listens only on the device. |
+| Kill switch | [Kill Switch](@/advanced/kill_switch.md) | Not available. Android's "Block connections without VPN" comes closest. See [Always-on VPN](@/android/permissions.md#always-on). |
+| Throne API, `thronectl` and headless mode | Available. See [Throne API & thronectl](@/advanced/api.md) and [Headless Throne](@/headless/_index.md). | Not available |
 
 Share links such as `vless://…` that you open from another app also ask "Import profile" first. Profile links that you paste with `Import from clipboard` or scan as a QR code are imported without a question.
 
 Android also has home-screen widgets, a Quick Settings tile and the system's Always-on VPN. See [Widgets, Tile & Automation](@/android/widgets.md) and [Always-on VPN](@/android/permissions.md#always-on). Routing rules that match the connected Wi-Fi network need location access on Android. See [Location for Wi-Fi rules](@/android/permissions.md#location).
+
+The drawer also has two screens for watching the connection:
+
+- `sing-box dashboard` (since 2.0.2) shows the live traffic, the connections and the log of the running core. It needs a running profile and Android System WebView. The dashboard files come with the app. To hide the item, turn off `Settings` → `Core` → `Enable sing-box API`.
+- `Live graphs` (after 2.0.2) shows the proxy and direct speed of the last minutes, and the CPU use, memory and connections of the core. Touch and hold the bar at the bottom of the screen to open it.
 
 ## Desktop menus on Android {#menus}
 
@@ -73,3 +81,5 @@ The shared guides show the desktop menus. On Android the same options are here:
 | `Settings` → `Preset Settings` | `Settings` → `Presets` |
 | `Settings` → `Basic Settings` → `Subscription` | `Settings` → `Subscriptions` |
 | `Settings` → `Basic Settings` → `Backup and Restore` | Drawer → `Tools` |
+| `Settings` → `Basic Settings` → `Diagnostics` | `Settings` → `Diagnostics` (after 2.0.2) |
+| `Tools` → `Open Web dashboard` | Drawer → `sing-box dashboard` (since 2.0.2) |

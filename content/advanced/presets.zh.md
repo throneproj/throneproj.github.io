@@ -56,6 +56,8 @@ TLS 分片、TLS 技巧、TLS 伪装以及 sing-box 的多路复用预设只适�
 
 **代价：** 新连接的建立会变慢。使用 `custom` 实现时，该配置档的 TCP Fast Open 会被关闭。Naive 配置档只支持 `custom` 实现。
 
+自 1.4.0 起，路由规则也可以对其匹配的连接进行分片，例如直连访问某个被过滤器按名称拦截的网站。请使用 `route` 或 `route-options` 动作的高级规则，并设置 `tls_fragment`（如有需要，再加上 `tls_fragment_fallback_delay`）或 `tls_record_fragment`。参见[路由](@/guides/routing.zh.md#advanced-rules)。
+
 ## TLS 技巧 {#tls-tricks}
 
 TLS 技巧会以大小写混合的形式写出服务器名称，例如用 `ExAmPlE.com` 代替 `example.com`。服务器通常不区分大小写，但按精确名称匹配的过滤器可能会漏掉它。
@@ -70,7 +72,8 @@ TLS 技巧会以大小写混合的形式写出服务器名称，例如用 `ExAmP
 
 - **按配置档：** 配置档编辑器中的 `指纹`（Fingerprint）。分享链接常用 `fp=` 设置它。
 - **全局：** `预设设置` → `TLS` → `uTLS` → `默认指纹`。没有设置自己指纹的配置档会使用它，两个核心均适用。当它为空（默认）时，未设置指纹的 sing-box 配置档不使用 uTLS，未设置指纹的 Xray 配置档使用 `chrome`。Hysteria、TUIC、Juicity 和 Naive 配置档不使用 uTLS。
-- **可选值：** `chrome`、`firefox`、`edge`、`safari`、`360`、`qq`、`ios`、`android`、`random`、`randomized`。
+- **可选值：** `chrome`、`firefox`、`edge`、`safari`、`360`、`qq`、`ios`、`android`、`random`、`randomized`，以及自 1.4.0 起提供的 `unsafe`。
+- **`unsafe`** 会为该配置档关闭 uTLS，即使设置了 `默认指纹` 也是如此。此时核心使用它自己的 TLS 客户端。只有在这种情况下，配置档的 `Cipher Suites` 字段（自 1.4.0 起）才会生效：填写 TLS 1.2 密码套件名称，以冒号分隔。除非你的服务器需要，否则请留空。
 
 未设置任何指纹的 sing-box REALITY 配置档使用 `random`。
 
@@ -103,8 +106,12 @@ Encrypted Client Hello（ECH）会加密 ClientHello 中的服务器名称，使
 1. 打开配置档，点击 `高级设置`（Advanced Settings）。
 2. 勾选 `启用 ECH`（Enable ECH）。
 3. 可选：点击 `ECH 配置`（ECH Config），粘贴服务器的 ECH 配置。如果保持为 `未设置`（Not Set），核心会通过 DNS 查询该配置。
-4. 可选：如果用于查询配置的域名不是服务器名称，请在 `ECH 服务器名称`（ECH Server Name）中填写该域名。
+4. 可选：如果用于查询配置的域名不是服务器名称，请在 `ECH Query Name / Resolver` 中填写该域名。自 1.4.0 起，你可以在 `+` 之后添加一个 DNS 服务器，例如 `cloudflare-ech.com+https://1.1.1.1/dns-query`。Throne 随后会向该服务器查询。
 5. 点击 `确定`（OK），然后在配置档编辑器中再点击 `确定`。
+
+自 1.4.0 起，如果该字段中没有 DNS 服务器，Throne 会使用直连 DNS 查询该配置。此前，这一查询会经过正需要该配置的代理，因此可能失败。
+
+自 1.4.0 起，Xray 配置档有自己的字段：配置档编辑器 TLS 设置中的 `ECH Config List`。它接受 Base64 格式的服务器 ECH 配置，或者一个域名加一个 DNS-over-HTTPS 服务器，例如 `cloudflare-ech.com+https://8.8.8.8/dns-query`，这样 Xray 会自行查询。分享链接可以通过 `ech=` 参数携带 ECH；参见[链接中的 ECH 与证书固定](@/reference/protocols.zh.md#ech-links)。
 
 **代价：** 如果服务器不支持 ECH，或找不到 ECH 配置，该配置档将无法连接。
 
@@ -142,4 +149,5 @@ TLS 伪装需要发送原始数据包，因此核心需要更高的权限：
 
 - 同样的预设位于 `设置`（Settings）→ `Presets`：多路复用（sing-box 和 Xray）、TLS Client Hello 分片、TLS 技巧、uTLS，以及 HTTP/2 和 QUIC。其中 `默认开启` 在 Android 上称为 `On by default`。
 - 配置档同样有 `Keep default` 选项，ECH 也是按配置档设置。
+- Throne for Android 2.0.2 没有路由规则的 TLS 分片选项。
 - TLS 伪装在 Android 上不可用。

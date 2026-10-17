@@ -52,6 +52,23 @@
       url: /android/tv/
     - title: Troubleshooting
       url: /android/troubleshooting/
+- title: Headless Throne
+  section: headless
+  items:
+    - title: Overview
+      url: /headless/
+    - title: Installation & Services
+      url: /headless/installation/
+    - title: Managing with thronectl
+      url: /headless/thronectl/
+    - title: Command Line & Data Directory
+      url: /headless/command_line/
+    - title: Health Checks & Logs
+      url: /headless/monitoring/
+    - title: Lockout Protection & Recovery
+      url: /headless/recovery/
+    - title: Troubleshooting
+      url: /headless/troubleshooting/
 - title: Advanced Configuration
   section: advanced
   items:
@@ -69,8 +86,12 @@
       url: /advanced/vpn_profiles/
     - title: Windows DNS Leak Protection
       url: /advanced/windows_tun_mode/
+    - title: Kill Switch
+      url: /advanced/kill_switch/
     - title: Deep Links
       url: /advanced/deeplinks/
+    - title: Throne API & thronectl
+      url: /advanced/api/
 - title: Reference
   section: reference
   items:

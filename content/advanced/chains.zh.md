@@ -38,6 +38,7 @@ toc = true
 - 一条代理链可以包含一个 `自定义 (Xray 配置)`（Custom (Xray config)）配置档。它同样必须是最上面的跳点，并且不能与额外核心配置档或其他 Xray 跳点组合使用。
 - 所有 Xray 跳点必须相邻：先是 sing-box 跳点，然后是 Xray 跳点，最后是 sing-box 跳点。参见[代理链中的 Xray](@/advanced/xray.zh.md#xray-in-chains)。
 - URL 测试会跳过包含额外核心或 `自定义 (Xray 配置)` 配置档的代理链。
+- 当某台服务器上方的跳点是 WireGuard、MASQUE、OpenVPN、OpenConnect、Tailscale 或 SOCKS4 配置档时，Throne 会使用直连 DNS 查询该服务器的名称。在 1.3.2 之前，这一查询会经过代理本身，这类代理链可能无法连接。
 
 Throne 会在你添加跳点或保存代理链时检查其中一部分规则，其余规则则在启动时检查。检查失败时，原因会显示在提示消息或日志中。
 
@@ -80,6 +81,8 @@ Throne 会用这些跳点构建一条代理链，因此代理链的限制同样�
   "server_port": 1080
 }
 ```
+
+如果想从 Throne 为某个可用的配置档或代理链生成的 JSON 开始编写，请右键点击它 → `分享`（Share）→ `导出配置`（Export config）（自 1.4.0 起）。窗口会在不同的标签页上分别显示 sing-box 配置，以及配置档使用 Xray 时的 Xray 配置。`复制`（Copy）会复制你当前看到的标签页。
 
 导入 JSON 时：
 

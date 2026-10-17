@@ -5,7 +5,7 @@ weight = 40
 toc = true
 +++
 
-Throne sends your traffic where your profiles and routing rules say. This page covers what Throne sends on its own: device information for subscriptions (HWID), the network requests the app makes by itself, and who can use its local proxy port. Throne does not send usage statistics, and it does not upload logs or crash dumps.
+Throne sends your traffic where your profiles and routing rules say. This page covers what Throne sends on its own: device information for subscriptions (HWID), the network requests the app makes by itself, and who can use its local proxy port and the Throne API. Throne does not send usage statistics, and it does not upload logs or crash dumps.
 
 ## HWID and device information {#hwid}
 
@@ -13,7 +13,7 @@ Some providers want to know which device requests a subscription. Throne can sen
 
 | Header | Windows | Linux | macOS |
 | --- | --- | --- | --- |
-| `x-hwid` | The Windows `MachineGuid` | The content of `/etc/machine-id` (or `/var/lib/dbus/machine-id`) | The hardware UUID of the Mac |
+| `x-hwid` | The Windows `MachineGuid` | The content of `/etc/machine-id` (or `/var/lib/dbus/machine-id`). Without either, an ID that Throne creates once (since 1.4.0) | The hardware UUID of the Mac |
 | `x-device-os` | `Windows` | `Linux` | `macOS` |
 | `x-ver-os` | The Windows version, for example `10.0.26100` | The kernel version | The macOS version, for example `14.5` |
 | `x-device-model` | The computer model (and motherboard) reported by Windows | The name of the distribution, for example `Ubuntu 24.04.1 LTS` | The macOS name and version, for example `macOS Sonoma (14.5)` |
@@ -25,6 +25,8 @@ To turn it on:
 3. Click `OK`.
 
 Hover over the checkbox to see the values that Throne found on your computer.
+
+**Linux:** since 1.4.0, on a system without a valid machine ID, such as a container, Throne creates a random ID once and keeps it in the file `hwid` in the config folder, readable only by you, so that the ID stays the same. If you delete the file, Throne creates a new ID. If it cannot write the file, it sends no ID. See also [Device ID](@/headless/_index.md#device-id) for headless Throne.
 
 - Throne sends these headers only with subscription requests, never with any other request.
 - `Custom System Parameters (optional)` replaces values that Throne sends. Use the form `hwid=value,os=value,osVersion=value,model=value` and list only the values you want to replace.
@@ -59,7 +61,9 @@ A request that goes through the local proxy port enters Throne like the traffic 
 | Domain lookup | Only when you choose `Resolve Domain for group` or `Resolve Selected Domain` | DNS lookups of the domain names of your servers | Your system's DNS resolver |
 | Update check | Only when you choose `Tools` → `Check For Update`. The download starts only when you click `Update`. On macOS, in the system-Qt packages and in copies from the Linux install script, this menu item is disabled. | `api.github.com` and the release file on GitHub | `Use proxy` rule |
 | WARP registration | Only when you generate a WARP config or identity | `api.cloudflareclient.com`, or the `Registration Domains…` you set | `Use proxy` rule |
-| Xray geo files | Only when an Xray config needs `geoip.dat` or `geosite.dat` and you agree to download them, or when you click `Download` | The `GeoIP Asset URL` and `GeoSite Asset URL` (GitHub by default) | `Use proxy` rule |
+| Xray geo files | Only when an Xray config needs `geoip.dat` or `geosite.dat` and you agree to download them, when you click `Download`, or when a Throne API client asks for them | The `GeoIP Asset URL` and `GeoSite Asset URL` (GitHub by default) | `Use proxy` rule |
+| IP scan | Only when you start a scan in `Tools` → `IP Scanner` (since 1.4.0) | First a TCP connection to public DNS servers, such as `1.1.1.1:443` and `8.8.8.8:443`, to check the network; then the addresses of the IP list that you scan | Direct, through your network adapter, also while TUN mode is on |
+| IP list update | When you update an IP list that has a URL or rule-set source, and on schedule if you turned on automatic updates for that list (off by default) (since 1.4.0) | The URL of the list; built-in lists come from rule-sets on GitHub through the `Remote Rule-set Mirror` | `Use proxy` rule |
 | Web dashboard | `Tools` → `Open Web dashboard`, only if your build has no built-in dashboard. Official builds have one. | GitHub | Always the local proxy port |
 | NTP | Only if you turn on `NTP Settings` | The NTP server you enter | The `outbound` you choose, `direct` by default |
 
@@ -71,9 +75,13 @@ About the location lookup:
 - After a start, Throne skips it when the exit of the running profile is an OpenVPN or OpenConnect profile.
 - There is no setting to turn it off.
 
+Since 1.3.2, the update check and the update download always verify the TLS certificate of GitHub, even when `Basic Settings` → `Miscellaneous` → `Ignore TLS errors` is on, because the release files have no other signature.
+
+Requests from a [Throne API](@/advanced/api.md) client, such as subscription updates, imports from a URL and geo file downloads, are the same requests as above and follow the same routes. [Headless Throne](@/headless/_index.md) makes no location lookup, and it downloads missing Xray geo files without asking.
+
 DNS queries for the traffic of your apps go to the servers in `Routing Settings` → `DNS`. See [DNS](@/guides/dns.md).
 
-**Android:** Throne for Android makes the same kinds of requests for subscriptions, routing profiles, rule-sets, tests and WARP registration. With `Settings` → `Subscriptions` → `Use proxy` on, or in `Proxy only` mode, its own requests use the local proxy. While no profile runs, subscription updates and WARP registration fail with "Request with proxy but no profile started.", but update checks, routing profile downloads and the rule-set list still work: they go out directly. Throne for Android does not look up your location after you connect. It checks GitHub for updates only when you tap `Check for updates`, or once a day if you turn on `Check for updates daily` (off by default). `Refresh repository list` on the `Routing` screen downloads the list of routing profiles from GitHub.
+**Android:** Throne for Android makes the same kinds of requests for subscriptions, routing profiles, rule-sets, tests and WARP registration. With `Settings` → `Subscriptions` → `Use proxy` on, or in `Proxy only` mode, its own requests use the local proxy. While no profile runs, subscription updates and WARP registration fail with "Request with proxy but no profile started.", but update checks, routing profile downloads and the rule-set list still work: they go out directly. Since 2.0.2, Throne for Android also looks up your exit location at `http://ip-api.com/json/` after each connect and after the connection test from the bottom bar; the request goes through the local proxy, or through the VPN when the mixed inbound is turned off. Also since 2.0.2, when an Xray config with `geoip:` or `geosite:` rules starts or is tested, it downloads `geoip.dat` and `geosite.dat` from GitHub (Loyalsoldier by default). It checks GitHub for updates only when you tap `Check for updates`, or once a day if you turn on `Check for updates daily` (off by default). `Refresh repository list` on the `Routing` screen downloads the list of routing profiles from GitHub.
 
 ## Local proxy port {#local-proxy}
 
@@ -98,10 +106,13 @@ Other local ports:
 | `DNS Server Port` (`Basic Settings` → `Miscellaneous`) | `5533` | Only this computer (`127.0.0.1`). |
 | Clash API (`Basic Settings` → `Core`) | Off (empty `Listen Port`) | The Clash API `Listen Address`, `127.0.0.1` by default. Set a `Secret` when you turn it on. |
 | sing-box API / Dashboard (`Basic Settings` → `Core`) | Off (empty `Listen Port`) | Only this computer. A random `Secret` protects it. |
+| Throne API (`Integration Settings` → `Throne API`, since 1.4.0) | Off; port `9095` when on | Only this computer (`127.0.0.1`), or with `Listen on` set to `Local network`, every device that can reach your computer, limited by `Allowed addresses`. Every client needs the key. See [Throne API & thronectl](@/advanced/api.md#security). |
 
 When a profile uses Xray, the core also opens internal ports on `127.0.0.1`, each protected by a random password. Throne and its core talk to each other through a local socket, not through a network port.
 
-**Android:** `Settings` → `Inbound` has the same kind of options: `Proxy port`, `Allow connections from the LAN` (off by default) and `Enable authorization`.
+[Headless Throne](@/headless/_index.md) turns the Throne API on at its first start, on `127.0.0.1:9095`, with a key in a file that only its user can read.
+
+**Android:** `Settings` → `Inbound` has the same kind of options: `Proxy port`, `Allow connections from the LAN` (off by default) and `Enable authorization`. Since 2.0.2, the sing-box API in `Settings` → `Core` is on by default, on `127.0.0.1:9091` with a random secret; it serves the `sing-box dashboard` in the side menu from files inside the app. Throne for Android has no Throne API.
 
 ## This website {#website}
 

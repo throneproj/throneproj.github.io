@@ -56,6 +56,8 @@ In the profile editor, under `TLS Camouflage Settings`, set `Fragment` to `Keep 
 
 **Cost:** new connections start more slowly. With the `custom` implementation, TCP Fast Open is turned off for the profile. Naive profiles support only the `custom` implementation.
 
+Since 1.4.0, a routing rule can also fragment the connections it matches, for example direct connections to a site that a filter blocks by its name. Use an advanced rule with the `route` or `route-options` action and set `tls_fragment` (with `tls_fragment_fallback_delay`, if needed) or `tls_record_fragment`. See [Routing](@/guides/routing.md#advanced-rules).
+
 ## TLS tricks {#tls-tricks}
 
 TLS tricks write the server name with mixed upper- and lower-case letters, for example `ExAmPlE.com` instead of `example.com`. Servers normally ignore the case, but a filter that looks for the exact name can miss it.
@@ -70,7 +72,8 @@ Every TLS client has a typical fingerprint: the choice and order of the options 
 
 - **Per profile:** `Fingerprint` in the profile editor. Share links often set it with `fp=`.
 - **Global:** `Preset Settings` → `TLS` → `uTLS` → `Default Fingerprint`. Profiles without their own fingerprint use it, on both cores. When it is empty (the default), sing-box profiles without a fingerprint use no uTLS, and Xray profiles without a fingerprint use `chrome`. Hysteria, TUIC, Juicity and Naive profiles do not use uTLS.
-- **Choices:** `chrome`, `firefox`, `edge`, `safari`, `360`, `qq`, `ios`, `android`, `random`, `randomized`.
+- **Choices:** `chrome`, `firefox`, `edge`, `safari`, `360`, `qq`, `ios`, `android`, `random`, `randomized`, and since 1.4.0 `unsafe`.
+- **`unsafe`** turns uTLS off for the profile, even when a `Default Fingerprint` is set. The core then uses its own TLS client. Only then does the profile's `Cipher Suites` field (since 1.4.0) apply: TLS 1.2 cipher suite names, separated by colons. Leave it empty unless your server needs it.
 
 A sing-box REALITY profile without any fingerprint uses `random`.
 
@@ -103,8 +106,12 @@ Encrypted Client Hello (ECH) encrypts the server name inside the ClientHello, so
 1. Open the profile and click `Advanced Settings`.
 2. Tick `Enable ECH`.
 3. Optional: click `ECH Config` and paste the server's ECH configuration. If it stays `Not Set`, the core looks the configuration up in DNS.
-4. Optional: in `ECH Server Name`, enter the domain to look the configuration up for, if it is not the server name.
+4. Optional: in `ECH Query Name / Resolver`, enter the domain to look the configuration up for, if it is not the server name. Since 1.4.0, you can add a DNS server after a `+`, for example `cloudflare-ech.com+https://1.1.1.1/dns-query`. Throne then asks that server.
 5. Click `OK`, then `OK` in the profile editor.
+
+Without a DNS server in that field, Throne looks the configuration up with Direct DNS since 1.4.0. Before, the lookup went through the proxy that it was needed for, and could fail.
+
+Xray profiles have their own field since 1.4.0: `ECH Config List` in the TLS settings of the profile editor. It takes the server's ECH configuration in Base64, or a domain and a DNS-over-HTTPS server, such as `cloudflare-ech.com+https://8.8.8.8/dns-query`, so that Xray looks it up itself. Share links can carry ECH in the `ech=` parameter; see [ECH and certificate pins in links](@/reference/protocols.md#ech-links).
 
 **Cost:** the profile fails if the server does not support ECH or the configuration cannot be found.
 
@@ -142,4 +149,5 @@ Leave these fields empty unless your server's documentation asks for other value
 
 - The same presets are in `Settings` → `Presets`: Multiplex (sing-box and Xray), TLS Client Hello fragment, TLS tricks, uTLS, and HTTP/2 and QUIC. `Default On` is called `On by default` there.
 - Profiles have the same `Keep default` choice, and ECH is set per profile.
+- The TLS fragment options of routing rules are not in Throne for Android 2.0.2.
 - TLS spoof is not available on Android.

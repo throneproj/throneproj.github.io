@@ -15,7 +15,7 @@ toc = true
 
 TUN 模式生效期间，窗口标题会显示 `[Tun]`。当 Throne 拥有 TUN 所需的权限时，标题以 `[Admin]` 开头。开启或关闭 TUN 模式都会重启正在运行的配置档。
 
-TUN 模式只在配置档运行时生效。停止配置档后，你的应用会重新使用普通连接。Throne 没有断网保护（kill switch）功能；参见[常见问题](@/help/faq.zh.md#kill-switch)。开启 `程序`（Program）→ `记住上次的配置档`（Remember last profile）后，Throne 启动时会再次启动上次的配置档；如果你退出时 TUN 模式处于开启状态，还会重新开启它。
+TUN 模式只在配置档运行时生效。停止配置档后，你的应用会重新使用普通连接。要在没有配置档运行时拦截它们的流量，请开启[断网保护（kill switch）](@/advanced/kill_switch.zh.md)（自 1.4.0 起）。开启 `程序`（Program）→ `记住上次的配置档`（Remember last profile）后，Throne 启动时会再次启动上次的配置档；如果你退出时 TUN 模式处于开启状态，还会重新开启它。
 
 第一次使用时会发生什么：
 
@@ -64,12 +64,11 @@ sudo setcap cap_net_admin,cap_net_raw,cap_net_bind_service,cap_sys_ptrace,cap_da
 
 | 设置 | 默认值 | 作用 |
 | --- | --- | --- |
-| `Stack` | Windows 10 及更高版本和 Linux 上为 `system`，macOS 上为 `gvisor` | 核心处理网卡流量的方式。`system` 使用操作系统的网络协议栈，`gvisor` 使用核心内置的网络协议栈，`mixed` 对 TCP 使用 `system`、对 UDP 使用 `gvisor`。在 Windows 7 和 8 上始终为 `gvisor`。 |
-| `MTU` | `1500` | 网卡的最大数据包大小。可选择 `1500` 或 `9000`，也可以输入 1000 到 10000 之间的值。其他值会被替换为 9000。 |
+| `MTU` | `1500` | 网卡的最大数据包大小。可选择 `1500` 或 `9000`，也可以输入 1000 到 10000 之间的值。自 1.4.0 起，`确定`（OK）不接受其他值；当 `Tun 启用 IPv6` 开启且该值低于 1280 时，Throne 会发出警告，因为此时系统可能会丢弃 IPv6。 |
 | `Tun 启用 IPv6`（Tun Enable IPv6） | 关闭 | 为网卡分配一个 IPv6 地址，使 IPv6 流量经过隧道。 |
 | `严格路由`（Strict Route） | Windows 10 及更高版本上开启，其他系统上关闭 | 在 Windows 上，拦截试图绕过隧道的 DNS 查询。参见 [Windows DNS 泄漏防护](@/advanced/windows_tun_mode.zh.md#strict-route)。 |
 | `启用 Tun 路由`（Enable Tun Routing） | 关闭 | 把路由设为 `direct` 的 IP 范围和 `geoip-*` 规则集排除在隧道之外，由系统绕过核心直接路由它们。大型规则集可能会在 Windows 上导致非常高的 CPU 占用。 |
-| `自动重定向`（Auto Redirect） | 开启 | 仅限 Linux。在较新的内核上，`system` 和 `mixed` 协议栈需要它。开启期间，这台电脑不能用作其他设备的网络网关。 |
+| `自动重定向`（Auto Redirect） | 开启 | 仅限 Linux。借助 nftables 改善 TUN 路由和速度。开启期间，这台电脑不能用作其他设备的网络网关。 |
 | `L3 桥接绕过`（L3 Bridge Bypass） | 关闭 | 把被规则设为 `direct` 的 UDP 和 ICMP 流量直接从网卡发出，而不是为其新建一个连接。这样速度更快，并能让游戏和 P2P 的 NAT 正常工作。TCP 仍走普通的直连路径。在 ARM 版 Windows 上不可用。 |
 | `IPv4 CIDR` | `172.19.0.1/24` | 网卡的 IPv4 地址。仅当它与你使用的某个网络冲突时才需要更改。`恢复默认地址`（Restore default addresses）会重置两个地址。 |
 | `IPv6 CIDR` | `fdfe:dcba:9876::1/96` | 网卡的 IPv6 地址。仅在开启 `Tun 启用 IPv6` 时使用。 |
@@ -77,6 +76,8 @@ sudo setcap cap_net_admin,cap_net_raw,cap_net_bind_service,cap_sys_ptrace,cap_da
 | `排除故障`（Troubleshooting）→ `重置`（Reset） | – | 重启核心进程。当 TUN 模式无法启动时使用。 |
 
 默认的 `私有地址范围绕过`（Private Range Bypass）列表为 `10.0.0.0/8`、`172.16.0.0/12`、`192.168.0.0/16`、`169.254.0.0/16`、`224.0.0.0/4`、`fc00::/7`、`fe80::/10` 和 `ff00::/8`。
+
+自 1.4.0 起，`Tun 设置`（Tun Settings）中不再有 `Stack` 设置。Throne 始终使用核心内置的网络协议栈，并忽略你在旧版本中选择的协议栈。
 
 ## 副作用 {#side-effects}
 
@@ -114,8 +115,6 @@ sudo setcap cap_net_admin,cap_net_raw,cap_net_bind_service,cap_sys_ptrace,cap_da
 
 **杀毒软件。** 某些杀毒软件（例如 Avast 和 ESET）会拦截网卡或核心。请为 Throne 文件夹添加例外。
 
-**换一个协议栈。** 在 `Tun 设置`（Tun Settings）中将 `Stack` 设为 `gvisor`，然后重试。
-
 **“严格的路由不可用”。** Windows 无法开启严格路由。在 `Tun 设置`（Tun Settings）中取消勾选 `严格路由`（Strict Route），然后重新启动配置档。没有它，DNS 查询可能会泄漏；参见 [Windows DNS 泄漏防护](@/advanced/windows_tun_mode.zh.md)。
 
 **“Tun 设备运行异常”。** 点击 `重置`（Reset）重启核心，然后重新启动配置档。
@@ -130,7 +129,7 @@ sudo setcap cap_net_admin,cap_net_raw,cap_net_bind_service,cap_sys_ptrace,cap_da
 
 **“Please install "pkexec" first.”（请先安装 "pkexec"。）** 使用包管理器安装 polkit，或者设置 [Linux 权限](#privileges-linux)中所示的能力。
 
-**TUN 模式启动时出现“file exists”（文件已存在）。** 此错误来自 `自动重定向`（Auto Redirect），已在 1.2.2 中修复。如果你仍然遇到它，请关闭 `自动重定向`（Auto Redirect），并将 `Stack` 设为 `gvisor`。
+**TUN 模式启动时出现“file exists”（文件已存在）。** 此错误来自 `自动重定向`（Auto Redirect），已在 1.2.2 中修复。如果你仍然遇到它，请关闭 `自动重定向`（Auto Redirect）。
 
 **使用 systemd-resolved 时没有 DNS。** 如果 `/etc/systemd/resolved.conf` 中为所有接口开启了 `DNSOverTLS`，TUN 模式就会失效。请在那里将其关闭，或者在 Throne 网卡存在期间，为该网卡单独关闭它：
 
@@ -158,4 +157,4 @@ xattr -d com.apple.quarantine /Applications/Throne.app
 
 ## Android 版 {#android}
 
-在 `VPN` 模式下，Throne for Android 的工作方式类似 TUN 模式。其设置位于 `设置`（Settings）→ `TUN / VPN`。在那里，默认协议栈为 gVisor，默认 MTU 为 9000，并且严格路由始终开启。参见 [VPN 与代理模式](@/android/modes.zh.md#tun-settings)。
+在 `VPN` 模式下，Throne for Android 的工作方式类似 TUN 模式。其设置位于 `设置`（Settings）→ `TUN / VPN`。在那里，默认 MTU 为 9000，并且严格路由始终开启。自 2.0.2 起，那里也无法选择协议栈。参见 [VPN 与代理模式](@/android/modes.zh.md#tun-settings)。

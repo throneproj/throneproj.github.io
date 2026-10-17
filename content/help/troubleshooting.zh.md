@@ -19,8 +19,8 @@ toc = true
 ### TUN 已开启，但什么都打不开 {#tun-no-traffic}
 
 1. 关闭 `Tun 模式`，然后用 `系统代理` 测试同一个配置档。如果也失败，请先修复配置档或服务器。
-2. 打开 `设置`（Settings）→ `Tun 设置`（Tun Settings），将 `Stack` 设为 `gvisor`。如果这样可以正常工作，你可以继续使用 `gvisor`，或者查找是什么阻止了 `system` 协议栈，例如防火墙或杀毒软件。
-3. 关闭其他 VPN 应用。其他 VPN 和虚拟网卡可能会接管路由。
+2. 关闭其他 VPN 应用。其他 VPN 和虚拟网卡可能会接管路由。
+3. 检查是否有防火墙或杀毒软件阻止了 TUN 网卡；参见下面针对你的系统的说明。
 
 **Windows：**
 
@@ -31,7 +31,7 @@ toc = true
 **Linux：**
 
 1. 如果你在 systemd-resolved 中为整个系统开启了 DNS over TLS，TUN 模式会无法工作。请将其关闭（[#1146](https://github.com/throneproj/Throne/issues/1146)）。
-2. 保持 `Tun 设置` 中的 `自动重定向`（Auto Redirect）开启。较新的内核在使用 `system` 和 `mixed` 协议栈时需要它。如果这两种协议栈仍然无法传输流量，请使用 `gvisor`。
+2. 保持 `Tun 设置`（Tun Settings）中的 `自动重定向`（Auto Redirect）开启。它默认开启，可借助 nftables 改善 TUN 的路由和性能。
 
 ### TUN 无法启动 {#tun-start}
 
@@ -39,6 +39,7 @@ toc = true
 - **“严格的路由不可用”（Strict routing unavailable）**（Windows）：Windows 无法开启严格路由。打开 `Tun 设置`，关闭 `严格路由`，然后重新启动配置档。
 - **“Tun 设备运行异常”（Tun device misbehaving）：** 虚拟网卡处于异常状态，例如在 Throne 被强制关闭之后。点击该消息中的 `重置`（Reset），或使用 `Tun 设置` → `排除故障`（Troubleshooting）→ `重置`，然后重新启动配置档。如果仍然失败，请重启电脑。
 - **启动卡住**，并且 Throne 建议重启软件：在 Windows 上，非常大的 HOSTS 文件可能会导致刷新 DNS 缓存时卡住（[#1906](https://github.com/throneproj/Throne/issues/1906)）。请保持 HOSTS 文件精简。
+- **“此计算机上的 Tun 由后台 Throne（PID …）占用；请停止它或使用 thronectl。”（A background Throne (PID …) owns Tun on this computer; stop it or use thronectl.）** 这台电脑上正在运行一个无界面 Throne。参见 [Throne 正在后台运行](#background-throne)。
 
 ### TUN 导致其他功能异常 {#tun-side-effects}
 
@@ -169,5 +170,16 @@ Throne 没有使用 Apple 证书签名，因此 macOS 会阻止下载的应用�
 
 ### `throne://` 链接没有反应 {#deeplinks}
 
-- **Windows：** ZIP 版默认不注册 `throne://` 链接。请开启 `基本设置` → `通用` → `启动时注册 throne:// 链接`（Register throne:// links at startup），或点击它旁边的 `安装`（Install）。
+- **Windows 和 Linux：** ZIP 版默认不注册 `throne://` 链接（在 Linux 上自 1.4.0 起）。请开启 `基本设置` → `通用` → `启动时注册 throne:// 链接`（Register throne:// links at startup），或点击它旁边的 `安装`（Install）。
 - 更多检查：[深度链接](@/advanced/deeplinks.zh.md#troubleshooting)。
+
+### Throne 正在后台运行 {#background-throne}
+
+自 1.4.0 起，Throne 也可以作为[无界面 Throne](@/headless/_index.zh.md) 在没有窗口的情况下运行，例如作为 systemd 服务或 systemd 用户单元。Throne 窗口会察觉到同一台电脑上的无界面 Throne：
+
+- **Throne 无法启动，并提示“Throne is running in the background (PID …). Stop the service or use thronectl.”（Throne 正在后台运行（PID …）。请停止该服务或使用 thronectl。）** 有一个无界面 Throne 正在使用同一个数据文件夹，例如使用 `~/.config/Throne` 的 systemd 用户单元。请停止它（例如运行 `systemctl --user stop throne`），然后重新启动 Throne 窗口。或者让它继续运行，并用 [thronectl](@/advanced/api.zh.md) 管理它。
+- **启动时，日志显示“此计算机上正在运行后台 Throne（PID …，数据目录：…）”（A background Throne (PID …) is running on this computer），并有一条通知显示“Throne 正在后台运行”（Throne is running in the background）。** 这台电脑上正在运行一个使用其他数据文件夹的无界面 Throne。Throne 窗口可以正常工作，但无法使用 TUN 模式。
+- **无法开启 `Tun 模式`（Tun Mode）：“此计算机上的 Tun 由后台 Throne（PID …）占用；请停止它或使用 thronectl。”（A background Throne (PID …) owns Tun on this computer; stop it or use thronectl.）** 一台电脑上同一时间只能有一个 Throne 使用 TUN 模式。无界面 Throne 运行期间，Throne 窗口会拒绝开启 TUN 模式，即使无界面 Throne 本身没有使用 TUN。要在窗口中使用 TUN 模式，请停止无界面 Throne。
+- **`检查更新`（Check For Update）没有 `更新`（Update）按钮，并提示“从此安装目录运行的后台 Throne（PID …）仍在运行，无法更新；请先停止它。”（Update is unavailable while a background Throne (PID …) runs from this installation; stop it first.）** 无界面 Throne 运行的程序文件正是更新将要替换的文件。请停止它，完成更新，然后再次启动它。
+
+如果 Throne 提示“Another Throne instance (PID …) is using this data directory”（另一个 Throne 实例（PID …）正在使用此数据目录），说明另一个 Throne 占用了该数据文件夹，但没有在 10 秒内响应，例如因为它卡住了。请退出它，或结束该 PID 对应的进程，然后再次启动 Throne。

@@ -73,6 +73,7 @@ Throne хранит ваши данные в папке пользователя
 | `Throne-<version>-debian-amd64.deb`, `…-debian-arm64.deb` | Debian, Ubuntu, Linux Mint и другие системы на основе Debian |
 | `Throne-<version>-fedora-amd64.rpm`, `…-fedora-arm64.rpm` | Fedora и системы на основе RHEL (начиная с 1.3.0) |
 | Файлы, имена которых заканчиваются на `-system-qt.deb` или `-system-qt.rpm` | Те же пакеты, но они используют библиотеки Qt вашей системы |
+| [APT-репозиторий](#apt-repository) и [RPM-репозиторий](#rpm-repository) | Пакеты с системным Qt, которые поддерживает в актуальном состоянии ваш менеджер пакетов |
 
 Сборкам для Linux нужна glibc 2.34 или новее. Файлам для ARM64 со встроенным Qt нужна glibc 2.38 или новее.
 
@@ -108,13 +109,53 @@ cd Throne
 sudo apt install ./Throne-x.x.x-debian-amd64.deb
 ```
 
+Чтобы получать новые версии через `apt upgrade`, используйте вместо этого [APT-репозиторий](#apt-repository).
+
 ### Fedora и RHEL (.rpm) {#rpm}
 
 ```bash
 sudo dnf install ./Throne-x.x.x-fedora-amd64.rpm
 ```
 
+Чтобы получать новые версии через `dnf upgrade` или `zypper update`, используйте вместо этого [RPM-репозиторий](#rpm-repository).
+
 Оба пакета устанавливают Throne в `/opt/Throne` и добавляют его в меню приложений. В этом случае Throne хранит ваши данные в `~/.config/Throne`.
+
+Начиная с 1.4.0 пакеты также устанавливают службу systemd для [headless Throne](@/headless/_index.ru.md), `/usr/lib/systemd/system/throne.service`, и её файл настроек `/etc/throne/throne.env`. Пакет никогда не включает и не запускает эту службу, поэтому работа окна Throne не меняется. См. [Установка и службы](@/headless/installation.ru.md#linux-packages).
+
+### APT-репозиторий {#apt-repository}
+
+APT-репозиторий `throneproj.github.io/Throne/apt` содержит пакеты с системным Qt для amd64 и arm64 (см. [Пакеты с системным Qt](#system-qt)). В него попадает каждый стабильный релиз, но не бета-версии, и он подписан. Чтобы добавить его в Debian, Ubuntu и других системах на основе Debian:
+
+```bash
+sudo install -d -m 0755 /etc/apt/keyrings
+sudo curl -fsSLo /etc/apt/keyrings/throne.asc https://throneproj.github.io/Throne/throne.asc
+sudo curl -fsSLo /etc/apt/sources.list.d/throne.list https://throneproj.github.io/Throne/apt/throne.list
+sudo apt update
+sudo apt install throne
+```
+
+После этого `sudo apt upgrade` обновляет и Throne.
+
+### RPM-репозиторий {#rpm-repository}
+
+RPM-репозиторий `throneproj.github.io/Throne/rpm` содержит пакеты с системным Qt для x86_64 и aarch64, поэтому ваш дистрибутив должен предоставлять Qt 6.5 или новее. В него попадает каждый стабильный релиз, но не бета-версии, а пакеты и сам репозиторий подписаны.
+
+Fedora и RHEL 9 или новее:
+
+```bash
+sudo curl -fsSLo /etc/yum.repos.d/throne.repo https://throneproj.github.io/Throne/rpm/throne.repo
+sudo dnf install throne --refresh
+```
+
+openSUSE и SLES:
+
+```bash
+sudo zypper addrepo -fc https://throneproj.github.io/Throne/rpm/throne.repo
+sudo zypper install throne
+```
+
+При первом использовании `dnf` и `zypper` просят подтвердить доверие к ключу подписи репозитория.
 
 ### Пакеты с системным Qt {#system-qt}
 
@@ -123,7 +164,7 @@ Qt — это инструментарий, на котором построен
 ## Менеджеры пакетов {#package-managers}
 
 {% alert_warning() %}
-Пакеты WinGet, Scoop, AUR и Nix создают участники сообщества, а не разработчики Throne. Эти пакеты могут отставать от последнего релиза и работать не так, как официальные сборки. О проблемах с таким пакетом сообщайте его сопровождающему. Если вы не уверены, связана ли проблема с Throne или с пакетом, сначала проверьте официальную сборку со [страницы загрузок](@/downloads.ru.md). См. также [FAQ](@/help/faq.ru.md#third-party-packages).
+Пакеты WinGet, Scoop и Nix, а также пакеты AUR, кроме `throne`, создают участники сообщества, а не разработчики Throne. Эти пакеты могут отставать от последнего релиза и работать не так, как официальные сборки. О проблемах с таким пакетом сообщайте его сопровождающему. Если вы не уверены, связана ли проблема с Throne или с пакетом, сначала проверьте официальную сборку со [страницы загрузок](@/downloads.ru.md). См. также [FAQ](@/help/faq.ru.md#third-party-packages).
 {% end %}
 
 ### WinGet {#winget}
@@ -139,29 +180,13 @@ scoop bucket add extras
 scoop install extras/throne
 ```
 
-### Fedora, RHEL и openSUSE {#rpm-repository}
-
-RPM-репозиторий [parhelia512.github.io](https://parhelia512.github.io/) ведёт parhelia512, участник организации throneproj на GitHub; ссылка на этот репозиторий есть в README Throne. Он существует отдельно от файлов релизов. Официальные файлы `.rpm` прикладываются к каждому релизу начиная с 1.3.0.
-
-Fedora и RHEL 9 или новее:
-
-```bash
-sudo curl -o /etc/yum.repos.d/throne.repo https://parhelia512.github.io/throne.repo
-sudo dnf install -y throne --refresh
-```
-
-openSUSE и SLES:
-
-```bash
-sudo zypper addrepo -fc https://parhelia512.github.io/throne-sle.repo
-sudo zypper install -y throne
-```
-
-Для RHEL 8 выполните шаги, описанные на странице репозитория.
+Для Debian, Ubuntu, Fedora, RHEL и openSUSE у Throne есть собственные [APT-репозиторий](#apt-repository) и [RPM-репозиторий](#rpm-repository).
 
 ### Arch Linux (AUR) {#aur}
 
 Throne есть в Arch User Repository под именем `throne`. Установите его с помощью AUR-помощника, например `yay -S throne` или `paru -S throne`.
+
+Пакет `throne` собирает Throne из исходного кода и устанавливает его в `/usr/lib/throne`. Его скрипт сборки хранится в репозитории Throne, а процесс выпуска релизов Throne обновляет пакет для каждого стабильного релиза. Throne хранит ваши данные в `~/.config/Throne`.
 
 ### NixOS {#nixos}
 
@@ -190,7 +215,7 @@ Throne состоит из двух частей, которые собираю�
 
 | Часть | Требования |
 |---|---|
-| Интерфейс | CMake 3.20 или новее, компилятор C++20, Qt 6.2 или новее (Widgets, Network, LinguistTools, а в Linux также DBus), заголовочные файлы X11 для разработки в Linux |
+| Интерфейс | CMake 3.20 или новее, компилятор C++20, Qt 6.2 или новее (Widgets, Network, LinguistTools, а в Linux также DBus), заголовочные файлы X11 и xcb для разработки в Linux |
 | Ядро | Go 1.26 или новее, `protoc`, `protoc-gen-go` и `protoc-gen-go-grpc`. CGO в Linux и macOS: в Linux — набор инструментов Chromium из cronet-go (он нужен для outbound NaïveProxy), в macOS — инструменты командной строки Xcode. |
 
 Пример для Ubuntu 22.04 или новее на x64:
@@ -253,11 +278,13 @@ Throne состоит из двух частей, которые собираю�
 - **macOS:** добавьте `-DNKR_PACKAGE_MACOS=1` к команде `cmake` — так собирается `Throne.app`. Соберите ядро с `GOOS=darwin` и скопируйте `ThroneCore` в `Throne.app/Contents/MacOS/`.
 - **Windows:** в официальных сборках интерфейс компилируется с помощью MSVC и Ninja, а ядро кросс-компилируется в Linux с `GOOS=windows` (для Windows скрипт отключает CGO). Скопируйте `ThroneCore.exe` и `libcronet.dll` из папки `DEST` в папку с `Throne.exe`.
 
-Точные шаги официальных сборок описаны в `.github/workflows/build.yml` в [репозитории Throne](https://github.com/throneproj/Throne).
+Точные шаги официальных сборок описаны в `.github/workflows/build.yml` в [репозитории Throne](https://github.com/throneproj/Throne). Legacy-сборки для Windows 7 и macOS 10.15 компилируют ядро с помощью [форка Go от MetaCubeX](https://github.com/MetaCubeX/go) 1.26, потому что официальный Go больше не поддерживает эти системы.
 
 ## Обновление {#updating}
 
 Копии из ZIP-архива и установка через установщик Windows для текущего пользователя (вариант по умолчанию) умеют обновляться сами: нажмите `Утилиты` (Tools) → `Проверить наличие обновлений` (Check For Update), затем `Обновление` (Update). Все остальные копии обновляйте тем же способом, которым устанавливали: запустите новый установщик, установите новый пакет `.deb` или `.rpm`, снова запустите установочный скрипт, замените `Throne.app` в macOS или воспользуйтесь менеджером пакетов. Ваши профили и настройки сохраняются.
+
+Начиная с 1.4.0 `Проверить наличие обновлений` не показывает кнопку `Обновление`, пока из той же установки работает [headless Throne](@/headless/_index.ru.md). Сначала остановите headless Throne.
 
 Подробности, бета-версии и резервное копирование описаны на странице [Резервное копирование, обновление и перенос](@/guides/backup.ru.md#updating). После обновления в Linux или macOS Throne может снова запросить права, необходимые для режима TUN.
 

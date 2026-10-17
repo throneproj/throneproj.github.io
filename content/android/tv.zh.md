@@ -56,7 +56,7 @@ Throne 2.0.0 无法覆盖安装在旧版本之上。参见[升级](@/android/ins
 
 ### 切换服务器 {#switch-servers}
 
-电视设备通常没有主屏幕小部件或通知按钮。在电视上，配置列表的工具栏中有两个额外的按钮：`Previous server` 和 `Next server`。
+电视设备通常没有主屏幕小部件或通知按钮。在电视上，配置列表的工具栏中有两个额外的按钮：`上一个服务器`（Previous server）和 `下一个服务器`（Next server）。
 
 - Throne 已连接时，它们会把连接切换到当前分组中的上一个或下一个配置。
 - Throne 已停止时，它们只会更改所选配置。
@@ -65,15 +65,15 @@ Throne 2.0.0 无法覆盖安装在旧版本之上。参见[升级](@/android/ins
 
 ### 调整配置顺序 {#reorder}
 
-用遥控器无法拖动配置。请改为打开配置的 ⋮ 菜单，选择 `Move up` 或 `Move down`。这些菜单项在所有设备上都存在，但在使用搜索过滤时会被隐藏。在 `分组`（Groups）界面上，分组的 ⋮ 菜单中同样有 `Move up` 和 `Move down`。
+用遥控器无法拖动配置。请改为打开配置的 ⋮ 菜单，选择 `上移`（Move up）或 `下移`（Move down）。这些菜单项在所有设备上都存在，但在使用搜索过滤时会被隐藏。在 `分组`（Groups）界面上，分组的 ⋮ 菜单中同样有 `上移` 和 `下移`。
 
 ## 在没有相机的情况下添加配置 {#import}
 
 电视通常没有相机，而且很难把文本复制到它的剪贴板中。请改用以下方法之一：
 
-- **输入订阅 URL。** 打开 `分组`（Groups）→ `New group`，将 `Type` 设为 `订阅`（Subscription），输入 `URL` 并保存。然后在新分组上按 `Update subscription`。新分组不会自动更新。
+- **输入订阅 URL。** 打开 `分组`（Groups）→ `新建分组`（New group），将 `类型`（Type）设为 `订阅`（Subscription），输入 `URL` 并保存。然后在新分组上按 `更新订阅`（Update subscription）。新分组不会自动更新。
 - **导入文本文件。** 将分享链接或订阅 URL 保存到 U 盘上的文本文件中。在配置列表中，打开 `添加服务器配置`（Add profile）→ `从文件中导入`（Import from file），然后选择该文件。
-- **恢复备份文件。** 在手机或电脑上创建 `.thrbackup` 备份，并将其复制到 U 盘。在电视上用文件管理器打开该文件，Throne 会提示恢复它。你也可以使用 `工具`（Tools）→ `Restore`。参见[备份、更新与迁移](@/guides/backup.zh.md#desktop-android)。
+- **恢复备份文件。** 在手机或电脑上创建 `.thrbackup` 备份，并将其复制到 U 盘。在电视上用文件管理器打开该文件，Throne 会提示恢复它。你也可以使用 `工具`（Tools）→ `恢复`（Restore）。参见[备份、更新与迁移](@/guides/backup.zh.md#desktop-android)。
 - **从 WebDAV 恢复。** 在手机上设置 `工具` → `WebDAV 设置`（WebDAV settings），然后使用 `备份到 WebDAV`（Back up to WebDAV）。在电视上，在 `工具` → `WebDAV 设置` 中填写同一个服务器，然后使用 `从 WebDAV 恢复`（Restore from WebDAV）。
 
 ### 使用 adb {#import-adb}
@@ -92,21 +92,21 @@ adb shell am start -a android.intent.action.VIEW -d "throne://addsub/<base64>"
 adb shell am start -n com.nb4a.throne/io.nekohasekai.sagernet.ui.ScannerActivity
 ```
 
-Throne 会显示“No camera: choose an image with a QR code”（没有相机：请选择一张包含二维码的图片），并打开图片选择器。选择一张或多张包含二维码的图片。
+Throne 会显示“没有摄像头：请选择一张含二维码的图片”，并打开图片选择器。选择一张或多张包含二维码的图片。
 
 ## 电视上的 VPN 权限 {#vpn-consent}
 
 首次以 VPN 模式连接时，Android 会请你允许 VPN。请选择“确定”（OK）。
 
-某些电视和 AOSP 版本没有用于此询问的界面。此时 Throne 会显示“VPN confirmation unavailable”（VPN 确认界面不可用）。你可以用 adb 命令一次性允许 VPN，或者使用 `仅代理`（Proxy only）模式。参见 [VPN 权限](@/android/permissions.zh.md#vpn-permission)。
+某些电视和 AOSP 版本没有用于此询问的界面。此时 Throne 会显示“无法请求 VPN 确认”。你可以用 adb 命令一次性允许 VPN，或者使用 `仅代理`（Proxy only）模式。参见 [VPN 权限](@/android/permissions.zh.md#vpn-permission)。
 
 在 `仅代理` 模式下，只有你设置为使用本地代理的应用才会使用 Throne。如果你的电视在其网络连接中提供代理设置，请将主机设为 `127.0.0.1`，端口设为 `2080`（即 `代理端口`（Proxy port））。遵循系统代理设置的应用随后就会使用 Throne。停止使用 Throne 时请删除此设置，因为代理未运行时这些应用将无法连接。
 
 ## 保存和打开文件 {#files}
 
-某些电视设备没有用于选择文件保存位置的系统界面。在这类设备上保存备份、导出配置或保存日志时，Throne 会把文件保存到 `Download/Throne`，并在“No file picker”（没有文件选择器）消息中显示完整路径。在 Android 9 及更早版本上，该文件夹为 `Android/data/com.nb4a.throne/files`。
+某些电视设备没有用于选择文件保存位置的系统界面。在这类设备上保存备份、导出配置或保存日志时，Throne 会把文件保存到 `Download/Throne`，并在“没有文件选择器”消息中显示完整路径。在 Android 9 及更早版本上，该文件夹为 `Android/data/com.nb4a.throne/files`。
 
-打开文件（例如使用 `从文件中导入`（Import from file）或 `Restore`）需要文件选择器。如果 Throne 显示“您的设备缺少 Android 标准文件选择器, 请安装一个, 如 Material Files.”，请安装一个提供文件选择器的文件管理器应用。要用 adb 把文件复制到电视，请使用 `adb push`，例如：
+打开文件（例如使用 `从文件中导入`（Import from file）或 `恢复`（Restore））需要文件选择器。如果 Throne 显示“您的设备缺少 Android 标准文件选择器, 请安装一个, 如 Material Files.”，请安装一个提供文件选择器的文件管理器应用。要用 adb 把文件复制到电视，请使用 `adb push`，例如：
 
 ```bash
 adb push Throne-backup-20260925-120000.thrbackup /sdcard/Download/

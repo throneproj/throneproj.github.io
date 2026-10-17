@@ -18,6 +18,8 @@ Throne accepts these options:
 | `-tray` | Starts with the window hidden. Only the tray icon appears. |
 | A `throne://` link | Handles the link as if you had clicked it. See [Deep Links](@/advanced/deeplinks.md). |
 | File paths or `file://` URLs | Imports the files, like `Program` → `Add profile from File(s)`. |
+| `--headless` | Runs Throne without a window, as a service or in a container (since 1.4.0). See [Headless Throne](@/headless/_index.md). |
+| `--check`, `--health`, `--print-connection` | Check whether this computer can run headless Throne, ask a running headless Throne how it is doing, or print the settings for `thronectl` (since 1.4.0). |
 
 Examples:
 
@@ -32,7 +34,8 @@ Examples:
 ```
 
 - Throne reads the word after `-appdata` as the folder, unless it starts with `-`.
-- Only one Throne runs per data folder. If Throne is already running, a new start passes its link or files to the running Throne, brings its window to the front, and exits.
+- Only one Throne runs per data folder. If Throne is already running, a new start passes its link or files to the running Throne, brings its window to the front, and exits. If a headless Throne uses the data folder, the new start shows "Throne is running in the background" and exits; see [Troubleshooting](@/help/troubleshooting.md#background-throne).
+- Headless Throne has more options and its own data folder. See [Command Line & Data Directory](@/headless/command_line.md).
 - **macOS:** to pass options, run the program inside the app bundle, for example `/Applications/Throne.app/Contents/MacOS/Throne -tray`. Links that you click are passed to the running Throne by macOS.
 
 ## Data folder {#data-folder}
@@ -67,7 +70,7 @@ Which mode your copy uses depends on how you installed it:
 - If Throne cannot write to its own folder, for example in `Program Files`, it switches to appdata mode by itself. The first time, it copies your existing `config` folder there. After that, it keeps using the per-user folder, even when you run it as administrator.
 - Packages from other sources (WinGet, Scoop, AUR, Nix) may use other folders. `Open Config Folder` always shows the right one.
 
-A few files are stored next to the `config` folder, not inside it: the Xray geo files `geoip.dat` and `geosite.dat`, and the `diagnostics` folder with the files from `Basic Settings` → `Diagnostics`. In portable mode this is the Throne program folder. In appdata mode it is the per-user folder, for example `%LOCALAPPDATA%\Throne`, even when you give `-appdata` another folder.
+A few files are stored next to the `config` folder, not inside it: the Xray geo files `geoip.dat` and `geosite.dat`, and the `diagnostics` folder with the files from `Basic Settings` → `Diagnostics`. In portable mode this is the Throne program folder. In appdata mode it is the per-user folder, for example `%LOCALAPPDATA%\Throne`. When you give `-appdata` another folder, it is that folder since 1.4.0; at the first start, Throne copies the geo files there from the per-user folder. Before 1.4.0, these files stayed in the per-user folder.
 
 ### Files in the config folder {#config-files}
 
@@ -78,7 +81,9 @@ A few files are stored next to the `config` folder, not inside it: the Xray geo 
 | `cache.db` | The cache of the core: downloaded rule-sets, the last choice of an auto selector and, if `Save Cache To File` is on, the DNS cache. |
 | `logs/` | Log files. See [Logs](#logs). |
 | `crashes/` | Crash dumps (Windows only). The newest 5 are kept. |
-| `icons/` | Custom tray icons from `Basic Settings` → `Style` → `Enable Custom Icons`. |
+| `icons/` | Custom tray icons from `Basic Settings` → `Style` → `Enable Custom Icons`: `Off.png`, `Throne.png` (a profile runs), `Proxy.png`, `Tun.png` and, since 1.4.0, `Connecting.png`. Without `Connecting.png`, Throne shows `Off.png` while a profile starts or stops. |
+| `hwid` | Linux only, since 1.4.0: the device ID that Throne created because the system has no usable `/etc/machine-id` or `/var/lib/dbus/machine-id`. See [HWID](@/reference/privacy.md#hwid). |
+| `.lock` | Since 1.4.0: shows that a Throne uses this folder. Throne never deletes it. |
 | `dashboard/` | Files of a web dashboard for the Clash API. Throne creates the folder with a placeholder page; replace it with the dashboard files. |
 | `sb-dashboard/` | The web dashboard that `Tools` → `Open Web dashboard` opens. |
 
@@ -88,15 +93,21 @@ To move your data to another computer or to Android, create a `.thrbackup` backu
 
 The `Logs` tab at the bottom of the main window shows messages from Throne and from the core. Right-click the log to copy text or to `Clear` it.
 
+- **Scrolling:** while you are at the bottom, the tab shows each new line. Since 1.4.0, when you scroll up, the view stays where it is and new lines wait. A `Jump to latest` button at the top right of the tab shows how many lines wait; click it, or scroll back to the bottom, to see them.
+- **Filter:** since 1.4.0, the filter button at the top right of the tab opens a filter bar. Type in `Filter logs` to show only the matching lines, with the matches highlighted. `Match case` and `Regular expression` change how the text matches, and the bar shows how many lines match. `Esc` or the filter button closes the bar and shows all lines again. This filter changes only the view, not the lines that Throne keeps.
+
 The log settings are in `Settings` → `Basic Settings` → `Logging`:
 
 | Setting | Default | What it does |
 | --- | --- | --- |
-| `Max log lines` | `200` | How many lines the `Logs` tab keeps. |
-| `Auto-scroll log` | On | Keeps the newest line in view. |
+| `Max log lines` | `500` (`200` before 1.4.0) | How many lines the `Logs` tab keeps. |
 | `Sing-box Log level` | `info` | How much detail the core writes: `trace`, `debug`, `info`, `warn`, `error`, `fatal` or `panic`. |
 | `Xray Log level` | `warning` | How much detail Xray writes: `debug`, `info`, `warning`, `error` or `none`. |
-| `Log Filtering` | Off | `Enable Include Rules` shows only lines that match your keywords or regular expressions. `Enable Exclude Rules` hides matching lines. Filters change only the `Logs` tab, not the log file. |
+| `Log Filtering` | Off | `Enable Include Rules` shows only lines that match your keywords or regular expressions. `Enable Exclude Rules` hides matching lines. Lines that these rules hide never reach the `Logs` tab, but they are still in the log file. |
+
+The `Auto-scroll log` setting was removed in 1.4.0.
+
+Since 1.4.0, the `Logs` tab uses a monospace font. To choose another one, use `Log Browser Font` and `Log Browser Font Size` in `Settings` → `Basic Settings` → `Style`. The list shows only monospace fonts. By default, Throne uses the first of Consolas, Menlo, SF Mono, DejaVu Sans Mono, Noto Sans Mono and Ubuntu Mono that is installed, in the size of the interface font.
 
 For a bug report, set `Sing-box Log level` to `debug`, start the profile again, and reproduce the problem. Then follow [Reporting a Bug](@/help/bug_reports.md#logs).
 

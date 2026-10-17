@@ -29,10 +29,10 @@ Throne چند مجوز Android درخواست می‌کند. این صفحه ت�
 
 Android در هر زمان فقط یک VPN را اجرا می‌کند. اجرای Throne اتصال برنامهٔ VPN دیگر را قطع می‌کند. اگر برنامهٔ VPN دیگری در تنظیمات Android روی Always-on VPN (VPN همیشه روشن) تنظیم شده باشد، Android درخواست را نشان نمی‌دهد و Throne اعلام می‌کند که مجوز رد شده است. ابتدا Always-on VPN را برای آن برنامه خاموش کنید.
 
-برخی دستگاه‌های Android TV و AOSP صفحه‌ای برای این درخواست ندارند. در این حالت Throne پیام «VPN confirmation unavailable» (تأیید VPN در دسترس نیست) را با سه دکمه نشان می‌دهد:
+برخی دستگاه‌های Android TV و AOSP صفحه‌ای برای این درخواست ندارند. در این حالت Throne پیام «تأیید VPN در دسترس نیست» (VPN confirmation unavailable) را با سه دکمه نشان می‌دهد:
 
-- `Use proxy mode` حالت سرویس را به `فقط به حالت پراکسی` تغییر می‌دهد و متصل می‌شود.
-- `Copy command` فرمان adb را که این مجوز را می‌دهد کپی می‌کند.
+- `استفاده از حالت پراکسی` (Use proxy mode) حالت سرویس را به `فقط به حالت پراکسی` تغییر می‌دهد و متصل می‌شود.
+- `کپی فرمان` (Copy command) فرمان adb را که این مجوز را می‌دهد کپی می‌کند.
 - `لغو` (Cancel) پیام را می‌بندد.
 
 برای دادن این مجوز، دستگاه را به رایانه‌ای که adb دارد وصل کنید، این فرمان را یک بار اجرا کنید و سپس دوباره در Throne متصل شوید:
@@ -47,35 +47,35 @@ adb shell appops set com.nb4a.throne ACTIVATE_VPN allow
 
 تا وقتی VPN در حال اجراست، Throne اعلانی با نام نمایه، سرعت، و دکمه‌هایی برای توقف VPN و تعویض سرور نشان می‌دهد. در Android 13 و جدیدتر، برنامه‌ها برای نمایش اعلان به مجوز نیاز دارند. Throne یک بار، در نخستین اجرا، این مجوز را درخواست می‌کند. روی Android TV این درخواست انجام نمی‌شود.
 
-اگر این مجوز در آن زمان از قبل رد شده باشد، Throne ابتدا توضیح می‌دهد: «Throne shows a notification while the VPN runs, with buttons to stop it and to switch servers. Allow notifications to see it.» (Throne هنگام اجرای VPN اعلانی با دکمه‌های توقف و تعویض سرور نشان می‌دهد؛ برای دیدن آن، اجازهٔ اعلان‌ها را بدهید.) برای دیدن درخواست Android روی `Continue` بزنید، یا `Not now` را انتخاب کنید. Throne بعداً دوباره نمی‌پرسد.
+اگر این مجوز در آن زمان از قبل رد شده باشد، Throne ابتدا توضیح می‌دهد: «Throne هنگام اجرای VPN اعلانی نشان می‌دهد، با دکمه‌هایی برای توقف آن و جابه‌جایی سرورها. برای دیدن آن اعلان‌ها را مجاز کنید.» (Throne shows a notification while the VPN runs, with buttons to stop it and to switch servers. Allow notifications to see it.) برای دیدن درخواست Android روی `ادامه` (Continue) بزنید، یا `الان نه` (Not now) را انتخاب کنید. Throne بعداً دوباره نمی‌پرسد.
 
-بدون این مجوز، VPN همچنان کار می‌کند، اما اعلان و دکمه‌هایش پنهان هستند. برای بررسی یا تغییر آن در آینده، `تنظیمات` (Settings) ← `Appearance` → `Notifications` را باز کنید. این گزینه «Allowed» (مجاز) یا «Blocked: the service notification and its buttons are hidden. Tap to allow.» (مسدود: اعلان سرویس و دکمه‌هایش پنهان‌اند؛ برای اجازه دادن بزنید.) را نشان می‌دهد. روی آن بزنید تا تنظیمات اعلان Android برای Throne باز شود.
+بدون این مجوز، VPN همچنان کار می‌کند، اما اعلان و دکمه‌هایش پنهان هستند. برای بررسی یا تغییر آن در آینده، `تنظیمات` (Settings) ← `ظاهر` (Appearance) ← `اعلان‌ها` (Notifications) را باز کنید. این گزینه «مجاز» (Allowed) یا «مسدود: اعلان سرویس و دکمه‌های آن پنهان هستند. برای اجازه ضربه بزنید.» (Blocked: the service notification and its buttons are hidden. Tap to allow.) را نشان می‌دهد. روی آن بزنید تا تنظیمات اعلان Android برای Throne باز شود.
 
 برای انتخاب دکمه‌های اعلان، [ویجت‌ها، کاشی و خودکارسازی](@/android/widgets.fa.md#notification) را ببینید.
 
 ## بهینه‌سازی باتری {#battery}
 
-پس از پرسش مربوط به اعلان‌ها، Throne یک بار با عنوان «Keep Throne running» (Throne را در حال اجرا نگه دارید) سؤال می‌کند. متن آن توضیح می‌دهد: «Android may stop or delay apps in the background to save battery. Let Throne run without battery optimization so the VPN stays connected with the screen off and switching servers from the notification, tile or widget keeps working.» (Android ممکن است برای صرفه‌جویی در باتری، برنامه‌ها را در پس‌زمینه متوقف کند یا به تأخیر بیندازد؛ اجازه دهید Throne بدون بهینه‌سازی باتری اجرا شود تا VPN با خاموش بودن صفحه متصل بماند و تعویض سرور از اعلان، کاشی یا ویجت همچنان کار کند.)
+پس از پرسش مربوط به اعلان‌ها، Throne یک بار با عنوان «Throne را در حال اجرا نگه دارید» (Keep Throne running) سؤال می‌کند. متن آن توضیح می‌دهد: «اندروید ممکن است برای صرفه‌جویی در باتری برنامه‌های پس‌زمینه را متوقف یا به تعویق اندازد. اجازه دهید Throne بدون بهینه‌سازی باتری کار کند تا VPN با خاموش بودن صفحه متصل بماند و جابه‌جایی سرور از اعلان، کاشی یا ویجت کار کند.» (Android may stop or delay apps in the background to save battery. Let Throne run without battery optimization so the VPN stays connected with the screen off and switching servers from the notification, tile or widget keeps working.)
 
-روی `Allow` بزنید و در پنجرهٔ Android تأیید کنید. اگر روی `Not now` بزنید، Throne یادآوری می‌کند: «You can allow this later in Settings › General › Battery optimization» (می‌توانید بعداً این اجازه را در تنظیمات › General › Battery optimization بدهید).
+روی `اجازه بده` (Allow) بزنید و در پنجرهٔ Android تأیید کنید. اگر روی `الان نه` بزنید، Throne یادآوری می‌کند: «بعداً می‌توانید این را در تنظیمات › عمومی › بهینه‌سازی باتری اجازه دهید» (You can allow this later in Settings › General › Battery optimization).
 
-`تنظیمات` ← `General` → `Battery optimization` وضعیت فعلی را نشان می‌دهد:
+`تنظیمات` ← `عمومی` (General) ← `بهینه‌سازی باتری` (Battery optimization) وضعیت فعلی را نشان می‌دهد:
 
 | وضعیت | معنا |
 | --- | --- |
-| «Unrestricted» (بدون محدودیت) | Android محدودیتی برای Throne اعمال نمی‌کند. همین را می‌خواهید. |
-| «Optimized: Android may stop the VPN in the background» (بهینه‌شده: ممکن است Android اتصال VPN را در پس‌زمینه متوقف کند) | Android می‌تواند برای صرفه‌جویی در باتری، Throne را موقتاً متوقف کند یا ببندد. |
-| «Restricted by the system: background starts are blocked» (محدودشده توسط سیستم: اجرا در پس‌زمینه مسدود است) | Android جلوی کار Throne در پس‌زمینه را می‌گیرد، و اجرا از اعلان، از ویجت یا هنگام روشن شدن دستگاه ممکن است ناموفق باشد. |
+| «نامحدود» (Unrestricted) | Android محدودیتی برای Throne اعمال نمی‌کند. همین را می‌خواهید. |
+| «بهینه: اندروید ممکن است VPN را در پس‌زمینه متوقف کند» (Optimized: Android may stop the VPN in the background) | Android می‌تواند برای صرفه‌جویی در باتری، Throne را موقتاً متوقف کند یا ببندد. |
+| «محدودشده توسط سیستم: شروع در پس‌زمینه مسدود است» (Restricted by the system: background starts are blocked) | Android جلوی کار Throne در پس‌زمینه را می‌گیرد، و اجرا از اعلان، از ویجت یا هنگام روشن شدن دستگاه ممکن است ناموفق باشد. |
 
-روی این گزینه بزنید تا صفحهٔ مناسب Android باز شود. برای «Optimized»، اجازه دهید Throne بدون بهینه‌سازی باتری اجرا شود. برای «Restricted»، Throne صفحهٔ اطلاعات برنامهٔ Throne را در Android باز می‌کند. تنظیمات باتری آن را باز کنید و گزینهٔ بدون محدودیت را انتخاب کنید. در Android 12 و جدیدتر، نام این گزینه `Unrestricted` (بدون محدودیت) است.
+روی این گزینه بزنید تا صفحهٔ مناسب Android باز شود. برای «بهینه»، اجازه دهید Throne بدون بهینه‌سازی باتری اجرا شود. برای «محدودشده توسط سیستم»، Throne صفحهٔ اطلاعات برنامهٔ Throne را در Android باز می‌کند. تنظیمات باتری آن را باز کنید و گزینهٔ بدون محدودیت را انتخاب کنید. در Android 12 و جدیدتر، نام این گزینه `Unrestricted` (بدون محدودیت) است.
 
-در دستگاه‌هایی که این صفحه‌ها را ندارند، مانند بسیاری از تلویزیون‌ها، Throne پیام «This device has no battery optimization settings» (این دستگاه تنظیمات بهینه‌سازی باتری ندارد) را نشان می‌دهد.
+در دستگاه‌هایی که این صفحه‌ها را ندارند، مانند بسیاری از تلویزیون‌ها، Throne پیام «این دستگاه تنظیمات بهینه‌سازی باتری ندارد» (This device has no battery optimization settings) را نشان می‌دهد.
 
 ## تنظیمات سازندهٔ دستگاه {#oem}
 
 برخی سازندگان، علاوه بر محدودیت‌های Android، محدودیت‌های پس‌زمینهٔ خودشان را هم اضافه می‌کنند. این محدودیت‌ها حتی وقتی بهینه‌سازی باتری خاموش است می‌توانند Throne را متوقف کنند.
 
-`تنظیمات` ← `General` → `Background & auto-start` («Device-specific settings that can stop Throne in the background»؛ تنظیمات مخصوص دستگاه که می‌توانند Throne را در پس‌زمینه متوقف کنند) در این دستگاه‌ها صفحهٔ سازنده را باز می‌کند:
+`تنظیمات` ← `عمومی` ← `پس‌زمینه و راه‌اندازی خودکار` (Background & auto-start)، با توضیح «تنظیمات خاص دستگاه که می‌توانند Throne را در پس‌زمینه متوقف کنند» (Device-specific settings that can stop Throne in the background)، در این دستگاه‌ها صفحهٔ سازنده را باز می‌کند:
 
 - Xiaomi، Redmi و POCO
 - Huawei و Honor
@@ -91,49 +91,49 @@ adb shell appops set com.nb4a.throne ACTIVATE_VPN allow
 
 Always-on VPN (VPN همیشه روشن) یکی از قابلیت‌های Android است. Android هنگام روشن شدن دستگاه، خودش برنامهٔ VPN را اجرا می‌کند و تلاش می‌کند آن را متصل نگه دارد. این قابلیت فقط در حالت `VPN` کار می‌کند.
 
-1. `تنظیمات` ← `General` → `Always-on VPN` را باز کنید. Throne تنظیمات VPN در Android را باز می‌کند.
+1. `تنظیمات` ← `عمومی` (General) ← `VPN همیشه‌روشن` (Always-on VPN) را باز کنید. Throne تنظیمات VPN در Android را باز می‌کند.
 2. تنظیمات Throne را در فهرست باز کنید (معمولاً نماد چرخ‌دنده).
 3. Always-on VPN را روشن کنید.
 
-این گزینه در Throne وضعیت فعلی را نشان می‌دهد: «Off. Set it in the system VPN settings» (خاموش؛ آن را در تنظیمات VPN سیستم تنظیم کنید)، «On: Android starts Throne in VPN mode by itself» (روشن: Android خودش Throne را در حالت VPN اجرا می‌کند) یا «On, blocking connections without VPN» (روشن، با مسدود کردن اتصال‌های بدون VPN). در Android 9 و قدیمی‌تر، Throne نمی‌تواند وضعیت را بخواند و «Set it in the system VPN settings» (آن را در تنظیمات VPN سیستم تنظیم کنید) را نشان می‌دهد.
+این گزینه در Throne وضعیت فعلی را نشان می‌دهد: «خاموش. آن را در تنظیمات VPN سیستم تنظیم کنید» (Off. Set it in the system VPN settings)، «روشن: اندروید Throne را به‌صورت خودکار در حالت VPN اجرا می‌کند» (On: Android starts Throne in VPN mode by itself) یا «روشن، با مسدودکردن اتصالات بدون VPN» (On, blocking connections without VPN). در Android 9 و قدیمی‌تر، Throne نمی‌تواند وضعیت را بخواند و «آن را در تنظیمات VPN سیستم تنظیم کنید» (Set it in the system VPN settings) را نشان می‌دهد.
 
 Throne به یک نمایهٔ انتخاب‌شده نیاز دارد. در Android 10 و جدیدتر:
 
-- اگر نمایه‌ای انتخاب نشده باشد، Throne اعلان «Always-on VPN has no profile» (Always-on VPN نمایه‌ای ندارد) را با این متن نشان می‌دهد: «Select a profile in Throne; until then the always-on VPN cannot connect.» (در Throne یک نمایه انتخاب کنید؛ تا آن زمان Always-on VPN نمی‌تواند متصل شود.)
+- اگر نمایه‌ای انتخاب نشده باشد، Throne اعلان «VPN همیشه‌روشن پروفایلی ندارد» (Always-on VPN has no profile) را با این متن نشان می‌دهد: «در Throne یک پروفایل انتخاب کنید؛ تا آن زمان VPN همیشه‌روشن نمی‌تواند متصل شود.» (Select a profile in Throne; until then the always-on VPN cannot connect.)
 - وقتی Android، Throne را در حالی اجرا می‌کند که حالت سرویس `فقط به حالت پراکسی` است، Throne آن را به `VPN` تغییر می‌دهد.
 
 در Android 7 تا 9، Throne هیچ‌کدام از این دو کار را انجام نمی‌دهد: بدون نمایه اعلانی نشان نمی‌دهد، و در حالت `فقط به حالت پراکسی`، اجرای خودکار Always-on VPN متصل نمی‌شود. در این نسخه‌ها `حالت سرویس` را روی `VPN` نگه دارید.
 
-گزینهٔ «Block connections without VPN» (مسدود کردن اتصال‌های بدون VPN) در Android، تا وقتی Throne متصل نیست، کل ترافیک شبکه را مسدود می‌کند. این نزدیک‌ترین چیز به کیل‌سوییچ (kill switch) در Android است. تا وقتی این گزینه روشن است، اگر Throne متوقف باشد یا نتواند متصل شود، برنامه‌ها به اینترنت دسترسی ندارند. برای خاموش کردن آن، دوباره تنظیمات VPN در Android را باز کنید.
+گزینهٔ «Block connections without VPN» (مسدود کردن اتصال‌های بدون VPN) در Android، تا وقتی Throne متصل نیست، کل ترافیک شبکه را مسدود می‌کند. Throne برای Android، برخلاف [Throne دسکتاپ](@/advanced/kill_switch.fa.md)، کیل‌سوییچ (kill switch) مخصوص خودش را ندارد؛ بنابراین این گزینه نزدیک‌ترین چیز به آن در Android است. تا وقتی این گزینه روشن است، اگر Throne متوقف باشد یا نتواند متصل شود، برنامه‌ها به اینترنت دسترسی ندارند. برای خاموش کردن آن، دوباره تنظیمات VPN در Android را باز کنید.
 
 ## اتصال خودکار {#auto-connect}
 
-`تنظیمات` ← `General` ← `اتصال خودکار` (Auto connect) به‌طور پیش‌فرض خاموش است. وقتی روشن باشد، Throne نمایهٔ انتخاب‌شده را اجرا می‌کند:
+`تنظیمات` ← `عمومی` (General) ← `اتصال خودکار` (Auto connect) به‌طور پیش‌فرض خاموش است. وقتی روشن باشد، Throne نمایهٔ انتخاب‌شده را اجرا می‌کند:
 
 - پس از روشن شدن دستگاه، وقتی برای نخستین بار قفل آن را باز می‌کنید؛
 - پس از به‌روزرسانی Throne.
 
 این گزینه از `حالت سرویس` فعلی استفاده می‌کند و به یک نمایهٔ انتخاب‌شده نیاز دارد. در حالت `VPN`، پیش از آنکه به آن تکیه کنید، یک بار درخواست VPN را تأیید کنید. در توضیح این تنظیم آمده است «اگر قبلاً در حال اجرا بوده است»، اما Throne 2.0.0 نمایهٔ انتخاب‌شده را حتی اگر قبلاً متصل نبوده باشد اجرا می‌کند.
 
-وقتی Always-on VPN روشن است، `اتصال خودکار` پیام «Superseded by the always-on VPN» (Always-on VPN جایگزین آن شده است) را نشان می‌دهد. در حالت `VPN`، Always-on VPN انتخاب بهتری است، چون خود Android اتصال VPN را برقرار نگه می‌دارد. `اتصال خودکار` در حالت `فقط به حالت پراکسی` مفید است که Always-on VPN در آن کاربردی ندارد. اگر اجرا هنگام روشن شدن دستگاه ناموفق بود، [بهینه‌سازی باتری](#battery) را بررسی کنید.
+وقتی Always-on VPN روشن است، `اتصال خودکار` پیام «جایگزین‌شده توسط VPN همیشه‌روشن» (Superseded by the always-on VPN) را نشان می‌دهد. در حالت `VPN`، Always-on VPN انتخاب بهتری است، چون خود Android اتصال VPN را برقرار نگه می‌دارد. `اتصال خودکار` در حالت `فقط به حالت پراکسی` مفید است که Always-on VPN در آن کاربردی ندارد. اگر اجرا هنگام روشن شدن دستگاه ناموفق بود، [بهینه‌سازی باتری](#battery) را بررسی کنید.
 
 ## موقعیت مکانی برای قوانین Wi-Fi {#location}
 
-Throne فقط برای قوانین مسیریابی‌ای که با نام Wi-Fi (SSID) یا نقطهٔ دسترسی (BSSID) تطبیق داده می‌شوند به دسترسی موقعیت مکانی نیاز دارد. همان‌طور که برنامه توضیح می‌دهد: «Android hides the connected Wi-Fi from apps without it. Throne only reads the connected network, never your location.» (Android شبکهٔ Wi-Fi متصل را از برنامه‌هایی که این دسترسی را ندارند پنهان می‌کند؛ Throne فقط شبکهٔ متصل را می‌خواند، هرگز موقعیت مکانی شما را.)
+Throne فقط برای قوانین مسیریابی‌ای که با نام Wi-Fi (SSID) یا نقطهٔ دسترسی (BSSID) تطبیق داده می‌شوند به دسترسی موقعیت مکانی نیاز دارد. همان‌طور که برنامه توضیح می‌دهد: «اندروید Wi-Fi متصل را از برنامه‌های بدون آن پنهان می‌کند. Throne فقط شبکه متصل را می‌خواند، هرگز موقعیت شما را نه.» (Android hides the connected Wi-Fi from apps without it. Throne only reads the connected network, never your location.)
 
 قوانین Wi-Fi به این موارد نیاز دارند:
 
 - دسترسی به موقعیت مکانی دقیق؛
 - در Android 10 و جدیدتر، دسترسی به موقعیت مکانی «در همهٔ اوقات»، چون VPN در حالی اجرا می‌شود که Throne بسته است. وقتی Android پرسید، `Allow all the time` (همیشه مجاز باشد) را انتخاب کنید؛
-- در Android 9 و جدیدتر، روشن بودن موقعیت مکانی. وقتی خاموش باشد، Throne دکمهٔ `Location settings` را پیشنهاد می‌دهد.
+- در Android 9 و جدیدتر، روشن بودن موقعیت مکانی. وقتی خاموش باشد، Throne دکمهٔ `تنظیمات موقعیت مکانی` (Location settings) را پیشنهاد می‌دهد.
 
-Throne وقتی قانونی با شرط‌های Wi-Fi را ذخیره می‌کنید، و یک بار هنگام اتصال با نمایهٔ مسیریابی‌ای که چنین قوانینی دارد، این دسترسی را درخواست می‌کند. اگر هنگام اجرای Throne این دسترسی وجود نداشته باشد، اعلان «Wi-Fi rules are inactive» (قوانین Wi-Fi غیرفعال‌اند) ظاهر می‌شود. برای رفع مشکل روی آن بزنید. اگر درخواست را برای همیشه رد کرده باشید، Throne پیام «Location access is denied. Allow it in the app settings for Wi-Fi rules to match.» (دسترسی به موقعیت مکانی رد شده است؛ برای تطبیق قوانین Wi-Fi، آن را در تنظیمات برنامه مجاز کنید.) را نشان می‌دهد و گزینهٔ `باز کردن تنظیمات سیستم` (Open system settings) را پیشنهاد می‌کند.
+Throne وقتی قانونی با شرط‌های Wi-Fi را ذخیره می‌کنید، و یک بار هنگام اتصال با نمایهٔ مسیریابی‌ای که چنین قوانینی دارد، این دسترسی را درخواست می‌کند. اگر هنگام اجرای Throne این دسترسی وجود نداشته باشد، اعلان «قوانین Wi-Fi غیرفعال هستند» (Wi-Fi rules are inactive) ظاهر می‌شود. برای رفع مشکل روی آن بزنید. اگر درخواست را برای همیشه رد کرده باشید، Throne پیام «دسترسی موقعیت مکانی رد شده. برای تطبیق قوانین Wi-Fi آن را در تنظیمات برنامه مجاز کنید.» (Location access is denied. Allow it in the app settings for Wi-Fi rules to match.) را نشان می‌دهد و گزینهٔ `باز کردن تنظیمات سیستم` (Open system settings) را پیشنهاد می‌کند.
 
-قوانین دیگر بدون دسترسی به موقعیت مکانی کار می‌کنند. برای نمایه‌های مسیریابی و قوانین، [مسیریابی](@/guides/routing.fa.md#profiles) را ببینید.
+قوانین دیگر بدون دسترسی به موقعیت مکانی کار می‌کنند. این شامل شرط‌های `نوع شبکه` (Network type) و `شبکه اندازه‌گیری‌شده` (Metered network) هم می‌شود (از نسخهٔ 2.0.2): این شرط‌ها نوع شبکهٔ فعلی، مانند Wi-Fi یا دادهٔ تلفن همراه، را بررسی می‌کنند، نه اینکه کدام شبکه است. برای نمایه‌های مسیریابی و قوانین، [مسیریابی](@/guides/routing.fa.md#profiles) و [مسیریابی در Android](@/guides/routing.fa.md#android) را ببینید.
 
 ## برنامه‌های نصب‌شده {#installed-apps}
 
-Throne فهرست برنامه‌های نصب‌شده را برای پروکسی به‌تفکیک برنامه (`تنظیمات` ← `TUN / VPN` ← `تانل‌کردن اپلیکیشن‌ها` (Apps VPN mode)) و برای فیلد `Apps` در قوانین مسیریابی می‌خواند. بیشتر دستگاه‌ها برای این کار اجازه نمی‌خواهند.
+Throne فهرست برنامه‌های نصب‌شده را برای پروکسی به‌تفکیک برنامه (`تنظیمات` ← `TUN / VPN` ← `تانل‌کردن اپلیکیشن‌ها` (Apps VPN mode)) و برای فیلد `برنامه‌ها` (Apps) در قوانین مسیریابی می‌خواند. بیشتر دستگاه‌ها برای این کار اجازه نمی‌خواهند.
 
 برخی سیستم‌ها، برای نمونه در دستگاه‌های Xiaomi، مجوز جداگانه‌ای برای آن دارند. اگر این مجوز رد شده باشد، فهرست خالی است و Throne پیام «خواندن برنامه‌های نصب‌شده ممکن نیست.» را نشان می‌دهد. روی `باز کردن تنظیمات سیستم` بزنید و به Throne اجازه دهید فهرست برنامه‌ها را بخواند.
 

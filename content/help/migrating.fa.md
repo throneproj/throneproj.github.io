@@ -12,7 +12,7 @@ Throne ادامهٔ Nekoray است، بنابراین بیشتر چیزها به
 | در Nekoray / NekoBox از این استفاده می‌کردید… | در Throne از این استفاده می‌کنید… |
 | --- | --- |
 | منوی `Server` | روی فهرست نمایه‌ها راست‌کلیک کنید. نوار منو پنهان است. |
-| منوی `Preferences` | دکمهٔ `تنظیمات` (Settings) در نوار ابزار: `تنظیمات پایه` (Basic Settings)، `تنظیمات مسیریابی` (Routing Settings)، `تنظیمات vpn` (Tun Settings)، `تنظیمات کلید میانبر` (Hotkey Settings) و موارد دیگر. |
+| منوی `Preferences` | دکمهٔ `تنظیمات` (Settings) در نوار ابزار: `تنظیمات پایه` (Basic Settings)، `تنظیمات مسیریابی` (Routing Settings)، `تنظیمات vpn` (Tun Settings)، `Integration Settings` (کلیدهای میانبر و Throne API؛ پیش از 1.4.0، `تنظیمات کلید میانبر` (Hotkey Settings)) و موارد دیگر. |
 | گروه‌های اشتراک | همان گروه‌ها، زیر دکمهٔ `گروه ها` (Groups). برای به‌روزرسانی یک گروه، روی زبانهٔ آن راست‌کلیک کنید ← `اشتراک را به روز کنید` (Update subscription). |
 | `Tun Settings` → `Bypass Process Name` (برنامه‌هایی که از تونل عبور نمی‌کنند) | قوانین `processName:` در کادر `مستقیم` (Direct) نمایهٔ مسیریابی شما، برای مثال `processName:game.exe`. یا در زبانهٔ `اتصال‌ها` (Connections) روی یک اتصال راست‌کلیک کنید ← `Append process "<name>" to` → `Direct`. |
 | `Tun Settings` → `Whitelist mode` (فقط برنامه‌های فهرست‌شده از تونل استفاده می‌کنند) | نمایهٔ مسیریابی‌ای که `Default outbound` آن روی `direct` تنظیم شده است، و برنامه‌ها (`processName:…`) یا سایت‌ها در کادر `پروکسی` (Proxy). |
@@ -21,7 +21,7 @@ Throne ادامهٔ Nekoray است، بنابراین بیشتر چیزها به
 | `Default Outbound` روی `bypass` یا `block` | `Default outbound` روی `direct` یا `block` در نمایهٔ مسیریابی. `block` از نسخهٔ 1.2.0 در دسترس است. |
 | پوسته‌هایی مانند FlatGray، LightBlue و BlackSoft | `تنظیمات پایه` ← `استایل` (Style) ← `پوسته` (Theme). این پوسته‌ها از نسخهٔ 1.1.5 بازگشته‌اند. |
 | `Copy links of selected (Neko Links)` | لینک‌های اشتراک‌گذاری استاندارد. Throne نمی‌تواند لینک‌های `nekoray://` یا `sn://` را بخواند. |
-| `ربایش` (Hijack) با سرور DNS و `تنظیمات هدایت` (Redirect Settings) آن، یا `دی‌ان‌اس سیستم` (System DNS) در Throne 1.3.1 و قدیمی‌تر | `حالتvpn` (Tun Mode). این قابلیت‌ها در 1.3.1 منسوخ (deprecated) شده‌اند و در نسخهٔ بعدی حذف خواهند شد. |
+| `ربایش` (Hijack) با سرور DNS و `تنظیمات هدایت` (Redirect Settings) آن، یا `دی‌ان‌اس سیستم` (System DNS) در Throne 1.3.2 و قدیمی‌تر | `حالتvpn` (Tun Mode). این قابلیت‌ها در نسخهٔ 1.4.0 حذف شدند. |
 | NekoBox for Android | Throne برای Android 2.0.0. [پایین‌تر](#from-nekobox-android) را ببینید. |
 
 برای مسیریابی به‌تفکیک برنامه، `حالتvpn` (Tun Mode) را روشن کنید. برنامه‌هایی که پروکسی سیستمی را نادیده می‌گیرند هرگز به Throne نمی‌رسند، بنابراین در حالت پروکسی سیستمی قوانین روی آن‌ها اعمال نمی‌شوند. [مسیریابی](@/guides/routing.fa.md#simple-rules) و [زبانهٔ اتصال‌ها](@/guides/routing.fa.md#connections-tab) را ببینید.

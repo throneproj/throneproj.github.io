@@ -46,6 +46,23 @@
       url: /android/tv/
     - title: "Android 故障排除"
       url: /android/troubleshooting/
+- title: "无界面 Throne"
+  section: headless
+  items:
+    - title: "概览"
+      url: /headless/
+    - title: "安装与服务"
+      url: /headless/installation/
+    - title: "使用 thronectl 管理"
+      url: /headless/thronectl/
+    - title: "命令行与数据目录"
+      url: /headless/command_line/
+    - title: "健康检查与日志"
+      url: /headless/monitoring/
+    - title: "防锁定与恢复"
+      url: /headless/recovery/
+    - title: "故障排除"
+      url: /headless/troubleshooting/
 - title: "进阶配置"
   section: advanced
   items:
@@ -63,8 +80,12 @@
       url: /advanced/vpn_profiles/
     - title: "Windows DNS 泄漏防护"
       url: /advanced/windows_tun_mode/
+    - title: "Kill Switch（断网保护）"
+      url: /advanced/kill_switch/
     - title: "深度链接"
       url: /advanced/deeplinks/
+    - title: "Throne API 与 thronectl"
+      url: /advanced/api/
 - title: "参考"
   section: reference
   items:

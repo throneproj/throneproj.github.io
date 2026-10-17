@@ -14,6 +14,8 @@ Throne (ранее Nekoray) — бесплатный прокси-клиент �
 
 Throne для Android (ранее NekoBox for Android) — это приложение для Android. Начиная с версии 2.0.0 оно использует то же ядро, ту же модель настроек и тот же формат резервных копий, что и приложение для компьютера, поэтому свою конфигурацию можно переносить между компьютером и телефоном. См. [Throne для Android](@/android/_index.ru.md).
 
+Начиная с 1.4.0 та же программа Throne работает и без окна — на сервере, роутере или в контейнере, а управляют ею с помощью инструмента командной строки `thronectl`. См. [Headless Throne](@/headless/_index.ru.md).
+
 Если раньше вы пользовались Nekoray или NekoBox, прочитайте страницу [Переход с Nekoray / NekoBox](@/help/migrating.ru.md).
 
 ## Платформы {#platforms}
@@ -38,6 +40,9 @@ Throne для Android (ранее NekoBox for Android) — это приложе
 - Средства обхода цензуры, например фрагментация TLS, uTLS и ECH: [Пресеты для обхода цензуры](@/advanced/presets.ru.md).
 - Встроенный Cloudflare WARP: [Cloudflare WARP](@/advanced/warp.ru.md).
 - Резервные копии, которые работают и в приложении для компьютера, и в приложении для Android: [Резервное копирование, обновление и перенос](@/guides/backup.ru.md).
+- Kill switch, который блокирует трафик в обход Throne (начиная с 1.4.0): [Kill Switch](@/advanced/kill_switch.ru.md).
+- Throne API для управления и администрирования Throne из скриптов, с помощью горячих клавиш и с других устройств через `thronectl` (начиная с 1.4.0): [Throne API и thronectl](@/advanced/api.ru.md).
+- Режим headless для серверов и контейнеров (начиная с 1.4.0): [Headless Throne](@/headless/_index.ru.md).
 
 ## С чего начать {#where-to-start}
 
@@ -58,5 +63,4 @@ Throne построен на основе этих проектов:
 - [simple-protobuf](https://github.com/tonda-kriz/simple-protobuf): обмен сообщениями между интерфейсом и ядром
 - [fkYAML](https://github.com/fktn-k/fkYAML): импорт Clash YAML
 - [quirc](https://github.com/dlbeer/quirc): чтение QR-кодов
-- [QHotkey](https://github.com/Skycoder42/QHotkey): глобальные горячие клавиши
 - [srombauts/sqlitecpp](https://github.com/srombauts/sqlitecpp): база данных профилей и настроек

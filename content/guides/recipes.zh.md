@@ -31,7 +31,7 @@ ruleset:geoip-telegram
 suffix:example.com
 ```
 
-如果某个被封锁的网站仍然无法打开，说明它使用的域名比你列出的更多。打开该网站，在 `连接`（Connections）标签页中找到它的连接，右键点击其中一个，然后选择 `追加 "<host>" 到`（`Append "<host>" to`）→ `代理`（Proxy）。对于大型服务，使用 `geosite-` 规则集比逐个添加域名更方便。有些应用（例如 Telegram）还会直接连接 IP 地址，因此请添加它们的 `geoip-` 规则集，并使用 `Tun 模式`（Tun Mode）。参见[路由](@/guides/routing.zh.md#simple-rules)。
+如果某个被封锁的网站仍然无法打开，说明它使用的域名比你列出的更多。打开该网站，在 `连接`（Connections）标签页中找到它的连接，右键点击其中一个，然后选择 `代理`（Proxy）。在打开的窗口中勾选该域名，例如 `*.example.com`，然后点击 `确定`（OK）。在 1.4.0 之前，这个菜单项是 `追加 "<host>" 到`（`Append "<host>" to`）→ `代理`（Proxy）。对于大型服务，使用 `geosite-` 规则集比逐个添加域名更方便。有些应用（例如 Telegram）还会直接连接 IP 地址，因此请添加它们的 `geoip-` 规则集，并使用 `Tun 模式`（Tun Mode）。参见[路由](@/guides/routing.zh.md#simple-rules)。
 
 ## 与其他设备共享代理 {#share-with-devices}
 
@@ -95,7 +95,7 @@ export https_proxy=http://192.168.1.10:2080
 
 - 保持 `私有地址范围绕过`（Private Range Bypass）开启（默认开启）。它会让私有地址范围（虚拟网络通常使用这些地址）不进入隧道。
 - `启用 Tun 路由`（Enable Tun Routing）还会让 `direct` 规则中的 IP 范围不进入隧道。在 Windows 上，大型规则集可能导致 CPU 占用过高，因此请谨慎开启。
-- **Linux：** 在较新的内核上，`system` 和 `mixed` 协议栈需要 `自动重定向`（Auto Redirect，默认开启）。开启时，这台电脑无法作为其他设备的网络网关，由它转发流量的容器或虚拟机也可能受到影响。请改为让它们使用代理端口。
+- **Linux：** `自动重定向`（Auto Redirect，默认开启）借助 nftables 改进 TUN 路由。开启时，这台电脑无法作为其他设备的网络网关，由它转发流量的容器或虚拟机也可能受到影响。请改为让它们使用代理端口。
 
 参见 [TUN 模式](@/guides/tun_mode.zh.md#settings)。
 
@@ -130,14 +130,29 @@ ip:10.20.0.0/16
 
 1. 开启 `Tun 模式`（Tun Mode）。只有在 TUN 模式下，所有程序的流量才会到达 Throne。
 2. 启动该程序，让它建立连接。
-3. 在 `连接`（Connections）标签页中，右键点击它的某个连接，然后选择 `追加进程 "<name>" 到`（`Append process "<name>" to`）→ `代理`（Proxy）、`直连`（Direct）或 `阻止`（Block）。
-4. 点击“设置已更改，重启进行应用”提示中的 `重启`（Restart）。
+3. 在 `连接`（Connections）标签页中，右键点击它的某个连接，然后选择 `代理`（Proxy）、`直连`（Direct）或 `阻止`（Block）。
+4. 在打开的窗口中勾选 `Process` 加程序名，例如 `Process Telegram.exe`，然后点击 `确定`（OK）。在 1.4.0 之前，这个菜单项是 `追加进程 "<name>" 到`（`Append process "<name>" to`）。
+5. 点击“设置已更改，重启进行应用”提示中的 `重启`（Restart）。
 
 你也可以在路由配置档的 `基本`（Basic）标签页上自行编写规则，例如 `processName:Telegram.exe` 或 `processPath:C:\Program Files\App\app.exe`。名称必须完全匹配，包括大小写。
 
 - **只让部分程序走代理：** 将 `默认出站`（Default outbound）设为 `direct`，并把这些程序填入 `代理`（Proxy）输入框。
 - **除部分程序外全部走代理：** 保持 `默认出站` 为 `proxy`，并把例外的程序填入 `直连`（Direct）输入框。
 
-如果 `追加`（Append）菜单项被禁用，说明无法从那里修改当前活动的路由配置档，例如它是一个会自动更新的远程配置档。参见[连接标签页](@/guides/routing.zh.md#connections-tab)。
+如果 `代理`、`直连` 和 `阻止` 菜单项被禁用，说明无法从那里修改当前活动的路由配置档，例如它是一个会自动更新的远程配置档。参见[连接标签页](@/guides/routing.zh.md#connections-tab)。
 
 **Android：** 在 `设置`（Settings）→ `TUN / VPN` → `分应用代理`（Apps VPN mode）中选择应用，或者使用路由规则中的 `Apps` 字段。参见[分应用代理](@/android/modes.zh.md#per-app-proxy)。
+
+## 找到可用的 CDN 地址 {#cdn-address}
+
+如果服务商的服务器位于 Cloudflare 等 CDN 之后，配置档可能会因为它们使用的 CDN 地址在你的网络中被封锁而失败，而同一 CDN 的其他地址仍然可用。自 1.4.0 起，IP 扫描器可以找到这样的地址，分组可以把其所有配置档都指向它。
+
+1. 打开 `工具`（Tools）→ `IP Scanner`，点击 `New scan`，保持 `Generic scan` 并点击 `OK`。
+2. 在 `Targets` 标签页上，将 `Base IP list` 选为你的 CDN 的列表，例如 `Cloudflare CDN`，并在 `Ports` 中输入配置档的端口，通常是 `443`。把 `Stop after (results)` 设为一个较小的数字，例如 `20`。
+3. 在 `Phases` 标签页上，保留 `TCP connect`，勾选 `Config test`，并将 `Profile` 选为该分组中的某个配置档。
+4. 点击 `Start`，等待扫描完成。
+5. 在 `Results` 标签页上点击 `Save as IP list` 并输入名称。
+6. 打开该分组的选项，点击 `高级`（Advanced），将 `Server Address` 设为 `IP list` 并选择新列表。点击两次 `确定`（OK）。
+7. 对该分组运行 URL 测试。
+
+之后，配置档会连接到列表中的第一个地址，并继续把原来的域名作为 TLS 服务器名称发送。这只适用于服务器确实位于该 CDN 之后的配置档，通常是基于 TLS、使用域名的 WebSocket、gRPC、HTTPUpgrade 或 XHTTP。参见 [IP 扫描器](@/guides/testing.zh.md#ip-scanner)和[服务器地址](@/guides/subscriptions.zh.md#server-address)。

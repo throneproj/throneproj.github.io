@@ -33,10 +33,12 @@ In VPN mode, Android sends the network traffic of your apps to Throne. Throne th
 
 ### HTTP proxy of the VPN {#http-proxy}
 
-On Android 10 and later, Throne also sets its local proxy (`127.0.0.1` and the `Proxy port`) as the HTTP proxy of the VPN network. Apps that follow the system proxy settings, such as most browsers, then send their web traffic to this proxy directly. This traffic still follows your routing profile.
+On Android 10 and later, Throne can also set its local proxy (`127.0.0.1` and the `Proxy port`) as the HTTP proxy of the VPN network. Apps that follow the system proxy settings, such as most browsers, then send their web traffic to this proxy directly instead of through the VPN interface. This traffic still follows your routing profile.
 
-- To exclude domains from this proxy, add them to `Settings` → `Inbound` → `HTTP proxy bypass list`. Write one entry per line, for example `*example.com`. Lines that start with `#` are comments. Apps connect to these domains without the proxy.
-- `Disable mixed inbound` removes this HTTP proxy.
+Since 2.0.2 this is a setting, `Settings` → `Inbound` → `Append HTTP proxy to VPN`, and it is off by default. In 2.0.0 and 2.0.1, Throne always set the HTTP proxy.
+
+- The setting is not available while `Enable authorization` is on, because Android cannot pass the username and password to apps. `Disable mixed inbound` also turns it off.
+- To exclude domains from this proxy, add them to `Settings` → `Inbound` → `HTTP proxy bypass list`. Write one entry per line, for example `*example.com`. Lines that start with `#` are comments. Apps connect to these domains without the proxy. The list is available while `Append HTTP proxy to VPN` is on.
 
 ## Proxy only mode {#proxy-only}
 
@@ -95,13 +97,21 @@ com.google.android.youtube
 org.telegram.messenger
 ```
 
-When you import, upper and lower case do not matter in the first line. Any first line other than `true` selects `Proxy`.
+In 2.0.2 and older, the import always reads the first line as the mode: upper and lower case do not matter, and any first line other than `true` selects `Proxy`. After 2.0.2, a list whose first line is not `true` or `false` keeps the current mode and replaces only the selection. So you can also import a plain list of package names, for example one copied from the `Apps` field of a routing rule.
 
 If Throne is connected, the new selection applies after the connection reloads. Stop and start the connection, or tap `Apply` when Throne shows "Reload proxy service to apply changes".
 
 If the list stays empty, see [Installed apps](@/android/permissions.md#installed-apps).
 
 To send an app to a specific outbound while it stays in the VPN, use a routing rule with the `Apps` condition instead. The desktop app has no app list. On the desktop, you use routing rules by process name. See [Routing](@/guides/routing.md#advanced-rules).
+
+A routing rule only routes the traffic that reaches Throne. If per-app proxy keeps an app out of the VPN, its rule never matches. After 2.0.2, the app list of a routing rule has ⋮ → `Copy to Apps VPN mode` for this case. It explains the choices before it changes anything:
+
+- In `Proxy` mode, it adds the selected apps to the list, or replaces the list with them.
+- In `Bypass` mode, it removes them from the list, or switches to `Proxy` mode with only these apps.
+- When per-app proxy is off, it turns on `Proxy` mode with these apps. All other apps then skip the VPN.
+
+Reload the connection afterwards.
 
 ## LAN sharing {#lan-sharing}
 
@@ -128,7 +138,6 @@ These settings are in `Settings` → `TUN / VPN`. They apply only in VPN mode. I
 
 | Setting | Default | What it does |
 | --- | --- | --- |
-| `TUN implementation` | `gVisor` | The network stack that handles the traffic of the VPN interface: `gVisor`, `System` or `Mixed`. If some apps do not work, try another one. |
 | `MTU` | `9000` | The largest packet size of the VPN interface. Choose `1500` or `9000` from the list, or long-press the setting to enter any value from 1000 to 10000. |
 | `Tun IPv6` | Off | Gives the VPN interface an IPv6 address and routes IPv6 through it. When it is off, IPv6 connections fail at once while Throne runs, so apps use IPv4. Turn it on only if your server supports IPv6. |
 | `Tun routing` | Off | Keeps the IP ranges that your routing profile sends `direct` outside the VPN interface, so this traffic does not pass through Throne. |
@@ -144,6 +153,8 @@ The default private ranges are `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, 
 
 Strict route is always on in the Android app and has no setting. On the desktop it is a setting. See [TUN Mode](@/guides/tun_mode.md#settings).
 
+In 2.0.0 and 2.0.1, a `TUN implementation` setting chose the network stack of the VPN interface: `gVisor` (the default), `System` or `Mixed`. Since 2.0.2 this setting is gone, and Throne uses the core's default stack. See [TUN Mode on Android](@/guides/tun_mode.md#android).
+
 ### MTU {#mtu}
 
 The Android default MTU is `9000`. The desktop default is `1500`. Keep the default unless you have problems. If some apps or websites fail while others work, set `MTU` to `1500` and reconnect. When you restore the settings of a desktop backup, the desktop MTU comes with them. It is `1500` unless you changed it there.
@@ -158,10 +169,12 @@ The Android default MTU is `9000`. The desktop default is `1500`. Keep the defau
 | `Proxy port` | `2080` | The port of the local proxy. In a work profile or another Android user, the default is 2080 plus the number of that user. |
 | `Random port` | Off | Picks a free port each time the connection starts and saves it as `Proxy port`. |
 | `Allow connections from the LAN` | Off | Listens on all network interfaces instead of `127.0.0.1`. See [LAN sharing](#lan-sharing). |
+| `Append HTTP proxy to VPN` | Off | Since 2.0.2. Sets the local proxy as the [HTTP proxy of the VPN](#http-proxy). Not available while `Enable authorization` is on. |
 | `HTTP proxy bypass list` | Empty | Domains that do not use the HTTP proxy of the VPN. One entry per line. |
-| `Enable authorization` | Off | Clients must send the `Username` and `Password`. This applies to every client, including apps on this phone that use the HTTP proxy of the VPN. |
+| `Enable authorization` | Off | Clients must send the `Username` and `Password`. This applies to every client. |
+| `DNS server port` | `5533` | Since 2.0.2. The port of Throne's local DNS server on `127.0.0.1`. Choose another port if another app or another Android user already uses it. See [DNS on Android](@/guides/dns.md#android). |
 | `Custom inbound` | `{"inbounds": []}` | Extra sing-box inbounds as JSON. Throne adds the `inbounds` array to its configuration unchanged. |
 
-When `Disable mixed inbound` is on, all other settings on this screen except `Custom inbound` are disabled.
+When `Disable mixed inbound` is on, all other settings on this screen except `DNS server port` and `Custom inbound` are disabled.
 
 The desktop has similar settings. See [Inbound settings](@/guides/proxy_modes.md#inbound-settings).

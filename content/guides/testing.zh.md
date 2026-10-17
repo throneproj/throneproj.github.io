@@ -1,11 +1,11 @@
 +++
 title = "测试与自动选择器"
-description = "测试配置档的延迟、出口 IP 和速度，对列表进行排序和筛选，移除失效的配置档，并让自动选择器挑选最佳服务器。"
+description = "测试配置档的延迟、出口 IP 和速度，对列表进行排序和筛选，移除失效的配置档，让自动选择器挑选最佳服务器，并扫描可用的 IP 地址。"
 weight = 60
 toc = true
 +++
 
-Throne 可以测试你的配置档，帮助你只保留好用的那些。本页介绍 URL 测试、IP 与国家测试、速度测试、排序与筛选、清理，以及会替你挑选最佳服务器的自动选择器。
+Throne 可以测试你的配置档，帮助你只保留好用的那些。本页介绍 URL 测试、IP 与国家测试、速度测试、排序与筛选、清理、会替你挑选最佳服务器的自动选择器，以及能找到在你的网络中可用的服务器地址的 IP 扫描器。
 
 测试不会停止正在运行的配置档。测试会跳过自动选择器配置档；请改为测试自动选择器所使用的分组。
 
@@ -83,11 +83,12 @@ Throne 会逐个测试配置档。之后，如果包含了 `速度`（Speed）�
 
 - 点击列标题即可按该列排序。再次点击会反转顺序。Throne 会保存新的顺序。
 - 首次点击按延迟排序时，最快的配置档排在最前。随后是测试失败的配置档，未测试的配置档排在最后。
+- 自 1.4.0 起，分组会保持排序状态。列标题中的箭头表示当前的排序。测试结束、订阅更新或导入之后，Throne 会把配置档重新排好。要保留当前顺序并停止排序，请右键点击某个列标题并选择 `Stop Sorting`。
 - 右键点击 `测试结果`（Test Result）列标题，可以选择该列显示的内容（`包含:`（Include:）`出口 IP`、`速度`）以及排序依据（`排序依据:`（Sort By:）`延迟`（Latency）、`下载速度(↓)`（Download Speed）、`上传速度(↑)`（Upload Speed）、`IP 出口`（IP Out））。
 - 右键点击 `流量`（Traffic）列标题，可以按 `合计(Σ)`（Total）、`下载(↓)`（Downloaded）或 `上传(↑)`（Uploaded）排序。
-- 拖动行可以把它们排成任意顺序。筛选开启时无法拖动。
+- 拖动行可以把它们排成任意顺序。筛选开启时无法拖动。拖动行也会停止排序。
 
-订阅更新会把配置档恢复为服务商列表中的顺序。要在每次更新后对订阅分组排序，请使用它的 `Sort by latency` 选项；参见[每次更新之后](@/guides/subscriptions.zh.md#after-update)。
+订阅更新会先把配置档排成服务商列表中的顺序，然后 Throne 再次应用分组的排序。要在每次更新后测试订阅分组并按延迟排序，请使用它的 `运行 URL 测试`（Run URL test）和 `按延迟排序`（Sort by latency）选项；参见[每次更新之后](@/guides/subscriptions.zh.md#after-update)。
 
 要筛选列表：
 
@@ -98,7 +99,7 @@ Throne 会逐个测试配置档。之后，如果包含了 `速度`（Speed）�
 
 ## 清理 {#clean-up}
 
-这些命令位于 `分组`（Groups）菜单中，作用于当前分组。
+自 1.4.0 起，这些命令位于 `分组`（Groups）→ `清理`（Clean up）中。右键点击当前分组的标签页时，也会出现同样的子菜单。它们作用于当前分组。
 
 | 命令 | 快捷键 | 移除的内容 |
 | --- | --- | --- |
@@ -106,7 +107,7 @@ Throne 会逐个测试配置档。之后，如果包含了 `速度`（Speed）�
 | `移除不可用项`（Remove Unavailable） | `Ctrl+Shift+R` | 上次测试失败的配置档。它从不移除正在运行的配置档。 |
 | `移除无效项`（Remove Invalid） | `Ctrl+Alt+I` | 被核心判定为无效而拒绝的配置档。 |
 | `移除不安全的配置`（Remove Insecure Configs） | – | 流量没有得到妥善保护的配置档：未加密、TLS 不校验证书，或者使用旧的 Shadowsocks 加密方式。 |
-| `清除本组测试结果`（Clear Group test result） | `Ctrl+Shift+C` | 仅清除测试结果。配置档保留。 |
+| `清除本组测试结果`（Clear Group test result） | `Ctrl+Shift+C` | 仅清除测试结果。配置档保留。此命令直接位于 `分组`（Groups）菜单中。 |
 
 除非开启了 `设置`（Settings）→ `基本设置`（Basic Settings）→ `样式`（Style）→ `删除配置档时跳过确认`（Skip confirmation When Deleting Profiles），否则 Throne 在删除任何内容之前都会询问。如果 `移除重复项`（Remove Duplicates）、`移除无效项`（Remove Invalid）或 `移除不安全的配置`（Remove Insecure Configs）移除了正在运行的配置档，Throne 会停止它。
 
@@ -179,6 +180,64 @@ Throne 会逐个测试配置档。之后，如果包含了 `速度`（Speed）�
 - 自动选择器不能作为代理链中的一跳，也不能作为分组的 `前置代理`（Front Proxy）或 `落地代理`（Landing Proxy）。
 - 它会跳过分组中的以下配置档：代理链和其他自动选择器、OpenVPN 和 OpenConnect、Tailscale、额外核心（Extra Core）、自定义 sing-box 完整配置，以及无法读取的自定义配置。当 Xray 完整配置无法与分组的前置代理或落地代理组合时，也会被跳过。
 
+## IP 扫描器 {#ip-scanner}
+
+自 1.4.0 起，`工具`（Tools）→ `IP Scanner` 会检查 IP 地址列表，并保留在你的网络中可用的地址。例如，你可以用它为服务器位于 CDN 之后的配置档找到一个未被封锁的 Cloudflare 地址，或者找到一个可用的 Cloudflare WARP 端点。扫描结果会组成一个 IP 列表，分组或配置档可以把它用作[服务器地址](@/guides/subscriptions.zh.md#server-address)。
+
+`IP Scanner` 窗口列出你的扫描及其状态和结果数量。将鼠标悬停在某个扫描上，可以启动、暂停或继续、打开或删除它。拖动扫描可以调整顺序。关闭扫描窗口后，扫描仍会继续运行。
+
+要创建扫描：
+
+1. 点击 `New scan` 并输入 `Name`。
+2. 选择 `Generic scan`，用 ping、TCP、TLS 或 HTTP 检查地址，也可以通过你的某个配置档进行检查。选择 `WARP scan`，可以查找能完成 WireGuard、AmneziaWG 或 MASQUE 连接的 Cloudflare WARP 端点。
+3. 点击 `OK`。扫描窗口随即打开。
+4. 在 `Targets` 标签页上设置目标，在 `Phases` 标签页上设置检查项。
+5. 点击 `Start`。窗口会显示进度和最后几行日志，`Results` 标签页会逐渐填满。
+
+`Targets` 标签页：
+
+| 设置 | 默认值 | 作用 |
+| --- | --- | --- |
+| `Base IP list` | – | 要扫描的地址。`Manage` 会打开 [IP 列表](#ip-lists)。WARP 扫描默认使用 `Cloudflare WARP (WireGuard)`，`Use built-in WARP ranges` 会为所选 WARP 模式选择列表和端口。 |
+| `Ports` | 空；WARP：WireGuard 端口 | 要扫描的端口，用逗号或空格分隔。旁边的列表决定这些端口如何与 IP 列表中保存的端口组合：`Ignore the list's ports`、`Merge with the list's ports`（默认）或 `Only the list's ports`。没有端口的地址会在 443 端口上扫描，纯 HTTP 则为 80 端口。在 WARP 扫描中，`WARP ports` 会填入 Cloudflare 端点的端口。 |
+| `Shuffle the target order` | 开启 | 按随机顺序扫描地址。 |
+| `Scan IPv6 addresses` | 关闭 | 关闭时，跳过列表中的 IPv6 范围。 |
+| `Stop after (results)` | 无限制；WARP：10 | 结果达到此数量时扫描完成。 |
+| `Concurrency` | 64；WARP：16 | 每个阶段同时检查多少个地址。 |
+| `Spawn interval (ms)` | 2 | 启动两次检查之间的间隔。 |
+
+`Phases` 标签页包含各项检查。地址必须按以下顺序通过所有已开启的检查：
+
+| 阶段 | 默认值 | 检查内容 |
+| --- | --- | --- |
+| `ICMP (ping)` | 关闭 | 地址响应 ping。 |
+| `TCP connect` | 开启 | 端口接受 TCP 连接。仅限 `Generic scan`。 |
+| `TLS / HTTP` | 关闭 | TLS 握手成功；并且除非 `Method` 为 `None (TLS handshake only)`，HTTP 请求会得到 200 OK 响应。你可以设置 `SNI`、`Host header`、`Path`、`HTTP version`、TLS 版本、`uTLS fingerprint` 和 TLS 分片。仅限 `Generic scan`。 |
+| `Config test` | 关闭 | 将所选 `Profile` 的副本指向该地址，并加载 `Test URL`。这样可以找到真正适用于你的服务器的地址，例如 CDN 地址。仅限 `Generic scan`。 |
+| `WARP test` | 开启 | 通过该地址、以所选 `Mode`（`WireGuard`、`AmneziaWG` 或 `MASQUE`）建立的 WARP 连接可以工作。仅限 `WARP scan`。 |
+
+`WARP test` 需要一个 WARP 身份（`Identity`）。默认选项 `Dedicated for this scan (recommended)` 需要点击一次 `Register`，它会向 Cloudflare 注册一个新的 WARP 设备。你也可以使用 `From a profile` 或 `Built-in WARP settings`。
+
+`Results` 标签页显示每个地址及其 `Port` 和 `Latency`。点击列标题即可排序。按钮如下：
+
+- `Save as IP list`：把结果复制到一个新的 IP 列表。
+- `Copy`：复制选中的条目；未选中时复制全部条目。
+- `Export`：把结果保存为文本文件。
+- `Remove selected`：删除选中的条目。
+
+扫描已有结果时，`Start` 会询问要做什么。`Scan from the beginning` 会清空结果并重新扫描基础列表。`Rescan current results` 只重新检查已有结果，并移除不再可用的地址。`Pause` 会保留进度，之后用 `Resume` 继续。如果更改了已暂停扫描的目标，就只能从头开始。扫描运行期间无法更改其设置。
+
+### IP 列表 {#ip-lists}
+
+在 `IP Scanner` 窗口中点击 `IP Lists`，即可管理扫描所读取、分组和配置档可以使用的列表。Throne 自带五个列表：`Cloudflare CDN`、`Fastly CDN`、`Gcore CDN`、`Cloudflare WARP (WireGuard)` 和 `Cloudflare WARP (MASQUE)`。如果删除了它们，`Import` → `Add default lists` 会重新添加。
+
+- `New` 创建一个列表。其 `Source` 为 `Manual`（由你填写条目）、`URL`（Throne 下载的 http 或 https 地址）或 `Rule-set`（某个规则集的 IP 范围，例如 `geoip-ir`，或规则集 URL）。对于 `URL` 或 `Rule-set` 列表，`Fetch now` 会立即下载，`Auto update` → `Enable` 会每隔 `Every` 中设定的分钟数刷新一次，至少 30 分钟。
+- 每行写一个条目，例如 `1.2.3.4`、`1.2.3.0/24`、`1.2.3.4:443`、`[2606:4700::1]:443`、`1.2.3.0/24 443` 或 `1.2.3.1-1.2.3.9`。
+- `Import` 可以 `From text…`、`From file…`（文本和 CSV 文件，或 sing-box 规则集，每个最大 50 MB）、`From URL…` 或 `From rule-set…` 创建列表。
+- `Duplicate` 复制列表，`Export` 把列表保存为文本文件。
+
+每个扫描的结果也是一个列表，标有“Result of scan”和扫描名称。分组或配置档可以直接使用它，但 `Scan from the beginning` 会清空它；如需内容不变的列表，请使用 `Save as IP list`。删除扫描时，你可以选择是否同时删除其结果列表。
+
 ## Android 版 {#android}
 
 Throne for Android 提供相同的测试和相同的自动选择器。
@@ -186,5 +245,7 @@ Throne for Android 提供相同的测试和相同的自动选择器。
 - 在 `配置`（Profiles）界面上，`⋮` 菜单为当前分组提供 `URL test`、`IP & country test`、`Speed test`、`Speed test current connection` 和 `Stop testing`。它还提供 `清理测试结果`（Clear test results）、`Remove`（`Duplicates`、`Unavailable`、`Invalid`、`Insecure configs`）和 `Sort`。对于选中的配置档，请使用选择菜单中的 `Test`。
 - 在对多个配置档进行速度测试之前，应用会请求确认：“速度测试可能消耗大量流量。”
 - 测试面板会显示进度、`Working`、`Failed`、`Pending` 和 `Skipped` 的计数、延迟图表（≤100 ms、≤300 ms、>300 ms、fail）、最快的配置档、各个国家以及不同出口 IP 的数量。它还提供一些操作，例如 `Sort by latency` 或 `Sort by speed`、`Remove unavailable`（附带失败配置档的数量）、`Connect to fastest`（未连接时为 `Select fastest`）以及 `Dismiss test results`。
-- 连接后，点按统计栏（“已连接 , 点击此处测试连接”）即可测试当前连接。结果类似于“连接成功: HTTP 握手耗时 120ms”或“失败: …”。
+- 连接后，点按统计栏（“已连接 , 点击此处测试连接”）即可测试当前连接。结果类似于“连接成功: HTTP 握手耗时 120ms”或“失败: …”。2.0.2 之后，结果显示为“HTTPS：120 毫秒”或“HTTP：120 毫秒”。
+- 自 2.0.2 起，统计栏还会显示当前连接的出口 IP 地址和国旗，竖屏时还会显示国家和城市。长按统计栏可查看完整信息。Throne 会在连接后以及每次点按统计栏后，通过代理查询 `ip-api.com`。2.0.2 之后，统计栏只显示国旗和国家。
+- Throne for Android 没有 IP 扫描器。2.0.2 之后，在 `排序`（Sort）中选择的排序会保持，与桌面版相同，`手动排序`（Manual order）会停止排序。
 - 要创建自动选择器，请选择 `添加服务器配置`（Add profile）→ `手动输入`（Manual settings）→ `Auto selector`。选项和默认值与桌面版相同，只是名称采用句首大写的写法，例如 `Servers from`、`Only names matching` 和 `Run the best`。在 `配置`（Profiles）界面上点击自动选择器的状态行，即可打开 `Auto selector stats`，其中有 `Use this profile`、`Back to automatic` 和 `Check all now`。

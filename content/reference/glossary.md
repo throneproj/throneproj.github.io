@@ -1,6 +1,6 @@
 +++
 title = "Glossary"
-description = "Short explanations of the terms you meet in Throne, from profiles and routing to TUN mode, DNS and anti-censorship options."
+description = "Short explanations of the terms you meet in Throne, from profiles and routing to TUN mode, DNS, anti-censorship options and the Throne API."
 weight = 50
 toc = true
 +++
@@ -34,7 +34,7 @@ This page explains the terms you meet in Throne, one sentence each. Follow the l
 | Mixed port | The local port that accepts both SOCKS5 and HTTP proxy connections, `127.0.0.1:2080` by default. | [Inbound settings](@/guides/proxy_modes.md#inbound-settings) |
 | System proxy | The `System Proxy` mode, which points the proxy setting of your system to the mixed port, so apps that follow this setting use Throne. | [System proxy](@/guides/proxy_modes.md#system-proxy) |
 | TUN | The `Tun Mode`, which creates a virtual network adapter so that the traffic of all apps passes through Throne. | [TUN Mode](@/guides/tun_mode.md) |
-| Stack | How TUN mode handles packets: `system` (the network stack of your system), `gvisor` (a stack built into the core) or `mixed` (system for TCP, gVisor for UDP). | [TUN settings](@/guides/tun_mode.md#settings) |
+| Stack | How TUN mode handles packets; older versions let you choose `system`, `gvisor` or `mixed`, but Throne 1.4.0 and Throne for Android 2.0.2 have no such setting. | [TUN settings](@/guides/tun_mode.md#settings) |
 | Strict route | A TUN option that stops traffic from going around the tunnel; on Windows 10 and later it is on by default. | [Windows DNS Leak Protection](@/advanced/windows_tun_mode.md#strict-route) |
 | MTU | The largest packet size of the TUN adapter: 1500 by default on the desktop, 9000 on Android. | [TUN settings](@/guides/tun_mode.md#settings) |
 
@@ -76,3 +76,13 @@ This page explains the terms you meet in Throne, one sentence each. Follow the l
 | OTP | One-time passwords (TOTP or HOTP codes) that some OpenVPN and OpenConnect servers ask for; Throne keeps them in `Tools` → `OTP Manager`. | [OTP Manager](@/advanced/vpn_profiles.md#otp-manager) |
 | .thrbackup | The backup file of Throne; both the desktop and the Android app can create and restore it. | [Backup and restore](@/guides/backup.md#backup-restore) |
 | Portable mode | Throne keeps its data in a `config` folder next to the program instead of in your user folder. | [Data folder](@/reference/files.md#data-folder) |
+| Kill switch | A setting that blocks all traffic that does not go through Throne, also while no profile runs (since 1.4.0). | [Kill Switch](@/advanced/kill_switch.md) |
+
+## Automation and headless {#automation}
+
+| Term | Meaning | More |
+| --- | --- | --- |
+| Throne API | An encrypted interface, off by default in the desktop app, through which scripts and other devices control and manage Throne with a secret key (since 1.4.0). | [Throne API & thronectl](@/advanced/api.md) |
+| thronectl | The command-line client of the Throne API, for terminals, scripts and hotkey tools. | [Throne API & thronectl](@/advanced/api.md#commands) |
+| Admin request | A Throne API request that imports, deletes, changes settings, backs up, restores, restarts or quits; Throne answers it only from its own computer unless you allow the local network. | [Admin requests](@/advanced/api.md#admin-requests) |
+| Headless Throne | Throne started with `--headless`: no window, tray icon or dialogs, for servers, routers and containers, controlled with thronectl (since 1.4.0). | [Headless Throne](@/headless/_index.md) |

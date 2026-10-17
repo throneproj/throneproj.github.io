@@ -56,11 +56,11 @@ If you do not see the notification, notifications may be blocked for Throne. See
 
 ## Quick Settings tile {#quick-settings-tile}
 
-The `Switcher` tile starts and stops Throne from Quick Settings. To add it:
+The `Throne` tile starts and stops Throne from Quick Settings. Before 2.0.2 it was called `Switcher`. To add it:
 
 1. Swipe down from the top of the screen to open Quick Settings.
 2. Tap the edit button. On most phones it is a pencil icon.
-3. Drag the `Switcher` tile to your active tiles.
+3. Drag the `Throne` tile to your active tiles.
 
 How the tile works:
 

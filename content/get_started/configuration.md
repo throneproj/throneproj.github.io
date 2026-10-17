@@ -17,7 +17,7 @@ Throne stores each server as a **profile**. Profiles belong to **groups**, which
 2. In the main window, press `Ctrl+V`, or click `Program` → `Add profile from clipboard`.
 3. Throne asks "How to update?". Choose `Create new subscription group` in the list and click `OK`.
 
-Throne creates a group named after the host name in the URL and downloads its profiles right away.
+Throne creates a group named after the host name in the URL and downloads its profiles right away. If your provider sends details about your plan, a card above the profile list shows the traffic you used and the expiry date (since 1.3.2). See [Provider information](@/guides/subscriptions.md#provider-info).
 
 The other two choices do not create a subscription:
 
@@ -59,7 +59,7 @@ To test the whole group without selecting, click `Groups` → `Url Test Group` (
 
 The `Test Result` column shows the delay in milliseconds, or `Unavailable` if the test failed. Click the `Test Result` column header to sort by it, and click it again to reverse the order.
 
-To delete the profiles that failed, click `Groups` → `Remove Unavailable` (`Ctrl+Shift+R`). In a subscription group, the next update adds them again if the provider still lists them.
+To delete the profiles that failed, click `Groups` → `Clean up` → `Remove Unavailable` (`Ctrl+Shift+R`). Before 1.4.0, `Remove Unavailable` was directly in the `Groups` menu. In a subscription group, the next update adds them again if the provider still lists them.
 
 For speed tests, IP tests and automatic server choice, see [Testing & Auto Selector](@/guides/testing.md).
 

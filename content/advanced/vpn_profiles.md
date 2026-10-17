@@ -112,6 +112,8 @@ Since 1.3.0, a routing profile can start OpenVPN or OpenConnect profiles next to
 6. Click `OK`, and make sure that this routing profile is the active one (it is ticked at the bottom of the `Routing` menu).
 7. Start your normal profile. The VPN starts with it.
 
+Since 1.3.2, the VPN also connects early when Throne needs it while the profile starts, for example to download a rule-set through it.
+
 Each endpoint adds a rule named `<name> route prefer` to the `Advanced` tab, where `<name>` is the name of the VPN profile. You cannot edit this rule, but you can move it among your own rules: rules above it are checked first. Deleting the rule asks whether to remove the endpoint.
 
 Limits:
