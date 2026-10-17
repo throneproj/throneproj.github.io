@@ -173,7 +173,13 @@ a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
    fixed, so content images (e.g. running.png) render stretched. */
 img, svg, picture, video { display: block; max-width: 100%; height: auto; }
 
-code, kbd, pre, samp { font-family: var(--font-mono); }
+/* Geist Mono's contextual alternates draw " --" as one dash and swallow the
+   space, so `Throne --headless` read as "Throne—headless". Code shows characters as typed. */
+code, kbd, pre, samp {
+  font-family: var(--font-mono);
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
+}
 
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 
