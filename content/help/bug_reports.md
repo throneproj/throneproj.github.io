@@ -80,7 +80,7 @@ Use the issue template and fill in every field:
 | --- | --- |
 | Throne version | Desktop: the window title, for example `Throne 1.3.1`, or the first lines of `throne.log`. Android: `About`. |
 | Operating system and version | For example Windows 11 24H2, Ubuntu 24.04, macOS 15 or Android 14. |
-| Installation type | ZIP, Windows installer, `.deb`, `.rpm`, Linux install script, the APT or RPM repository, or a package manager (WinGet, Scoop, AUR, Nix). Say whether you use the window or [headless Throne](@/headless/_index.md). |
+| Installation type | ZIP, Windows installer, `.deb`, `.rpm`, Linux install script, the APT or RPM repository, or a package manager (WinGet, Scoop, AUR, Nix, Homebrew). Say whether you use the window or [headless Throne](@/headless/_index.md). |
 | Mode | `Tun Mode`, `System Proxy` or both, and whether the [kill switch](@/advanced/kill_switch.md) is on. |
 | Profile type | The `Type` column of the profile list, for example `VLESS (Xray)`. Not the link. |
 | Steps to reproduce | Numbered steps that show the problem from the start. |

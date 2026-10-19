@@ -142,7 +142,7 @@ Throne 1.1.0 и 1.1.1 импортировали целую конфигурац
 
 Разработчики Throne публикуют его на [странице релизов GitHub](https://github.com/throneproj/Throne/releases): ZIP-файлы, установщик для Windows и пакеты `.deb` и `.rpm` (`.rpm` — начиная с 1.3.0). Установочный скрипт для Linux из репозитория Throne устанавливает ZIP-архив релиза.
 
-Кроме того, они ведут APT- и RPM-репозиторий на `throneproj.github.io/Throne` с пакетами `system-qt` каждого стабильного релиза, а процесс выпуска релизов Throne обновляет пакет `throne` в AUR. См. [Установка](@/get_started/installation.ru.md#apt-repository).
+Кроме того, они ведут APT- и RPM-репозиторий на `throneproj.github.io/Throne` с пакетами `system-qt` каждого стабильного релиза, а процесс выпуска релизов Throne обновляет пакет `throne` в AUR и Homebrew cask `throneproj/tap/throne`. См. [Установка](@/get_started/installation.ru.md#apt-repository).
 
 Пакеты WinGet, Scoop и Nix/NixOS, а также другие пакеты AUR, например `throne-bin`, создают участники сообщества, и разработчики их не поддерживают ([#1182](https://github.com/throneproj/Throne/issues/1182), [#1622](https://github.com/throneproj/Throne/issues/1622)). Если проблема возникает только с таким пакетом, проверьте официальную сборку, а о проблемах упаковки сообщайте сопровождающему пакета. См. [Менеджеры пакетов](@/get_started/installation.ru.md#package-managers).
 

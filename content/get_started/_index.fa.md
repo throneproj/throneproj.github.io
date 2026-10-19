@@ -24,7 +24,7 @@ Throne برای Android (پیش‌تر با نام NekoBox for Android) برنا
 |---|---|---|
 | Windows | Windows 10 1809 یا جدیدتر (x64، ARM64). Windows 7 SP1 یا جدیدتر با بیلدهای legacy (x64، x86 32 بیتی). | نصب‌کننده، ZIP قابل حمل |
 | Linux | x64 یا ARM64، glibc 2.34 یا جدیدتر (2.38 برای بیلدهای ARM64 که Qt را همراه دارند) | ZIP قابل حمل، `.deb`، `.rpm`، اسکریپت نصب، [مخزن‌های APT و RPM](@/get_started/installation.fa.md#apt-repository)، [AUR](@/get_started/installation.fa.md#aur) |
-| macOS | macOS 13 یا جدیدتر (Apple Silicon و Intel). macOS 10.15 یا جدیدتر با بیلد legacy (Intel). | ZIP |
+| macOS | macOS 13 یا جدیدتر (Apple Silicon و Intel). macOS 10.15 یا جدیدتر با بیلد legacy (Intel). | ZIP، [Homebrew](@/get_started/installation.fa.md#homebrew) |
 | Android | Android 7.0 یا جدیدتر | APK |
 
 فایل‌ها را از صفحهٔ [دانلود](@/downloads.fa.md) دریافت کنید.

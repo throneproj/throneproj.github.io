@@ -24,7 +24,7 @@ Throne для Android (ранее NekoBox for Android) — это приложе
 |---|---|---|
 | Windows | Windows 10 1809 или новее (x64, ARM64). Windows 7 SP1 или новее — с legacy-сборками (x64, 32-битная x86). | Установщик, портативный ZIP |
 | Linux | x64 или ARM64, glibc 2.34 или новее (2.38 для сборок ARM64 со встроенным Qt) | Портативный ZIP, `.deb`, `.rpm`, установочный скрипт, [APT- и RPM-репозитории](@/get_started/installation.ru.md#apt-repository), [AUR](@/get_started/installation.ru.md#aur) |
-| macOS | macOS 13 или новее (Apple Silicon и Intel). macOS 10.15 или новее — с legacy-сборкой (Intel). | ZIP |
+| macOS | macOS 13 или новее (Apple Silicon и Intel). macOS 10.15 или новее — с legacy-сборкой (Intel). | ZIP, [Homebrew](@/get_started/installation.ru.md#homebrew) |
 | Android | Android 7.0 или новее | APK |
 
 Скачать файлы можно на [странице загрузок](@/downloads.ru.md).

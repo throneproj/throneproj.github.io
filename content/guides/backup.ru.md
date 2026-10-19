@@ -96,7 +96,7 @@ Throne для компьютера и Throne для Android используют
 | Пакет `.deb` или `.rpm` | Скачайте и установите новый пакет. |
 | Скрипт установки для Linux | Запустите скрипт ещё раз. |
 | macOS | Скачайте новую версию и замените `Throne.app`. См. [Установка](@/get_started/installation.ru.md#macos). |
-| WinGet, Scoop, AUR, Nix или репозиторий APT или RPM | Используйте менеджер пакетов. См. [Менеджеры пакетов](@/get_started/installation.ru.md#package-managers). |
+| WinGet, Scoop, AUR, Nix, Homebrew или репозиторий APT или RPM | Используйте менеджер пакетов. См. [Менеджеры пакетов](@/get_started/installation.ru.md#package-managers). |
 
 Если вы удаляете и заново устанавливаете Throne установщиком Windows, ответьте `Нет` (No), когда программа удаления спросит «Also delete your Throne profiles, settings and logs?» (удалить также профили, настройки и логи Throne?). Иначе ваши данные будут удалены.
 

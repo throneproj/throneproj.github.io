@@ -24,7 +24,7 @@ If you used Nekoray or NekoBox before, read [Coming from Nekoray / NekoBox](@/he
 |---|---|---|
 | Windows | Windows 10 1809 or newer (x64, ARM64). Windows 7 SP1 or newer with the legacy builds (x64, 32-bit x86). | Installer, portable ZIP |
 | Linux | x64 or ARM64, glibc 2.34 or newer (2.38 for ARM64 builds that bundle Qt) | Portable ZIP, `.deb`, `.rpm`, install script, [APT and RPM repositories](@/get_started/installation.md#apt-repository), [AUR](@/get_started/installation.md#aur) |
-| macOS | macOS 13 or newer (Apple Silicon and Intel). macOS 10.15 or newer with the legacy build (Intel). | ZIP |
+| macOS | macOS 13 or newer (Apple Silicon and Intel). macOS 10.15 or newer with the legacy build (Intel). | ZIP, [Homebrew](@/get_started/installation.md#homebrew) |
 | Android | Android 7.0 or newer | APK |
 
 Get the files from [Downloads](@/downloads.md).

@@ -52,6 +52,8 @@ ZIP 版默认不注册 `throne://` 链接。要开启此功能，请勾选 `设�
 | Intel，macOS 13 或更高版本 | `Throne-<version>-macos-amd64.zip` |
 | Intel，macOS 10.15 至 12 | `Throne-<version>-macoslegacy-amd64.zip` |
 
+你也可以通过 [Homebrew](#homebrew) 安装 Throne：它会替你完成下面的步骤，并可以用 `brew upgrade` 更新 Throne。
+
 1. 下载 ZIP 并解压。其中包含一个 `Throne` 文件夹，里面有 `Throne.app`。
 2. 首次打开之前，将 `Throne.app` 移动到 `/Applications`。为了使用 TUN 模式，Throne 会通过“终端”（Terminal）为其核心授予 root 权限，而当应用位于 `~/Downloads` 中时，这一步可能会失败。
 3. Throne 没有使用 Apple 证书签名，因此需要在终端中移除隔离标记。如果不执行这一步，macOS 会提示“Throne is damaged and can't be opened”（Throne 已损坏，无法打开）。
@@ -183,6 +185,18 @@ winget install -e --id Throneproj.Throne
 scoop bucket add extras
 scoop install extras/throne
 ```
+
+### Homebrew {#homebrew}
+
+```bash
+brew install --cask throneproj/tap/throne
+```
+
+该 cask 来自 Throne 自己的 Homebrew tap，Throne 的发布工作流会在每个稳定版发布时更新它，但不包含 Beta 版。它会将适用于 Apple Silicon 或 Intel 的 `Throne.app` 安装到 `/Applications`，需要 macOS 13 或更高版本。macOS 10.15 至 12 请使用 [macOS](#macos) 中的 `macoslegacy` ZIP。Throne 未经过 Apple 公证，因此 cask 会在安装应用后移除隔离标记，你无需运行 `xattr` 命令。
+
+Homebrew 的主 cask 列表只接受经过 Apple 公证的应用，因此 `brew install --cask throne` 找不到 Throne。请始终使用完整名称 `throneproj/tap/throne`。
+
+使用 `brew upgrade --cask throne` 更新 Throne。更新后，Throne 会再次请求 TUN 模式所需的权限。`brew uninstall --zap --cask throne` 还会删除你保存在 `~/Library/Preferences/Throne` 中的数据。
 
 对于 Debian、Ubuntu、Fedora、RHEL 和 openSUSE，Throne 有自己的 [APT 软件源](#apt-repository)和 [RPM 软件源](#rpm-repository)。
 

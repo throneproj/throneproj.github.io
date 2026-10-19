@@ -142,7 +142,7 @@ Throne 1.1.0 和 1.1.1 会将带有 `inbounds` 的完整 sing-box 配置作为�
 
 Throne 开发者在 [GitHub 发布页面](https://github.com/throneproj/Throne/releases)上发布 Throne：ZIP 文件、Windows 安装程序，以及 `.deb` 和 `.rpm` 软件包（`.rpm` 自 1.3.0 起提供）。Throne 仓库中的 Linux 安装脚本安装的是发布页面上的 ZIP。
 
-他们还在 `throneproj.github.io/Throne` 运行一个 APT 软件源和一个 RPM 软件源，提供每个稳定版的 `system-qt` 软件包；Throne 的发布工作流还会更新 AUR 中的 `throne` 软件包。参见[安装](@/get_started/installation.zh.md#apt-repository)。
+他们还在 `throneproj.github.io/Throne` 运行一个 APT 软件源和一个 RPM 软件源，提供每个稳定版的 `system-qt` 软件包；Throne 的发布工作流还会更新 AUR 中的 `throne` 软件包和 Homebrew cask `throneproj/tap/throne`。参见[安装](@/get_started/installation.zh.md#apt-repository)。
 
 WinGet、Scoop 和 Nix/NixOS 软件包，以及 `throne-bin` 等其他 AUR 软件包，由社区成员制作，开发者不为其提供支持（[#1182](https://github.com/throneproj/Throne/issues/1182)、[#1622](https://github.com/throneproj/Throne/issues/1622)）。如果问题只在这类软件包中出现，请测试官方版本，并将打包问题报告给软件包的维护者。参见[包管理器](@/get_started/installation.zh.md#package-managers)。
 

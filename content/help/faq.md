@@ -142,7 +142,7 @@ Start with the normal package. Use the `system-qt` package if the normal one doe
 
 The Throne developers publish Throne on the [GitHub releases page](https://github.com/throneproj/Throne/releases): the ZIP files, the Windows installer, and the `.deb` and `.rpm` packages (`.rpm` since 1.3.0). The Linux install script from the Throne repository installs the release ZIP.
 
-They also run an APT and an RPM repository at `throneproj.github.io/Throne`, with the `system-qt` packages of every stable release, and the release workflow of Throne updates the `throne` package in the AUR. See [Installation](@/get_started/installation.md#apt-repository).
+They also run an APT and an RPM repository at `throneproj.github.io/Throne`, with the `system-qt` packages of every stable release, and the release workflow of Throne updates the `throne` package in the AUR and the Homebrew cask `throneproj/tap/throne`. See [Installation](@/get_started/installation.md#apt-repository).
 
 The WinGet, Scoop and Nix/NixOS packages, and other AUR packages such as `throne-bin`, are made by community members, and the developers do not support them ([#1182](https://github.com/throneproj/Throne/issues/1182), [#1622](https://github.com/throneproj/Throne/issues/1622)). If a problem happens only with such a package, test an official build, and report packaging problems to the package maintainer. See [Package managers](@/get_started/installation.md#package-managers).
 

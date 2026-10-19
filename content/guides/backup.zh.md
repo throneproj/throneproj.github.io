@@ -96,7 +96,7 @@ Throne 桌面版和 Throne for Android 使用相同的备份格式，因此你�
 | `.deb` 或 `.rpm` 软件包 | 下载并安装新的软件包。 |
 | Linux 安装脚本 | 再次运行该脚本。 |
 | macOS | 下载新版本并替换 `Throne.app`。参见[安装](@/get_started/installation.zh.md#macos)。 |
-| WinGet、Scoop、AUR、Nix，或 APT、RPM 仓库 | 使用包管理器更新。参见[包管理器](@/get_started/installation.zh.md#package-managers)。 |
+| WinGet、Scoop、AUR、Nix、Homebrew，或 APT、RPM 仓库 | 使用包管理器更新。参见[包管理器](@/get_started/installation.zh.md#package-managers)。 |
 
 如果你使用 Windows 安装程序卸载后重新安装，当卸载程序询问“Also delete your Throne profiles, settings and logs?”（是否同时删除你的 Throne 配置档、设置和日志？）时，请选择 `否`（No）。否则你的数据会被删除。
 

@@ -80,7 +80,7 @@ Throne گزارش‌های خود را در زبانهٔ `گزارش‌ها` (Lo
 | --- | --- |
 | نسخهٔ Throne | دسکتاپ: عنوان پنجره، برای مثال `Throne 1.3.1`، یا خطوط اول `throne.log`. Android: `درباره برنامه` (About). |
 | سیستم‌عامل و نسخهٔ آن | برای مثال Windows 11 24H2، Ubuntu 24.04، macOS 15 یا Android 14. |
-| نوع نصب | ZIP، نصب‌کنندهٔ Windows، `.deb`، `.rpm`، اسکریپت نصب Linux، مخزن APT یا RPM، یا یک مدیر بسته (WinGet، Scoop، AUR، Nix). بنویسید که از پنجرهٔ Throne استفاده می‌کنید یا از [Throne بدون رابط گرافیکی](@/headless/_index.fa.md). |
+| نوع نصب | ZIP، نصب‌کنندهٔ Windows، `.deb`، `.rpm`، اسکریپت نصب Linux، مخزن APT یا RPM، یا یک مدیر بسته (WinGet، Scoop، AUR، Nix، Homebrew). بنویسید که از پنجرهٔ Throne استفاده می‌کنید یا از [Throne بدون رابط گرافیکی](@/headless/_index.fa.md). |
 | حالت | `حالتvpn` (Tun Mode)، `پروکسی سیستمی` (System Proxy) یا هر دو، و اینکه [کیل‌سوییچ](@/advanced/kill_switch.fa.md) روشن است یا نه. |
 | نوع نمایه | ستون `نوع` (Type) در فهرست نمایه‌ها، برای مثال `VLESS (Xray)`. نه خود لینک. |
 | مراحل بازتولید | مراحل شماره‌گذاری‌شده‌ای که مشکل را از ابتدا نشان می‌دهند. |

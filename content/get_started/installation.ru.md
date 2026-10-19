@@ -52,6 +52,8 @@ Throne хранит ваши профили и настройки в папке 
 | Intel, macOS 13 или новее | `Throne-<version>-macos-amd64.zip` |
 | Intel, macOS с 10.15 по 12 | `Throne-<version>-macoslegacy-amd64.zip` |
 
+Throne также можно установить через [Homebrew](#homebrew): он выполняет шаги ниже за вас и обновляет Throne командой `brew upgrade`.
+
 1. Скачайте ZIP-архив и распакуйте его. Внутри находится папка `Throne` с `Throne.app`.
 2. Переместите `Throne.app` в `/Applications` до первого запуска. Для режима TUN Throne выдаёт своему ядру права root через Терминал, и это может не сработать, пока приложение находится в `~/Downloads`.
 3. Throne не подписан сертификатом Apple, поэтому снимите с него флаг карантина в Терминале. Без этого шага macOS сообщает, что Throne «is damaged and can't be opened» (повреждён, и его не удаётся открыть).
@@ -183,6 +185,18 @@ winget install -e --id Throneproj.Throne
 scoop bucket add extras
 scoop install extras/throne
 ```
+
+### Homebrew {#homebrew}
+
+```bash
+brew install --cask throneproj/tap/throne
+```
+
+Cask берётся из собственного Homebrew tap Throne, и процесс выпуска релизов Throne обновляет его для каждого стабильного релиза, но не для бета-версий. Он устанавливает `Throne.app` для Apple Silicon или Intel в `/Applications` и требует macOS 13 или новее. Для macOS с 10.15 по 12 используйте ZIP-архив `macoslegacy` из раздела [macOS](#macos). Throne не нотаризован Apple, поэтому cask снимает флаг карантина после установки приложения, и команда `xattr` вам не нужна.
+
+Основной список cask в Homebrew принимает только приложения, нотаризованные Apple, поэтому `brew install --cask throne` не находит Throne. Всегда указывайте полное имя `throneproj/tap/throne`.
+
+Обновляйте Throne командой `brew upgrade --cask throne`. После обновления Throne снова запрашивает права, нужные для режима TUN. `brew uninstall --zap --cask throne` также удаляет ваши данные в `~/Library/Preferences/Throne`.
 
 Для Debian, Ubuntu, Fedora, RHEL и openSUSE у Throne есть собственные [APT-репозиторий](#apt-repository) и [RPM-репозиторий](#rpm-repository).
 

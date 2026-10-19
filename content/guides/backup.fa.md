@@ -96,7 +96,7 @@ Throne دسکتاپ و Throne برای Android از قالب پشتیبان یک
 | بستهٔ `.deb` یا `.rpm` | بستهٔ جدید را دانلود و نصب کنید. |
 | اسکریپت نصب Linux | اسکریپت را دوباره اجرا کنید. |
 | macOS | نسخهٔ جدید را دانلود کنید و `Throne.app` را جایگزین کنید. [نصب](@/get_started/installation.fa.md#macos) را ببینید. |
-| WinGet، Scoop، AUR، Nix، یا مخزن APT یا RPM | از مدیر بسته استفاده کنید. [مدیران بسته](@/get_started/installation.fa.md#package-managers) را ببینید. |
+| WinGet، Scoop، AUR، Nix، Homebrew، یا مخزن APT یا RPM | از مدیر بسته استفاده کنید. [مدیران بسته](@/get_started/installation.fa.md#package-managers) را ببینید. |
 
 اگر با نصب‌کنندهٔ Windows برنامه را حذف و دوباره نصب می‌کنید، وقتی حذف‌کننده می‌پرسد «Also delete your Throne profiles, settings and logs?» (نمایه‌ها، تنظیمات و گزارش‌های Throne هم حذف شوند؟)، پاسخ `No` بدهید. در غیر این صورت داده‌های شما حذف می‌شوند.
 

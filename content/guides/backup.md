@@ -96,7 +96,7 @@ The one-click `Update` works only for ZIP copies and for the Windows installer's
 | `.deb` or `.rpm` package | Download and install the new package. |
 | Linux install script | Run the script again. |
 | macOS | Download the new version and replace `Throne.app`. See [Installation](@/get_started/installation.md#macos). |
-| WinGet, Scoop, AUR, Nix, or the APT or RPM repository | Use the package manager. See [Package managers](@/get_started/installation.md#package-managers). |
+| WinGet, Scoop, AUR, Nix, Homebrew, or the APT or RPM repository | Use the package manager. See [Package managers](@/get_started/installation.md#package-managers). |
 
 If you uninstall and reinstall with the Windows installer, answer `No` when the uninstaller asks "Also delete your Throne profiles, settings and logs?". Otherwise your data is deleted.
 

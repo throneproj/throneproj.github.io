@@ -142,7 +142,7 @@ Throne 1.1.0 و 1.1.1 یک پیکربندی کامل sing-box را که `inbound
 
 توسعه‌دهندگان Throne آن را در [صفحهٔ Releases در GitHub](https://github.com/throneproj/Throne/releases) منتشر می‌کنند: فایل‌های ZIP، نصب‌کنندهٔ Windows و بسته‌های `.deb` و `.rpm` (`.rpm` از نسخهٔ 1.3.0). اسکریپت نصب Linux که در مخزن Throne قرار دارد، فایل ZIP همان نسخهٔ منتشرشده را نصب می‌کند.
 
-آن‌ها همچنین یک مخزن APT و یک مخزن RPM در `throneproj.github.io/Throne` با بسته‌های `system-qt` هر نسخهٔ پایدار اداره می‌کنند، و گردش‌کار انتشار Throne بستهٔ `throne` را در AUR به‌روز می‌کند. [نصب](@/get_started/installation.fa.md#apt-repository) را ببینید.
+آن‌ها همچنین یک مخزن APT و یک مخزن RPM در `throneproj.github.io/Throne` با بسته‌های `system-qt` هر نسخهٔ پایدار اداره می‌کنند، و گردش‌کار انتشار Throne بستهٔ `throne` در AUR و cask `throneproj/tap/throne` در Homebrew را به‌روز می‌کند. [نصب](@/get_started/installation.fa.md#apt-repository) را ببینید.
 
 بسته‌های WinGet، Scoop و Nix/NixOS، و بسته‌های دیگر AUR مانند `throne-bin`، را اعضای جامعهٔ کاربری می‌سازند و توسعه‌دهندگان از آن‌ها پشتیبانی نمی‌کنند ([#1182](https://github.com/throneproj/Throne/issues/1182)، [#1622](https://github.com/throneproj/Throne/issues/1622)). اگر مشکلی فقط با چنین بسته‌ای رخ می‌دهد، یک بیلد رسمی را امتحان کنید و مشکلات بسته‌بندی را به نگه‌دارندهٔ آن بسته گزارش دهید. [مدیران بسته](@/get_started/installation.fa.md#package-managers) را ببینید.
 

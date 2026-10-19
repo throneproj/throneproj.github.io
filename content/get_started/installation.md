@@ -52,6 +52,8 @@ ZIP copies do not register `throne://` links by default. To turn this on, tick `
 | Intel, macOS 13 or newer | `Throne-<version>-macos-amd64.zip` |
 | Intel, macOS 10.15 to 12 | `Throne-<version>-macoslegacy-amd64.zip` |
 
+You can also install Throne with [Homebrew](#homebrew), which does the steps below for you and updates Throne with `brew upgrade`.
+
 1. Download the ZIP and extract it. It contains a `Throne` folder with `Throne.app`.
 2. Move `Throne.app` to `/Applications` before you open it for the first time. For TUN mode, Throne gives its core root rights through Terminal, and this can fail while the app is in `~/Downloads`.
 3. Throne is not signed with an Apple certificate, so remove the quarantine flag in Terminal. Without this step, macOS says that Throne "is damaged and can't be opened".
@@ -183,6 +185,18 @@ winget install -e --id Throneproj.Throne
 scoop bucket add extras
 scoop install extras/throne
 ```
+
+### Homebrew {#homebrew}
+
+```bash
+brew install --cask throneproj/tap/throne
+```
+
+The cask comes from the Homebrew tap of Throne, and the release workflow of Throne updates it for every stable release, but not for beta versions. It installs `Throne.app` for Apple Silicon or Intel to `/Applications` and needs macOS 13 or newer. For macOS 10.15 to 12, use the `macoslegacy` ZIP from [macOS](#macos). Throne is not notarized by Apple, so the cask removes the quarantine flag after it installs the app, and you do not need the `xattr` command.
+
+The main cask list of Homebrew accepts only apps that Apple has notarized, so `brew install --cask throne` does not find Throne. Always use the full name `throneproj/tap/throne`.
+
+Update Throne with `brew upgrade --cask throne`. After an upgrade, Throne asks again for the rights it needs for TUN mode. `brew uninstall --zap --cask throne` also deletes your data in `~/Library/Preferences/Throne`.
 
 For Debian, Ubuntu, Fedora, RHEL and openSUSE, Throne has its own [APT repository](#apt-repository) and [RPM repository](#rpm-repository).
 

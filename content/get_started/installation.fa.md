@@ -52,6 +52,8 @@ Throne نمایه‌ها و تنظیمات شما را در پوشهٔ `config` 
 | Intel، macOS 13 یا جدیدتر | `Throne-<version>-macos-amd64.zip` |
 | Intel، macOS 10.15 تا 12 | `Throne-<version>-macoslegacy-amd64.zip` |
 
+می‌توانید Throne را با [Homebrew](#homebrew) هم نصب کنید. Homebrew مراحل زیر را برایتان انجام می‌دهد و Throne را با `brew upgrade` به‌روز می‌کند.
+
 1. فایل ZIP را دانلود و استخراج کنید. این فایل شامل پوشهٔ `Throne` با `Throne.app` است.
 2. پیش از اینکه `Throne.app` را برای نخستین بار باز کنید، آن را به `/Applications` منتقل کنید. برای حالت TUN، Throne از طریق Terminal به هستهٔ خود دسترسی root می‌دهد و اگر برنامه در `~/Downloads` باشد، این کار ممکن است شکست بخورد.
 3. Throne با گواهی Apple امضا نشده است، بنابراین پرچم قرنطینه (quarantine) را در Terminal حذف کنید. بدون این مرحله، macOS می‌گوید Throne «is damaged and can't be opened» (آسیب دیده است و باز نمی‌شود).
@@ -183,6 +185,18 @@ winget install -e --id Throneproj.Throne
 scoop bucket add extras
 scoop install extras/throne
 ```
+
+### Homebrew {#homebrew}
+
+```bash
+brew install --cask throneproj/tap/throne
+```
+
+این cask از tap خودِ Throne در Homebrew می‌آید و گردش‌کار انتشار Throne آن را برای هر نسخهٔ پایدار به‌روز می‌کند، اما نسخه‌های بتا را نه. این cask نسخهٔ Apple Silicon یا Intel از `Throne.app` را در `/Applications` نصب می‌کند و به macOS 13 یا جدیدتر نیاز دارد. برای macOS 10.15 تا 12، از ZIP با نام `macoslegacy` در بخش [macOS](#macos) استفاده کنید. Throne توسط Apple تأیید (notarize) نشده است، بنابراین cask پس از نصب برنامه پرچم قرنطینه (quarantine) را حذف می‌کند و به دستور `xattr` نیازی ندارید.
+
+فهرست اصلی caskهای Homebrew فقط برنامه‌هایی را می‌پذیرد که Apple آن‌ها را تأیید (notarize) کرده باشد، بنابراین `brew install --cask throne`، Throne را پیدا نمی‌کند. همیشه از نام کامل `throneproj/tap/throne` استفاده کنید.
+
+Throne را با `brew upgrade --cask throne` به‌روزرسانی کنید. پس از به‌روزرسانی، Throne دوباره دسترسی‌های لازم برای حالت TUN را درخواست می‌کند. دستور `brew uninstall --zap --cask throne` داده‌های شما در `~/Library/Preferences/Throne` را هم حذف می‌کند.
 
 برای Debian، Ubuntu، Fedora، RHEL و openSUSE، Throne [مخزن APT](#apt-repository) و [مخزن RPM](#rpm-repository) خودش را دارد.
 

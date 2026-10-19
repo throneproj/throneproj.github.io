@@ -80,7 +80,7 @@ Throne 会在主窗口底部的 `日志`（Logs）标签页中显示日志，并
 | --- | --- |
 | Throne 版本 | 桌面版：窗口标题，例如 `Throne 1.3.1`，或 `throne.log` 的前几行。Android：`关于`（About）。 |
 | 操作系统及版本 | 例如 Windows 11 24H2、Ubuntu 24.04、macOS 15 或 Android 14。 |
-| 安装类型 | ZIP、Windows 安装程序、`.deb`、`.rpm`、Linux 安装脚本、APT 或 RPM 软件源，或包管理器（WinGet、Scoop、AUR、Nix）。请说明你使用的是窗口版还是[无界面 Throne](@/headless/_index.zh.md)。 |
+| 安装类型 | ZIP、Windows 安装程序、`.deb`、`.rpm`、Linux 安装脚本、APT 或 RPM 软件源，或包管理器（WinGet、Scoop、AUR、Nix、Homebrew）。请说明你使用的是窗口版还是[无界面 Throne](@/headless/_index.zh.md)。 |
 | 模式 | `Tun 模式`（Tun Mode）、`系统代理`（System Proxy）或两者都开启，以及[断网保护（kill switch）](@/advanced/kill_switch.zh.md)是否开启。 |
 | 配置档类型 | 配置档列表中的 `类型`（Type）列，例如 `VLESS (Xray)`。不要提供链接。 |
 | 重现步骤 | 从头开始展示问题的编号步骤。 |
