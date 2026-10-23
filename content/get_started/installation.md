@@ -48,9 +48,11 @@ ZIP copies do not register `throne://` links by default. To turn this on, tick `
 
 | Your Mac | File |
 |---|---|
-| Apple Silicon, macOS 13 or newer | `Throne-<version>-macos-arm64.zip` |
-| Intel, macOS 13 or newer | `Throne-<version>-macos-amd64.zip` |
-| Intel, macOS 10.15 to 12 | `Throne-<version>-macoslegacy-amd64.zip` |
+| Apple Silicon, macOS 14.4 or newer | `Throne-<version>-macos-arm64.zip` |
+| Intel, macOS 14.4 or newer | `Throne-<version>-macos-amd64.zip` |
+| Intel, macOS 10.15 to 14.3 | `Throne-<version>-macoslegacy-amd64.zip` |
+
+Since 1.4.0, the normal builds need macOS 14.4 or newer; Throne 1.3 and older needed macOS 13 or newer.
 
 You can also install Throne with [Homebrew](#homebrew), which does the steps below for you and updates Throne with `brew upgrade`.
 
@@ -192,7 +194,7 @@ scoop install extras/throne
 brew install --cask throneproj/tap/throne
 ```
 
-The cask comes from the Homebrew tap of Throne, and the release workflow of Throne updates it for every stable release, but not for beta versions. It installs `Throne.app` for Apple Silicon or Intel to `/Applications` and needs macOS 13 or newer. For macOS 10.15 to 12, use the `macoslegacy` ZIP from [macOS](#macos). Throne is not notarized by Apple, so the cask removes the quarantine flag after it installs the app, and you do not need the `xattr` command.
+The cask comes from the Homebrew tap of Throne, and the release workflow of Throne updates it for every stable release, but not for beta versions. It installs `Throne.app` for Apple Silicon or Intel to `/Applications` and needs macOS 14.4 or newer. For Intel Macs on macOS 10.15 to 14.3, use the `macoslegacy` ZIP from [macOS](#macos). Throne is not notarized by Apple, so the cask removes the quarantine flag after it installs the app, and you do not need the `xattr` command.
 
 The main cask list of Homebrew accepts only apps that Apple has notarized, so `brew install --cask throne` does not find Throne. Always use the full name `throneproj/tap/throne`.
 

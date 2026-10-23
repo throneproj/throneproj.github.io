@@ -48,9 +48,11 @@ Throne хранит ваши профили и настройки в папке 
 
 | Ваш Mac | Файл |
 |---|---|
-| Apple Silicon, macOS 13 или новее | `Throne-<version>-macos-arm64.zip` |
-| Intel, macOS 13 или новее | `Throne-<version>-macos-amd64.zip` |
-| Intel, macOS с 10.15 по 12 | `Throne-<version>-macoslegacy-amd64.zip` |
+| Apple Silicon, macOS 14.4 или новее | `Throne-<version>-macos-arm64.zip` |
+| Intel, macOS 14.4 или новее | `Throne-<version>-macos-amd64.zip` |
+| Intel, macOS с 10.15 по 14.3 | `Throne-<version>-macoslegacy-amd64.zip` |
+
+Начиная с 1.4.0 обычным сборкам нужна macOS 14.4 или новее; в Throne 1.3 и более старых версиях им была нужна macOS 13 или новее.
 
 Throne также можно установить через [Homebrew](#homebrew): он выполняет шаги ниже за вас и обновляет Throne командой `brew upgrade`.
 
@@ -192,7 +194,7 @@ scoop install extras/throne
 brew install --cask throneproj/tap/throne
 ```
 
-Cask берётся из собственного Homebrew tap Throne, и процесс выпуска релизов Throne обновляет его для каждого стабильного релиза, но не для бета-версий. Он устанавливает `Throne.app` для Apple Silicon или Intel в `/Applications` и требует macOS 13 или новее. Для macOS с 10.15 по 12 используйте ZIP-архив `macoslegacy` из раздела [macOS](#macos). Throne не нотаризован Apple, поэтому cask снимает флаг карантина после установки приложения, и команда `xattr` вам не нужна.
+Cask берётся из собственного Homebrew tap Throne, и процесс выпуска релизов Throne обновляет его для каждого стабильного релиза, но не для бета-версий. Он устанавливает `Throne.app` для Apple Silicon или Intel в `/Applications` и требует macOS 14.4 или новее. Для Mac с процессором Intel и macOS с 10.15 по 14.3 используйте ZIP-архив `macoslegacy` из раздела [macOS](#macos). Throne не нотаризован Apple, поэтому cask снимает флаг карантина после установки приложения, и команда `xattr` вам не нужна.
 
 Основной список cask в Homebrew принимает только приложения, нотаризованные Apple, поэтому `brew install --cask throne` не находит Throne. Всегда указывайте полное имя `throneproj/tap/throne`.
 

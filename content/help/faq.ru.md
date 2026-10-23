@@ -149,7 +149,7 @@ Throne 1.1.0 и 1.1.1 импортировали целую конфигурац
 ## Какая сборка нужна для Windows 7, старой macOS или старого процессора? {#old-systems}
 
 - **Windows 7 SP1 и Windows 8:** используйте `windowslegacy64.zip` (64-битная система) или `windows32.zip` (32-битная). Универсальный установщик тоже подойдёт: на 32-битной Windows и на 64-битной Windows, более ранней, чем Windows 10 1809, он сам устанавливает legacy-сборку. Обычному `windows64.zip` нужна Windows 10 1809 или новее. В Throne 1.3 и более старых версиях режим TUN в Windows 7 и 8 работает только со стеком `gvisor` ([#1291](https://github.com/throneproj/Throne/issues/1291)); начиная с 1.4.0 в `Настройки режима TUN` (Tun Settings) нет параметра `Stack`.
-- **macOS с 10.15 по 12:** используйте `macoslegacy-amd64.zip`. Обычным сборкам для macOS нужна macOS 13 или новее. Более старые версии macOS не поддерживаются.
+- **Mac с процессором Intel и macOS с 10.15 по 14.3:** используйте `macoslegacy-amd64.zip`. Обычным сборкам для macOS нужна macOS 14.4 или новее. Более старые версии macOS не поддерживаются. В Throne 1.3 и более старых версиях обычным сборкам для macOS была нужна macOS 13 или новее.
 - **Старые процессоры в Linux:** если Throne не запускается и выводит `This Qt build requires the following features: sse4.2 popcnt`, установите пакет `system-qt` ([#845](https://github.com/throneproj/Throne/issues/845)).
 
 В таблице на [странице загрузок](@/downloads.ru.md) указаны минимальные требования к системе для каждого файла.

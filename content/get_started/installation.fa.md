@@ -48,9 +48,11 @@ Throne نمایه‌ها و تنظیمات شما را در پوشهٔ `config` 
 
 | Mac شما | فایل |
 |---|---|
-| Apple Silicon، macOS 13 یا جدیدتر | `Throne-<version>-macos-arm64.zip` |
-| Intel، macOS 13 یا جدیدتر | `Throne-<version>-macos-amd64.zip` |
-| Intel، macOS 10.15 تا 12 | `Throne-<version>-macoslegacy-amd64.zip` |
+| Apple Silicon، macOS 14.4 یا جدیدتر | `Throne-<version>-macos-arm64.zip` |
+| Intel، macOS 14.4 یا جدیدتر | `Throne-<version>-macos-amd64.zip` |
+| Intel، macOS 10.15 تا 14.3 | `Throne-<version>-macoslegacy-amd64.zip` |
+
+از نسخهٔ 1.4.0، بیلدهای معمولی به macOS 14.4 یا جدیدتر نیاز دارند؛ در Throne 1.3 و نسخه‌های قدیمی‌تر، این بیلدها به macOS 13 یا جدیدتر نیاز داشتند.
 
 می‌توانید Throne را با [Homebrew](#homebrew) هم نصب کنید. Homebrew مراحل زیر را برایتان انجام می‌دهد و Throne را با `brew upgrade` به‌روز می‌کند.
 
@@ -192,7 +194,7 @@ scoop install extras/throne
 brew install --cask throneproj/tap/throne
 ```
 
-این cask از tap خودِ Throne در Homebrew می‌آید و گردش‌کار انتشار Throne آن را برای هر نسخهٔ پایدار به‌روز می‌کند، اما نسخه‌های بتا را نه. این cask نسخهٔ Apple Silicon یا Intel از `Throne.app` را در `/Applications` نصب می‌کند و به macOS 13 یا جدیدتر نیاز دارد. برای macOS 10.15 تا 12، از ZIP با نام `macoslegacy` در بخش [macOS](#macos) استفاده کنید. Throne توسط Apple تأیید (notarize) نشده است، بنابراین cask پس از نصب برنامه پرچم قرنطینه (quarantine) را حذف می‌کند و به دستور `xattr` نیازی ندارید.
+این cask از tap خودِ Throne در Homebrew می‌آید و گردش‌کار انتشار Throne آن را برای هر نسخهٔ پایدار به‌روز می‌کند، اما نسخه‌های بتا را نه. این cask نسخهٔ Apple Silicon یا Intel از `Throne.app` را در `/Applications` نصب می‌کند و به macOS 14.4 یا جدیدتر نیاز دارد. برای Mac با پردازندهٔ Intel و macOS 10.15 تا 14.3، از ZIP با نام `macoslegacy` در بخش [macOS](#macos) استفاده کنید. Throne توسط Apple تأیید (notarize) نشده است، بنابراین cask پس از نصب برنامه پرچم قرنطینه (quarantine) را حذف می‌کند و به دستور `xattr` نیازی ندارید.
 
 فهرست اصلی caskهای Homebrew فقط برنامه‌هایی را می‌پذیرد که Apple آن‌ها را تأیید (notarize) کرده باشد، بنابراین `brew install --cask throne`، Throne را پیدا نمی‌کند. همیشه از نام کامل `throneproj/tap/throne` استفاده کنید.
 

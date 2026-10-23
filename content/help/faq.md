@@ -149,7 +149,7 @@ The WinGet, Scoop and Nix/NixOS packages, and other AUR packages such as `throne
 ## Which build do I need for Windows 7, old macOS or an old processor? {#old-systems}
 
 - **Windows 7 SP1 and Windows 8:** use `windowslegacy64.zip` (64-bit) or `windows32.zip` (32-bit). The universal installer also works: on 32-bit Windows and on 64-bit Windows older than Windows 10 1809, it installs the legacy build by itself. The normal `windows64.zip` needs Windows 10 1809 or later. In Throne 1.3 and older, TUN mode on Windows 7 and 8 works only with the `gvisor` stack ([#1291](https://github.com/throneproj/Throne/issues/1291)); since 1.4.0, `Tun Settings` has no `Stack` setting.
-- **macOS 10.15 to 12:** use `macoslegacy-amd64.zip`. The normal macOS builds need macOS 13 or later. Older macOS versions are not supported.
+- **Intel Macs on macOS 10.15 to 14.3:** use `macoslegacy-amd64.zip`. The normal macOS builds need macOS 14.4 or later. Older macOS versions are not supported. Throne 1.3 and older needed macOS 13 or later for the normal builds.
 - **Old processors on Linux:** if Throne does not start and prints `This Qt build requires the following features: sse4.2 popcnt`, install the `system-qt` package ([#845](https://github.com/throneproj/Throne/issues/845)).
 
 The [downloads](@/downloads.md) table lists the minimum system for each file.

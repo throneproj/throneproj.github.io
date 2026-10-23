@@ -149,7 +149,7 @@ Throne 1.1.0 و 1.1.1 یک پیکربندی کامل sing-box را که `inbound
 ## برای Windows 7، macOS قدیمی یا پردازندهٔ قدیمی به کدام بیلد نیاز دارم؟ {#old-systems}
 
 - **Windows 7 SP1 و Windows 8:** از `windowslegacy64.zip` (64 بیتی) یا `windows32.zip` (32 بیتی) استفاده کنید. نصب‌کنندهٔ universal هم کار می‌کند: روی Windows 32 بیتی و روی Windows 64 بیتیِ قدیمی‌تر از Windows 10 1809، خودش بیلد legacy را نصب می‌کند. فایل معمولی `windows64.zip` به Windows 10 1809 یا جدیدتر نیاز دارد. در Throne 1.3 و نسخه‌های قدیمی‌تر، حالت TUN روی Windows 7 و 8 فقط با پشتهٔ `gvisor` کار می‌کند ([#1291](https://github.com/throneproj/Throne/issues/1291))؛ از نسخهٔ 1.4.0، `تنظیمات vpn` (Tun Settings) تنظیم `Stack` ندارد.
-- **macOS 10.15 تا 12:** از `macoslegacy-amd64.zip` استفاده کنید. بیلدهای معمولی macOS به macOS 13 یا جدیدتر نیاز دارند. نسخه‌های قدیمی‌تر macOS پشتیبانی نمی‌شوند.
+- **Mac با پردازندهٔ Intel و macOS 10.15 تا 14.3:** از `macoslegacy-amd64.zip` استفاده کنید. بیلدهای معمولی macOS به macOS 14.4 یا جدیدتر نیاز دارند. نسخه‌های قدیمی‌تر macOS پشتیبانی نمی‌شوند. در Throne 1.3 و نسخه‌های قدیمی‌تر، بیلدهای معمولی macOS به macOS 13 یا جدیدتر نیاز داشتند.
 - **پردازنده‌های قدیمی در Linux:** اگر Throne اجرا نمی‌شود و پیام `This Qt build requires the following features: sse4.2 popcnt` را چاپ می‌کند، بستهٔ `system-qt` را نصب کنید ([#845](https://github.com/throneproj/Throne/issues/845)).
 
 جدول صفحهٔ [دانلود](@/downloads.fa.md) حداقل سیستم لازم برای هر فایل را فهرست می‌کند.

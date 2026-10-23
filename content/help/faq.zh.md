@@ -149,7 +149,7 @@ WinGet、Scoop 和 Nix/NixOS 软件包，以及 `throne-bin` 等其他 AUR 软�
 ## Windows 7、旧版 macOS 或旧处理器需要哪个版本？ {#old-systems}
 
 - **Windows 7 SP1 和 Windows 8：** 使用 `windowslegacy64.zip`（64 位）或 `windows32.zip`（32 位）。通用安装程序同样可用：在 32 位 Windows 以及早于 Windows 10 1809 的 64 位 Windows 上，它会自动安装 legacy 版本。普通的 `windows64.zip` 需要 Windows 10 1809 或更高版本。在 Throne 1.3 及更早版本中，Windows 7 和 8 上的 TUN 模式只能使用 `gvisor` 协议栈（[#1291](https://github.com/throneproj/Throne/issues/1291)）；自 1.4.0 起，`Tun 设置`（Tun Settings）中已没有 `Stack` 设置。
-- **macOS 10.15 至 12：** 使用 `macoslegacy-amd64.zip`。普通的 macOS 版本需要 macOS 13 或更高版本。更旧的 macOS 版本不受支持。
+- **运行 macOS 10.15 至 14.3 的 Intel Mac：** 使用 `macoslegacy-amd64.zip`。普通的 macOS 版本需要 macOS 14.4 或更高版本。更旧的 macOS 版本不受支持。在 Throne 1.3 及更早版本中，普通的 macOS 版本需要 macOS 13 或更高版本。
 - **Linux 上的旧处理器：** 如果 Throne 无法启动并输出 `This Qt build requires the following features: sse4.2 popcnt`，请安装 `system-qt` 软件包（[#845](https://github.com/throneproj/Throne/issues/845)）。
 
 [下载](@/downloads.zh.md)页面的表格列出了每个文件的最低系统要求。

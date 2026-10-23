@@ -48,9 +48,11 @@ ZIP 版默认不注册 `throne://` 链接。要开启此功能，请勾选 `设�
 
 | 你的 Mac | 文件 |
 |---|---|
-| Apple Silicon，macOS 13 或更高版本 | `Throne-<version>-macos-arm64.zip` |
-| Intel，macOS 13 或更高版本 | `Throne-<version>-macos-amd64.zip` |
-| Intel，macOS 10.15 至 12 | `Throne-<version>-macoslegacy-amd64.zip` |
+| Apple Silicon，macOS 14.4 或更高版本 | `Throne-<version>-macos-arm64.zip` |
+| Intel，macOS 14.4 或更高版本 | `Throne-<version>-macos-amd64.zip` |
+| Intel，macOS 10.15 至 14.3 | `Throne-<version>-macoslegacy-amd64.zip` |
+
+自 1.4.0 起，普通版本需要 macOS 14.4 或更高版本；在 Throne 1.3 及更早版本中，普通版本需要 macOS 13 或更高版本。
 
 你也可以通过 [Homebrew](#homebrew) 安装 Throne：它会替你完成下面的步骤，并可以用 `brew upgrade` 更新 Throne。
 
@@ -192,7 +194,7 @@ scoop install extras/throne
 brew install --cask throneproj/tap/throne
 ```
 
-该 cask 来自 Throne 自己的 Homebrew tap，Throne 的发布工作流会在每个稳定版发布时更新它，但不包含 Beta 版。它会将适用于 Apple Silicon 或 Intel 的 `Throne.app` 安装到 `/Applications`，需要 macOS 13 或更高版本。macOS 10.15 至 12 请使用 [macOS](#macos) 中的 `macoslegacy` ZIP。Throne 未经过 Apple 公证，因此 cask 会在安装应用后移除隔离标记，你无需运行 `xattr` 命令。
+该 cask 来自 Throne 自己的 Homebrew tap，Throne 的发布工作流会在每个稳定版发布时更新它，但不包含 Beta 版。它会将适用于 Apple Silicon 或 Intel 的 `Throne.app` 安装到 `/Applications`，需要 macOS 14.4 或更高版本。运行 macOS 10.15 至 14.3 的 Intel Mac 请使用 [macOS](#macos) 中的 `macoslegacy` ZIP。Throne 未经过 Apple 公证，因此 cask 会在安装应用后移除隔离标记，你无需运行 `xattr` 命令。
 
 Homebrew 的主 cask 列表只接受经过 Apple 公证的应用，因此 `brew install --cask throne` 找不到 Throne。请始终使用完整名称 `throneproj/tap/throne`。
 
