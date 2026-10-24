@@ -30,7 +30,7 @@ TUN mode needs system rights to create the adapter and change the routes of the 
 ### Windows {#privileges-windows}
 
 - Throne must run as administrator. The first click on `Tun Mode` offers a restart as administrator.
-- After Throne has run as administrator once, it asks for administrator rights each time it starts. To stop this, tick `Settings` → `Basic Settings` → `Security` → `Always Start as Standard User`. Throne then asks again each time you turn on TUN mode.
+- After Throne has run as administrator once, it asks for administrator rights each time it starts. To stop this, tick `Settings` → `Basic Settings` → `Security` → `Always Start as Standard User` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)). Throne then asks again each time you turn on TUN mode.
 - If you turn on `Program` → `Start with system` while Throne runs as administrator, Throne starts with administrator rights at sign-in, without a prompt.
 
 See also [FAQ](@/help/faq.md#tun-admin).
@@ -56,11 +56,13 @@ Some third-party packages cannot change the core themselves. They show "This ins
 
 ### Turn off the requests {#disable-privilege-request}
 
-`Settings` → `Basic Settings` → `Security` → `Disable Privilege request` stops Throne from asking for rights. Throne then starts TUN mode with the rights it has, and the log says "User opted for no privilege req, some features may not work". Use this only if you give the rights yourself, for example when you always start Throne as administrator, or when you set the capabilities shown above.
+`Settings` → `Basic Settings` → `Security` → `Disable Privilege request` (Advanced mode only) stops Throne from asking for rights. Throne then starts TUN mode with the rights it has, and the log says "User opted for no privilege req, some features may not work". Use this only if you give the rights yourself, for example when you always start Throne as administrator, or when you set the capabilities shown above.
 
 ## TUN settings {#settings}
 
 Open `Settings` → `Tun Settings`. If TUN mode is on when you click `OK`, Throne shows "Restart Tun to take effect". Turn `Tun Mode` off and on again.
+
+In Simple mode, the window shows only `Tun Enable IPv6`, `Strict Route`, `Enable Tun Routing` and `Troubleshooting`. The other settings are hidden, but keep their values; see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
 
 | Setting | Default | What it does |
 | --- | --- | --- |
@@ -105,6 +107,15 @@ Two VPNs on the same computer compete for routes and DNS. Turn off other VPN app
 
 In TUN mode, the DNS queries of all apps reach Throne. A DNS leak test can still show the DNS server of your Internet provider for sites that your rules send direct. This is expected; see [DNS](@/guides/dns.md#leak-tests).
 
+**macOS:** while TUN mode runs, Throne sets the DNS server of the active network service, for example `Wi-Fi`, to `127.0.0.53`. The core answers there with Throne's DNS settings. You can see this in the macOS network settings. Since 1.4.0:
+
+- When the active network changes, for example from `Wi-Fi` to `Ethernet`, Throne moves the setting to the new service and puts back the old one.
+- When TUN mode stops, Throne puts back the DNS servers that the service had before, including servers that you set yourself.
+- If Throne or its core crashes or is killed, Throne puts the DNS servers back the next time its core starts, also after a restart of macOS.
+- If Throne cannot set the system DNS, TUN mode does not start; see [macOS troubleshooting](#troubleshooting-macos).
+
+Before 1.4.0, Throne set the DNS server to the address of the TUN adapter and cleared the DNS servers when TUN mode stopped, so DNS servers that you had set yourself were lost. After a crash, macOS kept a DNS server that no longer answered.
+
 ## Troubleshooting {#troubleshooting}
 
 Open the `Logs` tab and look for errors when TUN mode starts. For general steps, see [Troubleshooting](@/help/troubleshooting.md#tun).
@@ -119,7 +130,7 @@ Open the `Logs` tab and look for errors when TUN mode starts. For general steps,
 
 **"Tun device misbehaving".** Click `Reset` to restart the core, then start the profile again.
 
-**After a crash or force-quit.** The virtual adapter can be left behind. Restart Windows.
+**After a crash or force-quit.** Windows can keep the virtual adapter of the old session. Since 1.4.0, Throne then shows "Leftover Tun adapter" when TUN mode starts. Click `Start Again`: this usually works. If it keeps failing, restart Windows. In this case, starting can take about 15 seconds before the message appears. Wait for it instead of restarting Throne, which can leave another adapter behind.
 
 **TUN mode takes very long to start.** Throne clears the DNS cache of Windows when TUN mode starts. A very large HOSTS file, for example an ad-blocking list with 100,000 entries, makes this very slow. Make the HOSTS file smaller.
 
@@ -152,6 +163,14 @@ xattr -d com.apple.quarantine /Applications/Throne.app
 **The rights request fails.** Move `Throne.app` to `/Applications`, start it from there, and tick `Tun Mode` again.
 
 **Standard account.** TUN mode needs an administrator account. Use the system proxy, or sign in with an administrator account.
+
+**"set up the system DNS" or "set the system DNS" when TUN mode starts.** Since 1.4.0, TUN mode does not start when Throne cannot point the system DNS at its core (see [DNS](#side-effects-dns)). The rest of the message says why:
+
+- "listen on 127.0.0.53:53": another program already uses the DNS port, for example a local DNS server or another VPN app. Quit it and start the profile again.
+- "the core is not running as root": the core has no root rights, for example because `Disable Privilege request` is on. Give the core its rights; see [macOS privileges](#privileges-macos).
+- "no enabled network service uses …": the active network adapter has no enabled network service in the macOS network settings.
+
+If the DNS server in the macOS network settings still is `127.0.0.53` after Throne has quit, start Throne once: its core puts back your DNS servers. Or remove `127.0.0.53` from the DNS servers of that network service yourself.
 
 For DNS leak hardening on Windows, see [Windows DNS Leak Protection](@/advanced/windows_tun_mode.md).
 

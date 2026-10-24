@@ -43,6 +43,7 @@ Throne برای Android (پیش‌تر با نام NekoBox for Android) برنا
 - کیل‌سوییچی که ترافیک خارج از Throne را مسدود می‌کند (از نسخهٔ 1.4.0): [کیل‌سوییچ (Kill Switch)](@/advanced/kill_switch.fa.md).
 - Throne API، برای کنترل و مدیریت Throne از اسکریپت‌ها، کلیدهای میانبر و دستگاه‌های دیگر با `thronectl` (از نسخهٔ 1.4.0): [Throne API و thronectl](@/advanced/api.fa.md).
 - حالت بدون رابط گرافیکی (headless) برای سرورها و کانتینرها (از نسخهٔ 1.4.0): [Throne بدون رابط گرافیکی (Headless)](@/headless/_index.fa.md).
+- حالت ساده‌ای که گزینه‌های پیشرفته را برای کاربران تازه‌کار پنهان می‌کند، و جست‌وجوی فرمان‌ها و تنظیمات با `Ctrl+K` (از نسخهٔ 1.4.0): [حالت ساده و پیشرفته](@/get_started/configuration.fa.md#interface-mode).
 
 ## از کجا شروع کنیم {#where-to-start}
 
@@ -64,3 +65,5 @@ Throne بر پایهٔ این پروژه‌ها ساخته شده است:
 - [fkYAML](https://github.com/fktn-k/fkYAML): وارد کردن فایل‌های YAML مربوط به Clash
 - [quirc](https://github.com/dlbeer/quirc): خواندن کد QR
 - [srombauts/sqlitecpp](https://github.com/srombauts/sqlitecpp): پایگاه‌دادهٔ نمایه‌ها و تنظیمات
+
+برای حمایت از توسعهٔ Throne، در `برنامه` (Program) ← `درباره` (About) روی `حمایت از Throne` (Support Throne) کلیک کنید (از نسخهٔ 1.4.0). این دکمه صفحهٔ کمک مالی را باز می‌کند. Throne برای Android همین گزینه را در صفحهٔ `درباره برنامه` (About) خود دارد (پس از 2.0.3).

@@ -40,7 +40,7 @@ Examples:
 
 ## Data folder {#data-folder}
 
-Throne keeps your data in a folder named `config`. To open it, choose `Settings` → `Open Config Folder`.
+Throne keeps your data in a folder named `config`. To open it, choose `Settings` → `Open Config Folder` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
 
 Throne works in one of two modes:
 
@@ -96,7 +96,7 @@ The `Logs` tab at the bottom of the main window shows messages from Throne and f
 - **Scrolling:** while you are at the bottom, the tab shows each new line. Since 1.4.0, when you scroll up, the view stays where it is and new lines wait. A `Jump to latest` button at the top right of the tab shows how many lines wait; click it, or scroll back to the bottom, to see them.
 - **Filter:** since 1.4.0, the filter button at the top right of the tab opens a filter bar. Type in `Filter logs` to show only the matching lines, with the matches highlighted. `Match case` and `Regular expression` change how the text matches, and the bar shows how many lines match. `Esc` or the filter button closes the bar and shows all lines again. This filter changes only the view, not the lines that Throne keeps.
 
-The log settings are in `Settings` → `Basic Settings` → `Logging`:
+The log settings are in `Settings` → `Basic Settings` → `Logging` (Advanced mode only):
 
 | Setting | Default | What it does |
 | --- | --- | --- |
@@ -107,7 +107,7 @@ The log settings are in `Settings` → `Basic Settings` → `Logging`:
 
 The `Auto-scroll log` setting was removed in 1.4.0.
 
-Since 1.4.0, the `Logs` tab uses a monospace font. To choose another one, use `Log Browser Font` and `Log Browser Font Size` in `Settings` → `Basic Settings` → `Style`. The list shows only monospace fonts. By default, Throne uses the first of Consolas, Menlo, SF Mono, DejaVu Sans Mono, Noto Sans Mono and Ubuntu Mono that is installed, in the size of the interface font.
+Since 1.4.0, the `Logs` tab uses a monospace font. To choose another one, use `Log Browser Font` and `Log Browser Font Size` in `Settings` → `Basic Settings` → `Style` (Advanced mode only). The list shows only monospace fonts. By default, Throne uses the first of Consolas, Menlo, SF Mono, DejaVu Sans Mono, Noto Sans Mono and Ubuntu Mono that is installed, in the size of the interface font.
 
 For a bug report, set `Sing-box Log level` to `debug`, start the profile again, and reproduce the problem. Then follow [Reporting a Bug](@/help/bug_reports.md#logs).
 

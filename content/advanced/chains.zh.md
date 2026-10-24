@@ -7,6 +7,8 @@ toc = true
 
 当一台服务器不够用，或者某个配置档需要普通编辑器中没有的选项时，请参考本页。内容包括代理链、分组的前置与落地代理、自定义 JSON 配置以及额外核心（Extra Core）配置档。
 
+在简洁模式下，`新建配置档`（New profile）不提供 `链式代理`（Chain Proxy）、各种 `自定义`（Custom）类型和 `额外核心`（Extra Core），分组编辑器也会隐藏 `前置代理`（Front Proxy）和 `落地代理`（Landing Proxy）（仅在高级模式下显示，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。已有的配置档和分组设置仍然有效。
+
 ## 代理链 {#chains}
 
 代理链配置档让你的流量依次经过多个配置档。每台服务器只能看到它前面的那台服务器，由最后一台服务器连接网站。
@@ -41,6 +43,8 @@ toc = true
 - 当某台服务器上方的跳点是 WireGuard、MASQUE、OpenVPN、OpenConnect、Tailscale 或 SOCKS4 配置档时，Throne 会使用直连 DNS 查询该服务器的名称。在 1.3.2 之前，这一查询会经过代理本身，这类代理链可能无法连接。
 
 Throne 会在你添加跳点或保存代理链时检查其中一部分规则，其余规则则在启动时检查。检查失败时，原因会显示在提示消息或日志中。
+
+如果代理链或分组用作跳点的配置档已被删除，该配置档将无法启动。自 1.4.0 起，提示消息会说明需要修改什么：“Chain "…" has a hop (profile id …) that no longer exists, edit the chain to remove it”（代理链中有一个已不存在的跳点，请编辑代理链将其移除），或“Group "…" has a front proxy that has been deleted.”（分组的前置代理已被删除），落地代理（landing proxy）也有相同的提示。
 
 如果代理链中没有额外核心或完整配置类的跳点，它也可以作为路由规则的出站。
 
@@ -82,7 +86,7 @@ Throne 会用这些跳点构建一条代理链，因此代理链的限制同样�
 }
 ```
 
-如果想从 Throne 为某个可用的配置档或代理链生成的 JSON 开始编写，请右键点击它 → `分享`（Share）→ `导出配置`（Export config）（自 1.4.0 起）。窗口会在不同的标签页上分别显示 sing-box 配置，以及配置档使用 Xray 时的 Xray 配置。`复制`（Copy）会复制你当前看到的标签页。
+如果想从 Throne 为某个可用的配置档或代理链生成的 JSON 开始编写，请右键点击它 → `分享`（Share）→ `导出配置`（Export config）（自 1.4.0 起，仅在高级模式下显示）。窗口会在不同的标签页上分别显示 sing-box 配置，以及配置档使用 Xray 时的 Xray 配置。`复制`（Copy）会复制你当前看到的标签页。
 
 导入 JSON 时：
 
@@ -129,6 +133,6 @@ Throne 会用这些跳点构建一条代理链，因此代理链的限制同样�
 ## Android 版 {#android}
 
 - 代理链的用法相同：`添加服务器配置`（Add profile）→ `手动输入`（Manual settings）→ `链式代理`（Proxy chain）。最上面一行是你的设备最先连接的服务器，最下面一行是出口。限制也相同。
-- 分组同样有 `Front proxy` 和 `Landing proxy` 选项。
-- `自定义配置`（Custom config）同样有四种类型（`Config type`），JSON 编辑器也会按 sing-box schema 进行检查。
+- 分组同样有 `前置代理`（Front proxy）和 `落地代理`（Landing proxy）选项。
+- `自定义配置`（Custom config）同样有四种类型（`配置类型`，Config type），JSON 编辑器也会按 sing-box schema 进行检查。
 - 额外核心配置档仅限桌面版。如果桌面版备份中包含此类配置档，Android 会保留它，但无法启动。

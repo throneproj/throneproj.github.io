@@ -7,13 +7,15 @@ toc = true
 
 有些网络会检查每条加密连接的起始部分，以此封锁代理或降低其速度。Throne 提供了多个选项，用来改变连接起始部分的特征。本页介绍每个选项的作用、适用场景以及代价。
 
+在简洁模式下，`预设设置`（Preset Settings）、配置档编辑器中的 `分片`（Fragment）、`启用 TLS 记录分片`（Enable TLS Record Fragment）和 `TLS 技巧`（TLS Tricks）选项、编辑器的 `高级设置`（Advanced Settings）按钮，以及 `多路复用` 的 `Custom` 选项都会被隐藏（仅在高级模式下显示，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。被隐藏的设置会保留其值，并且仍然生效。
+
 ## 预设与配置档设置 {#presets}
 
 全局默认值位于 `设置`（Settings）→ `预设设置`（Preset Settings）：
 
 | 标签页 | 选项（默认值） |
 | --- | --- |
-| `多路复用`（Multiplex） | sing-box：`协议`（Protocol，默认 `smux`）、`并发数`（Concurrency，默认 8）、`Padding`（默认关闭）、`默认开启`（Default On，默认关闭）。Xray：`并发数`（默认 8）、`默认复用开启`（Default Mux On，默认关闭）。 |
+| `多路复用`（Multiplex） | sing-box：`Protocol`（默认 `smux`）、`Mode`（默认 `Max Streams`）、`Max Streams`（默认 8）、`Max Connections`（默认 4）、`Min Streams`（默认 4）、`Padding`（默认关闭）、`TCP Brutal`（默认关闭）、`默认开启`（Default On，默认关闭）。Xray：`Concurrency`（默认 8）、`Max Connections`（默认为空，即不限制）、`XUDP Concurrency`（默认 16）、`UDP/443`（默认 `Reject`）、`默认复用开启`（Default Mux On，默认关闭）。 |
 | `TLS` | `TLS 分片`（TLS Fragment）：`实现`（Implementation，默认 `built-in`）、`大小`（Size，默认 `10-100`）、`睡眠`（Sleep，默认 `2-5`）、`默认开启`（默认关闭）。`TLS 技巧`（TLS Tricks）：`默认开启`（默认关闭）。`uTLS`：`默认指纹`（Default Fingerprint，默认为空）。`TLS 伪装`（TLS Spoof）：`伪装 SNI`（Spoof SNI，默认为空）、`方法`（Method，默认为空）、`默认开启`（默认关闭）。 |
 | `HTTP/2 和 QUIC`（HTTP/2 & QUIC） | 用于基于 QUIC 的配置档的调优参数。留空的字段使用核心的默认值。 |
 
@@ -25,9 +27,9 @@ toc = true
 | `开启`（On） | 对此配置档始终开启。 |
 | `关闭`（Off） | 对此配置档始终关闭。 |
 
-因此，`默认开启` 只会为保持在 `保持默认` 的配置档开启相应选项。
+因此，`默认开启` 只会为保持在 `保持默认` 的配置档开启相应选项。自 1.4.0 起，`多路复用` 还有第四个选项 `Custom`，用于配置档自己的设置。参见[多路复用](#multiplex)。
 
-TLS 分片、TLS 技巧、TLS 伪装以及 sing-box 的多路复用预设只适用于运行在 sing-box 上的配置档。`VLESS (Xray)` 配置档有自己的多路复用选项（`保持默认`、`启用`（Enabled）、`禁用`（Disabled）），它跟随 `默认复用开启`。uTLS 的 `默认指纹` 对两个核心都适用。参见 [sing-box 与 Xray](@/advanced/xray.zh.md#two-cores)。
+TLS 分片、TLS 技巧、TLS 伪装以及 sing-box 的多路复用预设只适用于运行在 sing-box 上的配置档。`VLESS (Xray)` 配置档有自己的多路复用选项（`保持默认`、`启用`（Enabled）、`禁用`（Disabled），以及自 1.4.0 起的 `Custom`），它跟随 Xray 预设和 `默认复用开启`。uTLS 的 `默认指纹` 对两个核心都适用。参见 [sing-box 与 Xray](@/advanced/xray.zh.md#two-cores)。
 
 ## 一次只改一项 {#one-at-a-time}
 
@@ -71,7 +73,7 @@ TLS 技巧会以大小写混合的形式写出服务器名称，例如用 `ExAmP
 每个 TLS 客户端都有其典型指纹，即其 ClientHello 中选用了哪些选项以及它们的顺序。普通代理客户端的指纹很容易被识别。uTLS 则会模仿常见浏览器或系统的指纹。
 
 - **按配置档：** 配置档编辑器中的 `指纹`（Fingerprint）。分享链接常用 `fp=` 设置它。
-- **全局：** `预设设置` → `TLS` → `uTLS` → `默认指纹`。没有设置自己指纹的配置档会使用它，两个核心均适用。当它为空（默认）时，未设置指纹的 sing-box 配置档不使用 uTLS，未设置指纹的 Xray 配置档使用 `chrome`。Hysteria、TUIC、Juicity 和 Naive 配置档不使用 uTLS。
+- **全局：** `预设设置` → `TLS` → `uTLS` → `默认指纹`。没有设置自己指纹的配置档会使用它，两个核心均适用（`VLESS (Xray)` 配置档自 1.4.0 起）。当它为空（默认）时，未设置指纹的 sing-box 配置档不使用 uTLS，未设置指纹的 Xray 配置档使用 `chrome`。Hysteria、TUIC、Juicity 和 Naive 配置档不使用 uTLS。
 - **可选值：** `chrome`、`firefox`、`edge`、`safari`、`360`、`qq`、`ios`、`android`、`random`、`randomized`，以及自 1.4.0 起提供的 `unsafe`。
 - **`unsafe`** 会为该配置档关闭 uTLS，即使设置了 `默认指纹` 也是如此。此时核心使用它自己的 TLS 客户端。只有在这种情况下，配置档的 `Cipher Suites` 字段（自 1.4.0 起）才会生效：填写 TLS 1.2 密码套件名称，以冒号分隔。除非你的服务器需要，否则请留空。
 
@@ -83,15 +85,29 @@ TLS 技巧会以大小写混合的形式写出服务器名称，例如用 `ExAmP
 
 多路复用（mux）会在与服务器之间的一条连接中承载多条连接。这样打开网页时需要新建的连接和握手更少，观察者看到的连接数也更少。
 
-- **按配置档：** 配置档编辑器中的 `多路复用`：`保持默认`、`开启` 或 `关闭`。
-- **sing-box 预设：** `协议`（`smux`、`yamux` 或 `h2mux`）、`并发数`（每条连接中的流数）、`Padding`（为每个启用多路复用的配置档添加填充）和 `默认开启`。
-- **Xray 预设：** `并发数` 和 `默认复用开启`。
+- **按配置档：** 配置档编辑器中的 `多路复用`：`保持默认`、`开启`、`关闭`，或自 1.4.0 起的 `Custom`（`VLESS (Xray)` 配置档为 `保持默认`、`启用`、`禁用` 或 `Custom`）。`保持默认` 和 `开启` 使用预设。选择 `Custom` 后，点击列表旁的 `Configure`：`Custom Multiplex` 窗口（Xray 为 `Custom Mux`）包含与预设相同的字段，并以预设的值作为初始值。来自链接或订阅、并带有自己的 mux 设置的配置档，打开时显示为 `Custom`。
+- **sing-box 预设**（`预设设置` → `多路复用` → `Sing-box`）：
+  - `Protocol`：`smux`、`yamux` 或 `h2mux`。
+  - `Mode`：选择 `Max Streams` 时，一条连接会被重复使用，直到承载 `Max Streams` 个流，然后再打开另一条连接。选择 `Max Connections` 时，Throne 最多保持 `Max Connections` 条连接，并且只有当最空闲的连接已承载 `Min Streams` 个流时，才会打开新连接。
+  - `Padding`：为多路复用的流量添加填充。
+  - `TCP Brutal`、`Upload (Mb/s)` 和 `Download (Mb/s)`：参见 [TCP Brutal](#tcp-brutal)。
+  - `默认开启`。
+- **Xray 预设**（`预设设置` → `多路复用` → `Xray`）：
+  - `Concurrency`：一条连接在打开另一条连接之前承载的流数。`0` 表示使用 Xray 的默认值 8，`-1` 表示让 TCP 绕过 mux。
+  - `Max Connections`（自 1.4.0 起）：最多保持这么多条连接，TCP 和 XUDP 分别计算。当每条连接都承载了 `Concurrency` 个流之后，新的流会加入最空闲的连接。留空表示不限制。
+  - `XUDP Concurrency`（自 1.4.0 起）：每条连接的 UDP 流数，UDP 使用单独的连接。`0` 表示通过 TCP 连接承载 UDP，`-1` 表示让 UDP 绕过 mux。
+  - `UDP/443`（自 1.4.0 起）：发往 443 端口的 UDP，主要是 QUIC。`Reject`（Xray 的默认值）会让浏览器回退到 TCP，`Allow` 通过 mux 承载它，`Skip` 让它绕过 mux。
+  - `默认复用开启`。
 
-服务器必须支持相同协议的 mux。填充同样需要服务器支持。对于使用 `xtls-rprx-vision` 流控（flow）的 VLESS 配置档，配置档编辑器会禁用多路复用。
+在 1.4.0 之前，sing-box 预设只有 `协议`（Protocol）、`并发数`（Concurrency，现为 `Max Streams`）、`Padding` 和 `默认开启`，并且预设中的 `Padding` 会作用于每个启用多路复用的配置档。现在，`Custom` 配置档使用自己的 `Padding`。
+
+服务器必须支持相同协议的 mux。填充同样需要服务器支持。对于使用 `xtls-rprx-vision` 流控（flow）的 VLESS 配置档，配置档编辑器会禁用多路复用。XDRIVE 配置档需要 mux，参见 [XDRIVE](@/advanced/xray.zh.md#xdrive)。
 
 ### TCP Brutal {#tcp-brutal}
 
-`启用 TCP Brutal`（Enable TCP Brutal）会让多路复用连接以你在 `Brutal 下载速度`（Brutal Download Speed）和 `Brutal 上传速度`（Brutal Upload Speed）中填写的固定速度（Mb/s）发送数据，即使发生丢包也是如此。它需要支持 TCP Brutal 的服务器，并且只有当配置档的 `多路复用` 设为 `开启` 时才生效。
+`TCP Brutal` 会让多路复用连接以你在 `Upload (Mb/s)` 和 `Download (Mb/s)` 中填写的固定速度发送数据，即使发生丢包也是如此。它需要支持 TCP Brutal 的服务器。启用 TCP Brutal 后，所有流共享一条连接，因此 `Mode` 及其数值不再生效。
+
+自 1.4.0 起，TCP Brutal 属于 sing-box 的多路复用设置：在 `预设设置` 中勾选它，作用于所有使用预设的配置档；或者在某个配置档的 `Custom Multiplex` 窗口中勾选。请填写两个速度；缺少的速度会按 1 Mb/s 发送。在 1.3.2 及更早版本中，配置档编辑器中有 `启用 TCP Brutal`（Enable TCP Brutal）、`Brutal 下载速度`（Brutal Download Speed）和 `Brutal 上传速度`（Brutal Upload Speed）。如果配置档带有自己的 TCP Brutal 设置，但其 `多路复用` 不是 `Custom`，则不会使用 TCP Brutal，Throne 会给出警告“TCP Brutal only works with a custom multiplex. Set Multiplex to Custom.”（TCP Brutal 只适用于自定义多路复用，请把多路复用设为 Custom）。
 
 ### mux 何时有害 {#mux-costs}
 
@@ -147,7 +163,8 @@ TLS 伪装需要发送原始数据包，因此核心需要更高的权限：
 
 ## Android 版 {#android}
 
-- 同样的预设位于 `设置`（Settings）→ `Presets`：多路复用（sing-box 和 Xray）、TLS Client Hello 分片、TLS 技巧、uTLS，以及 HTTP/2 和 QUIC。其中 `默认开启` 在 Android 上称为 `On by default`。
-- 配置档同样有 `Keep default` 选项，ECH 也是按配置档设置。
+- 同样的预设位于 `设置`（Settings）→ `预设`（Presets）：多路复用（sing-box 和 Xray）、TLS Client Hello 分片、TLS 技巧、uTLS，以及 HTTP/2 和 QUIC。其中 `默认开启` 在 Android 上的英文名称为 `On by default`。
+- 配置档同样有 `保持默认`（Keep default）选项，ECH 也是按配置档设置。
+- 2.0.3 之后，多路复用预设具有与桌面版相同的字段；配置档编辑器中的 `启用多路复用`（Enable multiplexer）也提供 `自定义`（Custom）选项，选择后会在其下方直接显示多路复用的各个字段。
 - Throne for Android 2.0.2 没有路由规则的 TLS 分片选项。
 - TLS 伪装在 Android 上不可用。

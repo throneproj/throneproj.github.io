@@ -7,7 +7,7 @@ toc = true
 
 The Throne API (since 1.4.0) lets scripts, hotkey tools and other devices control Throne: start and stop profiles, switch TUN mode and the system proxy, change the routing profile, run tests, and read profiles and traffic statistics. It can also manage Throne: import profiles, add and update subscriptions, delete groups and profiles, change settings, back up and restore, and restart or quit Throne.
 
-`thronectl` is the command-line client of the API. This page explains how to turn the API on in Throne desktop, how to install and connect `thronectl`, and what each command does.
+`thronectl` is the command-line client of the API; `thronectl web` also serves a [web UI](@/headless/web.md) for the browser. This page explains how to turn the API on in Throne desktop, how to install and connect `thronectl`, and what each command does.
 
 [Headless Throne](@/headless/_index.md), which runs without a window on a server or in a container, has the API on from its first start, and you manage it with `thronectl`. [Managing with thronectl](@/headless/thronectl.md) shows how to connect to it and set it up.
 
@@ -17,7 +17,7 @@ Throne for Android has no Throne API.
 
 The API is off by default.
 
-1. Open `Settings` → `Integration Settings`, then the `Throne API` tab.
+1. Open `Settings` → `Integration Settings` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)), then the `Throne API` tab.
 2. Tick `Enable the Throne API`. Throne fills in a new key.
 3. Click `OK`. `Status` shows `Listening on 127.0.0.1:9095`.
 
@@ -41,7 +41,7 @@ The tab has these controls:
 
 ## Install thronectl {#install-thronectl}
 
-`thronectl` is a single program for Linux, Windows, macOS and FreeBSD. It is not part of the Throne packages; the Docker image of headless Throne includes it.
+`thronectl` is a single program for Linux, Windows, macOS and FreeBSD. The `.deb` and `.rpm` packages and the Linux ZIP of Throne include it, and so does the Docker image of headless Throne. The Windows and macOS downloads of Throne do not.
 
 - Download it from the [Throne-api releases](https://github.com/throneproj/Throne-api/releases), unpack it, and put `thronectl` (`thronectl.exe` on Windows) in a folder on your `PATH`.
 - Or, with Go installed:
@@ -95,6 +95,8 @@ These flags work before or after the command:
 | `--json` | Prints the answer of Throne as JSON instead of a table. |
 | `--timeout 30s` | Gives up after this time, `30s` by default. `0` waits as long as Throne needs. |
 
+In a systemd unit, `thronectl` also takes the key from the credential `api.key` (`LoadCredential=api.key:/path/to/key`) when none of the above gives one, as `throne-web.service` for the [web UI](@/headless/web.md#systemd) does.
+
 For headless Throne, `Throne --print-connection` prints the `export` lines for both variables. See [Connect thronectl to Throne](@/headless/thronectl.md#connect).
 
 ## Commands {#commands}
@@ -120,6 +122,7 @@ For headless Throne, `Throne --print-connection` prints the `export` lines for b
 | `clear` | Clears test results. Add `--group N` (with an optional `--name REGEX`) or profile IDs. |
 | `live` | Shows the current traffic rates. |
 | `traffic [--by profile] [--by app] [--since 24h]` | Shows traffic totals by profile (default) or by app. `--since` also takes days, such as `7d`. |
+| `logs [-n N] [-f]` | Prints the last `N` lines of Throne's log, 200 by default and 1000 at most. `-f` then prints new lines until you stop it, also when the connection drops or Throne restarts. With `--json`, one JSON object per line. |
 | `import [--group N] FILE` | Imports share links, a subscription body, or a Clash, sing-box, Xray, WireGuard or OpenVPN configuration from a file of up to 900 KiB. `-` reads standard input; `--url URL` makes Throne download a URL once. The default group is the one that Throne shows. |
 | `sub add <url> [--name NAME]` | Adds a subscription group, named after the host of the URL by default, and updates it. `--no-auto-update` leaves it out of automatic updates; `--no-update` does not download it now. |
 | `sub update <id>…`, `sub update --all` | Updates subscription groups, or all groups that are not archived. |
@@ -133,6 +136,7 @@ For headless Throne, `Throne --print-connection` prints the `export` lines for b
 | `geo`, `geo update [geoip] [geosite] [--only-missing]` | Shows the Xray geo files; downloads them again. |
 | `restart` | Restarts Throne. |
 | `shutdown [--yes]` | Quits Throne, after asking. |
+| `web [--listen ADDR] …`, `web passwd` | Serves the [web UI](@/headless/web.md), which manages Throne from a browser, until you stop it; sets its password. |
 | `keygen [-o FILE]` | Creates a new key: prints it, or writes it to a new file that only you can read. It does not connect to Throne. |
 | `call <METHOD> <PATH> [key=value…] [--body JSON]` | Sends any request of the [API specification](https://github.com/throneproj/Throne-api/blob/main/spec/api.md) and prints the answer. |
 | `completion bash`, `zsh`, `fish` or `powershell` | Prints a [shell completion](#completion) script. |
@@ -167,7 +171,7 @@ Most changes to logs, the inbound, ports, DNS and NTP take effect when the runni
 
 ## Admin requests {#admin-requests}
 
-These commands send admin requests: `import`, `sub add`, `group add`, `group rm`, `profile rm`, `settings set`, `backup`, `restart` and `shutdown`. The other commands, including `sub update`, `rulesets update` and `geo update`, are control requests. The key is the same for both kinds.
+These commands send admin requests: `logs`, `import`, `sub add`, `group add`, `group rm`, `profile rm`, `settings set`, `backup`, `restart` and `shutdown`. `logs` (`GET /v1/logs`) is one because the log names the sites that connections went to. The other commands, including `sub update`, `rulesets update` and `geo update`, are control requests. The key is the same for both kinds.
 
 - Throne answers admin requests only from its own computer, that is from `127.0.0.1` or `::1`.
 - From another device, they fail with `forbidden`, unless `Allow management from the local network` is on. Headless Throne needs `--api-admin-lan` instead.
@@ -266,3 +270,5 @@ The scripts ask `thronectl` what to complete, so they stay correct when you upda
 ## Go library {#go-library}
 
 The [Throne-api](https://github.com/throneproj/Throne-api) repository also contains a Go library, `github.com/throneproj/Throne-api`, with a method for every request, and the [API specification](https://github.com/throneproj/Throne-api/blob/main/spec/api.md) with the wire protocol, so you can write a client in another language.
+
+A client that follows Throne does not need to poll. `GET /v1/events` waits until something changes and says what changed, such as the status, the groups, the profiles, the tests or the settings, so the client reads only that again. `GET /v1/logs` returns the log lines that came after the last ones the client has, and can also wait for them. `thronectl logs -f` and the [web UI](@/headless/web.md) use these two requests.

@@ -28,7 +28,7 @@ An update makes a subscription group match the provider's list. It removes profi
 2. In Throne, press `Ctrl+V`, or choose `Program` → `Add profile from clipboard`.
 3. Throne shows the address and asks "How to update?". Choose `Create new subscription group` and click `OK`.
 
-Throne creates a group named after the host name in the address and downloads its profiles right away. The same question appears when the address comes from a file, a QR code or text that you drop on the window. The three choices do this:
+Throne creates a group named after the host name in the address and downloads its profiles right away. Since 1.4.0, it also switches to the tab of the new group. The same question appears when the address comes from a file, a QR code or text that you drop on the window. The three choices do this:
 
 | Choice | Result |
 | --- | --- |
@@ -51,7 +51,7 @@ Creating a group does not download it. The group stays empty until the first upd
 
 ### From a throne:// link {#from-link}
 
-A `throne://addsub/…` link, for example on your provider's website, opens the `Add subscription` window with the name and address. Keep `Auto update` ticked if the group should take part in automatic updates, and click `OK`. Throne then creates the group and downloads it. See [Deep Links](@/advanced/deeplinks.md#addsub).
+A `throne://addsub/…` link, for example on your provider's website, opens the `Add subscription` window with the name and address. Keep `Auto update` ticked if the group should take part in automatic updates, and click `OK`. Throne then creates the group, switches to its tab (since 1.4.0) and downloads it. See [Deep Links](@/advanced/deeplinks.md#addsub).
 
 ## Update a subscription {#update}
 
@@ -71,6 +71,8 @@ During an update, Throne:
 - Gives up if the server sends no data for 10 seconds, or if the response is larger than 64 MB.
 
 With `Settings` → `Basic Settings` → `Subscription` → `Clear servers before updating subscription` (off by default), Throne deletes the profiles of the group before each update, so their test results are lost.
+
+In Simple mode, the `Subscription` tab is a section of the `Common` tab that shows only `Clear servers before updating subscription` and `Subscription auto update`; its other options are shown in Advanced mode only (see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
 
 ### Change report {#change-report}
 
@@ -143,6 +145,8 @@ To change a group, right-click its tab and choose `Edit selected Group`, or choo
 | `Advanced` | – | Opens `Advanced Group Settings` (since 1.3.1). See [Automatic updates](#auto-update), [After each update](#after-update), [User-Agent and HWID](#user-agent-and-hwid), [TLS and HTTP version](#tls-http-version) and [Server address](#server-address). Since 1.4.0, basic groups have it too, with only the `Server Address` part. |
 
 If the group has profiles, the window also has `Copy profile share links` and `Copy profile share links (Deep Links)`. They copy the links of all profiles in the group.
+
+In Simple mode, the group editor hides `Front Proxy`, `Landing Proxy` and `Advanced` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)). Their settings still apply.
 
 ## After each update {#after-update}
 
@@ -250,7 +254,7 @@ If the provider asks for a device ID or fingerprint, turn on HWID sending: set `
 
 ### "Request with proxy but no profile started." {#problem-no-profile}
 
-Throne sends its own requests, for example subscription updates, through its local proxy port when `Settings` → `Basic Settings` → `Miscellaneous` → `Use proxy` is on. It also does this whenever `System Proxy` is ticked. If no profile is running, there is no proxy and the request fails with this message. Start a profile first, or turn off `Use proxy` and `System Proxy`.
+Throne sends its own requests, for example subscription updates, through its local proxy port when `Settings` → `Basic Settings` → `Miscellaneous` → `Use proxy` is on. It also does this whenever `System Proxy` is ticked. If no profile is running, there is no proxy and the request fails with this message. Start a profile first, or turn off `Use proxy` and `System Proxy`. In Simple mode, `Use proxy` is in the `Network Settings` section of the `Common` tab.
 
 ### The subscription address is blocked in your country {#problem-blocked}
 
@@ -258,7 +262,7 @@ Throne sends its own requests, for example subscription updates, through its loc
 2. Turn on `Settings` → `Basic Settings` → `Miscellaneous` → `Use proxy`.
 3. Update the subscription.
 
-`Use proxy` needs the local proxy port, so it does not work while `Disable Mixed Inbound` is on.
+`Use proxy` sends the request to the local proxy port. Up to 1.3.2, it did not work while `Disable Mixed Inbound` was on. Since 1.4.0, Throne then sends the request directly, and TUN mode carries it through the running profile. If TUN mode is off too, the update fails with "Request with proxy but the mixed inbound is disabled and Tun Mode is off."
 
 ### Happ and v2RayTun "crypt" links {#problem-crypt}
 
@@ -275,12 +279,13 @@ For more help, see [Troubleshooting](@/help/troubleshooting.md#subscriptions).
 Throne for Android has the same groups, options and update behavior.
 
 - Open `Groups` from the side menu. Use `New group` and `Update all subscriptions` at the top. Each group shows its type, the number of profiles, the last update and, if the provider sends it, the quota ("Used … · … left · expires …").
-- The group editor has the same basic options, written in sentence case: `Front proxy`, `Landing proxy`, `Auto clear unavailable profiles`, `Skip automatic update` and `Advanced`. After 2.0.2, `Advanced` also has `TLS version`, `HTTP version`, `Update interval (minutes)` and `Server interval`, and `Settings` → `Subscriptions` has `Use the update interval sent by the server`, `Subscription TLS version` and `Subscription HTTP version`. The app then also says when the server returns a web page, and shows problems of an import or update in a report window. Throne for Android has no `Server Address` setting.
+- The group editor has the same basic options, written in sentence case: `Front proxy`, `Landing proxy`, `Auto clear unavailable profiles`, `Skip automatic update` and `Advanced`. Since 2.0.3, `Advanced` also has `TLS version`, `HTTP version`, `Update interval (minutes)` and `Server interval`, and `Settings` → `Subscriptions` has `Use the update interval sent by the server`, `Subscription TLS version` and `Subscription HTTP version`. The app then also says when the server returns a web page, and shows problems of an import or update in a report window. Throne for Android has no `Server Address` setting.
 - Since 2.0.2, a card above the profile list shows the [provider information](#provider-info): the traffic, the time left, `Portal` and `Support`, and the announcement. Tap the announcement to read all of it. To hide the card for one group, turn off `Subscription info card` in the group editor.
 - Since 2.0.2, a subscription group has a `Filter` category with two regular expressions. `Only names matching` keeps only the profiles whose name matches, for example `HK|SG|Japan`. `Remove names matching` removes the profiles whose name matches, for example `expire|traffic|website`. Case does not matter. The filters apply at every update, and the change report says how many profiles they filtered out. If they would leave no profile, the update stops and the group stays unchanged.
 - Since 2.0.2, entries that the Android core cannot run are skipped. See [Android differences](@/reference/protocols.md#android-import).
 - `URL` also accepts a `content://` address, so a subscription can come from a file that another app provides. For a plain `http://` address, the editor warns "Cleartext HTTP traffic is insecure".
 - The global options are in `Settings` → `Subscriptions`. If `User agent` is empty, the app sends `Throne/Android/` and its version.
+- With `Settings` → `Subscriptions` → `Use proxy` on, updates go through the running profile and fail with "Request with proxy but no profile started." while no profile runs. In `Proxy only` mode, updates also go through the running profile. After 2.0.3, `Proxy only` mode alone no longer makes them fail: while no profile runs, they go out directly.
 - `Add profile` → `Import from clipboard` with an address asks the same "How to update?" question.
 - The changes window appears only after a manual update of one group. Automatic updates only write to the log.
 

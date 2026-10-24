@@ -1,17 +1,19 @@
 +++
 title = "Keyboard Shortcuts & Tray"
-description = "Keyboard shortcuts of Throne desktop, how to change them, global hotkeys, and what the tray icon and its menu do."
+description = "Keyboard shortcuts of Throne desktop, the command palette, how to change shortcuts, global hotkeys, and what the tray icon and its menu do."
 weight = 20
 toc = true
 +++
 
-This page lists the keyboard shortcuts of Throne desktop, the global hotkeys you can set, and what the tray icon does. Shortcuts work while the Throne window is active. Global hotkeys work in every app, also when the Throne window is hidden.
+This page lists the keyboard shortcuts of Throne desktop, the global hotkeys you can set, and what the tray icon does. It also explains the command palette, which finds commands and settings by name. Shortcuts work while the Throne window is active. Global hotkeys work in every app, also when the Throne window is hidden.
 
 **macOS:** `Ctrl` on this page means `Cmd` on a Mac, and `Alt` means `Option`. For example, `Ctrl+Shift+S` is `Cmd+Shift+S`. On a Mac laptop keyboard, `Del` is `Fn+Delete`.
 
 ## Main window {#main-window}
 
-The toolbar buttons `Program`, `Settings`, `Groups`, `Routing` and `Tools` open the menus of the main window. The `Settings` and `Routing` menus have no shortcuts.
+The toolbar buttons `Program`, `Settings`, `Groups`, `Routing` and `Tools` open the menus of the main window. The `Settings` and `Routing` menus have no shortcuts. Since 1.4.0, right-click a routing profile at the bottom of the `Routing` menu to open it in the routing profile editor without making it active; see [Routing profiles](@/guides/routing.md#profiles).
+
+Since 1.4.0, a new installation starts in Simple mode, which hides some of the items on this page, for example `Resolve Domain for group`, `Export config` and `Reset Traffic`. See [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
 
 The column "Can change" shows whether you can set another shortcut in `Settings` → `Integration Settings` (`Hotkey Settings` before 1.4.0). See [Change a shortcut](#change-shortcuts).
 
@@ -26,6 +28,8 @@ The column "Can change" shows whether you can set another shortcut in `Settings`
 | `Scan QR Code` | `Ctrl+Shift+Q` | Yes |
 
 You can also drop files, images with a QR code, or links on the window to import them.
+
+The `Program` menu also has `Check For Update` and, since 1.4.0, `About`. `About` shows the versions of Throne, sing-box, Xray-core, Qt and Go. Before 1.4.0, `Check For Update` was in the `Tools` menu.
 
 ### Groups menu {#groups-menu}
 
@@ -51,14 +55,32 @@ Right-click a group tab to open that group and its menu. The tab menu has `Add n
 
 | Action | Shortcut | Can change |
 | --- | --- | --- |
+| `Search Settings` | `Ctrl+K` | Yes |
 | `Speedtest Current` | `F6` | Yes |
 
-`Speedtest Current` works only while a profile is running.
+`Search Settings` opens the [command palette](#command-palette) (since 1.4.0). `Speedtest Current` works only while a profile is running.
 
 ### Status bar {#status-bar}
 
 - Click the running profile on the left of the status bar to run a URL test of it.
 - Click `Mixed: …` in the middle of the status bar to open `Basic Settings`.
+
+## Command palette {#command-palette}
+
+Since 1.4.0, the command palette finds menu commands and settings by name. To open it, press `Ctrl+K` in the main window, or click `Tools` → `Search Settings`. It opens in a window of its own, `Search Settings`.
+
+- Without a query, it lists the commands of the menus `Program`, `Settings`, `Groups`, `Routing`, `Tools` and `Server`, which is the menu of the profile list. The `Routing` group also lists your routing profiles. Only the commands that the menus show at the moment are listed.
+- Type one or more words to search. An entry matches when it contains all the words, in its name or in the path that follows it, for example `Basic Settings › Common › Inbound Settings`. The results are grouped under `Commands` and `Settings`. In a translated interface, English words also find many entries.
+- Start the query with `>` to search only commands, or with `@` to search only settings. `@` alone lists all settings.
+- Move with the arrow keys, `Tab`, `Page Up` and `Page Down`. Press `Enter` or double-click an entry to run it. `Esc` closes the palette.
+
+A command runs as if you chose it in its menu. Its shortcut is shown on the right, and a command that is on or off, such as `Start with system`, shows a switch. Commands that are not available at the moment are greyed out.
+
+A setting opens its settings window on the right tab, puts the cursor in the setting and outlines it for a moment. The palette finds the settings of `Basic Settings`, `Routing Settings`, `Tun Settings`, `Preset Settings` and `Integration Settings`. After you run an entry, the palette closes.
+
+In Simple mode, a search also finds the settings that Simple mode hides, under "Settings in Advanced mode". Choosing one switches Throne to Advanced mode and then opens the setting. Menu commands that Simple mode hides are not listed. See [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
+
+Only one of these windows can be open at a time: the settings windows, `Manage Groups`, `OTP Manager`, `Traffic Stats` and `About`. While one of them is open, the palette greys out the entries that would open another one and adds `close "<window>" first` to their path. The palette stays open, and these entries work again as soon as you close that window. The entries of the open window itself still work.
 
 ## Profile list {#profile-list}
 
@@ -87,7 +109,7 @@ Other keys and mouse actions in the list:
 | Double-click a profile | Opens the profile editor. |
 | `Esc` | Clears the selection. |
 | Drag a row | Moves the profile. This does not work while a filter is active. |
-| Click a column header | Sorts by that column. Click it again to sort in the other direction. |
+| Click a column header | Sorts by that column. Click it again to sort in the other direction. An arrow next to the column name shows the sorted column and the direction. |
 | `Ctrl+F` | Shows or hides the filter row. Hiding it clears the filters. |
 | `Up` on the first row | Moves to the filter row, if it is open. |
 | `Down` in the filter row | Moves back to the list. |
@@ -99,7 +121,7 @@ You can give a shortcut to these actions, which have none by default: `QR Code a
 
 ## Change a shortcut {#change-shortcuts}
 
-1. Open `Settings` → `Integration Settings`.
+1. Open `Settings` → `Integration Settings` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
 2. Open the `Shortcuts` tab. It lists every action whose shortcut you can change.
 3. Click the field next to an action and press the new key combination. To remove a shortcut, click the field and press `Backspace`.
 4. Click `OK`.
@@ -141,7 +163,7 @@ Throne shows an icon in the system tray. On macOS, the icon is in the menu bar. 
 
 Closing the window does not quit Throne. The window hides, and Throne keeps running in the tray. To quit, choose `Exit` in the tray menu or in the `Program` menu.
 
-**macOS:** while the window is hidden, Throne has no icon in the Dock.
+**macOS:** while the window is hidden, Throne has no icon in the Dock. Since 1.4.0, if you keep Throne in the Dock, click its Dock icon to show the window, also when it is minimized. Opening Throne again from Finder does the same.
 
 **Linux:** GNOME shows tray icons only when the AppIndicator extension is installed ([#1623](https://github.com/throneproj/Throne/issues/1623)). Without a tray icon, you can still bring back a hidden window: start Throne again, and the running Throne shows its window.
 
@@ -156,7 +178,7 @@ Closing the window does not quit Throne. The window hides, and Throne keeps runn
 | `Allow other devices to connect` | Opens the local proxy port to other devices on your network. See [LAN sharing](@/guides/proxy_modes.md#lan-sharing). |
 | `Select Profile` | Opens a small list of your groups. Choose a group, then a profile to start it, or type to search all profiles. The running profile has a check mark. The `Stop: <name>` button stops it. |
 | `Select Routing` | Lists your routing profiles. Choosing one makes it active and restarts the running profile. |
-| `OTP Codes` | Lists your OTP profiles. Click one to copy its current code. |
+| `OTP Codes` | Lists your OTP profiles. Click one to copy its current code. Hidden in Simple mode. |
 | `Operation Mode` → `System Proxy`, `Tun Mode` | Turns system proxy or TUN mode on or off. |
 | `Restart Core` | Restarts the core. |
 | `Restart Program` | Restarts Throne. |

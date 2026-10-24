@@ -74,7 +74,7 @@ A TV usually has no camera, and copying text to its clipboard is hard. Use one o
 - **Type a subscription URL.** Open `Groups` → `New group`, set `Type` to `Subscription`, enter the `URL` and save. Then press `Update subscription` on the new group. A new group is not updated automatically.
 - **Import a text file.** Save share links or a subscription URL in a text file on a USB drive. In the profile list, open `Add profile` → `Import from file` and choose the file.
 - **Restore a backup file.** Create a `.thrbackup` backup on your phone or computer and copy it to a USB drive. Open the file from a file manager on the TV, and Throne offers to restore it. You can also use `Tools` → `Restore`. See [Backup, Updates & Migration](@/guides/backup.md#desktop-android).
-- **Restore from WebDAV.** On your phone, set up `Tools` → `WebDAV settings` and use `Back up to WebDAV`. On the TV, enter the same server in `Tools` → `WebDAV settings`, then use `Restore from WebDAV`.
+- **Restore from WebDAV.** Upload a backup from your phone (`Tools` → `Back up to WebDAV`) or, since Throne desktop 1.4.0, from your computer (`Upload to WebDAV`). On the TV, enter the same server and folder in `Tools` → `WebDAV settings`, then use `Restore from WebDAV`. See [WebDAV backups](@/guides/backup.md#webdav).
 
 ### With adb {#import-adb}
 

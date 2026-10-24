@@ -9,7 +9,7 @@ toc = true
 
 ## انواع نمایه {#protocols}
 
-برای ساختن دستی یک نمایه، در دسکتاپ از `برنامه` (Program) ← `نمایه جدید` (New profile) (`Ctrl+N`) و در Android از `اضافه‌کردن پراکسی جدید` (Add profile) ← `تنظیمات دستی` (Manual settings) استفاده کنید و نوع نمایه را انتخاب کنید. نوع یک نمایهٔ موجود را نمی‌توان تغییر داد.
+برای ساختن دستی یک نمایه، در دسکتاپ از `برنامه` (Program) ← `نمایه جدید` (New profile) (`Ctrl+N`) و در Android از `اضافه‌کردن پراکسی جدید` (Add profile) ← `تنظیمات دستی` (Manual settings) استفاده کنید و نوع نمایه را انتخاب کنید. نوع یک نمایهٔ موجود را نمی‌توان تغییر داد. در حالت ساده، فهرست دسکتاپ `مستقیم` (Direct)، `پروکسی زنجیره ای` (Chain Proxy)، `هسته اضافی` (Extra Core) و انواع `سفارشی` (Custom) را نشان نمی‌دهد (فقط در حالت پیشرفته؛ [حالت ساده و پیشرفته](@/get_started/configuration.fa.md#interface-mode) را ببینید).
 
 | نوع | دسکتاپ | Android | توضیحات |
 |---|---|---|---|
@@ -20,7 +20,7 @@ toc = true
 | `VMess` | بله | بله | |
 | `Trojan` | بله | بله | |
 | `VLESS` | بله | بله | پیاده‌سازی sing-box، با REALITY. |
-| `VLESS (Xray)` | بله | بله | پیاده‌سازی Xray: XHTTP، REALITY، رمزنگاری VLESS، Finalmask. [sing-box در برابر Xray](@/advanced/xray.fa.md#vless-preference) را ببینید. |
+| `VLESS (Xray)` | بله | بله | پیاده‌سازی Xray: XHTTP، REALITY، رمزنگاری VLESS، Finalmask و ترنسپورت [XDRIVE](@/advanced/xray.fa.md#xdrive) (دسکتاپ از نسخهٔ 1.4.0، Android پس از 2.0.3). [sing-box در برابر Xray](@/advanced/xray.fa.md#vless-preference) را ببینید. |
 | `Hysteria` | بله | بله | Hysteria 1 و Hysteria 2 در یک نوع: `Protocol Version` را انتخاب کنید (در Android: `نسخه پروتکل`). از پرش پورت (port hopping) و مبهم‌سازی (obfuscation) پشتیبانی می‌کند. |
 | `TUIC` | بله | بله | |
 | `Juicity` | بله | بله | |
@@ -30,19 +30,21 @@ toc = true
 | `Mieru` | بله | بله | |
 | `Snell` | بله | بله | Snell نسخهٔ 4 یا 6. |
 | `ShadowTLS` | بله | بله | |
-| `WireGuard` | بله | بله | برای AmneziaWG، تیک `Enable Amnezia` را بزنید (در Android: `Enable AmneziaWG`). از نسخهٔ 1.4.0 (در Android: پس از 2.0.2)، `Amnezia Options` → `Generate QUIC Signature...` (در Android: `ایجاد امضای QUIC…` (Generate QUIC signature…)) بسته‌های امضای I1 تا I5 را طوری پر می‌کند که handshake مانند یک اتصال HTTP/3 به دامنه‌ای که انتخاب می‌کنید به نظر برسد. می‌تواند یک حساب Cloudflare WARP بسازد؛ [WARP](@/advanced/warp.fa.md#generate) را ببینید. |
+| `WireGuard` | بله | بله | برای AmneziaWG، تیک `Enable Amnezia` را بزنید (در Android: `فعال‌سازی AmneziaWG` (Enable AmneziaWG)). از نسخهٔ 1.4.0 (در Android: از نسخهٔ 2.0.3)، `Amnezia Options` → `Generate QUIC Signature...` (در Android: `ایجاد امضای QUIC…` (Generate QUIC signature…)) بسته‌های امضای I1 تا I5 را طوری پر می‌کند که handshake مانند یک اتصال HTTP/3 به دامنه‌ای که انتخاب می‌کنید به نظر برسد. می‌تواند یک حساب Cloudflare WARP بسازد؛ [WARP](@/advanced/warp.fa.md#generate) را ببینید. |
 | `MASQUE` | بله | بله | HTTP/3 یا HTTP/2. می‌تواند یک هویت Cloudflare WARP بسازد. |
 | `OpenVPN` | بله | بله | فایل‌های `.ovpn` را وارد می‌کند. گذرواژه‌های یک‌بارمصرف (OTP) فقط در دسکتاپ کار می‌کنند. [OpenVPN](@/advanced/vpn_profiles.fa.md#openvpn) را ببینید. |
 | `OpenConnect` | بله | بله | سرورهای AnyConnect، GlobalProtect، Fortinet، F5، Pulse و Juniper (`nc`). OTP فقط در دسکتاپ کار می‌کند. [OpenConnect](@/advanced/vpn_profiles.fa.md#openconnect) را ببینید. |
 | `Tailscale` | بله | خیر | به شبکهٔ Tailscale شما می‌پیوندد و می‌تواند از یک گرهٔ خروجی (exit node) استفاده کند. [Tailscale](@/advanced/vpn_profiles.fa.md#tailscale) را ببینید. |
 | `SSH` | بله | بله | |
-| `Direct` | بله | بله | بدون پروکسی. با تعیین یک رابط شبکه (bind interface) در نمایه، ترافیک از طریق همان آداپتور شبکه خارج می‌شود. |
+| `مستقیم` (Direct) | بله | بله | بدون پروکسی. با تعیین یک رابط شبکه (bind interface) در نمایه، ترافیک از طریق همان آداپتور شبکه خارج می‌شود. |
 | `سفارشی (sing-box خروجی)` (Custom (sing-box outbound))، `سفارشی (sing-box پیکربندی)` (Custom (sing-box config)) | بله | بله | JSON دلخواه خودتان برای sing-box: یک خروجی (outbound)، یا یک پیکربندی کامل که بدون تغییر اجرا می‌شود. در Android: `پیکربندی اختصاصی` (Custom config). [پیکربندی‌های سفارشی](@/advanced/chains.fa.md#custom-config) را ببینید. |
 | `Custom (Xray outbound)`، `Custom (Xray config)` | بله | بله | همین موارد برای JSON مربوط به Xray. |
 | `هسته اضافی` (Extra Core) | بله | خیر | یک برنامهٔ خارجی را که انتخاب می‌کنید اجرا می‌کند و از طریق پورت SOCKS محلی آن برنامه به آن وصل می‌شود. [هستهٔ اضافی](@/advanced/chains.fa.md#extra-core) را ببینید. |
 | `پروکسی زنجیره ای` (Chain Proxy) | بله | بله | ترافیک را به‌ترتیب از چند نمایه عبور می‌دهد. در Android: `زنجیره پراکسی` (Proxy chain). [زنجیره‌ها](@/advanced/chains.fa.md#chains) را ببینید. |
 
 برخی برچسب‌های Android فقط در بزرگی و کوچکی حروف تفاوت دارند، برای مثال `SOCKS` و `Auto selector`.
+
+`AnyTLS`، `Hysteria`، `Juicity`، `MASQUE`، `ShadowTLS`، `TrustTunnel` و `TUIC` همیشه از TLS استفاده می‌کنند؛ بنابراین ویرایشگر آن‌ها کلیدی برای خاموش کردن TLS ندارد. در Throne برای Android تا نسخهٔ 2.0.3، نمایه‌ای از این انواع که دستی ساخته بودید هنگام ذخیره، تنظیمات TLS خود، مانند SNI، را از دست می‌داد. پس از 2.0.3، ویرایشگرها این تنظیمات را نگه می‌دارند.
 
 ### کدام موتور یک نمایه را اجرا می‌کند {#engines}
 
@@ -53,7 +55,7 @@ ThroneCore، هستهٔ Throne، همهٔ انواع نمایه را با sing-b
 
 Throne برای Android از همین هسته استفاده می‌کند، پس همین قوانین آنجا هم برقرار است. یک زنجیره می‌تواند هر دو موتور را با هم به کار ببرد، اما فقط با این ترتیب: هاپ‌های sing-box، سپس هاپ‌های Xray، سپس هاپ‌های sing-box.
 
-وقتی یک لینک `vless://` وارد می‌کنید، گزینهٔ `تنظیمات` (Settings) ← `تنظیمات پایه` (Basic Settings) ← `هسته` (Core) ← `Xray VLESS Preference` تعیین می‌کند که به کدام نوع تبدیل شود. با مقدار پیش‌فرض، یعنی `XHTTP And Reality`، لینک‌هایی که از XHTTP یا REALITY استفاده می‌کنند به `VLESS (Xray)` و بقیه به `VLESS` تبدیل می‌شوند. لینک‌هایی که به قابلیتی نیاز دارند که فقط Xray دارد، مانند رمزنگاری VLESS، همیشه به `VLESS (Xray)` تبدیل می‌شوند. از نسخهٔ 1.4.0، ورودی‌های VLESS دارای REALITY در YAML مربوط به Clash هم از همین تنظیم پیروی می‌کنند. [sing-box در برابر Xray](@/advanced/xray.fa.md#vless-preference) را ببینید.
+وقتی یک لینک `vless://` وارد می‌کنید، گزینهٔ `تنظیمات` (Settings) ← `تنظیمات پایه` (Basic Settings) ← `هسته` (Core) ← `Xray VLESS Preference` (فقط در حالت پیشرفته) تعیین می‌کند که به کدام نوع تبدیل شود. با مقدار پیش‌فرض، یعنی `XHTTP And Reality`، لینک‌هایی که از XHTTP یا REALITY استفاده می‌کنند به `VLESS (Xray)` و بقیه به `VLESS` تبدیل می‌شوند. لینک‌هایی که به قابلیتی نیاز دارند که فقط Xray دارد، مانند رمزنگاری VLESS، همیشه به `VLESS (Xray)` تبدیل می‌شوند. از نسخهٔ 1.4.0، ورودی‌های VLESS دارای REALITY در YAML مربوط به Clash هم از همین تنظیم پیروی می‌کنند. [sing-box در برابر Xray](@/advanced/xray.fa.md#vless-preference) را ببینید.
 
 ## قالب‌های واردکردن {#import-formats}
 
@@ -89,6 +91,8 @@ Throne دسکتاپ و Throne برای Android قالب‌های یکسانی ر
 | نمایهٔ XML مربوط به AnyConnect، یک خط فرمان `openconnect`، یا فایلی با خط `protocol=` | نمایه‌های `OpenConnect` |
 | هر یک از موارد بالا، کدگذاری‌شده با Base64 | ابتدا رمزگشایی و سپس وارد می‌شود |
 
+`tt://` هر دو نوع لینک TrustTunnel را در بر می‌گیرد: `tt://user:password@server:port?…` و لینک عمیق `tt://?…` که برنامه‌های TrustTunnel می‌سازند. Throne نسخهٔ 1 این لینک عمیق را می‌خواند و از نسخهٔ 1.4.0 (در Android: پس از 2.0.3) نسخهٔ 2 را هم می‌خواند. لینک باید نشانی سرور، نام سرور، نام کاربری و گذرواژه را داشته باشد؛ بنابراین لینکی که فقط نشانی یک اشتراک را دارد پذیرفته نمی‌شود. اگر لینک چند نشانی سرور داشته باشد، Throne اولی را وارد می‌کند و دربارهٔ بقیه هشدار می‌دهد.
+
 مواردی که سرور پروکسی نیستند نادیده گرفته می‌شوند؛ برای مثال خروجی‌های `direct`، `block`، `selector` و `urltest` در sing-box، یا خروجی‌های `freedom` و `blackhole` در Xray. برای اجرای یک پیکربندی کامل sing-box یا Xray، یک نمایهٔ `سفارشی (sing-box پیکربندی)` یا `Custom (Xray config)` بسازید و پیکربندی را درون آن جای‌گذاری کنید. [پیکربندی‌های کامل](@/advanced/chains.fa.md#full-configs) را ببینید.
 
 هر دو برنامه فایل‌های واردکردنِ بزرگ‌تر از 50 MB (در Android، فایل‌های `.zip` محدودیتی ندارند) و پاسخ‌های اشتراکِ بزرگ‌تر از 64 MB را نمی‌پذیرند.
@@ -113,7 +117,7 @@ Throne دسکتاپ و Throne برای Android قالب‌های یکسانی ر
 | لینک Throne | `throne://add/…` | Throne دسکتاپ و Throne برای Android |
 | لینک قدیمی Throne | `json://…` | Throne، فقط برای واردکردن |
 
-**لینک استاندارد** از قالب معمول لینک در آن پروتکل استفاده می‌کند. برخی انواع، لینک استاندارد ندارند: `Auto Selector`، `پروکسی زنجیره ای`، انواع `سفارشی` (Custom)، `Direct`، `هسته اضافی`، `MASQUE`، `OpenVPN` و `OpenConnect`. برای این انواع، Throne به‌جای لینک استاندارد، لینک Throne را به شما می‌دهد. اگر چنین نمایه‌ای گزینه‌های پیشرفتهٔ اتصال، مانند رابط شبکه (bind interface)، داشته باشد، Throne به‌جای لینک Throne یک لینک ناقص نشان می‌دهد که فقط همان گزینه‌ها را در بر دارد. برای این نمایه‌ها تیک `Deep Link` را بزنید یا از `Copy links of selected (Deep Links)` استفاده کنید. برای `Tailscale` هم لینک Throne را به اشتراک بگذارید: Throne نمی‌تواند لینک `ts://` را که برای این نمایه‌ها نشان می‌دهد وارد کند.
+**لینک استاندارد** از قالب معمول لینک در آن پروتکل استفاده می‌کند. برخی انواع، لینک استاندارد ندارند: `Auto Selector`، `پروکسی زنجیره ای`، انواع `سفارشی` (Custom)، `مستقیم`، `هسته اضافی`، `MASQUE`، `OpenVPN` و `OpenConnect`. نمایه‌های `VLESS (Xray)` که از ترنسپورت XDRIVE استفاده می‌کنند هم لینک استاندارد ندارند. برای این انواع، Throne به‌جای لینک استاندارد، لینک Throne را به شما می‌دهد. اگر چنین نمایه‌ای گزینه‌های پیشرفتهٔ اتصال، مانند رابط شبکه (bind interface)، داشته باشد، Throne به‌جای لینک Throne یک لینک ناقص نشان می‌دهد که فقط همان گزینه‌ها را در بر دارد. برای این نمایه‌ها تیک `Deep Link` را بزنید یا از `Copy links of selected (Deep Links)` استفاده کنید. برای `Tailscale` هم لینک Throne را به اشتراک بگذارید: Throne نمی‌تواند لینک `ts://` را که برای این نمایه‌ها نشان می‌دهد وارد کند.
 
 **لینک Throne** تنظیمات نمایه را به‌صورت JSON کدگذاری‌شده با Base64 در خود دارد. این لینک برای همهٔ انواع نمایه، از جمله انواعی که لینک استاندارد ندارند، کار می‌کند، اما فقط Throne می‌تواند آن را بخواند. [لینک‌های عمیق](@/advanced/deeplinks.fa.md#add) را ببینید. لینک‌های `json://` قالب لینک Throne پیش از نسخهٔ 1.2.0 هستند و Throne هنوز آن‌ها را وارد می‌کند.
 
@@ -146,16 +150,18 @@ Throne دسکتاپ و Throne برای Android قالب‌های یکسانی ر
 
 `اشتراک گذاری` ← `استخراج پیکربندی` (Export config) (`Ctrl+E`) پیکربندی هسته‌ای را که Throne برای نمایه تولید می‌کند نشان می‌دهد، با یک زبانهٔ `sing-box` و، برای نمایه‌هایی که از Xray استفاده می‌کنند، یک زبانهٔ `Xray`. `کپی` (Copy) زبانه‌ای را که می‌بینید کپی می‌کند. این یک فایل پیکربندی برای کلاینت‌های دیگر است، نه لینک اشتراک‌گذاری. پیش از نسخهٔ 1.4.0، این‌ها `Export Sing-box config` و `Export Xray config` بودند.
 
+در حالت ساده، `Copy links of selected (Deep Links)` و `استخراج پیکربندی` (Export config) پنهان هستند (فقط در حالت پیشرفته؛ [حالت ساده و پیشرفته](@/get_started/configuration.fa.md#interface-mode) را ببینید).
+
 برای واردکردن یک کد QR که روی صفحه‌نمایش شما دیده می‌شود، از `برنامه` ← `کد QR را اسکن کنید` (`Ctrl+Shift+Q`) استفاده کنید. برای واردکردن کد QR از یک فایل تصویری، فایل را روی پنجرهٔ اصلی رها کنید یا آن را با `برنامه` ← `Add profile from File(s)` باز کنید.
 
 ### اشتراک‌گذاری در Android {#share-android}
 
 روی دکمهٔ اشتراک‌گذاری یک نمایه بزنید. در چیدمان `دوستونه` (Double column)، به‌جای آن روی ⋮ ← `اشتراک‌گذاری` (Share) بزنید. این منو این گزینه‌ها را دارد:
 
-- `کد QR` (QR code) ← `استاندارد` (Standard) یا `Throne link`
-- `صدور در بریده‌دان` (Export to clipboard) ← `استاندارد` یا `Throne link`
+- `کد QR` (QR code) ← `استاندارد` (Standard) یا `پیوند Throne` (Throne link)
+- `صدور در بریده‌دان` (Export to clipboard) ← `استاندارد` یا `پیوند Throne`
 - `پیکربندی` (Configuration) ← `صدور در بریده‌دان` یا `صدور به صورت فایل` (Export to file): پیکربندی هسته‌ای که Throne تولید می‌کند، نه لینک اشتراک‌گذاری
 
-اگر نوع نمایه لینک استاندارد نداشته باشد، گزینهٔ `استاندارد` نمایش داده نمی‌شود. در Android نمی‌توان زنجیره‌ها را به اشتراک گذاشت. برای کپی کردن لینک‌های یک گروه کامل، `گروه‌ها` را باز کنید، روی `More options` در آن گروه بزنید و `Copy profile share links` یا `Copy profile share links (deep links)` را انتخاب کنید.
+اگر نوع نمایه لینک استاندارد نداشته باشد، گزینهٔ `استاندارد` نمایش داده نمی‌شود. در Android نمی‌توان زنجیره‌ها را به اشتراک گذاشت. برای کپی کردن لینک‌های یک گروه کامل، `گروه‌ها` را باز کنید، روی `گزینه‌های بیشتر` (More options) در آن گروه بزنید و `کپی پیوندهای اشتراک‌گذاری پروفایل` (Copy profile share links) یا `کپی پیوندهای اشتراک‌گذاری پروفایل (پیوندهای عمیق)` (Copy profile share links (deep links)) را انتخاب کنید.
 
 برای واردکردن یک نمایهٔ اشتراک‌گذاشته‌شده، از `اضافه‌کردن پراکسی جدید` ← `اسکن از کد QR` یا `وارد کردن از بریده‌دان` استفاده کنید. لینک Throne از کلیپ‌بورد یا کد QR بدون پرسش وارد می‌شود.

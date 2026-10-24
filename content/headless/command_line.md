@@ -61,6 +61,7 @@ What is in it:
 | `config/headless-state.json` | Counters for resuming the profile and for crashes, and how the last run ended |
 | `config/hwid` | The [device ID](@/headless/_index.md#device-id), when the system has none |
 | `config/.lock`, `config/.instance` | The data directory's lock, and the socket that `--health` asks. On Windows the instance is a named pipe, not a file. |
+| `web/` | Docker image only: the password hash and the TLS certificate of the [web UI](@/headless/web.md#docker) |
 
 ## Restart modes {#restart-modes}
 

@@ -5,16 +5,16 @@ weight = 20
 toc = true
 +++
 
-无界面 Throne 没有窗口，因此你需要用 `thronectl` 来管理它，它是 [Throne API](@/advanced/api.zh.md) 的命令行客户端。本页介绍如何将 `thronectl` 连接到无界面 Throne，以及如何用它来设置 Throne。完整的命令和参数列表请参见 [Throne API 与 thronectl](@/advanced/api.zh.md)。
+无界面 Throne 没有窗口，因此你需要用 `thronectl` 来管理它，它是 [Throne API](@/advanced/api.zh.md) 的命令行客户端。本页介绍如何将 `thronectl` 连接到无界面 Throne，以及如何用它来设置 Throne。完整的命令和参数列表请参见 [Throne API 与 thronectl](@/advanced/api.zh.md)。如需在浏览器中管理 Throne，请参见 [Web 界面](@/headless/web.zh.md)。
 
 ## 安装 thronectl {#install-thronectl}
 
-`thronectl` 不包含在 Throne 软件包中。请把它安装在运行 Throne 的电脑上，以及你想用来管理 Throne 的其他任何电脑上：
+Throne 的 `.deb` 和 `.rpm` 软件包会把 `thronectl` 安装为 `/usr/bin/thronectl`，Linux ZIP 包中它位于 `Throne` 旁边。其他情况下，请把它安装在运行 Throne 的电脑上，以及你想用来管理 Throne 的其他任何电脑上：
 
 - 从 [Throne-api 的发布页面](https://github.com/throneproj/Throne-api/releases)下载适用于 Linux、Windows、macOS 或 FreeBSD 的二进制文件，或者
 - 用 Go 构建：`go install github.com/throneproj/Throne-api/cmd/thronectl@latest`。
 
-[Docker 镜像](@/headless/installation.zh.md#docker)已经在 `/usr/local/bin` 中包含 `thronectl`。
+[Docker 镜像](@/headless/installation.zh.md#docker)已经在 `/usr/local/bin` 中包含 `thronectl`。Throne 的 Windows 和 macOS 下载包中没有它。
 
 如果想让 shell 自动补全命令、配置档 ID 和设置名称，请参见 [Shell 补全](@/advanced/api.zh.md#completion)。
 
@@ -52,7 +52,7 @@ export THRONE_KEY_FILE=/var/lib/throne/config/api.key
 
 ## 管理请求 {#admin-requests}
 
-会更改 Throne 所拥有内容的请求属于管理请求：`import`、`sub add`、`group`、`profile rm`、`settings set`、`backup`、`restart` 和 `shutdown`。Throne 只响应来自其所在设备的管理请求，除非它以 `--api-admin-lan`（`THRONE_API_ADMIN_LAN=1`）运行。从其他设备发出时，这些请求会以 `forbidden` 失败。
+会更改 Throne 所拥有内容的请求属于管理请求：`import`、`sub add`、`group`、`profile rm`、`settings set`、`backup`、`restart` 和 `shutdown`。`logs` 也是，因为日志会列出连接访问过的网站。Throne 只响应来自其所在设备的管理请求，除非它以 `--api-admin-lan`（`THRONE_API_ADMIN_LAN=1`）运行。从其他设备发出时，这些请求会以 `forbidden` 失败。
 
 其他所有请求，例如 `status`、`connect`、`tun on` 或 `test`，在任何允许访问 API 并持有密钥的设备上都可以使用。
 
@@ -143,6 +143,7 @@ THRONE_API_ADMIN_LAN=1
 | `thronectl sub update --all` | 更新所有订阅 |
 | `thronectl geo update`、`thronectl rulesets update` | 重新下载 geo 文件和规则集 |
 | `thronectl traffic --by app --since 7d` | 流量总计 |
+| `thronectl logs -n 50`、`thronectl logs -f` | Throne 日志的最后几行；加上 `-f` 后会继续显示 Throne 写入的新行。参见[日志](@/headless/monitoring.zh.md#logs) |
 | `thronectl restart`、`thronectl shutdown` | 重启 Throne；让它退出 |
 
 给任何命令加上 `--json` 都可以得到适合脚本使用的 JSON 输出。`thronectl help <command>` 会说明某个命令。所有命令和参数以及 `thronectl` 的退出码，请参见 [Throne API 与 thronectl](@/advanced/api.zh.md#commands)。

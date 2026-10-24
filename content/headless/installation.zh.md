@@ -45,6 +45,7 @@ sudo systemctl enable --now throne
 - `systemctl start throne` 会在 Throne 启动完成后返回。参见 [systemd：就绪、状态与看门狗](@/headless/monitoring.zh.md#systemd)。
 - `/etc/throne/throne.env` 为该单元可以使用的每个变量都提供了一个注释掉的示例。取消某一行的注释，然后运行 `sudo systemctl restart throne`。升级会保留你的修改。切勿把 API 密钥放进这个文件；请改用 `THRONE_API_KEY_FILE` 指定一个密钥文件。
 - 日志：`journalctl -u throne -f`。
+- 软件包还会把 `thronectl` 安装为 `/usr/bin/thronectl`，并安装用于 [Web 界面](@/headless/web.zh.md#systemd)的第二个单元 `throne-web.service`。它同样不会被启用。
 
 要更改命令行，请用 `sudo systemctl edit throne` 添加一个 drop-in 文件：
 
@@ -169,6 +170,7 @@ volumes:
 - **导入文件。** 使用 `-T` 通过管道传入：`docker compose exec -T throne thronectl import - < links.txt`。
 - **从容器外部访问 API。** API 监听的是容器的环回地址。要从网络访问它，请设置 `THRONE_API_LISTEN: "*:9095"` 并提供 `THRONE_API_ALLOW` 列表，然后发布端口 9095。此时，导入和设置等管理请求还需要 `THRONE_API_ADMIN_LAN: "1"`，因为经过发布端口的每个请求都来自容器外部。在 Docker 的 NAT 之后，所有客户端共用同一个地址，因此一个使用旧密钥的客户端会把其他客户端锁在外面一分钟。
 - **日志：** `docker compose logs -f throne`。
+- **Web 界面。** 设置 `THRONE_WEB_LISTEN: "*:9096"` 并发布 9096 端口，容器就会同时提供 [Web 界面](@/headless/web.zh.md#docker)。
 
 ## macOS {#macos}
 

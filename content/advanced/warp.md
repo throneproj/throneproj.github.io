@@ -29,6 +29,8 @@ Setting up WARP takes two steps: generate a config once, then turn WARP on.
 6. Wait until the button shows "Success!". The fields of the chosen mode are now filled in.
 7. Click `OK`.
 
+In Simple mode, `Warp` is a section of the `Common` tab that shows only `Enable Warp`, `Mode` and `Generate Warp Config`. The fields below and `Registration Domains…` are hidden (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
+
 Each mode has its own fields. If you switch the `Mode` later, generate a config for that mode too.
 
 | Mode | Fields |
@@ -45,10 +47,12 @@ Each generation registers a new device with Cloudflare.
 Cloudflare's registration server, `api.cloudflareclient.com`, is blocked in some countries ([#1874](https://github.com/throneproj/Throne/issues/1874)). In that case, register through your proxy:
 
 1. Start a profile that works.
-2. Open `Settings` → `Basic Settings` → `Miscellaneous` and tick `Use proxy`. When `System Proxy` is on, Throne already sends its own requests through the proxy.
+2. Open `Settings` → `Basic Settings` → `Miscellaneous` and tick `Use proxy`. In Simple mode, `Use proxy` is in the `Network Settings` section of the `Common` tab. When `System Proxy` is on, Throne already sends its own requests through the proxy.
 3. Click `Generate Warp Config` again.
 
 If no profile is running while `Use proxy` or `System Proxy` is on, generation fails with "Request with proxy but no profile started."
+
+Throne sends such requests to its local proxy port. Since 1.4.0, when `Disable Mixed Inbound` is on, Throne sends them directly instead, and TUN mode carries them through the running profile. If TUN mode is off too, generation fails with "Request with proxy but the mixed inbound is disabled and Tun Mode is off."
 
 With the [kill switch](@/advanced/kill_switch.md) on, Throne's own requests are blocked unless they go through Throne. Generate the config while a profile runs in TUN mode, or with `Use proxy` on.
 
@@ -60,7 +64,7 @@ Click `Routing` → `Enable Warp`. A tick shows that WARP is on. Click it again 
 
 You can also tick `Enable Warp` on the `Warp` tab and click `OK`. Then start the profile again to apply the change.
 
-If WARP is on but the current mode has no generated config, the profile does not start, and Throne shows "Warp is enabled but its config has not been generated. Please generate the Warp config first in Routing Settings."
+If WARP is on but the current mode has no generated config, the profile does not start, and Throne shows "Warp is enabled but its config has not been generated. Please generate the Warp config first in Routing Settings." In Simple mode, `Routing Settings` also shows "WARP has no config yet: click Generate Warp Config." while `Enable Warp` is ticked and the current mode has no config.
 
 To check that WARP works, open a website that shows your IP address. It should show a Cloudflare address.
 
@@ -92,7 +96,7 @@ On its own, such a profile connects to Cloudflare directly. Keep `Enable Warp` o
 
 - The settings are in `Settings` → `Routing` → `WARP`: `Enable WARP`, `Mode`, the fields of each mode, `Generate WARP config` and `Registration domains`.
 - The first generation asks you to accept the Cloudflare WARP terms of service.
-- If registration is blocked, connect first and turn on `Settings` → `Subscriptions` → `Use proxy`. In `Proxy only` mode, the request always goes through the proxy.
+- If registration is blocked, connect first and turn on `Settings` → `Subscriptions` → `Use proxy`. In `Proxy only` mode, the request goes through the proxy too while a profile runs. While no profile runs, generation fails if `Use proxy` is on. After 2.0.3, `Proxy only` mode alone no longer makes it fail: the request then goes out directly.
 - To switch WARP quickly, open the menu (⋮) of the Profiles screen → `Routing profile`, then tap `Enable WARP` or `Disable WARP`.
 - If WARP is on without a generated config, Android shows "WARP is enabled but its config has not been generated. Generate it in Settings › Routing › WARP."
 - The WireGuard and MASQUE profile editors have a `Generate WARP identity` button.

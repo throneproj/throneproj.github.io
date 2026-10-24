@@ -7,6 +7,8 @@ toc = true
 
 本页将引导你从全新安装开始，一步步建立可用的连接。你需要服务商提供的订阅链接或分享链接，或者你自己服务器的详细信息。如果尚未安装 Throne，请参阅[安装](@/get_started/installation.zh.md)。Android 版请参阅 [Throne for Android](@/android/_index.zh.md#quick-start)。
 
+自 1.4.0 起，全新安装会以简洁模式启动，该模式会隐藏高级选项。本页的所有步骤都可以在简洁模式下完成。参见[简洁模式与高级模式](#interface-mode)。
+
 ## 添加服务器 {#add-servers}
 
 Throne 将每个服务器保存为一个**配置档**。配置档属于**分组**，分组就是配置档列表上方的标签页。**订阅**是一种分组，Throne 从某个 URL 下载它，之后还可以更新。
@@ -105,7 +107,7 @@ URL 测试会通过每个配置档建立连接并测量延迟。
 
 ### 检查连接 {#check-connection}
 
-窗口左下角会以 `[分组] 配置档` 的形式显示正在运行的配置档。片刻之后，其下方会显示你的出口 IP 地址所在的国家和城市。
+窗口左下角会以 `[分组] 配置档` 的形式显示正在运行的配置档。片刻之后，其下方会显示你的出口 IP 地址所在的国家和城市，除非关闭了 `Look up exit country`（参见 [IP 与国家测试](@/guides/testing.zh.md#ip-test)）。
 
 点击这段文字可以测试正在运行的配置档。如果连接正常，Throne 会显示 `测试结果: <n> ms`（`Test Result: <n> ms`）；如果连接失败，则显示 `测试结果: 不可用`（`Test Result: Unavailable`）。如果测试失败，请尝试其他配置档，或参阅[故障排除](@/help/troubleshooting.zh.md)。
 
@@ -118,6 +120,52 @@ URL 测试会通过每个配置档建立连接并测量延迟。
 {% alert_warning() %}
 请始终使用 `退出` 来关闭 Throne。如果在配置档运行且 `系统代理` 开启时强行结束 Throne，系统会继续使用一个已不再运行的代理，网站将无法加载。参见[常见问题](@/help/faq.zh.md#force-quit)。
 {% end %}
+
+## 简洁模式与高级模式 {#interface-mode}
+
+自 1.4.0 起，Throne 窗口有两种界面模式。**简洁**模式只显示大多数人需要的选项，隐藏其余选项。**高级**模式显示所有选项。全新安装会以简洁模式启动。从旧版本更新时，Throne 会保留完整界面，也就是高级模式。
+
+简洁模式只是隐藏选项。被隐藏的设置会保留原值并继续生效，因此切换模式不会改变你的配置档或设置。
+
+切换模式的方法：
+
+1. 打开 `设置`（Settings）→ `基本设置`（Basic Settings）→ `样式`（Style）。
+2. 将 `界面`（Interface）设为 `简洁`（Simple）或 `高级`（Advanced）。
+3. 点击 `确定`（OK）。
+
+主窗口和托盘菜单会立即改变。设置窗口会在你下次打开时显示新的模式。
+
+要按名称查找设置，请按 `Ctrl+K` 并输入其名称中的几个字。在简洁模式下，这项搜索也会找到被隐藏的设置，并将它们列在“高级模式中的设置”（Settings in Advanced mode）下。选择其中一项后，Throne 会切换到高级模式并打开该设置。参见[命令面板](@/reference/shortcuts.zh.md#command-palette)。
+
+### 简洁模式隐藏的内容 {#simple-mode-hidden}
+
+在简洁模式下，以下菜单项会被隐藏：
+
+| 菜单 | 隐藏的菜单项 |
+|---|---|
+| `设置`（Settings） | `预设设置`（Preset Settings）、`Integration Settings`、`打开配置文件夹`（Open Config Folder） |
+| `分组`（Groups） | `为本组解析 IP`（Resolve out IP for group）、`为本组解析域名`（Resolve Domain for group） |
+| `工具`（Tools） | `打开网络仪表盘`（Open Web dashboard）、`OTP 管理器`（OTP Manager）、`IP Scanner` |
+| 配置档列表的菜单 | `分享`（Share）→ `导出配置`（Export config）、`分享` → `复制选定项的链接 (深度链接)`（Copy links of selected (Deep Links)）、`解析选定的出口 IP`（Resolve Selected Out IP）、`解析选定域名`（Resolve Selected Domain）、`重置流量`（Reset Traffic） |
+| 托盘菜单 | `OTP 代码`（OTP Codes） |
+
+主窗口底部的 `运行时统计`（Runtime Stats）标签页也会被隐藏。
+
+在设置窗口中，简洁模式会隐藏以下选项：
+
+- `基本设置`（Basic Settings）：`日志`（Logging）和 `核心`（Core）标签页。在 `通用`（Common）中，除 `监听端口`（Listen Port）、`延迟测试 URL`（Latency Test URL）和 `Look up exit country` 外的所有选项。在 `订阅`（Subscription）中，除 `更新订阅前清除服务器`（Clear servers before updating subscription）和 `订阅自动更新`（Subscription auto update）外的所有选项。在 `样式`（Style）中，日志字体、`连接统计`（Connection statistics）和自定义图标。在 `杂项`（Miscellaneous）中，除 `使用代理`（Use proxy）和 `允许更新到 beta 版`（Allow updating to beta versions）外的所有选项。在 `安全`（Security）中，除 `Kill Switch` 外的所有选项。
+- `路由设置`（Routing Settings）：`默认域策略`（Default Domain Strategy）、`解析域策略`（Resolve Domain Strategy）和 `远程规则集镜像`（Remote Rule-set Mirror），WARP 配置字段和 `注册域名...`（Registration Domains…），以及除 `远程 DNS`（Remote DNS）、`直连 DNS`（Direct DNS）和 `默认 DNS 服务器`（Default DNS server）外的所有 DNS 选项。
+- `Tun 设置`（Tun Settings）：`MTU`、`自动重定向`（Auto Redirect）、`L3 桥接绕过`（L3 Bridge Bypass）、`Tun 地址`（Tun Address）和 `私有地址范围绕过`（Private Range Bypass）。
+- 分组编辑器：`前置代理`（Front Proxy）、`落地代理`（Landing Proxy）和 `高级`（Advanced）按钮。
+- 配置档编辑器：`高级设置`（Advanced Settings）按钮、TLS 分片和 TLS 技巧选项、`多路复用`（Multiplex）中的 `Custom` 选项、Xray 的 `最终掩码`（Finalmask），以及 XHTTP 和 XDrive 的高级分组。新建配置档时，`类型`（Type）列表中没有 `直连`（Direct）、`链式代理`（Chain Proxy）、`额外核心`（Extra Core）和各种自定义类型。
+- 路由配置档编辑器：包含规则列表的 `高级`（Advanced）标签页、`DNS` 标签页和 `端点`（Endpoints）标签页，除非该配置档已经在使用它们。
+
+有几个开关在开启时仍会显示，以便你将其关闭：`随机端口`（Random port）、`禁用混合入站`（Disable Mixed Inbound）、`启用自定义图标`（Enable Custom Icons）和 `使用自定义 DNS 对象`（Use Custom DNS Object）。
+
+简洁模式还会把一些标签页并入其他标签页，因此本文档提到的某个标签页可能是另一个标签页中的一个区域：
+
+- `基本设置`：`订阅` 和 `安全` 标签页，以及 `杂项` 中的 `网络设置`（Network Settings）分组，会成为 `通用` 标签页底部的区域。该窗口的标签页为 `通用`、`样式`、`备份和恢复`（Backup and Restore）和 `诊断`（Diagnostics）。
+- `路由设置`：`Warp` 标签页和 `DNS` 标签页中的 `简易 DNS 设置`（Simple DNS Settings）分组会成为 `通用`（Common）标签页中的区域。该窗口的标签页为 `通用` 和 `路由`（Route）。开启 `使用自定义 DNS 对象` 时，`DNS` 标签页保持不变。
 
 ## 后续步骤 {#next-steps}
 

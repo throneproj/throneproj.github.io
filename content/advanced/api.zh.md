@@ -7,7 +7,7 @@ toc = true
 
 Throne API（自 1.4.0 起）让脚本、热键工具和其他设备可以控制 Throne：启动和停止配置档、切换 TUN 模式和系统代理、更改路由配置档、运行测试，以及读取配置档和流量统计。它还可以管理 Throne：导入配置档、添加和更新订阅、删除分组和配置档、更改设置、备份和恢复，以及重启或退出 Throne。
 
-`thronectl` 是该 API 的命令行客户端。本页介绍如何在 Throne 桌面版中开启 API、如何安装并连接 `thronectl`，以及每条命令的作用。
+`thronectl` 是该 API 的命令行客户端；`thronectl web` 还为浏览器提供一个 [Web 界面](@/headless/web.zh.md)。本页介绍如何在 Throne 桌面版中开启 API、如何安装并连接 `thronectl`，以及每条命令的作用。
 
 [无界面 Throne](@/headless/_index.zh.md) 在服务器或容器中以无窗口方式运行，它从首次启动起就开启了 API，你需要用 `thronectl` 来管理它。[使用 thronectl 管理](@/headless/thronectl.zh.md)介绍了如何连接并设置它。
 
@@ -17,7 +17,7 @@ Throne for Android 没有 Throne API。
 
 API 默认关闭。
 
-1. 打开 `设置`（Settings）→ `Integration Settings`，然后打开 `Throne API` 标签页。
+1. 打开 `设置`（Settings）→ `Integration Settings`（仅限高级模式，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)），然后打开 `Throne API` 标签页。
 2. 勾选 `Enable the Throne API`。Throne 会填入一个新的密钥。
 3. 点击 `确定`（OK）。`Status` 会显示 `Listening on 127.0.0.1:9095`。
 
@@ -41,7 +41,7 @@ API 默认关闭。
 
 ## 安装 thronectl {#install-thronectl}
 
-`thronectl` 是一个适用于 Linux、Windows、macOS 和 FreeBSD 的单一程序。它不包含在 Throne 软件包中；无界面 Throne 的 Docker 镜像中包含它。
+`thronectl` 是一个适用于 Linux、Windows、macOS 和 FreeBSD 的单一程序。Throne 的 `.deb` 和 `.rpm` 软件包以及 Linux ZIP 包都包含它，无界面 Throne 的 Docker 镜像中也包含它。Throne 的 Windows 和 macOS 下载包中没有它。
 
 - 从 [Throne-api 的发布页面](https://github.com/throneproj/Throne-api/releases)下载并解压，然后把 `thronectl`（在 Windows 上为 `thronectl.exe`）放到 `PATH` 中的某个文件夹里。
 - 或者，如果已安装 Go：
@@ -95,6 +95,8 @@ API 默认关闭。
 | `--json` | 以 JSON 而不是表格的形式打印 Throne 的响应。 |
 | `--timeout 30s` | 超过这段时间后放弃，默认为 `30s`。`0` 表示一直等到 Throne 完成。 |
 
+在 systemd 单元中，如果以上方式都没有提供密钥，`thronectl` 还会从凭据 `api.key`（`LoadCredential=api.key:/path/to/key`）读取密钥，[Web 界面](@/headless/web.zh.md#systemd)的 `throne-web.service` 就是这样做的。
+
 对于无界面 Throne，`Throne --print-connection` 会打印这两个变量的 `export` 行。参见[将 thronectl 连接到 Throne](@/headless/thronectl.zh.md#connect)。
 
 ## 命令 {#commands}
@@ -120,6 +122,7 @@ API 默认关闭。
 | `clear` | 清除测试结果。请加上 `--group N`（可选再加 `--name REGEX`）或配置档 ID。 |
 | `live` | 显示当前的流量速率。 |
 | `traffic [--by profile] [--by app] [--since 24h]` | 按配置档（默认）或按应用显示流量总计。`--since` 也接受天数，例如 `7d`。 |
+| `logs [-n N] [-f]` | 打印 Throne 日志的最后 `N` 行，默认 200 行，最多 1000 行。`-f` 随后会持续打印新行，直到你停止它，连接中断或 Throne 重启时也会继续。使用 `--json` 时，每行输出一个 JSON 对象。 |
 | `import [--group N] FILE` | 从一个不超过 900 KiB 的文件导入分享链接、订阅内容，或 Clash、sing-box、Xray、WireGuard 或 OpenVPN 配置。`-` 表示从标准输入读取；`--url URL` 让 Throne 下载某个 URL 一次。默认分组为 Throne 当前显示的分组。 |
 | `sub add <url> [--name NAME]` | 添加一个订阅分组并更新它，默认以 URL 的主机名命名。`--no-auto-update` 让它不参与自动更新；`--no-update` 表示现在不下载。 |
 | `sub update <id>…`、`sub update --all` | 更新订阅分组，或更新所有未归档的分组。 |
@@ -133,6 +136,7 @@ API 默认关闭。
 | `geo`、`geo update [geoip] [geosite] [--only-missing]` | 显示 Xray 的 geo 文件；重新下载它们。 |
 | `restart` | 重启 Throne。 |
 | `shutdown [--yes]` | 询问后退出 Throne。 |
+| `web [--listen ADDR] …`、`web passwd` | 提供用于在浏览器中管理 Throne 的 [Web 界面](@/headless/web.zh.md)，直到你停止它；设置它的密码。 |
 | `keygen [-o FILE]` | 创建一个新密钥：打印它，或把它写入一个只有你能读取的新文件。它不会连接 Throne。 |
 | `call <METHOD> <PATH> [key=value…] [--body JSON]` | 发送 [API 规范](https://github.com/throneproj/Throne-api/blob/main/spec/api.md)中的任意请求，并打印响应。 |
 | `completion bash`、`zsh`、`fish` 或 `powershell` | 打印一个 [Shell 补全](#completion)脚本。 |
@@ -167,7 +171,7 @@ API 默认关闭。
 
 ## 管理请求 {#admin-requests}
 
-以下命令发送的是管理请求：`import`、`sub add`、`group add`、`group rm`、`profile rm`、`settings set`、`backup`、`restart` 和 `shutdown`。其他命令，包括 `sub update`、`rulesets update` 和 `geo update`，发送的是控制请求。两类请求使用同一个密钥。
+以下命令发送的是管理请求：`logs`、`import`、`sub add`、`group add`、`group rm`、`profile rm`、`settings set`、`backup`、`restart` 和 `shutdown`。`logs`（`GET /v1/logs`）之所以属于管理请求，是因为日志会列出连接访问过的网站。其他命令，包括 `sub update`、`rulesets update` 和 `geo update`，发送的是控制请求。两类请求使用同一个密钥。
 
 - Throne 只响应来自其所在电脑的管理请求，即来自 `127.0.0.1` 或 `::1` 的请求。
 - 从其他设备发出时，这些请求会以 `forbidden` 失败，除非开启了 `允许从局域网进行管理`（Allow management from the local network）。无界面 Throne 则需要改用 `--api-admin-lan`。
@@ -266,3 +270,5 @@ thronectl completion powershell | Out-String | Invoke-Expression
 ## Go 库 {#go-library}
 
 [Throne-api](https://github.com/throneproj/Throne-api) 仓库还包含一个 Go 库 `github.com/throneproj/Throne-api`，它为每种请求都提供了一个方法；仓库中还有包含通信协议的 [API 规范](https://github.com/throneproj/Throne-api/blob/main/spec/api.md)，因此你可以用其他语言编写客户端。
+
+跟踪 Throne 的客户端不需要轮询。`GET /v1/events` 会等到有内容变化，并说明变化的是什么，例如状态、分组、配置档、测试或设置，这样客户端只需重新读取这些内容。`GET /v1/logs` 返回客户端已有的最后几行之后的新日志行，也可以等待新行出现。`thronectl logs -f` 和 [Web 界面](@/headless/web.zh.md)都使用这两个请求。

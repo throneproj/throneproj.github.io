@@ -29,6 +29,8 @@ WARP سرویس VPN رایگان Cloudflare است. Throne می‌تواند WAR
 6. صبر کنید تا دکمه «Success!» (موفق شد!) را نشان دهد. اکنون فیلدهای حالت انتخاب‌شده پر شده‌اند.
 7. روی `تایید` (OK) کلیک کنید.
 
+در حالت ساده، `Warp` بخشی از زبانهٔ `متداول` (Common) است که فقط `Enable Warp`، `Mode` و `Generate Warp Config` را نشان می‌دهد. فیلدهای زیر و `Registration Domains…` پنهان هستند (فقط در حالت پیشرفته؛ [حالت ساده و پیشرفته](@/get_started/configuration.fa.md#interface-mode) را ببینید).
+
 هر حالت فیلدهای خودش را دارد. اگر بعداً `Mode` را عوض کردید، برای آن حالت هم پیکربندی بسازید.
 
 | حالت | فیلدها |
@@ -45,10 +47,12 @@ WARP سرویس VPN رایگان Cloudflare است. Throne می‌تواند WAR
 سرور ثبت Cloudflare، یعنی `api.cloudflareclient.com`، در برخی کشورها مسدود است ([#1874](https://github.com/throneproj/Throne/issues/1874)). در این صورت، از راه پروکسی خود ثبت کنید:
 
 1. یک نمایهٔ سالم را اجرا کنید.
-2. `تنظیمات` (Settings) ← `تنظیمات پایه` (Basic Settings) ← `Miscellaneous` را باز کنید و `Use proxy` را تیک بزنید. وقتی `پروکسی سیستمی` (System Proxy) روشن است، Throne به‌هرحال درخواست‌های خودش را از راه پروکسی می‌فرستد.
+2. `تنظیمات` (Settings) ← `تنظیمات پایه` (Basic Settings) ← `Miscellaneous` را باز کنید و `Use proxy` را تیک بزنید. در حالت ساده، `Use proxy` در بخش `Network Settings` از زبانهٔ `متداول` (Common) قرار دارد. وقتی `پروکسی سیستمی` (System Proxy) روشن است، Throne به‌هرحال درخواست‌های خودش را از راه پروکسی می‌فرستد.
 3. دوباره روی `Generate Warp Config` کلیک کنید.
 
 اگر هنگامی که `Use proxy` یا `پروکسی سیستمی` (System Proxy) روشن است هیچ نمایه‌ای در حال اجرا نباشد، ساختن پیکربندی با پیام «درخواست با پروکسی اما هیچ نمایه‌ای شروع نشده است.» (Request with proxy but no profile started.) ناموفق می‌شود.
+
+Throne چنین درخواست‌هایی را به درگاه پروکسی محلی خود می‌فرستد. از نسخهٔ 1.4.0، وقتی `Disable Mixed Inbound` روشن است، Throne آن‌ها را مستقیم می‌فرستد و حالت TUN آن‌ها را از راه نمایهٔ در حال اجرا عبور می‌دهد. اگر حالت TUN هم خاموش باشد، ساختن پیکربندی با پیام «Request with proxy but the mixed inbound is disabled and Tun Mode is off.» (درخواست با پروکسی، اما ورودی mixed غیرفعال و حالت TUN خاموش است) ناموفق می‌شود.
 
 وقتی [کیل‌سوییچ](@/advanced/kill_switch.fa.md) روشن است، درخواست‌های خود Throne مسدود می‌شوند، مگر اینکه از Throne عبور کنند. پیکربندی را در حالی بسازید که نمایه‌ای در حالت TUN اجرا می‌شود، یا وقتی `Use proxy` روشن است.
 
@@ -60,7 +64,7 @@ WARP سرویس VPN رایگان Cloudflare است. Throne می‌تواند WAR
 
 همچنین می‌توانید `Enable Warp` را در زبانهٔ `Warp` تیک بزنید و روی `تایید` (OK) کلیک کنید. سپس برای اعمال تغییر، نمایه را دوباره اجرا کنید.
 
-اگر WARP روشن باشد اما برای حالت فعلی پیکربندی ساخته نشده باشد، نمایه اجرا نمی‌شود و Throne این پیام را نشان می‌دهد: «Warp is enabled but its config has not been generated. Please generate the Warp config first in Routing Settings.» (WARP روشن است اما پیکربندی آن ساخته نشده است؛ ابتدا پیکربندی WARP را در تنظیمات مسیریابی بسازید.)
+اگر WARP روشن باشد اما برای حالت فعلی پیکربندی ساخته نشده باشد، نمایه اجرا نمی‌شود و Throne این پیام را نشان می‌دهد: «Warp is enabled but its config has not been generated. Please generate the Warp config first in Routing Settings.» (WARP روشن است اما پیکربندی آن ساخته نشده است؛ ابتدا پیکربندی WARP را در تنظیمات مسیریابی بسازید.) در حالت ساده، وقتی `Enable Warp` تیک خورده باشد و حالت فعلی پیکربندی نداشته باشد، `تنظیمات مسیریابی` (Routing Settings) هم پیام «WARP هنوز پیکربندی ندارد: روی «Generate Warp Config» کلیک کنید.» (WARP has no config yet: click Generate Warp Config.) را نشان می‌دهد.
 
 برای اطمینان از کارکرد WARP، وب‌سایتی را باز کنید که نشانی IP شما را نشان می‌دهد. باید یک نشانی Cloudflare نمایش داده شود.
 
@@ -90,9 +94,9 @@ WARP سرویس VPN رایگان Cloudflare است. Throne می‌تواند WAR
 
 ## Android {#android}
 
-- تنظیمات در `تنظیمات` (Settings) ← `Routing` → `WARP` قرار دارند: `Enable WARP`، `Mode`، فیلدهای هر حالت، `ایجاد پیکربندی` (Generate WARP config) و `Registration domains`.
+- تنظیمات در `تنظیمات` (Settings) ← `مسیریابی` (Routing) ← `WARP` قرار دارند: `فعال‌سازی WARP` (Enable WARP)، `حالت` (Mode)، فیلدهای هر حالت، `ایجاد پیکربندی` (Generate WARP config) و `دامنه‌های ثبت` (Registration domains).
 - نخستین ساختن پیکربندی از شما می‌خواهد شرایط استفاده از خدمات Cloudflare WARP را بپذیرید.
-- اگر ثبت مسدود است، ابتدا وصل شوید و `تنظیمات` (Settings) ← `اشتراک‌ها` (Subscriptions) ← `Use proxy` را روشن کنید. وقتی `فقط به حالت پراکسی` (Proxy only) انتخاب شده باشد، درخواست همیشه از راه پروکسی فرستاده می‌شود.
-- برای روشن و خاموش کردن سریع WARP، منوی (⋮) صفحهٔ `پیکربندی` (Profiles) ← `Routing profile` را باز کنید، سپس روی `Enable WARP` یا `Disable WARP` بزنید.
+- اگر ثبت مسدود است، ابتدا وصل شوید و `تنظیمات` (Settings) ← `اشتراک‌ها` (Subscriptions) ← `استفاده از پراکسی` (Use proxy) را روشن کنید. وقتی `فقط به حالت پراکسی` (Proxy only) انتخاب شده باشد، درخواست تا وقتی نمایه‌ای در حال اجراست از راه پروکسی فرستاده می‌شود. اگر هیچ نمایه‌ای اجرا نشود و `استفاده از پراکسی` روشن باشد، ساختن پیکربندی ناموفق می‌شود. پس از 2.0.3، `فقط به حالت پراکسی` به‌تنهایی دیگر باعث شکست نمی‌شود: در این حالت درخواست مستقیم فرستاده می‌شود.
+- برای روشن و خاموش کردن سریع WARP، منوی (⋮) صفحهٔ `پیکربندی` (Profiles) ← `پروفایل مسیریابی` (Routing profile) را باز کنید، سپس روی `فعال‌سازی WARP` (Enable WARP) یا `غیرفعال‌سازی WARP` (Disable WARP) بزنید.
 - اگر WARP بدون پیکربندی ساخته‌شده روشن باشد، Android پیام «WARP is enabled but its config has not been generated. Generate it in Settings › Routing › WARP.» (WARP روشن است اما پیکربندی آن ساخته نشده است؛ آن را در تنظیمات › Routing › WARP بسازید.) را نشان می‌دهد.
-- ویرایشگرهای نمایهٔ WireGuard و MASQUE یک دکمهٔ `Generate WARP identity` دارند.
+- ویرایشگرهای نمایهٔ WireGuard و MASQUE یک دکمهٔ `ایجاد هویت WARP` (Generate WARP identity) دارند.

@@ -7,6 +7,8 @@ toc = true
 
 Throne 的核心基于 sing-box 构建，其中也包含 Xray。大多数配置档运行在 sing-box 上，部分 VLESS 配置档和所有 Xray 自定义配置运行在 Xray 上。本页说明 Throne 如何选择核心、如何针对 VLESS 链接更改这一选择，以及如何修复 Reality 连接错误。
 
+在简洁模式下，本页提到的大多数设置都会被隐藏：`基本设置`（Basic Settings）中的 `日志`（Logging）和 `核心`（Core）标签页、`Xray Geo 资源`（Xray Geo Assets）和 `Xray 信任系统证书`（Trust System Certificates in Xray），XDRIVE 的 `调优`（Tuning）组，以及 `分享`（Share）→ `导出配置`（Export config）。参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)。
+
 ## 合二为一的两个核心 {#two-cores}
 
 sing-box 始终在运行，负责本地代理端口、TUN 模式、路由规则和 DNS。Xray 作为辅助组件运行在同一个核心中，只有当正在运行的配置档需要它时才会启动，例如该配置档本身、其代理链中的某个跳点或某条路由规则的出站运行在 Xray 上时。sing-box 通过内部的本地连接把这部分流量交给 Xray，因此 TUN 模式、路由配置档和 DNS 设置在两个核心下的效果相同。
@@ -27,6 +29,8 @@ sing-box 始终在运行，负责本地代理端口、TUN 模式、路由规则�
 - VLESS 加密（`encryption` 的值不是 `none`）；
 - Finalmask；
 - 带 HTTP 头部并同时启用 TLS 的 TCP（`raw`）传输。
+
+XDRIVE 传输（自 1.4.0 起）同样只有 Xray 支持，但它没有链接格式。参见 [XDRIVE](#xdrive)。
 
 Xray 的消息同样显示在 `日志`（Logs）标签页中。其详细程度在 `设置`（Settings）→ `基本设置`（Basic Settings）→ `日志`（Logging）→ `Xray 日志级别`（Xray Log level）中设置。
 
@@ -61,7 +65,7 @@ Xray 的消息同样显示在 `日志`（Logs）标签页中。其详细程度�
 - **从链接添加的配置档：** 重新添加该链接，然后删除旧配置档。
 - **手动创建的配置档：** 其类型无法更改。请用另一种类型新建一个配置档。
 
-如果在分组的 `Advanced` 订阅设置中开启了 `Keep working profiles`，旧的可用配置档可能会与新配置档并存。请自行删除它们。
+如果在分组的 `高级`（Advanced）订阅设置中开启了 `保留工作配置档`（Keep working profiles），旧的可用配置档可能会与新配置档并存。请自行删除它们。
 
 ### 配置档使用的是哪个核心？ {#which-core}
 
@@ -99,6 +103,48 @@ Xray 的消息同样显示在 `日志`（Logs）标签页中。其详细程度�
 
 只有当 `Xray 日志级别`（Xray Log level）为 `debug` 时，才会显示 Xray 关于已弃用功能的警告。这些设置安全性较低，或者更容易被识别。只对需要它们的服务器使用。
 
+## 信任系统证书 {#system-ca}
+
+Xray 只根据其内置的根证书检查服务器证书。如果服务器的证书来自你自己安装的根证书，例如公司根证书或自签名根证书，就无法通过这项检查。自 1.4.0 起，勾选 `设置`（Settings）→ `基本设置`（Basic Settings）→ `安全`（Security）→ `Xray 信任系统证书`（Trust System Certificates in Xray）（默认关闭），即可让 Xray 同时信任系统中安装的证书。
+
+该选项作用于所有 Xray 配置档的 TLS 设置，以及 `自定义 (Xray 出站)` 和 `自定义 (Xray 配置)` 配置档中每个出站的 TLS 设置，包括 XHTTP 的下载连接。自行设置了 `useSystemCA` 的出站会保留自己的值。sing-box 配置档不使用该选项。
+
+## XDRIVE {#xdrive}
+
+自 1.4.0 起，`VLESS (Xray)` 配置档可以使用 XDRIVE 传输。使用 XDRIVE 时，Throne 和服务器之间不直接连接，而是以文件的形式，在双方都能访问的存储中交换流量：可以是 Google Drive 文件夹、其他提供 HTTP API 的存储服务，或者本机上的一个文件夹。只有在服务器已为 XDRIVE 配置好时才使用它，并使用服务器运营者提供的设置。
+
+XDRIVE 没有链接格式，因为链接会带上存储的密钥。请改为导入服务器的 Xray JSON 配置，或者 Throne 链接（`throne://add/…`）。带有 `type=xdrive` 的 `vless://` 链接会被拒绝，并显示“XDRIVE has no share-link format. Import the server's JSON configuration instead.”（XDRIVE 没有分享链接格式，请改为导入服务器的 JSON 配置）。分享 XDRIVE 配置档时，Throne 会提供它的 Throne 链接。
+
+要在配置档编辑器中设置 XDRIVE，请在 `传输(网络)`（Network）中选择 `xdrive`。XDRIVE 只能与以下 VLESS 设置一起使用，设置为其他值时编辑器会显示错误：
+
+- `加密`（Encryption）：服务器提供的 VLESS 加密字符串，以 `mlkem768x25519plus` 开头。
+- `流`（Flow）：留空。
+- `多路复用`（Multiplex）：`保持默认`（Keep Default）、`启用`（Enabled）或 `Custom`，不能是 `禁用`（Disabled）。选择 `保持默认` 时，即使 `默认复用开启`（Default Mux On）处于关闭状态，Throne 也会为 XDRIVE 开启 mux。Throne 还会忽略会让流量绕过 mux 的设置，例如值为 `-1` 的 `Concurrency`。参见[多路复用](@/advanced/presets.zh.md#multiplex)。
+
+`存储`（Storage）组：
+
+| 字段 | 作用 |
+| --- | --- |
+| `服务`（Service） | `google-drive`（默认）：Google Drive 文件夹。`template`：由 `模板`（Template）描述其 HTTP API 的任意存储服务。`local`：本机上的文件夹。 |
+| `文件夹`（Folder） | `google-drive`：双方共享的文件夹的 ID。`local`：文件夹路径。`template`：模板中以 `{folder}` 读取的值。`google-drive` 和 `local` 必填。 |
+| `客户端 ID`（Client ID）、`客户端密钥`（Client Secret）、`刷新令牌`（Refresh Token） | 仅用于 `google-drive`，三项均必填：OAuth 客户端，以及拥有该文件夹的 Google 账户的刷新令牌。 |
+| `密钥`（Secrets） | 仅用于 `template`：模板中以 `{secret0}`、`{secret1}` 等读取的值，以逗号分隔。 |
+| `模板`（Template） | 仅用于 `template`，必填：以 JSON 描述的存储 API 的 auth、put、get、list 和 delete 操作。点击按钮即可编辑。 |
+| `前置地址`（Front Address）、`前置端口`（Front Port） | 可选，不适用于 `local`：Throne 通过这个地址连接存储 API，而 TLS 中仍然使用 API 的主机名，这是一种域前置（domain fronting）。`前置端口` 默认为 443，只有与 `前置地址` 一起使用时才生效。 |
+
+`调优`（Tuning）组包含时间和大小相关的设置。字段留空即使用 Xray 的默认值，字段中会显示该默认值：
+
+| 字段 | Xray 默认值 | 设置的内容 |
+| --- | --- | --- |
+| `分段字节数`（Segment Bytes） | 524288 | 每个文件的最大上传量，单位为字节。Xray 最多允许 16 MiB。 |
+| `刷新间隔`（Flush Interval） | 20 | 上传前收集写入数据的时长，单位为毫秒。 |
+| `轮询间隔`（Poll Interval） | 50 | 两次检查新文件之间的最短等待时间，单位为毫秒。 |
+| `最大轮询间隔`（Max Poll Interval） | 500 | 连接空闲时两次检查之间的最长等待时间，单位为毫秒。 |
+| `积极轮询窗口`（Eager Window） | 2000 | 有流量之后，检查保持最短等待时间的时长，单位为毫秒。 |
+| `缺段超时`（Hole Timeout） | 30000 | 等待缺失分段的时长，超时后连接失败，单位为毫秒。 |
+| `会话存活时间`（Session TTL） | 300 | 空闲会话在其文件被清理之前保留的时长，单位为秒。 |
+| `并发数`（Concurrency） | 8 | 每个连接对存储的并行请求数。Xray 最多允许 64。 |
+
 ## 代理链中的 Xray {#xray-in-chains}
 
 代理链可以混用 sing-box 和 Xray 配置档，但有两项限制：
@@ -120,6 +166,8 @@ Xray 的消息同样显示在 `日志`（Logs）标签页中。其详细程度�
 
 ## Android 版 {#android}
 
-- 同样的设置位于 `设置`（Settings）→ `Core` → `Xray VLESS preference`，选项为 `XHTTP only`、`XHTTP and Reality`（默认）和 `All VLESS`。它同样只在导入时生效，因此更改后请更新订阅。
+- 同样的设置位于 `设置`（Settings）→ `核心`（Core）→ `Xray VLESS 偏好`（Xray VLESS preference），选项为 `仅 XHTTP`（XHTTP only）、`XHTTP 与 Reality`（XHTTP and Reality，默认）和 `全部 VLESS`（All VLESS）。它同样只在导入时生效，因此更改后请更新订阅。
 - 配置档类型同样为 `VLESS` 和 `VLESS (Xray)`，代理链中使用 Xray 的限制也相同。
+- 2.0.3 之后，Android 上的 `VLESS (Xray)` 配置档也可以使用 XDRIVE：在 `传输协议`（Network）中选择 `XDRIVE`。相关字段位于 `XDRIVE 设置`（XDRIVE settings）和 `XDRIVE 调优`（XDRIVE tuning）中，`密钥列表`（Secrets）每行填写一个值。
+- 2.0.3 之后，`设置`（Settings）→ `核心`（Core）→ `在 Xray 中信任系统证书`（Trust system certificates in Xray）的作用与桌面版相同。它信任 Android 自带的根证书，但不信任你自己安装的证书。
 - 从 2.0.2 起，当带有 `geoip:` 或 `geosite:` 规则的 Xray 配置启动或测试时，Android 版 Throne 会自动下载 `geoip.dat` 和 `geosite.dat`，通知中会显示下载进度。在 `设置`（Settings）→ `核心`（Core）→ `Xray Geo 资源`（Xray geo assets）中选择下载来源：`来源`（Source）提供与桌面版相同的四个来源，也可以选择 `自定义`（Custom）地址。在 `文件`（Files）中点按某个文件可重新下载它，点按 `立即下载`（Download now）则下载两个文件。

@@ -28,7 +28,7 @@ toc = true
 2. 在 Throne 中按 `Ctrl+V`，或选择 `程序`（Program）→ `添加剪贴板中的配置档`（Add profile from clipboard）。
 3. Throne 会显示该地址并询问“如何更新？”。选择 `创建新的订阅分组`（Create new subscription group），然后点击 `确定`（OK）。
 
-Throne 会创建一个以地址中的主机名命名的分组，并立即下载其中的配置档。当地址来自文件、二维码或你拖放到窗口上的文本时，也会出现同样的询问。三个选项的作用如下：
+Throne 会创建一个以地址中的主机名命名的分组，并立即下载其中的配置档。自 1.4.0 起，Throne 还会切换到新分组的标签页。当地址来自文件、二维码或你拖放到窗口上的文本时，也会出现同样的询问。三个选项的作用如下：
 
 | 选项 | 结果 |
 | --- | --- |
@@ -51,7 +51,7 @@ Throne 会创建一个以地址中的主机名命名的分组，并立即下载�
 
 ### 通过 throne:// 链接添加 {#from-link}
 
-`throne://addsub/…` 链接（例如服务商网站上的链接）会打开 `添加订阅`（Add subscription）窗口，并填好名称和地址。如果该分组应参与自动更新，请保持勾选 `自动更新`（Auto update），然后点击 `确定`（OK）。Throne 随后会创建该分组并下载它。参见[深度链接](@/advanced/deeplinks.zh.md#addsub)。
+`throne://addsub/…` 链接（例如服务商网站上的链接）会打开 `添加订阅`（Add subscription）窗口，并填好名称和地址。如果该分组应参与自动更新，请保持勾选 `自动更新`（Auto update），然后点击 `确定`（OK）。Throne 随后会创建该分组、切换到它的标签页（自 1.4.0 起）并下载它。参见[深度链接](@/advanced/deeplinks.zh.md#addsub)。
 
 ## 更新订阅 {#update}
 
@@ -71,6 +71,8 @@ Throne 会创建一个以地址中的主机名命名的分组，并立即下载�
 - 如果服务器 10 秒内没有发送任何数据，或者响应大于 64 MB，则放弃更新。
 
 开启 `设置`（Settings）→ `基本设置`（Basic Settings）→ `订阅`（Subscription）→ `更新订阅前清除服务器`（Clear servers before updating subscription）后（默认关闭），Throne 会在每次更新前删除该分组的配置档，因此它们的测试结果会丢失。
+
+在简洁模式下，`订阅`（Subscription）标签页是 `通用`（Common）标签页中的一个区域，只显示 `更新订阅前清除服务器` 和 `订阅自动更新`（Subscription auto update）；其他选项仅在高级模式下显示（参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。
 
 ### 变更报告 {#change-report}
 
@@ -144,6 +146,8 @@ Throne 会创建一个以地址中的主机名命名的分组，并立即下载�
 
 如果分组中有配置档，该窗口还会显示 `复制配置档分享链接`（Copy profile share links）和 `复制配置档分享链接(深度链接)`（Copy profile share links (Deep Links)）。它们会复制分组中所有配置档的链接。
 
+在简洁模式下，分组编辑器会隐藏 `前置代理`（Front Proxy）、`落地代理`（Landing Proxy）和 `高级`（Advanced）（仅在高级模式下显示，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。它们的设置仍然有效。
+
 ## 每次更新之后 {#after-update}
 
 自 1.3.1 起，订阅分组可以在每次更新后自行清理。打开分组选项，点击 `高级`（Advanced），然后使用 `更新`（Update）部分。所有选项默认关闭。
@@ -214,7 +218,7 @@ Throne 会在 `x-hwid`、`x-device-os`、`x-ver-os` 和 `x-device-model` 请求�
 
 配置档保留各自的端口。如果配置档的服务器原本是域名，Throne 仍会把该域名作为 TLS 服务器名称（SNI），以及 WebSocket、HTTPUpgrade、HTTP 和 XHTTP 传输的 `Host` 发送，除非配置档自己设置了这些值。`地址`（Address）列显示每个配置档实际使用的地址。如果 IP 列表为空或已被删除，配置档会使用自己的地址，日志中也会说明这一点。
 
-配置档可以覆盖其分组的设置：在配置档编辑器中点击 `高级设置`（Advanced Settings），将 `Server Address` 设为 `Inherit from group`（默认）、`Own address` 或 `IP list`。没有单一固定服务器地址的配置档，例如代理链、自动选择器、`Direct`、`Tailscale`、`Extra Core` 和自定义配置，没有此设置，也不受分组设置的影响。
+配置档可以覆盖其分组的设置：在配置档编辑器中点击 `高级设置`（Advanced Settings），将 `Server Address` 设为 `Inherit from group`（默认）、`Own address` 或 `IP list`。没有单一固定服务器地址的配置档，例如代理链、自动选择器、`直连`（Direct）、`Tailscale`、`额外核心`（Extra Core）和自定义配置，没有此设置，也不受分组设置的影响。
 
 如果在分组的某个配置档运行时更改该分组的服务器地址，Throne 会重启该配置档。
 
@@ -240,7 +244,7 @@ Throne 会在 `x-hwid`、`x-device-os`、`x-ver-os` 和 `x-device-model` 请求�
 
 ### 服务器返回网页或验证码 {#problem-web-page}
 
-自 1.4.0 起，当返回的是网页（例如验证码或机器人检查）时，Throne 会提示“The server returned a web page instead of a subscription”（服务器返回的是网页而不是订阅）。请在分组的高级选项中尝试 `TLS 1.2` 或 `HTTP/1.1`（参见 [TLS 与 HTTP 版本](#tls-http-version)），或者换一个 `User Agent`。
+自 1.4.0 起，当返回的是网页（例如验证码或机器人检查）时，Throne 会提示“The server returned a web page instead of a subscription”（服务器返回的是网页而不是订阅）。请在分组的高级选项中尝试 `TLS 1.2` 或 `HTTP/1.1`（参见 [TLS 与 HTTP 版本](#tls-http-version)），或者换一个 `用户代理标识`（User Agent）。
 
 如果添加订阅时首次下载失败，Throne 会保留新建的分组并给出提示（自 1.4.0 起）。更改其设置后重新更新即可，无需重新添加。
 
@@ -250,7 +254,7 @@ Throne 会在 `x-hwid`、`x-device-os`、`x-ver-os` 和 `x-device-model` 请求�
 
 ### “有用代理的请求，但未启动配置档。” {#problem-no-profile}
 
-当 `设置`（Settings）→ `基本设置`（Basic Settings）→ `杂项`（Miscellaneous）→ `使用代理`（Use proxy）开启时，Throne 会通过本地代理端口发送它自己的请求，例如订阅更新。只要勾选了 `系统代理`（System Proxy），它也会这样做。如果没有配置档在运行，就没有可用的代理，请求便会失败并显示此消息。请先启动一个配置档，或者关闭 `使用代理`（Use proxy）和 `系统代理`（System Proxy）。
+当 `设置`（Settings）→ `基本设置`（Basic Settings）→ `杂项`（Miscellaneous）→ `使用代理`（Use proxy）开启时，Throne 会通过本地代理端口发送它自己的请求，例如订阅更新。只要勾选了 `系统代理`（System Proxy），它也会这样做。如果没有配置档在运行，就没有可用的代理，请求便会失败并显示此消息。请先启动一个配置档，或者关闭 `使用代理`（Use proxy）和 `系统代理`（System Proxy）。在简洁模式下，`使用代理` 位于 `通用`（Common）标签页的 `网络设置`（Network Settings）区域。
 
 ### 订阅地址在你所在的国家被封锁 {#problem-blocked}
 
@@ -258,7 +262,7 @@ Throne 会在 `x-hwid`、`x-device-os`、`x-ver-os` 和 `x-device-model` 请求�
 2. 开启 `设置`（Settings）→ `基本设置`（Basic Settings）→ `杂项`（Miscellaneous）→ `使用代理`（Use proxy）。
 3. 更新订阅。
 
-`使用代理`（Use proxy）需要本地代理端口，因此在开启 `禁用混合入站`（Disable Mixed Inbound）时无法使用。
+`使用代理`（Use proxy）会把请求发送到本地代理端口。在 1.3.2 及更早版本中，开启 `禁用混合入站`（Disable Mixed Inbound）时它无法使用。自 1.4.0 起，Throne 在这种情况下会直接发送请求，再由 TUN 模式通过正在运行的配置档转发。如果 TUN 模式也处于关闭状态，更新会失败，并提示“Request with proxy but the mixed inbound is disabled and Tun Mode is off.”（有用代理的请求，但混合入站已禁用且 TUN 模式已关闭）。
 
 ### Happ 和 v2RayTun 的“crypt”链接 {#problem-crypt}
 
@@ -274,13 +278,14 @@ Throne 会在 `x-hwid`、`x-device-os`、`x-ver-os` 和 `x-device-model` 请求�
 
 Throne for Android 具有相同的分组、选项和更新行为。
 
-- 从侧边菜单打开 `分组`（Groups）。使用顶部的 `New group` 和 `更新所有订阅`（Update all subscriptions）。每个分组都会显示其类型、配置档数量、上次更新时间，以及服务商发送的配额信息（“Used … · … left · expires …”，即已用、剩余和到期时间）。
-- 分组编辑器具有相同的基本选项，只是名称采用句首大写的写法：`Front proxy`、`Landing proxy`、`Auto clear unavailable profiles`、`Skip automatic update` 和 `Advanced`。2.0.2 之后，`高级`（Advanced）中还会有 `TLS 版本`（TLS version）、`HTTP 版本`（HTTP version）、`更新间隔（分钟）`（Update interval (minutes)）和 `服务器间隔`（Server interval），`设置`（Settings）→ `订阅`（Subscriptions）中会有 `使用服务器下发的更新间隔`（Use the update interval sent by the server）、`订阅 TLS 版本`（Subscription TLS version）和 `订阅 HTTP 版本`（Subscription HTTP version）。届时应用也会在服务器返回网页时给出提示，并在报告窗口中显示导入或更新的问题。Throne for Android 没有 `Server Address` 设置。
+- 从侧边菜单打开 `分组`（Groups）。使用顶部的 `新建分组`（New group）和 `更新所有订阅`（Update all subscriptions）。每个分组都会显示其类型、配置档数量、上次更新时间，以及服务商发送的配额信息（“已用 … · 剩余 … · 到期 …”，即 Used … · … left · expires …）。
+- 分组编辑器具有相同的基本选项，只是英文名称采用句首大写的写法：`前置代理`（Front proxy）、`落地代理`（Landing proxy）、`自动清除不可用配置`（Auto clear unavailable profiles）、`跳过自动更新`（Skip automatic update）和 `高级`（Advanced）。自 2.0.3 起，`高级`（Advanced）中还有 `TLS 版本`（TLS version）、`HTTP 版本`（HTTP version）、`更新间隔（分钟）`（Update interval (minutes)）和 `服务器间隔`（Server interval），`设置`（Settings）→ `订阅`（Subscriptions）中有 `使用服务器下发的更新间隔`（Use the update interval sent by the server）、`订阅 TLS 版本`（Subscription TLS version）和 `订阅 HTTP 版本`（Subscription HTTP version）。从该版本起，应用也会在服务器返回网页时给出提示，并在报告窗口中显示导入或更新的问题。Throne for Android 没有 `Server Address` 设置。
 - 自 2.0.2 起，配置档列表上方的卡片会显示[服务商信息](#provider-info)：流量、剩余时间、`官网`（Portal）和 `技术支持`（Support），以及公告。点按公告可阅读全文。要为某个分组隐藏该卡片，请在分组编辑器中关闭 `订阅信息卡片`（Subscription info card）。
 - 自 2.0.2 起，订阅分组有一个 `过滤`（Filter）类别，包含两个正则表达式。`仅保留名称匹配项`（Only names matching）只保留名称匹配的配置档，例如 `HK|SG|Japan`。`移除名称匹配项`（Remove names matching）删除名称匹配的配置档，例如 `到期|流量|官网`。不区分大小写。过滤器在每次更新时生效，变更报告会说明它们过滤掉了多少个配置档。如果过滤后一个配置档都不剩，更新会中止，分组保持不变。
 - 自 2.0.2 起，Android 核心无法运行的条目会被跳过。参见 [Android 差异](@/reference/protocols.zh.md#android-import)。
 - `URL` 也接受 `content://` 地址，因此订阅可以来自另一个应用提供的文件。对于普通的 `http://` 地址，编辑器会警告“纯文本 HTTP 流量并不安全”。
-- 全局选项位于 `设置`（Settings）→ `订阅`（Subscriptions）。如果 `User agent` 为空，应用会发送 `Throne/Android/` 加上其版本号。
+- 全局选项位于 `设置`（Settings）→ `订阅`（Subscriptions）。如果 `UserAgent`（User agent）为空，应用会发送 `Throne/Android/` 加上其版本号。
+- 开启 `设置` → `订阅` → `使用代理`（Use proxy）后，更新会经过正在运行的配置档；如果没有配置档在运行，更新会失败，并提示“请求使用代理但未启动配置。”（Request with proxy but no profile started.）。在 `仅代理`（Proxy only）模式下，更新同样会经过正在运行的配置档。2.0.3 之后，仅仅处于 `仅代理` 模式不会再导致更新失败：没有配置档在运行时，更新会直接发出。
 - 通过 `添加服务器配置`（Add profile）→ `从剪切板导入`（Import from clipboard）导入地址时，会出现同样的“How to update?”（如何更新？）询问。
 - 只有手动更新单个分组后才会出现变化窗口。自动更新只会写入日志。
 

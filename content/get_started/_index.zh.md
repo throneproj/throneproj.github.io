@@ -43,6 +43,7 @@ Throne for Android（前身为 NekoBox for Android）是 Throne 的 Android 应�
 - 断网保护，用于拦截不经过 Throne 的流量（自 1.4.0 起）：[Kill Switch（断网保护）](@/advanced/kill_switch.zh.md)。
 - Throne API，可通过 `thronectl` 从脚本、热键和其他设备控制和管理 Throne（自 1.4.0 起）：[Throne API 与 thronectl](@/advanced/api.zh.md)。
 - 适用于服务器和容器的无界面模式（自 1.4.0 起）：[无界面 Throne](@/headless/_index.zh.md)。
+- 为新用户隐藏高级选项的简洁模式，以及用 `Ctrl+K` 搜索命令和设置（自 1.4.0 起）：[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)。
 
 ## 从哪里开始 {#where-to-start}
 
@@ -64,3 +65,5 @@ Throne 基于以下项目构建：
 - [fkYAML](https://github.com/fktn-k/fkYAML)：Clash YAML 导入
 - [quirc](https://github.com/dlbeer/quirc)：二维码识别
 - [srombauts/sqlitecpp](https://github.com/srombauts/sqlitecpp)：配置档和设置数据库
+
+要支持 Throne 的开发，请在 `程序`（Program）→ `关于`（About）中点击 `支持 Throne`（Support Throne）（自 1.4.0 起）。它会打开捐赠页面。Throne for Android 的 `关于`（About）页面中也有同样的选项（2.0.3 之后）。

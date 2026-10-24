@@ -104,6 +104,8 @@ Throne 会把日志写到标准错误输出，以及数据目录中的 `config/l
 | macOS LaunchDaemon | `/Library/Logs/Throne/throne.log` |
 | Windows 服务 | `C:\ProgramData\Throne\config\logs\throne.log`（服务没有标准错误输出） |
 
+`thronectl logs` 通过 API 读取日志，可以在任何允许发送[管理请求](@/headless/thronectl.zh.md#admin-requests)的设备上使用：`thronectl logs -n 500` 打印最后 500 行，`thronectl logs -f` 则会继续打印新行，Throne 重启后也不会中断。这些行与桌面版日志窗口中显示的内容相同，包括核心的输出；Throne 在内存中保留最新的 5000 行。[Web 界面](@/headless/web.zh.md)的 `Logs` 页面会在浏览器中显示同样的行。
+
 无界面 Throne 的日志使用英文。`--debug` 会添加调试行。`--log-format` 设置标准错误输出的格式：
 
 | 格式 | 行 |

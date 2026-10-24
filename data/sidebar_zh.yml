@@ -55,6 +55,8 @@
       url: /headless/installation/
     - title: "使用 thronectl 管理"
       url: /headless/thronectl/
+    - title: "Web 界面"
+      url: /headless/web/
     - title: "命令行与数据目录"
       url: /headless/command_line/
     - title: "健康检查与日志"

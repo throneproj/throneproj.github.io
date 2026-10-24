@@ -5,16 +5,16 @@ weight = 20
 toc = true
 +++
 
-Throne بدون رابط گرافیکی پنجره ندارد، بنابراین آن را با `thronectl`، کلاینت خط فرمان [Throne API](@/advanced/api.fa.md)، مدیریت می‌کنید. این صفحه نشان می‌دهد چگونه `thronectl` را به Throne بدون رابط گرافیکی متصل کنید و چگونه Throne را با آن راه‌اندازی کنید. [Throne API و thronectl](@/advanced/api.fa.md) فهرست کامل فرمان‌ها و پرچم‌ها (flags) را دارد.
+Throne بدون رابط گرافیکی پنجره ندارد، بنابراین آن را با `thronectl`، کلاینت خط فرمان [Throne API](@/advanced/api.fa.md)، مدیریت می‌کنید. این صفحه نشان می‌دهد چگونه `thronectl` را به Throne بدون رابط گرافیکی متصل کنید و چگونه Throne را با آن راه‌اندازی کنید. [Throne API و thronectl](@/advanced/api.fa.md) فهرست کامل فرمان‌ها و پرچم‌ها (flags) را دارد. برای مدیریت Throne از مرورگر، [رابط وب](@/headless/web.fa.md) را ببینید.
 
 ## نصب thronectl {#install-thronectl}
 
-`thronectl` بخشی از بسته‌های Throne نیست. آن را روی رایانه‌ای که Throne را اجرا می‌کند نصب کنید، و روی هر رایانهٔ دیگری که می‌خواهید Throne را از آن مدیریت کنید:
+بسته‌های `.deb` و `.rpm` برنامهٔ Throne، `thronectl` را با نام `/usr/bin/thronectl` نصب می‌کنند، و فایل ZIP مخصوص Linux آن را کنار `Throne` دارد. در جاهای دیگر، آن را روی رایانه‌ای که Throne را اجرا می‌کند نصب کنید، و روی هر رایانهٔ دیگری که می‌خواهید Throne را از آن مدیریت کنید:
 
 - یک فایل باینری برای Linux، Windows، macOS یا FreeBSD را از [انتشارهای Throne-api](https://github.com/throneproj/Throne-api/releases) دانلود کنید، یا
 - آن را با Go بسازید: `go install github.com/throneproj/Throne-api/cmd/thronectl@latest`.
 
-[ایمیج Docker](@/headless/installation.fa.md#docker) از قبل `thronectl` را در `/usr/local/bin` دارد.
+[ایمیج Docker](@/headless/installation.fa.md#docker) از قبل `thronectl` را در `/usr/local/bin` دارد. فایل‌های دانلودی Throne برای Windows و macOS آن را ندارند.
 
 برای اینکه پوسته (shell) فرمان‌ها، شناسهٔ نمایه‌ها و نام تنظیمات را کامل کند، [تکمیل خودکار در پوسته](@/advanced/api.fa.md#completion) را ببینید.
 
@@ -52,7 +52,7 @@ export THRONE_KEY_FILE=/var/lib/throne/config/api.key
 
 ## درخواست‌های مدیریتی {#admin-requests}
 
-درخواست‌هایی که آنچه را Throne در اختیار دارد تغییر می‌دهند، درخواست‌های مدیریتی هستند: `import`، `sub add`، `group`، `profile rm`، `settings set`، `backup`، `restart` و `shutdown`. Throne فقط از دستگاه خودش به آن‌ها پاسخ می‌دهد، مگر اینکه با `--api-admin-lan` (`THRONE_API_ADMIN_LAN=1`) اجرا شود. از دستگاه دیگر، این درخواست‌ها با `forbidden` شکست می‌خورند.
+درخواست‌هایی که آنچه را Throne در اختیار دارد تغییر می‌دهند، درخواست‌های مدیریتی هستند: `import`، `sub add`، `group`، `profile rm`، `settings set`، `backup`، `restart` و `shutdown`. `logs` هم همین‌طور است، چون گزارش، سایت‌هایی را که اتصال‌ها به آن‌ها رفته‌اند نام می‌برد. Throne فقط از دستگاه خودش به آن‌ها پاسخ می‌دهد، مگر اینکه با `--api-admin-lan` (`THRONE_API_ADMIN_LAN=1`) اجرا شود. از دستگاه دیگر، این درخواست‌ها با `forbidden` شکست می‌خورند.
 
 همهٔ درخواست‌های دیگر، مانند `status`، `connect`، `tun on` یا `test`، از هر دستگاهی که اجازهٔ دسترسی به API را دارد و کلید را دارد کار می‌کنند.
 
@@ -143,6 +143,7 @@ THRONE_API_ADMIN_LAN=1
 | `thronectl sub update --all` | به‌روزرسانی همهٔ اشتراک‌ها |
 | `thronectl geo update`، `thronectl rulesets update` | دانلود دوبارهٔ فایل‌های geo و مجموعه‌قوانین |
 | `thronectl traffic --by app --since 7d` | مجموع ترافیک |
+| `thronectl logs -n 50`، `thronectl logs -f` | آخرین خطوط گزارش Throne؛ با `-f`، سپس خطوط جدید همان‌طور که Throne آن‌ها را می‌نویسد. [گزارش‌ها](@/headless/monitoring.fa.md#logs) را ببینید |
 | `thronectl restart`، `thronectl shutdown` | راه‌اندازی دوبارهٔ Throne؛ خارج کردن آن |
 
 برای خروجی JSON که برای اسکریپت‌ها مناسب است، `--json` را به هر فرمانی اضافه کنید. `thronectl help <command>` یک فرمان را توضیح می‌دهد. برای همهٔ فرمان‌ها و پرچم‌ها و کدهای خروج `thronectl`، [Throne API و thronectl](@/advanced/api.fa.md#commands) را ببینید.

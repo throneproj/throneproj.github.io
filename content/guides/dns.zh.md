@@ -26,12 +26,14 @@ Throne 在核心中内置了自己的 DNS 解析器。它使用三个 DNS 服务
 
 查询的来源取决于所用的模式：
 
-- **TUN 模式。** 应用的 DNS 查询会进入隧道并到达 Throne。Throne 会为每个结构化路由配置档添加一个 DNS 步骤（列表中的 `Route DNS` 或 `dns-hijack` 规则起同样的作用），因此它会按上述方式应答这些查询。原始路由配置档只有在你自行编写这一步骤时才会包含它；参见[原始配置档](@/guides/routing.zh.md#raw-profiles)。
+- **TUN 模式。** 应用的 DNS 查询会进入隧道并到达 Throne。Throne 会为每个结构化路由配置档添加一个 DNS 步骤（列表中的 `Route DNS` 或 `dns-hijack` 规则起同样的作用），因此它会按上述方式应答这些查询。原始路由配置档只有在你自行编写这一步骤时才会包含它；参见[原始配置档](@/guides/routing.zh.md#raw-profiles)。在 macOS 上，TUN 模式运行期间，Throne 还会把系统的 DNS 设置指向它的核心；参见 [TUN 模式](@/guides/tun_mode.zh.md#side-effects-dns)。
 - **系统代理模式。** 使用代理的应用会把网站名称发送给 Throne。对于经过代理的连接，由代理服务器查询该名称。对于直连的连接，由 Throne 使用直连 DNS 查询。应用也可以自行通过系统的解析器查询名称，这些查询不会经过 Throne。
 
 ## 设置 {#settings}
 
-打开 `设置`（Settings）→ `路由设置`（Routing Settings）→ `DNS`。点击 `确定`（OK）并重启连接后，更改才会生效。
+打开 `设置`（Settings）→ `路由设置`（Routing Settings）→ `DNS`。点击 `确定`（OK）并重启连接后，更改才会生效。活动的路由配置档可以用自己的设置替换其中一部分；参见[按路由配置档设置 DNS](#route-dns)。
+
+在简洁模式下没有 `DNS` 标签页：`远程 DNS`（Remote DNS）、`直连 DNS`（Direct DNS）和 `默认 DNS 服务器`（Default DNS server）位于 `通用`（Common）标签页的 `简易 DNS 设置`（Simple DNS Settings）分区中，其他设置会被隐藏，但保留其值。如果开启了 `使用自定义 DNS 对象`（Use Custom DNS Object），`DNS` 标签页会保留，以便你将其关闭。参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)。
 
 | 设置 | 默认值 | 作用 |
 | --- | --- | --- |
@@ -45,6 +47,8 @@ Throne 在核心中内置了自己的 DNS 解析器。它使用三个 DNS 服务
 | `预定义回答`（Predefined Answers） | 开启 | 采用 hosts 文件语法的固定应答。默认条目为 `127.0.0.1 localhost`。 |
 | `启用 FakeIP`（Enable FakeIP） | 关闭 | 参见 [FakeIP](#fakeip)。 |
 | `FakeIP 禁用 IPv6`（FakeIP Disable IPv6） | 关闭 | 不分配虚假的 IPv6 地址；AAAA 查询会得到空应答。 |
+
+自 1.4.0 起，`远程 DNS`（Remote DNS）和 `直连 DNS`（Direct DNS）的列表还会在内置示例之上列出你最近输入过的 8 个服务器，最新的排在最前面。
 
 `远程 DNS`、`直连 DNS` 和 `本地覆盖` 接受以下格式：
 
@@ -111,13 +115,31 @@ FakeIP 只影响到达 Throne 的查询，因此它在 TUN 模式下才有用。
 请在自定义 DNS 对象中保留一个标签（tag）为 `dns-direct` 的服务器。Throne 的路由会用它来查询服务器地址。
 {% end %}
 
+## 按路由配置档设置 DNS {#route-dns}
+
+自 1.4.0 起，路由配置档可以使用自己的 DNS 服务器。当该配置档是活动的路由配置档时，这些服务器会取代 `DNS` 标签页上的全局服务器。当某个国家的配置档需要一个在当地可用的直连 DNS，或者服务商把路由配置档和它的 DNS 服务器一起提供时，这很有用。
+
+1. 打开 `设置`（Settings）→ `路由设置`（Routing Settings）→ `路由`（Route），选中配置档，然后点击 `编辑`（Edit）。也可以在 `路由`（Routing）菜单底部右键点击该配置档。
+2. 打开 `DNS` 标签页，选择 `Use custom DNS settings`。
+3. 修改设置，然后点击 `确定`（OK）。
+
+该标签页包含 [DNS 标签页](#settings)中的以下设置，显示为英文：`Remote DNS`、`Direct DNS`、它们各自的 `Disable IPv6` 复选框、`Default DNS server`、`Enable DNS Routing`、`Enable FakeIP` 和 `FakeIP Disable IPv6`。第一次切换到 `Use custom DNS settings` 时，这些设置会以全局值为初始值。默认选项 `Use the global DNS settings` 会以灰色显示全局值。`本地覆盖`（Local Override）、`尊重 Hosts 文件`（Respect Hosts File）、`预定义回答`（Predefined Answers）和 `高级设置`（Advanced Settings）始终取自 `DNS` 标签页。
+
+注意事项：
+
+- 在 `路由`（Routing）菜单中选择另一个路由配置档会重启连接，因此 DNS 服务器也会随之切换。
+- 带有自己 DNS 设置的配置档也会取代[自定义 DNS 对象](#advanced)：该配置档处于活动状态时，Throne 会忽略 `使用自定义 DNS 对象`（Use Custom DNS Object）。当某个配置档使用全局设置且开启了 `使用自定义 DNS 对象` 时，该配置档的 `DNS` 标签页会提示该对象生效。
+- 结构化、远程和原始路由配置档都有该标签页。远程配置档在更新时会保留自己的 DNS 设置；Throne 从不从 URL 获取这些设置。
+- 配置档的 `throne://route/` 链接会携带其 DNS 设置。在 `路由设置`（Routing Settings）中用 `导入`（Import）导入此类链接之前，Throne 会列出这些服务器：“It uses its own DNS servers: remote …, direct …”（它使用自己的 DNS 服务器：远程 …，直连 …）。请核对它们：该配置档处于活动状态时，你查询的每个名称都会经过这些服务器。参见[分享配置档](@/guides/routing.zh.md#share-profiles)。
+- 在简洁模式下，只有已经使用自己 DNS 设置的配置档才会显示 `DNS` 标签页。
+
 ## DNS 泄漏测试 {#leak-tests}
 
 DNS 泄漏测试是一类网站，它会显示是哪些 DNS 服务器查询了它的测试域名。测试结果取决于你使用的模式和路由配置档。
 
 以下结果属于正常情况：
 
-- **你的远程 DNS 服务商**（默认设置下为 Google）。你的查询经过了远程 DNS 和代理。对于你走代理的网站，这是正常结果。
+- **你的远程 DNS 服务商**（默认设置下为 Google）。你的查询经过了远程 DNS 和代理。对于你走代理的网站，这是正常结果。如果活动的路由配置档使用了[自己的 DNS 设置](#route-dns)，你看到的会是该配置档的服务器。
 - **你的运营商（针对直连的网站）。** Throne 使用直连 DNS 查询直连的域名，而直连 DNS 默认是系统的解析器，通常属于你的运营商。在系统代理模式下或开启 FakeIP 时，对于仅因路由配置档的默认出站为 `direct` 才直连的网站（例如“Proxy … Blocked”配置档中的情况），也会出现这种结果。直连流量本来就不经过代理直接到达网站，所以你的运营商无论如何都能看到它。
 - **你的运营商（系统代理模式下）。** 浏览器和应用可以绕过 Throne 自行查询名称。如果你在意这一点，请使用 TUN 模式。
 - **浏览器自己的 DNS 服务商**，当浏览器使用安全 DNS（DNS over HTTPS）时。这些查询是普通的 HTTPS 连接，会遵循你的路由规则。
@@ -139,4 +161,5 @@ Throne for Android 在 `设置`（Settings）→ `DNS` 中提供相同的 DNS �
 
 - **`localhost` 作为直连 DNS。** 自 2.0.1 起，它会像在 Windows 上一样，直接询问当前 Wi-Fi 或移动网络的 DNS 服务器。只有当网络没有指定 DNS 服务器时，才会使用 Android 自身的解析器。此前，Throne 始终使用 Android 的解析器，而该解析器还会应用私人 DNS（Private DNS），可能使每次查询都卡住。如果连接时网络的 DNS 服务器没有应答，Throne 会提示“无法连接：网络的 DNS (…) 未应答。请设置可用的直连 DNS。”（Could not connect: the network's DNS (…) did not answer. Set a working Direct DNS.）。提示中的 `DNS` 按钮会打开 DNS 设置。
 - **虚假的 IPv6 地址**自 2.0.2 起来自 `2001:db8::/32`，与桌面版相同。
+- **按路由配置档设置 DNS**（2.0.3 之后的版本）。与桌面版一样，路由配置档的编辑器中有一个 `DNS` 卡片，提供 `使用全局 DNS 设置`（Use the global DNS settings）和 `使用自定义 DNS 设置`（Use custom DNS settings）（参见[按路由配置档设置 DNS](#route-dns)）。当活动的路由配置档使用自己的服务器时，`设置`（Settings）→ `DNS` 页面顶部会说明这一点：此时那里的设置只对其他路由配置档生效。
 - **供其他应用使用的本地 DNS 服务器。** Throne 在 `127.0.0.1` 上运行一个 DNS 服务器，设备上的其他应用都可以使用它。自 2.0.2 起，你可以在 `设置`（Settings）→ `入站`（Inbound）→ `DNS 服务器端口`（DNS server port）中更改其端口（默认 `5533`）。

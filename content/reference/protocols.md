@@ -9,7 +9,7 @@ This page lists every profile type in Throne desktop and Throne for Android, the
 
 ## Profile types {#protocols}
 
-To create a profile by hand, use `Program` → `New profile` (`Ctrl+N`) on the desktop, or `Add profile` → `Manual settings` on Android, and choose the type. You cannot change the type of an existing profile.
+To create a profile by hand, use `Program` → `New profile` (`Ctrl+N`) on the desktop, or `Add profile` → `Manual settings` on Android, and choose the type. You cannot change the type of an existing profile. In Simple mode, the desktop list leaves out `Direct`, `Chain Proxy`, `Extra Core` and the `Custom` types (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
 
 | Type | Desktop | Android | Notes |
 |---|---|---|---|
@@ -20,7 +20,7 @@ To create a profile by hand, use `Program` → `New profile` (`Ctrl+N`) on the d
 | `VMess` | Yes | Yes | |
 | `Trojan` | Yes | Yes | |
 | `VLESS` | Yes | Yes | sing-box implementation, with REALITY. |
-| `VLESS (Xray)` | Yes | Yes | Xray implementation: XHTTP, REALITY, VLESS encryption, Finalmask. See [sing-box vs Xray](@/advanced/xray.md#vless-preference). |
+| `VLESS (Xray)` | Yes | Yes | Xray implementation: XHTTP, REALITY, VLESS encryption, Finalmask, and the [XDRIVE](@/advanced/xray.md#xdrive) transport (desktop since 1.4.0, Android after 2.0.3). See [sing-box vs Xray](@/advanced/xray.md#vless-preference). |
 | `Hysteria` | Yes | Yes | Hysteria 1 and Hysteria 2 in one type: choose the `Protocol Version`. Supports port hopping and obfuscation. |
 | `TUIC` | Yes | Yes | |
 | `Juicity` | Yes | Yes | |
@@ -30,7 +30,7 @@ To create a profile by hand, use `Program` → `New profile` (`Ctrl+N`) on the d
 | `Mieru` | Yes | Yes | |
 | `Snell` | Yes | Yes | Snell version 4 or 6. |
 | `ShadowTLS` | Yes | Yes | |
-| `WireGuard` | Yes | Yes | For AmneziaWG, tick `Enable Amnezia` (Android: `Enable AmneziaWG`). Since 1.4.0 (Android: after 2.0.2), `Amnezia Options` → `Generate QUIC Signature...` (Android: `Generate QUIC signature…`) fills the signature packets I1–I5 so that the handshake looks like an HTTP/3 connection to a domain you choose. Can create a Cloudflare WARP account, see [WARP](@/advanced/warp.md#generate). |
+| `WireGuard` | Yes | Yes | For AmneziaWG, tick `Enable Amnezia` (Android: `Enable AmneziaWG`). Since 1.4.0 (Android: since 2.0.3), `Amnezia Options` → `Generate QUIC Signature...` (Android: `Generate QUIC signature…`) fills the signature packets I1–I5 so that the handshake looks like an HTTP/3 connection to a domain you choose. Can create a Cloudflare WARP account, see [WARP](@/advanced/warp.md#generate). |
 | `MASQUE` | Yes | Yes | HTTP/3 or HTTP/2. Can create a Cloudflare WARP identity. |
 | `OpenVPN` | Yes | Yes | Imports `.ovpn` files. One-time passwords (OTP) work only on the desktop. See [OpenVPN](@/advanced/vpn_profiles.md#openvpn). |
 | `OpenConnect` | Yes | Yes | AnyConnect, GlobalProtect, Fortinet, F5, Pulse and Juniper (`nc`) servers. OTP works only on the desktop. See [OpenConnect](@/advanced/vpn_profiles.md#openconnect). |
@@ -44,6 +44,8 @@ To create a profile by hand, use `Program` → `New profile` (`Ctrl+N`) on the d
 
 Some Android labels differ only in capitalization, for example `SOCKS` and `Auto selector`.
 
+`AnyTLS`, `Hysteria`, `Juicity`, `MASQUE`, `ShadowTLS`, `TrustTunnel` and `TUIC` always use TLS, so their editors have no switch to turn TLS off. In Throne for Android up to 2.0.3, a profile of these types that you created by hand lost its TLS settings, such as the SNI, when you saved it. After 2.0.3, the editors keep them.
+
 ### Which engine runs a profile {#engines}
 
 ThroneCore, the core of Throne, runs every profile type with sing-box, with two exceptions:
@@ -53,7 +55,7 @@ ThroneCore, the core of Throne, runs every profile type with sing-box, with two 
 
 Throne for Android uses the same core, so the same rules apply there. A chain can mix both engines, but only in this order: sing-box hops, then Xray hops, then sing-box hops.
 
-When you import a `vless://` link, `Settings` → `Basic Settings` → `Core` → `Xray VLESS Preference` decides which type it becomes. With the default, `XHTTP And Reality`, links that use XHTTP or REALITY become `VLESS (Xray)`, and the others become `VLESS`. Links that need a feature only Xray has, such as VLESS encryption, always become `VLESS (Xray)`. Since 1.4.0, VLESS entries with REALITY in Clash YAML follow the same setting. See [sing-box vs Xray](@/advanced/xray.md#vless-preference).
+When you import a `vless://` link, `Settings` → `Basic Settings` → `Core` → `Xray VLESS Preference` (Advanced mode only) decides which type it becomes. With the default, `XHTTP And Reality`, links that use XHTTP or REALITY become `VLESS (Xray)`, and the others become `VLESS`. Links that need a feature only Xray has, such as VLESS encryption, always become `VLESS (Xray)`. Since 1.4.0, VLESS entries with REALITY in Clash YAML follow the same setting. See [sing-box vs Xray](@/advanced/xray.md#vless-preference).
 
 ## Import formats {#import-formats}
 
@@ -89,6 +91,8 @@ Throne desktop and Throne for Android read the same formats in pasted text, file
 | AnyConnect XML profile, an `openconnect` command line, or a file with a `protocol=` line | `OpenConnect` profiles |
 | Any of the above, encoded in Base64 | Decoded first, then imported |
 
+`tt://` covers both kinds of TrustTunnel links: `tt://user:password@server:port?…`, and the `tt://?…` deep link that the TrustTunnel apps create. Throne reads version 1 of the deep link, and since 1.4.0 (Android: after 2.0.3) also version 2. The link must contain the server address, the server name, the username and the password, so a link that carries only a subscription address is refused. If the link lists several server addresses, Throne imports the first one and warns about the others.
+
 Entries that are not proxy servers are skipped, for example sing-box `direct`, `block`, `selector` and `urltest` outbounds, or Xray `freedom` and `blackhole` outbounds. To run a complete sing-box or Xray config, create a `Custom (sing-box config)` or `Custom (Xray config)` profile and paste the config into it. See [Full configs](@/advanced/chains.md#full-configs).
 
 Both apps refuse import files larger than 50 MB (on Android, `.zip` files are not limited) and subscription responses larger than 64 MB.
@@ -113,7 +117,7 @@ Both apps refuse import files larger than 50 MB (on Android, `.zip` files are no
 | Throne link | `throne://add/…` | Throne desktop and Throne for Android |
 | Old Throne link | `json://…` | Throne, for import only |
 
-A **standard link** uses the usual link format of the protocol. Some types have no standard link: `Auto Selector`, `Chain Proxy`, the `Custom` types, `Direct`, `Extra Core`, `MASQUE`, `OpenVPN` and `OpenConnect`. For these, Throne gives you the Throne link instead. If such a profile has advanced connection options, such as a bind interface, Throne shows a partial link that contains only those options instead of the Throne link. For these profiles, tick `Deep Link` or use `Copy links of selected (Deep Links)`. For `Tailscale`, share the Throne link too: Throne cannot import the `ts://` link that it shows for these profiles.
+A **standard link** uses the usual link format of the protocol. Some types have no standard link: `Auto Selector`, `Chain Proxy`, the `Custom` types, `Direct`, `Extra Core`, `MASQUE`, `OpenVPN` and `OpenConnect`. Neither do `VLESS (Xray)` profiles that use the XDRIVE transport. For these, Throne gives you the Throne link instead. If such a profile has advanced connection options, such as a bind interface, Throne shows a partial link that contains only those options instead of the Throne link. For these profiles, tick `Deep Link` or use `Copy links of selected (Deep Links)`. For `Tailscale`, share the Throne link too: Throne cannot import the `ts://` link that it shows for these profiles.
 
 A **Throne link** holds the settings of the profile as Base64-encoded JSON. It works for every profile type, including the types without a standard link, but only Throne can read it. See [Deep Links](@/advanced/deeplinks.md#add). `json://` links are the Throne link format used before 1.2.0; Throne still imports them.
 
@@ -145,6 +149,8 @@ Right-click a profile in the list and open `Share`:
 To copy the links of a whole group, open `Groups` → `Edit current Group` and click `Copy profile share links` or `Copy profile share links (Deep Links)`.
 
 `Share` → `Export config` (`Ctrl+E`) shows the core configuration that Throne generates for the profile, with a `sing-box` tab and, for profiles that use Xray, an `Xray` tab. `Copy` copies the tab you see. This is a config file for other clients, not a share link. Before 1.4.0, these were `Export Sing-box config` and `Export Xray config`.
+
+In Simple mode, `Copy links of selected (Deep Links)` and `Export config` are hidden (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
 
 To import a QR code that is shown on your screen, use `Program` → `Scan QR Code` (`Ctrl+Shift+Q`). To import a QR code from an image file, drop the file on the main window or open it with `Program` → `Add profile from File(s)`.
 

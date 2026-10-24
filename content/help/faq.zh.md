@@ -17,11 +17,21 @@ Throne 是 Nekoray 的延续。Nekoray 已不再开发，其仓库已归档。Th
 
 Throne 无法读取 Nekoray 的配置。要迁移你的服务器和设置，请参阅[从 Nekoray / NekoBox 迁移](@/help/migrating.zh.md)。
 
+## 找不到文档中提到的菜单项或设置，它在哪里？ {#missing-option}
+
+自 1.4.0 起，全新安装的 Throne 会以简洁模式启动，该模式会隐藏高级菜单项和设置。被隐藏的设置会保留原值并继续生效。
+
+- 要显示全部内容，请打开 `设置`（Settings）→ `基本设置`（Basic Settings）→ `样式`（Style），将 `界面`（Interface）设为 `高级`（Advanced），然后点击 `确定`（OK）。
+- 要查找某项设置，请在主窗口中按 `Ctrl+K` 并输入它的名称。搜索结果也会列出被隐藏的设置；选择其中一项后，Throne 会切换到高级模式并打开该设置。
+- 在简洁模式下，有些标签页会成为其他标签页中的区域。例如，`基本设置` 中 `订阅`（Subscription）和 `安全`（Security）的选项位于 `通用`（Common）标签页的底部。
+
+如果仍然找不到，可能是你的版本比本文档描述的版本旧，或者该项只存在于其他系统上。参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)。
+
 ## 有便携模式吗？ {#portable}
 
 有。Windows 和 Linux 的 ZIP 版本是便携版：Throne 会将所有数据保存在程序旁边的 `config` 文件夹中。要将 Throne 移动到其他文件夹或其他电脑，请复制整个 `Throne` 文件夹。通过 Windows 安装程序进行的按用户安装（默认方式）也会将 `config` 保存在程序旁边。
 
-`.deb` 和 `.rpm` 软件包、Linux 安装脚本以及 macOS 应用则会将数据保存在你的用户文件夹中。当程序文件夹不可写时（例如为所有用户安装到 `Program Files`），Throne 也会使用你的用户文件夹，并将已有数据复制过去。`设置`（Settings）→ `打开配置文件夹`（Open Config Folder）会打开当前使用的文件夹。参见[命令行、文件与日志](@/reference/files.zh.md#data-folder)。
+`.deb` 和 `.rpm` 软件包、Linux 安装脚本以及 macOS 应用则会将数据保存在你的用户文件夹中。当程序文件夹不可写时（例如为所有用户安装到 `Program Files`），Throne 也会使用你的用户文件夹，并将已有数据复制过去。`设置`（Settings）→ `打开配置文件夹`（Open Config Folder）会打开当前使用的文件夹（仅在高级模式下可用）。参见[命令行、文件与日志](@/reference/files.zh.md#data-folder)。
 
 ## 我可以在 Android 上使用 Throne 并把设置迁移过去吗？ {#android}
 
@@ -29,11 +39,11 @@ Throne 无法读取 Nekoray 的配置。要迁移你的服务器和设置，请�
 
 ## Throne 能在没有窗口的服务器上运行吗？ {#headless}
 
-可以，自 1.4.0 起。`Throne --headless` 以无窗口方式运行同一个程序，没有窗口、托盘图标或对话框：可以运行在服务器、路由器、树莓派或容器中。`.deb` 和 `.rpm` 软件包包含一个用于它的 systemd 服务（软件包从不自行启用它），另外还有 Docker 镜像。你可以用 `thronectl` 通过 Throne API 控制无界面 Throne。参见[无界面 Throne](@/headless/_index.zh.md)。
+可以，自 1.4.0 起。`Throne --headless` 以无窗口方式运行同一个程序，没有窗口、托盘图标或对话框：可以运行在服务器、路由器、树莓派或容器中。`.deb` 和 `.rpm` 软件包包含一个用于它的 systemd 服务（软件包从不自行启用它），另外还有 Docker 镜像。你可以用 `thronectl` 通过 Throne API 控制无界面 Throne，也可以在浏览器中通过 `thronectl web` 提供的 [Web 界面](@/headless/web.zh.md)控制它。软件包和 Docker 镜像都包含 `thronectl`。参见[无界面 Throne](@/headless/_index.zh.md)。
 
 ## 我可以用脚本或 Stream Deck 控制 Throne 吗？ {#scripts}
 
-可以，自 1.4.0 起。在 `设置`（Settings）→ `Integration Settings` → `Throne API` 中开启 Throne API，然后使用 `thronectl`。例如，`thronectl toggle` 可以用 Stream Deck 或宏键盘上的一个按键连接和断开，`thronectl connect best` 会启动延迟最低的配置档。参见 [Throne API 与 thronectl](@/advanced/api.zh.md)。
+可以，自 1.4.0 起。在 `设置`（Settings）→ `Integration Settings` → `Throne API` 中开启 Throne API（仅在高级模式下可用），然后使用 `thronectl`。例如，`thronectl toggle` 可以用 Stream Deck 或宏键盘上的一个按键连接和断开，`thronectl connect best` 会启动延迟最低的配置档。参见 [Throne API 与 thronectl](@/advanced/api.zh.md)。
 
 不使用 API 时，[全局热键](@/reference/shortcuts.zh.md#global-hotkeys) `Start/Stop Profile` 和 `Toggle Tun Mode` 也可以在任何应用中使用。
 
@@ -49,11 +59,11 @@ Throne 无法读取 Nekoray 的配置。要迁移你的服务器和设置，请�
 
 ## 我的设备 ID（HWID）会被发送给别人吗？ {#hwid}
 
-只有在你开启时才会。`设置` → `基本设置` → `订阅`（Subscription）→ `启用在更新订阅时发送硬件ID、设备型号以及 OS 版本`（Enable sending HWID, device model, and OS version when updating subscription）默认关闭。开启后，Throne 会将这些值作为 HTTP 请求头添加到订阅请求中，而不会添加到其他任何请求中。自 1.3.1 起，每个分组都可以在其 `Advanced` 订阅设置中通过 `Send HWID` 覆盖此设置。有些服务商要求发送这些信息。参见[隐私与网络请求](@/reference/privacy.zh.md#hwid)。
+只有在你开启时才会。`设置` → `基本设置` → `订阅`（Subscription）→ `启用在更新订阅时发送硬件ID、设备型号以及 OS 版本`（Enable sending HWID, device model, and OS version when updating subscription）默认关闭。开启后，Throne 会将这些值作为 HTTP 请求头添加到订阅请求中，而不会添加到其他任何请求中。自 1.3.1 起，每个分组都可以在其 `高级`（Advanced）订阅设置中通过 `发送硬件标识`（Send HWID）覆盖此设置。这两项设置都只在高级模式下显示。有些服务商要求发送这些信息。参见[隐私与网络请求](@/reference/privacy.zh.md#hwid)。
 
 ## 有断网保护（kill switch）吗？ {#kill-switch}
 
-有，自 1.4.0 起作为实验性功能提供。请开启 `设置` → `基本设置` → `安全`（Security）→ `Kill Switch`。Throne 运行期间，它会拦截所有不经过 Throne 的流量，即使没有配置档运行时也是如此。除非在 `Tun 设置`（Tun Settings）中关闭了 `私有地址范围绕过`（Private Range Bypass），否则本地网络仍可访问。断网保护需要与 TUN 模式相同的权限：在 Windows 上需要管理员权限，在 Linux 和 macOS 上需要具有 root 权限的核心。参见 [Kill Switch（断网保护）](@/advanced/kill_switch.zh.md)。
+有，自 1.4.0 起作为实验性功能提供。请开启 `设置` → `基本设置` → `安全`（Security）→ `Kill Switch`。在简洁模式下，`安全` 中的选项位于 `通用`（Common）标签页的底部。Throne 运行期间，它会拦截所有不经过 Throne 的流量，即使没有配置档运行时也是如此。除非在 `Tun 设置`（Tun Settings）中关闭了 `私有地址范围绕过`（Private Range Bypass），否则本地网络仍可访问。断网保护需要与 TUN 模式相同的权限：在 Windows 上需要管理员权限，在 Linux 和 macOS 上需要具有 root 权限的核心。参见 [Kill Switch（断网保护）](@/advanced/kill_switch.zh.md)。
 
 Throne 1.3 及更早版本没有断网保护。当配置档停止，或者核心意外停止时，你的应用会不经代理直接连接。
 
@@ -63,7 +73,7 @@ Throne 1.3 及更早版本没有断网保护。当配置档停止，或者核心
 
 TUN 模式会创建一个虚拟网卡，并将系统的流量导入其中。操作系统只允许管理员这样做。系统代理模式不需要特殊权限。
 
-- **Windows：** Throne 会提示“请以管理员身份运行 Throne”（Please run Throne as admin），并以管理员权限重新启动自身。此后，它每次都会以管理员身份启动。要停止这种行为，请开启 `设置` → `基本设置` → `安全`（Security）→ `始终以标准用户身份启动`（Always Start as Standard User）。
+- **Windows：** Throne 会提示“请以管理员身份运行 Throne”（Please run Throne as admin），并以管理员权限重新启动自身。此后，它每次都会以管理员身份启动。要停止这种行为，请开启 `设置` → `基本设置` → `安全`（Security）→ `始终以标准用户身份启动`（Always Start as Standard User）（仅在高级模式下可用）。
 - **Linux：** 只有核心（`ThroneCore`）会获得 root 权限，Throne 窗口不会。参见[下一个问题](#linux-suid)。
 - **macOS：** Throne 会打开“终端”（Terminal）并运行 `sudo`，为核心授予 root 权限。这需要管理员账户。
 
@@ -83,7 +93,7 @@ sudo setcap cap_net_admin,cap_net_raw,cap_net_bind_service,cap_sys_ptrace,cap_da
 
 此路径适用于 `.deb` 和 `.rpm` 软件包以及 Linux 安装脚本。对于 ZIP 版，请使用你的 Throne 文件夹中的 `ThroneCore` 文件。
 
-要让 Throne 不再请求权限，请开启 `设置` → `基本设置` → `安全` → `禁止权限请求`（Disable Privilege request）。此后，TUN 模式和其他需要 root 的功能只有在你自行授予权限后才能工作。某些发行版的软件包无法修改核心；此时 Throne 会显示“This installation cannot grant the core privileges by itself.”（此安装无法自行为核心授予权限），并附上打包者提供的说明。
+要让 Throne 不再请求权限，请开启 `设置` → `基本设置` → `安全` → `禁止权限请求`（Disable Privilege request）（仅在高级模式下可用）。此后，TUN 模式和其他需要 root 的功能只有在你自行授予权限后才能工作。某些发行版的软件包无法修改核心；此时 Throne 会显示“This installation cannot grant the core privileges by itself.”（此安装无法自行为核心授予权限），并附上打包者提供的说明。
 
 ## 为什么 Throne 被强制关闭后无法上网？ {#force-quit}
 
@@ -110,7 +120,7 @@ Throne 会在第 3 步移除代理设置。你也可以在系统的网络设置�
 除非你允许，否则订阅更新不会停止正在运行的配置档：
 
 - 如果新列表中不再包含正在运行的配置档，或者某个清理选项会删除它，Throne 会将该配置档保留在分组中，并让它继续运行。变更报告会将其列在“仍在使用中，因此保留而不是删除”（Still in use, so kept instead of deleted）之下，或者显示“The running profile was kept.”（正在运行的配置档已保留）。
-- 如果你开启了 `设置` → `基本设置` → `订阅` → `允许停止活动配置档`（Allow stopping the active profile），在这种情况下 Throne 会停止并删除正在运行的配置档。
+- 如果你开启了 `设置` → `基本设置` → `订阅` → `允许停止活动配置档`（Allow stopping the active profile）（仅在高级模式下可用），在这种情况下 Throne 会停止并删除正在运行的配置档。
 - 如果服务商只修改了正在运行的配置档的部分设置，Throne 会更新已保存的配置档，但不会重新建立连接。请重新启动该配置档以使用新设置。
 
 如果某个自动选择器使用了该分组，当更新替换了它正在使用的配置档时，它会自行重建。参见[订阅与分组](@/guides/subscriptions.zh.md#running-profile)。
@@ -129,7 +139,7 @@ Throne 1.1.0 和 1.1.1 会将带有 `inbounds` 的完整 sing-box 配置作为�
 
 ## 可下载的路由配置档来自哪里？ {#route-profiles-source}
 
-来自 [throneproj/routeprofiles](https://github.com/throneproj/routeprofiles) 仓库。`路由`（Routing）→ `下载配置档`（Download Profiles）会从该仓库获取各个国家的配置档。内置规则集（`geoip-…` 和 `geosite-…`）的列表也保存在那里；规则集文件本身来自 MetaCubeX meta-rules-dat、Chocolate4U Iran-sing-box-rules 和 runetfreedom russia-v2ray-rules-dat 等项目。Throne 通过 `路由设置`（Routing Settings）→ `通用`（Common）→ `远程规则集镜像`（Remote Rule-set Mirror）中选择的镜像下载它们。参见[路由](@/guides/routing.zh.md#download-profiles)。
+来自 [throneproj/routeprofiles](https://github.com/throneproj/routeprofiles) 仓库。`路由`（Routing）→ `下载配置档`（Download Profiles）会从该仓库获取各个国家的配置档。内置规则集（`geoip-…` 和 `geosite-…`）的列表也保存在那里；规则集文件本身来自 MetaCubeX meta-rules-dat、Chocolate4U Iran-sing-box-rules 和 runetfreedom russia-v2ray-rules-dat 等项目。Throne 通过 `路由设置`（Routing Settings）→ `通用`（Common）→ `远程规则集镜像`（Remote Rule-set Mirror）中选择的镜像下载它们（该设置仅在高级模式下可用）。参见[路由](@/guides/routing.zh.md#download-profiles)。
 
 ## `.deb` 软件包之间有什么区别？ {#deb-variants}
 

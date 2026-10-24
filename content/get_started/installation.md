@@ -42,7 +42,7 @@ To uninstall Throne, remove it from the list of installed apps in Windows. The u
 
 Keep all files of the folder together. Throne saves your data in the `config` folder next to `Throne.exe`, so you can move or back up the whole folder. If Throne cannot write to its folder, it uses `%LOCALAPPDATA%\Throne\config` instead.
 
-ZIP copies do not register `throne://` links by default. To turn this on, tick `Settings` → `Basic Settings` → `Common` → `Register throne:// links at startup`.
+ZIP copies do not register `throne://` links by default. To turn this on, tick `Settings` → `Basic Settings` → `Common` → `Register throne:// links at startup` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
 
 ## macOS {#macos}
 
@@ -66,7 +66,7 @@ You can also install Throne with [Homebrew](#homebrew), which does the steps bel
 
 4. Open Throne.
 
-Throne keeps your data in your user folder, not inside `Throne.app`, so you can replace the app without losing your profiles. `Settings` → `Open Config Folder` shows the folder. TUN mode needs an administrator account; see [TUN Mode](@/guides/tun_mode.md#privileges).
+Throne keeps your data in your user folder, not inside `Throne.app`, so you can replace the app without losing your profiles. `Settings` → `Open Config Folder` shows the folder (Advanced mode only). TUN mode needs an administrator account; see [TUN Mode](@/guides/tun_mode.md#privileges).
 
 ## Linux {#linux}
 
@@ -302,7 +302,7 @@ The exact steps of the official builds are in `.github/workflows/build.yml` in t
 
 ## Updating {#updating}
 
-ZIP copies and the default per-user installation of the Windows installer can update themselves: click `Tools` → `Check For Update`, then `Update`. Update all other copies the way you installed them: run the new installer, install the new `.deb` or `.rpm` package, run the install script again, replace `Throne.app` on macOS, or use your package manager. Your profiles and settings stay.
+ZIP copies and the default per-user installation of the Windows installer can update themselves: click `Program` → `Check For Update` (`Tools` → `Check For Update` before 1.4.0), then `Update`. Update all other copies the way you installed them: run the new installer, install the new `.deb` or `.rpm` package, run the install script again, replace `Throne.app` on macOS, or use your package manager. Your profiles and settings stay.
 
 Since 1.4.0, `Check For Update` shows no `Update` button while a [headless Throne](@/headless/_index.md) runs from the same installation. Stop the headless Throne first.
 

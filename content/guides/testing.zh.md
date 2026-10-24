@@ -7,7 +7,7 @@ toc = true
 
 Throne 可以测试你的配置档，帮助你只保留好用的那些。本页介绍 URL 测试、IP 与国家测试、速度测试、排序与筛选、清理、会替你挑选最佳服务器的自动选择器，以及能找到在你的网络中可用的服务器地址的 IP 扫描器。
 
-测试不会停止正在运行的配置档。测试会跳过自动选择器配置档；请改为测试自动选择器所使用的分组。
+测试不会停止正在运行的配置档。测试会跳过自动选择器配置档；请改为测试自动选择器所使用的各个分组。
 
 ## URL 测试 {#url-test}
 
@@ -38,6 +38,8 @@ URL 测试会检查配置档是否可用，并测量其延迟。Throne 会通过
 | `并发数`（Concurrency） | `10` | 同时测试的配置档数量。 |
 | `直连测试 URL`（Direct Test URL） | 空 | 不经过任何代理直接获取，使自动选择器能够分辨是互联网连接断开还是服务器失效。请使用在你的网络中无需代理即可访问的地址。留空表示 Throne 使用操作系统的网络状态。 |
 
+在简洁模式下，`测试`（Testing）部分只显示 `延迟测试 URL`（Latency Test URL）和 `Look up exit country`。本页中的其他测试设置，例如 `速度测试模式`（Speedtest mode）和 `Lookup service`，仅在高级模式下显示（参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。
+
 要复制选定配置档的结果，请右键点击它们，选择 `分享`（Share）→ `复制测试结果`（Copy Test Result）。
 
 ## IP 与国家测试 {#ip-test}
@@ -47,9 +49,18 @@ URL 测试会检查配置档是否可用，并测量其延迟。Throne 会通过
 - **选定的配置档：** 右键点击它们，选择 `解析选定的出口 IP`（Resolve Selected Out IP）。
 - **整个分组：** 选择 `分组`（Groups）→ `为本组解析 IP`（Resolve out IP for group）。
 
+这两个菜单项仅在高级模式下显示（参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。
+
 Throne 会通过每个配置档请求 `https://api.ip2location.io/`。之后，`测试结果`（Test Result）列会显示国旗；如果包含了 `出口 IP`（Out IP），还会显示出口 IP（参见[排序与筛选](#sort-filter)）。该测试使用 URL 测试的 `超时`（Timeout）和 `并发数`（Concurrency）设置。
 
 国家信息会被国家筛选器以及自动选择器的 `仅指定国家`（Only countries）选项使用。关于 Throne 会联系哪些服务，请参见[隐私与网络请求](@/reference/privacy.zh.md#network-requests)。
+
+正在运行的配置档有单独的出口查询。配置档启动后，Throne 会经由本地代理端口询问一个 IP 查询服务：该连接从哪个 IP 地址、哪个国家出口。它会在窗口左下角、窗口标题以及 `运行时统计`（Runtime Stats，仅在高级模式下显示）标签页中显示国家和城市。此查询不会改变 `测试结果`（Test Result）列。自 1.4.0 起，你可以在 `设置`（Settings）→ `基本设置`（Basic Settings）→ `通用`（Common）中的 `测试`（Testing）部分选择查询服务或关闭此查询：
+
+| 设置 | 默认值 | 作用 |
+| --- | --- | --- |
+| `Look up exit country` | 开启 | 关闭：Throne 绝不会自行询问查询服务，也不显示出口国家。 |
+| `Lookup service` | `Automatic` | 要询问的服务：`ip-api.com`、`ipwho.is`、`ipinfo.io`、`ipapi.co`、`IP2Location.io`、`FreeIPAPI` 或 `Cloudflare`。`Automatic` 会依次询问 `IP2Location.io`、`ip-api.com`、`ipwho.is`、`ipinfo.io` 和 `Cloudflare`，直到其中一个给出国家，20 秒后放弃。它先询问 IP2Location.io，因为 IP 与国家测试也使用它，这样两者给出的国家相同。 |
 
 ## 速度测试 {#speed-test}
 
@@ -83,7 +94,7 @@ Throne 会逐个测试配置档。之后，如果包含了 `速度`（Speed）�
 
 - 点击列标题即可按该列排序。再次点击会反转顺序。Throne 会保存新的顺序。
 - 首次点击按延迟排序时，最快的配置档排在最前。随后是测试失败的配置档，未测试的配置档排在最后。
-- 自 1.4.0 起，分组会保持排序状态。列标题中的箭头表示当前的排序。测试结束、订阅更新或导入之后，Throne 会把配置档重新排好。要保留当前顺序并停止排序，请右键点击某个列标题并选择 `Stop Sorting`。
+- 自 1.4.0 起，分组会保持排序状态。已排序列的名称旁边有一个小箭头，表示当前的排序及其方向。测试结束、订阅更新或导入之后，Throne 会把配置档重新排好。要保留当前顺序并停止排序，请右键点击某个列标题并选择 `Stop Sorting`。
 - 右键点击 `测试结果`（Test Result）列标题，可以选择该列显示的内容（`包含:`（Include:）`出口 IP`、`速度`）以及排序依据（`排序依据:`（Sort By:）`延迟`（Latency）、`下载速度(↓)`（Download Speed）、`上传速度(↑)`（Upload Speed）、`IP 出口`（IP Out））。
 - 右键点击 `流量`（Traffic）列标题，可以按 `合计(Σ)`（Total）、`下载(↓)`（Downloaded）或 `上传(↑)`（Uploaded）排序。
 - 拖动行可以把它们排成任意顺序。筛选开启时无法拖动。拖动行也会停止排序。
@@ -111,7 +122,7 @@ Throne 会逐个测试配置档。之后，如果包含了 `速度`（Speed）�
 
 除非开启了 `设置`（Settings）→ `基本设置`（Basic Settings）→ `样式`（Style）→ `删除配置档时跳过确认`（Skip confirmation When Deleting Profiles），否则 Throne 在删除任何内容之前都会询问。如果 `移除重复项`（Remove Duplicates）、`移除无效项`（Remove Invalid）或 `移除不安全的配置`（Remove Insecure Configs）移除了正在运行的配置档，Throne 会停止它。
 
-要查看哪些配置档被视为不安全，请开启 `设置`（Settings）→ `基本设置`（Basic Settings）→ `样式`（Style）→ `显示配置安全信息`（Show Config Security）。之后 `类型`（Type）列会显示每个配置档的安全性，不安全的配置档会带有警告标志。
+要查看哪些配置档被视为不安全，请开启 `设置`（Settings）→ `基本设置`（Basic Settings）→ `样式`（Style）→ `显示配置安全信息`（Show Config Security；仅在高级模式下显示，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。之后 `类型`（Type）列会显示每个配置档的安全性，不安全的配置档会带有警告标志。
 
 要自动清理：
 
@@ -120,30 +131,32 @@ Throne 会逐个测试配置档。之后，如果包含了 `速度`（Speed）�
 
 ## 自动选择器 {#auto-selector}
 
-自动选择器是一种特殊的配置档。启动它后，它会从一个分组中挑选最好的可用配置档，持续检查其他配置档，并在当前配置档变差或失效时切换。订阅更新带来的新服务器会自动加入其中。
+自动选择器是一种特殊的配置档。启动它后，它会从一个或多个分组中挑选最好的可用配置档，持续检查其他配置档，并在当前配置档变差或失效时切换。订阅更新带来的新服务器会自动加入其中。
 
 要创建一个自动选择器：
 
 1. 选中它要使用的分组的标签页。
 2. 选择 `程序`（Program）→ `新建配置档`（New profile，`Ctrl+N`）。编辑器打开时，`类型`（Type）已选为 `自动选择器`（Auto Selector）。
 3. 输入 `名称`（Name）。
-4. 检查 `服务器来自`（Servers from）。它是自动选择器从中挑选配置档的分组。
+4. 在 `服务器来自`（Servers from）中勾选自动选择器从中挑选配置档的分组。当前分组已被勾选。
 5. 点击 `确定`（OK），然后像启动其他配置档一样启动这个新配置档。
 
-编辑器会显示将会发生什么的摘要，例如该分组中有多少配置档可以使用。基本选项如下：
+编辑器会显示将会发生什么的摘要，例如已勾选的分组中有多少配置档可以使用。基本选项如下：
 
 | 设置 | 默认值 | 作用 |
 | --- | --- | --- |
-| `服务器来自`（Servers from） | 当前分组 | 自动选择器使用其配置档的分组。 |
+| `服务器来自`（Servers from） | 当前分组 | 自动选择器使用其配置档的分组。自 1.4.0 起，这里是你的分组列表，可以勾选多个分组；它们的配置档会一起排名。至少要勾选一个分组。已归档的分组只有在被勾选时才会出现在列表中。 |
 | `仅名称匹配`（Only names matching） | 空 | 可选的正则表达式。只使用名称与之匹配的配置档，例如用来挑选某个国家或服务商。不区分大小写。 |
 | `最优配置档间分享流量`（Share traffic between the best profiles） | 关闭 | 关闭：由一个配置档承载全部流量，其他就绪的配置档待命。开启：流量分散到多个可用的配置档上；参见下文的 `负载均衡`（Load balancing）。 |
 | `首选配置档`（Preferred profile） | – | 仅当你在统计窗口中用 `使用这个配置档`（Use this profile）选择了某个配置档后才会出现。`使用自动(模式)`（Use automatic）会把选择权交还给自动选择器。 |
+
+每个配置档的运行方式与单独启动它时相同：经由它自己所在分组的 `前置代理`（Front Proxy）和 `落地代理`（Landing Proxy）。自动选择器本身所在分组的这些代理不起作用。自动选择器的 `地址`（Address）列显示它的各个分组的名称。如果某个已勾选的分组被删除，摘要会提示这一点，下次保存时会把它从列表中移除。
 
 `高级…`（Advanced…）会显示更多选项，分为 `要使用的配置档`（Which profiles to use）、`健康度检查`（Health checks）、`切换`（Switching）、`负载均衡`（Load balancing）和 `测试端点`（Test endpoints）几个部分。所有选项都有可用的默认值。
 
 | 设置 | 默认值 | 作用 |
 | --- | --- | --- |
-| `仅指定国家`（Only countries） | 空 | 以逗号分隔的国家代码，例如 `DE,NL,FR`。使用 IP 测试得出的国家，因此设置此项后，从未进行过 IP 测试的配置档会被跳过。 |
+| `仅指定国家`（Only countries） | 空 | 以逗号分隔的国家代码，例如 `DE,NL,FR`。使用 IP 测试或速度测试为每个配置档得出的国家，因此设置此项后，没有国家信息的配置档会被跳过。正在运行的配置档的出口查询不计入。 |
 | `运行最优的`（Run the best） | 300 个配置档 | 加载到运行配置中的配置档数量。自动选择器在它们之间切换时无需重新连接。 |
 | `最多排名`（Rank at most） | 1000 个配置档 | 被测量并保留在排名列表中的配置档数量。替补配置档从这个列表中选取。 |
 | `信任结果维持`（Trust results for） | 1440 分钟 | 不超过此时长的 URL 测试结果会被直接复用，不再重新测试。0 表示总是重新测试。 |
@@ -178,11 +191,11 @@ Throne 会逐个测试配置档。之后，如果包含了 `速度`（Speed）�
 限制：
 
 - 自动选择器不能作为代理链中的一跳，也不能作为分组的 `前置代理`（Front Proxy）或 `落地代理`（Landing Proxy）。
-- 它会跳过分组中的以下配置档：代理链和其他自动选择器、OpenVPN 和 OpenConnect、Tailscale、额外核心（Extra Core）、自定义 sing-box 完整配置，以及无法读取的自定义配置。当 Xray 完整配置无法与分组的前置代理或落地代理组合时，也会被跳过。
+- 它会跳过其各个分组中的以下配置档：代理链和其他自动选择器、OpenVPN 和 OpenConnect、Tailscale、额外核心（Extra Core）、自定义 sing-box 完整配置，以及无法读取的自定义配置。当 Xray 完整配置无法与其所在分组的前置代理或落地代理组合时，也会被跳过。
 
 ## IP 扫描器 {#ip-scanner}
 
-自 1.4.0 起，`工具`（Tools）→ `IP Scanner` 会检查 IP 地址列表，并保留在你的网络中可用的地址。例如，你可以用它为服务器位于 CDN 之后的配置档找到一个未被封锁的 Cloudflare 地址，或者找到一个可用的 Cloudflare WARP 端点。扫描结果会组成一个 IP 列表，分组或配置档可以把它用作[服务器地址](@/guides/subscriptions.zh.md#server-address)。
+自 1.4.0 起，`工具`（Tools）→ `IP Scanner`（仅在高级模式下显示，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）会检查 IP 地址列表，并保留在你的网络中可用的地址。例如，你可以用它为服务器位于 CDN 之后的配置档找到一个未被封锁的 Cloudflare 地址，或者找到一个可用的 Cloudflare WARP 端点。扫描结果会组成一个 IP 列表，分组或配置档可以把它用作[服务器地址](@/guides/subscriptions.zh.md#server-address)。
 
 `IP Scanner` 窗口列出你的扫描及其状态和结果数量。将鼠标悬停在某个扫描上，可以启动、暂停或继续、打开或删除它。拖动扫描可以调整顺序。关闭扫描窗口后，扫描仍会继续运行。
 
@@ -190,7 +203,7 @@ Throne 会逐个测试配置档。之后，如果包含了 `速度`（Speed）�
 
 1. 点击 `New scan` 并输入 `Name`。
 2. 选择 `Generic scan`，用 ping、TCP、TLS 或 HTTP 检查地址，也可以通过你的某个配置档进行检查。选择 `WARP scan`，可以查找能完成 WireGuard、AmneziaWG 或 MASQUE 连接的 Cloudflare WARP 端点。
-3. 点击 `OK`。扫描窗口随即打开。
+3. 点击 `确定`（OK）。扫描窗口随即打开。
 4. 在 `Targets` 标签页上设置目标，在 `Phases` 标签页上设置检查项。
 5. 点击 `Start`。窗口会显示进度和最后几行日志，`Results` 标签页会逐渐填满。
 
@@ -242,10 +255,11 @@ Throne 会逐个测试配置档。之后，如果包含了 `速度`（Speed）�
 
 Throne for Android 提供相同的测试和相同的自动选择器。
 
-- 在 `配置`（Profiles）界面上，`⋮` 菜单为当前分组提供 `URL test`、`IP & country test`、`Speed test`、`Speed test current connection` 和 `Stop testing`。它还提供 `清理测试结果`（Clear test results）、`Remove`（`Duplicates`、`Unavailable`、`Invalid`、`Insecure configs`）和 `Sort`。对于选中的配置档，请使用选择菜单中的 `Test`。
+- 在 `配置`（Profiles）界面上，`⋮` 菜单为当前分组提供 `URL 测试`（URL test）、`IP 与国家测试`（IP & country test）、`速度测试`（Speed test）、`测试当前连接的速度`（Speed test current connection；2.0.3 中；在 2.0.3 之后的版本中，它位于长按屏幕底部横栏时打开的菜单中）和 `停止测试`（Stop testing）。它还提供 `清理测试结果`（Clear test results）、`删除`（Remove）→ `重复项`（Duplicates）/`不可用`（Unavailable）/`无效`（Invalid）/`不安全配置`（Insecure configs），以及 `排序`（Sort）。对于选中的配置档，请使用选择菜单中的 `测试`（Test）。
 - 在对多个配置档进行速度测试之前，应用会请求确认：“速度测试可能消耗大量流量。”
-- 测试面板会显示进度、`Working`、`Failed`、`Pending` 和 `Skipped` 的计数、延迟图表（≤100 ms、≤300 ms、>300 ms、fail）、最快的配置档、各个国家以及不同出口 IP 的数量。它还提供一些操作，例如 `Sort by latency` 或 `Sort by speed`、`Remove unavailable`（附带失败配置档的数量）、`Connect to fastest`（未连接时为 `Select fastest`）以及 `Dismiss test results`。
-- 连接后，点按统计栏（“已连接 , 点击此处测试连接”）即可测试当前连接。结果类似于“连接成功: HTTP 握手耗时 120ms”或“失败: …”。2.0.2 之后，结果显示为“HTTPS：120 毫秒”或“HTTP：120 毫秒”。
-- 自 2.0.2 起，统计栏还会显示当前连接的出口 IP 地址和国旗，竖屏时还会显示国家和城市。长按统计栏可查看完整信息。Throne 会在连接后以及每次点按统计栏后，通过代理查询 `ip-api.com`。2.0.2 之后，统计栏只显示国旗和国家。
-- Throne for Android 没有 IP 扫描器。2.0.2 之后，在 `排序`（Sort）中选择的排序会保持，与桌面版相同，`手动排序`（Manual order）会停止排序。
-- 要创建自动选择器，请选择 `添加服务器配置`（Add profile）→ `手动输入`（Manual settings）→ `Auto selector`。选项和默认值与桌面版相同，只是名称采用句首大写的写法，例如 `Servers from`、`Only names matching` 和 `Run the best`。在 `配置`（Profiles）界面上点击自动选择器的状态行，即可打开 `Auto selector stats`，其中有 `Use this profile`、`Back to automatic` 和 `Check all now`。
+- 测试面板会显示进度、`可用`（Working）、`失败`（Failed）、`等待中`（Pending）和 `已跳过`（Skipped）的计数、延迟图表（≤100 ms、≤300 ms、>300 ms、fail）、最快的配置档、各个国家以及不同出口 IP 的数量。它还提供一些操作，例如 `按延迟排序`（Sort by latency）或 `按速度排序`（Sort by speed）、`删除不可用`（Remove unavailable，附带失败配置档的数量）、`连接最快的`（Connect to fastest；未连接时为 `选择最快的`（Select fastest））以及 `关闭测试结果`（Dismiss test results）。
+- 连接后，点按统计栏（“已连接 , 点击此处测试连接”）即可测试当前连接。结果类似于“连接成功: HTTP 握手耗时 120ms”或“失败: …”。自 2.0.3 起，结果显示为“HTTPS：120 毫秒”或“HTTP：120 毫秒”。
+- 自 2.0.2 起，统计栏还会显示当前连接的出口 IP 地址和国旗，竖屏时还会显示国家和城市。在 2.0.2 中，长按统计栏可查看完整信息。Throne 会在连接后以及每次点按统计栏后，通过代理询问一个 IP 查询服务；在 2.0.2 中，该服务始终是 `ip-api.com`。自 2.0.3 起，统计栏只显示国旗和国家，长按统计栏则会打开 `实时图表`（Live graphs）（2.0.3 之后：打开包含 `实时图表` 和 `测试当前连接的速度` 的菜单）。
+- 自 2.0.3 起，`设置`（Settings）→ `测试`（Testing）的 `Exit country` 部分提供 `Look up exit country`（默认开启）和 `Lookup service`，可选的服务与桌面版相同。关闭查询后，统计栏不显示国家。在 2.0.3 中，`Automatic` 会依次询问 `ip-api.com`、`ipwho.is`、`ipinfo.io` 和 `Cloudflare`；2.0.3 之后，它会像桌面版一样先询问 `IP2Location.io`。
+- Throne for Android 没有 IP 扫描器。自 2.0.3 起，在 `排序`（Sort）中选择的排序会保持，与桌面版相同，`手动排序`（Manual order）会停止排序。
+- 要创建自动选择器，请选择 `添加服务器配置`（Add profile）→ `手动输入`（Manual settings）→ `自动选择`（Auto selector）。选项和默认值与桌面版相同，只是英文名称采用句首大写的写法，例如 `服务器来源`（Servers from）、`仅限名称匹配`（Only names matching）和 `运行前`（Run the best）。自 2.0.3 起，`服务器来源` 会打开一个列表，你可以在其中勾选一个或多个分组。在 `配置`（Profiles）界面上点击自动选择器的状态行，即可打开 `自动选择统计`（Auto selector stats），其中有 `使用此配置`（Use this profile）、`恢复自动`（Back to automatic）和 `立即全部检查`（Check all now）。

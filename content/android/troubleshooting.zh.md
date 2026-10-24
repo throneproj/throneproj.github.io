@@ -40,11 +40,11 @@ Android 授予了权限，但随后拒绝创建 VPN 接口。此时“失败: �
 
 ### 已连接，但无法加载任何内容 {#no-traffic}
 
-1. 点按屏幕底部的横栏。“连接成功: HTTP 握手耗时 …ms”（2.0.2 之后的版本中为“HTTP：… 毫秒”）表示该配置可用。“失败: …”表示该配置或其服务器不可用。
+1. 点按屏幕底部的横栏。“连接成功: HTTP 握手耗时 …ms”（自 2.0.3 起为“HTTP：… 毫秒”）表示该配置可用。“失败: …”表示该配置或其服务器不可用。
 2. 如果测试失败，请点按 ⋮ → `URL 测试`（URL test），然后选择一个可用的配置。参见[测试与自动选择器](@/guides/testing.zh.md)。
 3. 检查分应用代理：打开 `设置`（Settings）→ `TUN / VPN` → `分应用代理`（Apps VPN mode）查看应用列表。选择 `代理`（Proxy）时，只有所选应用使用 VPN；选择 `绕过`（Bypass）时，所选应用不使用 VPN。如果没有选择任何应用，所有应用都会使用 VPN。参见[分应用代理](@/android/modes.zh.md#per-app-proxy)。
 4. 通过 ⋮ → `路由配置`（Routing profile）切换到 `Default` 路由配置，然后再次测试。如果现在可以正常工作，问题出在你自己的路由配置中的某条规则。参见[路由](@/guides/routing.zh.md)。
-5. 检查 DNS：`设置` → `DNS` → `远程 DNS`（Remote DNS），默认为 `https://8.8.8.8/dns-query`。请尝试其他服务器。参见 [DNS](@/guides/dns.zh.md)。
+5. 检查 DNS：`设置` → `DNS` → `远程 DNS`（Remote DNS），默认为 `https://8.8.8.8/dns-query`。请尝试其他服务器。在 2.0.3 之后的版本中，路由配置可以使用自己的 DNS 服务器（其 `DNS` 部分中的 `使用自定义 DNS 设置`（Use custom DNS settings））。此时 `设置` → `DNS` 会提示当前路由配置使用自己的 DNS 服务器；请改为在该路由配置中修改它们。参见 [DNS](@/guides/dns.zh.md)。
 6. 如果你在 `设置` → `TUN / VPN` 中开启了 `Tun IPv6` 或 `Tun 路由`（Tun routing），请关闭它们后再次测试。仅当你的服务器支持 IPv6 时才使用 `Tun IPv6`。如果某些应用或网站无法访问而其他的正常，请在同一界面中将 `MTU` 设为 `1500` 并重新连接。
 7. 要确定问题是否由 VPN 模式引起，请将 `设置` → `通用`（General）→ `运行模式`（Service mode）设为 `仅代理`（Proxy only）并连接。然后在一个自带代理设置的应用中，将代理设为 SOCKS5 代理 `127.0.0.1`、端口 `2080`（参见 `设置` → `入站`（Inbound）→ `代理端口`（Proxy port））。如果该应用可以正常工作，说明问题出在 VPN 模式：请切换回 `VPN` 模式，再检查一遍第 3 步和第 6 步。在 2.0.1 及更早版本中，还可以尝试其他 `TUN 实现`（TUN implementation）。参见 [VPN 与代理模式](@/android/modes.zh.md#tun-settings)。
 
@@ -68,21 +68,21 @@ Android 的“始终开启的 VPN”与“屏蔽未使用 VPN 的所有连接”
 
 ## 订阅问题 {#subscriptions}
 
-手动更新订阅时，错误会显示在屏幕底部，格式为分组名称后跟消息。在 2.0.2 之后的版本中，如果更新没有找到任何配置，会改为打开一个“… 的更新”窗口并列出原因。自动更新只会将错误写入 `日志`（Logs）。
+手动更新订阅时，错误会显示在屏幕底部，格式为分组名称后跟消息。自 2.0.3 起，如果更新没有找到任何配置，会改为打开一个“… 的更新”窗口并列出原因。自动更新只会将错误写入 `日志`（Logs）。
 
 | 消息 | 原因 | 解决方法 |
 | --- | --- | --- |
-| “请求使用代理但未启动配置。” | `设置`（Settings）→ `订阅`（Subscriptions）中开启了 `使用代理`（Use proxy），或运行模式为 `仅代理`（Proxy only），而 Throne 未连接。 | 先连接。在 `VPN` 模式下，你也可以关闭 `使用代理`。 |
+| “请求使用代理但未启动配置。” | `设置`（Settings）→ `订阅`（Subscriptions）中开启了 `使用代理`（Use proxy），而 Throne 未连接。在 2.0.3 及更早版本中，运行模式为 `仅代理`（Proxy only）时也会如此。 | 先连接，或关闭 `使用代理`。在 2.0.3 及更早版本中，关闭它只在 `VPN` 模式下有效。 |
 | “传输 … 出错 - 服务器回复：…” | 服务器拒绝了请求，例如返回 403 或 404。 | 检查 URL。许多服务商只接受部分应用：请设置服务商指定的 User-Agent，或开启 HWID 发送。 |
 | “订阅中未发现配置；保持不变。” | 返回内容中没有 Throne 能读取的配置，例如返回的是一个网页。 | 通常同样是 User-Agent 或 HWID 的问题。另请检查[导入格式](@/reference/protocols.zh.md#import-formats)。 |
-| “服务器返回的是网页而不是订阅。…” | 2.0.2 之后的版本。服务器发送了一个网页，通常是验证码（CAPTCHA）或机器人检查。 | 在分组的 `高级`（Advanced）设置中，尝试其他 `TLS 版本`（TLS version）、`HTTP 版本`（HTTP version）或 `UserAgent`（User agent）。 |
+| “服务器返回的是网页而不是订阅。…” | 自 2.0.3 起。服务器发送了一个网页，通常是验证码（CAPTCHA）或机器人检查。 | 在分组的 `高级`（Advanced）设置中，尝试其他 `TLS 版本`（TLS version）、`HTTP 版本`（HTTP version）或 `UserAgent`（User agent）。 |
 | “名称过滤排除了该订阅的全部 … 个配置；订阅保持不变。” | 自 2.0.2 起。分组的名称过滤器移除了所有配置。 | 编辑该分组，检查 `过滤`（Filter）下的 `仅保留名称匹配项`（Only names matching）和 `移除名称匹配项`（Remove names matching）。 |
 | “不安全重定向” | 服务器将 `https://` URL 重定向到了 `http://`。Throne 不会跟随这类重定向。 | 向服务商索取正确的 `https://` URL。 |
 | “重定向过多” | 服务器进行了循环重定向。 | 与服务商核对 URL。 |
 | “Response larger than 64 MB”（响应大于 64 MB） | 订阅过大。 | 向服务商索取更小的列表。 |
 | “仍在使用，因此保留而非删除”或“已保留正在运行的配置。” | 此次更新或其后的某个清理选项本会移除你正在连接的配置，因此 Throne 保留了它。你会在变更报告或 `日志` 中看到这条消息。 | 无需处理。如果仍要移除它，请在 `设置` → `订阅` 中开启 `允许停止活动配置`（Allow stopping the active profile）。 |
 
-要为单个分组更改 User-Agent 或 HWID，请在侧边菜单中打开 `分组`（Groups），点按该分组的 `编辑`（Edit）按钮，然后打开 `高级`（Advanced）。其中有 `UserAgent`（User agent）和 `发送 HWID`（Send HWID），在 2.0.2 之后的版本中还有 `TLS 版本`（TLS version）和 `HTTP 版本`（HTTP version）。适用于所有分组的设置位于 `设置`（Settings）→ `订阅`（Subscriptions）。参见 [User-Agent 与 HWID](@/guides/subscriptions.zh.md#user-agent-and-hwid)。
+要为单个分组更改 User-Agent 或 HWID，请在侧边菜单中打开 `分组`（Groups），点按该分组的 `编辑`（Edit）按钮，然后打开 `高级`（Advanced）。其中有 `UserAgent`（User agent）和 `发送 HWID`（Send HWID），自 2.0.3 起还有 `TLS 版本`（TLS version）和 `HTTP 版本`（HTTP version）。适用于所有分组的设置位于 `设置`（Settings）→ `订阅`（Subscriptions）。参见 [User-Agent 与 HWID](@/guides/subscriptions.zh.md#user-agent-and-hwid)。
 
 ### 服务商只接受来自你自己网络连接的更新 {#direct-updates}
 
@@ -127,7 +127,7 @@ Throne 连接期间，它自己的请求（例如订阅更新）也会经过 Thr
 1. 检查配置类型。Tailscale 和额外核心（Extra Core）配置无法在 Android 上工作。TLS 伪装设置在 Android 上会被忽略。
 2. 如果订阅中的某个配置在 Android 上缺失：自 2.0.2 起，Throne 不会导入核心在 Android 上无法运行的配置，例如使用了 sing-box 没有的传输方式，或者在 VLESS 以外的配置类型上使用 XHTTP。`日志`（Logs）会列出每个被跳过的配置的原因。
 3. 如果该配置是带有 `geoip:` 或 `geosite:` 规则的 Xray 配置，它需要 `geoip.dat` 和 `geosite.dat` 文件。自 2.0.2 起，Throne 会在此类配置首次启动时，从 `设置`（Settings）→ `核心`（Core）→ `Xray Geo 资源`（Xray geo assets）中的 `来源`（Source）下载它们。如果 Throne 提示已安装的文件不包含配置所需的某个类别，请选择包含该类别的来源，例如你的桌面版使用的来源。
-4. 比较会影响配置连接方式的设置：`设置` → `预设`（Presets）中的预设（多路复用、TLS 分片、TLS 技巧、uTLS），以及 `设置` → `核心` → `Xray VLESS 偏好`（Xray VLESS preference）。VLESS 首选项在导入配置时生效，因此更改后请重新更新订阅。参见 [sing-box 与 Xray](@/advanced/xray.zh.md#vless-preference)。
+4. 比较会影响配置连接方式的设置：`设置` → `预设`（Presets）中的预设（多路复用、TLS 分片、TLS 技巧、uTLS），以及 `设置` → `核心` → `Xray VLESS 偏好`（Xray VLESS preference）。VLESS 首选项在导入配置时生效，因此更改后请重新更新订阅。参见 [sing-box 与 Xray](@/advanced/xray.zh.md#vless-preference)。在 2.0.3 之后的版本中，还要比较 `设置` → `核心` → `在 Xray 中信任系统证书`（Trust system certificates in Xray）。在 Android 上，它会加入系统的根证书，但不包括你自己安装的证书。
 5. 要获得与桌面版相同的设置，请恢复桌面版备份。参见[在桌面版与 Android 之间迁移](@/guides/backup.zh.md#desktop-android)。
 6. 如果仍然失败，请附上两个应用的日志报告问题。
 
@@ -135,7 +135,7 @@ Throne 连接期间，它自己的请求（例如订阅更新）也会经过 Thr
 
 在侧边菜单中打开 `日志`（Logs）。它显示核心的日志。工具栏中有 `更新`（Update），用于重新加载视图，以及 `分享日志`（Share logs）和 `清空日志`（Clear logs）。菜单中有 `保存日志…`（Save logs…）、`隐藏敏感数据`（Hide sensitive data）和 `隐藏目标地址`（Hide destinations）。
 
-在 2.0.2 之后的版本中，工具栏中还有 `过滤`（Filter）。它只显示包含你输入的文本的行。`区分大小写`（Match case）和 `正则表达式`（Regular expression）会改变文本的比较方式。菜单中还有 `字体大小`（Font size）。向上滚动时，视图会停止跟随新行，`跳到最新`（Jump to latest）可以带你回到末尾。
+自 2.0.3 起，工具栏中还有 `过滤`（Filter）。它只显示包含你输入的文本的行。`区分大小写`（Match case）和 `正则表达式`（Regular expression）会改变文本的比较方式。菜单中还有 `字体大小`（Font size）。向上滚动时，视图会停止跟随新行，`跳到最新`（Jump to latest）可以带你回到末尾。
 
 `分享日志` 和 `保存日志…` 会创建一个文本文件，其中包含：
 
@@ -159,7 +159,7 @@ Throne 连接期间，它自己的请求（例如订阅更新）也会经过 Thr
 
 ### 诊断 {#diagnostics}
 
-对于卡死、CPU 占用过高或耗电过快的问题，开发者可能会要求你提供诊断文件（2.0.2 之后的版本）。它会记录核心在 30 秒内的运行情况。
+对于卡死、CPU 占用过高或耗电过快的问题，开发者可能会要求你提供诊断文件（自 2.0.3 起）。它会记录核心在 30 秒内的运行情况。
 
 1. 让 Throne 进入出现问题的状态，例如连接后等待它卡住。
 2. 打开 `设置`（Settings）→ `诊断`（Diagnostics）。

@@ -35,6 +35,7 @@ toc = true
 | Docker：`thronectl shutdown` 之后容器又回来了 | `restart: unless-stopped` 会在每次退出后启动它。请用 `docker compose stop` 停止它。 |
 | macOS：Throne 每 10 秒启动一次又退出 | 这是 launchd 不断重试的配置错误。请阅读 `/Library/Logs/Throne/throne.log`。 |
 | Windows：服务立即停止 | `sc.exe query Throne` 会把 Throne 的退出码显示为 `SERVICE_EXIT_CODE`。日志位于 `C:\ProgramData\Throne\config\logs`。退出码 78 通常表示[数据文件夹](@/headless/installation.zh.md#windows-data-folder)有问题。 |
+| Windows：`tun_failed` 且含有 `open existing adapter`，或日志中出现 `Windows still held the Tun adapter of an earlier session; start the profile again` | Windows 仍占用着上一次未正常结束的运行留下的 TUN 适配器。用 `thronectl connect last` 再次启动配置档，通常就能成功。Throne 不会自行重试。如果一直失败，请重启 Windows。 |
 | Kill Switch 或 TUN 把你锁在外面 | 用 `--no-resume --no-kill-switch` 启动 Throne 一次。参见[恢复访问](@/headless/recovery.zh.md#recovery)。 |
 
 ## Bug 报告中应包含的内容 {#reporting}

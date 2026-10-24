@@ -61,6 +61,7 @@ toc = true
 | `config/headless-state.json` | 用于恢复配置档和统计崩溃的计数器，以及上次运行是如何结束的 |
 | `config/hwid` | 系统没有设备 ID 时使用的[设备 ID](@/headless/_index.zh.md#device-id) |
 | `config/.lock`、`config/.instance` | 数据目录的锁，以及 `--health` 询问的套接字。在 Windows 上，实例是一个命名管道，而不是文件。 |
+| `web/` | 仅限 Docker 镜像：[Web 界面](@/headless/web.zh.md#docker)的密码哈希和 TLS 证书 |
 
 ## 重启模式 {#restart-modes}
 

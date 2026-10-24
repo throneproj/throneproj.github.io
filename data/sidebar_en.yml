@@ -61,6 +61,8 @@
       url: /headless/installation/
     - title: Managing with thronectl
       url: /headless/thronectl/
+    - title: Web UI
+      url: /headless/web/
     - title: Command Line & Data Directory
       url: /headless/command_line/
     - title: Health Checks & Logs

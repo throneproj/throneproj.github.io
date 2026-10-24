@@ -66,6 +66,8 @@ If the download fails with "Requesting profile error", choose another `Remote Ru
 | `DNS` | DNS servers and options; see [DNS](@/guides/dns.md#settings). |
 | `Route` | Your routing profiles. |
 
+In Simple mode, the window has only the `Common` and `Route` tabs. `Common` then shows `Routing Profile`, and below it the WARP settings and the `Simple DNS Settings` as sections. The domain strategies and `Remote Rule-set Mirror` are hidden, but keep their values. See [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
+
 Up to 1.3.2, there was also a `Hijack` tab. It was removed in 1.4.0; see [DNS](@/guides/dns.md#deprecated).
 
 Settings on the `Common` tab:
@@ -93,6 +95,8 @@ Buttons on the `Route` tab:
 
 Changes in the Routes window are saved when you click `OK`. If a connection is running, the main window then shows "Settings changed, restart to apply". Click `Restart` there to use the new rules.
 
+Since 1.4.0, you can also right-click a routing profile at the bottom of the `Routing` menu. This opens the profile in the editor, without `Routing Settings` and without making the profile active. When you save a change to the active profile while a connection runs, the same notice appears.
+
 There are three kinds of routing profiles: structured profiles, which you edit in Throne with [simple rules](#simple-rules) and [advanced rules](#advanced-rules); [remote profiles](#remote-profiles), which are downloaded from a URL; and [raw profiles](#raw-profiles), written as sing-box JSON. Most people only need structured ones.
 
 To create a structured profile:
@@ -104,7 +108,9 @@ To create a structured profile:
 
 A new profile starts with a `dns-hijack` rule. Throne adds the same DNS step to every structured profile anyway (see [DNS](@/guides/dns.md#how-dns-works)), so you can leave the rule as it is.
 
-The `Endpoints` tab appears when you have OpenVPN or OpenConnect profiles. It runs them next to your proxy for the networks they announce; see [split tunnel](@/advanced/vpn_profiles.md#split-tunnel).
+Since 1.4.0, the `DNS` tab of a profile can give it its own DNS servers, which replace the global ones while the profile is active. See [DNS per routing profile](@/guides/dns.md#route-dns).
+
+The `Endpoints` tab appears when you have OpenVPN or OpenConnect profiles. It runs them next to your proxy for the networks they announce; see [split tunnel](@/advanced/vpn_profiles.md#split-tunnel). In Simple mode, it appears only for a profile that already has endpoints.
 
 ## Simple rules {#simple-rules}
 
@@ -168,7 +174,9 @@ To make an exception, move it up on the `Advanced` tab. For example, to proxy `e
 
 ## Advanced rules {#advanced-rules}
 
-The `Advanced` tab shows every rule of the profile in order, with `New`, `Move Up`, `Move Down` and `Delete`. The right side shows the rule's `Name` and a `Preview` of the rule in sing-box JSON.
+The `Advanced` tab shows every rule of the profile in order, with `New`, `Move Up`, `Move Down` and `Delete`. The right side shows the rule's `Name` and a `Preview` of the rule in sing-box JSON. In Simple mode, the tab appears only when the profile has rules that the `Basic` tab cannot show, such as your own advanced rules or disabled rules.
+
+Since 1.4.0, each rule in the list has a check box. Untick it to disable the rule: the rule stays in the profile, greyed out, but Throne leaves it out of the config, as if it were not there. Tick it again to turn the rule back on. This also works for the rules that the boxes of the `Basic` tab make, such as `Simple Address Bypass`: their lines stay in the box, but do not apply while the rule is disabled. Rules of the `Endpoints` tab cannot be disabled.
 
 To add a rule:
 
@@ -238,9 +246,14 @@ To add one yourself:
 
 The URL must serve a structured profile. Raw profiles cannot be remote profiles.
 
-Automatic updates need two things: the profile's `Auto update` box, and `Settings` → `Basic Settings` → `Subscription` → `Routing profiles auto update`. The second one is off by default. Its interval is in minutes (default 1440, once a day); values under 30 turn it off. The `Runtime Stats` tab shows `Next remote route update`. To update at once, use `Update` on the `Route` tab.
+Automatic updates need two things: the profile's `Auto update` box, and `Settings` → `Basic Settings` → `Subscription` → `Routing profiles auto update` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)). The second one is off by default. Its interval is in minutes (default 1440, once a day); values under 30 turn it off. The `Runtime Stats` tab shows `Next remote route update`. To update at once, use `Update` on the `Route` tab.
 
 An update replaces the rules and the default outbound with the downloaded ones, so your own changes to the profile are lost. To change a remote profile safely, `Clone` it, open the copy and untick `Auto update`. An update does not restart a running connection: the new rules are used the next time you start a profile.
+
+Since 1.4.0, two things survive an update:
+
+- A rule that you [disabled](#advanced-rules) stays disabled, as long as the downloaded rules have a rule with the same name. This way you can switch off a rule of a remote profile and keep `Auto update` on.
+- The profile's own [DNS settings](@/guides/dns.md#route-dns). Throne never takes DNS settings from the URL of a remote profile.
 
 ## Raw profiles {#raw-profiles}
 
@@ -276,7 +289,9 @@ If `final` is missing, Throne uses `proxy`. Built-in rule-set names are not defi
 
 The `Connections` tab at the bottom of the main window lists open connections, grouped by program. The groups start collapsed; click a program to see its connections. For each connection, the tab shows the destination, the protocol, the outbound it used and its traffic. It is the quickest way to see where a site goes and to add a rule for it.
 
-Since 1.4.0, the `Outbound` column shows the name of the profile that carried the connection, instead of an internal name such as `proxy`. For an auto selector, it shows the profile that the selector picked; for the WARP hop, it shows `WARP`.
+Since 1.4.0, the `Outbound` column shows the name of the profile that carried the connection, instead of an internal name such as `proxy`. For an auto selector, it shows the profile that the selector picked; for the WARP hop, it shows `WARP`. Long names are shortened, and the column gets narrower when a destination needs the room.
+
+Since 1.4.0, the tab also shows which rule each connection matched. Hover over the `Outbound` column to see it, together with the full name of the outbound, for example `Matched: domain_suffix=github.com → My server (proxy)`. It names the entry of the rule that matched, such as `domain_suffix=github.com`, `rule_set=geosite-cn` or `process_name=Telegram.exe`. A rule that has no single entry to name, for example an inverted rule, shows as a whole. `final` means that no rule matched, so the connection used the default outbound.
 
 The buttons at the top right of the tab: `Enable Filter` shows filter fields above the columns, `Expand All` or `Collapse All` opens or closes all program groups, and `Close every connection listed below` closes the listed connections.
 
@@ -284,8 +299,10 @@ Right-click a connection:
 
 | Menu item | What it does |
 | --- | --- |
+| `Matched: … → …` | Greyed out. The rule that the connection matched, and where it sent the connection (since 1.4.0). |
 | `Modify rules in "…"` | A heading with the name of the active routing profile. |
 | `Direct` / `Proxy` / `Block` | Opens the targets for that box of the active routing profile (since 1.4.0, see below). |
+| `Specific server` | Sends the targets through a server that you choose (since 1.4.0, see below). |
 | `Copy Destination (…)`, `Copy Process Name (…)` | Copies the value. |
 | `Close connection` | Closes the connection. On a program, `Close all connections for "…"` closes all of its connections. |
 | `Expand All`, `Collapse All` | Opens or closes all program groups. |
@@ -301,11 +318,18 @@ A ticked target is already in that box; untick it to remove its rule. A target m
 
 Click `OK`, then `Restart` in the "Settings changed, restart to apply" notice. A new line joins the existing simple rule of that box. If the box was empty, its rule is added at the end of the list, where a broader rule above it can still match first. Check the order on the `Advanced` tab.
 
-`Direct`, `Proxy` and `Block` are disabled when the active routing profile is raw, is locked with `Prevent modifications`, or is a remote profile with `Auto update` on. Hover over the item to see the reason. For a remote profile, clone it first as described in [Remote profiles](#remote-profiles).
+`Specific server` (since 1.4.0) opens the same list of targets, with a server box above it: `Server (type part of its name to search):`. Choose a server there. The box lists your profiles as `[group] name`, except Extra Core profiles, full custom configs and chains that contain them. Then tick the targets that should go through that server, and click `OK`:
+
+- Throne puts the targets into an advanced `route` rule whose `outbound` is that server. The rule is named after the server, for example `My server (address)` for domains and IP addresses, or `My server (process)` for programs. A new rule is added at the end of the list.
+- As with the boxes, a target is never in two places at once. Ticking it moves it out of a box or out of the rule of another server. Unticking it removes it, and a rule that has no targets left is deleted.
+- When the dialog opens, it selects a server that already has one of the targets. When you choose another server, the check boxes show the targets of that server.
+- Throne runs the chosen server next to the profile you started, as with any rule that sends traffic to a saved profile (see [Advanced rules](#advanced-rules)).
+
+`Direct`, `Proxy`, `Block` and `Specific server` are disabled when the active routing profile is raw, is locked with `Prevent modifications`, or is a remote profile with `Auto update` on. Hover over the item to see the reason. For a remote profile, clone it first as described in [Remote profiles](#remote-profiles).
 
 Up to 1.3.2, the menu had `Append "…" to` and `Append process "…" to` instead. They added only the exact host or program to a box.
 
-The tab needs `Settings` → `Basic Settings` → `Style` → `Connection statistics` → `Enable`, which is on by default.
+The tab needs `Settings` → `Basic Settings` → `Style` → `Connection statistics` → `Enable`, which is on by default. In Simple mode, this setting is hidden, but keeps its value (see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
 
 ## AdBlock {#adblock}
 
@@ -329,6 +353,8 @@ What the link carries:
 - The name, the default outbound and the rules.
 - Rules that send traffic to a saved profile refer to it by name. On the other computer, Throne uses a profile with the same name, or `proxy` if there is none, and tells you.
 - VPN endpoints, shared without their credentials. When you import such a link, Throne creates the OpenVPN or OpenConnect profiles before it asks "Add this routing profile?", and keeps them if you cancel.
+- Disabled rules, marked as disabled (since 1.4.0). Throne 1.3.2 and older, and Throne for Android 2.0.3 and older, leave such a rule out when they import the link.
+- The profile's own [DNS settings](@/guides/dns.md#route-dns), if it uses them (since 1.4.0). When you import the link with `Import` in `Routing Settings`, the question names the servers: "It uses its own DNS servers: remote …, direct …". These servers see every name that you look up while the profile is active. If the settings in the link cannot be used, Throne leaves them out, and the profile uses the global DNS settings.
 
 Since 1.3.2, Throne leaves out a rule that uses a condition it cannot store, for example an Android-only condition such as a network type or a package name regex. The question before the import lists such rules ("rule … dropped: unsupported field …"). Throne drops the whole rule, because without that condition it would match more connections. If no rule is left, the import fails.
 
@@ -344,6 +370,8 @@ Throne for Android has the same routing profiles, rules and rule-sets. Open `Rou
 - **Wi-Fi rules.** `Wi-Fi SSID` and `Wi-Fi BSSID` need precise location access set to "Allow all the time", and location turned on, because Android hides the Wi-Fi name otherwise. Throne asks when you save such a rule. If access is missing, the notification "Wi-Fi rules are inactive" appears.
 - **Raw profiles.** Android refuses raw `throne://route/` links ("raw routing profiles are not supported on Android"). Raw profiles from a desktop backup are kept but cannot be used ("Raw (Throne desktop) · read-only").
 - **VPN endpoints** in an imported link are dropped with a warning.
+- **Disabled rules and DNS per profile** (after 2.0.3). Each rule in the editor has a check box that disables it, as on the desktop. The editor also has a `DNS` card with `Use the global DNS settings` and `Use custom DNS settings`; see [DNS per routing profile](@/guides/dns.md#route-dns). Remote profiles keep both across updates, and links carry both.
+- **Clone** (after 2.0.3). Cloning a remote profile gives a local copy that never updates, so you can change its rules.
 - **Quick switch.** On the Profiles screen, the menu (⋮) → `Routing profile` lists your routing profiles. The same dialog has an `Enable WARP` / `Disable WARP` button.
 - **Links.** A `throne://route/` link adds the profile but does not make it active.
 

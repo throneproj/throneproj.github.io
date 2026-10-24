@@ -22,7 +22,7 @@ Your system must know that Throne opens `throne://` links. Throne registers itse
 On Linux, Throne registers itself by default when the application menu entry of the package or the install script starts this copy. To turn registration on, for example for a ZIP copy:
 
 1. Open `Settings` → `Basic Settings`.
-2. On the `Common` tab, under `Links and Files`, tick `Register throne:// links at startup`.
+2. On the `Common` tab, under `Links and Files`, tick `Register throne:// links at startup`. In Simple mode, `Links and Files` is hidden (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
 3. Press `OK`. Throne registers itself right away.
 
 While the option is on, Throne checks the registration at every start and repairs it, for example after you move the Throne folder. If you keep several copies on Windows or Linux, links open in the last copy that started with the option on.
@@ -114,7 +114,7 @@ For example, to add `https://example.com/sub/abc123` as a group named `MyProvide
 throne://addsub/aHR0cHM6Ly9leGFtcGxlLmNvbS9zdWIvYWJjMTIzI015UHJvdmlkZXI=
 ```
 
-Throne shows "Add this subscription?" with the group name and the URL, and an `Auto update` checkbox that is ticked. After you confirm, Throne creates the group and updates it. Since 1.4.0, if this first update fails or skips entries, Throne shows a report with the problems.
+Throne shows "Add this subscription?" with the group name and the URL, and an `Auto update` checkbox that is ticked. After you confirm, Throne creates the group and updates it. Since 1.4.0, it also switches to the tab of the new group, and if this first update fails or skips entries, Throne shows a report with the problems.
 
 {% alert_info() %}
 `Auto update` only sets whether the new group takes part in automatic updates: when it is ticked, `Skip automatic update` is off in the group settings. Automatic updates also need `Basic Settings` → `Subscription` → `Subscription auto update` → `Enable`, which is off by default. See [Subscriptions](@/guides/subscriptions.md#auto-update).
@@ -151,6 +151,8 @@ throne://route/eyJraW5kIjoidGhyb25lLXJvdXRlLXByb2ZpbGUiLCJ2IjoxLCJuYW1lIjoiRXhhb
 ```
 
 `default_outbound` is `proxy`, `direct`, `block` or `warp-bypass`. A raw profile (a hand-written sing-box `route` section) carries `"raw": true` and a `route` object instead of `rules`. Throne looks up the servers that the rules use by their names and tells you about any it could not find. For more about sharing, see [Routing](@/guides/routing.md#share-profiles).
+
+Since 1.4.0, the object can also carry a `dns` object with the profile's own DNS settings (`remote_dns`, `remote_dns_disable_ipv6`, `direct_dns`, `direct_dns_disable_ipv6`, `dns_final_out`, `enable_dns_routing`, `fake_dns` and `fakeip_disable_ipv6`), and a rule can carry `"disabled": true`. Throne 1.3.2 and older ignore `dns` and leave disabled rules out. See [DNS per routing profile](@/guides/dns.md#route-dns).
 
 ### Import in Routing Settings {#routing-settings-import}
 
@@ -194,9 +196,9 @@ throne://remoteroute/aHR0cHM6Ly9leGFtcGxlLmNvbS9yb3V0ZXMvYnlwYXNzLWlyYW4uanNvbiN
 
 Throne lists the URLs under "Add these remote routing profiles?" with one `Auto update` checkbox for all of them. The checkbox is ticked. After you confirm, Throne adds the profiles and downloads them. The log shows how many it fetched.
 
-- Throne refreshes profiles that have `Auto update` on only when `Basic Settings` → `Subscription` → `Routing profiles auto update` → `Enable` is ticked. It is off by default. To update by hand, use `Update` on the `Route` tab of `Routing Settings`. See [Remote profiles](@/guides/routing.md#remote-profiles).
+- Throne refreshes profiles that have `Auto update` on only when `Basic Settings` → `Subscription` → `Routing profiles auto update` → `Enable` is ticked (Advanced mode only). It is off by default. To update by hand, use `Update` on the `Route` tab of `Routing Settings`. See [Remote profiles](@/guides/routing.md#remote-profiles).
 - An update replaces the rules and the default outbound of the profile with the downloaded ones. The name of the profile stays.
-- URLs on `raw.githubusercontent.com` are downloaded through the `Remote Rule-set Mirror` chosen on the `Common` tab of `Routing Settings` (a jsDelivr mirror by default). A mirror may serve an older copy for some time after you change the file.
+- URLs on `raw.githubusercontent.com` are downloaded through the `Remote Rule-set Mirror` chosen on the `Common` tab of `Routing Settings` (a jsDelivr mirror by default; Advanced mode only). A mirror may serve an older copy for some time after you change the file.
 - `Routing` → `Download Profiles` works the same way: it downloads a `remoteroute` link from Throne's routing profile repository and shows the same prompt.
 
 ## `add`: add one proxy profile {#add}
@@ -211,7 +213,7 @@ The payload is the Base64 of the profile's outbound settings as JSON. On desktop
 
 Throne generates these links for you:
 
-- Right-click profiles in the list → `Share` → `Copy links of selected (Deep Links)` (`Ctrl+Alt+C`).
+- Right-click profiles in the list → `Share` → `Copy links of selected (Deep Links)` (`Ctrl+Alt+C`). In Simple mode, this item is hidden (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
 - Right-click a profile → `Share` → `QR Code and link`. The window shows either the normal share link or the deep link. Tick `Deep Link` to switch between them.
 - `Groups` → `Edit current Group` → `Copy profile share links (Deep Links)`.
 

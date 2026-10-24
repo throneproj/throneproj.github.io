@@ -5,16 +5,16 @@ weight = 20
 toc = true
 +++
 
-Headless Throne has no window, so you manage it with `thronectl`, the command-line client of the [Throne API](@/advanced/api.md). This page shows how to connect `thronectl` to headless Throne and how to set Throne up with it. [Throne API & thronectl](@/advanced/api.md) has the full list of commands and flags.
+Headless Throne has no window, so you manage it with `thronectl`, the command-line client of the [Throne API](@/advanced/api.md). This page shows how to connect `thronectl` to headless Throne and how to set Throne up with it. [Throne API & thronectl](@/advanced/api.md) has the full list of commands and flags. To manage Throne from a browser instead, see [Web UI](@/headless/web.md).
 
 ## Install thronectl {#install-thronectl}
 
-`thronectl` is not part of the Throne packages. Install it on the computer that runs Throne, and on any other computer you want to manage Throne from:
+The `.deb` and `.rpm` packages of Throne install `thronectl` as `/usr/bin/thronectl`, and the Linux ZIP has it next to `Throne`. Elsewhere, install it on the computer that runs Throne, and on any other computer you want to manage Throne from:
 
 - Download a binary for Linux, Windows, macOS or FreeBSD from the [Throne-api releases](https://github.com/throneproj/Throne-api/releases), or
 - build it with Go: `go install github.com/throneproj/Throne-api/cmd/thronectl@latest`.
 
-The [Docker image](@/headless/installation.md#docker) already contains `thronectl` in `/usr/local/bin`.
+The [Docker image](@/headless/installation.md#docker) already contains `thronectl` in `/usr/local/bin`. The Windows and macOS downloads of Throne do not include it.
 
 To have the shell complete commands, profile IDs and setting names, see [Shell completion](@/advanced/api.md#completion).
 
@@ -52,7 +52,7 @@ Put the `export` line in your shell's startup file (for example `~/.bashrc`) so 
 
 ## Admin requests {#admin-requests}
 
-Requests that change what Throne has are admin requests: `import`, `sub add`, `group`, `profile rm`, `settings set`, `backup`, `restart` and `shutdown`. Throne answers them only from its own device, unless it runs with `--api-admin-lan` (`THRONE_API_ADMIN_LAN=1`). From another device they fail with `forbidden`.
+Requests that change what Throne has are admin requests: `import`, `sub add`, `group`, `profile rm`, `settings set`, `backup`, `restart` and `shutdown`. So is `logs`, because the log names the sites that connections went to. Throne answers them only from its own device, unless it runs with `--api-admin-lan` (`THRONE_API_ADMIN_LAN=1`). From another device they fail with `forbidden`.
 
 All other requests, such as `status`, `connect`, `tun on` or `test`, work from every device that may reach the API and has the key.
 
@@ -143,6 +143,7 @@ The commands you need most:
 | `thronectl sub update --all` | Update all subscriptions |
 | `thronectl geo update`, `thronectl rulesets update` | Download the geo files and rule-sets again |
 | `thronectl traffic --by app --since 7d` | Traffic totals |
+| `thronectl logs -n 50`, `thronectl logs -f` | The last lines of Throne's log; with `-f`, then new lines as Throne writes them. See [Logs](@/headless/monitoring.md#logs) |
 | `thronectl restart`, `thronectl shutdown` | Restart Throne; make it exit |
 
 Add `--json` to any command for JSON output, which suits scripts. `thronectl help <command>` describes a command. For every command and flag, and for the exit codes of `thronectl`, see [Throne API & thronectl](@/advanced/api.md#commands).

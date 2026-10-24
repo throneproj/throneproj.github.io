@@ -20,7 +20,7 @@ Issues are public. Never post subscription URLs, tokens, passwords, UUIDs, priva
 
 ## Before you report {#before}
 
-1. Update to the latest version with `Tools` → `Check For Update`, or from the [downloads](@/downloads.md) page. Many bugs are already fixed.
+1. Update to the latest version with `Program` → `Check For Update` (`Tools` → `Check For Update` before 1.4.0), or from the [downloads](@/downloads.md) page. Many bugs are already fixed.
 2. Search the existing issues, open and closed, for your error message.
 3. Read the [FAQ](@/help/faq.md) and [Troubleshooting](@/help/troubleshooting.md).
 4. Try a fresh configuration: exit Throne, rename the `config` folder, start Throne, and set up only what you need to show the problem. Write in the report whether the problem also happens there. To go back, exit Throne, delete the new `config` folder and rename the old one back.
@@ -31,11 +31,11 @@ Issues are public. Never post subscription URLs, tokens, passwords, UUIDs, priva
 
 ### Desktop {#desktop-logs}
 
-Throne shows its log in the `Logs` tab at the bottom of the main window, and writes the same lines to `logs/throne.log` in the config folder (`Settings` → `Open Config Folder`).
+Throne shows its log in the `Logs` tab at the bottom of the main window, and writes the same lines to `logs/throne.log` in the config folder (`Settings` → `Open Config Folder`, in Advanced mode only; see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
 
 To record a detailed log:
 
-1. Open `Settings` → `Basic Settings` → `Logging`.
+1. Open `Settings` → `Basic Settings` → `Logging` (Advanced mode only).
 2. Set `Sing-box Log level` to `debug`. For `VLESS (Xray)` and other Xray profiles, also set `Xray Log level` to `debug`.
 3. Raise `Max log lines`, for example to `2000`. Throne drops core log lines above this number per second, and the `Logs` tab keeps only this many lines.
 4. Click `OK`, then restart Throne with `Program` → `Restart Program`.
@@ -70,7 +70,7 @@ For freezes, hangs and high CPU use, the developers may ask for a Diagnostics fi
 
 `Start` works only while the core is running. The recording contains no information about your configs, but it lists your Throne version, operating system and a few settings, such as whether TUN mode is on and the type of the running profile. `Include Throne logs` adds your logs, which contain visited domains and server addresses.
 
-**Android:** versions after 2.0.2 have the same feature in `Settings` → `Diagnostics`. Tap `Share` or `Save…` to get the file. See [Diagnostics](@/android/troubleshooting.md#diagnostics).
+**Android:** since 2.0.3, the app has the same feature in `Settings` → `Diagnostics`. Tap `Share` or `Save…` to get the file. See [Diagnostics](@/android/troubleshooting.md#diagnostics).
 
 ## What to include {#what-to-include}
 
@@ -78,7 +78,7 @@ Use the issue template and fill in every field:
 
 | Item | Where to find it |
 | --- | --- |
-| Throne version | Desktop: the window title, for example `Throne 1.3.1`, or the first lines of `throne.log`. Android: `About`. |
+| Throne version | Desktop: `Program` → `About` (since 1.4.0), which also shows the versions of sing-box, Xray-core, Qt and Go, and lets you select and copy them; or the window title, for example `Throne 1.3.1`, or the first lines of `throne.log`. Android: `About`. |
 | Operating system and version | For example Windows 11 24H2, Ubuntu 24.04, macOS 15 or Android 14. |
 | Installation type | ZIP, Windows installer, `.deb`, `.rpm`, Linux install script, the APT or RPM repository, or a package manager (WinGet, Scoop, AUR, Nix, Homebrew). Say whether you use the window or [headless Throne](@/headless/_index.md). |
 | Mode | `Tun Mode`, `System Proxy` or both, and whether the [kill switch](@/advanced/kill_switch.md) is on. |
@@ -89,6 +89,6 @@ Use the issue template and fill in every field:
 
 For routing problems, choose the `Routing Issue` template. It asks for your routing profile: open `Settings` → `Routing Settings` → `Route`, select the profile and click `Export`. This copies a `throne://route/…` link. Check it for private domains or addresses before you post it.
 
-If a developer asks for your configuration, right-click the profile → `Share` → `Export config` (`Export Sing-box config` before 1.4.0), and click `Copy` on the `sing-box` tab, or on the `Xray` tab if the developer asks for it. Replace passwords, UUIDs, keys and server addresses with `xxxx` before you post it.
+If a developer asks for your configuration, right-click the profile → `Share` → `Export config` (`Export Sing-box config` before 1.4.0; Advanced mode only), and click `Copy` on the `sing-box` tab, or on the `Xray` tab if the developer asks for it. Replace passwords, UUIDs, keys and server addresses with `xxxx` before you post it.
 
 For headless Throne, also see [What to include in a bug report](@/headless/troubleshooting.md#reporting).

@@ -38,7 +38,7 @@ $env:HTTP_PROXY = "http://127.0.0.1:2080"; $env:HTTPS_PROXY = "http://127.0.0.1:
 更多细节：
 
 - 开启 `禁用混合入站`（Disable Mixed Inbound）时无法开启 `系统代理`（System Proxy）。此时 Throne 会显示“Cannot set system proxy when mixed inbound is disabled.”（混合入站已禁用时无法设置系统代理。）
-- `设置`（Settings）→ `基本设置`（Basic Settings）→ `杂项`（Miscellaneous）→ `系统代理禁用时重启代理`（Restart Proxy On System Proxy Disable）会在你关闭系统代理时重启正在运行的配置档，从而关闭已打开的连接。
+- `设置`（Settings）→ `基本设置`（Basic Settings）→ `杂项`（Miscellaneous）→ `系统代理禁用时重启代理`（Restart Proxy On System Proxy Disable）（仅高级模式，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）会在你关闭系统代理时重启正在运行的配置档，从而关闭已打开的连接。
 - 勾选 `系统代理`（System Proxy）期间，Throne 也会通过混合端口发送它自己的请求，例如订阅更新。
 - 如果 Throne 在配置档运行时被强制结束或崩溃，它就无法移除该设置，你的应用将无法连接。参见[常见问题](@/help/faq.zh.md#force-quit)。
 - 要用按键切换系统代理，请设置全局热键 `切换系统代理`（Toggle System Proxy）。参见[键盘快捷键与托盘](@/reference/shortcuts.zh.md#global-hotkeys)。
@@ -98,7 +98,7 @@ $env:HTTP_PROXY = "http://127.0.0.1:2080"; $env:HTTPS_PROXY = "http://127.0.0.1:
 
 ## 入站设置 {#inbound-settings}
 
-这些设置控制混合端口。打开 `设置`（Settings）→ `基本设置`（Basic Settings）→ `通用`（Common），查看 `入站设置`（Inbound Settings）部分。
+这些设置控制混合端口。打开 `设置`（Settings）→ `基本设置`（Basic Settings）→ `通用`（Common），查看 `入站设置`（Inbound Settings）部分。在简洁模式下，该部分只显示 `监听端口`（Listen Port）；其他设置会被隐藏，但保留其值。要为[与其他设备共享代理](#lan-sharing)设置用户名和密码，请切换到高级模式（参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。
 
 | 设置 | 默认值 | 作用 |
 | --- | --- | --- |
@@ -106,7 +106,7 @@ $env:HTTP_PROXY = "http://127.0.0.1:2080"; $env:HTTPS_PROXY = "http://127.0.0.1:
 | `监听端口`（Listen Port） | `2080` | 混合端口。它接受 SOCKS（4、4a 和 5）和 HTTP 代理连接。 |
 | `随机端口`（Random port） | 关闭 | 每次 Throne 启动时选择一个空闲端口。状态栏会显示当前端口。 |
 | `启用认证`（Enable Authorization） | 关闭 | 所有到混合端口的连接都必须提供 `入站用户名` 和 `入站密码`。 |
-| `禁用混合入站`（Disable Mixed Inbound） | 关闭 | 关闭混合端口。此时 `系统代理` 和 `使用代理`（Use proxy）都无法工作。TUN 模式仍然可用。 |
+| `禁用混合入站`（Disable Mixed Inbound） | 关闭 | 关闭混合端口。此时 `系统代理` 无法工作。`使用代理`（Use proxy）只有在 TUN 模式开启时才能工作（自 1.4.0 起；此前完全无法工作）。TUN 模式仍然可用。 |
 | `自定义入站`（Custom Inbound） | 空 | `编辑`（Edit）会打开一个 JSON 编辑器，用于添加额外的 sing-box 入站：一个带有 `inbounds` 列表的对象。 |
 | `代理格式`（Proxy Format） | `{ip}:{port}` | 仅限 Windows。Throne 写入 Windows 代理设置的文本。 |
 

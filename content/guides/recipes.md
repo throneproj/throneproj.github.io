@@ -39,7 +39,7 @@ Other devices on your network, such as a phone, a TV or a game console, can use 
 
 1. Open the `Program` menu and turn on `Allow other devices to connect`. It is also in the tray menu.
 2. Look at the middle of the status bar. It now shows `Mixed: <address>:2080`: the address and port that other devices use.
-3. Recommended: open `Settings` → `Basic Settings` → `Common`, tick `Enable Authorization` and set `Inbound Username` and `Inbound Password`.
+3. Recommended: open `Settings` → `Basic Settings` → `Common`, tick `Enable Authorization` and set `Inbound Username` and `Inbound Password`. These settings appear only in Advanced mode; see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
 4. On the other device, set an HTTP or SOCKS5 proxy with that address and port, and the username and password if you set them.
 
 Things to know:
@@ -71,7 +71,7 @@ Voice calls in Discord and Telegram, and many games, use UDP and often ignore th
 - Your server and its protocol must carry UDP. Not every protocol can (an HTTP proxy cannot), and some servers turn UDP off. If calls fail on one server, try another one.
 - For a low delay, choose a nearby server. See [URL test](@/guides/testing.md#url-test).
 - If a game does not need the proxy, send it direct: put its program in the `Direct` box, for example `processName:game.exe`.
-- For games and peer-to-peer apps that go direct in TUN mode, try `Settings` → `Tun Settings` → `L3 Bridge Bypass`. It sends direct UDP and ICMP traffic straight out of your network adapter, which is faster and keeps NAT working.
+- For games and peer-to-peer apps that go direct in TUN mode, try `Settings` → `Tun Settings` → `L3 Bridge Bypass` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)). It sends direct UDP and ICMP traffic straight out of your network adapter, which is faster and keeps NAT working.
 
 ## Docker, WSL and virtual machines {#docker-wsl-vms}
 
@@ -97,7 +97,7 @@ The same port also accepts SOCKS5.
 - `Enable Tun Routing` also keeps the IP ranges of your `direct` rules out of the tunnel. Large rule-sets can cause high CPU use on Windows, so turn it on with care.
 - **Linux:** `Auto Redirect` (on by default) improves TUN routing with nftables. While it is on, this computer cannot act as a network gateway for other devices, and containers or virtual machines whose traffic it forwards can be affected. Use the proxy port for them instead.
 
-See [TUN Mode](@/guides/tun_mode.md#settings).
+In Simple mode, `Private Range Bypass` and `Auto Redirect` are hidden, but keep their values. See [TUN Mode](@/guides/tun_mode.md#settings).
 
 ## Corporate VPN side by side {#corporate-vpn}
 
@@ -114,9 +114,11 @@ With `Enable DNS Routing` on (the default), the company's domains are looked up 
 
 **Bind to the VPN's network adapter.** Use this when direct traffic leaves through the wrong adapter.
 
-1. Open `Program` → `New profile`, choose the type `Direct` and give it a name, for example `Corporate`.
+1. Open `Program` → `New profile`, choose the type `Direct` and give it a name, for example `Corporate`. The type `Direct` is offered only in Advanced mode; see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
 2. Click `Advanced Settings`, enter the name of the corporate VPN adapter in `Bind Interface` and click `OK`. Save the profile with `OK`.
 3. In your routing profile, add an [advanced rule](@/guides/routing.md#advanced-rules) with the company's `domain_suffix` and `ip_cidr`, the action `route`, and `outbound` set to `[group] Corporate`. Move it above your other rules.
+
+Since 1.4.0, you can also do step 3 from the `Connections` tab: right-click a connection to a company site, choose `Specific server`, choose `[group] Corporate` and tick the domain. Throne adds the rule at the end of the list, so check that no rule above it matches first. See [Connections tab](@/guides/routing.md#connections-tab).
 
 **Run the VPN inside Throne.** Throne can run an OpenVPN or OpenConnect profile next to your proxy, only for the networks that it announces. See [split tunnel](@/advanced/vpn_profiles.md#split-tunnel).
 
@@ -134,18 +136,20 @@ Choose which programs use the proxy.
 4. In the window that opens, tick `Process` and the program name, for example `Process Telegram.exe`, and click `OK`. Before 1.4.0, the menu item was `Append process "<name>" to`.
 5. Click `Restart` in the "Settings changed, restart to apply" notice.
 
+To send a program through one particular server instead, choose `Specific server` in step 3 (since 1.4.0), then choose the server and tick the program in step 4.
+
 You can also write the rules yourself on the `Basic` tab of your routing profile, for example `processName:Telegram.exe` or `processPath:C:\Program Files\App\app.exe`. Names must match exactly, including upper and lower case.
 
 - **Only some programs through the proxy:** set `Default outbound` to `direct` and put the programs in the `Proxy` box.
 - **All programs except some:** keep `Default outbound` at `proxy` and put the exceptions in the `Direct` box.
 
-If `Proxy`, `Direct` and `Block` are disabled, the active routing profile cannot be changed from there, for example because it is a remote profile that updates itself. See [Connections tab](@/guides/routing.md#connections-tab).
+If `Proxy`, `Direct`, `Block` and `Specific server` are disabled, the active routing profile cannot be changed from there, for example because it is a remote profile that updates itself. See [Connections tab](@/guides/routing.md#connections-tab).
 
 **Android:** choose the apps in `Settings` → `TUN / VPN` → `Apps VPN mode`, or use the `Apps` field of a routing rule. See [per-app proxy](@/android/modes.md#per-app-proxy).
 
 ## Find a working CDN address {#cdn-address}
 
-If your provider's servers are behind a CDN such as Cloudflare, profiles can fail because the CDN addresses they use are blocked on your network, while other addresses of the same CDN still work. Since 1.4.0, the IP scanner can find such an address, and a group can send all its profiles to it.
+If your provider's servers are behind a CDN such as Cloudflare, profiles can fail because the CDN addresses they use are blocked on your network, while other addresses of the same CDN still work. Since 1.4.0, the IP scanner can find such an address, and a group can send all its profiles to it. The IP scanner and the `Advanced` options of a group appear only in Advanced mode; see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
 
 1. Open `Tools` → `IP Scanner`, click `New scan`, keep `Generic scan` and click `OK`.
 2. On the `Targets` tab, choose the `Base IP list` of your CDN, for example `Cloudflare CDN`, and enter the port of your profiles in `Ports`, usually `443`. Set `Stop after (results)` to a small number, for example `20`.

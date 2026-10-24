@@ -55,6 +55,8 @@
       url: /headless/installation/
     - title: "Управление через thronectl"
       url: /headless/thronectl/
+    - title: "Веб-интерфейс"
+      url: /headless/web/
     - title: "Командная строка и каталог данных"
       url: /headless/command_line/
     - title: "Проверки состояния и логи"

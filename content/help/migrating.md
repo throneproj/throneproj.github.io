@@ -14,7 +14,7 @@ Throne continues Nekoray, so most things work the same way, but some features mo
 | The `Server` menu | Right-click the profile list. The menu bar is hidden. |
 | The `Preferences` menu | The `Settings` button in the toolbar: `Basic Settings`, `Routing Settings`, `Tun Settings`, `Integration Settings` (hotkeys and the Throne API; `Hotkey Settings` before 1.4.0) and more. |
 | Subscription groups | The same groups, under the `Groups` button. To update one, right-click its tab → `Update subscription`. |
-| `Tun Settings` → `Bypass Process Name` (programs that skip the tunnel) | `processName:` rules in the `Direct` box of your routing profile, for example `processName:game.exe`. Or right-click a connection in the `Connections` tab → `Append process "<name>" to` → `Direct`. |
+| `Tun Settings` → `Bypass Process Name` (programs that skip the tunnel) | `processName:` rules in the `Direct` box of your routing profile, for example `processName:game.exe`. Or right-click a connection in the `Connections` tab → `Direct` and tick its `Process …` target. |
 | `Tun Settings` → `Whitelist mode` (only listed programs use the tunnel) | A routing profile with `Default outbound` set to `direct`, and the programs (`processName:…`) or sites in the `Proxy` box. |
 | `Tun Settings` → `Bypass CIDR` | `Tun Settings` → `Private Range Bypass` (address ranges that skip the tunnel), or `ip:` rules in the `Direct` box. |
 | A routing `Preset` for your country | `Routing` → `Download Profiles` → `China`, `Iran` or `Russia`. |
@@ -23,6 +23,8 @@ Throne continues Nekoray, so most things work the same way, but some features mo
 | `Copy links of selected (Neko Links)` | Standard share links. Throne cannot read `nekoray://` or `sn://` links. |
 | `Hijack` (its DNS server and `Redirect Settings`) or `System DNS` in Throne 1.3.2 and older | `Tun Mode`. These features were removed in 1.4.0. |
 | NekoBox for Android | Throne for Android 2.0.0. See [below](#from-nekobox-android). |
+
+Since 1.4.0, a new installation starts in Simple mode, which hides some of the items in the second column, for example `Integration Settings` and `Private Range Bypass`. To see them, switch to Advanced mode; see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
 
 For per-app routing, turn on `Tun Mode`. Apps that ignore the system proxy never reach Throne, so rules cannot apply to them in system proxy mode. See [Routing](@/guides/routing.md#simple-rules) and [Connections tab](@/guides/routing.md#connections-tab).
 

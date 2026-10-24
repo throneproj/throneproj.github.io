@@ -38,7 +38,7 @@ $env:HTTP_PROXY = "http://127.0.0.1:2080"; $env:HTTPS_PROXY = "http://127.0.0.1:
 جزئیات بیشتر:
 
 - تا وقتی `Disable Mixed Inbound` روشن است، نمی‌توان `پروکسی سیستمی` (System Proxy) را روشن کرد. در این حالت Throne پیام «Cannot set system proxy when mixed inbound is disabled.» (وقتی ورودی mixed غیرفعال است، نمی‌توان پروکسی سیستمی را تنظیم کرد) را نشان می‌دهد.
-- `تنظیمات` (Settings) ← `تنظیمات پایه` (Basic Settings) ← `Miscellaneous` → `Restart Proxy On System Proxy Disable` وقتی پروکسی سیستمی را خاموش می‌کنید، نمایهٔ در حال اجرا را دوباره راه‌اندازی می‌کند تا اتصال‌های باز بسته شوند.
+- `تنظیمات` (Settings) ← `تنظیمات پایه` (Basic Settings) ← `Miscellaneous` → `Restart Proxy On System Proxy Disable` (فقط در حالت پیشرفته؛ [حالت ساده و پیشرفته](@/get_started/configuration.fa.md#interface-mode) را ببینید) وقتی پروکسی سیستمی را خاموش می‌کنید، نمایهٔ در حال اجرا را دوباره راه‌اندازی می‌کند تا اتصال‌های باز بسته شوند.
 - تا وقتی تیک `پروکسی سیستمی` (System Proxy) زده شده است، Throne درخواست‌های خودش، مانند به‌روزرسانی اشتراک‌ها، را هم از طریق پورت mixed می‌فرستد.
 - اگر Throne در حالی که نمایه‌ای در حال اجراست به‌اجبار بسته شود یا از کار بیفتد، نمی‌تواند این تنظیم را بردارد و برنامه‌های شما نمی‌توانند وصل شوند. [پرسش‌های متداول](@/help/faq.fa.md#force-quit) را ببینید.
 - برای روشن و خاموش کردن پروکسی سیستمی با یک کلید، کلید میانبر سراسری `تغییر وضعیت پروکسی سیستم` (Toggle System Proxy) را تنظیم کنید. [میانبرهای صفحه‌کلید و سینی سیستم](@/reference/shortcuts.fa.md#global-hotkeys) را ببینید.
@@ -98,7 +98,7 @@ $env:HTTP_PROXY = "http://127.0.0.1:2080"; $env:HTTPS_PROXY = "http://127.0.0.1:
 
 ## تنظیمات ورودی {#inbound-settings}
 
-این تنظیمات پورت mixed را کنترل می‌کنند. `تنظیمات` (Settings) ← `تنظیمات پایه` (Basic Settings) ← `متداول` (Common) را باز کنید و بخش `Inbound Settings` را ببینید.
+این تنظیمات پورت mixed را کنترل می‌کنند. `تنظیمات` (Settings) ← `تنظیمات پایه` (Basic Settings) ← `متداول` (Common) را باز کنید و بخش `Inbound Settings` را ببینید. در حالت ساده، این بخش فقط `پورت شنود` (Listen Port) را نشان می‌دهد؛ تنظیمات دیگر پنهان‌اند اما مقدارشان را نگه می‌دارند. برای تنظیم نام کاربری و گذرواژه برای [اشتراک‌گذاری با دستگاه‌های دیگر](#lan-sharing)، به حالت پیشرفته بروید ([حالت ساده و پیشرفته](@/get_started/configuration.fa.md#interface-mode) را ببینید).
 
 | تنظیم | پیش‌فرض | کارکرد |
 | --- | --- | --- |
@@ -106,7 +106,7 @@ $env:HTTP_PROXY = "http://127.0.0.1:2080"; $env:HTTPS_PROXY = "http://127.0.0.1:
 | `پورت شنود` (Listen Port) | `2080` | پورت mixed. اتصال‌های پروکسی SOCKS (4، 4a و 5) و HTTP را می‌پذیرد. |
 | `Random port` | خاموش | هر بار که Throne شروع به کار می‌کند، یک پورت آزاد انتخاب می‌کند. نوار وضعیت پورت فعلی را نشان می‌دهد. |
 | `Enable Authorization` | خاموش | برای هر اتصال به پورت mixed، `Inbound Username` و `Inbound Password` را الزامی می‌کند. |
-| `Disable Mixed Inbound` | خاموش | پورت mixed را خاموش می‌کند. در این صورت `پروکسی سیستمی` (System Proxy) و `Use proxy` نمی‌توانند کار کنند. حالت TUN همچنان کار می‌کند. |
+| `Disable Mixed Inbound` | خاموش | پورت mixed را خاموش می‌کند. در این صورت `پروکسی سیستمی` (System Proxy) نمی‌تواند کار کند. `Use proxy` فقط وقتی حالت TUN روشن است کار می‌کند (از نسخهٔ 1.4.0؛ پیش از آن اصلاً کار نمی‌کرد). حالت TUN همچنان کار می‌کند. |
 | `ورودی سفارشی` (Custom Inbound) | خالی | `ویرایش` (Edit) یک ویرایشگر JSON برای ورودی‌های اضافی sing-box باز می‌کند: یک شیء با فهرست `inbounds`. |
 | `قالب پروکسی` (Proxy Format) | `{ip}:{port}` | فقط Windows. متنی که Throne در تنظیم پروکسی Windows می‌نویسد. |
 

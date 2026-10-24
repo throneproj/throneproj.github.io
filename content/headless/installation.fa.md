@@ -45,6 +45,7 @@ sudo systemctl enable --now throne
 - `systemctl start throne` وقتی برمی‌گردد که Throne شروع به کار کرده باشد. [systemd: آمادگی، وضعیت و watchdog](@/headless/monitoring.fa.md#systemd) را ببینید.
 - `/etc/throne/throne.env` برای هر متغیری که یونیت می‌تواند استفاده کند یک نمونهٔ کامنت‌شده دارد. کامنت یک خط را بردارید و `sudo systemctl restart throne` را اجرا کنید. ارتقاها تغییرات شما را نگه می‌دارند. هرگز کلید API را در این فایل نگذارید؛ به‌جای آن، `THRONE_API_KEY_FILE` نام یک فایل کلید را مشخص می‌کند.
 - گزارش‌ها: `journalctl -u throne -f`.
+- بسته‌ها `thronectl` را هم با نام `/usr/bin/thronectl` نصب می‌کنند، و یک یونیت دوم به نام `throne-web.service` برای [رابط وب](@/headless/web.fa.md#systemd). آن هم فعال نمی‌شود.
 
 برای تغییر خط فرمان، با `sudo systemctl edit throne` یک drop-in اضافه کنید:
 
@@ -169,6 +170,7 @@ volumes:
 - **وارد کردن یک فایل.** آن را با `-T` از طریق pipe بفرستید: `docker compose exec -T throne thronectl import - < links.txt`.
 - **API از بیرون کانتینر.** API روی loopback کانتینر گوش می‌دهد. برای دسترسی به آن از شبکه، `THRONE_API_LISTEN: "*:9095"` را همراه با یک فهرست `THRONE_API_ALLOW` تنظیم کنید و پورت 9095 را منتشر کنید. در این صورت درخواست‌های مدیریتی، مانند وارد کردن و تنظیمات، به `THRONE_API_ADMIN_LAN: "1"` هم نیاز دارند، چون هر درخواستی که از طریق یک پورت منتشرشده می‌رسد از بیرون کانتینر می‌آید. پشت NAT در Docker همهٔ کلاینت‌ها یک نشانی مشترک دارند، بنابراین یک کلاینت با کلید قدیمی، دسترسی بقیه را به مدت یک دقیقه قطع می‌کند.
 - **گزارش‌ها:** `docker compose logs -f throne`.
+- **رابط وب.** `THRONE_WEB_LISTEN: "*:9096"` را تنظیم کنید و پورت 9096 را منتشر کنید تا کانتینر [رابط وب](@/headless/web.fa.md#docker) را هم ارائه دهد.
 
 ## macOS {#macos}
 

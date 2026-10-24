@@ -7,6 +7,8 @@ toc = true
 
 Throne's core is built on sing-box, and it also contains Xray. Most profiles run on sing-box. Some VLESS profiles and all Xray custom configs run on Xray. This page explains how Throne chooses the core, how to change that choice for VLESS links, and how to fix Reality connection errors.
 
+In Simple mode, most settings on this page are hidden: the `Logging` and `Core` tabs, `Xray Geo Assets` and `Trust System Certificates in Xray` in `Basic Settings`, the XDRIVE `Tuning` group and `Share` → `Export config`. See [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
+
 ## Two cores in one {#two-cores}
 
 sing-box always runs. It handles the local proxy port, TUN mode, routing rules and DNS. Xray runs as a helper inside the same core. It starts only when the running profile needs it, for example when the profile, a hop of its chain or the outbound of a routing rule runs on Xray. sing-box hands that traffic to Xray over an internal local connection, so TUN mode, routing profiles and DNS settings work the same with both cores.
@@ -27,6 +29,8 @@ Some VLESS features exist only in Xray. A `vless://` link that uses one of them 
 - VLESS encryption (an `encryption` value other than `none`),
 - Finalmask,
 - a TCP (`raw`) transport with an HTTP header together with TLS.
+
+The XDRIVE transport (since 1.4.0) also exists only in Xray, but it has no link format. See [XDRIVE](#xdrive).
 
 Xray messages appear in the same `Logs` tab. Their detail level is set in `Settings` → `Basic Settings` → `Logging` → `Xray Log level`.
 
@@ -99,6 +103,48 @@ Newer Xray versions refuse some old settings, and a profile or config that uses 
 
 Xray's warnings about deprecated features appear only when `Xray Log level` is `debug`. These settings are less safe or easier to detect. Use them only for servers that need them.
 
+## Trust system certificates {#system-ca}
+
+Xray checks server certificates only against the root certificates built into it. A server whose certificate comes from a root that you installed yourself, for example a company root or a self-signed one, then fails this check. Since 1.4.0, tick `Settings` → `Basic Settings` → `Security` → `Trust System Certificates in Xray` (off by default) to make Xray also trust the certificates installed in your system.
+
+The option applies to the TLS settings of every Xray profile and of every outbound in a `Custom (Xray outbound)` or `Custom (Xray config)` profile, including the download connection of XHTTP. An outbound that sets `useSystemCA` itself keeps its own value. sing-box profiles do not use this option.
+
+## XDRIVE {#xdrive}
+
+Since 1.4.0, `VLESS (Xray)` profiles can use the XDRIVE transport. With XDRIVE, Throne and the server do not connect to each other. They exchange the traffic as files in a storage that both of them can reach: a Google Drive folder, another storage service with an HTTP API, or a folder on this computer. Use it only with a server that is set up for XDRIVE, with the settings that its operator gives you.
+
+XDRIVE has no link format, because a link would carry the storage secrets. Import the server's Xray JSON configuration instead, or a Throne link (`throne://add/…`). A `vless://` link with `type=xdrive` is refused with "XDRIVE has no share-link format. Import the server's JSON configuration instead." When you share an XDRIVE profile, Throne gives you its Throne link.
+
+To set up XDRIVE in the profile editor, choose `xdrive` in `Network`. XDRIVE works only with these VLESS settings, and the editor shows an error for any other value:
+
+- `Encryption`: the VLESS encryption string that the server gives, starting with `mlkem768x25519plus`.
+- `Flow`: empty.
+- `Multiplex`: `Keep Default`, `Enabled` or `Custom`, not `Disabled`. With `Keep Default`, Throne turns mux on for XDRIVE even when `Default Mux On` is off. It also ignores mux settings that would send traffic outside the mux, such as a `Concurrency` of `-1`. See [Multiplex](@/advanced/presets.md#multiplex).
+
+The `Storage` group:
+
+| Field | What it does |
+| --- | --- |
+| `Service` | `google-drive` (default): a Google Drive folder. `template`: any storage service whose HTTP API `Template` describes. `local`: a folder on this computer. |
+| `Folder` | `google-drive`: the ID of the folder that both ends share. `local`: the path of the folder. `template`: the value that the template reads as `{folder}`. Required for `google-drive` and `local`. |
+| `Client ID`, `Client Secret`, `Refresh Token` | `google-drive` only, all three required: the OAuth client, and the refresh token of the Google account that owns the folder. |
+| `Secrets` | `template` only: values that the template reads as `{secret0}`, `{secret1}` and so on, separated by commas. |
+| `Template` | `template` only, required: the auth, put, get, list and delete operations of the storage API, as JSON. Click the button to edit it. |
+| `Front Address`, `Front Port` | Optional, not for `local`: Throne connects to the storage API at this address while TLS still names the API host, a form of domain fronting. `Front Port` defaults to 443 and is used only together with `Front Address`. |
+
+The `Tuning` group holds timing and size settings. Leave a field empty to use Xray's default, which the field shows:
+
+| Field | Xray default | What it sets |
+| --- | --- | --- |
+| `Segment Bytes` | 524288 | The largest upload per file, in bytes. Xray allows at most 16 MiB. |
+| `Flush Interval` | 20 | How long writes are gathered before an upload, in milliseconds. |
+| `Poll Interval` | 50 | The shortest wait between checks for new files, in milliseconds. |
+| `Max Poll Interval` | 500 | The longest wait between checks while the connection is idle, in milliseconds. |
+| `Eager Window` | 2000 | How long after traffic the checks stay at the shortest wait, in milliseconds. |
+| `Hole Timeout` | 30000 | How long a missing segment is waited for before the connection fails, in milliseconds. |
+| `Session TTL` | 300 | How long an idle session lives before its files are cleaned up, in seconds. |
+| `Concurrency` | 8 | Parallel storage requests per connection. Xray allows at most 64. |
+
 ## Xray in chains {#xray-in-chains}
 
 A chain can mix sing-box and Xray profiles, with two limits:
@@ -122,4 +168,6 @@ If a rule names a category that the file does not contain, Throne shows "Geo ass
 
 - The same setting is in `Settings` → `Core` → `Xray VLESS preference`, with `XHTTP only`, `XHTTP and Reality` (default) and `All VLESS`. It also applies only when you import, so update the subscription after you change it.
 - The profile types are `VLESS` and `VLESS (Xray)`, and the limits for Xray in chains are the same.
+- After 2.0.3, `VLESS (Xray)` profiles can use XDRIVE too: choose `XDRIVE` in `Network`. The fields are in `XDRIVE settings` and `XDRIVE tuning`, and `Secrets` takes one value per line.
+- After 2.0.3, `Settings` → `Core` → `Trust system certificates in Xray` does the same as on the desktop. It trusts the root certificates that come with Android, not the ones that you installed yourself.
 - Since 2.0.2, Throne for Android downloads `geoip.dat` and `geosite.dat` by itself when an Xray config with `geoip:` or `geosite:` rules starts or is tested, and the notification shows the progress. Choose where they come from in `Settings` → `Core` → `Xray geo assets`: `Source` offers the same four sources as the desktop app, or `Custom` addresses. Tap a file under `Files` to download it again, or tap `Download now` for both.

@@ -7,7 +7,7 @@ toc = true
 
 Throne can test your profiles and help you keep only the good ones. This page covers the URL test, the IP and country test and the speed test, sorting and filtering, cleaning up, the auto selector, which picks the best server for you, and the IP scanner, which finds server addresses that work on your network.
 
-Tests do not stop the running profile. They skip auto selector profiles; test the group that the auto selector uses instead.
+Tests do not stop the running profile. They skip auto selector profiles; test the groups that the auto selector uses instead.
 
 ## URL test {#url-test}
 
@@ -38,6 +38,8 @@ The test settings are in `Settings` → `Basic Settings` → `Common`, under `Te
 | `Concurrency` | `10` | How many profiles are tested at the same time. |
 | `Direct Test URL` | empty | Fetched without any proxy, so that the auto selector can tell a dead Internet connection from dead servers. Use an address that works on your network without a proxy. Empty means that Throne uses the network state of the operating system. |
 
+In Simple mode, the `Testing` group shows only `Latency Test URL` and `Look up exit country`. The other test settings on this page, such as `Speedtest mode` and `Lookup service`, appear only in Advanced mode (see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
+
 To copy the results of selected profiles, right-click them and choose `Share` → `Copy Test Result`.
 
 ## IP and country test {#ip-test}
@@ -47,9 +49,18 @@ This test shows the exit IP address of each profile and its country. This is the
 - **Selected profiles:** right-click them and choose `Resolve Selected Out IP`.
 - **The whole group:** choose `Groups` → `Resolve out IP for group`.
 
+Both items appear only in Advanced mode (see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
+
 Throne requests `https://api.ip2location.io/` through each profile. The `Test Result` column then shows the country flag, and the exit IP if `Out IP` is included (see [Sort and filter](#sort-filter)). The test uses the `Timeout` and `Concurrency` of the URL test.
 
 The country is used by the country filter and by the auto selector's `Only countries` option. For the services that Throne contacts, see [Privacy](@/reference/privacy.md#network-requests).
+
+The running profile has its own exit lookup. After a profile starts, Throne asks an IP lookup service, through the local proxy port, which IP address and country the connection exits from. It shows the country and city at the bottom left of the window, in the window title and in the `Runtime Stats` tab (Advanced mode only). This lookup does not change the `Test Result` column. Since 1.4.0, you can choose the service or turn the lookup off in `Settings` → `Basic Settings` → `Common`, under `Testing`:
+
+| Setting | Default | What it does |
+| --- | --- | --- |
+| `Look up exit country` | on | Off: Throne never asks a lookup service by itself, and shows no exit country. |
+| `Lookup service` | `Automatic` | The service to ask: `ip-api.com`, `ipwho.is`, `ipinfo.io`, `ipapi.co`, `IP2Location.io`, `FreeIPAPI` or `Cloudflare`. `Automatic` asks `IP2Location.io`, `ip-api.com`, `ipwho.is`, `ipinfo.io` and `Cloudflare` in this order until one names a country, and gives up after 20 seconds. It starts with IP2Location.io because the IP and country test uses it too, so both name the same country. |
 
 ## Speed test {#speed-test}
 
@@ -83,7 +94,7 @@ To sort the profiles of a group:
 
 - Click a column header to sort by that column. Click it again to reverse the order. Throne saves the new order.
 - When you sort by latency with the first click, the fastest profiles come first. Failed profiles follow, and untested profiles come last.
-- Since 1.4.0, the group stays sorted. An arrow in the column header shows the sort. After a test run, a subscription update or an import, Throne puts the profiles back in order. To keep the current order and stop sorting, right-click a column header and choose `Stop Sorting`.
+- Since 1.4.0, the group stays sorted. A small arrow next to the name of the sorted column shows the sort and its direction. After a test run, a subscription update or an import, Throne puts the profiles back in order. To keep the current order and stop sorting, right-click a column header and choose `Stop Sorting`.
 - Right-click the `Test Result` header to choose what the column shows (`Include:` `Out IP`, `Speed`) and what it sorts by (`Sort By:` `Latency`, `Download Speed`, `Upload Speed`, `IP Out`).
 - Right-click the `Traffic` header to sort by `Total`, `Downloaded` or `Uploaded`.
 - Drag rows to put them in any order. This does not work while the filter is on. Dragging a row also stops the sort.
@@ -111,7 +122,7 @@ Since 1.4.0, these commands are in `Groups` → `Clean up`. The same submenu app
 
 Throne asks before it deletes anything, unless `Settings` → `Basic Settings` → `Style` → `Skip confirmation When Deleting Profiles` is on. If `Remove Duplicates`, `Remove Invalid` or `Remove Insecure Configs` removes the running profile, Throne stops it.
 
-To see which profiles count as insecure, turn on `Settings` → `Basic Settings` → `Style` → `Show Config Security`. The `Type` column then shows the security of each profile, and insecure profiles get a warning sign.
+To see which profiles count as insecure, turn on `Settings` → `Basic Settings` → `Style` → `Show Config Security` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)). The `Type` column then shows the security of each profile, and insecure profiles get a warning sign.
 
 To clean up automatically:
 
@@ -120,30 +131,32 @@ To clean up automatically:
 
 ## Auto selector {#auto-selector}
 
-An auto selector is a special profile. When you start it, it picks the best working profile from one group, keeps checking the others, and switches when the current one gets worse or fails. New servers from a subscription update join it by themselves.
+An auto selector is a special profile. When you start it, it picks the best working profile from one or more groups, keeps checking the others, and switches when the current one gets worse or fails. New servers from a subscription update join it by themselves.
 
 To create one:
 
 1. Select the tab of the group that it should use.
 2. Choose `Program` → `New profile` (`Ctrl+N`). The editor opens with `Auto Selector` already chosen as the `Type`.
 3. Enter a `Name`.
-4. Check `Servers from`. It is the group that the auto selector picks from.
+4. In `Servers from`, check the groups that the auto selector picks from. The current group is already checked.
 5. Click `OK`, then start the new profile like any other profile.
 
-The editor shows a summary of what will happen, for example how many profiles of the group can be used. The basic options are:
+The editor shows a summary of what will happen, for example how many profiles of the checked groups can be used. The basic options are:
 
 | Setting | Default | What it does |
 | --- | --- | --- |
-| `Servers from` | the current group | The group whose profiles the auto selector uses. |
+| `Servers from` | the current group | The groups whose profiles the auto selector uses. Since 1.4.0, it is a list of your groups, and you can check more than one; their profiles are ranked together. At least one group must be checked. Archived groups appear only while they are checked. |
 | `Only names matching` | empty | An optional regular expression. Only profiles whose name matches are used, for example to pick one country or provider. Case does not matter. |
 | `Share traffic between the best profiles` | off | Off: one profile carries all traffic, and the other ready profiles stand by. On: traffic is spread over the working profiles; see `Load balancing` below. |
 | `Preferred profile` | – | Appears only after you chose a profile with `Use this profile` in the stats window. `Use automatic` returns the choice to the auto selector. |
+
+Each profile runs as if you started it on its own: it goes through the `Front Proxy` and `Landing Proxy` of its own group. Those of the group that holds the auto selector do not apply. The `Address` column of the auto selector shows the names of its groups. If a checked group is deleted, the summary says so, and the next save removes it from the list.
 
 `Advanced…` shows more options, in the parts `Which profiles to use`, `Health checks`, `Switching`, `Load balancing` and `Test endpoints`. All of them have working defaults.
 
 | Setting | Default | What it does |
 | --- | --- | --- |
-| `Only countries` | empty | Country codes separated by commas, for example `DE,NL,FR`. Uses the country from the IP test, so profiles that were never IP-tested are skipped while this is set. |
+| `Only countries` | empty | Country codes separated by commas, for example `DE,NL,FR`. Uses the country that the IP test or the speed test found for each profile, so profiles without one are skipped while this is set. The exit lookup of the running profile does not count. |
 | `Run the best` | 300 profiles | How many profiles are loaded into the running config. The auto selector switches between them without reconnecting. |
 | `Rank at most` | 1000 profiles | How many profiles are measured and kept in the ranked list. Replacements come from this list. |
 | `Trust results for` | 1440 min | URL test results this recent are reused instead of testing again. 0 means always test again. |
@@ -178,11 +191,11 @@ While an auto selector runs, `Tools` → `Auto Selector Stats` opens its stats w
 Limits:
 
 - An auto selector cannot be a hop in a chain, or the `Front Proxy` or `Landing Proxy` of a group.
-- It skips these profiles of the group: chains and other auto selectors, OpenVPN and OpenConnect, Tailscale, Extra Core, custom sing-box full configs, and custom configs that cannot be read. Xray full configs are skipped when they cannot be combined with the group's front or landing proxy.
+- It skips these profiles of its groups: chains and other auto selectors, OpenVPN and OpenConnect, Tailscale, Extra Core, custom sing-box full configs, and custom configs that cannot be read. Xray full configs are skipped when they cannot be combined with the front or landing proxy of their group.
 
 ## IP scanner {#ip-scanner}
 
-Since 1.4.0, `Tools` → `IP Scanner` checks lists of IP addresses and keeps the ones that work from your network. Use it, for example, to find a Cloudflare address that is not blocked, for profiles whose servers are behind a CDN, or a working Cloudflare WARP endpoint. The results form an IP list, which a group or a profile can use as its [server address](@/guides/subscriptions.md#server-address).
+Since 1.4.0, `Tools` → `IP Scanner` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)) checks lists of IP addresses and keeps the ones that work from your network. Use it, for example, to find a Cloudflare address that is not blocked, for profiles whose servers are behind a CDN, or a working Cloudflare WARP endpoint. The results form an IP list, which a group or a profile can use as its [server address](@/guides/subscriptions.md#server-address).
 
 The `IP Scanner` window lists your scans with their state and the number of results. Hover over a scan to start, pause or resume it, open it or delete it. Drag scans to reorder them. A scan keeps running when you close its window.
 
@@ -242,10 +255,11 @@ The results of each scan are a list too, marked "Result of scan" and the scan's 
 
 Throne for Android has the same tests and the same auto selector.
 
-- On the Profiles screen, the `⋮` menu has `URL test`, `IP & country test`, `Speed test`, `Speed test current connection` and `Stop testing` for the current group. It also has `Clear test results`, `Remove` (`Duplicates`, `Unavailable`, `Invalid`, `Insecure configs`) and `Sort`. For selected profiles, use `Test` in the selection menu.
+- On the Profiles screen, the `⋮` menu has `URL test`, `IP & country test`, `Speed test`, `Speed test current connection` (in 2.0.3; after 2.0.3 it is in the menu that opens when you touch and hold the bar at the bottom of the screen) and `Stop testing` for the current group. It also has `Clear test results`, `Remove` (`Duplicates`, `Unavailable`, `Invalid`, `Insecure configs`) and `Sort`. For selected profiles, use `Test` in the selection menu.
 - Before a speed test of more than one profile, the app asks for confirmation: "Speed testing can use significant data."
 - A test panel shows the progress, the counts `Working`, `Failed`, `Pending` and `Skipped`, a latency chart (≤100 ms, ≤300 ms, >300 ms, fail), the fastest profile, the countries and the number of distinct exit IPs. It also offers actions such as `Sort by latency` or `Sort by speed`, `Remove unavailable` (with the number of failed profiles), `Connect to fastest` (`Select fastest` when you are not connected) and `Dismiss test results`.
-- While connected, tap the statistics bar ("Connected, tap to check connection") to test the live connection. The result looks like "Success: HTTP handshake took 120ms" or "Failed: …". After 2.0.2, it reads "HTTP: 120 ms".
-- Since 2.0.2, the statistics bar also shows the exit IP address of the connection with the country flag, and in portrait mode the country and city. Long-press the bar to see them in full. Throne asks `ip-api.com` through the proxy after it connects and after each tap on the bar. After 2.0.2, the bar shows only the flag and the country.
-- Throne for Android has no IP scanner. After 2.0.2, a sort that you choose in `Sort` stays, as on the desktop, and `Manual order` stops it.
-- To create an auto selector, choose `Add profile` → `Manual settings` → `Auto selector`. The options and defaults are the same as on desktop, written in sentence case, for example `Servers from`, `Only names matching` and `Run the best`. Tap the auto selector's status line on the Profiles screen to open `Auto selector stats`, with `Use this profile`, `Back to automatic` and `Check all now`.
+- While connected, tap the statistics bar ("Connected, tap to check connection") to test the live connection. The result looks like "Success: HTTP handshake took 120ms" or "Failed: …". Since 2.0.3, it reads "HTTP: 120 ms".
+- Since 2.0.2, the statistics bar also shows the exit IP address of the connection with the country flag, and in portrait mode the country and city. In 2.0.2, touch and hold the bar to see them in full. Throne asks an IP lookup service through the proxy after it connects and after each tap on the bar; in 2.0.2 this is always `ip-api.com`. Since 2.0.3, the bar shows only the flag and the country, and touching and holding the bar opens `Live graphs` instead (after 2.0.3: a menu with `Live graphs` and `Speed test current connection`).
+- Since 2.0.3, `Settings` → `Testing` has `Look up exit country` (on by default) and `Lookup service` under `Exit country`, with the same services as on the desktop. With the lookup off, the bar shows no country. In 2.0.3, `Automatic` asks `ip-api.com`, `ipwho.is`, `ipinfo.io` and `Cloudflare` in this order; after 2.0.3, it asks `IP2Location.io` first, as on the desktop.
+- Throne for Android has no IP scanner. Since 2.0.3, a sort that you choose in `Sort` stays, as on the desktop, and `Manual order` stops it.
+- To create an auto selector, choose `Add profile` → `Manual settings` → `Auto selector`. The options and defaults are the same as on desktop, written in sentence case, for example `Servers from`, `Only names matching` and `Run the best`. Since 2.0.3, `Servers from` opens a list in which you check one or more groups. Tap the auto selector's status line on the Profiles screen to open `Auto selector stats`, with `Use this profile`, `Back to automatic` and `Check all now`.

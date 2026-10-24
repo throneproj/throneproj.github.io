@@ -43,6 +43,7 @@ Throne для Android (ранее NekoBox for Android) — это приложе
 - Kill switch, который блокирует трафик в обход Throne (начиная с 1.4.0): [Kill Switch](@/advanced/kill_switch.ru.md).
 - Throne API для управления и администрирования Throne из скриптов, с помощью горячих клавиш и с других устройств через `thronectl` (начиная с 1.4.0): [Throne API и thronectl](@/advanced/api.ru.md).
 - Режим headless для серверов и контейнеров (начиная с 1.4.0): [Headless Throne](@/headless/_index.ru.md).
+- Простой режим, который скрывает дополнительные параметры от новых пользователей, и поиск команд и параметров по `Ctrl+K` (начиная с 1.4.0): [Простой и расширенный режим](@/get_started/configuration.ru.md#interface-mode).
 
 ## С чего начать {#where-to-start}
 
@@ -64,3 +65,5 @@ Throne построен на основе этих проектов:
 - [fkYAML](https://github.com/fktn-k/fkYAML): импорт Clash YAML
 - [quirc](https://github.com/dlbeer/quirc): чтение QR-кодов
 - [srombauts/sqlitecpp](https://github.com/srombauts/sqlitecpp): база данных профилей и настроек
+
+Чтобы поддержать разработку Throne, нажмите `Поддержать Throne` (Support Throne) в окне `Программа` (Program) → `О программе` (About) (начиная с 1.4.0). Кнопка открывает страницу с информацией о пожертвованиях. В Throne для Android такой же пункт есть на экране `О приложении` (About) (после 2.0.3).

@@ -51,7 +51,7 @@ In `Proxy only` mode, Throne runs a local proxy and nothing else. Android does n
 
 The local proxy accepts SOCKS5 and HTTP on the same port.
 
-In this mode, Throne also sends its own requests through the local proxy, as if `Settings` → `Subscriptions` → `Use proxy` were on. Subscription updates and WARP registration therefore need a running profile. Without one, they fail with "Request with proxy but no profile started."
+In this mode, Throne also sends its own requests through the local proxy, as if `Settings` → `Subscriptions` → `Use proxy` were on. In 2.0.3 and older, subscription updates and WARP registration therefore need a running profile. Without one, they fail with "Request with proxy but no profile started." After 2.0.3, they connect directly while no profile runs, unless `Use proxy` is on. WebDAV backups never use the local proxy.
 
 `Disable mixed inbound` has no effect in `Proxy only` mode, because the local proxy is the only way into Throne.
 
@@ -97,7 +97,7 @@ com.google.android.youtube
 org.telegram.messenger
 ```
 
-In 2.0.2 and older, the import always reads the first line as the mode: upper and lower case do not matter, and any first line other than `true` selects `Proxy`. After 2.0.2, a list whose first line is not `true` or `false` keeps the current mode and replaces only the selection. So you can also import a plain list of package names, for example one copied from the `Apps` field of a routing rule.
+In 2.0.2 and older, the import always reads the first line as the mode: upper and lower case do not matter, and any first line other than `true` selects `Proxy`. Since 2.0.3, a list whose first line is not `true` or `false` keeps the current mode and replaces only the selection. So you can also import a plain list of package names, for example one copied from the `Apps` field of a routing rule.
 
 If Throne is connected, the new selection applies after the connection reloads. Stop and start the connection, or tap `Apply` when Throne shows "Reload proxy service to apply changes".
 
@@ -105,7 +105,7 @@ If the list stays empty, see [Installed apps](@/android/permissions.md#installed
 
 To send an app to a specific outbound while it stays in the VPN, use a routing rule with the `Apps` condition instead. The desktop app has no app list. On the desktop, you use routing rules by process name. See [Routing](@/guides/routing.md#advanced-rules).
 
-A routing rule only routes the traffic that reaches Throne. If per-app proxy keeps an app out of the VPN, its rule never matches. After 2.0.2, the app list of a routing rule has ⋮ → `Copy to Apps VPN mode` for this case. It explains the choices before it changes anything:
+A routing rule only routes the traffic that reaches Throne. If per-app proxy keeps an app out of the VPN, its rule never matches. Since 2.0.3, the app list of a routing rule has ⋮ → `Copy to Apps VPN mode` for this case. It explains the choices before it changes anything:
 
 - In `Proxy` mode, it adds the selected apps to the list, or replaces the list with them.
 - In `Bypass` mode, it removes them from the list, or switches to `Proxy` mode with only these apps.

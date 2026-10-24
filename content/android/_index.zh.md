@@ -33,7 +33,7 @@ Throne for Android 是 Throne 的 Android 版本，前身名为 NekoBox for Andr
 8. 点按 ⋮（`更多选项`（More options））→ `URL 测试`（URL test）。面板会显示测试进度和结果摘要。每个配置会在列表中显示各自的结果。
 9. 测试完成后，点按 `选择最快的`（Select fastest），或点按一个可用的配置。
 10. 点按屏幕底部的圆形连接按钮。首次连接时，Android 会询问是否允许 Throne 建立 VPN 连接。请允许。
-11. 要检查连接，请点按屏幕底部的横栏（“已连接 , 点击此处测试连接”）。当流量经由该配置通过时，它会显示“连接成功: HTTP 握手耗时 …ms”（2.0.2 之后的版本中为“HTTP：… 毫秒”）。自 2.0.2 起，横栏还会显示流量的出口位置，也就是你的流量从哪里进入互联网。Throne 会经由该连接向 ip-api.com 查询这一位置。
+11. 要检查连接，请点按屏幕底部的横栏（“已连接 , 点击此处测试连接”）。当流量经由该配置通过时，它会显示“连接成功: HTTP 握手耗时 …ms”（自 2.0.3 起为“HTTP：… 毫秒”）。自 2.0.2 起，横栏还会显示流量的出口位置，也就是你的流量从哪里进入互联网。Throne 会经由该连接向一个 IP 查询服务查询这一位置。自 2.0.3 起，`设置`（Settings）→ `测试`（Testing）→ `Look up exit country` 可以关闭此查询，`Lookup service` 用于选择查询服务。
 
 如果你的服务商提供的是 `throne://addsub/…` 链接，请在手机上打开它，以代替第 4–6 步。Throne 会询问“添加此订阅？”，然后添加该分组、下载其中的配置，并打开 `分组`（Groups）界面。之后打开 `配置`（Profiles）界面，从第 7 步继续。
 
@@ -47,7 +47,7 @@ Throne for Android 是 Throne 的 Android 版本，前身名为 NekoBox for Andr
 | --- | --- | --- |
 | 流量如何进入 Throne | `Tun 模式`（Tun Mode）和 `系统代理`（System Proxy）复选框 | `设置`（Settings）→ `通用`（General）→ `运行模式`（Service mode）：`VPN`（默认）或 `仅代理`（Proxy only）。参见 [VPN 与代理模式](@/android/modes.zh.md)。 |
 | 选择应用 | 按进程名或路径匹配的路由规则 | `分应用代理`（Apps VPN mode）以及按应用匹配的路由规则 |
-| 备份 | `.thrbackup` 文件 | `.thrbackup` 文件，也可以存放在 WebDAV 服务器上 |
+| 备份 | `.thrbackup` 文件，自 1.4.0 起也可以存放在 WebDAV 服务器上 | 只包含配置、路由配置和设置的 `.thrbackup` 文件，也可以存放在 WebDAV 服务器上。参见 [WebDAV 备份](@/guides/backup.zh.md#webdav)。 |
 | 默认 TUN MTU | 1500 | 9000 |
 | 默认核心日志级别 | `info` | `warn` |
 | 从其他应用打开的 `throne://add/…` 链接 | 立即导入该配置 | 先询问“导入配置” |
@@ -64,7 +64,7 @@ Android 版还提供主屏幕小部件、快捷设置图块以及系统自带的
 侧边菜单中还有两个用于观察连接的界面：
 
 - `sing-box 仪表板`（sing-box dashboard）（自 2.0.2 起）显示正在运行的核心的实时流量、连接和日志。它需要一个正在运行的配置和 Android System WebView。仪表板文件随应用一起提供。要隐藏该项，请关闭 `设置`（Settings）→ `核心`（Core）→ `启用 sing-box API`（Enable sing-box API）。
-- `实时图表`（Live graphs）（2.0.2 之后的版本）显示最近几分钟的代理速度和直连速度，以及核心的 CPU 占用、内存和连接数。长按屏幕底部的横栏即可打开它。
+- `实时图表`（Live graphs）（自 2.0.3 起）显示最近几分钟的代理速度和直连速度，以及核心的 CPU 占用、内存和连接数。在 2.0.3 中，长按屏幕底部的横栏即可打开它。在 2.0.3 之后的版本中，长按该横栏会打开一个菜单，其中有 `实时图表`（Live graphs）和 `测试当前连接的速度`（Speed test current connection）。速度测试需要有正在运行的连接。
 
 ## Android 上的桌面版菜单 {#menus}
 
@@ -81,5 +81,5 @@ Android 版还提供主屏幕小部件、快捷设置图块以及系统自带的
 | `设置` → `预设设置`（Preset Settings） | `设置` → `预设`（Presets） |
 | `设置` → `基本设置`（Basic Settings）→ `订阅`（Subscription） | `设置` → `订阅`（Subscriptions） |
 | `设置` → `基本设置` → `备份和恢复`（Backup and Restore） | 侧边菜单 → `工具`（Tools） |
-| `设置` → `基本设置` → `诊断`（Diagnostics） | `设置` → `诊断`（Diagnostics）（2.0.2 之后的版本） |
+| `设置` → `基本设置` → `诊断`（Diagnostics） | `设置` → `诊断`（Diagnostics）（自 2.0.3 起） |
 | `工具`（Tools）→ `打开网络仪表盘`（Open Web dashboard） | 侧边菜单 → `sing-box 仪表板`（sing-box dashboard）（自 2.0.2 起） |

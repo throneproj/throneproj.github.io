@@ -27,7 +27,7 @@ The kill switch ends when Throne exits. It also ends when Throne crashes, so a c
 
 ## Turn it on {#enable}
 
-1. Open `Settings` → `Basic Settings` → `Security`.
+1. Open `Settings` → `Basic Settings` → `Security`. In Simple mode, `Security` is a section of the `Common` tab; see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
 2. Tick `Kill Switch`.
 3. Click `OK`.
 
@@ -61,7 +61,7 @@ Even with the local network allowed, DNS queries (ports 53 and 853) of other pro
 
 Everything else is blocked, for example:
 
-- Throne's own requests, such as subscription updates, update checks and WARP registration. They work only in TUN mode, or while a profile runs with `Settings` → `Basic Settings` → `Miscellaneous` → `Use proxy` or `System Proxy` on.
+- Throne's own requests, such as subscription updates, update checks and WARP registration. They work only in TUN mode, or while a profile runs with `Settings` → `Basic Settings` → `Miscellaneous` → `Use proxy` (in Simple mode, in the `Network Settings` section of the `Common` tab) or `System Proxy` on.
 - Traffic that this computer forwards for other devices, containers or virtual machines, unless it goes through the TUN adapter or stays in the local network.
 - Traffic of other VPN apps.
 

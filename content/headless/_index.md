@@ -21,6 +21,7 @@ The pages in this section:
 
 - [Installation & Services](@/headless/installation.md): Linux packages, Docker, macOS and the Windows service.
 - [Managing with thronectl](@/headless/thronectl.md): connect `thronectl`, add subscriptions, move a desktop setup over, change settings.
+- [Web UI](@/headless/web.md): manage Throne from a browser with `thronectl web`.
 - [Command Line & Data Directory](@/headless/command_line.md): every option and variable, where the data lives, restarts and exit codes.
 - [Health Checks & Logs](@/headless/monitoring.md): `Throne --check`, `Throne --health`, systemd status and logs.
 - [Lockout Protection & Recovery](@/headless/recovery.md): how Throne keeps the API within reach, and what to do when settings lock you out.
@@ -49,7 +50,7 @@ On Debian 12, Ubuntu 22.04 or newer (amd64):
    export THRONE_KEY_FILE=~/.config/throne/api-key
    ```
 
-4. Install `thronectl`. It is not part of the Throne packages: download it from the [Throne-api releases](https://github.com/throneproj/Throne-api/releases), or see [Install thronectl](@/headless/thronectl.md#install-thronectl).
+4. The package also installs `thronectl`, the command-line client, as `/usr/bin/thronectl`. To manage Throne from another computer, see [Install thronectl](@/headless/thronectl.md#install-thronectl).
 5. Add your subscription and connect:
 
    ```bash
@@ -73,6 +74,7 @@ Throne never sends itself to the background. A service manager starts it at boot
 | [`dist/linux/throne.env`](https://github.com/throneproj/Throne/blob/dev/dist/linux/throne.env) | Environment file for that unit, installed as `/etc/throne/throne.env`. Every variable in it is a commented-out example. |
 | [`dist/linux/caps.conf`](https://github.com/throneproj/Throne/blob/dev/dist/linux/caps.conf) | Optional drop-in: run the unit as the user `throne` with capabilities instead of root. |
 | [`dist/linux/throne-user.service`](https://github.com/throneproj/Throne/blob/dev/dist/linux/throne-user.service) | systemd user unit, without root. |
+| [`dist/linux/throne-web.service`](https://github.com/throneproj/Throne/blob/dev/dist/linux/throne-web.service), [`throne-web.env`](https://github.com/throneproj/Throne/blob/dev/dist/linux/throne-web.env) | systemd unit for the [web UI](@/headless/web.md#systemd), which runs `thronectl web` as a user of its own, and its environment file. The packages install them as `/usr/lib/systemd/system/throne-web.service` and `/etc/throne/web.env`. |
 | [`dist/macos/moe.Throne.headless.plist`](https://github.com/throneproj/Throne/blob/dev/dist/macos/moe.Throne.headless.plist) | launchd LaunchDaemon. |
 | [`dist/windows/install-service.bat`](https://github.com/throneproj/Throne/blob/dev/dist/windows/install-service.bat), [`uninstall-service.bat`](https://github.com/throneproj/Throne/blob/dev/dist/windows/uninstall-service.bat) | Install and remove the Windows service. |
 | [`docker/compose.yaml`](https://github.com/throneproj/Throne/blob/dev/docker/compose.yaml) | Docker Compose example for the image `ghcr.io/throneproj/throne`. |

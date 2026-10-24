@@ -55,6 +55,8 @@
       url: /headless/installation/
     - title: "مدیریت با thronectl"
       url: /headless/thronectl/
+    - title: "رابط وب"
+      url: /headless/web/
     - title: "خط فرمان و پوشهٔ داده‌ها"
       url: /headless/command_line/
     - title: "بررسی سلامت و گزارش‌ها"

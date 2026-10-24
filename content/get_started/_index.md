@@ -43,6 +43,7 @@ Get the files from [Downloads](@/downloads.md).
 - A kill switch that blocks traffic outside Throne (since 1.4.0): [Kill Switch](@/advanced/kill_switch.md).
 - The Throne API, to control and manage Throne from scripts, hotkeys and other devices with `thronectl` (since 1.4.0): [Throne API & thronectl](@/advanced/api.md).
 - Headless mode for servers and containers (since 1.4.0): [Headless Throne](@/headless/_index.md).
+- A Simple mode that hides advanced options for new users, and a search for commands and settings with `Ctrl+K` (since 1.4.0): [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
 
 ## Where to start {#where-to-start}
 
@@ -64,3 +65,5 @@ Throne is built on these projects:
 - [fkYAML](https://github.com/fktn-k/fkYAML): Clash YAML import
 - [quirc](https://github.com/dlbeer/quirc): QR code reading
 - [srombauts/sqlitecpp](https://github.com/srombauts/sqlitecpp): the profile and settings database
+
+To support the development of Throne, click `Support Throne` in `Program` → `About` (since 1.4.0). It opens the donation page. Throne for Android has the same item on its `About` screen (after 2.0.3).

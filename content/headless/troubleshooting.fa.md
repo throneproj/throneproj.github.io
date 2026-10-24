@@ -35,6 +35,7 @@ toc = true
 | Docker: کانتینر پس از `thronectl shutdown` برمی‌گردد | `restart: unless-stopped` آن را پس از هر خروج دوباره شروع می‌کند. آن را با `docker compose stop` متوقف کنید. |
 | macOS: Throne هر 10 ثانیه شروع می‌شود و خارج می‌شود | یک خطای پیکربندی که launchd دوباره امتحانش می‌کند. `/Library/Logs/Throne/throne.log` را بخوانید. |
 | Windows: سرویس بی‌درنگ متوقف می‌شود | `sc.exe query Throne` کد خروج Throne را به‌صورت `SERVICE_EXIT_CODE` نشان می‌دهد. گزارش در `C:\ProgramData\Throne\config\logs` است. کد 78 اغلب به معنای مشکلی در [پوشهٔ داده‌ها](@/headless/installation.fa.md#windows-data-folder) است. |
+| Windows: `tun_failed` همراه با `open existing adapter`، یا خط گزارش `Windows still held the Tun adapter of an earlier session; start the profile again` | Windows هنوز آداپتور TUN یک اجرای قبلی را که درست بسته نشده نگه داشته است. نمایه را با `thronectl connect last` دوباره شروع کنید؛ معمولاً کار می‌کند. Throne خودش دوباره تلاش نمی‌کند. اگر باز هم شکست خورد، Windows را دوباره راه‌اندازی کنید. |
 | کیل‌سوییچ یا TUN دسترسی شما را قطع کرده است | Throne را یک بار با `--no-resume --no-kill-switch` شروع کنید. [بازیابی دسترسی](@/headless/recovery.fa.md#recovery) را ببینید. |
 
 ## آنچه باید در گزارش باگ بیاورید {#reporting}

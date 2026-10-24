@@ -66,6 +66,8 @@ Throne 可以下载为中国、伊朗和俄罗斯维护的路由配置档。
 | `DNS` | DNS 服务器和选项；参见 [DNS](@/guides/dns.zh.md#settings)。 |
 | `路由`（Route） | 你的路由配置档。 |
 
+在简洁模式下，该窗口只有 `通用`（Common）和 `路由`（Route）两个标签页。此时 `通用` 标签页显示 `路由配置档`（Routing Profile），并在其下方以独立分区的形式显示 WARP 设置和 `简易 DNS 设置`（Simple DNS Settings）。域策略和 `远程规则集镜像`（Remote Rule-set Mirror）会被隐藏，但保留其值。参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)。
+
 在 1.3.2 及更早版本中，还有一个 `劫持`（Hijack）标签页。它已在 1.4.0 中移除；参见 [DNS](@/guides/dns.zh.md#deprecated)。
 
 `通用`（Common）标签页上的设置：
@@ -93,6 +95,8 @@ Throne 可以下载为中国、伊朗和俄罗斯维护的路由配置档。
 
 路由窗口中的更改会在你点击 `确定`（OK）时保存。如果有连接正在运行，主窗口随后会显示“设置已更改，重启进行应用”。点击那里的 `重启`（Restart）即可使用新规则。
 
+自 1.4.0 起，你也可以在 `路由`（Routing）菜单底部右键点击某个路由配置档。这会直接在编辑器中打开该配置档，无需打开 `路由设置`（Routing Settings），也不会将其设为活动配置档。如果在连接运行时保存了对活动配置档的更改，也会出现同样的提示。
+
 路由配置档分为三种：结构化配置档，在 Throne 中通过[简单规则](#simple-rules)和[高级规则](#advanced-rules)编辑；[远程配置档](#remote-profiles)，从 URL 下载；以及[原始配置档](#raw-profiles)，以 sing-box JSON 编写。大多数人只需要结构化配置档。
 
 创建结构化配置档的步骤：
@@ -104,7 +108,9 @@ Throne 可以下载为中国、伊朗和俄罗斯维护的路由配置档。
 
 新配置档一开始带有一条 `dns-hijack` 规则。Throne 本来就会为每个结构化配置档添加同样的 DNS 步骤（参见 [DNS](@/guides/dns.zh.md#how-dns-works)），因此你可以保留这条规则不动。
 
-当你有 OpenVPN 或 OpenConnect 配置档时，会出现 `端点`（Endpoints）标签页。它会让这些配置档与你的代理同时运行，用于它们所通告的网络；参见[分离隧道](@/advanced/vpn_profiles.zh.md#split-tunnel)。
+自 1.4.0 起，配置档的 `DNS` 标签页可以为它设置自己的 DNS 服务器；该配置档处于活动状态时，这些服务器会取代全局服务器。参见[按路由配置档设置 DNS](@/guides/dns.zh.md#route-dns)。
+
+当你有 OpenVPN 或 OpenConnect 配置档时，会出现 `端点`（Endpoints）标签页。它会让这些配置档与你的代理同时运行，用于它们所通告的网络；参见[分离隧道](@/advanced/vpn_profiles.zh.md#split-tunnel)。在简洁模式下，只有已经带有端点的配置档才会显示该标签页。
 
 ## 简单规则 {#simple-rules}
 
@@ -168,7 +174,9 @@ suffix:example.org
 
 ## 高级规则 {#advanced-rules}
 
-`高级`（Advanced）标签页按顺序显示配置档的所有规则，并提供 `新建`（New）、`上移`（Move Up）、`下移`（Move Down）和 `删除`（Delete）按钮。右侧显示规则的 `名称`（Name），以及该规则的 sing-box JSON `预览`（Preview）。
+`高级`（Advanced）标签页按顺序显示配置档的所有规则，并提供 `新建`（New）、`上移`（Move Up）、`下移`（Move Down）和 `删除`（Delete）按钮。右侧显示规则的 `名称`（Name），以及该规则的 sing-box JSON `预览`（Preview）。在简洁模式下，只有当配置档中有 `基本`（Basic）标签页无法显示的规则时（例如你自己的高级规则或已禁用的规则），才会显示该标签页。
+
+自 1.4.0 起，列表中的每条规则都有一个复选框。取消勾选即可禁用该规则：规则仍保留在配置档中并显示为灰色，但 Throne 不会把它写入配置，就像它不存在一样。再次勾选即可重新启用。这同样适用于由 `基本`（Basic）标签页的输入框生成的规则，例如 `Simple Address Bypass`：规则被禁用期间，其中的行仍留在输入框里，但不会生效。`端点`（Endpoints）标签页的规则无法禁用。
 
 添加规则的步骤：
 
@@ -212,7 +220,7 @@ suffix:example.org
 - **例外放在前面。** 把针对单个网站的规则放在针对整个国家或整个列表的规则之上。
 - **进程规则**只能看到流量到达 Throne 的程序。要包括那些忽略系统代理的程序，请使用 TUN 模式；参见[简单规则](#simple-rules)下的说明。
 - **将流量发送到指定服务器。** 勾选 `outbound` 并选择一个已保存的配置档，它显示为 `[group] name`。Throne 会在你启动的配置档之外同时运行该配置档。额外核心（Extra Core）配置档和完整的自定义配置不能在此使用。
-- **无法编辑的规则。** 名为“… 路由优选”（… route prefer）的规则属于 `端点`（Endpoints）标签页。你只能移动它。
+- **无法编辑的规则。** 名为“… 路由首选”（… route prefer）的规则属于 `端点`（Endpoints）标签页。你只能移动它。
 
 ## 规则集 {#rule-sets}
 
@@ -238,9 +246,14 @@ Throne 会在配置档启动时下载该配置档的规则集，并将它们保�
 
 该 URL 必须提供结构化配置档。原始配置档不能作为远程配置档。
 
-自动更新需要同时满足两个条件：勾选配置档的 `自动更新`（Auto update）复选框，并开启 `设置`（Settings）→ `基本设置`（Basic Settings）→ `订阅`（Subscription）→ `路由配置档自动更新`（Routing profiles auto update）。后者默认关闭。其间隔以分钟为单位（默认 1440，即每天一次）；小于 30 的值会将其关闭。`运行时统计`（Runtime Stats）标签页会显示 `下次远程路由更新`（Next remote route update）。要立即更新，请使用 `路由`（Route）标签页上的 `更新`（Update）。
+自动更新需要同时满足两个条件：勾选配置档的 `自动更新`（Auto update）复选框，并开启 `设置`（Settings）→ `基本设置`（Basic Settings）→ `订阅`（Subscription）→ `路由配置档自动更新`（Routing profiles auto update）（仅高级模式，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。后者默认关闭。其间隔以分钟为单位（默认 1440，即每天一次）；小于 30 的值会将其关闭。`运行时统计`（Runtime Stats）标签页会显示 `下次远程路由更新`（Next remote route update）。要立即更新，请使用 `路由`（Route）标签页上的 `更新`（Update）。
 
 更新会用下载的内容替换规则和默认出站，因此你对该配置档所做的更改会丢失。要安全地修改远程配置档，请先 `克隆`（Clone）它，然后打开副本并取消勾选 `自动更新`（Auto update）。更新不会重启正在运行的连接：新规则会在你下次启动配置档时使用。
+
+自 1.4.0 起，有两样东西在更新后会保留：
+
+- 你[禁用](#advanced-rules)的规则会保持禁用，前提是下载的规则中有同名规则。这样你就可以关闭远程配置档中的某条规则，同时保持 `自动更新`（Auto update）开启。
+- 配置档自己的 [DNS 设置](@/guides/dns.zh.md#route-dns)。Throne 从不从远程配置档的 URL 获取 DNS 设置。
 
 ## 原始配置档 {#raw-profiles}
 
@@ -276,7 +289,9 @@ Throne 会在配置档启动时下载该配置档的规则集，并将它们保�
 
 主窗口底部的 `连接`（Connections）标签页按程序分组列出当前打开的连接。分组一开始是折叠的；点击某个程序即可查看它的连接。对于每个连接，该标签页会显示目标、协议、所用的出站及其流量。这是查看某个网站的流量去向并为其添加规则的最快方式。
 
-自 1.4.0 起，`出站`（Outbound）列显示的是承载该连接的配置档的名称，而不是 `proxy` 之类的内部名称。对于自动选择器，它显示选择器选中的配置档；对于 WARP 这一跳，它显示 `WARP`。
+自 1.4.0 起，`出站`（Outbound）列显示的是承载该连接的配置档的名称，而不是 `proxy` 之类的内部名称。对于自动选择器，它显示选择器选中的配置档；对于 WARP 这一跳，它显示 `WARP`。较长的名称会被截短；当目标需要更多空间时，该列会变窄。
+
+自 1.4.0 起，该标签页还会显示每个连接匹配了哪条规则。将鼠标悬停在 `出站`（Outbound）列上即可查看，同时还会显示出站的完整名称，例如 `Matched: domain_suffix=github.com → My server (proxy)`。它会指出规则中匹配的那一项，例如 `domain_suffix=github.com`、`rule_set=geosite-cn` 或 `process_name=Telegram.exe`。没有单独一项可指出的规则（例如反转规则）会完整显示。`final` 表示没有规则匹配，连接使用了默认出站。
 
 标签页右上角的按钮：`启用筛选`（Enable Filter）会在各列上方显示筛选输入框，`展开全部`（Expand All）或 `折叠全部`（Collapse All）会展开或折叠所有程序分组，`关闭下面列出的每个连接`（Close every connection listed below）会关闭列出的连接。
 
@@ -284,8 +299,10 @@ Throne 会在配置档启动时下载该配置档的规则集，并将它们保�
 
 | 菜单项 | 作用 |
 | --- | --- |
+| `Matched: … → …` | 灰色，不可点击。显示该连接匹配的规则，以及规则将连接发往何处（自 1.4.0 起）。 |
 | `Modify rules in "…"` | 一个标题，显示活动路由配置档的名称。 |
 | `直连`（Direct）/ `代理`（Proxy）/ `阻止`（Block） | 打开活动路由配置档中对应输入框的目标列表（自 1.4.0 起，见下文）。 |
+| `Specific server` | 让目标经由你选择的服务器（自 1.4.0 起，见下文）。 |
 | `复制目标 (…)`（Copy Destination (…)）、`复制进程名称 (…)`（Copy Process Name (…)） | 复制相应的值。 |
 | `关闭连接`（Close connection） | 关闭该连接。在程序上，`关闭 "…" 的所有连接 (…)`（Close all connections for "…" (…)）会关闭它的所有连接。 |
 | `展开全部`（Expand All）、`折叠全部`（Collapse All） | 展开或折叠所有程序分组。 |
@@ -301,11 +318,18 @@ Throne 会在配置档启动时下载该配置档的规则集，并将它们保�
 
 点击 `确定`（OK），然后点击“设置已更改，重启进行应用”提示中的 `重启`（Restart）。新行会并入该输入框已有的简单规则。如果该输入框原本为空，其规则会被添加到列表末尾，此时位于其上方、范围更广的规则仍可能先匹配。请在 `高级`（Advanced）标签页上检查顺序。
 
-当活动的路由配置档是原始配置档、被 `防止修改`（Prevent modifications）锁定，或者是开启了 `自动更新`（Auto update）的远程配置档时，`直连`、`代理` 和 `阻止` 会被禁用。将鼠标悬停在菜单项上可查看原因。对于远程配置档，请先按照[远程配置档](#remote-profiles)中的说明克隆它。
+`Specific server`（自 1.4.0 起）会打开同样的目标列表，并在其上方显示一个服务器选择框：`Server (type part of its name to search):`。在这里选择一个服务器。列表以 `[group] name` 的形式列出你的配置档，但不包括额外核心（Extra Core）配置档、完整的自定义配置以及包含它们的代理链。然后勾选应经由该服务器的目标，再点击 `确定`（OK）：
+
+- Throne 会把这些目标放入一条高级 `route` 规则，其 `outbound` 就是该服务器。规则以服务器命名，例如域名和 IP 地址为 `My server (address)`，程序为 `My server (process)`。新规则会添加到列表末尾。
+- 与输入框一样，一个目标永远不会同时出现在两个地方。勾选它会把它从某个输入框或另一个服务器的规则中移出。取消勾选会将其删除；不再包含任何目标的规则会被删除。
+- 对话框打开时，会选中已经包含其中某个目标的服务器。选择其他服务器后，复选框会显示该服务器的目标。
+- Throne 会在你启动的配置档之外同时运行所选服务器，与任何将流量发送到已保存配置档的规则相同（参见[高级规则](#advanced-rules)）。
+
+当活动的路由配置档是原始配置档、被 `防止修改`（Prevent modifications）锁定，或者是开启了 `自动更新`（Auto update）的远程配置档时，`直连`、`代理`、`阻止` 和 `Specific server` 会被禁用。将鼠标悬停在菜单项上可查看原因。对于远程配置档，请先按照[远程配置档](#remote-profiles)中的说明克隆它。
 
 在 1.3.2 及更早版本中，菜单中是 `追加 "…" 到`（Append "…" to）和 `追加进程 "…" 到`（Append process "…" to）。它们只会把确切的主机或程序添加到输入框中。
 
-该标签页需要开启 `设置`（Settings）→ `基本设置`（Basic Settings）→ `样式`（Style）→ `连接统计`（Connection statistics）→ `启用`（Enable），此项默认开启。
+该标签页需要开启 `设置`（Settings）→ `基本设置`（Basic Settings）→ `样式`（Style）→ `连接统计`（Connection statistics）→ `启用`（Enable），此项默认开启。在简洁模式下，该设置会被隐藏，但保留其值（参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。
 
 ## AdBlock（广告屏蔽） {#adblock}
 
@@ -329,6 +353,8 @@ Throne 会在配置档启动时下载该配置档的规则集，并将它们保�
 - 名称、默认出站和规则。
 - 将流量发送到已保存配置档的规则会按名称引用该配置档。在另一台电脑上，Throne 会使用同名的配置档；如果没有同名配置档，则使用 `proxy`，并告知你。
 - VPN 端点，分享时不包含其凭据。导入此类链接时，Throne 会在询问“添加这个路由配置档吗?”之前先创建 OpenVPN 或 OpenConnect 配置档；即使你取消，这些配置档也会保留。
+- 已禁用的规则，并带有禁用标记（自 1.4.0 起）。Throne 1.3.2 及更早版本，以及 Throne for Android 2.0.3 及更早版本，在导入链接时会排除这类规则。
+- 配置档自己的 [DNS 设置](@/guides/dns.zh.md#route-dns)，如果它使用了的话（自 1.4.0 起）。在 `路由设置`（Routing Settings）中用 `导入`（Import）导入链接时，询问中会列出这些服务器：“It uses its own DNS servers: remote …, direct …”（它使用自己的 DNS 服务器：远程 …，直连 …）。该配置档处于活动状态时，你查询的每个域名都会经过这些服务器。如果链接中的设置无法使用，Throne 会将其排除，该配置档改用全局 DNS 设置。
 
 自 1.3.2 起，如果某条规则使用了 Throne 无法保存的条件，例如网络类型或包名正则这类仅限 Android 的条件，Throne 会将其排除在外。导入前的询问会以“rule … dropped: unsupported field …”（规则 … 已被舍弃：不支持的字段 …）列出这些规则。Throne 会舍弃整条规则，因为缺少该条件时，它会匹配更多的连接。如果没有剩下任何规则，导入就会失败。
 
@@ -344,9 +370,11 @@ Throne for Android 拥有相同的路由配置档、规则和规则集。从侧�
 - **Wi-Fi 规则。** `Wi-Fi SSID` 和 `Wi-Fi BSSID` 需要将精确位置权限设为“始终允许”（Allow all the time），并开启位置信息，否则 Android 会隐藏 Wi-Fi 名称。保存此类规则时，Throne 会请求该权限。如果缺少权限，会出现“Wi-Fi rules are inactive”（Wi-Fi 规则未生效）通知。
 - **原始配置档。** Android 会拒绝原始配置档的 `throne://route/` 链接，并提示“raw routing profiles are not supported on Android”（Android 不支持原始路由配置档）。来自桌面版备份的原始配置档会被保留，但无法使用，显示为“Raw (Throne desktop) · read-only”（原始配置档，来自 Throne 桌面版，只读）。
 - 导入的链接中的 **VPN 端点**会被丢弃，并显示警告。
-- **快速切换。** 在 `配置`（Profiles）界面中，菜单（⋮）→ `Routing profile` 会列出你的路由配置档。同一对话框中还有 `Enable WARP` / `Disable WARP` 按钮。
+- **已禁用的规则和按配置档设置的 DNS**（2.0.3 之后的版本）。与桌面版一样，编辑器中的每条规则都有一个用于禁用它的复选框。编辑器中还有一个 `DNS` 卡片，提供 `使用全局 DNS 设置`（Use the global DNS settings）和 `使用自定义 DNS 设置`（Use custom DNS settings）；参见[按路由配置档设置 DNS](@/guides/dns.zh.md#route-dns)。远程配置档在更新后会保留这两者，链接中也会携带这两者。
+- **`克隆`（Clone）**（2.0.3 之后的版本）。克隆远程配置档会得到一个永不更新的本地副本，因此你可以修改它的规则。
+- **快速切换。** 在 `配置`（Profiles）界面中，菜单（⋮）→ `路由配置`（Routing profile）会列出你的路由配置档。同一对话框中还有 `启用 WARP`（Enable WARP）/ `禁用 WARP`（Disable WARP）按钮。
 - **链接。** `throne://route/` 链接会添加配置档，但不会将其设为活动配置档。
 
-`Download profiles`、`Update rule-sets` 和远程配置档的用法与桌面版相同。`AdBlock` 和 `Auto update remote profiles` 位于 `设置`（Settings）→ `Routing` 中。
+`下载配置`（Download profiles）、`更新规则集`（Update rule-sets）和远程配置档的用法与桌面版相同。`AdBlock` 和 `自动更新远程配置`（Auto update remote profiles）位于 `设置`（Settings）→ `路由`（Routing）中。
 
 自 2.0.2 起，即使某个规则集无法下载，连接也可以启动。Throne 会显示“无法下载规则集：…”（Could not download the rule-sets: …），并提供 `仍然连接`（Connect anyway）按钮。确认后，Throne 会在缺少这些规则集的情况下连接。使用它们的规则在 Throne 下载到它们之前不会匹配任何内容；Throne 会在连接后立即通过代理下载它们，并保留下来供以后的连接使用。

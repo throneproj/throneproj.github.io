@@ -45,6 +45,7 @@ sudo systemctl enable --now throne
 - `systemctl start throne` returns once Throne has started. See [systemd: readiness, status and watchdog](@/headless/monitoring.md#systemd).
 - `/etc/throne/throne.env` has a commented example for each variable the unit can use. Uncomment a line and run `sudo systemctl restart throne`. Upgrades keep your edits. Never put an API key in this file; `THRONE_API_KEY_FILE` names a key file instead.
 - Logs: `journalctl -u throne -f`.
+- The packages also install `thronectl` as `/usr/bin/thronectl`, and a second unit, `throne-web.service`, for the [web UI](@/headless/web.md#systemd). It is not enabled either.
 
 To change the command line, add a drop-in with `sudo systemctl edit throne`:
 
@@ -169,6 +170,7 @@ Notes:
 - **Importing a file.** Pipe it in with `-T`: `docker compose exec -T throne thronectl import - < links.txt`.
 - **The API from outside the container.** The API listens on the container's loopback. To reach it from the network, set `THRONE_API_LISTEN: "*:9095"` with a `THRONE_API_ALLOW` list and publish port 9095. Admin requests, such as imports and settings, then also need `THRONE_API_ADMIN_LAN: "1"`, because every request through a published port comes from outside the container. Behind Docker's NAT all clients share one address, so one client with an old key locks out the others for a minute.
 - **Logs:** `docker compose logs -f throne`.
+- **Web UI.** Set `THRONE_WEB_LISTEN: "*:9096"` and publish port 9096, and the container also serves the [web UI](@/headless/web.md#docker).
 
 ## macOS {#macos}
 

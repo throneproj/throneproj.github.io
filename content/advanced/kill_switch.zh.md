@@ -27,7 +27,7 @@ Throne 退出时，断网保护随之结束。Throne 崩溃时它也会结束，
 
 ## 开启断网保护 {#enable}
 
-1. 打开 `设置`（Settings）→ `基本设置`（Basic Settings）→ `安全`（Security）。
+1. 打开 `设置`（Settings）→ `基本设置`（Basic Settings）→ `安全`（Security）。在简洁模式下，`安全` 是 `通用`（Common）标签页中的一个分区；参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)。
 2. 勾选 `Kill Switch`。
 3. 点击 `确定`（OK）。
 
@@ -61,7 +61,7 @@ Throne 退出时，断网保护随之结束。Throne 崩溃时它也会结束，
 
 其他所有流量都会被拦截，例如：
 
-- Throne 自身的请求，例如订阅更新、更新检查和 WARP 注册。它们只有在 TUN 模式下，或者在配置档运行且开启了 `设置`（Settings）→ `基本设置`（Basic Settings）→ `杂项`（Miscellaneous）→ `使用代理`（Use proxy）或 `系统代理`（System Proxy）时才能工作。
+- Throne 自身的请求，例如订阅更新、更新检查和 WARP 注册。它们只有在 TUN 模式下，或者在配置档运行且开启了 `设置`（Settings）→ `基本设置`（Basic Settings）→ `杂项`（Miscellaneous）→ `使用代理`（Use proxy）（在简洁模式下位于 `通用`（Common）标签页的 `网络设置`（Network Settings）分区中）或 `系统代理`（System Proxy）时才能工作。
 - 这台电脑为其他设备、容器或虚拟机转发的流量，除非它经过 TUN 网卡或留在本地网络内。
 - 其他 VPN 应用的流量。
 

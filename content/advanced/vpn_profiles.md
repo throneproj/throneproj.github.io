@@ -68,11 +68,11 @@ Throne signs in with the saved `Username` and `Password`. When the server asks f
 
 If the server rejects the saved login, Throne asks for a username and password for this session and offers `Reconnect`. They are not saved in the profile, and Throne forgets them when you stop the profile yourself. It asks up to three times.
 
-The `Runtime Stats` tab at the bottom of the main window lists each VPN connection with its state and a `Details` button.
+The `Runtime Stats` tab at the bottom of the main window lists each VPN connection with its state and a `Details` button. In Simple mode, this tab is hidden (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
 
 ## OTP Manager {#otp-manager}
 
-Many work VPNs ask for a one-time code from an authenticator app. Since 1.3.0, Throne has its own authenticator: `Tools` → `OTP Manager`.
+Many work VPNs ask for a one-time code from an authenticator app. Since 1.3.0, Throne has its own authenticator: `Tools` → `OTP Manager`. In Simple mode, `OTP Manager` and the tray's `OTP Codes` are hidden (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
 
 Add entries:
 
@@ -107,7 +107,7 @@ Since 1.3.0, a routing profile can start OpenVPN or OpenConnect profiles next to
 1. Import or create the VPN profile.
 2. Open `Routing` → `Routing Settings` → the `Route` tab.
 3. Select the routing profile you use and click `Edit`.
-4. Open the `Endpoints` tab. It appears only when you have an OpenVPN or OpenConnect profile, or a chain that ends with one.
+4. Open the `Endpoints` tab. It appears only when you have an OpenVPN or OpenConnect profile, or a chain that ends with one. In Simple mode, it appears only when the routing profile already has endpoints.
 5. Choose the VPN profile in the list and click `Add`.
 6. Click `OK`, and make sure that this routing profile is the active one (it is ticked at the bottom of the `Routing` menu).
 7. Start your normal profile. The VPN starts with it.

@@ -33,7 +33,7 @@ The `Documentation` item in the app's side menu (the drawer) opens this website.
 8. Tap ⋮ (`More options`) → `URL test`. A panel shows the progress and a summary of the results. Each profile shows its own result in the list.
 9. When the test finishes, tap `Select fastest`, or tap a profile that works.
 10. Tap the round connect button at the bottom of the screen. The first time, Android asks whether Throne may set up a VPN connection. Allow it.
-11. To check the connection, tap the bar at the bottom of the screen ("Connected, tap to check connection"). It shows "Success: HTTP handshake took …ms" (after 2.0.2: "HTTP: … ms") when traffic passes through the profile. Since 2.0.2, the bar also shows the location where your traffic leaves the internet. Throne asks ip-api.com for it through the connection.
+11. To check the connection, tap the bar at the bottom of the screen ("Connected, tap to check connection"). It shows "Success: HTTP handshake took …ms" (since 2.0.3: "HTTP: … ms") when traffic passes through the profile. Since 2.0.2, the bar also shows the location where your traffic leaves the internet. Throne asks an IP lookup service for it through the connection. Since 2.0.3, `Settings` → `Testing` → `Look up exit country` turns this off, and `Lookup service` chooses the service.
 
 If your provider gives you a `throne://addsub/…` link, open it on the phone instead of steps 4–6. Throne asks "Add this subscription?", adds the group, downloads its profiles and opens the `Groups` screen. Then open the `Profiles` screen and continue with step 7.
 
@@ -47,7 +47,7 @@ The two apps share the core and most settings. These things work differently:
 | --- | --- | --- |
 | How traffic reaches Throne | `Tun Mode` and `System Proxy` checkboxes | `Settings` → `General` → `Service mode`: `VPN` (default) or `Proxy only`. See [VPN & Proxy Modes](@/android/modes.md). |
 | Choosing apps | Routing rules by process name or path | Per-app proxy (`Apps VPN mode`) and routing rules by app |
-| Backups | `.thrbackup` files | `.thrbackup` files, also on a WebDAV server |
+| Backups | `.thrbackup` files, since 1.4.0 also on a WebDAV server | `.thrbackup` files with profiles, routing profiles and settings only, also on a WebDAV server. See [WebDAV backups](@/guides/backup.md#webdav). |
 | Default TUN MTU | 1500 | 9000 |
 | Default core log level | `info` | `warn` |
 | A `throne://add/…` link opened from another app | Imports the profile at once | Asks "Import profile" first |
@@ -64,7 +64,7 @@ Android also has home-screen widgets, a Quick Settings tile and the system's Alw
 The drawer also has two screens for watching the connection:
 
 - `sing-box dashboard` (since 2.0.2) shows the live traffic, the connections and the log of the running core. It needs a running profile and Android System WebView. The dashboard files come with the app. To hide the item, turn off `Settings` → `Core` → `Enable sing-box API`.
-- `Live graphs` (after 2.0.2) shows the proxy and direct speed of the last minutes, and the CPU use, memory and connections of the core. Touch and hold the bar at the bottom of the screen to open it.
+- `Live graphs` (since 2.0.3) shows the proxy and direct speed of the last minutes, and the CPU use, memory and connections of the core. In 2.0.3, touch and hold the bar at the bottom of the screen to open it. After 2.0.3, touching and holding the bar opens a menu with `Live graphs` and `Speed test current connection`. The speed test needs a running connection.
 
 ## Desktop menus on Android {#menus}
 
@@ -81,5 +81,5 @@ The shared guides show the desktop menus. On Android the same options are here:
 | `Settings` → `Preset Settings` | `Settings` → `Presets` |
 | `Settings` → `Basic Settings` → `Subscription` | `Settings` → `Subscriptions` |
 | `Settings` → `Basic Settings` → `Backup and Restore` | Drawer → `Tools` |
-| `Settings` → `Basic Settings` → `Diagnostics` | `Settings` → `Diagnostics` (after 2.0.2) |
+| `Settings` → `Basic Settings` → `Diagnostics` | `Settings` → `Diagnostics` (since 2.0.3) |
 | `Tools` → `Open Web dashboard` | Drawer → `sing-box dashboard` (since 2.0.2) |

@@ -29,6 +29,8 @@ WARP 是 Cloudflare 的免费 VPN 服务。Throne 可以在你的代理之后加
 6. 等待按钮上显示“成功!”（Success!）。此时所选模式的各字段均已填好。
 7. 点击 `确定`（OK）。
 
+在简洁模式下，`Warp` 是 `通用`（Common）标签页中的一个区域，只显示 `启用 Warp`（Enable Warp）、`模式`（Mode）和 `生成 Warp 配置`（Generate Warp Config）。下表中的字段和 `注册域名...`（Registration Domains…）会被隐藏（仅在高级模式下显示，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。
+
 每种模式都有各自的字段。如果之后切换了 `模式`，也需要为该模式生成配置。
 
 | 模式 | 字段 |
@@ -45,10 +47,12 @@ MASQUE 的 `HTTP 版本` 可以是 `HTTP/3 (回退到 HTTP/2)`（HTTP/3 (fallbac
 Cloudflare 的注册服务器 `api.cloudflareclient.com` 在一些国家被封锁（[#1874](https://github.com/throneproj/Throne/issues/1874)）。这种情况下，请通过你的代理进行注册：
 
 1. 启动一个可用的配置档。
-2. 打开 `设置`（Settings）→ `基本设置`（Basic Settings）→ `杂项`（Miscellaneous），勾选 `使用代理`（Use proxy）。如果已开启 `系统代理`（System Proxy），Throne 自身的请求已经会经过代理。
+2. 打开 `设置`（Settings）→ `基本设置`（Basic Settings）→ `杂项`（Miscellaneous），勾选 `使用代理`（Use proxy）。在简洁模式下，`使用代理` 位于 `通用`（Common）标签页的 `网络设置`（Network Settings）区域。如果已开启 `系统代理`（System Proxy），Throne 自身的请求已经会经过代理。
 3. 再次点击 `生成 Warp 配置`。
 
 如果在开启了 `使用代理` 或 `系统代理` 的情况下没有运行任何配置档，生成会失败，并提示“有用代理的请求，但未启动配置档。”（Request with proxy but no profile started.）
+
+Throne 会把这类请求发送到自己的本地代理端口。自 1.4.0 起，如果开启了 `禁用混合入站`（Disable Mixed Inbound），Throne 会改为直接发送这些请求，再由 TUN 模式通过正在运行的配置档转发。如果 TUN 模式也处于关闭状态，生成会失败，并提示“Request with proxy but the mixed inbound is disabled and Tun Mode is off.”（有用代理的请求，但混合入站已禁用且 TUN 模式已关闭）。
 
 开启[断网保护（kill switch）](@/advanced/kill_switch.zh.md)后，Throne 自身的请求只要不经过 Throne 就会被拦截。请在配置档以 TUN 模式运行时生成配置，或者开启 `使用代理` 后再生成。
 
@@ -60,7 +64,7 @@ Cloudflare 的注册服务器 `api.cloudflareclient.com` 在一些国家被封�
 
 你也可以在 `Warp` 标签页中勾选 `启用 Warp` 并点击 `确定`。之后需要重新启动配置档，更改才会生效。
 
-如果已开启 WARP，但当前模式尚未生成配置，配置档将无法启动，Throne 会显示“Warp is enabled but its config has not been generated. Please generate the Warp config first in Routing Settings.”（已启用 Warp，但尚未生成其配置。请先在路由设置中生成 Warp 配置。）
+如果已开启 WARP，但当前模式尚未生成配置，配置档将无法启动，Throne 会显示“Warp is enabled but its config has not been generated. Please generate the Warp config first in Routing Settings.”（已启用 Warp，但尚未生成其配置。请先在路由设置中生成 Warp 配置。）在简洁模式下，当勾选了 `启用 Warp`（Enable Warp）而当前模式还没有配置时，`路由设置`（Routing Settings）也会显示“WARP 尚无配置：请点击“生成 Warp 配置”。”（WARP has no config yet: click Generate Warp Config.）。
 
 要确认 WARP 是否生效，请打开一个显示 IP 地址的网站，它应当显示一个 Cloudflare 的地址。
 
@@ -83,16 +87,16 @@ WARP 关闭时，`warp-bypass` 与 `proxy` 的效果相同。
 
 1. 打开 `程序`（Program）→ `新建配置档`（New profile）。
 2. 将 `类型`（Type）设为 `WireGuard` 或 `MASQUE`。
-3. 点击 `生成 Warp 配置`（WireGuard）或 `生成 WARP 身份标识`（Generate WARP identity，MASQUE）。Throne 会自动填入密钥、地址、MTU 和服务器地址。
+3. 点击 `生成 Warp 配置`（Generate Warp Config，WireGuard）或 `生成 WARP 身份标识`（Generate WARP identity，MASQUE）。Throne 会自动填入密钥、地址、MTU 和服务器地址。
 4. 填写 `名称`（Name）并点击 `确定`。
 
 这样的配置档单独使用时会直接连接 Cloudflare。使用它时请保持 `启用 Warp` 处于关闭状态，否则 Throne 会在它之后再添加一个 WARP 跳点。
 
 ## Android 版 {#android}
 
-- 相关设置位于 `设置`（Settings）→ `Routing` → `WARP`：`Enable WARP`、`Mode`、各模式的字段、`生成配置`（Generate WARP config）以及 `Registration domains`。
+- 相关设置位于 `设置`（Settings）→ `路由`（Routing）→ `WARP`：`启用 WARP`（Enable WARP）、`模式`（Mode）、各模式的字段、`生成配置`（Generate WARP config）以及 `注册域名`（Registration domains）。
 - 首次生成时会要求你接受 Cloudflare WARP 服务条款。
-- 如果注册被封锁，请先连接，然后开启 `设置` → `订阅`（Subscriptions）→ `Use proxy`。在 `仅代理`（Proxy only）模式下，该请求总是经过代理。
-- 要快速切换 WARP，请打开 `配置`（Profiles）界面的菜单（⋮）→ `Routing profile`，然后点按 `Enable WARP` 或 `Disable WARP`。
-- 如果开启了 WARP 却没有生成配置，Android 会显示“WARP is enabled but its config has not been generated. Generate it in Settings › Routing › WARP.”（已启用 WARP，但尚未生成其配置。请在“设置 › Routing › WARP”中生成。）
-- WireGuard 和 MASQUE 配置档编辑器中都有 `Generate WARP identity` 按钮。
+- 如果注册被封锁，请先连接，然后开启 `设置` → `订阅`（Subscriptions）→ `使用代理`（Use proxy）。在 `仅代理`（Proxy only）模式下，只要有配置档在运行，该请求同样会经过代理。如果没有运行任何配置档，开启了 `使用代理` 时生成会失败。2.0.3 之后，仅仅处于 `仅代理` 模式不会再导致失败：此时请求会直接发出。
+- 要快速切换 WARP，请打开 `配置`（Profiles）界面的菜单（⋮）→ `路由配置`（Routing profile），然后点按 `启用 WARP` 或 `禁用 WARP`（Disable WARP）。
+- 如果开启了 WARP 却没有生成配置，Android 会显示“WARP is enabled but its config has not been generated. Generate it in Settings › Routing › WARP.”（已启用 WARP，但尚未生成其配置。请在“设置 › 路由 › WARP”中生成。）
+- WireGuard 和 MASQUE 配置档编辑器中都有 `生成 WARP 身份`（Generate WARP identity）按钮。

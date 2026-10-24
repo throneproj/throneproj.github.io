@@ -40,7 +40,7 @@ Throne 接受以下选项：
 
 ## 数据文件夹 {#data-folder}
 
-Throne 将你的数据保存在一个名为 `config` 的文件夹中。要打开它，请选择 `设置`（Settings）→ `打开配置文件夹`（Open Config Folder）。
+Throne 将你的数据保存在一个名为 `config` 的文件夹中。要打开它，请选择 `设置`（Settings）→ `打开配置文件夹`（Open Config Folder）（仅在高级模式下可用，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。
 
 Throne 有两种工作模式：
 
@@ -96,7 +96,7 @@ Throne 有两种工作模式：
 - **滚动：** 当你位于底部时，标签页会显示每一行新日志。自 1.4.0 起，当你向上滚动时，视图会停留在原处，新的行会等待显示。标签页右上角的 `回到最新`（Jump to latest）按钮会显示有多少行在等待；点击它或滚动回底部即可看到这些行。
 - **筛选：** 自 1.4.0 起，标签页右上角的筛选按钮会打开一个筛选栏。在 `筛选日志`（Filter logs）中输入文字，即可只显示匹配的行，并高亮匹配的内容。`区分大小写`（Match case）和 `正则表达式`（Regular expression）会改变文字的匹配方式，筛选栏还会显示有多少行匹配。按 `Esc` 或再次点击筛选按钮会关闭筛选栏，并重新显示所有行。此筛选只改变显示，不会改变 Throne 保留的行。
 
-日志设置位于 `设置`（Settings）→ `基本设置`（Basic Settings）→ `日志`（Logging）：
+日志设置位于 `设置`（Settings）→ `基本设置`（Basic Settings）→ `日志`（Logging）（仅在高级模式下可用）：
 
 | 设置 | 默认值 | 作用 |
 | --- | --- | --- |
@@ -107,7 +107,7 @@ Throne 有两种工作模式：
 
 `自动滚动日志`（Auto-scroll log）设置已在 1.4.0 中移除。
 
-自 1.4.0 起，`日志` 标签页使用等宽字体。要选择其他字体，请使用 `设置`（Settings）→ `基本设置`（Basic Settings）→ `样式`（Style）中的 `日志浏览器字体`（Log Browser Font）和 `日志浏览器字体大小`（Log Browser Font Size）。列表中只显示等宽字体。默认情况下，Throne 会使用 Consolas、Menlo、SF Mono、DejaVu Sans Mono、Noto Sans Mono 和 Ubuntu Mono 中第一个已安装的字体，字号与界面字体相同。
+自 1.4.0 起，`日志` 标签页使用等宽字体。要选择其他字体，请使用 `设置`（Settings）→ `基本设置`（Basic Settings）→ `样式`（Style）中的 `日志浏览器字体`（Log Browser Font）和 `日志浏览器字体大小`（Log Browser Font Size）（仅在高级模式下可用）。列表中只显示等宽字体。默认情况下，Throne 会使用 Consolas、Menlo、SF Mono、DejaVu Sans Mono、Noto Sans Mono 和 Ubuntu Mono 中第一个已安装的字体，字号与界面字体相同。
 
 如需提交 Bug 报告，请将 `Sing-box 日志级别`（Sing-box Log level）设为 `debug`，重新启动配置档，然后复现问题。之后请按照[报告 Bug](@/help/bug_reports.zh.md#logs) 中的说明操作。
 
@@ -124,7 +124,7 @@ Throne 还会把日志写入配置文件夹中的 `logs/throne.log`。
 日志中可能包含你访问过的域名和你的服务器地址。公开分享日志之前，请先检查一遍。
 {% end %}
 
-**Android：** 打开侧边菜单并点按 `日志`（Logs）。`Share logs` 和 `Save logs…` 可以导出日志。`Hide sensitive data` 默认开启，它会在导出的内容中隐藏密码、密钥、UUID、服务器名称、公网 IP 地址、Wi-Fi 名称以及 URL 中的路径。日志级别位于 `设置`（Settings）→ `Core` → `日志级别`（Log level），默认为 `warn`。参见 [Android 故障排除](@/android/troubleshooting.zh.md#logs)。
+**Android：** 打开侧边菜单并点按 `日志`（Logs）。`分享日志`（Share logs）和 `保存日志…`（Save logs…）可以导出日志。`隐藏敏感数据`（Hide sensitive data）默认开启，它会在导出的内容中隐藏密码、密钥、UUID、服务器名称、公网 IP 地址、Wi-Fi 名称以及 URL 中的路径。日志级别位于 `设置`（Settings）→ `核心`（Core）→ `日志级别`（Log level），默认为 `warn`。参见 [Android 故障排除](@/android/troubleshooting.zh.md#logs)。
 
 ## 重置 Throne {#reset}
 

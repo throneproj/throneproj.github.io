@@ -1,17 +1,19 @@
 +++
 title = "键盘快捷键与托盘"
-description = "Throne 桌面版的键盘快捷键、如何更改它们、全局热键，以及托盘图标及其菜单的作用。"
+description = "Throne 桌面版的键盘快捷键、命令面板、如何更改快捷键、全局热键，以及托盘图标及其菜单的作用。"
 weight = 20
 toc = true
 +++
 
-本页列出了 Throne 桌面版的键盘快捷键、可以设置的全局热键，以及托盘图标的作用。快捷键在 Throne 窗口处于活动状态时生效。全局热键在任何应用中都有效，即使 Throne 窗口已隐藏也是如此。
+本页列出了 Throne 桌面版的键盘快捷键、可以设置的全局热键，以及托盘图标的作用。快捷键在 Throne 窗口处于活动状态时生效。全局热键在任何应用中都有效，即使 Throne 窗口已隐藏也是如此。本页还介绍了命令面板，它可以按名称查找命令和设置。
 
 **macOS：** 本页中的 `Ctrl` 在 Mac 上指 `Cmd`，`Alt` 指 `Option`。例如，`Ctrl+Shift+S` 即 `Cmd+Shift+S`。在 Mac 笔记本键盘上，`Del` 为 `Fn+Delete`。
 
 ## 主窗口 {#main-window}
 
-工具栏按钮 `程序`（Program）、`设置`（Settings）、`分组`（Groups）、`路由`（Routing）和 `工具`（Tools）用于打开主窗口的各个菜单。`设置`（Settings）和 `路由`（Routing）菜单没有快捷键。
+工具栏按钮 `程序`（Program）、`设置`（Settings）、`分组`（Groups）、`路由`（Routing）和 `工具`（Tools）用于打开主窗口的各个菜单。`设置`（Settings）和 `路由`（Routing）菜单没有快捷键。自 1.4.0 起，在 `路由`（Routing）菜单底部右键点击某个路由配置档，即可在编辑器中打开它，而不会将其设为活动配置档；参见[路由配置档](@/guides/routing.zh.md#profiles)。
+
+自 1.4.0 起，全新安装会以简洁模式启动，该模式会隐藏本页中的部分菜单项，例如 `为本组解析域名`（Resolve Domain for group）、`导出配置`（Export config）和 `重置流量`（Reset Traffic）。参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)。
 
 “可更改”一列表示能否在 `设置`（Settings）→ `Integration Settings`（1.4.0 之前为 `热键设置`（Hotkey Settings））中为该操作设置其他快捷键。参见[更改快捷键](#change-shortcuts)。
 
@@ -26,6 +28,8 @@ toc = true
 | `扫描二维码`（Scan QR Code） | `Ctrl+Shift+Q` | 是 |
 
 你也可以把文件、含二维码的图片或链接拖放到窗口上来导入它们。
+
+`程序` 菜单中还有 `检查更新`（Check For Update），自 1.4.0 起还有 `关于`（About）。`关于` 会显示 Throne、sing-box、Xray-core、Qt 和 Go 的版本。1.4.0 之前，`检查更新` 位于 `工具`（Tools）菜单中。
 
 ### 分组菜单 {#groups-menu}
 
@@ -51,14 +55,32 @@ toc = true
 
 | 操作 | 快捷键 | 可更改 |
 | --- | --- | --- |
+| `Search Settings` | `Ctrl+K` | 是 |
 | `速度测试当前项`（Speedtest Current） | `F6` | 是 |
 
-`速度测试当前项`（Speedtest Current）仅在有配置档运行时可用。
+`Search Settings` 用于打开[命令面板](#command-palette)（自 1.4.0 起）。`速度测试当前项`（Speedtest Current）仅在有配置档运行时可用。
 
 ### 状态栏 {#status-bar}
 
 - 点击状态栏左侧正在运行的配置档，可以对它进行 URL 测试。
 - 点击状态栏中间的 `Mixed: …`，可以打开 `基本设置`（Basic Settings）。
+
+## 命令面板 {#command-palette}
+
+自 1.4.0 起，命令面板可以按名称查找菜单命令和设置。要打开它，请在主窗口中按 `Ctrl+K`，或点击 `工具`（Tools）→ `Search Settings`。它会在一个名为 `Search Settings` 的独立窗口中打开。
+
+- 不输入搜索内容时，它会列出 `程序`（Program）、`设置`（Settings）、`分组`（Groups）、`路由`（Routing）、`工具`（Tools）和 `服务器`（Server）菜单中的命令，其中 `服务器` 就是配置档列表的菜单。`路由` 分组中还会列出你的路由配置档。只有菜单当前显示的命令才会被列出。
+- 输入一个或多个词即可搜索。如果某一项的名称或其后显示的路径包含所有这些词，它就会被匹配，例如 `基本设置 › 通用 › 入站设置`。结果分为 `Commands` 和 `Settings` 两组。在翻译后的界面中，输入英文单词也能找到许多项。
+- 以 `>` 开头只搜索命令，以 `@` 开头只搜索设置。只输入 `@` 会列出所有设置。
+- 使用方向键、`Tab`、`Page Up` 和 `Page Down` 移动。按 `Enter` 或双击某一项即可运行它。`Esc` 会关闭命令面板。
+
+运行命令的效果与在菜单中选择它相同。命令的快捷键显示在右侧；可以开启或关闭的命令（例如 `随系统启动`（Start with system））会显示一个开关。当前不可用的命令显示为灰色。
+
+选择一项设置会打开它所在的设置窗口并切换到相应的标签页，将光标放到该设置上，并短暂地为它加上边框。命令面板可以找到 `基本设置`（Basic Settings）、`路由设置`（Routing Settings）、`Tun 设置`（Tun Settings）、`预设设置`（Preset Settings）和 `Integration Settings` 中的设置。运行某一项之后，命令面板会关闭。
+
+在简洁模式下，搜索也会找到被简洁模式隐藏的设置，它们列在“高级模式中的设置”（Settings in Advanced mode）下。选择其中一项后，Throne 会切换到高级模式，然后打开该设置。被简洁模式隐藏的菜单命令不会被列出。参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)。
+
+以下窗口同一时间只能打开一个：各个设置窗口、`管理分组`（Manage Groups）、`OTP 管理器`（OTP Manager）、`流量统计`（Traffic Stats）和 `关于`（About）。当其中一个窗口打开时，命令面板会将会打开其他窗口的项显示为灰色，并在它们的路径后加上 `close "<window>" first`（请先关闭“<窗口>”）。命令面板会保持打开，一旦你关闭该窗口，这些项就会恢复可用。已打开的窗口本身的项仍然可以使用。
 
 ## 配置档列表 {#profile-list}
 
@@ -87,7 +109,7 @@ toc = true
 | 双击配置档 | 打开配置档编辑器。 |
 | `Esc` | 清除选择。 |
 | 拖动某一行 | 移动该配置档。筛选生效时无法移动。 |
-| 点击列标题 | 按该列排序。再次点击则按相反方向排序。 |
+| 点击列标题 | 按该列排序。再次点击则按相反方向排序。列名旁边的箭头表示排序所依据的列和排序方向。 |
 | `Ctrl+F` | 显示或隐藏筛选行。隐藏筛选行会清除筛选条件。 |
 | 在第一行按 `Up` | 移到筛选行（如果筛选行已打开）。 |
 | 在筛选行按 `Down` | 返回列表。 |
@@ -99,7 +121,7 @@ toc = true
 
 ## 更改快捷键 {#change-shortcuts}
 
-1. 打开 `设置`（Settings）→ `Integration Settings`。
+1. 打开 `设置`（Settings）→ `Integration Settings`（仅在高级模式下可用，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。
 2. 打开 `快捷键`（Shortcuts）标签页。其中列出了所有可以更改快捷键的操作。
 3. 点击某个操作旁边的输入框，然后按下新的组合键。要删除快捷键，请点击输入框并按 `Backspace`。
 4. 点击 `确定`（OK）。
@@ -141,7 +163,7 @@ Throne 会在系统托盘中显示一个图标。在 macOS 上，该图标位于
 
 关闭窗口并不会退出 Throne。窗口会隐藏，Throne 继续在托盘中运行。要退出，请在托盘菜单或 `程序`（Program）菜单中选择 `退出`（Exit）。
 
-**macOS：** 窗口隐藏时，Throne 不会在程序坞（Dock）中显示图标。
+**macOS：** 窗口隐藏时，Throne 不会在程序坞（Dock）中显示图标。自 1.4.0 起，如果你将 Throne 保留在程序坞中，点击它在程序坞中的图标即可显示窗口，即使窗口已最小化也是如此。从“访达”（Finder）中再次打开 Throne 也有同样的效果。
 
 **Linux：** GNOME 只有在安装了 AppIndicator 扩展后才会显示托盘图标（[#1623](https://github.com/throneproj/Throne/issues/1623)）。即使没有托盘图标，你仍然可以找回隐藏的窗口：再次启动 Throne，正在运行的 Throne 就会显示它的窗口。
 
@@ -156,7 +178,7 @@ Throne 会在系统托盘中显示一个图标。在 macOS 上，该图标位于
 | `允许其他设备连接`（Allow other devices to connect） | 向你网络中的其他设备开放本地代理端口。参见[局域网共享](@/guides/proxy_modes.zh.md#lan-sharing)。 |
 | `选择配置档`（Select Profile） | 打开一个列出你的分组的小列表。先选择一个分组，再选择其中的配置档即可启动它；也可以直接输入文字来搜索所有配置档。正在运行的配置档带有勾选标记，`停止: <name>`（`Stop: <name>`）按钮可以停止它。 |
 | `选择路由`（Select Routing） | 列出你的路由配置档。选择其中一个会将其设为活动的路由配置档，并重新启动正在运行的配置档。 |
-| `OTP 代码`（OTP Codes） | 列出你的 OTP 配置档。点击其中一个即可复制它当前的代码。 |
+| `OTP 代码`（OTP Codes） | 列出你的 OTP 配置档。点击其中一个即可复制它当前的代码。在简洁模式下隐藏。 |
 | `操作模式`（Operation Mode）→ `系统代理`、`Tun 模式` | 开启或关闭系统代理或 TUN 模式。 |
 | `重启核心`（Restart Core） | 重新启动核心。 |
 | `重启程序`（Restart Program） | 重新启动 Throne。 |

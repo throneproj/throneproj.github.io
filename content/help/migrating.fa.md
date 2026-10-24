@@ -14,7 +14,7 @@ Throne ادامهٔ Nekoray است، بنابراین بیشتر چیزها به
 | منوی `Server` | روی فهرست نمایه‌ها راست‌کلیک کنید. نوار منو پنهان است. |
 | منوی `Preferences` | دکمهٔ `تنظیمات` (Settings) در نوار ابزار: `تنظیمات پایه` (Basic Settings)، `تنظیمات مسیریابی` (Routing Settings)، `تنظیمات vpn` (Tun Settings)، `Integration Settings` (کلیدهای میانبر و Throne API؛ پیش از 1.4.0، `تنظیمات کلید میانبر` (Hotkey Settings)) و موارد دیگر. |
 | گروه‌های اشتراک | همان گروه‌ها، زیر دکمهٔ `گروه ها` (Groups). برای به‌روزرسانی یک گروه، روی زبانهٔ آن راست‌کلیک کنید ← `اشتراک را به روز کنید` (Update subscription). |
-| `Tun Settings` → `Bypass Process Name` (برنامه‌هایی که از تونل عبور نمی‌کنند) | قوانین `processName:` در کادر `مستقیم` (Direct) نمایهٔ مسیریابی شما، برای مثال `processName:game.exe`. یا در زبانهٔ `اتصال‌ها` (Connections) روی یک اتصال راست‌کلیک کنید ← `Append process "<name>" to` → `Direct`. |
+| `Tun Settings` → `Bypass Process Name` (برنامه‌هایی که از تونل عبور نمی‌کنند) | قوانین `processName:` در کادر `مستقیم` (Direct) نمایهٔ مسیریابی شما، برای مثال `processName:game.exe`. یا در زبانهٔ `اتصال‌ها` (Connections) روی یک اتصال راست‌کلیک کنید ← `مستقیم` (Direct) و هدف `Process …` آن را تیک بزنید. |
 | `Tun Settings` → `Whitelist mode` (فقط برنامه‌های فهرست‌شده از تونل استفاده می‌کنند) | نمایهٔ مسیریابی‌ای که `Default outbound` آن روی `direct` تنظیم شده است، و برنامه‌ها (`processName:…`) یا سایت‌ها در کادر `پروکسی` (Proxy). |
 | `Tun Settings` → `Bypass CIDR` | `تنظیمات vpn` → `Private Range Bypass` (محدوده‌های نشانی که از تونل عبور نمی‌کنند)، یا قوانین `ip:` در کادر `مستقیم`. |
 | یک `Preset` مسیریابی برای کشورتان | `مسیریابی` (Routing) ← `Download Profiles` → `China`، `Iran` یا `Russia`. |
@@ -23,6 +23,8 @@ Throne ادامهٔ Nekoray است، بنابراین بیشتر چیزها به
 | `Copy links of selected (Neko Links)` | لینک‌های اشتراک‌گذاری استاندارد. Throne نمی‌تواند لینک‌های `nekoray://` یا `sn://` را بخواند. |
 | `ربایش` (Hijack) با سرور DNS و `تنظیمات هدایت` (Redirect Settings) آن، یا `دی‌ان‌اس سیستم` (System DNS) در Throne 1.3.2 و قدیمی‌تر | `حالتvpn` (Tun Mode). این قابلیت‌ها در نسخهٔ 1.4.0 حذف شدند. |
 | NekoBox for Android | Throne برای Android 2.0.0. [پایین‌تر](#from-nekobox-android) را ببینید. |
+
+از نسخهٔ 1.4.0، نصب تازه در حالت ساده شروع می‌شود که برخی از موارد ستون دوم، برای مثال `Integration Settings` و `Private Range Bypass`، را پنهان می‌کند. برای دیدن آن‌ها به حالت پیشرفته بروید؛ [حالت ساده و پیشرفته](@/get_started/configuration.fa.md#interface-mode) را ببینید.
 
 برای مسیریابی به‌تفکیک برنامه، `حالتvpn` (Tun Mode) را روشن کنید. برنامه‌هایی که پروکسی سیستمی را نادیده می‌گیرند هرگز به Throne نمی‌رسند، بنابراین در حالت پروکسی سیستمی قوانین روی آن‌ها اعمال نمی‌شوند. [مسیریابی](@/guides/routing.fa.md#simple-rules) و [زبانهٔ اتصال‌ها](@/guides/routing.fa.md#connections-tab) را ببینید.
 

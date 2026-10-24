@@ -16,11 +16,19 @@ This page explains the terms you meet in Throne, one sentence each. Follow the l
 | Subscription | A URL from your provider that returns a list of profiles, which Throne downloads into a group and can update later. | [Subscriptions & Groups](@/guides/subscriptions.md#add-subscription) |
 | Share link | A one-line link for one profile, such as `vless://…` or `ss://…`, that other apps also understand. | [Protocols & Import Formats](@/reference/protocols.md#share-links) |
 | Deep link | A `throne://` link that tells Throne to do something, such as add a subscription or a routing profile. | [Deep Links](@/advanced/deeplinks.md#format) |
-| Throne link | A `throne://add/…` deep link that carries one profile; you get it with `Copy links of selected (Deep Links)`. | [Deep Links](@/advanced/deeplinks.md#add) |
+| Throne link | A `throne://add/…` deep link that carries one profile; you get it with `Copy links of selected (Deep Links)` (Advanced mode only). | [Deep Links](@/advanced/deeplinks.md#add) |
 | Chain | A profile of the type `Chain Proxy` that sends traffic through several profiles one after another. | [Proxy Chains & Custom Configs](@/advanced/chains.md#chains) |
-| Front / landing proxy | Group options that add one extra profile before (front) or after (landing) every profile of the group. | [Proxy Chains & Custom Configs](@/advanced/chains.md#front-landing) |
+| Front / landing proxy | Group options that add one extra profile before (front) or after (landing) every profile of the group (Advanced mode only). | [Proxy Chains & Custom Configs](@/advanced/chains.md#front-landing) |
 | Auto selector | A profile type that tests the servers of a group and uses the best ones automatically. | [Testing & Auto Selector](@/guides/testing.md#auto-selector) |
 | URL test | A latency test that opens the `Latency Test URL` through a profile and measures how long it takes. | [Testing & Auto Selector](@/guides/testing.md#url-test) |
+
+## Interface {#interface}
+
+| Term | Meaning | More |
+| --- | --- | --- |
+| Simple mode | The interface mode that a new installation starts in since 1.4.0; it hides advanced menu items and settings, which keep their values and still apply. | [Simple and Advanced mode](@/get_started/configuration.md#interface-mode) |
+| Advanced mode | The interface mode that shows every menu item and setting; installations updated from an older version keep it. | [Simple and Advanced mode](@/get_started/configuration.md#interface-mode) |
+| Command palette | A search window, opened with `Ctrl+K`, that finds menu commands and settings by name and runs or opens them. | [Command palette](@/reference/shortcuts.md#command-palette) |
 
 ## Core and connection modes {#core-and-modes}
 
@@ -73,7 +81,7 @@ This page explains the terms you meet in Throne, one sentence each. Follow the l
 | Term | Meaning | More |
 | --- | --- | --- |
 | HWID | A hardware ID that some providers ask for; Throne sends it only if you turn it on. | [Privacy & Network Requests](@/reference/privacy.md#hwid) |
-| OTP | One-time passwords (TOTP or HOTP codes) that some OpenVPN and OpenConnect servers ask for; Throne keeps them in `Tools` → `OTP Manager`. | [OTP Manager](@/advanced/vpn_profiles.md#otp-manager) |
+| OTP | One-time passwords (TOTP or HOTP codes) that some OpenVPN and OpenConnect servers ask for; Throne keeps them in `Tools` → `OTP Manager` (Advanced mode only). | [OTP Manager](@/advanced/vpn_profiles.md#otp-manager) |
 | .thrbackup | The backup file of Throne; both the desktop and the Android app can create and restore it. | [Backup and restore](@/guides/backup.md#backup-restore) |
 | Portable mode | Throne keeps its data in a `config` folder next to the program instead of in your user folder. | [Data folder](@/reference/files.md#data-folder) |
 | Kill switch | A setting that blocks all traffic that does not go through Throne, also while no profile runs (since 1.4.0). | [Kill Switch](@/advanced/kill_switch.md) |

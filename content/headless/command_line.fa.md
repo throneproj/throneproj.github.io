@@ -61,6 +61,7 @@ Throne بدون رابط گرافیکی هرگز داده‌هایش را کنا
 | `config/headless-state.json` | شمارنده‌هایی برای اجرای دوبارهٔ نمایه و برای کرش‌ها، و اینکه آخرین اجرا چگونه پایان یافته است |
 | `config/hwid` | [شناسهٔ دستگاه](@/headless/_index.fa.md#device-id)، وقتی سیستم شناسه‌ای ندارد |
 | `config/.lock`، `config/.instance` | قفل پوشهٔ داده‌ها، و سوکتی که `--health` از طریق آن می‌پرسد. در Windows این نمونه (instance) یک named pipe است، نه یک فایل. |
+| `web/` | فقط در ایمیج Docker: هش گذرواژه و گواهی TLS [رابط وب](@/headless/web.fa.md#docker) |
 
 ## حالت‌های راه‌اندازی دوباره {#restart-modes}
 

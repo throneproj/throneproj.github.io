@@ -21,6 +21,7 @@ Throne بدون رابط گرافیکی از Throne 1.4.0 در Linux، macOS و 
 
 - [نصب و سرویس‌ها](@/headless/installation.fa.md): بسته‌های Linux، Docker، macOS و سرویس Windows.
 - [مدیریت با thronectl](@/headless/thronectl.fa.md): اتصال `thronectl`، افزودن اشتراک‌ها، انتقال پیکربندی دسکتاپ، تغییر تنظیمات.
+- [رابط وب](@/headless/web.fa.md): مدیریت Throne از مرورگر با `thronectl web`.
 - [خط فرمان و پوشهٔ داده‌ها](@/headless/command_line.fa.md): همهٔ گزینه‌ها و متغیرها، محل نگهداری داده‌ها، راه‌اندازی‌های دوباره و کدهای خروج.
 - [بررسی سلامت و گزارش‌ها](@/headless/monitoring.fa.md): `Throne --check`، `Throne --health`، وضعیت systemd و گزارش‌ها.
 - [محافظت در برابر قطع دسترسی و بازیابی](@/headless/recovery.fa.md): اینکه Throne چگونه API را در دسترس نگه می‌دارد، و وقتی تنظیمات دسترسی شما را قطع می‌کنند چه باید کرد.
@@ -49,7 +50,7 @@ Throne بدون رابط گرافیکی از Throne 1.4.0 در Linux، macOS و 
    export THRONE_KEY_FILE=~/.config/throne/api-key
    ```
 
-4. `thronectl` را نصب کنید. این برنامه بخشی از بسته‌های Throne نیست: آن را از [انتشارهای Throne-api](https://github.com/throneproj/Throne-api/releases) دانلود کنید، یا [نصب thronectl](@/headless/thronectl.fa.md#install-thronectl) را ببینید.
+4. بسته، `thronectl`، کلاینت خط فرمان، را هم با نام `/usr/bin/thronectl` نصب می‌کند. برای مدیریت Throne از رایانهٔ دیگر، [نصب thronectl](@/headless/thronectl.fa.md#install-thronectl) را ببینید.
 5. اشتراک خود را اضافه کنید و متصل شوید:
 
    ```bash
@@ -73,6 +74,7 @@ Throne هرگز خودش را به پس‌زمینه نمی‌فرستد. یک �
 | [`dist/linux/throne.env`](https://github.com/throneproj/Throne/blob/dev/dist/linux/throne.env) | فایل محیطی (environment file) این یونیت که به‌صورت `/etc/throne/throne.env` نصب می‌شود. هر متغیر در آن یک نمونهٔ کامنت‌شده است. |
 | [`dist/linux/caps.conf`](https://github.com/throneproj/Throne/blob/dev/dist/linux/caps.conf) | فایل drop-in اختیاری: یونیت را به‌جای root با کاربر `throne` و با capabilityها اجرا می‌کند. |
 | [`dist/linux/throne-user.service`](https://github.com/throneproj/Throne/blob/dev/dist/linux/throne-user.service) | یونیت کاربری systemd، بدون root. |
+| [`dist/linux/throne-web.service`](https://github.com/throneproj/Throne/blob/dev/dist/linux/throne-web.service)، [`throne-web.env`](https://github.com/throneproj/Throne/blob/dev/dist/linux/throne-web.env) | یونیت systemd برای [رابط وب](@/headless/web.fa.md#systemd) که `thronectl web` را با کاربری مخصوص خودش اجرا می‌کند، و فایل محیطی آن. بسته‌ها آن‌ها را به‌صورت `/usr/lib/systemd/system/throne-web.service` و `/etc/throne/web.env` نصب می‌کنند. |
 | [`dist/macos/moe.Throne.headless.plist`](https://github.com/throneproj/Throne/blob/dev/dist/macos/moe.Throne.headless.plist) | LaunchDaemon برای launchd. |
 | [`dist/windows/install-service.bat`](https://github.com/throneproj/Throne/blob/dev/dist/windows/install-service.bat)، [`uninstall-service.bat`](https://github.com/throneproj/Throne/blob/dev/dist/windows/uninstall-service.bat) | نصب و حذف سرویس Windows. |
 | [`docker/compose.yaml`](https://github.com/throneproj/Throne/blob/dev/docker/compose.yaml) | نمونهٔ Docker Compose برای ایمیج `ghcr.io/throneproj/throne`. |

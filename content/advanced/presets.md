@@ -7,13 +7,15 @@ toc = true
 
 Some networks block or slow down proxies by inspecting how each encrypted connection starts. Throne has several options that change how this start looks. This page explains what each option does, when it can help and what it costs.
 
+In Simple mode, `Preset Settings`, the `Fragment`, `Enable TLS Record Fragment` and `TLS Tricks` options of the profile editor, its `Advanced Settings` button and the `Custom` choice of `Multiplex` are hidden (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)). Hidden settings keep their values and still apply.
+
 ## Presets and profile settings {#presets}
 
 Global defaults are in `Settings` → `Preset Settings`:
 
 | Tab | Options (default) |
 | --- | --- |
-| `Multiplex` | sing-box: `Protocol` (`smux`), `Concurrency` (8), `Padding` (off), `Default On` (off). Xray: `Concurrency` (8), `Default Mux On` (off). |
+| `Multiplex` | sing-box: `Protocol` (`smux`), `Mode` (`Max Streams`), `Max Streams` (8), `Max Connections` (4), `Min Streams` (4), `Padding` (off), `TCP Brutal` (off), `Default On` (off). Xray: `Concurrency` (8), `Max Connections` (empty, no limit), `XUDP Concurrency` (16), `UDP/443` (`Reject`), `Default Mux On` (off). |
 | `TLS` | `TLS Fragment`: `Implementation` (`built-in`), `Size` (`10-100`), `Sleep` (`2-5`), `Default On` (off). `TLS Tricks`: `Default On` (off). `uTLS`: `Default Fingerprint` (empty). `TLS Spoof`: `Spoof SNI` (empty), `Method` (empty), `Default On` (off). |
 | `HTTP/2 & QUIC` | Tuning for QUIC-based profiles. Empty fields keep the core's defaults. |
 
@@ -25,9 +27,9 @@ Each profile can override the presets in its editor. Fragment, TLS Tricks, Multi
 | `On` | Always on for this profile. |
 | `Off` | Always off for this profile. |
 
-So `Default On` turns an option on only for the profiles that are left on `Keep Default`.
+So `Default On` turns an option on only for the profiles that are left on `Keep Default`. Since 1.4.0, `Multiplex` has a fourth choice, `Custom`, for settings of the profile's own. See [Multiplex](#multiplex).
 
-TLS Fragment, TLS Tricks, TLS Spoof and the sing-box Multiplex presets apply only to profiles that run on sing-box. `VLESS (Xray)` profiles have their own Multiplex choice (`Keep Default`, `Enabled`, `Disabled`) that follows `Default Mux On`. The uTLS `Default Fingerprint` applies to both cores. See [sing-box vs Xray](@/advanced/xray.md#two-cores).
+TLS Fragment, TLS Tricks, TLS Spoof and the sing-box Multiplex presets apply only to profiles that run on sing-box. `VLESS (Xray)` profiles have their own Multiplex choice (`Keep Default`, `Enabled`, `Disabled` and, since 1.4.0, `Custom`) that follows the Xray presets and `Default Mux On`. The uTLS `Default Fingerprint` applies to both cores. See [sing-box vs Xray](@/advanced/xray.md#two-cores).
 
 ## Change one thing at a time {#one-at-a-time}
 
@@ -71,7 +73,7 @@ Set `TLS Tricks` to `On` in the profile (under `TLS Camouflage Settings`), or ti
 Every TLS client has a typical fingerprint: the choice and order of the options in its ClientHello. The fingerprint of a plain proxy client is easy to recognize. uTLS copies the fingerprint of a common browser or system instead.
 
 - **Per profile:** `Fingerprint` in the profile editor. Share links often set it with `fp=`.
-- **Global:** `Preset Settings` → `TLS` → `uTLS` → `Default Fingerprint`. Profiles without their own fingerprint use it, on both cores. When it is empty (the default), sing-box profiles without a fingerprint use no uTLS, and Xray profiles without a fingerprint use `chrome`. Hysteria, TUIC, Juicity and Naive profiles do not use uTLS.
+- **Global:** `Preset Settings` → `TLS` → `uTLS` → `Default Fingerprint`. Profiles without their own fingerprint use it, on both cores (`VLESS (Xray)` profiles since 1.4.0). When it is empty (the default), sing-box profiles without a fingerprint use no uTLS, and Xray profiles without a fingerprint use `chrome`. Hysteria, TUIC, Juicity and Naive profiles do not use uTLS.
 - **Choices:** `chrome`, `firefox`, `edge`, `safari`, `360`, `qq`, `ios`, `android`, `random`, `randomized`, and since 1.4.0 `unsafe`.
 - **`unsafe`** turns uTLS off for the profile, even when a `Default Fingerprint` is set. The core then uses its own TLS client. Only then does the profile's `Cipher Suites` field (since 1.4.0) apply: TLS 1.2 cipher suite names, separated by colons. Leave it empty unless your server needs it.
 
@@ -83,15 +85,29 @@ A sing-box REALITY profile without any fingerprint uses `random`.
 
 Multiplex (mux) carries many connections inside one connection to the server. Opening a page then needs fewer new connections and handshakes, and an observer sees fewer connections.
 
-- **Per profile:** `Multiplex` in the profile editor: `Keep Default`, `On` or `Off`.
-- **sing-box presets:** `Protocol` (`smux`, `yamux` or `h2mux`), `Concurrency` (streams per connection), `Padding` (adds padding to every multiplexed profile) and `Default On`.
-- **Xray presets:** `Concurrency` and `Default Mux On`.
+- **Per profile:** `Multiplex` in the profile editor: `Keep Default`, `On`, `Off` or, since 1.4.0, `Custom` (`VLESS (Xray)` profiles: `Keep Default`, `Enabled`, `Disabled` or `Custom`). `Keep Default` and `On` use the presets. With `Custom`, click `Configure` next to the list: the `Custom Multiplex` window (Xray: `Custom Mux`) has the same fields as the presets and starts from their values. A profile from a link or subscription that carries its own mux settings opens with `Custom`.
+- **sing-box presets** (`Preset Settings` → `Multiplex` → `Sing-box`):
+  - `Protocol`: `smux`, `yamux` or `h2mux`.
+  - `Mode`: with `Max Streams`, a connection is reused until it carries `Max Streams` streams, then another one opens. With `Max Connections`, Throne keeps at most `Max Connections` connections and opens a new one only while the least busy connection already carries `Min Streams` streams.
+  - `Padding`: pads the multiplexed traffic.
+  - `TCP Brutal`, `Upload (Mb/s)` and `Download (Mb/s)`: see [TCP Brutal](#tcp-brutal).
+  - `Default On`.
+- **Xray presets** (`Preset Settings` → `Multiplex` → `Xray`):
+  - `Concurrency`: the streams that one connection carries before another one opens. `0` uses Xray's default of 8, and `-1` sends TCP outside the mux.
+  - `Max Connections` (since 1.4.0): at most this many connections, for TCP and for XUDP each. Once every connection carries `Concurrency` streams, new streams join the least busy one. Empty means no limit.
+  - `XUDP Concurrency` (since 1.4.0): UDP streams per connection, on connections of their own. `0` carries UDP on the TCP connections, and `-1` sends it outside the mux.
+  - `UDP/443` (since 1.4.0): UDP to port 443, which is mostly QUIC. `Reject` (Xray's default) makes browsers fall back to TCP, `Allow` carries it through the mux, and `Skip` sends it outside the mux.
+  - `Default Mux On`.
 
-The server must support mux with the same protocol. Padding also needs server support. The profile editor disables Multiplex for VLESS profiles with the `xtls-rprx-vision` flow.
+Before 1.4.0, the sing-box presets were only `Protocol`, `Concurrency` (now `Max Streams`), `Padding` and `Default On`, and the preset `Padding` applied to every multiplexed profile. Now a `Custom` profile uses its own `Padding`.
+
+The server must support mux with the same protocol. Padding also needs server support. The profile editor disables Multiplex for VLESS profiles with the `xtls-rprx-vision` flow. XDRIVE profiles need mux, see [XDRIVE](@/advanced/xray.md#xdrive).
 
 ### TCP Brutal {#tcp-brutal}
 
-`Enable TCP Brutal` makes the multiplexed connection send at the fixed speeds that you enter in `Brutal Download Speed` and `Brutal Upload Speed` (Mb/s), even when packets are lost. It needs a server with TCP Brutal support, and it works only when the profile's `Multiplex` is set to `On`.
+`TCP Brutal` makes the multiplexed connection send at the fixed speeds that you enter in `Upload (Mb/s)` and `Download (Mb/s)`, even when packets are lost. It needs a server with TCP Brutal support. With TCP Brutal, all streams share one connection, so `Mode` and its counts do not apply.
+
+Since 1.4.0, TCP Brutal is part of the sing-box multiplex settings: tick it in `Preset Settings` for every profile that uses the presets, or in the `Custom Multiplex` window of one profile. Enter both speeds; a missing one is sent as 1 Mb/s. Up to 1.3.2, the profile editor had `Enable TCP Brutal`, `Brutal Download Speed` and `Brutal Upload Speed`. A profile that has TCP Brutal of its own but whose `Multiplex` is not `Custom` does not use it, and Throne warns "TCP Brutal only works with a custom multiplex. Set Multiplex to Custom."
 
 ### When mux hurts {#mux-costs}
 
@@ -149,5 +165,6 @@ Leave these fields empty unless your server's documentation asks for other value
 
 - The same presets are in `Settings` → `Presets`: Multiplex (sing-box and Xray), TLS Client Hello fragment, TLS tricks, uTLS, and HTTP/2 and QUIC. `Default On` is called `On by default` there.
 - Profiles have the same `Keep default` choice, and ECH is set per profile.
+- After 2.0.3, the multiplex presets have the same fields as on the desktop, and `Enable multiplexer` in the profile editor also offers `Custom`, which shows the multiplex fields right below it.
 - The TLS fragment options of routing rules are not in Throne for Android 2.0.2.
 - TLS spoof is not available on Android.

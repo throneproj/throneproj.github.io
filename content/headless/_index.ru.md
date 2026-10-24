@@ -21,6 +21,7 @@ Headless Throne доступен начиная с Throne 1.4.0 в Linux, macOS 
 
 - [Установка и службы](@/headless/installation.ru.md): пакеты для Linux, Docker, macOS и служба Windows.
 - [Управление через thronectl](@/headless/thronectl.ru.md): подключение `thronectl`, добавление подписок, перенос конфигурации из приложения для компьютера, изменение настроек.
+- [Веб-интерфейс](@/headless/web.ru.md): управление Throne из браузера с помощью `thronectl web`.
 - [Командная строка и каталог данных](@/headless/command_line.ru.md): все параметры и переменные, где хранятся данные, перезапуски и коды завершения.
 - [Проверки состояния и логи](@/headless/monitoring.ru.md): `Throne --check`, `Throne --health`, статус и логи systemd.
 - [Защита от потери доступа и восстановление](@/headless/recovery.ru.md): как Throne сохраняет доступ к API и что делать, если настройки лишили вас доступа.
@@ -49,7 +50,7 @@ Headless Throne доступен начиная с Throne 1.4.0 в Linux, macOS 
    export THRONE_KEY_FILE=~/.config/throne/api-key
    ```
 
-4. Установите `thronectl`. Он не входит в пакеты Throne: скачайте его со [страницы релизов Throne-api](https://github.com/throneproj/Throne-api/releases) или см. [Установка thronectl](@/headless/thronectl.ru.md#install-thronectl).
+4. Пакет также устанавливает `thronectl` — клиент командной строки — как `/usr/bin/thronectl`. Чтобы управлять Throne с другого компьютера, см. [Установка thronectl](@/headless/thronectl.ru.md#install-thronectl).
 5. Добавьте подписку и подключитесь:
 
    ```bash
@@ -73,6 +74,7 @@ Throne никогда не переходит в фоновый режим са�
 | [`dist/linux/throne.env`](https://github.com/throneproj/Throne/blob/dev/dist/linux/throne.env) | Файл окружения для этого юнита, устанавливается как `/etc/throne/throne.env`. Каждая переменная в нём — закомментированный пример. |
 | [`dist/linux/caps.conf`](https://github.com/throneproj/Throne/blob/dev/dist/linux/caps.conf) | Необязательный drop-in-файл: запускать юнит от имени пользователя `throne` с возможностями (capabilities) вместо root. |
 | [`dist/linux/throne-user.service`](https://github.com/throneproj/Throne/blob/dev/dist/linux/throne-user.service) | Пользовательский юнит systemd, без root. |
+| [`dist/linux/throne-web.service`](https://github.com/throneproj/Throne/blob/dev/dist/linux/throne-web.service), [`throne-web.env`](https://github.com/throneproj/Throne/blob/dev/dist/linux/throne-web.env) | Юнит systemd для [веб-интерфейса](@/headless/web.ru.md#systemd), который запускает `thronectl web` от собственного пользователя, и его файл окружения. Пакеты устанавливают их как `/usr/lib/systemd/system/throne-web.service` и `/etc/throne/web.env`. |
 | [`dist/macos/moe.Throne.headless.plist`](https://github.com/throneproj/Throne/blob/dev/dist/macos/moe.Throne.headless.plist) | LaunchDaemon для launchd. |
 | [`dist/windows/install-service.bat`](https://github.com/throneproj/Throne/blob/dev/dist/windows/install-service.bat), [`uninstall-service.bat`](https://github.com/throneproj/Throne/blob/dev/dist/windows/uninstall-service.bat) | Установка и удаление службы Windows. |
 | [`docker/compose.yaml`](https://github.com/throneproj/Throne/blob/dev/docker/compose.yaml) | Пример Docker Compose для образа `ghcr.io/throneproj/throne`. |

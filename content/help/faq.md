@@ -17,11 +17,21 @@ Throne continues Nekoray. Nekoray is no longer developed, and its repository is 
 
 Throne cannot read Nekoray's configuration. To move your servers and settings, see [Coming from Nekoray / NekoBox](@/help/migrating.md).
 
+## A menu item or setting from these docs is missing. Where is it? {#missing-option}
+
+Since 1.4.0, a new installation of Throne starts in Simple mode, which hides advanced menu items and settings. Hidden settings keep their values and still apply.
+
+- To see everything, open `Settings` → `Basic Settings` → `Style`, set `Interface` to `Advanced` and click `OK`.
+- To find one setting, press `Ctrl+K` in the main window and type its name. The search also lists hidden settings, and choosing one switches Throne to Advanced mode and opens the setting.
+- In Simple mode, some tabs are sections of other tabs. For example, the `Subscription` and `Security` options of `Basic Settings` are at the bottom of the `Common` tab.
+
+If the item is still missing, your version may be older than the one these docs describe, or the item may exist only on other systems. See [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
+
 ## Is there a portable mode? {#portable}
 
 Yes. The ZIP builds for Windows and Linux are portable: Throne keeps all its data in the `config` folder next to the program. To move Throne to another folder or computer, copy the whole `Throne` folder. A per-user install from the Windows installer (the default) also keeps `config` next to the program.
 
-The `.deb` and `.rpm` packages, the Linux install script and the macOS app keep the data in your user profile instead. When the program folder is not writable, for example an all-users install in `Program Files`, Throne also uses your user profile and copies the existing data there. `Settings` → `Open Config Folder` opens the folder in use. See [Command Line, Files & Logs](@/reference/files.md#data-folder).
+The `.deb` and `.rpm` packages, the Linux install script and the macOS app keep the data in your user profile instead. When the program folder is not writable, for example an all-users install in `Program Files`, Throne also uses your user profile and copies the existing data there. `Settings` → `Open Config Folder` opens the folder in use (Advanced mode only). See [Command Line, Files & Logs](@/reference/files.md#data-folder).
 
 ## Can I use Throne on Android and move my setup there? {#android}
 
@@ -29,11 +39,11 @@ Yes. [Throne for Android](@/android/_index.md) 2.0.0 (formerly NekoBox for Andro
 
 ## Can Throne run on a server without a window? {#headless}
 
-Yes, since 1.4.0. `Throne --headless` runs the same program without a window, tray icon or dialogs: on a server, a router, a Raspberry Pi or in a container. The `.deb` and `.rpm` packages include a systemd service for it, which they never turn on by themselves, and there is a Docker image. You control headless Throne with `thronectl` through the Throne API. See [Headless Throne](@/headless/_index.md).
+Yes, since 1.4.0. `Throne --headless` runs the same program without a window, tray icon or dialogs: on a server, a router, a Raspberry Pi or in a container. The `.deb` and `.rpm` packages include a systemd service for it, which they never turn on by themselves, and there is a Docker image. You control headless Throne with `thronectl` through the Throne API, or from a browser with the [web UI](@/headless/web.md) that `thronectl web` serves. The packages and the Docker image include `thronectl`. See [Headless Throne](@/headless/_index.md).
 
 ## Can I control Throne from a script or a Stream Deck? {#scripts}
 
-Yes, since 1.4.0. Turn on the Throne API in `Settings` → `Integration Settings` → `Throne API`, and use `thronectl`. For example, `thronectl toggle` connects and disconnects with one key of a Stream Deck or a macro pad, and `thronectl connect best` starts the profile with the lowest latency. See [Throne API & thronectl](@/advanced/api.md).
+Yes, since 1.4.0. Turn on the Throne API in `Settings` → `Integration Settings` → `Throne API` (Advanced mode only), and use `thronectl`. For example, `thronectl toggle` connects and disconnects with one key of a Stream Deck or a macro pad, and `thronectl connect best` starts the profile with the lowest latency. See [Throne API & thronectl](@/advanced/api.md).
 
 Without the API, the [global hotkeys](@/reference/shortcuts.md#global-hotkeys) `Start/Stop Profile` and `Toggle Tun Mode` also work from any app.
 
@@ -49,11 +59,11 @@ Download Throne only from the official [downloads page](@/downloads.md), and add
 
 ## Is my device ID (HWID) sent to anyone? {#hwid}
 
-Only if you turn it on. `Settings` → `Basic Settings` → `Subscription` → `Enable sending HWID, device model, and OS version when updating subscription` is off by default. When it is on, Throne adds these values as HTTP headers to subscription requests, and to no other requests. Since 1.3.1, each group can override this setting with `Send HWID` in its `Advanced` subscription settings. Some providers require it. See [Privacy & Network Requests](@/reference/privacy.md#hwid).
+Only if you turn it on. `Settings` → `Basic Settings` → `Subscription` → `Enable sending HWID, device model, and OS version when updating subscription` is off by default. When it is on, Throne adds these values as HTTP headers to subscription requests, and to no other requests. Since 1.3.1, each group can override this setting with `Send HWID` in its `Advanced` subscription settings. Both settings are visible only in Advanced mode. Some providers require it. See [Privacy & Network Requests](@/reference/privacy.md#hwid).
 
 ## Is there a kill switch? {#kill-switch}
 
-Yes, since 1.4.0, as an experimental feature. Turn on `Settings` → `Basic Settings` → `Security` → `Kill Switch`. While Throne is running, it blocks all traffic that does not go through Throne, also while no profile runs. The local network stays reachable unless `Private Range Bypass` is turned off in `Tun Settings`. The kill switch needs the same rights as TUN mode: administrator rights on Windows, and a core with root rights on Linux and macOS. See [Kill Switch](@/advanced/kill_switch.md).
+Yes, since 1.4.0, as an experimental feature. Turn on `Settings` → `Basic Settings` → `Security` → `Kill Switch`. In Simple mode, the `Security` options are at the bottom of the `Common` tab. While Throne is running, it blocks all traffic that does not go through Throne, also while no profile runs. The local network stays reachable unless `Private Range Bypass` is turned off in `Tun Settings`. The kill switch needs the same rights as TUN mode: administrator rights on Windows, and a core with root rights on Linux and macOS. See [Kill Switch](@/advanced/kill_switch.md).
 
 Throne 1.3 and older have no kill switch. When the profile stops, or when the core stops unexpectedly, your apps connect directly, without the proxy.
 
@@ -63,7 +73,7 @@ Throne 1.3 and older have no kill switch. When the profile stops, or when the co
 
 TUN mode creates a virtual network adapter and sends the system's traffic into it. Operating systems allow this only for administrators. System proxy mode needs no special rights.
 
-- **Windows:** Throne asks "Please run Throne as admin" and restarts itself with administrator rights. After that, it starts as administrator every time. To stop this, turn on `Settings` → `Basic Settings` → `Security` → `Always Start as Standard User`.
+- **Windows:** Throne asks "Please run Throne as admin" and restarts itself with administrator rights. After that, it starts as administrator every time. To stop this, turn on `Settings` → `Basic Settings` → `Security` → `Always Start as Standard User` (Advanced mode only).
 - **Linux:** only the core (`ThroneCore`) gets root rights, not the Throne window. See the [next question](#linux-suid).
 - **macOS:** Throne opens Terminal and runs `sudo` to give the core root rights. This needs an administrator account.
 
@@ -83,7 +93,7 @@ sudo setcap cap_net_admin,cap_net_raw,cap_net_bind_service,cap_sys_ptrace,cap_da
 
 This path is for the `.deb` and `.rpm` packages and the Linux install script. For a ZIP copy, use the `ThroneCore` file in your Throne folder.
 
-To stop Throne from asking, turn on `Settings` → `Basic Settings` → `Security` → `Disable Privilege request`. TUN mode and other features that need root then work only if you give the rights yourself. Some distribution packages cannot change the core; Throne then shows "This installation cannot grant the core privileges by itself." with instructions from the packager.
+To stop Throne from asking, turn on `Settings` → `Basic Settings` → `Security` → `Disable Privilege request` (Advanced mode only). TUN mode and other features that need root then work only if you give the rights yourself. Some distribution packages cannot change the core; Throne then shows "This installation cannot grant the core privileges by itself." with instructions from the packager.
 
 ## Why does my internet stop working after Throne was force-closed? {#force-quit}
 
@@ -110,7 +120,7 @@ Often this is expected. For example, domains that match your `direct` rules are 
 A subscription update does not stop the running profile unless you allow it:
 
 - If the new list no longer contains the running profile, or a clean-up option would remove it, Throne keeps the profile in the group, and it keeps running. The change report shows it under "Still in use, so kept instead of deleted", or says "The running profile was kept."
-- If you turn on `Settings` → `Basic Settings` → `Subscription` → `Allow stopping the active profile`, Throne stops and deletes the running profile in this case.
+- If you turn on `Settings` → `Basic Settings` → `Subscription` → `Allow stopping the active profile` (Advanced mode only), Throne stops and deletes the running profile in this case.
 - If the provider only changed some settings of the running profile, Throne updates the saved profile but does not restart the connection. Start the profile again to use the new settings.
 
 An auto selector that uses the group rebuilds itself when the update replaces the profiles it runs on. See [Subscriptions & Groups](@/guides/subscriptions.md#running-profile).
@@ -129,7 +139,7 @@ Throne 1.1.0 and 1.1.1 imported a whole sing-box config that had `inbounds` as o
 
 ## Where do the downloadable routing profiles come from? {#route-profiles-source}
 
-From the [throneproj/routeprofiles](https://github.com/throneproj/routeprofiles) repository. `Routing` → `Download Profiles` gets the country profiles from it. The list of built-in rule-sets (`geoip-…` and `geosite-…`) is also kept there; the rule-set files come from projects such as MetaCubeX meta-rules-dat, Chocolate4U Iran-sing-box-rules and runetfreedom russia-v2ray-rules-dat. Throne downloads them through the mirror chosen in `Routing Settings` → `Common` → `Remote Rule-set Mirror`. See [Routing](@/guides/routing.md#download-profiles).
+From the [throneproj/routeprofiles](https://github.com/throneproj/routeprofiles) repository. `Routing` → `Download Profiles` gets the country profiles from it. The list of built-in rule-sets (`geoip-…` and `geosite-…`) is also kept there; the rule-set files come from projects such as MetaCubeX meta-rules-dat, Chocolate4U Iran-sing-box-rules and runetfreedom russia-v2ray-rules-dat. Throne downloads them through the mirror chosen in `Routing Settings` → `Common` → `Remote Rule-set Mirror` (Advanced mode only). See [Routing](@/guides/routing.md#download-profiles).
 
 ## What is the difference between the `.deb` packages? {#deb-variants}
 

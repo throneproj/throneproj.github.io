@@ -7,13 +7,15 @@ toc = true
 
 برخی شبکه‌ها با بررسی نحوهٔ آغاز هر اتصال رمزنگاری‌شده، پروکسی‌ها را مسدود یا کند می‌کنند. Throne چند گزینه دارد که ظاهر این آغاز را تغییر می‌دهند. این صفحه توضیح می‌دهد هر گزینه چه می‌کند، کی می‌تواند کمک کند و چه هزینه‌ای دارد.
 
+در حالت ساده، `Preset Settings`، گزینه‌های `Fragment`، `Enable TLS Record Fragment` و `TLS Tricks` در ویرایشگر نمایه، دکمهٔ `Advanced Settings` آن و انتخاب `Custom` در `چندگانه‌سازی` (Multiplex) پنهان هستند (فقط در حالت پیشرفته؛ [حالت ساده و پیشرفته](@/get_started/configuration.fa.md#interface-mode) را ببینید). تنظیمات پنهان مقدار خود را نگه می‌دارند و همچنان اعمال می‌شوند.
+
 ## پیش‌تنظیم‌ها و تنظیمات نمایه {#presets}
 
 پیش‌فرض‌های سراسری در `تنظیمات` (Settings) ← `Preset Settings` قرار دارند:
 
 | زبانه | گزینه‌ها (پیش‌فرض) |
 | --- | --- |
-| `Multiplex` | sing-box: `Protocol` (`smux`)، `Concurrency` (8)، `Padding` (خاموش)، `Default On` (خاموش). Xray: `Concurrency` (8)، `Default Mux On` (خاموش). |
+| `Multiplex` | sing-box: `Protocol` (`smux`)، `Mode` (`Max Streams`)، `Max Streams` (8)، `Max Connections` (4)، `Min Streams` (4)، `Padding` (خاموش)، `TCP Brutal` (خاموش)، `Default On` (خاموش). Xray: `Concurrency` (8)، `Max Connections` (خالی، بدون محدودیت)، `XUDP Concurrency` (16)، `UDP/443` (`Reject`)، `Default Mux On` (خاموش). |
 | `TLS` | `TLS Fragment`: `Implementation` (`built-in`)، `Size` (`10-100`)، `Sleep` (`2-5`)، `Default On` (خاموش). `TLS Tricks`: `Default On` (خاموش). `uTLS`: `Default Fingerprint` (خالی). `TLS Spoof`: `Spoof SNI` (خالی)، `Method` (خالی)، `Default On` (خاموش). |
 | `HTTP/2 & QUIC` | تنظیم دقیق برای نمایه‌های مبتنی بر QUIC. فیلدهای خالی پیش‌فرض‌های هسته را نگه می‌دارند. |
 
@@ -25,9 +27,9 @@ toc = true
 | `فعال` (On) | برای این نمایه همیشه روشن است. |
 | `خاموش` (Off) | برای این نمایه همیشه خاموش است. |
 
-بنابراین `Default On` یک گزینه را فقط برای نمایه‌هایی روشن می‌کند که روی `نگه داری مقدار پیشفرض` (Keep Default) مانده‌اند.
+بنابراین `Default On` یک گزینه را فقط برای نمایه‌هایی روشن می‌کند که روی `نگه داری مقدار پیشفرض` (Keep Default) مانده‌اند. از نسخهٔ 1.4.0، `چندگانه‌سازی` (Multiplex) انتخاب چهارمی هم دارد، `Custom`، برای تنظیماتی که مخصوص خود نمایه است. [چندگانه‌سازی](#multiplex) را ببینید.
 
-TLS Fragment، TLS Tricks، TLS Spoof و پیش‌تنظیم‌های Multiplex مربوط به sing-box فقط روی نمایه‌هایی اعمال می‌شوند که روی sing-box اجرا می‌شوند. نمایه‌های `VLESS (Xray)` انتخاب Multiplex خودشان را دارند (`نگه داری مقدار پیشفرض`، `Enabled`، `Disabled`) که از `Default Mux On` پیروی می‌کند. `Default Fingerprint` مربوط به uTLS روی هر دو هسته اعمال می‌شود. [sing-box در برابر Xray](@/advanced/xray.fa.md#two-cores) را ببینید.
+TLS Fragment، TLS Tricks، TLS Spoof و پیش‌تنظیم‌های Multiplex مربوط به sing-box فقط روی نمایه‌هایی اعمال می‌شوند که روی sing-box اجرا می‌شوند. نمایه‌های `VLESS (Xray)` انتخاب Multiplex خودشان را دارند (`نگه داری مقدار پیشفرض`، `Enabled`، `Disabled` و از نسخهٔ 1.4.0 `Custom`) که از پیش‌تنظیم‌های Xray و `Default Mux On` پیروی می‌کند. `Default Fingerprint` مربوط به uTLS روی هر دو هسته اعمال می‌شود. [sing-box در برابر Xray](@/advanced/xray.fa.md#two-cores) را ببینید.
 
 ## هر بار فقط یک چیز را تغییر دهید {#one-at-a-time}
 
@@ -71,7 +73,7 @@ TLS tricks نام سرور را با ترکیبی از حروف بزرگ و کو
 هر کلاینت TLS اثر انگشت مشخصی دارد: انتخاب و ترتیب گزینه‌ها در ClientHello آن. اثر انگشت یک کلاینت پروکسی ساده به‌آسانی شناسایی می‌شود. uTLS به‌جای آن، اثر انگشت یک مرورگر یا سیستم رایج را تقلید می‌کند.
 
 - **برای هر نمایه:** `Fingerprint` در ویرایشگر نمایه. لینک‌های اشتراک‌گذاری اغلب آن را با `fp=` تعیین می‌کنند.
-- **سراسری:** `Preset Settings` → `TLS` → `uTLS` → `Default Fingerprint`. نمایه‌هایی که اثر انگشت خودشان را ندارند، روی هر دو هسته از آن استفاده می‌کنند. وقتی خالی است (پیش‌فرض)، نمایه‌های sing-box بدون اثر انگشت از uTLS استفاده نمی‌کنند و نمایه‌های Xray بدون اثر انگشت از `chrome` استفاده می‌کنند. نمایه‌های Hysteria، TUIC، Juicity و Naive از uTLS استفاده نمی‌کنند.
+- **سراسری:** `Preset Settings` → `TLS` → `uTLS` → `Default Fingerprint`. نمایه‌هایی که اثر انگشت خودشان را ندارند، روی هر دو هسته از آن استفاده می‌کنند (نمایه‌های `VLESS (Xray)` از نسخهٔ 1.4.0). وقتی خالی است (پیش‌فرض)، نمایه‌های sing-box بدون اثر انگشت از uTLS استفاده نمی‌کنند و نمایه‌های Xray بدون اثر انگشت از `chrome` استفاده می‌کنند. نمایه‌های Hysteria، TUIC، Juicity و Naive از uTLS استفاده نمی‌کنند.
 - **گزینه‌ها:** `chrome`، `firefox`، `edge`، `safari`، `360`، `qq`، `ios`، `android`، `random`، `randomized` و از نسخهٔ 1.4.0 `unsafe`.
 - **`unsafe`** uTLS را برای نمایه خاموش می‌کند، حتی وقتی `Default Fingerprint` تنظیم شده باشد. در این صورت هسته از کلاینت TLS خودش استفاده می‌کند. فقط در این حالت فیلد `Cipher Suites` نمایه (از نسخهٔ 1.4.0) اعمال می‌شود: نام مجموعه‌رمزهای (cipher suite) TLS 1.2، جداشده با دونقطه. آن را خالی بگذارید، مگر اینکه سرورتان به آن نیاز داشته باشد.
 
@@ -83,15 +85,29 @@ TLS tricks نام سرور را با ترکیبی از حروف بزرگ و کو
 
 Multiplex (mux) چندین اتصال را درون یک اتصال به سرور حمل می‌کند. در نتیجه باز کردن یک صفحه به اتصال‌ها و دست‌دهی‌های (handshake) جدید کمتری نیاز دارد و ناظر اتصال‌های کمتری می‌بیند.
 
-- **برای هر نمایه:** `چندگانه‌سازی` (Multiplex) در ویرایشگر نمایه: `نگه داری مقدار پیشفرض`، `فعال` یا `خاموش`.
-- **پیش‌تنظیم‌های sing-box:** `Protocol` (`smux`، `yamux` یا `h2mux`)، `Concurrency` (تعداد جریان‌ها در هر اتصال)، `Padding` (به هر نمایهٔ چندگانه‌شده padding اضافه می‌کند) و `Default On`.
-- **پیش‌تنظیم‌های Xray:** `Concurrency` و `Default Mux On`.
+- **برای هر نمایه:** `چندگانه‌سازی` (Multiplex) در ویرایشگر نمایه: `نگه داری مقدار پیشفرض`، `فعال`، `خاموش` یا از نسخهٔ 1.4.0 `Custom` (در نمایه‌های `VLESS (Xray)`: `نگه داری مقدار پیشفرض`، `Enabled`، `Disabled` یا `Custom`). `نگه داری مقدار پیشفرض` و `فعال` از پیش‌تنظیم‌ها استفاده می‌کنند. با `Custom`، روی `Configure` در کنار فهرست کلیک کنید: پنجرهٔ `Custom Multiplex` (در Xray: `Custom Mux`) همان فیلدهای پیش‌تنظیم‌ها را دارد و با مقدارهای آن‌ها شروع می‌شود. نمایه‌ای که از یک لینک یا اشتراک با تنظیمات mux مخصوص خودش آمده باشد، با `Custom` باز می‌شود.
+- **پیش‌تنظیم‌های sing-box** (`Preset Settings` → `Multiplex` → `Sing-box`):
+  - `Protocol`: `smux`، `yamux` یا `h2mux`.
+  - `Mode`: با `Max Streams`، یک اتصال تا وقتی دوباره به کار می‌رود که `Max Streams` جریان را حمل کند و سپس اتصال دیگری باز می‌شود. با `Max Connections`، Throne حداکثر `Max Connections` اتصال نگه می‌دارد و فقط وقتی اتصال جدیدی باز می‌کند که کم‌کارترین اتصال از قبل `Min Streams` جریان را حمل کند.
+  - `Padding`: به ترافیک چندگانه‌شده padding اضافه می‌کند.
+  - `TCP Brutal`، `Upload (Mb/s)` و `Download (Mb/s)`: [TCP Brutal](#tcp-brutal) را ببینید.
+  - `Default On`.
+- **پیش‌تنظیم‌های Xray** (`Preset Settings` → `Multiplex` → `Xray`):
+  - `Concurrency`: تعداد جریان‌هایی که یک اتصال حمل می‌کند، پیش از اینکه اتصال دیگری باز شود. `0` از پیش‌فرض Xray، یعنی 8، استفاده می‌کند و `-1` ترافیک TCP را بیرون از mux می‌فرستد.
+  - `Max Connections` (از نسخهٔ 1.4.0): حداکثر این تعداد اتصال، برای TCP و برای XUDP هر کدام جداگانه. وقتی هر اتصال `Concurrency` جریان را حمل کند، جریان‌های جدید به کم‌کارترین اتصال می‌پیوندند. خالی یعنی بدون محدودیت.
+  - `XUDP Concurrency` (از نسخهٔ 1.4.0): تعداد جریان‌های UDP در هر اتصال، روی اتصال‌های جداگانهٔ خودشان. `0` ترافیک UDP را روی اتصال‌های TCP حمل می‌کند و `-1` آن را بیرون از mux می‌فرستد.
+  - `UDP/443` (از نسخهٔ 1.4.0): ترافیک UDP به درگاه 443، که بیشتر QUIC است. `Reject` (پیش‌فرض Xray) باعث می‌شود مرورگرها به TCP برگردند، `Allow` آن را از راه mux حمل می‌کند و `Skip` آن را بیرون از mux می‌فرستد.
+  - `Default Mux On`.
 
-سرور باید از mux با همان پروتکل پشتیبانی کند. padding هم به پشتیبانی سرور نیاز دارد. ویرایشگر نمایه، Multiplex را برای نمایه‌های VLESS با flow برابر با `xtls-rprx-vision` غیرفعال می‌کند.
+پیش از نسخهٔ 1.4.0، پیش‌تنظیم‌های sing-box فقط `Protocol`، `Concurrency` (اکنون `Max Streams`)، `Padding` و `Default On` بودند و `Padding` در پیش‌تنظیم روی همهٔ نمایه‌های چندگانه‌شده اعمال می‌شد. اکنون نمایهٔ `Custom` از `Padding` خودش استفاده می‌کند.
+
+سرور باید از mux با همان پروتکل پشتیبانی کند. padding هم به پشتیبانی سرور نیاز دارد. ویرایشگر نمایه، Multiplex را برای نمایه‌های VLESS با flow برابر با `xtls-rprx-vision` غیرفعال می‌کند. نمایه‌های XDRIVE به mux نیاز دارند؛ [XDRIVE](@/advanced/xray.fa.md#xdrive) را ببینید.
 
 ### TCP Brutal {#tcp-brutal}
 
-`فعال کردن TCP Brutal` (Enable TCP Brutal) باعث می‌شود اتصال چندگانه‌شده، حتی هنگام از دست رفتن بسته‌ها، با سرعت‌های ثابتی که در `Brutal Download Speed` و `Brutal Upload Speed` (Mb/s) وارد می‌کنید ارسال کند. این گزینه به سروری با پشتیبانی از TCP Brutal نیاز دارد و فقط وقتی کار می‌کند که `چندگانه‌سازی` (Multiplex) نمایه روی `فعال` (On) باشد.
+`TCP Brutal` باعث می‌شود اتصال چندگانه‌شده، حتی هنگام از دست رفتن بسته‌ها، با سرعت‌های ثابتی که در `Upload (Mb/s)` و `Download (Mb/s)` وارد می‌کنید ارسال کند. این گزینه به سروری با پشتیبانی از TCP Brutal نیاز دارد. با TCP Brutal همهٔ جریان‌ها از یک اتصال مشترک استفاده می‌کنند؛ بنابراین `Mode` و شمارنده‌های آن اعمال نمی‌شوند.
+
+از نسخهٔ 1.4.0، TCP Brutal بخشی از تنظیمات Multiplex در sing-box است: آن را در `Preset Settings` برای همهٔ نمایه‌هایی که از پیش‌تنظیم‌ها استفاده می‌کنند تیک بزنید، یا در پنجرهٔ `Custom Multiplex` برای یک نمایه. هر دو سرعت را وارد کنید؛ سرعتی که وارد نشود 1 Mb/s فرستاده می‌شود. تا نسخهٔ 1.3.2، ویرایشگر نمایه `فعال کردن TCP Brutal` (Enable TCP Brutal)، `Brutal Download Speed` و `Brutal Upload Speed` را داشت. نمایه‌ای که TCP Brutal مخصوص خودش را دارد اما `چندگانه‌سازی` آن `Custom` نیست، از آن استفاده نمی‌کند و Throne هشدار «TCP Brutal only works with a custom multiplex. Set Multiplex to Custom.» (TCP Brutal فقط با Multiplex سفارشی کار می‌کند؛ Multiplex را روی Custom بگذارید) را نشان می‌دهد.
 
 ### وقتی mux ضرر دارد {#mux-costs}
 
@@ -147,7 +163,8 @@ TLS spoof بسته‌های خام می‌فرستد؛ بنابراین هسته
 
 ## Android {#android}
 
-- همین پیش‌تنظیم‌ها در `تنظیمات` (Settings) ← `Presets` قرار دارند: Multiplex (sing-box و Xray)، TLS Client Hello fragment، TLS tricks، uTLS و نیز HTTP/2 و QUIC. در آنجا `Default On` با نام `On by default` آمده است.
-- نمایه‌ها همان انتخاب `Keep default` را دارند و ECH برای هر نمایه جداگانه تنظیم می‌شود.
+- همین پیش‌تنظیم‌ها در `تنظیمات` (Settings) ← `از پیش‌تنظیم‌ها` (Presets) قرار دارند: Multiplex (sing-box و Xray)، TLS Client Hello fragment، TLS tricks، uTLS و نیز HTTP/2 و QUIC. در آنجا `Default On` با نام `به‌طور پیش‌فرض روشن` (On by default) آمده است.
+- نمایه‌ها همان انتخاب `حفظ پیش‌فرض` (Keep default) را دارند و ECH برای هر نمایه جداگانه تنظیم می‌شود.
+- پس از 2.0.3، پیش‌تنظیم‌های Multiplex همان فیلدهای دسکتاپ را دارند و `فعال کردن مالتی‌پلکسر` (Enable multiplexer) در ویرایشگر نمایه گزینهٔ `سفارشی` (Custom) را هم دارد که فیلدهای Multiplex را درست زیر خودش نشان می‌دهد.
 - گزینه‌های قطعه‌بندی TLS در قوانین مسیریابی، در Throne برای Android 2.0.2 وجود ندارند.
 - TLS spoof در Android در دسترس نیست.

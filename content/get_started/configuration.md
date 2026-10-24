@@ -7,6 +7,8 @@ toc = true
 
 This page takes you from a new installation to a working connection. You need a subscription link or a share link from your provider, or the details of your own server. If Throne is not installed yet, see [Installation](@/get_started/installation.md). For Android, see [Throne for Android](@/android/_index.md#quick-start).
 
+Since 1.4.0, a new installation starts in Simple mode, which hides advanced options. All steps on this page work in Simple mode. See [Simple and Advanced mode](#interface-mode).
+
 ## Add servers {#add-servers}
 
 Throne stores each server as a **profile**. Profiles belong to **groups**, which are the tabs above the profile list. A **subscription** is a group that Throne downloads from a URL and can update later.
@@ -105,7 +107,7 @@ For details and alternatives, see [TUN privileges](@/guides/tun_mode.md#privileg
 
 ### Check the connection {#check-connection}
 
-The bottom left corner of the window shows the running profile as `[group] profile`. A moment later, the country and city of your exit IP address appear below it.
+The bottom left corner of the window shows the running profile as `[group] profile`. A moment later, the country and city of your exit IP address appear below it, unless `Look up exit country` is off (see [IP and country test](@/guides/testing.md#ip-test)).
 
 Click this text to test the running profile. Throne shows `Test Result: <n> ms` if the connection works, or `Test Result: Unavailable` if it does not. If the test fails, try another profile or see [Troubleshooting](@/help/troubleshooting.md).
 
@@ -118,6 +120,52 @@ Click this text to test the running profile. Throne shows `Test Result: <n> ms` 
 {% alert_warning() %}
 Always quit Throne with `Exit`. If Throne is killed while a profile runs with `System Proxy` on, your system keeps using a proxy that no longer runs, and websites stop loading. See the [FAQ](@/help/faq.md#force-quit).
 {% end %}
+
+## Simple and Advanced mode {#interface-mode}
+
+Since 1.4.0, the Throne window has two interface modes. **Simple** mode shows the options that most people need and hides the others. **Advanced** mode shows every option. A new installation starts in Simple mode. When you update from an older version, Throne keeps the full interface, which is Advanced mode.
+
+Simple mode only hides options. Hidden settings keep their values and still apply, so switching the mode does not change your profiles or settings.
+
+To switch the mode:
+
+1. Open `Settings` → `Basic Settings` → `Style`.
+2. Set `Interface` to `Simple` or `Advanced`.
+3. Click `OK`.
+
+The main window and the tray menu change at once. Settings windows show the new mode the next time you open them.
+
+To find a setting by name, press `Ctrl+K` and type a few letters of its name. In Simple mode, this search also finds the hidden settings and lists them under "Settings in Advanced mode". When you choose one, Throne switches to Advanced mode and opens the setting. See [Command palette](@/reference/shortcuts.md#command-palette).
+
+### What Simple mode hides {#simple-mode-hidden}
+
+These menu items are hidden in Simple mode:
+
+| Menu | Hidden items |
+|---|---|
+| `Settings` | `Preset Settings`, `Integration Settings`, `Open Config Folder` |
+| `Groups` | `Resolve out IP for group`, `Resolve Domain for group` |
+| `Tools` | `Open Web dashboard`, `OTP Manager`, `IP Scanner` |
+| Menu of the profile list | `Share` → `Export config`, `Share` → `Copy links of selected (Deep Links)`, `Resolve Selected Out IP`, `Resolve Selected Domain`, `Reset Traffic` |
+| Tray menu | `OTP Codes` |
+
+The `Runtime Stats` tab at the bottom of the main window is hidden too.
+
+In the settings windows, Simple mode hides these options:
+
+- `Basic Settings`: the `Logging` and `Core` tabs. On `Common`, all options except `Listen Port`, `Latency Test URL` and `Look up exit country`. On `Subscription`, all options except `Clear servers before updating subscription` and `Subscription auto update`. On `Style`, the log font, `Connection statistics` and the custom icons. On `Miscellaneous`, all options except `Use proxy` and `Allow updating to beta versions`. On `Security`, all options except `Kill Switch`.
+- `Routing Settings`: `Default Domain Strategy`, `Resolve Domain Strategy` and `Remote Rule-set Mirror`, the WARP config fields and `Registration Domains…`, and all DNS options except `Remote DNS`, `Direct DNS` and `Default DNS server`.
+- `Tun Settings`: `MTU`, `Auto Redirect`, `L3 Bridge Bypass`, `Tun Address` and `Private Range Bypass`.
+- The group editor: `Front Proxy`, `Landing Proxy` and the `Advanced` button.
+- The profile editor: the `Advanced Settings` button, the TLS fragment and TLS tricks options, the `Custom` choice of `Multiplex`, the Xray `Finalmask`, and the advanced XHTTP and XDrive groups. For a new profile, the `Type` list leaves out `Direct`, `Chain Proxy`, `Extra Core` and the custom types.
+- The routing profile editor: the `Advanced` tab with the rule list, the `DNS` tab and the `Endpoints` tab, unless the profile already uses them.
+
+A few switches stay in view while they are on, so that you can turn them off: `Random port`, `Disable Mixed Inbound`, `Enable Custom Icons` and `Use Custom DNS Object`.
+
+Simple mode also moves some tabs into others, so a tab that these docs name can be a section of another tab:
+
+- `Basic Settings`: the `Subscription` and `Security` tabs and the `Network Settings` group of `Miscellaneous` are sections at the bottom of the `Common` tab. The window has the tabs `Common`, `Style`, `Backup and Restore` and `Diagnostics`.
+- `Routing Settings`: the `Warp` tab and the `Simple DNS Settings` group of the `DNS` tab are sections of the `Common` tab. The window has the tabs `Common` and `Route`. While `Use Custom DNS Object` is on, the `DNS` tab stays.
 
 ## Next steps {#next-steps}
 

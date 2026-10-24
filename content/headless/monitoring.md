@@ -104,6 +104,8 @@ Throne writes its log to standard error and to `config/logs/throne.log` in the d
 | macOS LaunchDaemon | `/Library/Logs/Throne/throne.log` |
 | Windows service | `C:\ProgramData\Throne\config\logs\throne.log` (a service has no standard error) |
 
+`thronectl logs` reads the log through the API, from any device that may send [admin requests](@/headless/thronectl.md#admin-requests): `thronectl logs -n 500` prints the last 500 lines, and `thronectl logs -f` then keeps printing new ones, also across restarts of Throne. These are the lines that the desktop app's log window shows, core output included; Throne keeps the newest 5000 in memory. The `Logs` page of the [web UI](@/headless/web.md) shows the same lines in a browser.
+
 Headless Throne logs in English. `--debug` adds debug lines. `--log-format` sets the format of standard error:
 
 | Format | Lines |

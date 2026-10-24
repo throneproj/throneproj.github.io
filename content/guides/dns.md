@@ -26,12 +26,14 @@ When an app's query reaches Throne, Throne answers it in this order:
 
 Where the queries come from depends on the mode:
 
-- **TUN mode.** The DNS queries of your apps go into the tunnel and reach Throne. Throne adds a DNS step to every structured routing profile (the `Route DNS` or `dns-hijack` rule in the list does the same), so it answers these queries as described above. A raw routing profile only gets this step if you write it yourself; see [Raw profiles](@/guides/routing.md#raw-profiles).
+- **TUN mode.** The DNS queries of your apps go into the tunnel and reach Throne. Throne adds a DNS step to every structured routing profile (the `Route DNS` or `dns-hijack` rule in the list does the same), so it answers these queries as described above. A raw routing profile only gets this step if you write it yourself; see [Raw profiles](@/guides/routing.md#raw-profiles). On macOS, Throne also points the system's DNS setting at its core while TUN mode runs; see [TUN Mode](@/guides/tun_mode.md#side-effects-dns).
 - **System proxy mode.** Apps that use the proxy send the site's name to Throne. For proxied connections, the proxy server looks the name up. For direct connections, Throne looks it up with Direct DNS. Apps can also look names up themselves with your system's resolver. Those lookups do not pass through Throne.
 
 ## Settings {#settings}
 
-Open `Settings` → `Routing Settings` → `DNS`. Changes apply after you click `OK` and restart the connection.
+Open `Settings` → `Routing Settings` → `DNS`. Changes apply after you click `OK` and restart the connection. The active routing profile can replace some of these settings with its own; see [DNS per routing profile](#route-dns).
+
+In Simple mode, there is no `DNS` tab: `Remote DNS`, `Direct DNS` and `Default DNS server` are in the `Simple DNS Settings` section of the `Common` tab, and the other settings are hidden but keep their values. If `Use Custom DNS Object` is on, the `DNS` tab stays, so that you can turn it off. See [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
 
 | Setting | Default | What it does |
 | --- | --- | --- |
@@ -45,6 +47,8 @@ Open `Settings` → `Routing Settings` → `DNS`. Changes apply after you click 
 | `Predefined Answers` | on | Fixed answers in hosts-file syntax. The default entry is `127.0.0.1 localhost`. |
 | `Enable FakeIP` | off | See [FakeIP](#fakeip). |
 | `FakeIP Disable IPv6` | off | Hands out no fake IPv6 addresses; AAAA queries get an empty answer. |
+
+Since 1.4.0, the lists of `Remote DNS` and `Direct DNS` also offer the last 8 servers that you typed there, newest first, above the built-in examples.
 
 `Remote DNS`, `Direct DNS` and `Local Override` accept these formats:
 
@@ -111,13 +115,31 @@ Durations are a number followed by `ns`, `us`, `ms`, `s`, `m`, `h` or `d`, for e
 Keep a server with the tag `dns-direct` in a custom DNS object. Throne's routing uses it to look up server addresses.
 {% end %}
 
+## DNS per routing profile {#route-dns}
+
+Since 1.4.0, a routing profile can use its own DNS servers. While that profile is the active routing profile, they replace the global ones from the `DNS` tab. This is useful when a profile for one country needs a `Direct DNS` that works there, or when a provider hands out a routing profile together with its DNS servers.
+
+1. Open `Settings` → `Routing Settings` → `Route`, select the profile and click `Edit`. Or right-click the profile at the bottom of the `Routing` menu.
+2. Open the `DNS` tab and choose `Use custom DNS settings`.
+3. Change the settings, then click `OK`.
+
+The tab has these settings of the [DNS tab](#settings): `Remote DNS`, `Direct DNS`, their `Disable IPv6` boxes, `Default DNS server`, `Enable DNS Routing`, `Enable FakeIP` and `FakeIP Disable IPv6`. When you switch to `Use custom DNS settings` for the first time, they start with the global values. `Use the global DNS settings`, the default, shows the global values greyed out. `Local Override`, `Respect Hosts File`, `Predefined Answers` and `Advanced Settings` always come from the `DNS` tab.
+
+Things to know:
+
+- Choosing another routing profile in the `Routing` menu restarts the connection, so the DNS servers change with it.
+- A profile with its own DNS settings also replaces a [custom DNS object](#advanced): while it is active, Throne ignores `Use Custom DNS Object`. When a profile follows the global settings and `Use Custom DNS Object` is on, its `DNS` tab says that the object applies.
+- Structured, remote and raw routing profiles all have the tab. A remote profile keeps its DNS settings when it updates; Throne never takes them from the URL.
+- The profile's `throne://route/` link carries its DNS settings. Before you import such a link with `Import` in `Routing Settings`, Throne names the servers: "It uses its own DNS servers: remote …, direct …". Check them: these servers see every name that you look up while the profile is active. See [Share profiles](@/guides/routing.md#share-profiles).
+- In Simple mode, the `DNS` tab of a profile appears only when the profile already uses its own DNS settings.
+
 ## DNS leak tests {#leak-tests}
 
 A DNS leak test is a website that shows which DNS servers looked up its test names. The result depends on your mode and your routing profile.
 
 These results are expected:
 
-- **Your Remote DNS provider** (Google with the default setting). Your queries went through Remote DNS and the proxy. This is the normal result for sites you proxy.
+- **Your Remote DNS provider** (Google with the default setting). Your queries went through Remote DNS and the proxy. This is the normal result for sites you proxy. If the active routing profile uses [its own DNS settings](#route-dns), you see the servers of that profile instead.
 - **Your internet provider, for sites that go direct.** Throne looks up domains that go direct with Direct DNS, which is your system's resolver by default and usually belongs to your internet provider. In system proxy mode, or with FakeIP, this also happens for sites that go direct only because the routing profile's default outbound is `direct`, as in the "Proxy … Blocked" profiles. Direct traffic reaches the site without the proxy anyway, so your provider sees it either way.
 - **Your internet provider, in system proxy mode.** Browsers and apps can look up names themselves, outside Throne. Use TUN mode if this matters to you.
 - **Your browser's own provider,** when the browser uses secure DNS (DNS over HTTPS). Those lookups are ordinary HTTPS connections that follow your routing rules.
@@ -139,4 +161,5 @@ Throne for Android has the same DNS settings in `Settings` → `DNS`. FakeIP is 
 
 - **`localhost` as Direct DNS.** Since 2.0.1, it asks the DNS servers of the current Wi-Fi or mobile network directly, as on Windows. Android's own resolver is used only when the network names no DNS server. Before, Throne always used Android's resolver, which also applies Private DNS and could stall every lookup. If the network's DNS servers do not answer when you connect, Throne shows "Could not connect: the network's DNS (…) did not answer. Set a working Direct DNS." Its `DNS` button opens the DNS settings.
 - **Fake IPv6 addresses** come from `2001:db8::/32` since 2.0.2, as on the desktop.
+- **DNS per routing profile** (after 2.0.3). The editor of a routing profile has a `DNS` card with `Use the global DNS settings` and `Use custom DNS settings`, as on the desktop (see [DNS per routing profile](#route-dns)). While the active routing profile uses its own servers, `Settings` → `DNS` says so at the top: the settings there then apply only to other routing profiles.
 - **A local DNS server for other apps.** Throne runs a DNS server on `127.0.0.1` that other apps on the device can use. Since 2.0.2, you can change its port in `Settings` → `Inbound` → `DNS server port` (default `5533`).

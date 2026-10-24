@@ -35,6 +35,7 @@ Start with `Throne --check` and `Throne --health`, run as Throne's user and with
 | Docker: the container comes back after `thronectl shutdown` | `restart: unless-stopped` starts it after every exit. Stop it with `docker compose stop`. |
 | macOS: Throne starts every 10 seconds and exits | A configuration error that launchd retries. Read `/Library/Logs/Throne/throne.log`. |
 | Windows: the service stops at once | `sc.exe query Throne` shows Throne's exit code as `SERVICE_EXIT_CODE`. The log is in `C:\ProgramData\Throne\config\logs`. Code 78 often means a problem with [the data folder](@/headless/installation.md#windows-data-folder). |
+| Windows: `tun_failed` with `open existing adapter`, or the log line `Windows still held the Tun adapter of an earlier session; start the profile again` | Windows still holds the TUN adapter of an earlier run that did not end cleanly. Start the profile again with `thronectl connect last`; that usually works. Throne does not try again on its own. If it keeps failing, restart Windows. |
 | You are locked out by the kill switch or TUN | Start Throne once with `--no-resume --no-kill-switch`. See [Recovering access](@/headless/recovery.md#recovery). |
 
 ## What to include in a bug report {#reporting}

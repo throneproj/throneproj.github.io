@@ -39,7 +39,7 @@ suffix:example.com
 
 1. 打开 `程序`（Program）菜单，开启 `允许其他设备连接`（Allow other devices to connect）。托盘菜单中也有此选项。
 2. 查看状态栏的中部，此时会显示 `Mixed: <address>:2080`，即其他设备要使用的地址和端口。
-3. 建议：打开 `设置`（Settings）→ `基本设置`（Basic Settings）→ `通用`（Common），勾选 `启用认证`（Enable Authorization），并设置 `入站用户名`（Inbound Username）和 `入站密码`（Inbound Password）。
+3. 建议：打开 `设置`（Settings）→ `基本设置`（Basic Settings）→ `通用`（Common），勾选 `启用认证`（Enable Authorization），并设置 `入站用户名`（Inbound Username）和 `入站密码`（Inbound Password）。这些设置只在高级模式下显示；参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)。
 4. 在其他设备上，使用该地址和端口设置 HTTP 或 SOCKS5 代理；如果你设置了用户名和密码，也一并填写。
 
 注意事项：
@@ -47,7 +47,7 @@ suffix:example.com
 - Throne 必须在电脑上保持运行。其他设备的流量会遵循你当前活动的路由配置档。
 - 认证对所有使用该端口的用户都有效，包括你电脑上使用系统代理的应用。
 - 如果某台设备无法连接，请检查电脑的防火墙是否允许 `ThroneCore` 接受传入连接。
-- **Android：** 开启 `设置`（Settings）→ `Inbound` → `允许来自局域网的连接`（Allow connections from the LAN）。参见 [Android 上的局域网共享](@/android/modes.zh.md#lan-sharing)。
+- **Android：** 开启 `设置`（Settings）→ `入站`（Inbound）→ `允许来自局域网的连接`（Allow connections from the LAN）。参见 [Android 上的局域网共享](@/android/modes.zh.md#lan-sharing)。
 
 关于代理端口的更多信息，请参见[局域网共享](@/guides/proxy_modes.zh.md#lan-sharing)。
 
@@ -71,7 +71,7 @@ Discord 和 Telegram 中的语音通话以及许多游戏都使用 UDP，并且�
 - 你的服务器及其协议必须能够承载 UDP。并非所有协议都可以（HTTP 代理就不行），有些服务器也会关闭 UDP。如果在某个服务器上通话失败，请换一个服务器试试。
 - 为了降低延迟，请选择距离较近的服务器。参见 [URL 测试](@/guides/testing.zh.md#url-test)。
 - 如果某个游戏不需要代理，就让它直连：将它的程序填入 `直连`（Direct）输入框，例如 `processName:game.exe`。
-- 对于在 TUN 模式下直连的游戏和点对点应用，可以试试 `设置`（Settings）→ `Tun 设置`（Tun Settings）→ `L3 桥接绕过`（L3 Bridge Bypass）。它会让直连的 UDP 和 ICMP 流量直接从你的网卡发出，速度更快，并能让 NAT 保持正常工作。
+- 对于在 TUN 模式下直连的游戏和点对点应用，可以试试 `设置`（Settings）→ `Tun 设置`（Tun Settings）→ `L3 桥接绕过`（L3 Bridge Bypass）（仅高级模式，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。它会让直连的 UDP 和 ICMP 流量直接从你的网卡发出，速度更快，并能让 NAT 保持正常工作。
 
 ## Docker、WSL 和虚拟机 {#docker-wsl-vms}
 
@@ -97,7 +97,7 @@ export https_proxy=http://192.168.1.10:2080
 - `启用 Tun 路由`（Enable Tun Routing）还会让 `direct` 规则中的 IP 范围不进入隧道。在 Windows 上，大型规则集可能导致 CPU 占用过高，因此请谨慎开启。
 - **Linux：** `自动重定向`（Auto Redirect，默认开启）借助 nftables 改进 TUN 路由。开启时，这台电脑无法作为其他设备的网络网关，由它转发流量的容器或虚拟机也可能受到影响。请改为让它们使用代理端口。
 
-参见 [TUN 模式](@/guides/tun_mode.zh.md#settings)。
+在简洁模式下，`私有地址范围绕过`（Private Range Bypass）和 `自动重定向`（Auto Redirect）会被隐藏，但保留其值。参见 [TUN 模式](@/guides/tun_mode.zh.md#settings)。
 
 ## 与企业 VPN 并存 {#corporate-vpn}
 
@@ -114,9 +114,11 @@ ip:10.20.0.0/16
 
 **绑定到 VPN 的网卡。** 当直连流量从错误的网卡发出时，请使用此方法。
 
-1. 打开 `程序`（Program）→ `新建配置档`（New profile），选择类型 `直连`（Direct），并为其命名，例如 `Corporate`。
+1. 打开 `程序`（Program）→ `新建配置档`（New profile），选择类型 `直连`（Direct），并为其命名，例如 `Corporate`。只有在高级模式下才提供 `直连` 类型；参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)。
 2. 点击 `高级设置`（Advanced Settings），在 `绑定接口`（Bind Interface）中输入企业 VPN 网卡的名称，然后点击 `确定`（OK）。再点击 `确定` 保存该配置档。
 3. 在你的路由配置档中添加一条[高级规则](@/guides/routing.zh.md#advanced-rules)，填入公司的 `domain_suffix` 和 `ip_cidr`，动作选择 `route`，并将 `outbound` 设为 `[group] Corporate`。将它移到其他规则之上。
+
+自 1.4.0 起，第 3 步也可以在 `连接`（Connections）标签页中完成：右键点击一个访问公司网站的连接，选择 `Specific server`，选中 `[group] Corporate` 并勾选该域名。Throne 会把这条规则添加到列表末尾，因此请检查其上方没有会先匹配的规则。参见[连接标签页](@/guides/routing.zh.md#connections-tab)。
 
 **在 Throne 内运行 VPN。** Throne 可以在代理之外同时运行 OpenVPN 或 OpenConnect 配置档，仅用于该 VPN 所通告的网络。参见[分离隧道](@/advanced/vpn_profiles.zh.md#split-tunnel)。
 
@@ -134,20 +136,22 @@ ip:10.20.0.0/16
 4. 在打开的窗口中勾选 `Process` 加程序名，例如 `Process Telegram.exe`，然后点击 `确定`（OK）。在 1.4.0 之前，这个菜单项是 `追加进程 "<name>" 到`（`Append process "<name>" to`）。
 5. 点击“设置已更改，重启进行应用”提示中的 `重启`（Restart）。
 
+如果想让某个程序经由特定服务器，请在第 3 步选择 `Specific server`（自 1.4.0 起），然后在第 4 步选择服务器并勾选该程序。
+
 你也可以在路由配置档的 `基本`（Basic）标签页上自行编写规则，例如 `processName:Telegram.exe` 或 `processPath:C:\Program Files\App\app.exe`。名称必须完全匹配，包括大小写。
 
 - **只让部分程序走代理：** 将 `默认出站`（Default outbound）设为 `direct`，并把这些程序填入 `代理`（Proxy）输入框。
 - **除部分程序外全部走代理：** 保持 `默认出站` 为 `proxy`，并把例外的程序填入 `直连`（Direct）输入框。
 
-如果 `代理`、`直连` 和 `阻止` 菜单项被禁用，说明无法从那里修改当前活动的路由配置档，例如它是一个会自动更新的远程配置档。参见[连接标签页](@/guides/routing.zh.md#connections-tab)。
+如果 `代理`、`直连`、`阻止` 和 `Specific server` 菜单项被禁用，说明无法从那里修改当前活动的路由配置档，例如它是一个会自动更新的远程配置档。参见[连接标签页](@/guides/routing.zh.md#connections-tab)。
 
-**Android：** 在 `设置`（Settings）→ `TUN / VPN` → `分应用代理`（Apps VPN mode）中选择应用，或者使用路由规则中的 `Apps` 字段。参见[分应用代理](@/android/modes.zh.md#per-app-proxy)。
+**Android：** 在 `设置`（Settings）→ `TUN / VPN` → `分应用代理`（Apps VPN mode）中选择应用，或者使用路由规则中的 `应用`（Apps）字段。参见[分应用代理](@/android/modes.zh.md#per-app-proxy)。
 
 ## 找到可用的 CDN 地址 {#cdn-address}
 
-如果服务商的服务器位于 Cloudflare 等 CDN 之后，配置档可能会因为它们使用的 CDN 地址在你的网络中被封锁而失败，而同一 CDN 的其他地址仍然可用。自 1.4.0 起，IP 扫描器可以找到这样的地址，分组可以把其所有配置档都指向它。
+如果服务商的服务器位于 Cloudflare 等 CDN 之后，配置档可能会因为它们使用的 CDN 地址在你的网络中被封锁而失败，而同一 CDN 的其他地址仍然可用。自 1.4.0 起，IP 扫描器可以找到这样的地址，分组可以把其所有配置档都指向它。IP 扫描器和分组的 `高级`（Advanced）选项只在高级模式下显示；参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)。
 
-1. 打开 `工具`（Tools）→ `IP Scanner`，点击 `New scan`，保持 `Generic scan` 并点击 `OK`。
+1. 打开 `工具`（Tools）→ `IP Scanner`，点击 `New scan`，保持 `Generic scan` 并点击 `确定`（OK）。
 2. 在 `Targets` 标签页上，将 `Base IP list` 选为你的 CDN 的列表，例如 `Cloudflare CDN`，并在 `Ports` 中输入配置档的端口，通常是 `443`。把 `Stop after (results)` 设为一个较小的数字，例如 `20`。
 3. 在 `Phases` 标签页上，保留 `TCP connect`，勾选 `Config test`，并将 `Profile` 选为该分组中的某个配置档。
 4. 点击 `Start`，等待扫描完成。

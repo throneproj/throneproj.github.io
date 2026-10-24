@@ -7,9 +7,11 @@ toc = true
 
 Find your problem below and go through the checks in order. Each area ends with a link to the guide that explains the feature in detail. For Throne for Android, see [Android Troubleshooting](@/android/troubleshooting.md). If nothing helps, [report a bug](@/help/bug_reports.md).
 
+Since 1.4.0, a new installation starts in Simple mode, which hides many of the settings that this page names. To find one, press `Ctrl+K` and type its name, or switch to Advanced mode. See [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
+
 ## First checks {#first-checks}
 
-1. Update Throne with `Tools` → `Check For Update`. If this item is greyed out, download the new version from the [downloads](@/downloads.md) page. Many problems are fixed in newer versions.
+1. Update Throne with `Program` → `Check For Update` (`Tools` → `Check For Update` before 1.4.0). If this item is greyed out, download the new version from the [downloads](@/downloads.md) page. Many problems are fixed in newer versions.
 2. Read the `Logs` tab at the bottom of the main window. Most errors are shown there.
 3. Test the profile: select it and press `Ctrl+Shift+S` (`Url Test Selected`). If the test fails, check the server and the profile before you change TUN or system proxy settings.
 4. Try the other mode. If a profile works with `System Proxy` but not with `Tun Mode`, the problem is in the TUN setup, not in the server.
@@ -31,11 +33,11 @@ Find your problem below and go through the checks in order. Each area ends with 
 **Linux:**
 
 1. If you turned on DNS over TLS for the whole system in systemd-resolved, TUN mode stops working. Turn it off ([#1146](https://github.com/throneproj/Throne/issues/1146)).
-2. Keep `Auto Redirect` on in `Tun Settings`. It is on by default and improves TUN routing and performance with nftables.
+2. Keep `Auto Redirect` on in `Tun Settings` (Advanced mode only). It is on by default and improves TUN routing and performance with nftables.
 
 ### TUN does not start {#tun-start}
 
-- **No rights:** TUN mode needs administrator or root rights. Accept Throne's request, or see [Why does TUN mode need administrator or root rights?](@/help/faq.md#tun-admin). If `Disable Privilege request` is on, Throne does not ask, and you must give the rights yourself.
+- **No rights:** TUN mode needs administrator or root rights. Accept Throne's request, or see [Why does TUN mode need administrator or root rights?](@/help/faq.md#tun-admin). If `Disable Privilege request` (Advanced mode only) is on, Throne does not ask, and you must give the rights yourself.
 - **"Strict routing unavailable"** (Windows): Windows could not turn on strict routing. Open `Tun Settings`, turn off `Strict Route`, and start the profile again.
 - **"Tun device misbehaving":** the virtual adapter is in a bad state, for example after Throne was force-closed. Click `Reset` in the message, or use `Tun Settings` → `Troubleshooting` → `Reset`, and start the profile again. If it still fails, restart the computer.
 - **The start hangs**, and Throne suggests restarting the software: on Windows, a very large HOSTS file can make the DNS cache flush hang ([#1906](https://github.com/throneproj/Throne/issues/1906)). Keep the HOSTS file small.
@@ -51,8 +53,8 @@ Details: [TUN Mode](@/guides/tun_mode.md#troubleshooting).
 
 ### Sites do not open, or the log shows DNS errors {#dns-errors}
 
-1. Open `Settings` → `Routing Settings` → `DNS`. `Remote DNS` must be reachable through your proxy, and `Direct DNS` must work without it. Try one of the preset servers.
-2. On the `Common` tab, do not use `ipv6_only` in `Default Domain Strategy` or `Resolve Domain Strategy` if your network has no IPv6 ([#1743](https://github.com/throneproj/Throne/issues/1743)). Leave them empty, or use `prefer_ipv4`.
+1. Open `Settings` → `Routing Settings` → `DNS`. In Simple mode, these fields are in the `Simple DNS Settings` section of the `Common` tab. `Remote DNS` must be reachable through your proxy, and `Direct DNS` must work without it. Try one of the preset servers.
+2. On the `Common` tab, do not use `ipv6_only` in `Default Domain Strategy` or `Resolve Domain Strategy` (Advanced mode only) if your network has no IPv6 ([#1743](https://github.com/throneproj/Throne/issues/1743)). Leave them empty, or use `prefer_ipv4`.
 3. **Linux:** DNS over TLS for the whole system in systemd-resolved breaks TUN mode; see [TUN is on, but nothing loads](#tun-no-traffic).
 
 ### A leak test shows my ISP's DNS {#dns-leak}
@@ -70,9 +72,9 @@ Details: [DNS](@/guides/dns.md).
 
 The log shows `Requesting subscription … error: …` with the reason.
 
-1. **"Request with proxy but no profile started."** Throne sends its own requests through its proxy when `Use proxy` is on (`Basic Settings` → `Miscellaneous`), and also whenever `System Proxy` is on. Start a profile first, or turn both off. If you turned on `Disable Mixed Inbound`, turn `Use proxy` off ([#1689](https://github.com/throneproj/Throne/issues/1689)).
+1. **"Request with proxy but no profile started."** Throne sends its own requests through its proxy when `Use proxy` is on (`Basic Settings` → `Miscellaneous`; in Simple mode, the `Network Settings` section of the `Common` tab), and also whenever `System Proxy` is on. Start a profile first, or turn both off. If you turned on `Disable Mixed Inbound`, turn `Use proxy` off ([#1689](https://github.com/throneproj/Throne/issues/1689)).
 2. **The provider's site is blocked in your country:** start a working profile, turn on `Use proxy`, and update again.
-3. **The server answers `403`, or sends nothing useful:** many providers answer only apps they know. Set the `User Agent` that your provider expects: for all groups in `Basic Settings` → `Subscription`, or, since 1.3.1, for one group in `Groups` → `Edit current Group` → `Advanced`. By default, Throne sends `Throne/<version>`.
+3. **The server answers `403`, or sends nothing useful:** many providers answer only apps they know. Set the `User Agent` that your provider expects: for all groups in `Basic Settings` → `Subscription`, or, since 1.3.1, for one group in `Groups` → `Edit current Group` → `Advanced` (both Advanced mode only). By default, Throne sends `Throne/<version>`.
 4. **"Device fingerprint required"** or a similar message: the provider needs your HWID. Turn on HWID sending; see the [FAQ](@/help/faq.md#hwid).
 
 ### The update finds no profiles {#sub-no-profiles}
@@ -86,7 +88,7 @@ The log says "No profiles found in the subscription", and the group stays unchan
 
 - Update a group by right-clicking its tab → `Update subscription`, or with `Groups` → `Update subscription` (`Ctrl+U`).
 - Profiles imported with `Add profiles to this group` were added once, without a subscription URL. To get updates, paste the URL again with `Ctrl+V` and choose `Create new subscription group`.
-- Automatic updates need `Basic Settings` → `Subscription` → `Subscription auto update`, which is off by default. Groups with `Skip automatic update` are not updated automatically.
+- Automatic updates need `Basic Settings` → `Subscription` → `Subscription auto update` (in Simple mode, at the bottom of the `Common` tab), which is off by default. Groups with `Skip automatic update` are not updated automatically.
 
 Profiles changed or disappeared after an update? See [Why did my profile stop, or keep running, after a subscription update?](@/help/faq.md#profile-after-update)
 
@@ -103,7 +105,7 @@ Apps may follow the system proxy or ignore it. Terminals such as PowerShell, Win
 1. Start a profile. Throne sets the system proxy only while a profile runs.
 2. Turn off `Disable Mixed Inbound` in `Basic Settings` → `Common`. While it is on, Throne shows "Cannot set system proxy when mixed inbound is disabled."
 3. **Linux:** Throne can set the system proxy only on GNOME and KDE. On other desktops, enter the address from the status bar (`Mixed: …`) in your system settings, or use TUN mode. Run Throne as your normal user, not as root ([#864](https://github.com/throneproj/Throne/issues/864)).
-4. **Windows:** if an app needs another proxy address format, change `Proxy Format` in `Basic Settings` → `Common`.
+4. **Windows:** if an app needs another proxy address format, change `Proxy Format` in `Basic Settings` → `Common` (Advanced mode only).
 
 ### No internet after Throne was closed {#no-internet-after-exit}
 
@@ -115,16 +117,16 @@ Details: [System Proxy, TUN & LAN sharing](@/guides/proxy_modes.md#system-proxy)
 
 ### High CPU or memory use {#high-cpu}
 
-1. Keep the number of profiles low, for example below 10,000 in total. Many thousands of profiles make Throne slow and use a lot of memory. After a URL test, remove dead profiles with `Groups` → `Remove Unavailable`, or let each group clean up after updates in its `Advanced` settings (`Run URL test`, then `Remove unavailable profiles`).
-2. Torrent clients open very many connections. With Multiplex on, this can use a lot of CPU ([#1090](https://github.com/throneproj/Throne/issues/1090)). Multiplex is off by default. If you turned it on, turn it off in the profile, or turn off `Default On` in `Settings` → `Preset Settings` → `Multiplex`.
-3. Untick `Basic Settings` → `Style` → `Connection statistics` → `Enable`. Throne then stops looking up the program behind each connection, which saves CPU when there are many connections. The `Connections` tab stays empty while it is off.
+1. Keep the number of profiles low, for example below 10,000 in total. Many thousands of profiles make Throne slow and use a lot of memory. After a URL test, remove dead profiles with `Groups` → `Clean up` → `Remove Unavailable`, or let each group clean up after updates in its `Advanced` settings (`Run URL test`, then `Remove unavailable profiles`; Advanced mode only).
+2. Torrent clients open very many connections. With Multiplex on, this can use a lot of CPU ([#1090](https://github.com/throneproj/Throne/issues/1090)). Multiplex is off by default. If you turned it on, turn it off in the profile, or turn off `Default On` in `Settings` → `Preset Settings` → `Multiplex` (Advanced mode only).
+3. Untick `Basic Settings` → `Style` → `Connection statistics` → `Enable` (Advanced mode only). Throne then stops looking up the program behind each connection, which saves CPU when there are many connections. The `Connections` tab stays empty while it is off.
 4. **Windows:** `Enable Tun Routing` with large rule-sets can cause very high CPU use. Turn it off in `Tun Settings`.
 
 ### Throne or the core crashes {#crashes}
 
 1. When the core stops, Throne restarts it together with your profile. If the core stops again within 10 seconds, Throne gives up and logs "Core exits too frequently, stop automatic restart this profile."
 2. After Throne itself crashes, the next start shows "Throne did not shut down cleanly last time" in the log. The log of the crashed session is kept as `logs/crashed-<date>-<time>.log` in the config folder. On Windows, Throne also saves a crash report (a `.txt` and a `.dmp` file) in the `crashes` folder.
-3. Test with a fresh configuration: exit Throne, rename the `config` folder (`Settings` → `Open Config Folder` shows it), and start Throne. It creates a new, empty configuration. Add one profile and test again. If the crash stops, your old configuration causes it. To go back, exit Throne, delete the new `config` folder and rename the old one back. See [Command Line, Files & Logs](@/reference/files.md#reset).
+3. Test with a fresh configuration: exit Throne, rename the `config` folder (`Settings` → `Open Config Folder` shows it in Advanced mode), and start Throne. It creates a new, empty configuration. Add one profile and test again. If the crash stops, your old configuration causes it. To go back, exit Throne, delete the new `config` folder and rename the old one back. See [Command Line, Files & Logs](@/reference/files.md#reset).
 4. Report the crash and attach these files: [Reporting a Bug](@/help/bug_reports.md#logs).
 
 ## Startup and desktop problems {#startup}
@@ -166,11 +168,11 @@ Throne is not signed with an Apple certificate, so macOS blocks the downloaded a
 
 Turn on `Program` → `Remember last profile`. At the next start, Throne starts the last profile again, and turns `System Proxy` and `Tun Mode` back on if they were on when you quit. To start Throne together with the system, turn on `Program` → `Start with system`.
 
-**Windows:** after Throne has run as administrator once, it asks for administrator rights at every start. `Start with system` uses a Task Scheduler task that starts Throne with these rights without asking. To start without administrator rights, turn on `Basic Settings` → `Security` → `Always Start as Standard User`.
+**Windows:** after Throne has run as administrator once, it asks for administrator rights at every start. `Start with system` uses a Task Scheduler task that starts Throne with these rights without asking. To start without administrator rights, turn on `Basic Settings` → `Security` → `Always Start as Standard User` (Advanced mode only).
 
 ### `throne://` links do nothing {#deeplinks}
 
-- **Windows and Linux:** ZIP copies do not register `throne://` links by default (on Linux since 1.4.0). Turn on `Basic Settings` → `Common` → `Register throne:// links at startup`, or click `Install` next to it.
+- **Windows and Linux:** ZIP copies do not register `throne://` links by default (on Linux since 1.4.0). Turn on `Basic Settings` → `Common` → `Register throne:// links at startup`, or click `Install` next to it (Advanced mode only).
 - More checks: [Deep Links](@/advanced/deeplinks.md#troubleshooting).
 
 ### Throne is running in the background {#background-throne}

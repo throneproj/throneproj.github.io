@@ -22,7 +22,7 @@ toc = true
 在 Linux 上，当软件包或安装脚本创建的应用菜单项启动这份副本时，Throne 默认会注册自己。要开启注册（例如对于从 ZIP 解压的副本）：
 
 1. 打开 `设置`（Settings）→ `基本设置`（Basic Settings）。
-2. 在 `通用`（Common）标签页的 `链接和文件`（Links and Files）下，勾选 `启动时注册 throne:// 链接`（Register throne:// links at startup）。
+2. 在 `通用`（Common）标签页的 `链接和文件`（Links and Files）下，勾选 `启动时注册 throne:// 链接`（Register throne:// links at startup）。在简洁模式下，`链接和文件` 区域会被隐藏（仅在高级模式下显示，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。
 3. 点击 `确定`（OK）。Throne 会立即完成注册。
 
 开启此选项后，Throne 每次启动时都会检查注册，并在需要时修复，例如在你移动 Throne 文件夹之后。如果你在 Windows 或 Linux 上保留了多个副本，链接会在最后一个开启此选项并启动的副本中打开。
@@ -114,7 +114,7 @@ throne://addsub/<base64>
 throne://addsub/aHR0cHM6Ly9leGFtcGxlLmNvbS9zdWIvYWJjMTIzI015UHJvdmlkZXI=
 ```
 
-Throne 会显示“添加这个订阅吗?”（Add this subscription?），其中包含分组名称和 URL，以及一个默认已勾选的 `自动更新`（Auto update）复选框。确认后，Throne 会创建该分组并更新它。自 1.4.0 起，如果这次首次更新失败或跳过了某些条目，Throne 会显示一份列出问题的报告。
+Throne 会显示“添加这个订阅吗?”（Add this subscription?），其中包含分组名称和 URL，以及一个默认已勾选的 `自动更新`（Auto update）复选框。确认后，Throne 会创建该分组并更新它。自 1.4.0 起，Throne 还会切换到新分组的标签页；如果这次首次更新失败或跳过了某些条目，Throne 会显示一份列出问题的报告。
 
 {% alert_info() %}
 `自动更新` 只决定新分组是否参与自动更新：勾选时，分组设置中的 `跳过自动更新`（Skip automatic update）为关闭状态。自动更新还需要开启 `基本设置` → `订阅`（Subscription）→ `订阅自动更新`（Subscription auto update）→ `启用`（Enable），该选项默认关闭。参见[订阅与分组](@/guides/subscriptions.zh.md#auto-update)。
@@ -151,6 +151,8 @@ throne://route/eyJraW5kIjoidGhyb25lLXJvdXRlLXByb2ZpbGUiLCJ2IjoxLCJuYW1lIjoiRXhhb
 ```
 
 `default_outbound` 的值为 `proxy`、`direct`、`block` 或 `warp-bypass`。原始配置档（手写的 sing-box `route` 段落）带有 `"raw": true` 和一个 `route` 对象，而不是 `rules`。Throne 会按名称查找规则中使用的服务器，并告诉你哪些没有找到。关于分享的更多信息，请参见[路由](@/guides/routing.zh.md#share-profiles)。
+
+自 1.4.0 起，该对象还可以带有一个 `dns` 对象，其中是配置档自己的 DNS 设置（`remote_dns`、`remote_dns_disable_ipv6`、`direct_dns`、`direct_dns_disable_ipv6`、`dns_final_out`、`enable_dns_routing`、`fake_dns` 和 `fakeip_disable_ipv6`），规则也可以带有 `"disabled": true`。Throne 1.3.2 及更早版本会忽略 `dns`，并排除已禁用的规则。参见[按路由配置档设置 DNS](@/guides/dns.zh.md#route-dns)。
 
 ### 在路由设置中导入 {#routing-settings-import}
 
@@ -194,9 +196,9 @@ throne://remoteroute/aHR0cHM6Ly9leGFtcGxlLmNvbS9yb3V0ZXMvYnlwYXNzLWlyYW4uanNvbiN
 
 Throne 会在“添加这些远程路由配置档吗?”（Add these remote routing profiles?）下列出这些 URL，并为它们提供一个共用的 `自动更新` 复选框，该复选框默认已勾选。确认后，Throne 会添加并下载这些配置档，日志中会显示成功获取了多少个。
 
-- 只有勾选了 `基本设置` → `订阅` → `路由配置档自动更新`（Routing profiles auto update）→ `启用` 时，Throne 才会刷新开启了 `自动更新` 的配置档。该选项默认关闭。要手动更新，请使用 `路由设置` 中 `路由` 标签页上的 `更新`（Update）。参见[远程配置档](@/guides/routing.zh.md#remote-profiles)。
+- 只有勾选了 `基本设置` → `订阅` → `路由配置档自动更新`（Routing profiles auto update）→ `启用`（仅在高级模式下显示）时，Throne 才会刷新开启了 `自动更新` 的配置档。该选项默认关闭。要手动更新，请使用 `路由设置` 中 `路由` 标签页上的 `更新`（Update）。参见[远程配置档](@/guides/routing.zh.md#remote-profiles)。
 - 更新会用下载到的规则和默认出站替换配置档原有的内容，配置档名称保持不变。
-- 位于 `raw.githubusercontent.com` 上的 URL 会通过 `路由设置` 的 `通用` 标签页中选择的 `远程规则集镜像`（Remote Rule-set Mirror）下载（默认为 jsDelivr 镜像）。在你修改文件后的一段时间内，镜像可能仍提供旧版本。
+- 位于 `raw.githubusercontent.com` 上的 URL 会通过 `路由设置` 的 `通用` 标签页中选择的 `远程规则集镜像`（Remote Rule-set Mirror）下载（默认为 jsDelivr 镜像；仅在高级模式下显示）。在你修改文件后的一段时间内，镜像可能仍提供旧版本。
 - `路由` → `下载配置档`（Download Profiles）的工作方式相同：它会从 Throne 的路由配置档仓库下载一条 `remoteroute` 链接，并显示同样的提示。
 
 ## `add`：添加一个代理配置档 {#add}
@@ -211,7 +213,7 @@ throne://add/<base64>
 
 Throne 可以为你生成这类链接：
 
-- 在列表中右键点击配置档 → `分享`（Share）→ `复制选定项的链接 (深度链接)`（Copy links of selected (Deep Links)），快捷键 `Ctrl+Alt+C`。
+- 在列表中右键点击配置档 → `分享`（Share）→ `复制选定项的链接 (深度链接)`（Copy links of selected (Deep Links)），快捷键 `Ctrl+Alt+C`。在简洁模式下，该菜单项会被隐藏（仅在高级模式下显示，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。
 - 右键点击配置档 → `分享` → `二维码和链接`（QR Code and link）。窗口中显示普通分享链接或深度链接，勾选 `Deep Link` 即可在两者之间切换。
 - `分组`（Groups）→ `编辑当前分组`（Edit current Group）→ `复制配置档分享链接(深度链接)`（Copy profile share links (Deep Links)）。
 
@@ -223,7 +225,7 @@ Throne 可以为你生成这类链接：
 
 Throne for Android 2.0.0 支持同样的四个命令。它还接受 `clash://install-config?url=…&name=…` 链接，这类链接会像 `addsub` 一样添加订阅。在这类链接中，`url` 的值需要进行百分号编码。`throne://` 协议在安装应用时即完成注册，没有相关设置项。
 
-在其他应用中点按链接，或在 `配置`（Profiles）界面使用 `添加服务器配置`（Add profile）→ `从剪切板导入`（Import from clipboard）或 `扫描二维码`（Scan QR code）。在 Android 上，二维码适用于全部四个命令。`route` 和 `remoteroute` 链接也可以通过 `路由`（Routing）界面上的 `Import` 导入。
+在其他应用中点按链接，或在 `配置`（Profiles）界面使用 `添加服务器配置`（Add profile）→ `从剪切板导入`（Import from clipboard）或 `扫描二维码`（Scan QR code）。在 Android 上，二维码适用于全部四个命令。`route` 和 `remoteroute` 链接也可以通过 `路由`（Routing）界面上的 `导入`（Import）导入。
 
 与桌面版的区别：
 
@@ -231,7 +233,7 @@ Throne for Android 2.0.0 支持同样的四个命令。它还接受 `clash://ins
 - 导入的路由配置档会被添加，但不会自动启用。请在 `路由` 界面点按它以使用。
 - 来自桌面版的原始路由配置档（`"raw": true`）会被拒绝，并提示“raw routing profiles are not supported on Android”（Android 不支持原始路由配置档）。分享的路由配置档中的端点会被丢弃，并附带说明。
 - 未知命令会在屏幕上显示“Ignored deeplink with unknown command: …”（已忽略带有未知命令的深度链接），而不仅仅记录在日志中。
-- 定时更新需要开启相应设置：订阅对应 `设置`（Settings）→ `订阅`（Subscriptions）→ `Subscription auto update`，远程路由配置档对应 `设置` → `Routing` → `Auto update remote profiles`。两者默认均为关闭。
+- 定时更新需要开启相应设置：订阅对应 `设置`（Settings）→ `订阅`（Subscriptions）→ `订阅自动更新`（Subscription auto update），远程路由配置档对应 `设置` → `路由` → `自动更新远程配置`（Auto update remote profiles）。两者默认均为关闭。
 
 Android 应用也可以生成这些链接：为配置档生成 `add` 链接，为路由配置档生成 `route` 链接。
 

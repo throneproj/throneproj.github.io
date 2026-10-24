@@ -42,7 +42,7 @@ Throne 将你的配置档和设置保存在安装文件夹内的 `config` 文件
 
 请将该文件夹中的所有文件放在一起。Throne 会将你的数据保存在 `Throne.exe` 旁边的 `config` 文件夹中，因此你可以移动或备份整个文件夹。如果 Throne 无法写入自己的文件夹，它会改用 `%LOCALAPPDATA%\Throne\config`。
 
-ZIP 版默认不注册 `throne://` 链接。要开启此功能，请勾选 `设置`（Settings）→ `基本设置`（Basic Settings）→ `通用`（Common）→ `启动时注册 throne:// 链接`（Register throne:// links at startup）。
+ZIP 版默认不注册 `throne://` 链接。要开启此功能，请勾选 `设置`（Settings）→ `基本设置`（Basic Settings）→ `通用`（Common）→ `启动时注册 throne:// 链接`（Register throne:// links at startup）（仅在高级模式下可用，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。
 
 ## macOS {#macos}
 
@@ -66,7 +66,7 @@ ZIP 版默认不注册 `throne://` 链接。要开启此功能，请勾选 `设�
 
 4. 打开 Throne。
 
-Throne 将你的数据保存在你的用户文件夹中，而不是 `Throne.app` 内部，因此替换应用不会丢失配置档。`设置` → `打开配置文件夹`（Open Config Folder）会显示该文件夹。TUN 模式需要管理员账户；参见 [TUN 模式](@/guides/tun_mode.zh.md#privileges)。
+Throne 将你的数据保存在你的用户文件夹中，而不是 `Throne.app` 内部，因此替换应用不会丢失配置档。`设置` → `打开配置文件夹`（Open Config Folder）会显示该文件夹（仅在高级模式下可用）。TUN 模式需要管理员账户；参见 [TUN 模式](@/guides/tun_mode.zh.md#privileges)。
 
 ## Linux {#linux}
 
@@ -302,7 +302,7 @@ Throne 由两部分组成，需要分别构建：界面（`Throne`，使用 C++ 
 
 ## 更新 {#updating}
 
-ZIP 版以及 Windows 安装程序默认的按用户安装可以自行更新：点击 `工具`（Tools）→ `检查更新`（Check For Update），然后点击 `更新`（Update）。其他安装方式请按原来的安装方式更新：运行新的安装程序、安装新的 `.deb` 或 `.rpm` 软件包、再次运行安装脚本、在 macOS 上替换 `Throne.app`，或使用你的包管理器。你的配置档和设置会保留。
+ZIP 版以及 Windows 安装程序默认的按用户安装可以自行更新：点击 `程序`（Program）→ `检查更新`（Check For Update）（1.4.0 之前为 `工具`（Tools）→ `检查更新`），然后点击 `更新`（Update）。其他安装方式请按原来的安装方式更新：运行新的安装程序、安装新的 `.deb` 或 `.rpm` 软件包、再次运行安装脚本、在 macOS 上替换 `Throne.app`，或使用你的包管理器。你的配置档和设置会保留。
 
 自 1.4.0 起，当有[无界面 Throne](@/headless/_index.zh.md) 从同一安装位置运行时，`检查更新`（Check For Update）不会显示 `更新`（Update）按钮。请先停止无界面 Throne。
 

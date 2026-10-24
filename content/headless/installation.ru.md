@@ -45,6 +45,7 @@ sudo systemctl enable --now throne
 - `systemctl start throne` возвращает управление, когда Throne запустился. См. [systemd: готовность, статус и watchdog](@/headless/monitoring.ru.md#systemd).
 - В `/etc/throne/throne.env` есть закомментированный пример для каждой переменной, которую может использовать юнит. Раскомментируйте строку и выполните `sudo systemctl restart throne`. Обновления сохраняют ваши изменения. Никогда не записывайте в этот файл ключ API; вместо этого укажите файл ключа в `THRONE_API_KEY_FILE`.
 - Логи: `journalctl -u throne -f`.
+- Пакеты также устанавливают `thronectl` как `/usr/bin/thronectl` и второй юнит, `throne-web.service`, для [веб-интерфейса](@/headless/web.ru.md#systemd). Он тоже не включается.
 
 Чтобы изменить командную строку, добавьте drop-in-файл командой `sudo systemctl edit throne`:
 
@@ -169,6 +170,7 @@ volumes:
 - **Импорт файла.** Передайте его через конвейер с `-T`: `docker compose exec -T throne thronectl import - < links.txt`.
 - **API извне контейнера.** API слушает loopback контейнера. Чтобы обращаться к нему из сети, задайте `THRONE_API_LISTEN: "*:9095"` вместе со списком `THRONE_API_ALLOW` и опубликуйте порт 9095. Тогда административным запросам, например импорту и изменению настроек, нужен ещё и `THRONE_API_ADMIN_LAN: "1"`, потому что каждый запрос через опубликованный порт приходит извне контейнера. За NAT Docker у всех клиентов один и тот же адрес, поэтому один клиент со старым ключом блокирует остальных на минуту.
 - **Логи:** `docker compose logs -f throne`.
+- **Веб-интерфейс.** Задайте `THRONE_WEB_LISTEN: "*:9096"` и опубликуйте порт 9096, и контейнер будет также предоставлять [веб-интерфейс](@/headless/web.ru.md#docker).
 
 ## macOS {#macos}
 

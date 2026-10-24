@@ -7,6 +7,8 @@ toc = true
 
 Use this page when one server is not enough, or when a profile needs options that the normal editors do not have. It covers proxy chains, front and landing proxies for groups, custom JSON configs and Extra Core profiles.
 
+In Simple mode, `New profile` does not offer `Chain Proxy`, the `Custom` types and `Extra Core`, and the group editor hides `Front Proxy` and `Landing Proxy` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)). Profiles and group settings that you already have keep working.
+
 ## Proxy chains {#chains}
 
 A chain profile sends your traffic through several profiles, one after another. Each server sees only the server before it, and the last one connects to the website.
@@ -41,6 +43,8 @@ With `A` on top and `B` below it, traffic goes: your device → `A` → `B` → 
 - When the hop above a server is a WireGuard, MASQUE, OpenVPN, OpenConnect, Tailscale or SOCKS4 profile, Throne looks up that server's name with Direct DNS. Before 1.3.2, the lookup went through the proxy itself, and such chains could fail to connect.
 
 Throne checks some rules when you add a hop or save the chain, and the others when you start it. A failed check shows its reason in a message or in the log.
+
+If a profile that a chain or a group uses as a hop was deleted, the profile does not start. Since 1.4.0, the message says what to fix: "Chain "…" has a hop (profile id …) that no longer exists, edit the chain to remove it", or "Group "…" has a front proxy that has been deleted." (or a landing proxy).
 
 A chain can also be the outbound of a routing rule, if none of its hops is an Extra Core or full-config profile.
 
@@ -82,7 +86,7 @@ A minimal `Custom (sing-box outbound)`:
 }
 ```
 
-To start from the JSON that Throne generates for a working profile or chain, right-click it → `Share` → `Export config` (since 1.4.0). The window shows the sing-box config and, when the profile uses Xray, the Xray config on separate tabs. `Copy` copies the tab you see.
+To start from the JSON that Throne generates for a working profile or chain, right-click it → `Share` → `Export config` (since 1.4.0, Advanced mode only). The window shows the sing-box config and, when the profile uses Xray, the Xray config on separate tabs. `Copy` copies the tab you see.
 
 When you import JSON:
 

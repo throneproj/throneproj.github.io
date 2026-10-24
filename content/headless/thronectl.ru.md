@@ -5,16 +5,16 @@ weight = 20
 toc = true
 +++
 
-У headless Throne нет окна, поэтому им управляют с помощью `thronectl` — клиента командной строки для [Throne API](@/advanced/api.ru.md). На этой странице показано, как подключить `thronectl` к headless Throne и как настроить с его помощью Throne. Полный список команд и флагов — на странице [Throne API и thronectl](@/advanced/api.ru.md).
+У headless Throne нет окна, поэтому им управляют с помощью `thronectl` — клиента командной строки для [Throne API](@/advanced/api.ru.md). На этой странице показано, как подключить `thronectl` к headless Throne и как настроить с его помощью Throne. Полный список команд и флагов — на странице [Throne API и thronectl](@/advanced/api.ru.md). Чтобы управлять Throne из браузера, см. [Веб-интерфейс](@/headless/web.ru.md).
 
 ## Установка thronectl {#install-thronectl}
 
-`thronectl` не входит в пакеты Throne. Установите его на компьютер, где работает Throne, и на любой другой компьютер, с которого хотите управлять Throne:
+Пакеты Throne `.deb` и `.rpm` устанавливают `thronectl` как `/usr/bin/thronectl`, а в ZIP-архиве для Linux он лежит рядом с `Throne`. В остальных случаях установите его на компьютер, где работает Throne, и на любой другой компьютер, с которого хотите управлять Throne:
 
 - скачайте исполняемый файл для Linux, Windows, macOS или FreeBSD со [страницы релизов Throne-api](https://github.com/throneproj/Throne-api/releases) или
 - соберите его с помощью Go: `go install github.com/throneproj/Throne-api/cmd/thronectl@latest`.
 
-[Образ Docker](@/headless/installation.ru.md#docker) уже содержит `thronectl` в `/usr/local/bin`.
+[Образ Docker](@/headless/installation.ru.md#docker) уже содержит `thronectl` в `/usr/local/bin`. В загрузках Throne для Windows и macOS его нет.
 
 Чтобы оболочка дополняла команды, ID профилей и имена настроек, см. [Автодополнение в оболочке](@/advanced/api.ru.md#completion).
 
@@ -48,11 +48,11 @@ export THRONE_KEY_FILE=/var/lib/throne/config/api.key
 
 Добавьте строку `export` в файл запуска своей оболочки (например, `~/.bashrc`), чтобы она действовала в каждой новой оболочке.
 
-`--print-connection` завершается с кодом 2, если API выключен или не слушает либо если его ключ хранится не в файле. Последний случай возникает, когда каталог данных взят из Throne для компьютера, который включил API с собственным ключом. Используйте этот ключ как `THRONE_KEY` (в приложении для компьютера: `Integration Settings` → `Throne API` → `Copy for scripts`) или запустите Throne с `--api-key-file`.
+`--print-connection` завершается с кодом 2, если API выключен или не слушает либо если его ключ хранится не в файле. Последний случай возникает, когда каталог данных взят из Throne для компьютера, который включил API с собственным ключом. Используйте этот ключ как `THRONE_KEY` (в приложении для компьютера: `Настройки интеграции` (Integration Settings) → `Throne API` → `Копировать для скриптов` (Copy for scripts)) или запустите Throne с `--api-key-file`.
 
 ## Административные запросы {#admin-requests}
 
-Запросы, которые изменяют то, что хранит Throne, — административные: `import`, `sub add`, `group`, `profile rm`, `settings set`, `backup`, `restart` и `shutdown`. Throne отвечает на них только с собственного устройства, если он не запущен с `--api-admin-lan` (`THRONE_API_ADMIN_LAN=1`). С другого устройства они завершаются ошибкой `forbidden`.
+Запросы, которые изменяют то, что хранит Throne, — административные: `import`, `sub add`, `group`, `profile rm`, `settings set`, `backup`, `restart` и `shutdown`. Таков же и `logs`, потому что лог называет сайты, к которым шли подключения. Throne отвечает на них только с собственного устройства, если он не запущен с `--api-admin-lan` (`THRONE_API_ADMIN_LAN=1`). С другого устройства они завершаются ошибкой `forbidden`.
 
 Все остальные запросы, например `status`, `connect`, `tun on` или `test`, работают с любого устройства, которому разрешён доступ к API и у которого есть ключ.
 
@@ -143,6 +143,7 @@ THRONE_API_ADMIN_LAN=1
 | `thronectl sub update --all` | Обновление всех подписок |
 | `thronectl geo update`, `thronectl rulesets update` | Повторная загрузка геофайлов и наборов правил |
 | `thronectl traffic --by app --since 7d` | Суммарный трафик |
+| `thronectl logs -n 50`, `thronectl logs -f` | Последние строки лога Throne; с `-f` — затем новые строки по мере записи. См. [Логи](@/headless/monitoring.ru.md#logs) |
 | `thronectl restart`, `thronectl shutdown` | Перезапуск Throne; завершение его работы |
 
 Добавьте `--json` к любой команде, чтобы получить вывод в формате JSON, удобный для скриптов. `thronectl help <command>` описывает команду. Все команды и флаги, а также коды завершения `thronectl` описаны на странице [Throne API и thronectl](@/advanced/api.ru.md#commands).

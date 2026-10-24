@@ -38,7 +38,7 @@ $env:HTTP_PROXY = "http://127.0.0.1:2080"; $env:HTTPS_PROXY = "http://127.0.0.1:
 More details:
 
 - `System Proxy` cannot be turned on while `Disable Mixed Inbound` is on. Throne then shows "Cannot set system proxy when mixed inbound is disabled."
-- `Settings` → `Basic Settings` → `Miscellaneous` → `Restart Proxy On System Proxy Disable` restarts the running profile when you turn the system proxy off, so that open connections close.
+- `Settings` → `Basic Settings` → `Miscellaneous` → `Restart Proxy On System Proxy Disable` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)) restarts the running profile when you turn the system proxy off, so that open connections close.
 - While `System Proxy` is ticked, Throne also sends its own requests, such as subscription updates, through the mixed port.
 - If Throne is killed or crashes while a profile runs, it cannot remove the setting, and your apps cannot connect. See [FAQ](@/help/faq.md#force-quit).
 - To switch the system proxy with a key, set the global hotkey `Toggle System Proxy`. See [Keyboard Shortcuts & Tray](@/reference/shortcuts.md#global-hotkeys).
@@ -98,7 +98,7 @@ Sharing the proxy port is different from sharing your whole connection as a Wi-F
 
 ## Inbound settings {#inbound-settings}
 
-These settings control the mixed port. Open `Settings` → `Basic Settings` → `Common` and look under `Inbound Settings`.
+These settings control the mixed port. Open `Settings` → `Basic Settings` → `Common` and look under `Inbound Settings`. In Simple mode, the group shows only `Listen Port`; the other settings are hidden, but keep their values. To set a username and password for [LAN sharing](#lan-sharing), switch to Advanced mode (see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
 
 | Setting | Default | What it does |
 | --- | --- | --- |
@@ -106,7 +106,7 @@ These settings control the mixed port. Open `Settings` → `Basic Settings` → 
 | `Listen Port` | `2080` | The mixed port. It accepts SOCKS (4, 4a and 5) and HTTP proxy connections. |
 | `Random port` | off | Picks a free port each time Throne starts. The status bar shows the current port. |
 | `Enable Authorization` | off | Requires the `Inbound Username` and `Inbound Password` for every connection to the mixed port. |
-| `Disable Mixed Inbound` | off | Turns the mixed port off. `System Proxy` and `Use proxy` then cannot work. TUN mode still works. |
+| `Disable Mixed Inbound` | off | Turns the mixed port off. `System Proxy` then cannot work. `Use proxy` works only while TUN mode is on (since 1.4.0; before, not at all). TUN mode still works. |
 | `Custom Inbound` | empty | `Edit` opens a JSON editor for extra sing-box inbounds: an object with an `inbounds` list. |
 | `Proxy Format` | `{ip}:{port}` | Windows only. The text that Throne writes to the Windows proxy setting. |
 

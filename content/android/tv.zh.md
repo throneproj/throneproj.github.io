@@ -74,7 +74,7 @@ Throne 2.0.0 无法覆盖安装在旧版本之上。参见[升级](@/android/ins
 - **输入订阅 URL。** 打开 `分组`（Groups）→ `新建分组`（New group），将 `类型`（Type）设为 `订阅`（Subscription），输入 `URL` 并保存。然后在新分组上按 `更新订阅`（Update subscription）。新分组不会自动更新。
 - **导入文本文件。** 将分享链接或订阅 URL 保存到 U 盘上的文本文件中。在配置列表中，打开 `添加服务器配置`（Add profile）→ `从文件中导入`（Import from file），然后选择该文件。
 - **恢复备份文件。** 在手机或电脑上创建 `.thrbackup` 备份，并将其复制到 U 盘。在电视上用文件管理器打开该文件，Throne 会提示恢复它。你也可以使用 `工具`（Tools）→ `恢复`（Restore）。参见[备份、更新与迁移](@/guides/backup.zh.md#desktop-android)。
-- **从 WebDAV 恢复。** 在手机上设置 `工具` → `WebDAV 设置`（WebDAV settings），然后使用 `备份到 WebDAV`（Back up to WebDAV）。在电视上，在 `工具` → `WebDAV 设置` 中填写同一个服务器，然后使用 `从 WebDAV 恢复`（Restore from WebDAV）。
+- **从 WebDAV 恢复。** 从手机（`工具` → `备份到 WebDAV`（Back up to WebDAV））上传备份，或者自 Throne 桌面版 1.4.0 起从电脑（`Upload to WebDAV`）上传备份。在电视上，在 `工具` → `WebDAV 设置`（WebDAV settings）中填写同一个服务器和同一个文件夹，然后使用 `从 WebDAV 恢复`（Restore from WebDAV）。参见 [WebDAV 备份](@/guides/backup.zh.md#webdav)。
 
 ### 使用 adb {#import-adb}
 

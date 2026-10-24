@@ -9,7 +9,7 @@ toc = true
 
 ## 配置档类型 {#protocols}
 
-要手动创建配置档，请在桌面版中使用 `程序`（Program）→ `新建配置档`（New profile，快捷键 `Ctrl+N`），或在 Android 上使用 `添加服务器配置`（Add profile）→ `手动输入`（Manual settings），然后选择类型。已有配置档的类型无法更改。
+要手动创建配置档，请在桌面版中使用 `程序`（Program）→ `新建配置档`（New profile，快捷键 `Ctrl+N`），或在 Android 上使用 `添加服务器配置`（Add profile）→ `手动输入`（Manual settings），然后选择类型。已有配置档的类型无法更改。在简洁模式下，桌面版的类型列表不提供 `直连`（Direct）、`链式代理`（Chain Proxy）、`额外核心`（Extra Core）和各种 `自定义`（Custom）类型（仅在高级模式下显示，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。
 
 | 类型 | 桌面版 | Android | 说明 |
 |---|---|---|---|
@@ -20,7 +20,7 @@ toc = true
 | `VMess` | 支持 | 支持 | |
 | `Trojan` | 支持 | 支持 | |
 | `VLESS` | 支持 | 支持 | sing-box 实现，支持 REALITY。 |
-| `VLESS (Xray)` | 支持 | 支持 | Xray 实现：支持 XHTTP、REALITY、VLESS 加密和 Finalmask。参见 [sing-box 与 Xray](@/advanced/xray.zh.md#vless-preference)。 |
+| `VLESS (Xray)` | 支持 | 支持 | Xray 实现：支持 XHTTP、REALITY、VLESS 加密、Finalmask 和 [XDRIVE](@/advanced/xray.zh.md#xdrive) 传输（桌面版自 1.4.0 起，Android 版 2.0.3 之后）。参见 [sing-box 与 Xray](@/advanced/xray.zh.md#vless-preference)。 |
 | `Hysteria` | 支持 | 支持 | Hysteria 1 和 Hysteria 2 合为一种类型：通过 `协议版本`（Protocol Version）选择。支持端口跳跃和混淆。 |
 | `TUIC` | 支持 | 支持 | |
 | `Juicity` | 支持 | 支持 | |
@@ -30,7 +30,7 @@ toc = true
 | `Mieru` | 支持 | 支持 | |
 | `Snell` | 支持 | 支持 | Snell 版本 4 或 6。 |
 | `ShadowTLS` | 支持 | 支持 | |
-| `WireGuard` | 支持 | 支持 | 如需使用 AmneziaWG，请勾选 `启用 Amnezia`（Enable Amnezia；Android 上为 `Enable AmneziaWG`）。自 1.4.0 起（Android：2.0.2 之后），`Amnezia Options` → `Generate QUIC Signature...`（Android 上为 `生成 QUIC 签名…`（Generate QUIC signature…））会填写签名包 I1–I5，使握手看起来像是到你所选域名的 HTTP/3 连接。可以创建 Cloudflare WARP 账户，参见 [WARP](@/advanced/warp.zh.md#generate)。 |
+| `WireGuard` | 支持 | 支持 | 如需使用 AmneziaWG，请勾选 `启用 Amnezia`（Enable Amnezia；Android 上为 `启用 AmneziaWG`（Enable AmneziaWG））。自 1.4.0 起（Android：自 2.0.3 起），`Amnezia 选项`（Amnezia Options）→ `Generate QUIC Signature...`（Android 上为 `生成 QUIC 签名…`（Generate QUIC signature…））会填写签名包 I1–I5，使握手看起来像是到你所选域名的 HTTP/3 连接。可以创建 Cloudflare WARP 账户，参见 [WARP](@/advanced/warp.zh.md#generate)。 |
 | `MASQUE` | 支持 | 支持 | HTTP/3 或 HTTP/2。可以创建 Cloudflare WARP 身份。 |
 | `OpenVPN` | 支持 | 支持 | 可导入 `.ovpn` 文件。一次性密码（OTP）仅在桌面版上可用。参见 [OpenVPN](@/advanced/vpn_profiles.zh.md#openvpn)。 |
 | `OpenConnect` | 支持 | 支持 | 支持 AnyConnect、GlobalProtect、Fortinet、F5、Pulse 和 Juniper（`nc`）服务器。OTP 仅在桌面版上可用。参见 [OpenConnect](@/advanced/vpn_profiles.zh.md#openconnect)。 |
@@ -44,6 +44,8 @@ toc = true
 
 部分 Android 标签只是大小写不同，例如 `SOCKS` 和 `Auto selector`。
 
+`AnyTLS`、`Hysteria`、`Juicity`、`MASQUE`、`ShadowTLS`、`TrustTunnel` 和 `TUIC` 始终使用 TLS，因此它们的编辑器中没有关闭 TLS 的开关。在 2.0.3 及更早版本的 Throne for Android 中，手动创建的这类配置档在保存时会丢失其 TLS 设置（例如 SNI）。2.0.3 之后，编辑器会保留这些设置。
+
 ### 由哪个引擎运行配置档 {#engines}
 
 Throne 的核心 ThroneCore 使用 sing-box 运行所有类型的配置档，但有两个例外：
@@ -53,7 +55,7 @@ Throne 的核心 ThroneCore 使用 sing-box 运行所有类型的配置档，但
 
 Throne for Android 使用相同的核心，因此同样适用这些规则。代理链可以混用两种引擎，但顺序只能是：先是 sing-box 跳点，然后是 Xray 跳点，最后又是 sing-box 跳点。
 
-导入 `vless://` 链接时，由 `设置`（Settings）→ `基本设置`（Basic Settings）→ `核心`（Core）→ `Xray VLESS 首选项`（Xray VLESS Preference）决定它成为哪种类型。在默认值 `XHTTP And Reality` 下，使用 XHTTP 或 REALITY 的链接会成为 `VLESS (Xray)`，其他链接则成为 `VLESS`。需要仅 Xray 才有的功能（例如 VLESS 加密）的链接，总是成为 `VLESS (Xray)`。自 1.4.0 起，Clash YAML 中使用 REALITY 的 VLESS 条目也遵循这一设置。参见 [sing-box 与 Xray](@/advanced/xray.zh.md#vless-preference)。
+导入 `vless://` 链接时，由 `设置`（Settings）→ `基本设置`（Basic Settings）→ `核心`（Core）→ `Xray VLESS 首选项`（Xray VLESS Preference，仅在高级模式下显示）决定它成为哪种类型。在默认值 `XHTTP And Reality` 下，使用 XHTTP 或 REALITY 的链接会成为 `VLESS (Xray)`，其他链接则成为 `VLESS`。需要仅 Xray 才有的功能（例如 VLESS 加密）的链接，总是成为 `VLESS (Xray)`。自 1.4.0 起，Clash YAML 中使用 REALITY 的 VLESS 条目也遵循这一设置。参见 [sing-box 与 Xray](@/advanced/xray.zh.md#vless-preference)。
 
 ## 导入格式 {#import-formats}
 
@@ -89,6 +91,8 @@ Throne 桌面版和 Throne for Android 在粘贴的文本、文件、二维码�
 | AnyConnect XML 配置文件、`openconnect` 命令行，或含有 `protocol=` 行的文件 | `OpenConnect` 配置档 |
 | 以上任意格式经 Base64 编码后的内容 | 先解码，再导入 |
 
+`tt://` 包括两种 TrustTunnel 链接：`tt://user:password@server:port?…`，以及 TrustTunnel 应用生成的 `tt://?…` 深度链接。Throne 可以读取第 1 版深度链接，自 1.4.0 起（Android：2.0.3 之后）也可以读取第 2 版。链接中必须包含服务器地址、服务器名称、用户名和密码，因此只带有订阅地址的链接会被拒绝。如果链接列出了多个服务器地址，Throne 会导入第一个，并对其余地址给出警告。
+
 不是代理服务器的条目会被跳过，例如 sing-box 的 `direct`、`block`、`selector` 和 `urltest` 出站，或 Xray 的 `freedom` 和 `blackhole` 出站。要运行完整的 sing-box 或 Xray 配置，请创建 `自定义 (sing-box 配置)`（Custom (sing-box config)）或 `自定义 (Xray 配置)`（Custom (Xray config)）配置档，并把配置粘贴进去。参见[完整配置](@/advanced/chains.zh.md#full-configs)。
 
 两个应用都会拒绝大于 50 MB 的导入文件（在 Android 上，`.zip` 文件不受此限制），以及大于 64 MB 的订阅响应。
@@ -113,7 +117,7 @@ Throne 桌面版和 Throne for Android 在粘贴的文本、文件、二维码�
 | Throne 链接 | `throne://add/…` | Throne 桌面版和 Throne for Android |
 | 旧版 Throne 链接 | `json://…` | Throne，仅可导入 |
 
-**标准链接**使用该协议通常的链接格式。有些类型没有标准链接：`自动选择器`（Auto Selector）、`链式代理`（Chain Proxy）、各种 `自定义`（Custom）类型、`直连`（Direct）、`额外核心`（Extra Core）、`MASQUE`、`OpenVPN` 和 `OpenConnect`。对于这些类型，Throne 会改为提供 Throne 链接。如果这类配置档设置了高级连接选项（例如绑定接口），Throne 显示的将不是 Throne 链接，而是一条只包含这些选项的不完整链接。对于这些配置档，请勾选 `Deep Link`，或使用 `复制选定项的链接 (深度链接)`（Copy links of selected (Deep Links)）。对于 `Tailscale`，也请分享 Throne 链接：Throne 无法导入它为这类配置档显示的 `ts://` 链接。
+**标准链接**使用该协议通常的链接格式。有些类型没有标准链接：`自动选择器`（Auto Selector）、`链式代理`（Chain Proxy）、各种 `自定义`（Custom）类型、`直连`（Direct）、`额外核心`（Extra Core）、`MASQUE`、`OpenVPN` 和 `OpenConnect`。使用 XDRIVE 传输的 `VLESS (Xray)` 配置档也没有标准链接。对于这些类型，Throne 会改为提供 Throne 链接。如果这类配置档设置了高级连接选项（例如绑定接口），Throne 显示的将不是 Throne 链接，而是一条只包含这些选项的不完整链接。对于这些配置档，请勾选 `Deep Link`，或使用 `复制选定项的链接 (深度链接)`（Copy links of selected (Deep Links)）。对于 `Tailscale`，也请分享 Throne 链接：Throne 无法导入它为这类配置档显示的 `ts://` 链接。
 
 **Throne 链接**以 Base64 编码的 JSON 保存配置档的设置。它适用于所有配置档类型，包括没有标准链接的类型，但只有 Throne 能识别。参见[深度链接](@/advanced/deeplinks.zh.md#add)。`json://` 链接是 1.2.0 之前使用的 Throne 链接格式，Throne 仍然可以导入。
 
@@ -146,16 +150,18 @@ Throne 桌面版和 Throne for Android 在粘贴的文本、文件、二维码�
 
 `分享`（Share）→ `导出配置`（Export config，`Ctrl+E`）会显示 Throne 为该配置档生成的核心配置，包含一个 `sing-box` 标签页；对于使用 Xray 的配置档，还有一个 `Xray` 标签页。`复制`（Copy）会复制当前显示的标签页。这是供其他客户端使用的配置文件，而不是分享链接。在 1.4.0 之前，这里是 `导出 Sing-box 配置`（Export Sing-box config）和 `导出 Xray 配置`（Export Xray config）。
 
+在简洁模式下，`复制选定项的链接 (深度链接)` 和 `导出配置` 会被隐藏（仅在高级模式下显示，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。
+
 要导入屏幕上显示的二维码，请使用 `程序`（Program）→ `扫描二维码`（Scan QR Code，快捷键 `Ctrl+Shift+Q`）。要从图片文件导入二维码，请把文件拖放到主窗口上，或通过 `程序`（Program）→ `添加文件中的配置档`（Add profile from File(s)）打开它。
 
 ### 在 Android 上分享 {#share-android}
 
 点按配置档的分享按钮。在 `双列`（Double column）布局中，则改为点按 ⋮ → `分享`（Share）。菜单提供：
 
-- `二维码`（QR code）→ `标准`（Standard）或 `Throne link`
-- `导出到剪切板`（Export to clipboard）→ `标准` 或 `Throne link`
+- `二维码`（QR code）→ `标准`（Standard）或 `Throne 链接`（Throne link）
+- `导出到剪切板`（Export to clipboard）→ `标准` 或 `Throne 链接`
 - `配置`（Configuration）→ `导出到剪切板` 或 `导出到文件`（Export to file）：Throne 生成的核心配置，而不是分享链接
 
-如果配置档类型没有标准链接，就不会出现 `标准`（Standard）。在 Android 上无法分享代理链。要复制整个分组的链接，请打开 `分组`（Groups），点按该分组上的 `More options`，然后选择 `Copy profile share links` 或 `Copy profile share links (deep links)`。
+如果配置档类型没有标准链接，就不会出现 `标准`（Standard）。在 Android 上无法分享代理链。要复制整个分组的链接，请打开 `分组`（Groups），点按该分组上的 `更多选项`（More options），然后选择 `复制配置分享链接`（Copy profile share links）或 `复制配置分享链接（深度链接）`（Copy profile share links (deep links)）。
 
 要导入分享的配置档，请使用 `添加服务器配置`（Add profile）→ `扫描二维码`（Scan QR code）或 `从剪切板导入`（Import from clipboard）。来自剪贴板或二维码的 Throne 链接会直接导入，不会询问。

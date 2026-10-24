@@ -21,6 +21,7 @@ toc = true
 
 - [安装与服务](@/headless/installation.zh.md)：Linux 软件包、Docker、macOS 和 Windows 服务。
 - [使用 thronectl 管理](@/headless/thronectl.zh.md)：连接 `thronectl`、添加订阅、把桌面版的配置迁移过来、更改设置。
+- [Web 界面](@/headless/web.zh.md)：用 `thronectl web` 在浏览器中管理 Throne。
 - [命令行与数据目录](@/headless/command_line.zh.md)：所有选项和变量、数据的存放位置、重启方式和退出码。
 - [健康检查与日志](@/headless/monitoring.zh.md)：`Throne --check`、`Throne --health`、systemd 状态和日志。
 - [防锁定与恢复](@/headless/recovery.zh.md)：Throne 如何让 API 始终可以访问，以及设置把你锁在外面时该怎么办。
@@ -49,7 +50,7 @@ toc = true
    export THRONE_KEY_FILE=~/.config/throne/api-key
    ```
 
-4. 安装 `thronectl`。它不包含在 Throne 软件包中：请从 [Throne-api 的发布页面](https://github.com/throneproj/Throne-api/releases)下载，或参见[安装 thronectl](@/headless/thronectl.zh.md#install-thronectl)。
+4. 软件包还会把命令行客户端 `thronectl` 安装为 `/usr/bin/thronectl`。如需从其他电脑管理 Throne，请参见[安装 thronectl](@/headless/thronectl.zh.md#install-thronectl)。
 5. 添加你的订阅并连接：
 
    ```bash
@@ -73,6 +74,7 @@ Throne 从不自行转入后台。由服务管理器在开机时启动它、在�
 | [`dist/linux/throne.env`](https://github.com/throneproj/Throne/blob/dev/dist/linux/throne.env) | 该单元的环境文件，安装为 `/etc/throne/throne.env`。其中的每个变量都是被注释掉的示例。 |
 | [`dist/linux/caps.conf`](https://github.com/throneproj/Throne/blob/dev/dist/linux/caps.conf) | 可选的 drop-in 文件：让该单元以用户 `throne` 的身份并借助能力（capabilities）运行，而不是以 root 身份运行。 |
 | [`dist/linux/throne-user.service`](https://github.com/throneproj/Throne/blob/dev/dist/linux/throne-user.service) | systemd 用户单元，无需 root。 |
+| [`dist/linux/throne-web.service`](https://github.com/throneproj/Throne/blob/dev/dist/linux/throne-web.service)、[`throne-web.env`](https://github.com/throneproj/Throne/blob/dev/dist/linux/throne-web.env) | [Web 界面](@/headless/web.zh.md#systemd)的 systemd 单元（以专用用户身份运行 `thronectl web`）及其环境文件。软件包会把它们安装为 `/usr/lib/systemd/system/throne-web.service` 和 `/etc/throne/web.env`。 |
 | [`dist/macos/moe.Throne.headless.plist`](https://github.com/throneproj/Throne/blob/dev/dist/macos/moe.Throne.headless.plist) | launchd LaunchDaemon。 |
 | [`dist/windows/install-service.bat`](https://github.com/throneproj/Throne/blob/dev/dist/windows/install-service.bat)、[`uninstall-service.bat`](https://github.com/throneproj/Throne/blob/dev/dist/windows/uninstall-service.bat) | 安装和移除 Windows 服务。 |
 | [`docker/compose.yaml`](https://github.com/throneproj/Throne/blob/dev/docker/compose.yaml) | 用于镜像 `ghcr.io/throneproj/throne` 的 Docker Compose 示例。 |
