@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Manage Throne from a browser with thronectl web: set it up with Docker, the systemd unit or by hand, reach it through an SSH tunnel, HTTPS or a reverse proxy, and keep it safe.">
+  <title>Web UI - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="Web UI">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/headless/web/">
+  <meta property="og:description" content="Manage Throne from a browser with thronectl web: set it up with Docker, the systemd unit or by hand, reach it through an SSH tunnel, HTTPS or a reverse proxy, and keep it safe.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Web UI">
+  <meta name="twitter:description" content="Manage Throne from a browser with thronectl web: set it up with Docker, the systemd unit or by hand, reach it through an SSH tunnel, HTTPS or a reverse proxy, and keep it safe.">
+  <link rel="canonical" href="https://throneproj.github.io/headless/web/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Web UI","url":"https://throneproj.github.io/headless/web/","description":"Manage Throne from a browser with thronectl web: set it up with Docker, the systemd unit or by hand, reach it through an SSH tunnel, HTTPS or a reverse proxy, and keep it safe."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/"},{"@type":"ListItem","position":2,"name":"Headless Throne","item":"https://throneproj.github.io/headless/"},{"@type":"ListItem","position":3,"name":"Web UI"}]}</script>
+  <link rel="alternate" hreflang="en" href="https://throneproj.github.io/headless/web/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/headless/web/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/headless/web/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/headless/web/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/" class="header-logo" aria-label="Throne homepage">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.3.2" target="_blank" rel="noopener noreferrer">v1.3.2</a>
+
+    <nav class="header-nav" aria-label="Primary">
+      <a href="https://throneproj.github.io/get_started/">Get Started</a>
+      <a href="https://throneproj.github.io/downloads/">Downloads</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="Search documentation">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Search</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="Language">
+        
+        <a href="https://throneproj.github.io/headless/web/" hreflang="en" aria-current="true">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/headless/web/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/headless/web/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/headless/web/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne on GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="Theme">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search documentation" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="Search documentation" placeholder="Search the docs" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Search"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="Documentation">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Get Started</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/installation/">Installation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/configuration/">Quick Start</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Guides</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/guides/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/subscriptions/">Subscriptions & Groups</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/proxy_modes/">System Proxy, TUN & LAN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/tun_mode/">TUN Mode</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/routing/">Routing</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/testing/">Testing & Auto Selector</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/backup/">Backup, Updates & Migration</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/recipes/">Recipes</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/android/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/installation/">Installation & Upgrade</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/permissions/">Permissions & Background</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/modes/">VPN & Proxy Modes</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/widgets/">Widgets, Tile & Automation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Headless Throne</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/headless/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/installation/">Installation & Services</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/thronectl/">Managing with thronectl</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/web/" aria-current="page">Web UI</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/command_line/">Command Line & Data Directory</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/monitoring/">Health Checks & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/recovery/">Lockout Protection & Recovery</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Advanced Configuration</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/xray/">sing-box vs Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/chains/">Chains & Custom Configs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/presets/">Anti-Censorship Presets</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/vpn_profiles/">OpenVPN, OpenConnect & Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/windows_tun_mode/">Windows DNS Leak Protection</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/kill_switch/">Kill Switch</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/deeplinks/">Deep Links</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/api/">Throne API & thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Reference</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/reference/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/protocols/">Protocols & Import Formats</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/shortcuts/">Keyboard Shortcuts & Tray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/files/">Command Line, Files & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/privacy/">Privacy & Network Requests</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/glossary/">Glossary</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Help</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/help/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/faq/">FAQ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/troubleshooting/">Troubleshooting</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/bug_reports/">Reporting a Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/migrating/">Coming from Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">Web UI</h1>
+      <p class="docs-lede">Manage Throne from a browser with thronectl web: set it up with Docker, the systemd unit or by hand, reach it through an SSH tunnel, HTTPS or a reverse proxy, and keep it safe.</p>
+      <div class="prose">
+        <p><code>thronectl web</code> serves a web UI for Throne. In a browser you can see and switch the connection, pick and test profiles, import profiles and update subscriptions, follow the traffic and the log, change settings, and back up and restore. It works with headless Throne and with a desktop Throne that has the <a href="/advanced/api/">Throne API</a> on. Throne for Android has no Throne API, so the web UI cannot manage it.</p>
+<p>The web UI is part of <code>thronectl</code>, not of Throne. <code>thronectl web</code> is a small web server, the gateway: your browser talks to the gateway, and the gateway talks to Throne through the Throne API, with the address and the key that the other <code>thronectl</code> commands use. Throne itself serves no web page.</p>
+<p>Use the web UI when you want to look and click, for example from a phone, or from a computer without <code>thronectl</code>. For scripts, hotkeys and automation, use the <a href="/headless/thronectl/">thronectl commands</a>. Both work at the same time.</p>
+<h2 id="quick-start">Quick start</h2>
+<p>Pick the setup that matches how Throne runs. Each of them runs the gateway on Throne's own device, where Throne answers all its requests, <a href="/headless/thronectl/#admin-requests">admin requests</a> included.</p>
+<h3 id="docker">Docker</h3>
+<p>The Docker image runs the gateway beside Throne, in the same container, when <code>THRONE_WEB_LISTEN</code> is set. In the <a href="https://github.com/throneproj/Throne/blob/dev/docker/compose.yaml"><code>compose.yaml</code></a> from the Throne repository, add the variable to the service <code>throne</code> and publish the port:</p>
+<pre><code class="language-yaml hljs">services:
+  throne:
+    environment:
+      THRONE_WEB_LISTEN: &quot;*:9096&quot;
+    ports: [&quot;2080:2080&quot;, &quot;9096:9096&quot;]
+</code></pre>
+<p>On a host that the internet can reach, publish only the LAN address, for example <code>&quot;192.168.1.2:9096:9096&quot;</code>. With <code>docker run</code>, add <code>-e THRONE_WEB_LISTEN='*:9096' -p 9096:9096</code>. Then start the container and read its log:</p>
+<pre><code class="language-bash hljs">docker compose up -d
+docker compose logs throne
+</code></pre>
+<p>The log shows the password and the fingerprint of the self-signed certificate. Open <code>https://&lt;host&gt;:9096/</code>, compare the fingerprint as described in <a href="#lan">Local network</a>, and sign in.</p>
+<ul>
+<li>The container's entrypoint starts <code>thronectl web</code> beside Throne as soon as Throne's API answers, and finds the API's address and key itself. When the gateway exits, the entrypoint starts it again 3 seconds later, so a wrong <code>THRONE_WEB_*</code> value shows up in the log every 3 seconds. The gateway also restarts with the container.</li>
+<li>The gateway keeps its state in <code>/var/lib/throne/web</code> on the data volume.</li>
+<li>The other <code>THRONE_WEB_*</code> variables, such as <code>THRONE_WEB_TLS</code>, <code>THRONE_WEB_ALLOW_HOST</code> or <code>THRONE_WEB_PASSWORD_FILE</code> (see <a href="#options">Options</a>), go in the same <code>environment:</code> block.</li>
+</ul>
+<h3 id="systemd">Linux packages (systemd)</h3>
+<p>The <code>.deb</code> and <code>.rpm</code> packages install <code>thronectl</code> as <code>/usr/bin/thronectl</code>, and a second unit, <code>throne-web.service</code>, which runs <code>thronectl web</code> beside <code>throne.service</code>. It does not run as root: systemd gives it a dynamic user of its own, passes it Throne's key <code>/var/lib/throne/config/api.key</code> as a credential, and keeps its state in <code>/var/lib/throne-web</code>. The package does not enable it:</p>
+<pre><code class="language-bash hljs">sudo systemctl enable --now throne-web
+sudo journalctl -u throne-web | grep 'web UI password'
+</code></pre>
+<p>Until Throne's first start has created the key file, the unit fails, and systemd starts it again every 5 seconds, as after every other failure. It listens on <code>127.0.0.1:9096</code>: open it through an <a href="#ssh-tunnel">SSH tunnel</a>. To change its options, uncomment the variables in <code>/etc/throne/web.env</code> (see <a href="#options">Options</a>) and run <code>sudo systemctl restart throne-web</code>. Upgrades keep your edits. Never put the key or a password in this file. The unit's user cannot read files that only root can read, such as a key in another place, a TLS key or a password file; <code>/etc/throne/web.env</code> shows how to pass them in with <code>LoadCredential=</code> (<code>sudo systemctl edit throne-web</code>). A port below 1024 needs <code>CAP_NET_BIND_SERVICE</code> in the unit's <code>AmbientCapabilities=</code> and <code>CapabilityBoundingSet=</code>.</p>
+<h3 id="manual">By hand, on any system</h3>
+<p>Install <code>thronectl</code> on the device where Throne runs (see <a href="/headless/thronectl/#install-thronectl">Install thronectl</a>), connect it to Throne as for every other command (see <a href="/headless/thronectl/#connect">Connect thronectl to Throne</a>), and start the gateway:</p>
+<pre><code class="language-bash hljs">export THRONE_KEY_FILE=~/.config/throne/api-key
+thronectl web
+</code></pre>
+<p>It prints the password once, and where it serves:</p>
+<pre><code class="language-text hljs">thronectl web: created the web UI password: k7mfq-2xhpa-9tnwe-c3rjd
+thronectl web: change it with 'thronectl web passwd'
+thronectl web: serving on http://127.0.0.1:9096/ for Throne at 127.0.0.1:9095
+</code></pre>
+<p>Open <code>http://127.0.0.1:9096/</code> in a browser on the same device and sign in with that password. <code>thronectl web</code> runs until you press <code>Ctrl+C</code>. It starts without Throne, too: until Throne answers, the web UI says that Throne is not reachable.</p>
+<p>For a desktop Throne, turn the API on first (<code>Settings</code> → <code>Integration Settings</code> → <code>Throne API</code>, see <a href="/advanced/api/#enable">Turn on the API in Throne</a>) and keep its key in a file, as described in <a href="/advanced/api/#connect">Connect thronectl to Throne</a>. On Windows, in PowerShell:</p>
+<pre><code class="language-powershell hljs">$env:THRONE_KEY_FILE = &quot;$HOME\throne-api-key.txt&quot;
+thronectl web
+</code></pre>
+<h2 id="remote">Reaching it from another device</h2>
+<p>By default the gateway listens on <code>127.0.0.1:9096</code>, which only programs on Throne's device can reach. From another device, use an SSH tunnel, HTTPS on the local network, or a reverse proxy.</p>
+<h3 id="ssh-tunnel">SSH tunnel</h3>
+<p>If you can log in to the device with SSH, keep the gateway on loopback and tunnel to it from your computer:</p>
+<pre><code class="language-bash hljs">ssh -L 9096:127.0.0.1:9096 user@host
+</code></pre>
+<p>While that session is open, open <code>http://localhost:9096/</code> on your computer (<code>https://</code> for the Docker setup, which serves HTTPS). Nothing on the device's network can reach the gateway, and SSH encrypts the traffic. If port 9096 is taken on your computer, pick another local port: <code>ssh -L 19096:127.0.0.1:9096 user@host</code>, then <code>http://localhost:19096/</code>.</p>
+<h3 id="lan">Local network (HTTPS)</h3>
+<p>To open the web UI directly from other devices on your network, let the gateway listen on a network address:</p>
+<pre><code class="language-bash hljs">thronectl web --listen '*:9096'
+</code></pre>
+<p><code>*:9096</code> listens on every address of the device, <code>192.168.1.2:9096</code> on one. On a network address the gateway serves HTTPS. Unless you give it a certificate, it creates a self-signed one in its state directory, and prints the certificate's fingerprint at every start:</p>
+<pre><code class="language-text hljs">thronectl web: created a self-signed TLS certificate in /home/you/.config/thronectl/web/tls
+thronectl web: TLS certificate SHA-256 fingerprint: 3F:A1:5C:…:9C
+thronectl web: serving on https://localhost:9096/ for Throne at 127.0.0.1:9095
+thronectl web: serving on https://192.168.1.2:9096/ for Throne at 127.0.0.1:9095
+</code></pre>
+<p>Your browser warns that the certificate is not trusted, because no certificate authority signed it. Before you accept it:</p>
+<ol>
+<li>Open the certificate's details from the warning page or the address bar.</li>
+<li>Compare its SHA-256 fingerprint with the one the gateway printed.</li>
+<li>Accept the certificate only if the two match. If they differ, something between you and the device intercepts the connection: do not sign in.</li>
+</ol>
+<p>The <code>System</code> page of the web UI also shows the fingerprint. Allow port 9096 in the device's firewall, and only from your network.</p>
+<ul>
+<li>The certificate names <code>localhost</code>, the device's host name and the addresses the device had when the gateway created it. To create a new one, for example after the device's address changed, delete the <code>tls</code> folder in the state directory and restart the gateway. The fingerprint changes with it.</li>
+<li>The self-signed certificate is valid for 10 years. When it has expired or cannot be read, the gateway creates a new one at its next start.</li>
+<li>To use a certificate of your own, give the certificate chain and the private key as PEM files with <code>--tls-cert</code> and <code>--tls-key</code>. The gateway reads them at start; restart it after you renew them.</li>
+</ul>
+<h3 id="reverse-proxy">Behind a reverse proxy</h3>
+<p>A reverse proxy such as nginx or Caddy can serve the web UI under a host name of yours, with a certificate that browsers trust. Keep the gateway on loopback, where it serves plain HTTP that only programs on the device reach, and give it the host name:</p>
+<pre><code class="language-bash hljs">thronectl web --allow-host throne.example.com
+</code></pre>
+<p>On loopback the gateway answers only requests for <code>localhost</code>, <code>127.0.0.1</code>, <code>::1</code> and the names in <code>--allow-host</code> (see <a href="#host-check">Host check</a>). When the proxy runs on another device or in another container, the gateway has to listen on a network address: add <code>--tls off</code> there, and let only the proxy reach that address, because the password and the session cross it unencrypted.</p>
+<p>The proxy must:</p>
+<ul>
+<li><strong>Pass on the <code>Host</code> header as the browser sent it.</strong> The gateway refuses changes whose <code>Origin</code> header does not match the <code>Host</code> header (<code>403 csrf</code>). nginx replaces the header unless you set it; Caddy keeps it.</li>
+<li><strong>Accept request bodies up to 512 MiB</strong>, the largest backup the web UI restores. nginx accepts 1 MiB unless you set <code>client_max_body_size</code>.</li>
+<li><strong>Pass on responses as they come.</strong> The web UI receives live updates and the log as a stream. The gateway sends <code>X-Accel-Buffering: no</code>, which turns nginx's buffering off for them.</li>
+</ul>
+<p>nginx:</p>
+<pre><code class="language-nginx hljs">server {
+    listen 443 ssl;
+    server_name throne.example.com;
+    ssl_certificate     /etc/ssl/certs/throne.example.com.pem;
+    ssl_certificate_key /etc/ssl/private/throne.example.com.key;
+
+    location / {
+        proxy_pass http://127.0.0.1:9096;
+        proxy_set_header Host $http_host;
+        client_max_body_size 512m;
+    }
+}
+</code></pre>
+<p>Caddy:</p>
+<pre><code class="language-text hljs">throne.example.com {
+    reverse_proxy 127.0.0.1:9096
+}
+</code></pre>
+<p>Behind a proxy, every browser reaches the gateway from the proxy's address, so failed sign-ins from one browser <a href="#security">lock out</a> the others too.</p>
+<h2 id="password">The password</h2>
+<p>The web UI has one password and no user accounts. At its first start the gateway creates a random password, stores its hash (argon2id) in the file <code>password</code> in its state directory, and prints the password once:</p>
+<pre><code class="language-text hljs">thronectl web: created the web UI password: k7mfq-2xhpa-9tnwe-c3rjd
+thronectl web: change it with 'thronectl web passwd'
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Setup</th>
+<th>Where to find the first password</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Docker</td>
+<td><code>docker compose logs throne</code></td>
+</tr>
+<tr>
+<td>systemd unit</td>
+<td><code>sudo journalctl -u throne-web | grep &#39;web UI password&#39;</code></td>
+</tr>
+<tr>
+<td>By hand</td>
+<td>The terminal where you started <code>thronectl web</code></td>
+</tr>
+</tbody>
+</table>
+<p>The line stays in that log, so change the password after you sign in for the first time:</p>
+<ul>
+<li>On the <code>System</code> page of the web UI. This signs out every other browser.</li>
+<li>With <code>thronectl web passwd</code>, run as the user the gateway runs as and with the same state directory (<code>--state-dir</code> or <code>THRONE_WEB_STATE_DIR</code>). On a terminal it asks twice without showing what you type; otherwise it reads one line from standard input. A running gateway notices the new password within 5 seconds and signs everyone out. In the Docker setup: <code>docker compose exec throne thronectl web passwd</code>.</li>
+</ul>
+<p>A password needs at least 8 characters. Under systemd, set it as root; the file stays with the unit's user:</p>
+<pre><code class="language-bash hljs">sudo thronectl web passwd --state-dir /var/lib/throne-web
+</code></pre>
+<p><strong>Forgotten password.</strong> Set a new one with <code>thronectl web passwd</code>, or delete the <code>password</code> file in the state directory and restart the gateway. It then creates a new password and prints it.</p>
+<p><strong>Password file.</strong> <code>--password-file FILE</code> (or <code>THRONE_WEB_PASSWORD_FILE</code>) takes the password in plain text from a file instead of the stored hash, for example from a Docker secret. One line break at the end is ignored; an empty file is an error. The gateway checks the file every 5 seconds and signs everyone out when it changes. If the file turns empty or unreadable, the gateway keeps the last password and says so in its log. With a password file the <code>System</code> page cannot change the password, and neither can <code>thronectl web passwd</code> while <code>THRONE_WEB_PASSWORD_FILE</code> is set: change the file instead.</p>
+<pre><code class="language-yaml hljs">services:
+  throne:
+    environment:
+      THRONE_WEB_LISTEN: &quot;*:9096&quot;
+      THRONE_WEB_PASSWORD_FILE: /run/secrets/throne_web_password
+    secrets: [throne_web_password]
+secrets:
+  throne_web_password:
+    file: ./web-password.txt
+</code></pre>
+<p><strong>Sessions.</strong> A sign-in lasts until the browser has been idle for 12 hours, and 7 days at most. <code>Sign out</code> on the <code>System</code> page ends it. The gateway keeps sessions in memory, so restarting it signs everyone out. It keeps up to 64 sessions; one more sign-in ends the session that was used least recently.</p>
+<h2 id="features">What the web UI covers</h2>
+<table>
+<thead>
+<tr>
+<th>Page</th>
+<th>What you can do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Status</code></td>
+<td>See the state, the running profile, the kill switch and the current rates; connect and disconnect; turn TUN and the system proxy on and off (the system proxy only in a desktop Throne); pick the routing profile; restart the profile when a setting needs it; follow and cancel tests.</td>
+</tr>
+<tr>
+<td><code>Profiles</code></td>
+<td>Browse groups and profiles with their test results, filter and sort them; connect a profile or the best one of a group; test latency, IP and speed; clear results; delete profiles. Import share links, a file or a URL. Add groups and subscriptions, update and delete them.</td>
+</tr>
+<tr>
+<td><code>Traffic</code></td>
+<td>The rates of the last two minutes, and totals by profile or by app for 24 hours, 7 days or 30 days.</td>
+</tr>
+<tr>
+<td><code>Logs</code></td>
+<td>Throne&#39;s log as it is written, with pause, a text filter, times, copying, and colors for warnings and errors. The page keeps the newest 5000 lines.</td>
+</tr>
+<tr>
+<td><code>Settings</code></td>
+<td>The settings that the API manages, the geo files, and the rule-sets of the running profile.</td>
+</tr>
+<tr>
+<td><code>Backup</code></td>
+<td>Download a backup of the parts you choose. Upload an archive, see what it holds and restore the parts you choose; Throne restarts, and the web UI waits for it.</td>
+</tr>
+<tr>
+<td><code>System</code></td>
+<td>The versions of Throne and the gateway, whether the gateway has admin rights, the certificate&#39;s fingerprint, the password, signing out, restarting Throne and shutting it down.</td>
+</tr>
+</tbody>
+</table>
+<p>Changes made elsewhere, in Throne's window, with <code>thronectl</code> or by a subscription update, show up in the web UI within seconds: the gateway asks Throne what changed (<code>GET /v1/events</code>), and the page reloads only that.</p>
+<h3 id="desktop-only">What stays on the desktop</h3>
+<p>The web UI does not edit:</p>
+<ul>
+<li>the rules of routing profiles (it only activates a routing profile),</li>
+<li>WARP and OTP accounts,</li>
+<li>a profile's own settings, such as its server, ports or TLS,</li>
+<li>the live list of connections,</li>
+<li>settings that the API does not manage.</li>
+</ul>
+<p>Set these up in a desktop Throne and move them over with a backup: create it in the desktop app, then restore it on the <code>Backup</code> page, or with <code>thronectl backup restore</code> as described in <a href="/headless/thronectl/#from-desktop">Moving a desktop setup</a>. Throne refuses archives with profiles that would run programs or read files on its device, such as Extra Core profiles (<code>invalid_archive</code>).</p>
+<h2 id="options">Options</h2>
+<pre><code class="language-text hljs">thronectl web [--listen ADDR] [--state-dir DIR] [--tls auto|on|off] [--tls-cert FILE --tls-key FILE]
+              [--allow-host LIST] [--password-file FILE]
+thronectl web passwd [--state-dir DIR]
+</code></pre>
+<p>Each option has an environment variable. A flag wins over its variable.</p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Variable</th>
+<th>Default and meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--listen ADDR</code></td>
+<td><code>THRONE_WEB_LISTEN</code></td>
+<td><code>127.0.0.1:9096</code>. Takes <code>PORT</code> (on <code>127.0.0.1</code>), <code>IP:PORT</code>, <code>[IPv6]:PORT</code> and <code>*:PORT</code> (every address), as Throne&#39;s <code>--api-listen</code> does. Host names are not accepted.</td>
+</tr>
+<tr>
+<td><code>--state-dir DIR</code></td>
+<td><code>THRONE_WEB_STATE_DIR</code></td>
+<td>The folder for the password&#39;s hash and the self-signed certificate, which the gateway creates readable only by its user. Default: systemd&#39;s <code>$STATE_DIRECTORY</code>, else <code>thronectl/web</code> in your configuration folder: <code>~/.config/thronectl/web</code> on Linux, <code>~/Library/Application Support/thronectl/web</code> on macOS, <code>%AppData%\thronectl\web</code> on Windows.</td>
+</tr>
+<tr>
+<td><code>--tls auto|on|off</code></td>
+<td><code>THRONE_WEB_TLS</code></td>
+<td><code>auto</code> (default): HTTPS on a network address, plain HTTP on loopback. <code>on</code>: HTTPS on loopback too. <code>off</code>: plain HTTP; on a network address, only behind a TLS reverse proxy. <code>off</code> together with a certificate is an error.</td>
+</tr>
+<tr>
+<td><code>--tls-cert FILE</code>, <code>--tls-key FILE</code></td>
+<td><code>THRONE_WEB_TLS_CERT</code>, <code>THRONE_WEB_TLS_KEY</code></td>
+<td>Your certificate chain and private key in PEM, instead of the self-signed certificate. Give both. With <code>auto</code>, they turn HTTPS on also on loopback.</td>
+</tr>
+<tr>
+<td><code>--allow-host LIST</code></td>
+<td><code>THRONE_WEB_ALLOW_HOST</code></td>
+<td>More host names that browsers may use to reach the gateway, separated by commas or spaces, such as the name of a reverse proxy. See <a href="#host-check">Host check</a>.</td>
+</tr>
+<tr>
+<td><code>--password-file FILE</code></td>
+<td><code>THRONE_WEB_PASSWORD_FILE</code></td>
+<td>The password in plain text, such as a Docker secret, instead of the stored hash. See <a href="#password">The password</a>.</td>
+</tr>
+</tbody>
+</table>
+<p>The gateway finds Throne as every <code>thronectl</code> command does: the address from <code>--addr</code> or <code>THRONE_ADDR</code> (default <code>127.0.0.1:9095</code>), the key from <code>--key-file</code>, <code>THRONE_KEY</code> or <code>THRONE_KEY_FILE</code>, or under systemd from the credential <code>api.key</code> (<code>LoadCredential=api.key:/path/to/key</code>). <code>--timeout</code> does not apply to it.</p>
+<p><code>thronectl web</code> exits with:</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>It was stopped with <code>Ctrl+C</code> or <code>SIGTERM</code>. It shuts down within 5 seconds.</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>A wrong option or variable, no key, an empty or unreadable password file, a damaged <code>password</code> file, or a certificate that does not load.</td>
+</tr>
+<tr>
+<td><code>3</code></td>
+<td>It cannot listen, for example because another program holds the port, or another error.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="host-check">Host check</h3>
+<p>A web page can make your browser send requests to the gateway under a host name of its own (DNS rebinding). The gateway therefore checks the host name of every request:</p>
+<ul>
+<li>On a loopback address it accepts <code>localhost</code>, <code>127.0.0.1</code>, <code>::1</code> and the names in <code>--allow-host</code>.</li>
+<li>On a network address it accepts every name, unless <code>--allow-host</code> is set. Then it accepts those names, the loopback names and IP addresses.</li>
+</ul>
+<p>It answers other names with <code>421 Misdirected Request</code>.</p>
+<h2 id="security">Security</h2>
+<ul>
+<li><strong>The web UI is an admin client.</strong> Whoever signs in can do what <code>thronectl</code> can, admin requests included: import and delete profiles, change settings, download backups, which hold your profiles' credentials and OTP secrets in plain text, restore backups, and restart or shut down Throne. Give the password only to people who may manage Throne.</li>
+<li><strong>The API key stays with the gateway.</strong> The browser never receives it. It gets only a session cookie and a session token, and every request needs both.</li>
+<li><strong>Sign-in limits.</strong> After 5 failed sign-ins within 5 minutes from one address (for IPv6, one /64 network), the gateway refuses sign-ins from that address for 60 seconds, twice as long after each further failure, up to 15 minutes. When more than 30 sign-ins fail within a minute in all, it refuses every sign-in until that minute has passed. A successful sign-in clears its address's failures. A failed sign-in takes at least half a second, and the gateway's log names locked-out addresses.</li>
+<li><strong>The first password stays in the log.</strong> The systemd journal can be read by root and by members of groups such as <code>adm</code> or <code>systemd-journal</code>; the container's log by everyone who may run <code>docker</code>. Change the password after the first sign-in.</li>
+<li><strong>Prefer loopback and an SSH tunnel.</strong> On the network, use HTTPS and check the certificate's fingerprint, or use a certificate that browsers trust. Plain HTTP on a network address carries the password and the session unencrypted; the gateway warns about it at start.</li>
+<li><strong>Run the gateway on Throne's device.</strong> Throne's API can then stay on loopback. A gateway on another device needs the API on the network and, for admin requests, <code>--api-admin-lan</code>.</li>
+</ul>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause and fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Throne is not reachable. Retrying…</code> (<code>throne_unreachable</code>)</td>
+<td>Throne is not running, its API is off, or the gateway has the wrong address. Check <code>--addr</code> or <code>THRONE_ADDR</code>, and run <code>thronectl status</code> with the gateway&#39;s settings. The web UI tries again every 2 seconds and reloads when Throne answers.</td>
+</tr>
+<tr>
+<td><code>Throne refuses the web UI</code> or <code>Throne refused the connection</code> (<code>throne_rejected</code>)</td>
+<td>The gateway&#39;s key is wrong. Give the gateway Throne&#39;s current key (<code>config/api.key</code> in headless Throne&#39;s data directory) and restart it. A gateway on another device can also be refused for 60 seconds after 5 failed attempts from its address, for example by another client with an old key at the same address.</td>
+</tr>
+<tr>
+<td><code>The web UI&#39;s connection to Throne lacks admin rights</code> (<code>forbidden</code>): the log, imports, settings, deletions, backups, restart and shutdown fail</td>
+<td>The gateway does not run on Throne&#39;s device, and Throne answers admin requests only from there. Run the gateway on Throne&#39;s device, or let Throne answer admin requests from the network: <code>--api-admin-lan</code> (<code>THRONE_API_ADMIN_LAN=1</code>) for headless Throne, <code>Allow management from the local network</code> in the desktop app. The <code>System</code> page shows whether the gateway has admin rights.</td>
+</tr>
+<tr>
+<td><code>421 Misdirected Request: this host name is not accepted</code></td>
+<td>The <a href="#host-check">host check</a>: you opened the gateway under a name that it does not accept. Use <code>localhost</code> or an IP address, or add the name with <code>--allow-host</code>.</td>
+</tr>
+<tr>
+<td>Behind a reverse proxy, signing in fails: <code>The web UI server refused the request because it came from another origin</code> (<code>403 csrf</code>)</td>
+<td>The proxy changes the <code>Host</code> header. Pass it on unchanged, for example with <code>proxy_set_header Host $http_host;</code> in nginx.</td>
+</tr>
+<tr>
+<td><code>Too many failed attempts. Try again in … s.</code> (<code>rate_limited</code>)</td>
+<td>Wait until the countdown ends. See <a href="#security">Security</a>.</td>
+</tr>
+<tr>
+<td>The browser warns about the certificate</td>
+<td>Expected with the self-signed certificate. Compare the fingerprints as described in <a href="#lan">Local network</a>.</td>
+</tr>
+<tr>
+<td><code>thronectl web</code> exits: <code>address already in use; --listen picks another address</code></td>
+<td>Another program, or another <code>thronectl web</code>, holds port 9096. Stop it, or pass another <code>--listen</code>.</td>
+</tr>
+<tr>
+<td>Restoring a backup through nginx fails with <code>413</code></td>
+<td>Set <code>client_max_body_size 512m;</code>.</td>
+</tr>
+<tr>
+<td>The <code>Logs</code> page says <code>This Throne is too old to share its log with the web UI</code>, or changes made in Throne&#39;s window take up to 30 seconds to show</td>
+<td>Throne is older than the gateway and lacks <code>GET /v1/logs</code> or <code>GET /v1/events</code>. Without events, the gateway reads Throne&#39;s status every 2 seconds and everything else every 30 seconds. Update Throne.</td>
+</tr>
+<tr>
+<td><code>The password comes from a password file</code></td>
+<td>Change the file that <code>--password-file</code> names. The gateway notices the change within 5 seconds.</td>
+</tr>
+</tbody>
+</table>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/headless/web.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          Edit this page on GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="Page navigation">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/headless/thronectl/">
+    <span class="prevnext-dir">Previous</span>
+    Managing with thronectl
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/headless/command_line/">
+    <span class="prevnext-dir">Next</span>
+    Command Line & Data Directory
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="On this page">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    On this page
+  </p>
+  <ul><li><a href="#quick-start">Quick start</a><ul><li><a href="#docker">Docker</a></li><li><a href="#systemd">Linux packages (systemd)</a></li><li><a href="#manual">By hand, on any system</a></li></ul></li><li><a href="#remote">Reaching it from another device</a><ul><li><a href="#ssh-tunnel">SSH tunnel</a></li><li><a href="#lan">Local network (HTTPS)</a></li><li><a href="#reverse-proxy">Behind a reverse proxy</a></li></ul></li><li><a href="#password">The password</a></li><li><a href="#features">What the web UI covers</a><ul><li><a href="#desktop-only">What stays on the desktop</a></li></ul></li><li><a href="#options">Options</a><ul><li><a href="#host-check">Host check</a></li></ul></li><li><a href="#security">Security</a></li><li><a href="#troubleshooting">Troubleshooting</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "Copy",
+    copied: "Copied",
+    copyManual: "Press Ctrl C",
+    noResults: "No results for",
+    theme: "Theme",
+    themeAuto: "auto",
+    themeLight: "light",
+    themeDark: "dark"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>
