@@ -15,18 +15,20 @@ toc = true
 | Share link (لینک اشتراک‌گذاری) | یک لینک تک‌خطی برای یک نمایه، مانند `vless://…`، که برنامه‌های دیگر هم آن را می‌فهمند. | [پروتکل‌ها و قالب‌های واردکردن](@/reference/protocols.fa.md#share-links) |
 | Deep link (لینک عمیق) | یک لینک `throne://` که به Throne می‌گوید کاری انجام دهد، مانند افزودن یک اشتراک. | [لینک‌های عمیق](@/advanced/deeplinks.fa.md#format) |
 | Throne link (لینک Throne) | یک لینک عمیق `throne://add/…` که یک نمایه از هر نوعی را در خود دارد. | [لینک‌های عمیق](@/advanced/deeplinks.fa.md#add) |
-| Chain (زنجیره) | نمایهٔ `پروکسی زنجیره ای` (Chain Proxy) که ترافیک را به‌ترتیب از چند نمایه عبور می‌دهد. | [زنجیره‌های پروکسی و پیکربندی‌های سفارشی](@/advanced/chains.fa.md#chains) |
+| Proxy chain (زنجیرهٔ پروکسی) | نمایهٔ `زنجیرهٔ پروکسی` (Proxy Chain) که ترافیک را به‌ترتیب از چند نمایه عبور می‌دهد. | [زنجیره‌های پروکسی و پیکربندی‌های سفارشی](@/advanced/chains.fa.md#chains) |
 | Front / landing proxy (پروکسی front / پروکسی مقصد) | گزینه‌هایی در گروه که یک نمایهٔ اضافه را پیش از (front) یا پس از (landing) هر نمایهٔ گروه قرار می‌دهند. | [زنجیره‌های پروکسی و پیکربندی‌های سفارشی](@/advanced/chains.fa.md#front-landing) |
-| Auto selector (انتخابگر خودکار) | نوعی نمایه که سرورهای یک گروه را تست می‌کند و به‌طور خودکار از بهترین‌ها استفاده می‌کند. | [تست و انتخابگر خودکار](@/guides/testing.fa.md#auto-selector) |
+| Pinned profile (نمایهٔ سنجاق‌شده) | نمایه‌ای که با `سنجاق به بالا` (Pin to top)، صرف‌نظر از مرتب‌سازی، بالای گروهش می‌ماند. | [تست و انتخابگر خودکار](@/guides/testing.fa.md#pin) |
+| Auto selector (انتخابگر خودکار) | نوعی نمایه که نمایه‌های یک یا چند گروه را تست می‌کند و به‌طور خودکار از بهترین‌ها استفاده می‌کند. | [تست و انتخابگر خودکار](@/guides/testing.fa.md#auto-selector) |
+| Priority tier (سطح اولویت) | یک ردیف از `سطح‌های اولویت` (Priority tiers) در انتخابگر خودکار: ابتدا از نمایه‌های بالاترین سطحی استفاده می‌شود که کار می‌کند. | [تست و انتخابگر خودکار](@/guides/testing.fa.md#auto-selector) |
 | URL test (تست URL) | یک تست تأخیر که اندازه می‌گیرد باز کردن یک URL آزمایشی از طریق یک نمایه چقدر طول می‌کشد. | [تست و انتخابگر خودکار](@/guides/testing.fa.md#url-test) |
+| Service check (بررسی سرویس‌ها) | تستی که نشان می‌دهد کدام سرویس‌ها، مانند سایت‌های هوش مصنوعی یا پخش (streaming)، از طریق یک نمایه کار می‌کنند. | [تست و انتخابگر خودکار](@/guides/testing.fa.md#service-check) |
+| Find working settings (یافتن تنظیمات کارا) | اسکنی که تنظیمات ضدسانسور یک نمایه را امتحان می‌کند و آنچه را عبور می‌کند رتبه‌بندی می‌کند. | [تست و انتخابگر خودکار](@/guides/testing.fa.md#find-working-settings) |
 
 ## رابط کاربری {#interface}
 
 | اصطلاح | معنی | بیشتر |
 | --- | --- | --- |
-| Simple mode (حالت ساده) | حالت رابط کاربری در نصب‌های تازه، که گزینه‌های پیشرفتهٔ منوها و تنظیمات را پنهان می‌کند. | [حالت ساده و پیشرفته](@/get_started/configuration.fa.md#interface-mode) |
-| Advanced mode (حالت پیشرفته) | حالتی از رابط کاربری که همهٔ گزینه‌های منوها و تنظیمات را نشان می‌دهد. | [حالت ساده و پیشرفته](@/get_started/configuration.fa.md#interface-mode) |
-| Command palette (پالت فرمان) | پنجره‌ای برای جست‌وجو که فرمان‌های منوها و تنظیمات را با نامشان پیدا می‌کند. | [پالت فرمان](@/reference/shortcuts.fa.md#command-palette) |
+| Search Settings (جست‌وجوی تنظیمات) | پنجره‌ای برای جست‌وجو که فرمان‌های منوها و تنظیمات را با نامشان پیدا می‌کند. | [جست‌وجوی تنظیمات](@/reference/shortcuts.fa.md#command-palette) |
 
 ## هسته و حالت‌های اتصال {#core-and-modes}
 
@@ -35,13 +37,13 @@ toc = true
 | Core (هسته) | ThroneCore، برنامهٔ پس‌زمینه‌ای که ترافیک شما را منتقل می‌کند. | [Throne چیست](@/get_started/_index.fa.md#what-is-throne) |
 | sing-box | موتور متن‌بازی که ThroneCore بر پایهٔ آن ساخته شده است. | [sing-box در برابر Xray](@/advanced/xray.fa.md) |
 | Xray | موتور دومی که درون هسته، برای نمایه‌های `VLESS (Xray)` و پیکربندی‌های Xray اجرا می‌شود. | [sing-box در برابر Xray](@/advanced/xray.fa.md#vless-preference) |
-| Inbound (ورودی) | راهی برای ورود ترافیک به Throne، مانند پورت mixed یا آداپتور TUN. | [تنظیمات ورودی](@/guides/proxy_modes.fa.md#inbound-settings) |
+| Inbound (ورودی) | راهی برای ورود ترافیک به Throne، مانند پورت mixed یا آداپتور Tun. | [تنظیمات ورودی](@/guides/proxy_modes.fa.md#inbound-settings) |
 | Outbound (خروجی) | راهی برای خروج ترافیک از Throne: از طریق یک نمایه (`proxy`)، مستقیم (`direct`) یا هیچ‌جا (`block`). | [مسیریابی](@/guides/routing.fa.md#how-routing-works) |
 | Mixed port (پورت mixed) | پورت محلی که هم اتصال‌های پروکسی SOCKS5 و هم HTTP را می‌پذیرد. | [تنظیمات ورودی](@/guides/proxy_modes.fa.md#inbound-settings) |
-| System proxy (پروکسی سیستمی) | حالت `پروکسی سیستمی` (System Proxy) که تنظیم پروکسی سیستم شما را به پورت mixed هدایت می‌کند. | [پروکسی سیستمی](@/guides/proxy_modes.fa.md#system-proxy) |
-| TUN (حالت TUN) | گزینهٔ `حالتvpn` (Tun Mode) که ترافیک همهٔ برنامه‌ها را از یک آداپتور شبکهٔ مجازی عبور می‌دهد. | [حالت TUN](@/guides/tun_mode.fa.md) |
-| Strict route (مسیر سخت‌گیرانه) | گزینه‌ای در حالت TUN که مانع می‌شود ترافیک تونل را دور بزند. | [محافظت از نشت DNS در Windows](@/advanced/windows_tun_mode.fa.md#strict-route) |
-| MTU | بزرگ‌ترین اندازهٔ بسته در آداپتور TUN. | [تنظیمات TUN](@/guides/tun_mode.fa.md#settings) |
+| System proxy (پروکسی سیستمی) | حالت `پروکسی سیستمی` (System proxy) که تنظیم پروکسی سیستم شما را به پورت mixed هدایت می‌کند. | [پروکسی سیستمی](@/guides/proxy_modes.fa.md#system-proxy) |
+| Tun mode (حالت Tun) | گزینهٔ `حالت Tun` (Tun mode) که ترافیک همهٔ برنامه‌ها را از یک آداپتور شبکهٔ مجازی عبور می‌دهد. | [حالت Tun](@/guides/tun_mode.fa.md) |
+| Strict route (مسیر سخت‌گیرانه) | گزینه‌ای در حالت Tun که مانع می‌شود ترافیک تونل را دور بزند. | [محافظت از نشت DNS در Windows](@/advanced/windows_tun_mode.fa.md#strict-route) |
+| MTU | بزرگ‌ترین اندازهٔ بسته در آداپتور Tun. | [تنظیمات Tun](@/guides/tun_mode.fa.md#settings) |
 
 ## مسیریابی و DNS {#routing-and-dns}
 
@@ -51,10 +53,10 @@ toc = true
 | Rule (قانون) | یک شرط، مانند یک دامنه یا یک برنامه، به‌همراه خروجی اتصال‌های منطبق. | [مسیریابی](@/guides/routing.fa.md#advanced-rules) |
 | Rule-set (مجموعه‌قوانین) | فهرستی آماده از دامنه‌ها (`geosite-…`) یا محدوده‌های IP (`geoip-…`) برای استفاده در قوانین. | [مجموعه‌قوانین](@/guides/routing.fa.md#rule-sets) |
 | Default outbound (خروجی پیش‌فرض) | جایی که اتصال، وقتی هیچ قانونی منطبق نباشد، به آن می‌رود. | [مسیریابی](@/guides/routing.fa.md#how-routing-works) |
-| warp-bypass | خروجی‌ای که از نمایهٔ شما استفاده می‌کند اما از WARP عبور نمی‌کند. | [Cloudflare WARP](@/advanced/warp.fa.md#warp-bypass) |
+| Proxy without WARP (پروکسی بدون WARP) | خروجی‌ای (`warp-bypass`) که از نمایهٔ شما استفاده می‌کند اما از WARP و Tor عبور نمی‌کند. | [Cloudflare WARP](@/advanced/warp.fa.md#warp-bypass) |
 | Remote routing profile (نمایهٔ مسیریابی راه‌دور) | نمایهٔ مسیریابی‌ای که Throne از یک URL دانلود می‌کند. | [نمایه‌های راه‌دور](@/guides/routing.fa.md#remote-profiles) |
 | Sniffing (پویش) | خواندن نام دامنه از ابتدای اتصال، تا قوانین دامنه برای اتصال به نشانی‌های IP هم کار کنند. | [مسیریابی](@/guides/routing.fa.md#advanced-rules) |
-| DNS routing (مسیریابی DNS) | گزینهٔ `Enable DNS Routing`، که دامنه‌های منطبق با قوانین `direct` را با DNS مستقیم تفکیک می‌کند. | [DNS](@/guides/dns.fa.md#how-dns-works) |
+| DNS routing (مسیریابی DNS) | گزینهٔ `فعال کردن مسیریابی DNS` (Enable DNS routing)، که دامنه‌های منطبق با قوانین `direct` را با DNS مستقیم تفکیک می‌کند. | [DNS](@/guides/dns.fa.md#how-dns-works) |
 | Remote DNS / direct DNS (DNS سمت‌سرور / DNS مستقیم) | سرورهای DNS که از طریق پروکسی (سمت‌سرور) و بدون آن (مستقیم) استفاده می‌شوند. | [تنظیمات DNS](@/guides/dns.fa.md#settings) |
 | FakeIP (نشانی IP جعلی) | حالتی از DNS که با نشانی‌های جعلی موقت پاسخ می‌دهد و آن‌ها را دوباره به نام‌های دامنهٔ واقعی نگاشت می‌کند. | [FakeIP](@/guides/dns.fa.md#fakeip) |
 
@@ -64,11 +66,13 @@ toc = true
 | --- | --- | --- |
 | Reality | یک گزینهٔ امنیتی برای VLESS که اتصال را شبیه بازدید از یک وب‌سایت واقعی و نامرتبط نشان می‌دهد. | [sing-box در برابر Xray](@/advanced/xray.fa.md#reality) |
 | XHTTP | یک ترنسپورت Xray که اتصال را درون درخواست‌های معمولی HTTP منتقل می‌کند. | [sing-box در برابر Xray](@/advanced/xray.fa.md#vless-preference) |
-| uTLS | دست‌دهی (handshake) TLS را شبیه دست‌دهی یک مرورگر رایج می‌کند. | [پیش‌تنظیم‌های ضدسانسور](@/advanced/presets.fa.md#utls) |
-| ECH | Encrypted Client Hello، که نام سرور را درون دست‌دهی TLS پنهان می‌کند. | [پیش‌تنظیم‌های ضدسانسور](@/advanced/presets.fa.md#ech) |
-| TLS fragment (قطعه‌بندی TLS) | نخستین پیام TLS را به قطعه‌های کوچک تقسیم می‌کند تا از برخی فیلترهای سانسور عبور کند. | [پیش‌تنظیم‌های ضدسانسور](@/advanced/presets.fa.md#tls-fragment) |
-| Multiplex (mux) (چندگانه‌سازی) | چندین اتصال را درون یک اتصال به سرور منتقل می‌کند. | [پیش‌تنظیم‌های ضدسانسور](@/advanced/presets.fa.md#multiplex) |
+| uTLS | دست‌دهی (handshake) TLS را شبیه دست‌دهی یک مرورگر رایج می‌کند. | [پیش‌تنظیم‌ها](@/advanced/presets.fa.md#utls) |
+| ECH | Encrypted Client Hello، که نام سرور را درون دست‌دهی TLS پنهان می‌کند. | [پیش‌تنظیم‌ها](@/advanced/presets.fa.md#ech) |
+| TLS fragment (قطعه‌بندی TLS) | نخستین پیام TLS را به قطعه‌های کوچک تقسیم می‌کند تا از برخی فیلترهای سانسور عبور کند. | [پیش‌تنظیم‌ها](@/advanced/presets.fa.md#tls-fragment) |
+| Multiplex (mux) (چندگانه‌سازی) | چندین اتصال را درون یک اتصال به سرور منتقل می‌کند. | [پیش‌تنظیم‌ها](@/advanced/presets.fa.md#multiplex) |
+| QUIC opener (بازکنندهٔ QUIC) | پیش از هر جریان UDP جدید یک بستهٔ فریبنده (decoy) می‌فرستد تا از فیلترهایی که QUIC را از روی نخستین بسته‌اش مسدود می‌کنند عبور کند. | [پیش‌تنظیم‌ها](@/advanced/presets.fa.md#quic-opener) |
 | WARP | سرویس VPN رایگان Cloudflare که Throne می‌تواند آن را به‌عنوان آخرین هاپ پس از نمایهٔ شما اضافه کند. | [Cloudflare WARP](@/advanced/warp.fa.md) |
+| Tor | شبکهٔ ناشناس‌سازی (anonymity network) که Throne می‌تواند آن را به‌جای WARP، به‌عنوان آخرین هاپ پس از نمایهٔ شما اضافه کند. | [Tor](@/advanced/tor.fa.md) |
 | MASQUE | یک پروتکل تونل روی HTTP/3 یا HTTP/2 که به‌صورت یک نوع نمایه و یکی از حالت‌های WARP در دسترس است. | [Cloudflare WARP](@/advanced/warp.fa.md) |
 | DNS tunnel (تونل DNS) | ترافیک شما را درون پرس‌وجوهای DNS حمل می‌کند، برای شبکه‌هایی که فقط DNS از آن‌ها عبور می‌کند. | [تونل‌های DNS](@/advanced/dns_tunnels.fa.md) |
 | Resolver (ریزالور) | سرور DNS که به‌جای شما به پرس‌وجوها پاسخ می‌دهد و در تونل DNS آن‌ها را به سرور تونل می‌رساند. | [تونل‌های DNS](@/advanced/dns_tunnels.fa.md#resolvers) |

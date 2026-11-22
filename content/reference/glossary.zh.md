@@ -15,18 +15,20 @@ toc = true
 | Share link（分享链接） | 代表一个配置档的单行链接，例如 `vless://…`，其他应用也能识别。 | [协议与导入格式](@/reference/protocols.zh.md#share-links) |
 | Deep link（深度链接） | 一种 `throne://` 链接，用于让 Throne 执行某项操作，例如添加订阅。 | [深度链接](@/advanced/deeplinks.zh.md#format) |
 | Throne link（Throne 链接） | 携带一个任意类型配置档的 `throne://add/…` 深度链接。 | [深度链接](@/advanced/deeplinks.zh.md#add) |
-| Chain（代理链） | `链式代理`（Chain Proxy）配置档，它让流量依次经过多个配置档。 | [代理链与自定义配置](@/advanced/chains.zh.md#chains) |
+| Proxy chain（代理链） | `链式代理`（Proxy Chain）配置档，它让流量依次经过多个配置档。 | [代理链与自定义配置](@/advanced/chains.zh.md#chains) |
 | Front / landing proxy（前置代理 / 落地代理） | 分组选项，用于在该分组的每个配置档之前（前置）或之后（落地）额外添加一个配置档。 | [代理链与自定义配置](@/advanced/chains.zh.md#front-landing) |
-| Auto selector（自动选择器） | 一种配置档类型，它会测试分组中的服务器，并自动使用表现最好的那些服务器。 | [测试与自动选择器](@/guides/testing.zh.md#auto-selector) |
+| Pinned profile（置顶配置档） | 通过 `置顶`（Pin to top）固定在其分组顶部的配置档，不受排序影响。 | [测试与自动选择器](@/guides/testing.zh.md#pin) |
+| Auto selector（自动选择器） | 一种配置档类型，它会测试一个或多个分组中的配置档，并自动使用表现最好的那些配置档。 | [测试与自动选择器](@/guides/testing.zh.md#auto-selector) |
+| Priority tier（优先级层级） | 自动选择器的 `优先级层级`（Priority tiers）中的一行：可用的最高层级中的配置档会被优先使用。 | [测试与自动选择器](@/guides/testing.zh.md#auto-selector) |
 | URL test（URL 测试） | 一种延迟测试，测量通过某个配置档打开测试 URL 所需的时间。 | [测试与自动选择器](@/guides/testing.zh.md#url-test) |
+| Service check（服务检查） | 一种测试，显示哪些服务（例如 AI 或流媒体网站）可以通过某个配置档使用。 | [测试与自动选择器](@/guides/testing.zh.md#service-check) |
+| Find working settings（查找可用设置） | 一种扫描，它会尝试某个配置档的各种反审查设置，并为能够连通的设置排名。 | [测试与自动选择器](@/guides/testing.zh.md#find-working-settings) |
 
 ## 界面 {#interface}
 
 | 术语 | 含义 | 了解更多 |
 | --- | --- | --- |
-| Simple mode（简洁模式） | 全新安装使用的界面模式，它会隐藏高级菜单项和设置。 | [简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode) |
-| Advanced mode（高级模式） | 显示所有菜单项和设置的界面模式。 | [简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode) |
-| Command palette（命令面板） | 按名称查找菜单命令和设置的搜索窗口。 | [命令面板](@/reference/shortcuts.zh.md#command-palette) |
+| Search Settings（搜索设置） | 按名称查找菜单命令和设置的搜索窗口。 | [搜索设置](@/reference/shortcuts.zh.md#command-palette) |
 
 ## 核心与连接模式 {#core-and-modes}
 
@@ -35,13 +37,13 @@ toc = true
 | Core（核心） | 即 ThroneCore，负责承载你的流量的后台程序。 | [Throne 是什么](@/get_started/_index.zh.md#what-is-throne) |
 | sing-box | ThroneCore 所基于的开源引擎。 | [sing-box 与 Xray](@/advanced/xray.zh.md) |
 | Xray | 在核心内部运行的第二个引擎，用于 `VLESS (Xray)` 配置档和 Xray 配置。 | [sing-box 与 Xray](@/advanced/xray.zh.md#vless-preference) |
-| Inbound（入站） | 流量进入 Throne 的途径，例如混合端口或 TUN 网卡。 | [入站设置](@/guides/proxy_modes.zh.md#inbound-settings) |
+| Inbound（入站） | 流量进入 Throne 的途径，例如混合端口或 Tun 网卡。 | [入站设置](@/guides/proxy_modes.zh.md#inbound-settings) |
 | Outbound（出站） | 流量离开 Throne 的途径：经由配置档（`proxy`）、直连（`direct`）或被拦截（`block`）。 | [路由](@/guides/routing.zh.md#how-routing-works) |
 | Mixed port（混合端口） | 同时接受 SOCKS5 和 HTTP 代理连接的本地端口。 | [入站设置](@/guides/proxy_modes.zh.md#inbound-settings) |
-| System proxy（系统代理） | 即 `系统代理`（System Proxy）模式，它把系统的代理设置指向混合端口。 | [系统代理](@/guides/proxy_modes.zh.md#system-proxy) |
-| TUN（TUN 模式） | 即 `Tun 模式`（Tun Mode），它让所有应用的流量经过一个虚拟网卡。 | [TUN 模式](@/guides/tun_mode.zh.md) |
-| Strict route（严格路由） | TUN 的一个选项，用于防止流量绕过隧道。 | [Windows DNS 泄漏防护](@/advanced/windows_tun_mode.zh.md#strict-route) |
-| MTU（最大传输单元） | TUN 网卡的最大数据包大小。 | [TUN 设置](@/guides/tun_mode.zh.md#settings) |
+| System proxy（系统代理） | 即 `系统代理`（System proxy）模式，它把系统的代理设置指向混合端口。 | [系统代理](@/guides/proxy_modes.zh.md#system-proxy) |
+| Tun mode（Tun 模式） | 即 `Tun 模式`（Tun mode），它让所有应用的流量经过一个虚拟网卡。 | [Tun 模式](@/guides/tun_mode.zh.md) |
+| Strict route（严格路由） | Tun 模式的一个选项，用于防止流量绕过隧道。 | [Windows DNS 泄漏防护](@/advanced/windows_tun_mode.zh.md#strict-route) |
+| MTU（最大传输单元） | Tun 网卡的最大数据包大小。 | [Tun 设置](@/guides/tun_mode.zh.md#settings) |
 
 ## 路由与 DNS {#routing-and-dns}
 
@@ -51,10 +53,10 @@ toc = true
 | Rule（规则） | 一个条件（例如域名或程序）以及匹配连接所用的出站。 | [路由](@/guides/routing.zh.md#advanced-rules) |
 | Rule-set（规则集） | 供规则使用的现成域名列表（`geosite-…`）或 IP 范围列表（`geoip-…`）。 | [规则集](@/guides/routing.zh.md#rule-sets) |
 | Default outbound（默认出站） | 没有任何规则匹配时连接的去向。 | [路由](@/guides/routing.zh.md#how-routing-works) |
-| warp-bypass | 经过你的配置档但绕过 WARP 的出站。 | [Cloudflare WARP](@/advanced/warp.zh.md#warp-bypass) |
+| Proxy without WARP（不经 WARP 的代理） | 一种出站（`warp-bypass`），它经过你的配置档，但绕过 WARP 和 Tor。 | [Cloudflare WARP](@/advanced/warp.zh.md#warp-bypass) |
 | Remote routing profile（远程路由配置档） | Throne 从某个 URL 下载的路由配置档。 | [远程配置档](@/guides/routing.zh.md#remote-profiles) |
 | Sniffing（嗅探） | 从连接的开头读取域名，使域名规则对直接连接 IP 地址的流量也能生效。 | [路由](@/guides/routing.zh.md#advanced-rules) |
-| DNS routing（DNS 路由） | 即 `启用 DNS 路由`（Enable DNS Routing）选项，它用直连 DNS 解析与 `direct` 规则匹配的域名。 | [DNS](@/guides/dns.zh.md#how-dns-works) |
+| DNS routing（DNS 路由） | 即 `启用 DNS 路由`（Enable DNS routing）选项，它用直连 DNS 解析与 `direct` 规则匹配的域名。 | [DNS](@/guides/dns.zh.md#how-dns-works) |
 | Remote DNS / direct DNS（远程 DNS / 直连 DNS） | 经由代理（远程）和不经代理（直连）使用的 DNS 服务器。 | [DNS 设置](@/guides/dns.zh.md#settings) |
 | FakeIP | 一种 DNS 模式，它用临时的虚假地址应答查询，再将这些地址映射回真实的域名。 | [FakeIP](@/guides/dns.zh.md#fakeip) |
 
@@ -64,11 +66,13 @@ toc = true
 | --- | --- | --- |
 | Reality | VLESS 的一种安全选项，它让连接看起来像是在访问一个真实存在、但与之无关的网站。 | [sing-box 与 Xray](@/advanced/xray.zh.md#reality) |
 | XHTTP | Xray 的一种传输方式，它把连接承载在普通的 HTTP 请求中。 | [sing-box 与 Xray](@/advanced/xray.zh.md#vless-preference) |
-| uTLS | 让 TLS 握手看起来像常见浏览器的握手。 | [反审查预设](@/advanced/presets.zh.md#utls) |
-| ECH | 即 Encrypted Client Hello（加密的 Client Hello），用于在 TLS 握手中隐藏服务器名称。 | [反审查预设](@/advanced/presets.zh.md#ech) |
-| TLS fragment（TLS 分片） | 将第一个 TLS 消息拆分成小块，以绕过某些审查过滤。 | [反审查预设](@/advanced/presets.zh.md#tls-fragment) |
-| Multiplex (mux)（多路复用） | 在通往服务器的一条连接中承载多条连接。 | [反审查预设](@/advanced/presets.zh.md#multiplex) |
+| uTLS | 让 TLS 握手看起来像常见浏览器的握手。 | [预设设置](@/advanced/presets.zh.md#utls) |
+| ECH | 即 Encrypted Client Hello（加密的 Client Hello），用于在 TLS 握手中隐藏服务器名称。 | [预设设置](@/advanced/presets.zh.md#ech) |
+| TLS fragment（TLS 分片） | 将第一个 TLS 消息拆分成小块，以绕过某些审查过滤。 | [预设设置](@/advanced/presets.zh.md#tls-fragment) |
+| Multiplex (mux)（多路复用） | 在通往服务器的一条连接中承载多条连接。 | [预设设置](@/advanced/presets.zh.md#multiplex) |
+| QUIC opener（QUIC 前导包） | 在每个新的 UDP 流之前发送一个诱饵数据包，以绕过根据第一个数据包封锁 QUIC 的过滤。 | [预设设置](@/advanced/presets.zh.md#quic-opener) |
 | WARP | Cloudflare 的免费 VPN 服务，Throne 可以将其添加为你的配置档之后的最后一跳。 | [Cloudflare WARP](@/advanced/warp.zh.md) |
+| Tor | 匿名网络，Throne 可以将其代替 WARP 添加为你的配置档之后的最后一跳。 | [Tor](@/advanced/tor.zh.md) |
 | MASQUE | 一种基于 HTTP/3 或 HTTP/2 的隧道协议，可用作配置档类型，也是 WARP 的一种模式。 | [Cloudflare WARP](@/advanced/warp.zh.md) |
 | DNS tunnel（DNS 隧道） | 把你的流量放在 DNS 查询中传输，适用于只放行 DNS 的网络。 | [DNS 隧道](@/advanced/dns_tunnels.zh.md) |
 | Resolver（解析器） | 替你回答 DNS 查询的 DNS 服务器；对 DNS 隧道而言，它把查询转交给隧道服务器。 | [DNS 隧道](@/advanced/dns_tunnels.zh.md#resolvers) |

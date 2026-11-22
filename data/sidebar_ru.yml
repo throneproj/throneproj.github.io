@@ -78,6 +78,8 @@
       url: /advanced/presets/
     - title: "Cloudflare WARP"
       url: /advanced/warp/
+    - title: "Tor"
+      url: /advanced/tor/
     - title: "DNS-туннели"
       url: /advanced/dns_tunnels/
     - title: "OpenVPN, OpenConnect и Tailscale"

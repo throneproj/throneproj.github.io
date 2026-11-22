@@ -7,7 +7,7 @@ toc = true
 
 ## Типы профилей {#protocols}
 
-Создайте профиль через `Программа` (Program) → `Новый профиль` (New profile) (`Ctrl+N`), а на Android — через `Добавить профиль` (Add profile) → `Ручные настройки` (Manual settings). Тип существующего профиля изменить нельзя. `Напрямую` (Direct), `Цепочка прокси` (Chain Proxy), `Доп. ядро` (Extra Core) и пользовательские типы (Custom) есть только в расширенном режиме, см. [Простой и расширенный режим](@/get_started/configuration.ru.md#interface-mode).
+Создайте профиль через `Программа` (Program) → `Новый профиль` (New profile) (`Ctrl+N`), а на Android — через `Добавить профиль` (Add profile) → `Ручные настройки` (Manual settings). Тип существующего профиля изменить нельзя.
 
 | Тип | Примечания |
 |---|---|
@@ -21,14 +21,14 @@ toc = true
 | `VLESS (Xray)` | Реализация Xray: XHTTP, REALITY, шифрование VLESS, Finalmask, транспорт [XDRIVE](@/advanced/xray.ru.md#xdrive) и mKCP с [XDNS](@/advanced/dns_tunnels.ru.md#xdns). |
 | `Hysteria` | Hysteria 1 и 2 в одном типе: версию выбирают в поле `Версия протокола` (Protocol Version). Поддерживает смену портов (port hopping) и обфускацию. Если `Up Mbps` или `Down Mbps` не заполнено, Hysteria 1 использует 10 Мбит/с на отправку и 50 Мбит/с на приём, поэтому укажите реальную скорость вашей линии. |
 | `TUIC` | |
-| `Juicity` | |
+| `Juicity` | `SHA256 цепочки сертификатов` (Cert Chain SHA256) принимает хеш цепочки сертификатов, который выводит juicity-server, вместо проверки по удостоверяющему центру. |
 | `Naive` | NaïveProxy поверх HTTPS или QUIC. На Android: `Naïve`. |
-| `TrustTunnel` | |
+| `TrustTunnel` | `Ключ Client Random` (Client Random Key) принимает шестнадцатеричный ключ из правила `client_random_auth_key` сервера вместо `Client Random`. |
 | `AnyTLS` | |
 | `Mieru` | |
 | `Snell` | Snell версии 4 или 6. |
 | `ShadowTLS` | |
-| `WireGuard` | Для AmneziaWG отметьте `Включить Amnezia` (Enable Amnezia) (на Android: `Включить AmneziaWG` (Enable AmneziaWG)). `Параметры Amnezia` (Amnezia Options) → `Сгенерировать QUIC-сигнатуру...` (Generate QUIC Signature...) делает рукопожатие похожим на подключение HTTP/3 к выбранному вами домену. Может создать учётную запись Cloudflare WARP, см. [WARP](@/advanced/warp.ru.md#generate). |
+| `WireGuard` | Для AmneziaWG отметьте `Включить Amnezia` (Enable Amnezia) (на Android: `Включить AmneziaWG` (Enable AmneziaWG)). `Параметры Amnezia` (Amnezia Options) → `Сгенерировать QUIC-сигнатуру` (Generate QUIC signature) делает рукопожатие похожим на подключение HTTP/3 к выбранному вами домену. Может создать учетную запись Cloudflare WARP, см. [WARP](@/advanced/warp.ru.md#generate). |
 | `MASQUE` | HTTP/3 или HTTP/2. Может создать идентификационные данные Cloudflare WARP. |
 | `OpenVPN` | Импортирует файлы `.ovpn`. Одноразовые пароли (OTP) работают только на компьютере. См. [OpenVPN](@/advanced/vpn_profiles.ru.md#openvpn). |
 | `OpenConnect` | Серверы AnyConnect, GlobalProtect, Fortinet, F5, Pulse и Juniper (`nc`). OTP работает только на компьютере. См. [OpenConnect](@/advanced/vpn_profiles.ru.md#openconnect). |
@@ -40,15 +40,17 @@ toc = true
 | `Пользовательский (sing-box outbound)` (Custom (sing-box outbound)), `Пользовательский (конфигурация sing-box)` (Custom (sing-box config)) | Ваш собственный JSON для sing-box: один outbound или полная конфигурация, которая запускается без изменений. На Android: `Пользовательская конфигурация` (Custom config). См. [Пользовательские конфигурации](@/advanced/chains.ru.md#custom-config). |
 | `Пользовательский (Xray outbound)` (Custom (Xray outbound)), `Пользовательский (конфигурация Xray)` (Custom (Xray config)) | То же самое для JSON Xray. |
 | `Доп. ядро` (Extra Core) | Только на компьютере. Запускает выбранную вами внешнюю программу и подключается к её локальному SOCKS-порту, см. [Дополнительное ядро](@/advanced/chains.ru.md#extra-core). |
-| `Цепочка прокси` (Chain Proxy) | Пропускает трафик последовательно через несколько профилей. На Android: `Прокси-цепочка` (Proxy chain). См. [Цепочки прокси](@/advanced/chains.ru.md#chains). |
+| `Цепочка прокси` (Proxy Chain) | Пропускает трафик последовательно через несколько профилей. На Android: `Прокси-цепочка` (Proxy chain). См. [Цепочки прокси](@/advanced/chains.ru.md#chains). |
 
 `AnyTLS`, `Hysteria`, `Juicity`, `MASQUE`, `ShadowTLS`, `TrustTunnel` и `TUIC` всегда используют TLS, поэтому в их редакторах нет переключателя, который его выключает.
+
+`Hysteria`, `TUIC` и `MASQUE` с HTTP/3 работают поверх QUIC. Там, где QUIC заблокирован, попробуйте [QUIC-приманку](@/advanced/presets.ru.md#quic-opener).
 
 ### Какой движок запускает профиль {#engines}
 
 Все типы работают в sing-box, кроме `VLESS (Xray)`, `Пользовательский (Xray outbound)` и `Пользовательский (конфигурация Xray)`, которые работают в движке Xray, встроенном в ядро (XDNS тоже, так как это профиль `VLESS (Xray)`), и `Доп. ядро`, которое запускает выбранную вами программу. Throne для Android использует то же ядро.
 
-`Настройки` (Settings) → `Основные настройки` (Basic Settings) → `Ядро` (Core) → `Предпочтение Xray для VLESS` (Xray VLESS Preference) (только в расширенном режиме) определяет, станет ли импортированная ссылка `vless://` профилем `VLESS` или `VLESS (Xray)`. Ссылки, которым нужна функция, доступная только в Xray (например, шифрование VLESS или mKCP — `type=kcp`), всегда становятся `VLESS (Xray)`. См. [sing-box или Xray](@/advanced/xray.ru.md#vless-preference).
+`Настройки` (Settings) → `Основные настройки` (Basic Settings) → `Ядро` (Core) → `Предпочтение Xray для VLESS` (Xray VLESS Preference) определяет, станет ли импортированная ссылка `vless://` профилем `VLESS` или `VLESS (Xray)`. Ссылки, которым нужна функция, доступная только в Xray (например, шифрование VLESS или mKCP — `type=kcp`), всегда становятся `VLESS (Xray)`. См. [sing-box или Xray](@/advanced/xray.ru.md#vless-preference).
 
 ## Форматы импорта {#import-formats}
 
@@ -56,9 +58,9 @@ toc = true
 
 | Источник | Компьютер | Android |
 |---|---|---|
-| Буфер обмена | `Ctrl+V` или `Программа` → `Добавить профиль из буфера обмена` (Add profile from clipboard) | `Добавить профиль` → `Импорт из буфера обмена` (Import from clipboard) |
-| Файлы | `Программа` → `Добавить профиль из файла` (Add profile from File(s)) (`Ctrl+O`) или перетащите файлы в главное окно | `Добавить профиль` → `Импортировать из файла` (Import from file) |
-| QR-коды | `Программа` → `Сканировать QR-код` (Scan QR Code) (`Ctrl+Shift+Q`) считывает QR-коды на ваших экранах. Изображения с QR-кодами тоже можно импортировать как файлы. | `Добавить профиль` → `Отсканировать QR-код` (Scan QR code) (камерой или через `Выбрать изображение` (Select image)) |
+| Буфер обмена | `Ctrl+V` или `Программа` → `Вставить из буфера обмена` (Paste from clipboard) | `Добавить профиль` → `Импорт из буфера обмена` (Import from clipboard) |
+| Файлы | `Программа` → `Импорт из файла` (Import from file) (`Ctrl+O`) или перетащите файлы в главное окно | `Добавить профиль` → `Импортировать из файла` (Import from file) |
+| QR-коды | `Программа` → `Сканировать QR-код` (Scan QR code) (`Ctrl+Shift+Q`) считывает QR-коды на ваших экранах. Изображения с QR-кодами тоже можно импортировать как файлы. | `Добавить профиль` → `Отсканировать QR-код` (Scan QR code) (камерой или через `Выбрать изображение` (Select image)) |
 | Подписки | Группа типа `Подписка` (Subscription), см. [Подписки и группы](@/guides/subscriptions.ru.md#add-subscription) | То же самое, в разделе `Группы` (Groups) |
 | Ссылки | Ссылки `throne://`, см. [Глубокие ссылки](@/advanced/deeplinks.ru.md) | Ссылки `throne://` и ссылки протоколов, которые вы открываете в других приложениях |
 
@@ -79,7 +81,7 @@ toc = true
 | JSON Xray: конфигурация, массив outbound или один outbound | `VLESS (Xray)` для outbound VLESS, `Пользовательский (Xray outbound)` для остальных |
 | JSON Xray: массив полных конфигураций | По одному профилю `Пользовательский (конфигурация Xray)` на каждую конфигурацию |
 | JSON SIP008 (Shadowsocks) | Профили `Shadowsocks` |
-| YAML Clash или Mihomo со списком `proxies:` | Профили для записей `socks5`, `http`, `ss`, `vmess`, `vless`, `trojan`, `anytls`, `snell`, `hysteria`, `hysteria2`, `tuic`, `masque` и `ssh` |
+| YAML Clash или Mihomo со списком `proxies:` | Профили для записей `socks5`, `http`, `ss`, `vmess`, `vless`, `trojan`, `anytls`, `snell`, `hysteria`, `hysteria2`, `tuic`, `masque`, `ssh` и `wireguard`, включая параметры AmneziaWG (`amnezia-wg-option`) |
 | Файл `.conf` WireGuard или AmneziaWG | Один профиль `WireGuard`, названный по комментарию `# Name =` или `# remarks:` либо по комментарию над `[Peer]` |
 | Файл `.ovpn` OpenVPN | Один профиль `OpenVPN` |
 | XML-профиль AnyConnect, командная строка `openconnect` или файл со строкой `protocol=` | Профили `OpenConnect` |
@@ -119,7 +121,7 @@ toc = true
 | Ссылка Throne | `throne://add/…` | Throne для компьютера и Throne для Android |
 | Старая ссылка Throne | `json://…` | Throne, только для импорта |
 
-**Стандартная ссылка** использует обычный формат ссылок протокола. У `Автовыбор` (Auto Selector), `Цепочка прокси` (Chain Proxy), типов `Пользовательский (…)` (Custom), `Напрямую` (Direct), `Доп. ядро` (Extra Core), `MASQUE`, `OpenVPN`, `OpenConnect` и `VLESS (Xray)` с XDRIVE её нет, поэтому Throne обычно выдаёт вместо неё ссылку Throne. `Tailscale` показывает ссылку `ts://`, которую Throne не может импортировать, поэтому передавайте его ссылку Throne. Профили `DNSTT / VayDNS` и `MasterDNS` дают ссылку `dnst://`, см. [DNS-туннели](@/advanced/dns_tunnels.ru.md#import).
+**Стандартная ссылка** использует обычный формат ссылок протокола. У `Автовыбор` (Auto Selector), `Цепочка прокси` (Proxy Chain), типов `Пользовательский (…)` (Custom), `Напрямую` (Direct), `Доп. ядро` (Extra Core), `MASQUE`, `OpenVPN`, `OpenConnect` и `VLESS (Xray)` с XDRIVE ее нет, поэтому Throne обычно выдает вместо нее ссылку Throne. `Tailscale` показывает ссылку `ts://`, которую Throne не может импортировать, поэтому передавайте его ссылку Throne. Профили `DNSTT / VayDNS` и `MasterDNS` дают ссылку `dnst://`, см. [DNS-туннели](@/advanced/dns_tunnels.ru.md#import).
 
 **Ссылка Throne** содержит настройки профиля в виде JSON, закодированного в Base64. Она работает для любого типа, но прочитать её может только Throne, см. [Глубокие ссылки](@/advanced/deeplinks.ru.md#add). `json://` — её старый формат, который Throne по-прежнему импортирует.
 
@@ -144,12 +146,12 @@ Throne читает и записывает в стандартных ссылк
 
 | Действие | Что вы получаете |
 |---|---|
-| `QR-код и ссылка` (QR Code and link) | Стандартную ссылку и её QR-код. Отметьте `Deep Link`, чтобы получить ссылку Throne. |
-| `Копировать ссылки выбранных` (Copy links of selected) (`Ctrl+C`) | Стандартные ссылки выбранных профилей, по одной на строку. |
-| `Копировать ссылки выбранных (deep links)` (Copy links of selected (Deep Links)) (`Ctrl+Alt+C`) | Ссылки Throne выбранных профилей. |
+| `QR-код и ссылка` (QR code and link) | Стандартную ссылку и ее QR-код. Отметьте `Deep Link`, чтобы получить ссылку Throne. |
+| `Копировать ссылку` (Copy link) (`Ctrl+C`) | Стандартные ссылки выбранных профилей, по одной на строку. |
+| `Копировать deep link` (Copy deep link) (`Ctrl+Alt+C`) | Ссылки Throne выбранных профилей. |
 | `Экспортировать конфиг` (Export config) (`Ctrl+E`) | Конфигурацию ядра, которую Throne создаёт для профиля, на вкладке `sing-box` и, для профилей, использующих Xray, на вкладке `Xray`. Это конфигурация для других клиентов, а не ссылка для обмена. |
 
-Ссылки всей группы копируются через `Группы` (Groups) → `Редактировать текущую группу` (Edit current Group) → `Копировать ссылки профилей` (Copy profile share links) или `Копировать ссылки профилей (deep links)` (Copy profile share links (Deep Links)). `Копировать ссылки выбранных (deep links)` и `Экспортировать конфиг` есть только в расширенном режиме, см. [Простой и расширенный режим](@/get_started/configuration.ru.md#interface-mode).
+Ссылки всей группы копируются через `Группы` (Groups) → `Изменить группу` (Edit group) → `Копировать ссылки профилей` (Copy profile share links) или `Копировать ссылки профилей (deep links)` (Copy profile share links (deep links)).
 
 ### Обмен на Android {#share-android}
 

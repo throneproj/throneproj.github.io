@@ -18,7 +18,7 @@ GitHub 上的 issue 都是公开的。发布之前，请从日志、截图和配
 
 ## 报告之前 {#before}
 
-1. 通过 `程序`（Program）→ `检查更新`（Check For Update）或从[下载](@/downloads.zh.md)页面更新 Throne。
+1. 通过 `程序`（Program）→ `检查更新`（Check for updates）或从[下载](@/downloads.zh.md)页面更新 Throne。
 2. 在未关闭和已关闭的 issue 中搜索你的错误信息，并阅读[常见问题](@/help/faq.zh.md)和[故障排除](@/help/troubleshooting.zh.md)。
 3. 用只包含重现问题所需内容的[全新配置](@/reference/files.zh.md#reset)进行测试，并在报告中写明问题在全新配置下是否也会出现。
 4. 如果你使用的是 WinGet、Scoop、AUR 或 Nix 软件包，也请测试官方版本；开发者不为这些软件包提供支持。
@@ -28,13 +28,13 @@ GitHub 上的 issue 都是公开的。发布之前，请从日志、截图和配
 
 ### 桌面版 {#desktop-logs}
 
-主窗口底部的 `日志`（Logs）标签页会显示日志，Throne 还会将相同的内容写入配置文件夹中的 `logs/throne.log`（`设置`（Settings）→ `打开配置文件夹`（Open Config Folder））。每次启动 Throne 时，该文件都会重新开始记录，因此请在重启之前复制它。
+主窗口底部的 `日志`（Logs）标签页会显示日志，Throne 还会将相同的内容写入配置文件夹中的 `logs/throne.log`（`设置`（Settings）→ `打开配置文件夹`（Open config folder））。每次启动 Throne 时，该文件都会重新开始记录，因此请在重启之前复制它。
 
 要记录详细日志：
 
-1. 在 `设置` → `基本设置`（Basic Settings）→ `日志`（Logging）中（仅在高级模式下可用，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)），将 `Sing-box 日志级别`（Sing-box Log level）设为 `debug`；对于 Xray 配置档，还需将 `Xray 日志级别`（Xray Log level）设为 `debug`。
+1. 在 `设置` → `基本设置`（Basic Settings）→ `日志`（Logs）→ `日志等级`（Log Level）中，将 `Sing-box 日志级别`（sing-box Log level）设为 `debug`；对于 Xray 配置档，还需将 `Xray 日志级别`（Xray Log level）设为 `debug`。
 2. 调高 `最多日志行数`（Max log lines），例如设为 `2000`，以免 Throne 丢弃日志行。
-3. 点击 `确定`（OK），然后通过 `程序` → `重启程序`（Restart Program）重启 Throne。
+3. 点击 `确定`（OK），然后通过托盘菜单中的 `重启`（Restart）→ `重启程序`（Restart program）重启 Throne。
 4. 重现问题，并附上 `logs/throne.log`。如果改为从 `日志` 标签页复制文本，请先关闭它的筛选栏。
 5. 将日志级别改回 `info`（sing-box）和 `warning`（Xray）。
 
@@ -63,11 +63,11 @@ GitHub 上的 issue 都是公开的。发布之前，请从日志、截图和配
 | --- | --- |
 | Throne 版本 | `程序`（Program）→ `关于`（About），可在其中复制所有组件的版本。Android：`关于`（About）。 |
 | 安装类型 | ZIP、Windows 安装程序、`.deb`、`.rpm`、安装脚本、软件源或包管理器，以及你是否使用[无界面 Throne](@/headless/_index.zh.md)。 |
-| 模式 | `Tun 模式`（Tun Mode）、`系统代理`（System Proxy）或两者都开启，以及[断网保护（kill switch）](@/advanced/kill_switch.zh.md)是否开启。 |
+| 模式 | `Tun 模式`（Tun mode）、`系统代理`（System proxy）或两者都开启，以及[断网保护（kill switch）](@/advanced/kill_switch.zh.md)是否开启。 |
 | 配置档类型 | `类型`（Type）列，例如 `VLESS (Xray)`。不要提供链接。 |
 
-对于路由问题，请使用 `Routing Issue` 模板并附上你的路由配置档：在 `设置` → `路由设置`（Routing Settings）→ `路由`（Route）中选中该配置档，点击 `导出`（Export）复制一条 `throne://route/…` 链接。发布之前，请检查其中是否包含私有域名或地址。
+对于路由问题，请使用 `Routing Issue` 模板并附上你的路由配置档：在 `设置` → `路由设置`（Routing Settings）→ `路由`（Routing）中选中该配置档，点击 `导出`（Export）复制一条 `throne://route/…` 链接。发布之前，请检查其中是否包含私有域名或地址。
 
-如果开发者要求提供你的配置，请右键点击该配置档 → `分享`（Share）→ `导出配置`（Export config）（仅在高级模式下可用），然后复制 `sing-box` 标签页的内容；如果开发者需要，则复制 `Xray` 标签页的内容。发布之前，请将密码、UUID、密钥和服务器地址替换为 `xxxx`。
+如果开发者要求提供你的配置，请右键点击该配置档 → `分享`（Share）→ `导出配置`（Export config），然后复制 `sing-box` 标签页的内容；如果开发者需要，则复制 `Xray` 标签页的内容。发布之前，请将密码、UUID、密钥和服务器地址替换为 `xxxx`。
 
 对于无界面 Throne，另请参见 [Bug 报告中应包含的内容](@/headless/troubleshooting.zh.md#reporting)。

@@ -9,7 +9,7 @@ Throne connects to OpenVPN servers and to Cisco AnyConnect and compatible VPNs (
 
 ## OpenVPN {#openvpn}
 
-Import a `.ovpn` file with `Program` → `Add profile from File(s)` (`Ctrl+O`), or drag it onto the main window.
+Import a `.ovpn` file with `Program` → `Import from file` (`Ctrl+O`), or drag it onto the main window.
 
 - Only client profiles with `dev tun` work. TAP profiles and server configs are rejected.
 - PKCS#12 bundles are not supported. Export the CA, certificate and key as PEM and paste them into `CA Certificate`, `Client Certificate` and `Client Key`.
@@ -34,20 +34,20 @@ Throne imports AnyConnect XML profiles (one profile per server), `openconnect` c
 Throne signs in with the saved `Username` and `Password`. When the server asks for more, a `VPN Authentication` window opens:
 
 - **A question or form**, such as a second password: fill it in and click `Submit`.
-- **A sign-in page:** click `Open in Browser`, sign in there, then close the window.
+- **A sign-in page:** click `Open in browser`, sign in there, then close the window.
 - **Single sign-on that works only inside a browser** is not supported yet. Use a username and password, or for OpenConnect a session `Cookie` in the profile's `Advanced` settings.
 
-If the server rejects the saved login, Throne asks for one for this session only. The `Runtime Stats` tab (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)) shows the state of each VPN connection.
+If the server rejects the saved login, Throne asks for one for this session only. The `Runtime Stats` tab shows the state of each VPN connection.
 
 ## OTP Manager {#otp-manager}
 
-Many work VPNs ask for a one-time code from an authenticator app. Throne has its own: `Tools` → `OTP Manager` (Advanced mode only).
+Many work VPNs ask for a one-time code from an authenticator app. Throne has its own: `Tools` → `OTP Manager`.
 
-- **Add an entry** with `Import` → `From link or text...` (`otpauth://` links, Google Authenticator's `otpauth-migration://` export, JSON or a Base32 secret), `Add manually...`, `From clipboard` or `From QR image file...`. `Scan QR Code` finds a QR code on your screen.
-- **Copy a code** by clicking its entry, or from `OTP Codes` in the tray menu.
+- **Add an entry** with `Import` → `From link or text` (`otpauth://` links, Google Authenticator's `otpauth-migration://` export, JSON or a Base32 secret), `Add manually`, `From clipboard` or `From QR image file`. `Scan QR code` finds a QR code on your screen.
+- **Copy a code** by clicking its entry, or from `OTP codes` in the tray menu.
 - `Delete` removes an entry for good.
 
-OTP entries are part of [backups](@/guides/backup.md#backup-restore) (`OTP profiles`), so keep backup files private.
+OTP entries are part of [backups](@/guides/backup.md#backup-restore) (`OTP entries`), so keep backup files private.
 
 ### Use a code with a VPN profile {#bind-otp}
 
@@ -61,11 +61,11 @@ Throne then fills in a fresh code on every connect and answers the server's code
 
 A routing profile can start OpenVPN or OpenConnect profiles next to the profile you run. Traffic to the networks that the VPN advertises goes through the VPN; everything else follows the routing profile.
 
-1. Open `Routing` → `Routing Settings` → `Route`, select the routing profile you use and click `Edit`.
-2. On the `Endpoints` tab (Advanced mode only), choose the VPN profile and click `Add`, then `OK`. The tab appears once you have an OpenVPN or OpenConnect profile.
+1. Open `Routing` → `Routing Settings` → `Routing`, select the routing profile you use and click `Edit`.
+2. On the `Endpoints` tab, choose the VPN profile and click `Add`, then `Save`. The tab appears once you have an OpenVPN or OpenConnect profile.
 3. Make sure this routing profile is active, then start your normal profile. The VPN starts with it.
 
-Each endpoint adds a `… route prefer` rule to the `Advanced` tab. You can only move it: rules above it are checked first.
+Each endpoint adds a row tagged `Endpoint` to the `Rules` tab. You can only move it: rules above it are checked first.
 
 - A profile used as an endpoint cannot also be the profile you start, or a hop of it.
 - An endpoint can be a chain whose exit is an OpenVPN or OpenConnect profile. `Allow routing to inner hops` also routes to such hops inside the chain.
@@ -82,11 +82,13 @@ A Tailscale profile joins your tailnet, so you can reach your Tailscale devices 
 | `Auth key` | The key to log in to your tailnet, from the Tailscale admin console. |
 | `Control URL` | Change it only for a self-hosted control server. |
 | `Hostname` | This device's name in the tailnet. |
-| `Exit node` | A tailnet device to send internet traffic through. `Exit node allow lan access` keeps your local network reachable. |
+| `Exit node` | A tailnet device to send internet traffic through. `Exit node allow LAN access` keeps your local network reachable. |
 | `Accept routes` | Use the subnet routes that other devices advertise. |
 | `Advertise exit node`, `Advertise routes` | Offer this computer as an exit node, or offer subnets (comma-separated). |
 | `Ephemeral` | The tailnet removes this device after it goes offline. |
-| `State directory`, `Global DNS` | Where the login is stored (`$HOME/.tailscale`), and whether Tailscale's DNS also uses the tailnet's global name servers. |
+| `Global DNS` | Whether Tailscale's DNS also uses the tailnet's global name servers. |
+
+Throne keeps the login in the `tailscale` folder and received Taildrop files in the `Taildrop` folder, both in the [data folder](@/reference/files.md#data-folder). Profiles from Throne 1.4.1 or older log in once more.
 
 Tailnet names (under `ts.net`) are resolved with Tailscale's DNS, other names with your normal DNS settings. URL tests and the auto selector skip Tailscale profiles.
 

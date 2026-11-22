@@ -1,47 +1,49 @@
 +++
 title = "عیب‌یابی"
-description = "راه‌حل مشکلات حالت TUN، DNS، اشتراک‌ها، پروکسی سیستمی، کارایی و اجرای Throne دسکتاپ."
+description = "راه‌حل مشکلات حالت Tun، DNS، اشتراک‌ها، پروکسی سیستمی، کارایی و اجرای Throne دسکتاپ."
 weight = 20
 toc = true
 +++
 
-مشکل خود را پیدا کنید و بررسی‌ها را به ترتیب انجام دهید. تنظیماتی که اینجا نام برده می‌شوند ممکن است در حالت ساده پنهان باشند: `Ctrl+K` را فشار دهید و نام آن را تایپ کنید ([حالت ساده و پیشرفته](@/get_started/configuration.fa.md#interface-mode)). برای Android، [عیب‌یابی Android](@/android/troubleshooting.fa.md) را ببینید. اگر هیچ‌کدام کمک نکرد، [یک باگ گزارش دهید](@/help/bug_reports.fa.md).
+مشکل خود را پیدا کنید و بررسی‌ها را به ترتیب انجام دهید. برای پیدا کردن تنظیمی که اینجا نام برده می‌شود، `Ctrl+K` را فشار دهید و نام آن را تایپ کنید. برای Android، [عیب‌یابی Android](@/android/troubleshooting.fa.md) را ببینید. اگر هیچ‌کدام کمک نکرد، [یک باگ گزارش دهید](@/help/bug_reports.fa.md).
 
 ## بررسی‌های اولیه {#first-checks}
 
-1. Throne را با `برنامه` (Program) ← `بررسی به‌روزرسانی` (Check For Update) به‌روزرسانی کنید، یا اگر این گزینه خاکستری است، نسخهٔ جدید را از صفحهٔ [دانلود](@/downloads.fa.md) دریافت کنید.
+1. Throne را با `برنامه` (Program) ← `بررسی به‌روزرسانی` (Check for updates) به‌روزرسانی کنید، یا اگر این گزینه خاکستری است، نسخهٔ جدید را از صفحهٔ [دانلود](@/downloads.fa.md) دریافت کنید.
 2. زبانهٔ `گزارش‌ها` (Logs) را در پایین پنجرهٔ اصلی بخوانید.
-3. نمایه را با `تست نشانی انتخاب‌شده` (Url Test Selected) (`Ctrl+Shift+S`) تست کنید. اگر تست ناموفق بود، ابتدا سرور یا نمایه را درست کنید.
-4. اگر نمایه‌ای با `پروکسی سیستمی` (System Proxy) کار می‌کند اما با `حالتvpn` (Tun Mode) کار نمی‌کند، مشکل در راه‌اندازی TUN است.
+3. نمایه را با `تست` (Test) ← `تست نشانی` (URL test) (`Ctrl+Shift+S`) تست کنید. اگر تست ناموفق بود، ابتدا سرور یا نمایه را درست کنید.
+4. اگر نمایه‌ای با `پروکسی سیستمی` (System proxy) کار می‌کند اما با `حالت Tun` (Tun mode) کار نمی‌کند، مشکل در راه‌اندازی Tun است.
+5. اگر سایتی از مسیر اشتباهی می‌رود، با `مسیریابی` (Routing) ← `جستجوی مسیر` (Route lookup) ببینید به کدام قانون می‌خورد؛ [تست یک مسیر](@/guides/routing.fa.md#route-lookup) را ببینید.
 
-## حالت TUN {#tun}
+## حالت Tun {#tun}
 
-### TUN روشن است، اما هیچ چیزی باز نمی‌شود {#tun-no-traffic}
+### حالت Tun روشن است، اما هیچ چیزی باز نمی‌شود {#tun-no-traffic}
 
 1. برنامه‌های VPN دیگر را ببندید. آن‌ها ممکن است مسیرها (routes) را در اختیار بگیرند.
 2. **Windows:** در فایروال Windows به `ThroneCore.exe` اجازه دهید. اگر وقتی Windows پرسید اجازه نداده باشید، Windows هسته را مسدود نگه می‌دارد و دیگر نمی‌پرسد ([#1433](https://github.com/throneproj/Throne/issues/1433)).
-3. **Windows:** محافظت شبکهٔ آنتی‌ویروس‌ها، برای مثال Avast یا ESET، ممکن است بدون هیچ پیامی آداپتور TUN را مسدود کند ([#1687](https://github.com/throneproj/Throne/issues/1687)، [#1357](https://github.com/throneproj/Throne/issues/1357)). پوشهٔ Throne را به‌عنوان استثنا اضافه کنید.
-4. **Windows:** برای تست، `مسیر سخت‌گیرانه` (Strict Route) را در `تنظیمات vpn` (Tun Settings) خاموش کنید. بدون آن، نشت DNS ممکن است؛ [محافظت از نشت DNS در Windows](@/advanced/windows_tun_mode.fa.md#strict-route) را ببینید.
-5. **Linux:** DNS over TLS را برای کل سیستم در systemd-resolved خاموش کنید ([#1146](https://github.com/throneproj/Throne/issues/1146)) و `Auto Redirect` را در `تنظیمات vpn` روشن نگه دارید.
+3. **Windows:** محافظت شبکهٔ آنتی‌ویروس‌ها، برای مثال Avast یا ESET، ممکن است بدون هیچ پیامی آداپتور Tun را مسدود کند ([#1687](https://github.com/throneproj/Throne/issues/1687)، [#1357](https://github.com/throneproj/Throne/issues/1357)). پوشهٔ Throne را به‌عنوان استثنا اضافه کنید.
+4. **Windows:** برای تست، `مسیر سخت‌گیرانه` (Strict route) را در `تنظیمات Tun` (Tun Settings) خاموش کنید. بدون آن، نشت DNS ممکن است؛ [محافظت از نشت DNS در Windows](@/advanced/windows_tun_mode.fa.md#strict-route) را ببینید.
+5. **Linux:** DNS over TLS را برای کل سیستم در systemd-resolved خاموش کنید ([#1146](https://github.com/throneproj/Throne/issues/1146)) و `Auto redirect` را در `تنظیمات Tun` روشن نگه دارید.
 
-### TUN اجرا نمی‌شود {#tun-start}
+### حالت Tun اجرا نمی‌شود {#tun-start}
 
-- **نبود دسترسی:** درخواست Throne برای دسترسی مدیر (administrator) یا root را بپذیرید ([پرسش‌های متداول](@/help/faq.fa.md#tun-admin)). اگر `غیرفعال کردن درخواست دسترسی` (Disable Privilege request) روشن باشد، باید خودتان دسترسی‌ها را بدهید.
-- **«Strict routing unavailable»** (مسیریابی سخت‌گیرانه در دسترس نیست؛ در Windows): `مسیر سخت‌گیرانه` را در `تنظیمات vpn` خاموش کنید و نمایه را دوباره اجرا کنید.
-- **«Tun device misbehaving»** (دستگاه Tun درست کار نمی‌کند): در پیام روی `بازنشانی` (Reset)، یا در `تنظیمات vpn` روی `راه‌اندازی مجدد هسته` (Restart Core) کلیک کنید و نمایه را دوباره اجرا کنید. اگر باز هم کار نکرد، رایانه را دوباره راه‌اندازی کنید.
+- **نبود دسترسی:** درخواست Throne برای دسترسی مدیر (administrator) یا root را بپذیرید ([پرسش‌های متداول](@/help/faq.fa.md#tun-admin)). در Windows، روی `اعطای دسترسی` (Grant privileges) کلیک کنید، درخواست Windows را تأیید کنید، سپس دوباره تیک `حالت Tun` (Tun mode) را بزنید. اگر `غیرفعال کردن درخواست دسترسی` (Disable privilege request) روشن باشد، باید خودتان دسترسی‌ها را بدهید.
+- **«هسته با وجود اعطای دسترسی، با دسترسی مدیر اجرا نشد»** (The core did not get administrator rights, although they were granted؛ در Windows): علت در گزارش‌ها آمده است. روی `اجرای دوباره با دسترسی مدیر` (Restart as administrator) کلیک کنید تا به‌جای آن خود Throne با دسترسی مدیر اجرا شود؛ [دسترسی‌های حالت Tun در Windows](@/guides/tun_mode.fa.md#privileges-windows) را ببینید.
+- **«Strict routing unavailable»** (مسیریابی سخت‌گیرانه در دسترس نیست؛ در Windows): `مسیر سخت‌گیرانه` را در `تنظیمات Tun` خاموش کنید و نمایه را دوباره اجرا کنید.
+- **«Tun device misbehaving»** (دستگاه Tun درست کار نمی‌کند): در پیام روی `بازنشانی` (Reset)، یا در `تنظیمات Tun` روی `راه‌اندازی مجدد هسته` (Restart core) کلیک کنید و نمایه را دوباره اجرا کنید. اگر باز هم کار نکرد، رایانه را دوباره راه‌اندازی کنید.
 - **اجرا گیر می‌کند** (Windows): یک فایل HOSTS بسیار بزرگ ممکن است باعث شود پاک کردن حافظهٔ نهان DNS گیر کند ([#1906](https://github.com/throneproj/Throne/issues/1906)). آن را کوچک نگه دارید.
 - **«حالت Tun روی این رایانه در اختیار یک Throne پس‌زمینه (PID …) است؛ آن را متوقف کنید یا از thronectl استفاده کنید.»** (A background Throne (PID …) owns Tun on this computer; stop it or use thronectl.) [Throne در پس‌زمینه در حال اجراست](#background-throne) را ببینید.
 
-### TUN چیزهای دیگری را از کار می‌اندازد {#tun-side-effects}
+### حالت Tun چیزهای دیگری را از کار می‌اندازد {#tun-side-effects}
 
-هات‌اسپات موبایل، ماشین‌های مجازی، Docker یا VPN محل کار ممکن است تا زمانی که حالت TUN روشن است کار نکنند. [حالت TUN](@/guides/tun_mode.fa.md#side-effects) و [دستورالعمل‌های کاربردی](@/guides/recipes.fa.md) را ببینید.
+هات‌اسپات موبایل، ماشین‌های مجازی، Docker یا VPN محل کار ممکن است تا زمانی که حالت Tun روشن است کار نکنند. [حالت Tun](@/guides/tun_mode.fa.md#side-effects) و [دستورالعمل‌های کاربردی](@/guides/recipes.fa.md) را ببینید.
 
 ## DNS {#dns}
 
 ### سایت‌ها باز نمی‌شوند یا گزارش‌ها خطاهای DNS را نشان می‌دهند {#dns-errors}
 
 1. در `تنظیمات` (Settings) ← `تنظیمات مسیریابی` (Routing Settings) ← `دی‌ان‌اس` (DNS)، `دی ان اس سمت-سرور` (Remote DNS) باید از طریق پروکسی شما در دسترس باشد و `دی ان اس مستقیم` (Direct DNS) باید بدون آن کار کند. یکی از سرورهای ازپیش‌تعیین‌شده را امتحان کنید.
-2. اگر شبکهٔ شما IPv6 ندارد، در `Default Domain Strategy` یا `Resolve Domain Strategy` در زبانهٔ `متداول` (Common) از `ipv6_only` استفاده نکنید ([#1743](https://github.com/throneproj/Throne/issues/1743)). آن‌ها را خالی بگذارید یا از `prefer_ipv4` استفاده کنید.
+2. اگر شبکهٔ شما IPv6 ندارد، در `Default Domain Strategy` یا `Resolve Domain Strategy` در `تنظیمات مسیریابی` (Routing Settings) ← `مسیریابی` (Routing) ← `استراتژی دامنه` (Domain Strategy) از `ipv6_only` استفاده نکنید ([#1743](https://github.com/throneproj/Throne/issues/1743)). آن‌ها را خالی بگذارید یا از `prefer_ipv4` استفاده کنید.
 
 ### تست نشت، DNS ارائه‌دهندهٔ اینترنت من را نشان می‌دهد {#dns-leak}
 
@@ -53,9 +55,9 @@ toc = true
 
 گزارش‌ها پیام `خطای درخواست اشتراک …: …` (`Requesting subscription … error: …`) را همراه با دلیل آن نشان می‌دهند.
 
-- **«درخواست با پروکسی اما هیچ نمایه‌ای شروع نشده است.»** (Request with proxy but no profile started.) وقتی `Use proxy` (`تنظیمات پایه` (Basic Settings) ← `Miscellaneous`) یا `پروکسی سیستمی` روشن باشد، Throne درخواست‌های خودش را از طریق پروکسی خودش می‌فرستد. ابتدا یک نمایه را اجرا کنید، یا هر دو را خاموش کنید. اگر `Disable Mixed Inbound` روشن است، `Use proxy` را خاموش کنید ([#1689](https://github.com/throneproj/Throne/issues/1689)).
-- **سایت ارائه‌دهنده در کشور شما مسدود است:** یک نمایهٔ سالم را اجرا کنید، `Use proxy` را روشن کنید و دوباره به‌روزرسانی کنید.
-- **سرور پاسخ `403` می‌دهد یا چیز مفیدی نمی‌فرستد:** بسیاری از ارائه‌دهندگان فقط به برنامه‌هایی که می‌شناسند پاسخ می‌دهند. `عامل کاربر` (User Agent) مورد انتظار ارائه‌دهندهٔ خود را برای همهٔ گروه‌ها در `تنظیمات پایه` ← `اشتراک` (Subscription)، یا برای یک گروه در `گروه ها` (Groups) ← `Edit current Group` → `Advanced` تنظیم کنید. مقدار پیش‌فرض `Throne/<version>` است.
+- **«درخواست با پروکسی اما هیچ نمایه‌ای شروع نشده است.»** (Request with proxy but no profile started.) وقتی `ارسال درخواست‌های خود Throne از طریق پروکسی` (Send Throne's own requests through the proxy) (`تنظیمات پایه` (Basic Settings) ← `عمومی` (General) ← `به‌روزرسانی و دانلود` (Updates and Downloads)) یا `پروکسی سیستمی` روشن باشد، Throne درخواست‌های خودش را از طریق پروکسی خودش می‌فرستد. ابتدا یک نمایه را اجرا کنید، یا هر دو را خاموش کنید. اگر `Disable mixed inbound` روشن است، `ارسال درخواست‌های خود Throne از طریق پروکسی` را خاموش کنید ([#1689](https://github.com/throneproj/Throne/issues/1689)).
+- **سایت ارائه‌دهنده در کشور شما مسدود است:** یک نمایهٔ سالم را اجرا کنید، `ارسال درخواست‌های خود Throne از طریق پروکسی` را روشن کنید و دوباره به‌روزرسانی کنید.
+- **سرور پاسخ `403` می‌دهد یا چیز مفیدی نمی‌فرستد:** بسیاری از ارائه‌دهندگان فقط به برنامه‌هایی که می‌شناسند پاسخ می‌دهند. `عامل کاربر` (User Agent) مورد انتظار ارائه‌دهندهٔ خود را برای همهٔ گروه‌ها در `تنظیمات پایه` ← `اشتراک‌ها` (Subscriptions) ← `درخواست‌ها` (Requests)، یا برای یک گروه در `گروه ها` (Groups) ← `ویرایش گروه` (Edit group) ← `پیشرفته` (Advanced) ← `Request` تنظیم کنید. مقدار پیش‌فرض `Throne/<version>` است.
 - **«Device fingerprint required»** (اثر انگشت دستگاه لازم است) یا پیامی مشابه: ارائه‌دهنده به [HWID](@/help/faq.fa.md#hwid) شما نیاز دارد.
 
 ### به‌روزرسانی هیچ نمایه‌ای پیدا نمی‌کند {#sub-no-profiles}
@@ -65,7 +67,7 @@ toc = true
 ### گروه به‌روز نمی‌شود {#sub-no-update}
 
 - نمایه‌هایی که با `افزودن نمایه‌ها به این گروه` (Add profiles to this group) اضافه شده‌اند نشانی اشتراک ندارند. نشانی را دوباره با `Ctrl+V` جای‌گذاری کنید و `ایجاد گروه اشتراک جدید` (Create new subscription group) را انتخاب کنید.
-- به‌روزرسانی خودکار به `تنظیمات پایه` (Basic Settings) ← `اشتراک` (Subscription) ← `Subscription auto update` نیاز دارد که به‌طور پیش‌فرض خاموش است، و گروه‌هایی را که `لغو به‌روزرسانی اتوماتیک` (Skip automatic update) دارند به‌روز نمی‌کند.
+- به‌روزرسانی خودکار به `تنظیمات پایه` (Basic Settings) ← `اشتراک‌ها` (Subscriptions) ← `به‌روزرسانی خودکار` (Auto Update) ← `فعال کردن` (Enable) نیاز دارد که به‌طور پیش‌فرض خاموش است، و گروه‌هایی را که `لغو به‌روزرسانی اتوماتیک` (Skip automatic update) دارند به‌روز نمی‌کند.
 
 نمایه‌ها پس از به‌روزرسانی تغییر کردند یا ناپدید شدند؟ [پرسش‌های متداول](@/help/faq.fa.md#profile-after-update) و [اشتراک‌ها و گروه‌ها](@/guides/subscriptions.fa.md#problems) را ببینید.
 
@@ -73,26 +75,26 @@ toc = true
 
 ### برخی برنامه‌ها پروکسی سیستمی را نادیده می‌گیرند {#apps-ignore-proxy}
 
-ترمینال‌هایی مانند PowerShell، برنامه‌های Windows Store، Discord و تماس‌های Telegram معمولاً آن را نادیده می‌گیرند ([#370](https://github.com/throneproj/Throne/issues/370)، [#1631](https://github.com/throneproj/Throne/issues/1631)). برای این برنامه‌ها از `حالتvpn` (Tun Mode) استفاده کنید؛ [از کدام حالت استفاده کنیم](@/guides/proxy_modes.fa.md#which-mode) را ببینید.
+ترمینال‌هایی مانند PowerShell، برنامه‌های Windows Store، Discord و تماس‌های Telegram معمولاً آن را نادیده می‌گیرند ([#370](https://github.com/throneproj/Throne/issues/370)، [#1631](https://github.com/throneproj/Throne/issues/1631)). برای این برنامه‌ها از `حالت Tun` (Tun mode) استفاده کنید؛ [از کدام حالت استفاده کنیم](@/guides/proxy_modes.fa.md#which-mode) را ببینید.
 
 ### پروکسی سیستمی تنظیم نمی‌شود {#proxy-not-set}
 
 1. یک نمایه را اجرا کنید. Throne پروکسی سیستمی را فقط تا زمانی تنظیم می‌کند که یک نمایه در حال اجراست.
-2. **«Cannot set system proxy when mixed inbound is disabled.»** (وقتی ورودی mixed غیرفعال است، نمی‌توان پروکسی سیستمی را تنظیم کرد) `Disable Mixed Inbound` را در `تنظیمات پایه` (Basic Settings) ← `متداول` (Common) خاموش کنید.
-3. **Linux:** Throne فقط در GNOME و KDE پروکسی سیستمی را تنظیم می‌کند. در محیط‌های دسکتاپ دیگر، نشانی `Mixed: …` نوشته‌شده در نوار وضعیت را در تنظیمات سیستم خود وارد کنید، یا از حالت TUN استفاده کنید. Throne را با root اجرا نکنید ([#864](https://github.com/throneproj/Throne/issues/864)).
+2. **«Cannot set system proxy when mixed inbound is disabled.»** (وقتی ورودی mixed غیرفعال است، نمی‌توان پروکسی سیستمی را تنظیم کرد) `Disable mixed inbound` را در `تنظیمات پایه` (Basic Settings) ← `اتصال` (Connection) ← `پروکسی محلی` (Local Proxy) خاموش کنید.
+3. **Linux:** Throne فقط در GNOME و KDE پروکسی سیستمی را تنظیم می‌کند. در محیط‌های دسکتاپ دیگر، نشانی `Mixed: …` نوشته‌شده در نوار وضعیت را در تنظیمات سیستم خود وارد کنید، یا از حالت Tun استفاده کنید. Throne را با root اجرا نکنید ([#864](https://github.com/throneproj/Throne/issues/864)).
 
 ### پس از بسته شدن Throne اینترنت کار نمی‌کند {#no-internet-after-exit}
 
-اگر Throne در حالی که `پروکسی سیستمی` (System Proxy) روشن بود به‌اجبار بسته شده باشد، پروکسی سیستمی همچنان به Throne اشاره می‌کند. [پرسش‌های متداول](@/help/faq.fa.md#force-quit) را ببینید.
+اگر Throne در حالی که `پروکسی سیستمی` (System proxy) روشن بود به‌اجبار بسته شده باشد، پروکسی سیستمی همچنان به Throne اشاره می‌کند. [پرسش‌های متداول](@/help/faq.fa.md#force-quit) را ببینید.
 
 ## کارایی و کرش‌ها {#performance}
 
 ### مصرف بالای CPU یا حافظه {#high-cpu}
 
-1. در مجموع کمتر از حدود 10,000 نمایه نگه دارید. پس از تست URL، نمایه‌های از کار افتاده را با `گروه ها` (Groups) ← `پاکسازی` (Clean up) ← `غیرقابل دستیابی پاک شود` (Remove Unavailable) حذف کنید.
-2. کلاینت‌های تورنت با روشن بودن Multiplex ممکن است CPU زیادی مصرف کنند ([#1090](https://github.com/throneproj/Throne/issues/1090)). Multiplex به‌طور پیش‌فرض خاموش است؛ اگر آن را روشن کرده‌اید، در نمایه خاموشش کنید، یا `Default On` را در `تنظیمات` (Settings) ← `Preset Settings` → `Multiplex` خاموش کنید.
-3. تیک `تنظیمات پایه` (Basic Settings) ← `استایل` (Style) ← `آمار اتصال` (Connection statistics) ← `فعال کردن` (Enable) را بردارید. در این صورت زبانهٔ `اتصال‌ها` (Connections) خالی می‌ماند.
-4. **Windows:** `فعال کردن مسیریابی Tun` (Enable Tun Routing) همراه با مجموعه‌قوانین بزرگ ممکن است مصرف CPU را بسیار بالا ببرد. آن را در `تنظیمات vpn` (Tun Settings) خاموش کنید.
+1. در مجموع کمتر از حدود 10,000 نمایه نگه دارید. پس از تست URL، نمایه‌های از کار افتاده را با `گروه ها` (Groups) ← `پاکسازی` (Clean up) ← `حذف موارد غیرقابل دسترس` (Remove unavailable) حذف کنید.
+2. کلاینت‌های تورنت با روشن بودن Multiplex ممکن است CPU زیادی مصرف کنند ([#1090](https://github.com/throneproj/Throne/issues/1090)). Multiplex به‌طور پیش‌فرض خاموش است؛ اگر آن را روشن کرده‌اید، در نمایه خاموشش کنید، یا `به صورت پیشفرض فعال` (Default on) (sing-box) و `Multiplex by default` (Xray) را در `تنظیمات` (Settings) ← `Preset Settings` → `Multiplex` خاموش کنید.
+3. تیک `تنظیمات پایه` (Basic Settings) ← `هسته` (Core) ← `آمار` (Statistics) ← `فعال‌سازی آمار اتصال‌ها` (Enable connection statistics) را بردارید. در این صورت زبانهٔ `اتصال‌ها` (Connections) خالی می‌ماند.
+4. **Windows:** `فعال کردن مسیریابی Tun` (Enable Tun routing) همراه با مجموعه‌قوانین بزرگ ممکن است مصرف CPU را بسیار بالا ببرد. آن را در `تنظیمات Tun` (Tun Settings) خاموش کنید.
 
 ### Throne یا هسته کرش می‌کند {#crashes}
 
@@ -117,22 +119,22 @@ toc = true
 
 ### آیکون سینی سیستم در GNOME دیده نمی‌شود {#gnome-tray}
 
-یک افزونهٔ AppIndicator نصب و فعال کنید. اگر پنجره پنهان است، Throne را دوباره اجرا کنید تا پنجره نشان داده شود، یا `تنظیمات پایه` (Basic Settings) ← `استایل` (Style) ← `غیرفعال‌سازی سینی` (Disable tray) را روشن کنید تا بستن پنجره، Throne را ببندد.
+یک افزونهٔ AppIndicator نصب و فعال کنید. اگر پنجره پنهان است، Throne را دوباره اجرا کنید تا پنجره نشان داده شود، یا `تنظیمات پایه` (Basic Settings) ← `عمومی` (General) ← `پنجره` (Window) ← `غیرفعال‌سازی سینی` (Disable tray) را روشن کنید تا بستن پنجره، Throne را ببندد.
 
 ### Throne پس از راه‌اندازی دوباره وصل نمی‌شود {#reconnect}
 
-`برنامه` (Program) ← `آخرین نمایه را به خاطر بسپار` (Remember last profile) را روشن کنید. در اجرای بعدی، Throne نمایه‌ای را که هنگام خروج در حال اجرا بود دوباره اجرا می‌کند و `پروکسی سیستمی` (System Proxy) و `حالتvpn` (Tun Mode) را به همان حالت قبل برمی‌گرداند. `برنامه` ← `با سیستم شروع شود` (Start with system) Throne را هنگام ورود شما به سیستم اجرا می‌کند؛ در Windows، اگر Throne با دسترسی مدیر اجرا می‌شود، این گزینه آن دسترسی را هم بدون پرسیدن می‌گیرد ([پرسش‌های متداول](@/help/faq.fa.md#tun-admin)).
+`برنامه` (Program) ← `آخرین نمایه را به خاطر بسپار` (Remember last profile) را روشن کنید. در اجرای بعدی، Throne نمایه‌ای را که هنگام خروج در حال اجرا بود دوباره اجرا می‌کند و `پروکسی سیستمی` (System proxy) و `حالت Tun` (Tun mode) را به همان حالت قبل برمی‌گرداند. `برنامه` ← `با سیستم شروع شود` (Start with system) Throne را هنگام ورود شما به سیستم اجرا می‌کند؛ در Windows، Throne را فقط پس از راه‌حل جایگزین `اجرای دوباره با دسترسی مدیر` (Restart as administrator) با دسترسی مدیر اجرا می‌کند ([پرسش‌های متداول](@/help/faq.fa.md#tun-admin)).
 
 ### لینک‌های `throne://` کاری انجام نمی‌دهند {#deeplinks}
 
-در Windows و Linux، نسخه‌های ZIP به‌طور پیش‌فرض لینک‌های `throne://` را ثبت نمی‌کنند. `تنظیمات پایه` (Basic Settings) ← `متداول` (Common) ← `Register throne:// links at startup` را روشن کنید، یا روی `Install` در کنار آن کلیک کنید. بررسی‌های بیشتر: [لینک‌های عمیق](@/advanced/deeplinks.fa.md#troubleshooting).
+در Windows و Linux، نسخه‌های ZIP به‌طور پیش‌فرض لینک‌های `throne://` را ثبت نمی‌کنند. `تنظیمات پایه` (Basic Settings) ← `عمومی` (General) ← `Links and Files` ← `Register throne:// links at startup` را روشن کنید، یا روی `Install` در کنار آن کلیک کنید. بررسی‌های بیشتر: [لینک‌های عمیق](@/advanced/deeplinks.fa.md#troubleshooting).
 
 ### Throne در پس‌زمینه در حال اجراست {#background-throne}
 
 یک [Throne بدون رابط گرافیکی](@/headless/_index.fa.md)، برای مثال یک سرویس systemd، می‌تواند روی همان رایانه‌ای اجرا شود که پنجرهٔ Throne روی آن است:
 
 - **«Throne is running in the background (PID …). Stop the service or use thronectl.»** (Throne در پس‌زمینه در حال اجراست (PID …). سرویس را متوقف کنید یا از thronectl استفاده کنید.) و پنجره باز نمی‌شود: Throne بدون رابط گرافیکی از همان پوشهٔ داده استفاده می‌کند. آن را متوقف کنید (برای مثال با `systemctl --user stop throne`) و Throne را دوباره اجرا کنید، یا آن را با [thronectl](@/advanced/api.fa.md) مدیریت کنید.
-- **«یک Throne پس‌زمینه (PID …) روی این رایانه در حال اجراست»** (A background Throne (PID …) is running on this computer): یک Throne بدون رابط گرافیکی با پوشهٔ دادهٔ دیگری اجرا می‌شود. پنجرهٔ Throne کار می‌کند، اما بدون حالت TUN.
-- **«حالت Tun روی این رایانه در اختیار یک Throne پس‌زمینه (PID …) است؛ آن را متوقف کنید یا از thronectl استفاده کنید.»** (A background Throne (PID …) owns Tun on this computer; stop it or use thronectl.) تا وقتی هر Throne بدون رابط گرافیکی‌ای اجرا می‌شود، پنجره نمی‌تواند از حالت TUN استفاده کند، حتی اگر آن Throne خودش از TUN استفاده نکند. Throne بدون رابط گرافیکی را متوقف کنید.
+- **«یک Throne پس‌زمینه (PID …) روی این رایانه در حال اجراست»** (A background Throne (PID …) is running on this computer): یک Throne بدون رابط گرافیکی با پوشهٔ دادهٔ دیگری اجرا می‌شود. پنجرهٔ Throne کار می‌کند، اما بدون حالت Tun.
+- **«حالت Tun روی این رایانه در اختیار یک Throne پس‌زمینه (PID …) است؛ آن را متوقف کنید یا از thronectl استفاده کنید.»** (A background Throne (PID …) owns Tun on this computer; stop it or use thronectl.) تا وقتی هر Throne بدون رابط گرافیکی‌ای اجرا می‌شود، پنجره نمی‌تواند از حالت Tun استفاده کند، حتی اگر آن Throne خودش از حالت Tun استفاده نکند. Throne بدون رابط گرافیکی را متوقف کنید.
 - **«تا زمانی که یک Throne پس‌زمینه (PID …) از همین نصب اجرا می‌شود، به‌روزرسانی در دسترس نیست؛ ابتدا آن را متوقف کنید.»** (Update is unavailable while a background Throne (PID …) runs from this installation; stop it first.) آن را متوقف کنید، به‌روزرسانی کنید و دوباره اجرایش کنید.
 - **«Another Throne instance (PID …) is using this data directory»** (نمونهٔ دیگری از Throne (PID …) از این پوشهٔ داده استفاده می‌کند): Throne دیگری پوشهٔ داده را در اختیار دارد اما پاسخ نمی‌دهد. از آن خارج شوید، یا پردازهٔ آن را ببندید، و Throne را دوباره اجرا کنید.

@@ -5,33 +5,36 @@ weight = 20
 toc = true
 +++
 
-Chains, custom configs, Extra Core and the front and landing proxies of groups are Advanced mode only (see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
-
 ## Proxy chains {#chains}
 
 A chain profile sends traffic through several profiles in a row, from top to bottom: with `A` on top and `B` below it, the path is your device → `A` → `B` → Internet. Each server sees only the one before it, and websites see the bottom one.
 
 ### Create a chain {#create-chain}
 
-1. Open `Program` → `New profile` (`Ctrl+N`), set `Type` to `Chain Proxy` and enter a `Name`.
-2. Click `Select Profile` and double-click the next hop in the main window. Repeat for every hop.
+1. Open `Program` → `New profile` (`Ctrl+N`), set `Type` to `Proxy Chain` and enter a `Name`.
+2. Click `Select profile` and double-click the next hop in the main window. Repeat for every hop.
 3. Drag the rows into order and click `OK`.
 
 ### Limits {#chain-limits}
 
-- A chain cannot contain another chain or an auto selector. Auto selectors also skip chains.
+- A chain cannot contain another chain, and an auto selector never picks a chain.
+- A chain can hold one auto selector, which picks the profile for that hop. It cannot share the chain with an Extra Core or `Custom (Xray config)` hop, and its members that cannot run behind the hops above it, such as `Custom (Xray config)` profiles, are left out.
 - `Custom (sing-box config)` profiles cannot be hops. `Custom (sing-box outbound)` and `Custom (Xray outbound)` profiles can.
 - A chain can hold one Extra Core or one `Custom (Xray config)` profile, as its top hop. A `Custom (Xray config)` hop cannot be combined with other Xray hops.
 - All Xray hops must be next to each other, see [Xray in chains](@/advanced/xray.md#xray-in-chains).
 - URL tests skip chains with an Extra Core or `Custom (Xray config)` hop.
-- A chain can be the outbound of a routing rule, unless it has an Extra Core or full-config hop.
+- A chain can be the outbound of a routing rule, unless it has an Extra Core, full-config or auto selector hop.
 - If a hop was deleted, the chain does not start until you remove that hop.
+
+### Test a chain {#test-chain}
+
+`Test hops` in the chain editor tests each hop on its own and through the hops above it, as they are listed, so you can test before you save. Each hop then shows its latency or why it fails, and the line below the list names the hop where the chain breaks. A group's landing proxy is tested after the hops.
 
 ## Front and landing proxies {#front-landing}
 
 A group can add one hop before and one after every profile in it: your device → `Front Proxy` → the profile you start → `Landing Proxy` → WARP (if on) → Internet. A front proxy helps when the group's servers can only be reached through another server; a landing proxy gives the whole group the same exit.
 
-Set them with a right-click on the group tab → `Edit selected Group`. The chain limits apply: neither can be a chain, and a group with a front proxy cannot start an Extra Core or `Custom (Xray config)` profile. If one of them was deleted, the group's profiles do not start until you change it. See also [Subscriptions & Groups](@/guides/subscriptions.md#front-landing-proxy).
+Set them with a right-click on the group tab → `Edit group`. The chain limits apply: neither can be a chain, and a group with a front proxy cannot start an Extra Core or `Custom (Xray config)` profile. If one of them was deleted, the group's profiles do not start until you change it. See also [Subscriptions & Groups](@/guides/subscriptions.md#front-landing-proxy).
 
 ## Custom configs {#custom-config}
 
@@ -42,7 +45,7 @@ A custom profile holds raw JSON for the core, for options the normal editors do 
 - `Custom (Xray outbound)`: one Xray outbound.
 - `Custom (Xray config)`: a complete Xray config.
 
-`Json Editor` checks sing-box JSON against the schema. To start from the JSON that Throne generates for a working profile or chain, right-click it → `Share` → `Export config`. A minimal `Custom (sing-box outbound)`:
+`JSON Editor` checks sing-box JSON against the schema. To start from the JSON that Throne generates for a working profile or chain, right-click it → `Share` → `Export config`. A minimal `Custom (sing-box outbound)`:
 
 ```json
 {
@@ -56,8 +59,8 @@ Imported JSON becomes normal profiles (see [Import formats](@/reference/protocol
 
 ### Full configs {#full-configs}
 
-- **`Custom (sing-box config)`** runs exactly as written. Throne adds no inbounds, TUN, routing profile, DNS settings, WARP, or front and landing proxies, so your config needs its own inbounds.
-- **`Custom (Xray config)`** gets a local SOCKS inbound with sing-box in front of it, so TUN mode, the routing profile and DNS settings still apply. Inside Xray, your config's `routing` chooses the outbound.
+- **`Custom (sing-box config)`** runs exactly as written. Throne adds no inbounds, Tun mode, routing profile, DNS settings, WARP, or front and landing proxies, so your config needs its own inbounds.
+- **`Custom (Xray config)`** gets a local SOCKS inbound with sing-box in front of it, so Tun mode, the routing profile and DNS settings still apply. Inside Xray, your config's `routing` chooses the outbound.
 
 Full configs cannot be the outbound of a routing rule or a routing-profile endpoint. The auto selector can use `Custom (Xray config)` profiles but skips `Custom (sing-box config)` ones.
 
@@ -75,7 +78,7 @@ An Extra Core profile runs another proxy program on your computer, for a protoco
 
 For example, if the program reads its config with `-c <file>`, set `Args` to `-c %s` and paste the config into `Config`.
 
-The program starts and stops with the profile; if it exits by itself, Throne stops the profile. It runs with normal user rights, even when Throne's core runs as administrator or root for TUN mode. An Extra Core profile cannot be the outbound of a routing rule, and URL tests and the auto selector skip it.
+The program starts and stops with the profile; if it exits by itself, Throne stops the profile. It runs with normal user rights, even when Throne's core runs as administrator or root for Tun mode. An Extra Core profile cannot be the outbound of a routing rule, and URL tests and the auto selector skip it.
 
 ## Android {#android}
 

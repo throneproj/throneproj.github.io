@@ -5,11 +5,11 @@ weight = 10
 toc = true
 +++
 
-Most profiles run on sing-box. Some VLESS profiles and all Xray custom configs run on Xray, which Throne also contains. In Simple mode, the `Core` and `Logging` tabs and most other settings on this page are hidden, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
+Most profiles run on sing-box. Some VLESS profiles and all Xray custom configs run on Xray, which Throne also contains.
 
 ## Two cores in one {#two-cores}
 
-sing-box always runs and handles the local proxy port, TUN mode, routing and DNS. Xray starts as a helper only when the running profile, a hop of its chain or the outbound of a routing rule needs it. sing-box hands that traffic to Xray internally, so TUN mode, routing profiles and DNS settings work the same with both cores.
+sing-box always runs and handles the local proxy port, Tun mode, routing and DNS. Xray starts as a helper only when the running profile, a hop of its chain or the outbound of a routing rule needs it. sing-box hands that traffic to Xray internally, so Tun mode, routing profiles and DNS settings work the same with both cores.
 
 Profiles whose `Type` column shows `VLESS (Xray)`, `Custom Xray … Outbound` or `Custom Xray Config` run on Xray; all others, including `VLESS`, run on sing-box. A `vless://` link that uses an Xray-only feature is always imported as `VLESS (Xray)`, whatever the [Xray VLESS Preference](#vless-preference):
 
@@ -21,7 +21,7 @@ Profiles whose `Type` column shows `VLESS (Xray)`, `Custom Xray … Outbound` or
 
 mKCP carries the connection over UDP (`kcp` in `Network` in the profile editor). With an `xdns` mask in Finalmask, it becomes the DNS tunnel [XDNS](@/advanced/dns_tunnels.md#xdns). [XDRIVE](#xdrive) is Xray-only too, but has no link format.
 
-To see the configs that Throne generates for a profile, right-click it → `Share` → `Export config`. Xray messages appear in the `Logs` tab; set their detail in `Settings` → `Basic Settings` → `Logging` → `Xray Log level`.
+To see the configs that Throne generates for a profile, right-click it → `Share` → `Export config`. Xray messages appear in the `Logs` tab; set their detail in `Settings` → `Basic Settings` → `Logs` → `Log Level` → `Xray Log level`.
 
 ## Choose the core for VLESS links {#vless-preference}
 
@@ -74,7 +74,7 @@ If you run an Xray server from 26.7.11 to 26.7.28 yourself, you can instead add 
 
 ## Trust system certificates {#system-ca}
 
-Xray checks server certificates only against its built-in root certificates, so a server whose certificate comes from a root that you installed yourself, such as a company root or a self-signed one, fails. Tick `Settings` → `Basic Settings` → `Security` → `Trust System Certificates in Xray` (off by default) to make Xray also trust your system's certificates.
+Xray checks server certificates only against its built-in root certificates, so a server whose certificate comes from a root that you installed yourself, such as a company root or a self-signed one, fails. Tick `Settings` → `Basic Settings` → `Security` → `Certificates` → `Trust system certificates in Xray` (off by default) to make Xray also trust your system's certificates.
 
 ## XDRIVE {#xdrive}
 
@@ -91,7 +91,7 @@ To set it up in the profile editor, choose `xdrive` in `Network`. XDRIVE needs t
 In the `Storage` group, choose the `Service` and fill in what the operator gives you:
 
 - `google-drive` (default): `Folder` (the shared folder ID), `Client ID`, `Client Secret` and `Refresh Token`.
-- `s3`, any S3-compatible storage such as AWS S3, MinIO or Cloudflare R2: `Endpoint`, `Bucket`, `Folder` (the key prefix), `Access Key ID` and `Secret Access Key`, and optionally `Region` (empty means `us-east-1`) and `Session Token`. `Path-Style Addressing` (on by default) puts the bucket in the URL path instead of the host name.
+- `s3`, any S3-compatible storage such as AWS S3, MinIO or Cloudflare R2: `Endpoint`, `Bucket`, `Folder` (the key prefix), `Access Key ID` and `Secret Access Key`, and optionally `Region` (empty means `us-east-1`) and `Session Token`. `Path-style addressing` (on by default) puts the bucket in the URL path instead of the host name.
 - `template`, any storage with an HTTP API: `Template` (the API operations as JSON) and `Secrets` (comma-separated values read as `{secret0}`, `{secret1}` and so on).
 - `local`: `Folder`, a folder on this computer.
 
@@ -106,11 +106,11 @@ A chain can mix sing-box and Xray profiles, with two limits:
 
 Group front and landing proxies, and WARP, count as hops too. See [Proxy Chains & Custom Configs](@/advanced/chains.md#chains).
 
-## Xray geo files {#geo-files}
+## Xray geo assets {#geo-files}
 
 A `Custom (Xray config)` profile whose own `routing` rules use `geoip:` or `geosite:` values needs the files `geoip.dat` and `geosite.dat`. When they are missing, Throne offers to download them: click `Yes`, then start the profile again.
 
-Choose their source in `Settings` → `Basic Settings` → `Miscellaneous` → `Xray Geo Assets`: Loyalsoldier (global and China, the default), Chocolate4U (Iran), runetfreedom (Russia) or v2fly. Take both files from the same source. If Throne shows "Geo asset missing category", choose a source that has this category and click `Download` for that file.
+Choose their source in `Settings` → `Basic Settings` → `Core` → `Xray Core` → `GeoIP Asset URL` and `GeoSite Asset URL`: Loyalsoldier (global and China, the default), Chocolate4U (Iran), runetfreedom (Russia) or v2fly. Take both files from the same source. If Throne shows "Geo asset missing category", choose a source that has this category and click `Download` next to that file.
 
 ## Android {#android}
 

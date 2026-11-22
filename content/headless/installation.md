@@ -63,9 +63,9 @@ For the variable examples, save [`dist/linux/throne.env`](https://github.com/thr
 
 ## Privileges on Linux {#linux-privileges}
 
-TUN and the [kill switch](@/advanced/kill_switch.md) need privileges. [Extra Core](@/advanced/chains.md#extra-core) profiles need a normal user, because Throne never runs an Extra Core as root. Choose how the unit runs:
+Tun mode and the [kill switch](@/advanced/kill_switch.md) need privileges. [Extra Core](@/advanced/chains.md#extra-core) profiles need a normal user, because Throne never runs an Extra Core as root. Choose how the unit runs:
 
-| How the unit runs | TUN | Kill switch | Extra Core profiles |
+| How the unit runs | Tun mode | Kill switch | Extra Core profiles |
 | --- | --- | --- | --- |
 | As root (the unit as shipped) | Yes | Yes | No |
 | As `throne` with capabilities (`caps.conf`) | Yes | No (`unsupported`) | Yes |
@@ -103,7 +103,7 @@ loginctl enable-linger "$USER"   # start at boot, without a login
 ```
 
 - It uses the desktop app's data directory, `~/.config/Throne`, with the same profiles and settings. Quit the desktop app first, and run `systemctl --user stop throne` before you open it again.
-- TUN and the kill switch need a setuid-root core. The desktop app sets it up when it first asks for [privileges](@/guides/tun_mode.md#privileges-linux), and `Throne --check` prints the commands.
+- Tun mode and the kill switch need a setuid-root core. The desktop app sets it up when it first asks for [privileges](@/guides/tun_mode.md#privileges-linux), and `Throne --check` prints the commands.
 - Run as your user, `Throne --health`, `--print-connection` and `--check` find this Throne without options.
 
 ## Docker {#docker}
@@ -133,7 +133,7 @@ volumes:
 ```
 
 - **Proxy port.** The mixed inbound listens on `127.0.0.1`, which a published port cannot reach: run `thronectl settings set inbound_address=0.0.0.0` and start the profile again. Published ports bypass host firewalls such as `ufw`; on a host that the internet reaches, publish only the LAN address (`"192.168.1.2:2080:2080"`).
-- **Host network** (`network_mode: host`, no `ports:`): TUN and the kill switch act on the whole host, and only one Throne there can run TUN.
+- **Host network** (`network_mode: host`, no `ports:`): Tun mode and the kill switch act on the whole host, and only one Throne there can run Tun mode.
 - **Stopping.** Keep `stop_grace_period: 45s`, or Docker may kill Throne before it has stopped its core. `restart: unless-stopped` starts Throne again even after `thronectl shutdown`; use `docker compose stop`.
 - **Health.** The health check runs `Throne --health`. Docker only marks an unhealthy container; it does not restart it.
 - **Limits.** No Extra Core profiles, because the container runs as root. In rootless Docker and other user-namespaced containers, the kill switch fails with `unsupported`.
@@ -144,7 +144,7 @@ volumes:
 
 ## macOS {#macos}
 
-A LaunchDaemon runs Throne as root at boot, with TUN and the kill switch but without Extra Core profiles. Move `Throne.app` to `/Applications`, download [`moe.Throne.headless.plist`](https://github.com/throneproj/Throne/blob/dev/dist/macos/moe.Throne.headless.plist), then:
+A LaunchDaemon runs Throne as root at boot, with Tun mode and the kill switch but without Extra Core profiles. Move `Throne.app` to `/Applications`, download [`moe.Throne.headless.plist`](https://github.com/throneproj/Throne/blob/dev/dist/macos/moe.Throne.headless.plist), then:
 
 ```bash
 sudo mkdir -p /Library/Logs/Throne
@@ -160,7 +160,7 @@ sudo launchctl bootstrap system /Library/LaunchDaemons/moe.Throne.headless.plist
 
 ## Windows service {#windows}
 
-`Throne.exe --headless --service` runs as a Windows service under LocalSystem, so TUN and the kill switch work.
+`Throne.exe --headless --service` runs as a Windows service under LocalSystem, so Tun mode and the kill switch work.
 
 1. Install Throne for all users with the installer, into `Program Files`. A service must not run a program that a normal user can replace, so do not use a per-user installation or a ZIP in your user folder.
 2. Download [`install-service.bat`](https://github.com/throneproj/Throne/blob/dev/dist/windows/install-service.bat) and [`uninstall-service.bat`](https://github.com/throneproj/Throne/blob/dev/dist/windows/uninstall-service.bat).

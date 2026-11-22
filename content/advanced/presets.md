@@ -1,15 +1,15 @@
 +++
-title = "Anti-Censorship Presets"
-description = "What TLS fragment, TLS tricks, uTLS, Multiplex, ECH and TLS spoof do, when they help and what they cost."
+title = "Preset Settings"
+description = "What TLS fragment, TLS tricks, uTLS, Multiplex, ECH, TLS spoof and the QUIC opener do, when they help and what they cost."
 weight = 30
 toc = true
 +++
 
-Some networks block or slow down proxies by inspecting how each encrypted connection starts. These options change how that start looks. `Preset Settings`, the profile editor's `TLS Camouflage Settings` and `Advanced Settings`, and `Custom` multiplex are Advanced mode only (see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
+Some networks block or slow down proxies by inspecting how each encrypted connection starts. These options change how that start looks.
 
 ## Presets and profile settings {#presets}
 
-`Settings` → `Preset Settings` holds the global defaults. In a profile's editor, Fragment, TLS Tricks, Multiplex and TLS Spoof offer `Keep Default` (follow the preset's `Default On`; new profiles use this), `On` and `Off`, so `Default On` only affects profiles left on `Keep Default`.
+`Settings` → `Preset Settings` holds the global defaults. In a profile's editor, Fragment, TLS Tricks, Multiplex and TLS Spoof offer `Keep Default` (follow the preset's `Default on`; new profiles use this), `On` and `Off`, so `Default on` only affects profiles left on `Keep Default`.
 
 The presets apply only to profiles that run on sing-box, except the uTLS `Default Fingerprint`, which applies to both cores, and the Xray multiplex presets, which `VLESS (Xray)` profiles use. See [sing-box vs Xray](@/advanced/xray.md#two-cores).
 
@@ -19,13 +19,15 @@ Each option works against one blocking method. None helps everywhere, and each c
 
 1. Turn on one option in one profile that fails or is slow.
 2. Run a [URL test](@/guides/testing.md#url-test) and open a few websites. If nothing improves, set the option back to `Keep Default` and try the next one.
-3. When an option helps most of your profiles, turn on its `Default On` in `Preset Settings`.
+3. When an option helps most of your profiles, turn on its `Default on` in `Preset Settings`.
+
+To let Throne try the options of one profile for you, use [Find working settings](@/guides/testing.md#find-working-settings).
 
 ## TLS fragment {#tls-fragment}
 
 A censor often reads the server name (SNI) in the first message of a TLS connection, the ClientHello. TLS fragment splits that message, so a simple filter cannot read the name from one packet. It only helps against such simple filters.
 
-Set `Fragment` in the profile editor under `TLS Camouflage Settings`. Try `Enable TLS Record Fragment` next to it first: it is lighter and splits the ClientHello into TLS records instead of packets.
+Set `Fragment` in the profile editor under `TLS Camouflage Settings`. Try `Enable TLS record fragment` next to it first: it is lighter and splits the ClientHello into TLS records instead of packets.
 
 `Preset Settings` → `TLS` → `TLS Fragment` → `Implementation` chooses how:
 
@@ -34,7 +36,7 @@ Set `Fragment` in the profile editor under `TLS Camouflage Settings`. Try `Enabl
 
 **Cost:** new connections start more slowly, and `custom` turns off TCP Fast Open for the profile.
 
-A routing rule can also fragment the connections it matches, such as direct connections to a site that a filter blocks by name. See `tls_fragment` in [Advanced rules](@/guides/routing.md#advanced-rules).
+A routing rule can also fragment the connections it matches, such as direct connections to a site that a filter blocks by name. See `Fragment the TLS handshake` in [Rules](@/guides/routing.md#advanced-rules).
 
 ## TLS tricks {#tls-tricks}
 
@@ -56,9 +58,9 @@ uTLS makes the ClientHello look like that of a common browser or system, instead
 
 Multiplex (mux) carries many connections inside one connection to the server, so pages need fewer handshakes and an observer sees fewer connections. The server must support mux with the same protocol, and padding if you use it.
 
-Set `Multiplex` in the profile editor (`VLESS (Xray)` profiles say `Enabled` and `Disabled` instead of `On` and `Off`). `Custom` → `Configure` gives the profile its own copy of the preset fields; profiles from links or subscriptions with their own mux settings open with `Custom`. Mux is disabled for VLESS profiles with the `xtls-rprx-vision` flow and required for [XDRIVE](@/advanced/xray.md#xdrive).
+Set `Multiplex` in the profile editor (`VLESS (Xray)` profiles say `Enabled` and `Disabled` instead of `On` and `Off`). `Custom` → `Configure` gives the profile its own copy of the preset fields; profiles from links or subscriptions with their own mux settings open with `Custom`. Multiplex is disabled for VLESS profiles with the `xtls-rprx-vision` flow and required for [XDRIVE](@/advanced/xray.md#xdrive).
 
-sing-box presets (`Preset Settings` → `Multiplex` → `Sing-box`):
+sing-box presets (`Preset Settings` → `Multiplex` → `sing-box`):
 
 - `Protocol`: `smux`, `yamux` or `h2mux`.
 - `Mode`: `Max Streams` opens another connection once one carries that many streams. `Max Connections` keeps at most that many and opens a new one only while the least busy one carries `Min Streams` streams.
@@ -79,7 +81,7 @@ Xray presets (`Preset Settings` → `Multiplex` → `Xray`):
 Encrypted Client Hello (ECH) encrypts the server name, so an observer cannot read it. It works only when the server supports it, and is set per profile:
 
 1. Open the profile, click `Advanced Settings` and tick `Enable ECH`.
-2. Optional: paste the server's ECH configuration under `ECH Config`. Left `Not Set`, it is looked up in DNS, for the domain in `ECH Query Name / Resolver` or else the server name. Add a DNS server after a `+` to ask it instead of Direct DNS, for example `cloudflare-ech.com+https://1.1.1.1/dns-query`.
+2. Optional: paste the server's ECH configuration under `ECH Config`. Left `Not set`, it is looked up in DNS, for the domain in `ECH Query Name / Resolver` or else the server name. Add a DNS server after a `+` to ask it instead of Direct DNS, for example `cloudflare-ech.com+https://1.1.1.1/dns-query`.
 3. Click `OK` in both windows.
 
 Xray profiles use `ECH Config List` in their TLS settings instead: the configuration in Base64, or a domain and a DNS-over-HTTPS server, such as `cloudflare-ech.com+https://8.8.8.8/dns-query`. Share links carry ECH in `ech=`, see [ECH and certificate pins in links](@/reference/protocols.md#ech-links).
@@ -92,11 +94,19 @@ Some filters let a few allowed names through and block the rest. TLS spoof sends
 
 - **Presets** (`Preset Settings` → `TLS` → `TLS Spoof`): `Spoof SNI` is the allowed name, and `Method` how the fake message is made invalid: `wrong-sequence`, `wrong-checksum`, `wrong-ack`, `wrong-md5` or `wrong-timestamp` (empty: the core's default).
 - **Per profile:** `Advanced Settings` → `TLS Spoof`, `Spoof SNI` and `Method`. Empty fields use the presets. A profile with its own `Spoof SNI` spoofs even on `Keep Default`.
-- **Per site:** an advanced routing rule with `tls_spoof` and `tls_spoof_method`, see [Advanced rules](@/guides/routing.md#advanced-rules).
+- **Per site:** `Spoof SNI` in the `Connection options` of a routing rule, see [Rules](@/guides/routing.md#advanced-rules).
 
-TLS spoof sends raw packets, so the core needs the rights that [TUN mode](@/guides/tun_mode.md#privileges) sets up: Administrator on Windows (not on Windows ARM64), root or `CAP_NET_RAW` and `CAP_NET_ADMIN` on Linux, and root on macOS, where `wrong-timestamp` does not work.
+TLS spoof sends raw packets, so the core needs the rights that [Tun mode](@/guides/tun_mode.md#privileges) sets up: the administrator rights granted to the core on Windows (not on Windows ARM64), root or `CAP_NET_RAW` and `CAP_NET_ADMIN` on Linux, and root on macOS, where `wrong-timestamp` does not work.
 
 **Cost:** it needs elevated rights and only helps against filters that allow some names.
+
+## QUIC opener {#quic-opener}
+
+Some networks block QUIC by the first packet of each UDP flow. `QUIC opener` sends one decoy packet before each new UDP flow of the profile, which gets past such filters. It helps profiles that run over QUIC, such as MASQUE, Hysteria2 and TUIC.
+
+Tick it in the profile editor under `Advanced Settings` → `Dial Fields`. It cannot be used on Xray profiles, and it has no effect when the profile connects through another one, as behind a front proxy or lower in a chain.
+
+**Cost:** one extra packet per UDP flow.
 
 ## HTTP/2 and QUIC tuning {#http2-quic}
 
@@ -104,7 +114,7 @@ TLS spoof sends raw packets, so the core needs the rights that [TUN mode](@/guid
 
 ## Android {#android}
 
-- The same presets are in `Settings` → `Presets`, with `On by default` instead of `Default On`. ECH is set per profile.
+- The same presets are in `Settings` → `Presets`, with `On by default` instead of `Default on`. ECH is set per profile.
 - `Enable multiplexer` in the profile editor also offers `Custom`, which shows the multiplex fields right below it.
 - Routing rules can fragment the connections they match, with `TLS fragment`, `TLS fragment fallback delay` and `TLS record fragment`.
 - TLS spoof is not available.

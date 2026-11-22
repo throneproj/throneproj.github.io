@@ -19,7 +19,7 @@ toc = true
 
 ### 安装程序 {#windows-installer}
 
-通用安装程序会为你的电脑选择合适的版本，并将其安装到 `%LOCALAPPDATA%\Throne`，不需要管理员权限。你的数据保存在其中的 `config` 文件夹里。如果改为为所有用户安装到 `Program Files`，Throne 会将你的数据保存在 `%LOCALAPPDATA%\Throne\config` 中，并且无法自行更新。
+通用安装程序会为你的电脑选择合适的版本，并将其安装到 `%LOCALAPPDATA%\Throne`，不需要管理员权限。你的数据保存在其中的 `config` 文件夹里。如果改为为所有用户安装到 `Program Files`，Throne 会将你的数据保存在 `%LOCALAPPDATA%\Throne\config` 中，并且只有在管理员账户中确认 Windows 的提示后才能自行更新。
 
 要卸载 Throne，请在 Windows 的已安装应用列表中将其删除。卸载程序会询问是否同时删除你的配置档和设置。
 
@@ -27,7 +27,7 @@ toc = true
 
 将 ZIP 解压到你可以写入文件的文件夹，然后运行 `Throne` 文件夹中的 `Throne.exe`。你的数据保存在它旁边的 `config` 文件夹中，因此你可以移动或备份整个文件夹。
 
-与安装程序不同，ZIP 版只有在你勾选 `设置`（Settings）→ `基本设置`（Basic Settings）→ `通用`（Common）→ `启动时注册 throne:// 链接`（Register throne:// links at startup）之后才会打开 [`throne://` 链接](@/advanced/deeplinks.zh.md#receive)（仅在高级模式下可用，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。
+与安装程序不同，ZIP 版只有在你勾选 `设置`（Settings）→ `基本设置`（Basic Settings）→ `通用`（General）→ `链接和文件`（Links and Files）→ `启动时注册 throne:// 链接`（Register throne:// links at startup）之后才会打开 [`throne://` 链接](@/advanced/deeplinks.zh.md#receive)。
 
 ## macOS {#macos}
 
@@ -39,7 +39,7 @@ toc = true
 
 按以下步骤安装 ZIP，或者使用 [Homebrew](#homebrew)，它会替你完成这些步骤：
 
-1. 解压 ZIP，并在首次打开之前将 `Throne.app` 移动到 `/Applications`。如果应用位于 `~/Downloads` 中，Throne 可能无法获得 TUN 模式所需的权限。
+1. 解压 ZIP，并在首次打开之前将 `Throne.app` 移动到 `/Applications`。如果应用位于 `~/Downloads` 中，Throne 可能无法获得 Tun 模式所需的权限。
 2. Throne 没有使用 Apple 证书签名，因此需要移除隔离标记，否则 macOS 会提示“Throne is damaged and can't be opened”（Throne 已损坏，无法打开）：
 
    ```bash
@@ -48,7 +48,7 @@ toc = true
 
 3. 打开 Throne。
 
-你的数据保存在你的用户文件夹中，因此替换 `Throne.app` 不会丢失配置档。TUN 模式需要管理员账户；参见 [TUN 模式](@/guides/tun_mode.zh.md#privileges)。
+你的数据保存在你的用户文件夹中，因此替换 `Throne.app` 不会丢失配置档。Tun 模式需要管理员账户；参见 [Tun 模式](@/guides/tun_mode.zh.md#privileges)。
 
 ## Linux {#linux}
 
@@ -64,7 +64,7 @@ toc = true
 ZIP 文件、安装脚本以及普通软件包自带一份 Qt，需要 glibc 2.28 或更高版本：Debian 10、Ubuntu 20.04、RHEL 8（以及 AlmaLinux 或 Rocky Linux 8）、Raspberry Pi OS（64 位）bullseye 或更新的系统。`-system-qt` 软件包使用发行版自带的 Qt 6，需要 glibc 2.34 或更高版本，例如 Debian 12 或 Ubuntu 22.04。当普通软件包无法启动时（例如处理器太旧），或者当你希望 Throne 使用桌面环境的 Qt 主题时，请使用这些软件包。
 
 {% alert_warning() %}
-不要使用 `sudo` 或以 root 身份启动 Throne。为了使用 TUN 模式，Throne 只会为其核心授予 root 权限，并通过 `pkexec` 请求输入你的密码。参见 [TUN 模式](@/guides/tun_mode.zh.md#privileges)。
+不要使用 `sudo` 或以 root 身份启动 Throne。为了使用 Tun 模式，Throne 只会为其核心授予 root 权限，并通过 `pkexec` 请求输入你的密码。参见 [Tun 模式](@/guides/tun_mode.zh.md#privileges)。
 {% end %}
 
 ### 安装脚本 {#linux-script}
@@ -166,7 +166,7 @@ brew install --cask throneproj/tap/throne
 
 官方 tap 会收录每一个稳定版。该 cask 会将 `Throne.app` 安装到 `/Applications` 并移除隔离标记，需要 macOS 14.4 或更高版本；较旧的 Intel Mac 请使用 `macoslegacy` ZIP。请始终使用完整名称：`brew install --cask throne` 找不到 Throne。
 
-使用 `brew upgrade --cask throne` 更新；更新后，Throne 会再次请求 TUN 模式所需的权限。`brew uninstall --zap --cask throne` 还会删除你保存在 `~/Library/Preferences/Throne` 中的数据。
+使用 `brew upgrade --cask throne` 更新；更新后，Throne 会再次请求 Tun 模式所需的权限。`brew uninstall --zap --cask throne` 还会删除你保存在 `~/Library/Preferences/Throne` 中的数据。
 
 ### Arch Linux（AUR） {#aur}
 
@@ -179,7 +179,7 @@ brew install --cask throneproj/tap/throne
 ```nix
 programs.throne = {
   enable = true;
-  tunMode.enable = true; # optional, needed for TUN mode
+  tunMode.enable = true; # optional, needed for Tun mode
 };
 ```
 
@@ -224,9 +224,9 @@ cp deployment/linux-amd64/ThroneCore build/
 
 ## 更新 {#updating}
 
-Windows 和 Linux 的 ZIP 版以及 Windows 安装程序的按用户安装可以自行更新：`程序`（Program）→ `检查更新`（Check For Update），然后点击 `更新`（Update）。如果有[无界面 Throne](@/headless/_index.zh.md) 从同一安装位置运行，请先停止它。其他安装方式请按原来的安装方式更新：运行新的安装程序、安装新的软件包、再次运行安装脚本、在 macOS 上替换 `Throne.app`，或使用你的包管理器。你的配置档和设置会保留。
+Windows 和 Linux 的 ZIP 版以及通过 Windows 安装程序安装的版本可以自行更新：`程序`（Program）→ `检查更新`（Check for updates），然后点击 `更新`（Update）。为所有用户安装的版本需要在管理员账户中确认 Windows 的提示才能更新。如果有[无界面 Throne](@/headless/_index.zh.md) 从同一安装位置运行，请先停止它。其他安装方式请按原来的安装方式更新：运行新的安装程序、安装新的软件包、再次运行安装脚本、在 macOS 上替换 `Throne.app`，或使用你的包管理器。你的配置档和设置会保留。
 
-在 Linux 或 macOS 上更新后，Throne 可能会再次请求 TUN 模式所需的权限。有关 Beta 版和备份，请参阅[备份、更新与迁移](@/guides/backup.zh.md#updating)。
+更新后，Throne 可能会再次请求 Tun 模式所需的权限。有关 Beta 版和备份，请参阅[备份、更新与迁移](@/guides/backup.zh.md#updating)。
 
 ## 故障排除 {#troubleshooting}
 

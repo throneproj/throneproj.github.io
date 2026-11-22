@@ -11,7 +11,7 @@ Throne API 让脚本、热键工具和其他设备可以控制和管理 Throne �
 
 ## 在 Throne 中开启 API {#enable}
 
-1. 打开 `设置`（Settings）→ `Integration Settings`（仅限高级模式，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)），然后打开 `Throne API` 标签页。
+1. 打开 `设置`（Settings）→ `Integration Settings`，然后打开 `Throne API` 标签页。
 2. 勾选 `Enable the Throne API`。Throne 会填入一个新的密钥。
 3. 点击 `确定`（OK）。
 
@@ -57,14 +57,14 @@ go install github.com/throneproj/Throne-api/cmd/thronectl@latest
 
 | 命令 | 作用 |
 | --- | --- |
-| `status` | 状态、正在运行的配置档、各种模式、路由配置档、Throne 的版本；如果有其他程序占用了 TUN，还会显示它是什么。 |
+| `status` | 状态、正在运行的配置档、各种模式、路由配置档、Throne 的版本；如果有其他程序妨碍 Tun 模式，还会显示它是什么。 |
 | `groups` | 列出分组及其自己的路由配置档。 |
 | `profiles [--group N] [--name REGEX] [--ids 1,2]` | 列出配置档及其最近的测试结果。 |
 | `connect <id>` | 启动一个配置档。`--restart` 会在它已经运行时重新启动它。 |
 | `connect last` | 启动正在运行的配置档，否则启动上次的配置档，否则启动记住的配置档。 |
 | `connect best [--group N] [--name REGEX] [--max-age 1h]` | 启动延迟最低的配置档，并先测试那些没有比 `--max-age` 更新的结果的配置档。 |
 | `disconnect`、`toggle` | 停止正在运行的配置档；没有配置档运行时，`toggle` 执行 `connect last`。 |
-| `tun on`、`tun off`、`tun toggle` | TUN 模式。 |
+| `tun on`、`tun off`、`tun toggle` | Tun 模式。 |
 | `proxy on`、`proxy off`、`proxy toggle` | 系统代理。 |
 | `routes`、`route <id>` | 列出路由配置档；将某个路由配置档设为活动配置档，并重新启动正在运行的配置档。 |
 | `test latency`、`test ip`、`test speed` | 对 `--group N`（可选再加 `--name REGEX`）或配置档 ID 运行 URL 测试、IP 测试或速度测试。 |
@@ -81,7 +81,7 @@ go install github.com/throneproj/Throne-api/cmd/thronectl@latest
 | `backup create [-o FILE] [--parts LIST]` | 写入一个 `.thrbackup` 存档。 |
 | `backup restore FILE [--parts LIST] [--yes]` | 显示存档的内容，询问后恢复它，并重启 Throne。默认部分：`profiles,routes,otp,ip_lists`。 |
 | `rulesets update` | 重新下载正在运行的配置档所用的远程规则集。 |
-| `geo`、`geo update [geoip] [geosite] [--only-missing]` | 显示 Xray 的 geo 文件；重新下载它们。 |
+| `geo`、`geo update [geoip] [geosite] [--only-missing]` | 显示 Xray 的 geo 资源；重新下载它们。 |
 | `restart`、`shutdown [--yes]` | 重启 Throne；询问后退出 Throne。 |
 | `web [--listen ADDR] …`、`web passwd` | 提供 [Web 界面](@/headless/web.zh.md)；设置它的密码。 |
 | `keygen [-o FILE]` | 创建一个新密钥，打印它或把它写入一个只有你能读取的新文件。它不会连接 Throne。 |
@@ -108,11 +108,11 @@ go install github.com/throneproj/Throne-api/cmd/thronectl@latest
 | 测试 | `test_url`、`test_concurrency`、`test_timeout_ms` |
 | 自动更新 | `sub_auto_update`、`sub_respect_server_interval`、`route_auto_update`（单位为分钟，`0` 表示关闭） |
 | 断网保护 | `kill_switch` |
-| TUN | `tun_strict_route`、`tun_auto_redirect`（Linux）、`tun_mtu`、`tun_ipv6`、`tun_ipv4_cidr`、`tun_ipv6_cidr` |
+| Tun | `tun_strict_route`、`tun_auto_redirect`（Linux）、`tun_mtu`、`tun_ipv6`、`tun_ipv4_cidr`、`tun_ipv6_cidr` |
 | 端口与 API | `dns_in_port`、`dns_in_lan`（[供其他设备使用的 DNS 服务器](@/guides/dns.zh.md#dns-server)）、`clash_api_port`、`clash_listen_addr`、`singbox_api_port` |
 | DNS 与时间 | `remote_dns`、`direct_dns`、`ntp_enabled`、`ntp_server`、`ntp_interval` |
 
-大多数更改会在正在运行的配置档重新启动时生效（TUN 设置在下次启动 TUN 模式时生效）。需要重新启动时，`thronectl status` 会提示，`thronectl connect last --restart` 会执行重新启动。允许的值见规范中的[设置表](https://github.com/throneproj/Throne-api/blob/main/spec/api.md#settings)。
+大多数更改会在正在运行的配置档重新启动时生效（Tun 设置在下次启动 Tun 模式时生效）。需要重新启动时，`thronectl status` 会提示，`thronectl connect last --restart` 会执行重新启动。允许的值见规范中的[设置表](https://github.com/throneproj/Throne-api/blob/main/spec/api.md#settings)。
 
 ## 管理请求 {#admin-requests}
 
@@ -123,7 +123,7 @@ Throne 只响应来自其所在电脑（`127.0.0.1` 或 `::1`）的管理请求�
 - 备份存档以明文形式包含你的配置档的密码和密钥，以及你的 OTP 密钥。`thronectl` 创建的存档只有你能读取；请保持这种状态，并在不再需要时删除它们。
 - 如果存档中的配置档会运行程序或读取文件（例如额外核心（Extra Core）配置档），`backup restore` 会拒绝该存档（`invalid_archive`）。请在 Throne 窗口中恢复这类存档。
 - `backup restore` 和 `shutdown` 会先询问。在没有终端的脚本中，请加上 `--yes`。
-- 恢复 `settings` 时，会保留属于这台电脑的设置，例如 Throne API、端口、TUN 和断网保护。
+- 恢复 `settings` 时，会保留属于这台电脑的设置，例如 Throne API、端口、Tun 模式和断网保护。
 
 ## 示例 {#examples}
 
@@ -153,7 +153,7 @@ if ($best) { thronectl connect $best.id }
 
 ### 用一个按键连接和断开 {#example-hotkey}
 
-让 Stream Deck、宏键盘或热键工具上的按键运行 `thronectl toggle`。这类工具通常不会读取你的 shell 设置：请把 `THRONE_KEY_FILE`（如有需要，还有 `THRONE_ADDR`）设为用户环境变量，或者加上 `--key-file`。Throne 也为 `Start/Stop Profile` 和 `Toggle Tun Mode` 提供了[全局热键](@/reference/shortcuts.zh.md#global-hotkeys)。
+让 Stream Deck、宏键盘或热键工具上的按键运行 `thronectl toggle`。这类工具通常不会读取你的 shell 设置：请把 `THRONE_KEY_FILE`（如有需要，还有 `THRONE_ADDR`）设为用户环境变量，或者加上 `--key-file`。Throne 也为 `启动/停止配置档`（Start/Stop Profile）和 `切换 Tun 模式`（Toggle Tun mode）提供了[全局热键](@/reference/shortcuts.zh.md#global-hotkeys)。
 
 ## Shell 补全 {#completion}
 

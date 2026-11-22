@@ -7,7 +7,7 @@ toc = true
 
 ## Profile types {#protocols}
 
-Create a profile with `Program` → `New profile` (`Ctrl+N`), or on Android with `Add profile` → `Manual settings`. You cannot change the type of an existing profile. `Direct`, `Chain Proxy`, `Extra Core` and the `Custom` types are Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
+Create a profile with `Program` → `New profile` (`Ctrl+N`), or on Android with `Add profile` → `Manual settings`. You cannot change the type of an existing profile.
 
 | Type | Notes |
 |---|---|
@@ -21,14 +21,14 @@ Create a profile with `Program` → `New profile` (`Ctrl+N`), or on Android with
 | `VLESS (Xray)` | Xray implementation: XHTTP, REALITY, VLESS encryption, Finalmask, the [XDRIVE](@/advanced/xray.md#xdrive) transport and mKCP with [XDNS](@/advanced/dns_tunnels.md#xdns). |
 | `Hysteria` | Hysteria 1 and 2 in one type: choose the `Protocol Version`. Supports port hopping and obfuscation. With `Up Mbps` or `Down Mbps` empty, Hysteria 1 uses 10 Mbps up and 50 Mbps down, so set your real line speed. |
 | `TUIC` | |
-| `Juicity` | |
+| `Juicity` | `Cert Chain SHA256` takes the certificate chain hash that juicity-server prints, instead of the CA check. |
 | `Naive` | NaïveProxy over HTTPS or QUIC. On Android: `Naïve`. |
-| `TrustTunnel` | |
+| `TrustTunnel` | `Client Random Key` takes the hex key of the server's `client_random_auth_key` rule, instead of `Client Random`. |
 | `AnyTLS` | |
 | `Mieru` | |
 | `Snell` | Snell version 4 or 6. |
 | `ShadowTLS` | |
-| `WireGuard` | For AmneziaWG, tick `Enable Amnezia` (Android: `Enable AmneziaWG`). `Amnezia Options` → `Generate QUIC Signature...` makes the handshake look like HTTP/3 to a domain you choose. Can create a Cloudflare WARP account, see [WARP](@/advanced/warp.md#generate). |
+| `WireGuard` | For AmneziaWG, tick `Enable Amnezia` (Android: `Enable AmneziaWG`). `Amnezia Options` → `Generate QUIC signature` makes the handshake look like HTTP/3 to a domain you choose. Can create a Cloudflare WARP account, see [WARP](@/advanced/warp.md#generate). |
 | `MASQUE` | HTTP/3 or HTTP/2. Can create a Cloudflare WARP identity. |
 | `OpenVPN` | Imports `.ovpn` files. One-time passwords (OTP) work only on the desktop. See [OpenVPN](@/advanced/vpn_profiles.md#openvpn). |
 | `OpenConnect` | AnyConnect, GlobalProtect, Fortinet, F5, Pulse and Juniper (`nc`) servers. OTP works only on the desktop. See [OpenConnect](@/advanced/vpn_profiles.md#openconnect). |
@@ -40,15 +40,17 @@ Create a profile with `Program` → `New profile` (`Ctrl+N`), or on Android with
 | `Custom (sing-box outbound)`, `Custom (sing-box config)` | Your own sing-box JSON: one outbound, or a complete config that runs unchanged. On Android: `Custom config`. See [Custom configs](@/advanced/chains.md#custom-config). |
 | `Custom (Xray outbound)`, `Custom (Xray config)` | The same for Xray JSON. |
 | `Extra Core` | Desktop only. Runs an external program you choose and connects to its local SOCKS port, see [Extra Core](@/advanced/chains.md#extra-core). |
-| `Chain Proxy` | Sends traffic through several profiles in a row. On Android: `Proxy chain`. See [Chains](@/advanced/chains.md#chains). |
+| `Proxy Chain` | Sends traffic through several profiles in a row. On Android: `Proxy chain`. See [Chains](@/advanced/chains.md#chains). |
 
 `AnyTLS`, `Hysteria`, `Juicity`, `MASQUE`, `ShadowTLS`, `TrustTunnel` and `TUIC` always use TLS, so their editors have no switch to turn it off.
+
+`Hysteria`, `TUIC` and `MASQUE` over HTTP/3 run over QUIC. Where QUIC is blocked, try the [QUIC opener](@/advanced/presets.md#quic-opener).
 
 ### Which engine runs a profile {#engines}
 
 Every type runs in sing-box, except `VLESS (Xray)`, `Custom (Xray outbound)` and `Custom (Xray config)`, which run in the Xray engine built into the core (XDNS too, as it is a `VLESS (Xray)` profile), and `Extra Core`, which runs the program you choose. Throne for Android uses the same core.
 
-`Settings` → `Basic Settings` → `Core` → `Xray VLESS Preference` (Advanced mode only) decides whether an imported `vless://` link becomes `VLESS` or `VLESS (Xray)`. Links that need a feature only Xray has, such as VLESS encryption or mKCP (`type=kcp`), always become `VLESS (Xray)`. See [sing-box vs Xray](@/advanced/xray.md#vless-preference).
+`Settings` → `Basic Settings` → `Core` → `Xray VLESS Preference` decides whether an imported `vless://` link becomes `VLESS` or `VLESS (Xray)`. Links that need a feature only Xray has, such as VLESS encryption or mKCP (`type=kcp`), always become `VLESS (Xray)`. See [sing-box vs Xray](@/advanced/xray.md#vless-preference).
 
 ## Import formats {#import-formats}
 
@@ -56,9 +58,9 @@ Every type runs in sing-box, except `VLESS (Xray)`, `Custom (Xray outbound)` and
 
 | Source | Desktop | Android |
 |---|---|---|
-| Clipboard | `Ctrl+V`, or `Program` → `Add profile from clipboard` | `Add profile` → `Import from clipboard` |
-| Files | `Program` → `Add profile from File(s)` (`Ctrl+O`), or drag files onto the main window | `Add profile` → `Import from file` |
-| QR codes | `Program` → `Scan QR Code` (`Ctrl+Shift+Q`) reads QR codes on your screens. QR images also work as files. | `Add profile` → `Scan QR code` (camera, or `Select image`) |
+| Clipboard | `Ctrl+V`, or `Program` → `Paste from clipboard` | `Add profile` → `Import from clipboard` |
+| Files | `Program` → `Import from file` (`Ctrl+O`), or drag files onto the main window | `Add profile` → `Import from file` |
+| QR codes | `Program` → `Scan QR code` (`Ctrl+Shift+Q`) reads QR codes on your screens. QR images also work as files. | `Add profile` → `Scan QR code` (camera, or `Select image`) |
 | Subscriptions | A group of type `Subscription`, see [Subscriptions & Groups](@/guides/subscriptions.md#add-subscription) | The same, in `Groups` |
 | Links | `throne://` links, see [Deep Links](@/advanced/deeplinks.md) | `throne://` links and protocol links that you open in other apps |
 
@@ -79,7 +81,7 @@ Both apps read these formats in pasted text, files, QR codes and subscription re
 | Xray JSON: a config, an array of outbounds, or one outbound | `VLESS (Xray)` for VLESS outbounds, `Custom (Xray outbound)` for the others |
 | Xray JSON: an array of complete configs | One `Custom (Xray config)` profile for each config |
 | SIP008 JSON (Shadowsocks) | `Shadowsocks` profiles |
-| Clash or Mihomo YAML with a `proxies:` list | Profiles for the `socks5`, `http`, `ss`, `vmess`, `vless`, `trojan`, `anytls`, `snell`, `hysteria`, `hysteria2`, `tuic`, `masque` and `ssh` entries |
+| Clash or Mihomo YAML with a `proxies:` list | Profiles for the `socks5`, `http`, `ss`, `vmess`, `vless`, `trojan`, `anytls`, `snell`, `hysteria`, `hysteria2`, `tuic`, `masque`, `ssh` and `wireguard` entries, including AmneziaWG options (`amnezia-wg-option`) |
 | WireGuard or AmneziaWG `.conf` file | One `WireGuard` profile, named after a `# Name =` or `# remarks:` comment, or the comment above `[Peer]` |
 | OpenVPN `.ovpn` file | One `OpenVPN` profile |
 | AnyConnect XML profile, an `openconnect` command line, or a file with a `protocol=` line | `OpenConnect` profiles |
@@ -119,11 +121,11 @@ These values do not stop the import. Throne leaves the value out, imports the re
 | Throne link | `throne://add/…` | Throne desktop and Throne for Android |
 | Old Throne link | `json://…` | Throne, for import only |
 
-A **standard link** uses the protocol's usual link format. `Auto Selector`, `Chain Proxy`, the `Custom` types, `Direct`, `Extra Core`, `MASQUE`, `OpenVPN`, `OpenConnect` and `VLESS (Xray)` with XDRIVE have none, so Throne usually gives the Throne link instead. `Tailscale` shows a `ts://` link that Throne cannot import, so share its Throne link. `DNSTT / VayDNS` and `MasterDNS` give a `dnst://` link, see [DNS Tunnels](@/advanced/dns_tunnels.md#import).
+A **standard link** uses the protocol's usual link format. `Auto Selector`, `Proxy Chain`, the `Custom` types, `Direct`, `Extra Core`, `MASQUE`, `OpenVPN`, `OpenConnect` and `VLESS (Xray)` with XDRIVE have none, so Throne usually gives the Throne link instead. `Tailscale` shows a `ts://` link that Throne cannot import, so share its Throne link. `DNSTT / VayDNS` and `MasterDNS` give a `dnst://` link, see [DNS Tunnels](@/advanced/dns_tunnels.md#import).
 
 A **Throne link** holds the profile's settings as Base64-encoded JSON. It works for every type, but only Throne can read it, see [Deep Links](@/advanced/deeplinks.md#add). `json://` is its older format, which Throne still imports.
 
-A `Chain Proxy` or `Auto Selector` link stores only the internal numbers of the profiles or group it uses, so it works only in the same Throne installation.
+A `Proxy Chain` or `Auto Selector` link stores only the internal numbers of the profiles or group it uses, so it works only in the same Throne installation.
 
 ### ECH and certificate pins in links {#ech-links}
 
@@ -144,12 +146,12 @@ Right-click a profile and open `Share`:
 
 | Action | What you get |
 |---|---|
-| `QR Code and link` | The standard link and its QR code. Tick `Deep Link` for the Throne link. |
-| `Copy links of selected` (`Ctrl+C`) | The standard links of the selected profiles, one per line. |
-| `Copy links of selected (Deep Links)` (`Ctrl+Alt+C`) | The Throne links of the selected profiles. |
+| `QR code and link` | The standard link and its QR code. Tick `Deep link` for the Throne link. |
+| `Copy link` (`Ctrl+C`) | The standard links of the selected profiles, one per line. |
+| `Copy deep link` (`Ctrl+Alt+C`) | The Throne links of the selected profiles. |
 | `Export config` (`Ctrl+E`) | The core config Throne generates for the profile, in a `sing-box` tab and, for profiles that use Xray, an `Xray` tab. A config for other clients, not a share link. |
 
-For the links of a whole group, use `Groups` → `Edit current Group` → `Copy profile share links` or `Copy profile share links (Deep Links)`. `Copy links of selected (Deep Links)` and `Export config` are Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
+For the links of a whole group, use `Groups` → `Edit group` → `Copy profile share links` or `Copy profile share links (deep links)`.
 
 ### Share on Android {#share-android}
 

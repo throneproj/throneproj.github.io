@@ -9,23 +9,25 @@ Routing decides where each connection goes: through the proxy, direct, or nowher
 
 ## How routing works {#how-routing-works}
 
-A routing profile is a list of rules plus a default outbound. Throne checks the rules from top to bottom and the first match decides where the connection goes. If no rule matches, the default outbound is used.
+A routing profile is a list of rules plus `Everything else goes to`, the outbound for traffic that no rule matches. Throne checks the rules from top to bottom and the first match decides where the connection goes.
 
 | Outbound | Where the traffic goes |
 | --- | --- |
-| `proxy` | Through the running profile, and through WARP when it is on. |
-| `direct` | Straight to the internet. |
-| `block` | Nowhere. The connection is refused. |
-| `warp-bypass` | Through the running profile, without WARP. See [WARP](@/advanced/warp.md#warp-bypass). |
-| A saved profile | Through that profile instead. Advanced rules only. |
+| `Proxy` | Through the running profile, and through WARP or Tor when one is on. |
+| `Direct` | Straight to the internet. |
+| `Block` | Nowhere. The connection is refused. |
+| `Proxy without WARP` | Through the running profile, without WARP or Tor. See [WARP](@/advanced/warp.md#warp-bypass). |
+| A saved profile | Through that profile instead. Rules only, see [Rules](#advanced-rules). |
 
-One routing profile is active at a time. Switch it from the list at the bottom of the `Routing` menu, or from the tray menu → `Select Routing`. A running connection restarts with the new rules. A group can also use its own routing profile, see [Routing profile per group](#group-routing).
+`Routing` → `Exit through` adds a last hop to `Proxy` traffic: `Cloudflare WARP` (see [WARP](@/advanced/warp.md)) or `Tor` (see [Tor](@/advanced/tor.md)). `Selected profile` adds none.
+
+One routing profile is active at a time. Switch it from the list at the top of the `Routing` menu, or from the tray menu → `Routing: <name>`. A running connection restarts with the new rules. A group can also use its own routing profile, see [Routing profile per group](#group-routing).
 
 ## Download ready-made profiles {#download-profiles}
 
-1. Open `Routing` → `Download Profiles` and choose `China`, `Iran` or `Russia`.
+1. Open `Routing` → `Download routing profile` and choose `China`, `Iran` or `Russia`.
 2. Keep `Auto update` ticked and click `OK`.
-3. Choose one of the new profiles at the bottom of the `Routing` menu. Downloading alone does not activate it.
+3. Choose one of the new profiles at the top of the `Routing` menu. Downloading alone does not activate it.
 
 | Profile | What it does |
 | --- | --- |
@@ -39,34 +41,36 @@ The lists are maintained in [throneproj/routeprofiles](https://github.com/throne
 
 ## Routing profiles {#profiles}
 
-Routing profiles are managed on the `Route` tab of `Settings` → `Routing Settings`, which is also the first item of the `Routing` menu. Right-clicking a profile in the `Routing` menu opens it in the editor directly. Changes apply when you click `OK`; if a connection is running, click `Restart` in the "Settings changed, restart to apply" notice.
+Routing profiles are managed on the `Routing` tab of `Settings` → `Routing Settings`, which is also the last item of the `Routing` menu. `Routing` → `Edit current profile` opens the active profile in the editor, and right-clicking a profile in the `Routing` menu opens that one. `Save` in the editor stores the profile at once, and `Cancel` in `Routing Settings` does not undo it. If a connection is running, click `Restart` in the "Settings changed, restart to apply" notice.
 
 There are three kinds:
 
-- **Structured profiles**, edited in Throne with [simple rules](#simple-rules) and [advanced rules](#advanced-rules). Most people only need these.
+- **Structured profiles**, edited in Throne with [lists](#simple-rules) and [rules](#advanced-rules). Most people only need these.
 - **[Remote profiles](#remote-profiles)**, downloaded from a URL.
 - **[Raw profiles](#raw-profiles)**, written as sing-box JSON.
 
 To create a structured profile:
 
-1. On the `Route` tab, click `New` → `Structured profile`.
-2. Enter a `Name` and choose the `Default outbound`.
-3. Add rules on the `Basic` or `Advanced` tab and click `OK`.
+1. On the `Routing` tab, click `New` → `Structured profile`.
+2. Enter a `Name` and choose `Everything else goes to`.
+3. Add entries to the lists or add rules, and click `Save`.
 4. Activate it from the `Routing` menu.
 
-A profile's `DNS` tab can give it its own DNS servers, see [DNS per routing profile](@/guides/dns.md#route-dns). Its `Endpoints` tab, shown when you have OpenVPN or OpenConnect profiles, runs them next to the proxy, see [split tunnel](@/advanced/vpn_profiles.md#split-tunnel).
+A new profile starts with the rule `DNS queries`, which hands DNS lookups to Throne's DNS. A profile's `DNS` tab can give it its own DNS servers, see [DNS per routing profile](@/guides/dns.md#route-dns). Its `Endpoints` tab, shown when you have OpenVPN or OpenConnect profiles, runs them next to the proxy, see [split tunnel](@/advanced/vpn_profiles.md#split-tunnel).
 
-The `Common` tab also has these settings (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)):
+The `Routing` tab also has these settings:
 
 | Setting | What it does |
 | --- | --- |
-| `Default Domain Strategy` | IPv4 or IPv6 preference when Throne resolves a server or a site that goes direct. |
-| `Resolve Domain Strategy` | Resolves every domain before the rules run, so IP rules also match domains. |
-| `Remote Rule-set Mirror` | Where rule-sets and profiles hosted on GitHub are downloaded from. Default: `jsDelivr(Cloudflare)`. |
+| `Domain Strategy` → `Default Domain Strategy` | IPv4 or IPv6 preference when Throne resolves a server or a site that goes direct. |
+| `Domain Strategy` → `Resolve Domain Strategy` | Resolves every domain before the rules run, so IP rules also match domains. |
+| `Updates` → `Remote Rule-set Mirror` | Where rule-sets and profiles hosted on GitHub are downloaded from. Default: `jsDelivr(Cloudflare)`. |
 
-## Simple rules {#simple-rules}
+## Lists {#simple-rules}
 
-The `Basic` tab of a profile has four boxes: `Direct`, `Proxy`, `Block` and `Warp-bypass`. Each line in a box sends matching traffic there.
+A profile has four lists: `Direct`, `Proxy`, `Block` and `Proxy without WARP`. On the profile's `Rules` tab they are the rows tagged `Quick list`; select one to edit it. Type an entry and press `Enter` or click `Add`; pasting several lines adds them all. Double-click an entry to edit it.
+
+A line without a prefix is typed by its shape: `example.com` becomes a domain suffix, `10.0.0.0/8` an IP range, `app.exe` a program and a full path a program path. Built-in rule-set names and `.srs` URLs become rule-sets. A prefix says it explicitly:
 
 | Line | Matches |
 | --- | --- |
@@ -79,15 +83,15 @@ The `Basic` tab of a profile has four boxes: `Direct`, `Proxy`, `Block` and `War
 | `processName:Telegram.exe` | A program, by file name. |
 | `processPath:C:\Program Files\App\app.exe` | A program, by full path. |
 
-- Write one entry per line. Prefixes are case-sensitive: `processName`, not `processname`.
+- Prefixes are case-sensitive: `processName`, not `processname`. A program name without `.exe`, as on Linux and macOS, needs `processName:`.
 - A process name must match exactly, including case and `.exe` on Windows. The [Connections tab](#connections-tab) shows the exact name.
-- The editor marks lines it cannot use. Fix them before you switch tabs, because switching tabs drops them.
+- An entry that cannot be used is refused with the reason, for example a URL with `https://` instead of a domain.
 
 {% alert_info() %}
-Process rules only see traffic that reaches Throne. In system proxy mode, programs that ignore the proxy never reach it, so use process rules together with `Tun Mode`. See [TUN Mode](@/guides/tun_mode.md#enable).
+Process rules only see traffic that reaches Throne. In system proxy mode, programs that ignore the proxy never reach it, so use process rules together with `Tun mode`. See [Tun mode](@/guides/tun_mode.md#enable).
 {% end %}
 
-**Example: proxy everything except local sites, and block ads.** Set `Default outbound` to `proxy`. In `Direct`:
+**Example: proxy everything except local sites, and block ads.** Set `Everything else goes to` to `Proxy`. In `Direct`:
 
 ```text
 ruleset:geosite-ir
@@ -102,76 +106,81 @@ ruleset:geosite-category-ads-all
 
 Replace `ir` with your country code, for example `cn` or `ru`.
 
-**Example: only one program and one site through the proxy.** Set `Default outbound` to `direct`. In `Proxy`:
+**Example: only one program and one site through the proxy.** Set `Everything else goes to` to `Direct`. In `Proxy`:
 
 ```text
 processName:Telegram.exe
 suffix:example.org
 ```
 
-Each box becomes rules on the `Advanced` tab, such as `Simple Address Bypass` for the addresses in `Direct` and `Simple Process Name Proxy` for the programs in `Proxy`. They are added in the order `Direct`, `Block`, `Proxy`, `Warp-bypass`, and the first match wins, so a line in `Proxy` has no effect if a broader line in `Direct` matches the same traffic. To make an exception, for example to proxy `example.ir` while `geosite-ir` goes direct, add `suffix:example.ir` to `Proxy`, then on the `Advanced` tab move `Simple Address Proxy` above the rule that contains `geosite-ir`.
+Each list works like one rule. By default they run in the order `Direct`, `Proxy`, `Block`, `Proxy without WARP`, and the first match wins, so an entry in `Proxy` has no effect if a broader entry in `Direct` matches the same traffic. To make an exception, for example to proxy `example.ir` while `geosite-ir` goes direct, add `example.ir` to `Proxy`, then drag the `Proxy` row above the `Direct` row on the `Rules` tab.
 
-## Advanced rules {#advanced-rules}
+## Rules {#advanced-rules}
 
-The `Advanced` tab lists every rule of the profile in order. `Move Up` and `Move Down` change the order. Untick the check box of a rule to disable it without deleting it; this also works for the rules of the `Basic` boxes. In Simple mode, the tab only appears when the profile has rules that the `Basic` tab cannot show.
+The `Rules` tab lists every rule of the profile in order. The four lists are rows tagged `Quick list`, and `Everything else` is always last.
 
-To add a rule, click `New` and choose an `Action`. Then tick the attributes you need on the `+` tab and fill them in, one entry per line.
+- Drag a row to change the order, or use `Alt+Up` and `Alt+Down`, or right-click → `Move to top` or `Move to bottom`.
+- Untick a row, or press `Space`, to turn it off without deleting it.
+- `Duplicate` and `Delete` act on the selected rule, and the filter box finds rules by name, domain or app.
+- A rule with a problem is marked, and the profile cannot be saved until it is fixed.
 
-| Action | What it does |
+To add a rule, click `New rule` and enter a `Name`. Under `When`, click `+ Add condition`, choose a condition and fill in its values (`+ Add` adds another value). Under `Then`, choose what happens to matching traffic:
+
+| Then | What it does |
 | --- | --- |
-| `route` | Sends matching traffic to the rule's `outbound`. A new rule uses `direct` until you tick `outbound` and choose another one. |
-| `reject` | Blocks matching traffic. In advanced rules, use this instead of `block`. |
-| `hijack-dns` | Answers DNS queries with Throne's DNS. |
-| `route-options` | Sets options such as `override_address` or `tls_spoof`, then continues with the next rules. |
-| `sniff` | Detects the protocol and the domain of a connection, then continues. |
-| `resolve` | Looks up the IP address of the domain, then continues. |
-| `bypass` | Linux only. See the [sing-box documentation](https://sing-box.sagernet.org/configuration/route/rule_action/). |
+| `Proxy`, `Direct`, `Proxy without WARP` | Sends it there. |
+| `Block` | Refuses it. `Reject with` chooses how. |
+| A specific profile | Sends it through a saved profile, shown as `[group] name`. Throne runs it next to the profile you started. |
+| `Hijack DNS` | Answers DNS queries with Throne's DNS. |
+| `Sniff` | Detects the protocol and the domain of a connection, then continues with the next rule. |
+| `Resolve` | Looks up the IP address of the domain, then continues. |
+| `Set route options` | Applies the `Connection options`, then continues. |
+| `Bypass` | Linux auto-redirect only. See the [sing-box documentation](https://sing-box.sagernet.org/configuration/route/rule_action/). |
 
-`route`, `route-options` and `bypass` also offer `tls_fragment` and `tls_record_fragment`. They split the TLS handshake like the [TLS fragment](@/advanced/presets.md#tls-fragment) options of a profile, which helps `direct` connections to sites that a filter blocks by name.
+The choices that send traffic somewhere also have `Connection options`. `Fragment the TLS handshake` and `Split into TLS records` work like the [TLS fragment](@/advanced/presets.md#tls-fragment) options of a profile, which helps direct connections to sites that a filter blocks by name; `Spoof SNI` works like [TLS spoof](@/advanced/presets.md#tls-spoof).
 
-| Attributes | What they match |
+| Conditions | What they match |
 | --- | --- |
-| `domain`, `domain_suffix`, `domain_keyword`, `domain_regex` | The requested domain. |
-| `ip_cidr`, `ip_is_private` | The destination address. |
-| `rule_set` | Rule-set names or `.srs` URLs. |
-| `port`, `port_range` | The destination port, for example `443` or `1000:2000`. |
-| `source_ip_cidr`, `source_port` and the like | Where the connection comes from, for example another device on your network. |
-| `process_name`, `process_path`, `process_path_regex` | The program on this computer. |
-| `network`, `protocol`, `ip_version` | `tcp`, `udp` or `icmp`; a detected protocol such as `tls` or `bittorrent`; `4` or `6`. |
-| `inbound` | `mixed-in` (the proxy port) or `tun-in` (TUN mode). |
-| `wifi_ssid`, `wifi_bssid` | The Wi-Fi network you are connected to. Not available on macOS. |
-| `invert` | Makes the rule match when its conditions do not. |
+| `Domain`, `Domain suffix`, `Domain keyword`, `Domain regex` | The requested domain. |
+| `IP range`, `Private IP` | The destination address. |
+| `Rule-set` | Rule-set names or `.srs` URLs. |
+| `Port`, `Port range` | The destination port, for example `443` or `1000:2000`. |
+| `Source IP range`, `Source port` and the like | Where the connection comes from, for example another device on your network. |
+| `Process name`, `Process path`, `Process path regex` | The program on this computer. `Choose app` picks one from the running programs and the ones that have used the network. |
+| `Network`, `Protocol (sniffed)`, `IP version` | `tcp`, `udp` or `icmp`; a detected protocol such as `tls` or `bittorrent`; `4` or `6`. |
+| `Inbound` | `mixed-in` (the proxy port) or `tun-in` (Tun mode). |
+| `Wi-Fi name (SSID)`, `Wi-Fi BSSID` | The Wi-Fi network you are connected to. Not available on macOS. |
 
-Within one rule, the domain, IP and `rule_set` attributes match when any of them matches. Every other attribute must match as well.
+Each condition is a box that matches when any one of its values matches, and every box must match. The domain, IP and rule-set conditions share one box, as do the two destination port conditions, the source addresses and the source ports. `Invert` makes the rule match what it would otherwise not match. A rule without conditions is an error, because it would catch all traffic. `sing-box JSON` at the bottom shows the rule as the core gets it.
 
-To send traffic through a specific server, tick `outbound` and choose a saved profile, shown as `[group] name`. Throne runs it next to the profile you started. Extra Core profiles and full custom configs cannot be used this way.
+Extra Core profiles, full custom configs and chains that hold an auto selector cannot be the profile of a rule.
 
 ## Rule-sets {#rule-sets}
 
-A rule-set is a list of domains or IP ranges in a separate file. Use it as `ruleset:<name>` in a box, or in the `rule_set` attribute of an advanced rule.
+A rule-set is a list of domains or IP ranges in a separate file. Use it as `ruleset:<name>` in a list, or in the `Rule-set` condition of a rule.
 
 - **Built-in names**: more than 2,000. Names starting with `geosite-` hold domains, such as `geosite-youtube` or `geosite-category-ads-all`. Names starting with `geoip-` hold IP ranges, such as `geoip-ir` or `geoip-telegram`. The editor suggests names as you type.
 - **Your own files**: the URL of any sing-box binary rule-set. The file name must contain `.srs`.
 
-Rule-sets are downloaded when a profile starts. `Routing` → `Update Rule-Sets` downloads fresh copies. If GitHub is blocked or slow on your network, change `Routing Settings` → `Common` → `Remote Rule-set Mirror`. The mirror also applies to the AdBlock list and to routing profiles hosted on GitHub.
+Rule-sets are downloaded when a profile starts. `Routing` → `Update rule-sets` downloads fresh copies. If GitHub is blocked or slow on your network, change `Routing Settings` → `Routing` → `Updates` → `Remote Rule-set Mirror`. The mirror also applies to the ad list of [Block ads](#adblock) and to routing profiles hosted on GitHub.
 
 ## Remote profiles {#remote-profiles}
 
-A remote profile is a structured profile that Throne downloads from a URL, like the ones from [Download Profiles](#download-profiles). Providers can also share one as a [`throne://remoteroute/` link](@/advanced/deeplinks.md#remoteroute).
+A remote profile is a structured profile that Throne downloads from a URL, like the ones from [Download routing profile](#download-profiles). Providers can also share one as a [`throne://remoteroute/` link](@/advanced/deeplinks.md#remoteroute).
 
-To add one, click `New` → `Remote profile` on the `Route` tab, enter the `URL`, tick `Auto update` and click `OK`. The URL can serve a `throne://route/` link, its Base64 text or the profile's JSON. Raw profiles cannot be remote.
+To add one, click `New` → `Remote profile` on the `Routing` tab, enter the `URL`, tick `Auto update` and click `Save`. `Preview` shows what the URL holds, and `Fetch now` replaces the rules with it right away. The URL can serve a `throne://route/` link, its Base64 text or the profile's JSON. Raw profiles cannot be remote.
 
-Automatic updates also need `Settings` → `Basic Settings` → `Subscription` → `Routing profiles auto update`, which is off by default (Advanced mode only). To update right away, click `Update` on the `Route` tab.
+Automatic updates also need `Routing Settings` → `Routing` → `Updates` → `Routing profiles auto update` → `Enable`, which is off by default. To update right away, click `Update` on the `Routing` tab.
 
 {% alert_warning() %}
-An update replaces the rules and the default outbound of the profile, so your changes to it are lost. To customize a remote profile, `Clone` it and untick `Auto update` in the copy. Rules you disabled and the profile's own DNS settings are kept.
+An update replaces the rules and `Everything else goes to`, so your changes to the profile are lost. To customize a remote profile, `Clone` it and untick `Auto update` in the copy. Rules you disabled and the profile's own DNS settings are kept.
 {% end %}
 
 ## Routing profile per group {#group-routing}
 
 A group can connect with its own routing profile instead of the one in the `Routing` menu. For example, the servers of one provider can use `Bypass Iran` while all other groups use `Default`.
 
-1. Right-click the group's tab and choose `Edit selected Group`.
+1. Right-click the group's tab and choose `Edit group`.
 2. Choose a `Routing Profile`. `Default (…)` follows the `Routing` menu.
 3. Click `OK`.
 
@@ -190,9 +199,9 @@ Throne saves it as a structured routing profile named by the provider. If the gr
 
 A raw profile is a complete sing-box `route` object in JSON, for features that the rule editor does not offer. Create one with `New` → `Raw profile`.
 
-Outbounds are written as numbers: `-1` is `proxy`, `-2` is `direct`, `-5` is `warp-bypass`, and a profile ID is that saved profile. The editor suggests your profiles after `"outbound":`. Without `final`, Throne uses `proxy`.
+Outbounds are written as numbers: `-1` is `proxy`, `-2` is `direct`, `-5` is `warp-bypass` (`Proxy without WARP`), and a profile ID is that saved profile. The editor suggests your profiles after `"outbound":`. Without `final`, Throne uses `proxy`.
 
-Built-in rule-set names are not defined in raw profiles, and Throne does not add the DNS step that structured profiles get. For TUN mode, start your rules like this:
+Built-in rule-set names are not defined in raw profiles, and Throne does not add the DNS step that structured profiles get. For Tun mode, start your rules like this:
 
 ```json
 {
@@ -205,36 +214,43 @@ Built-in rule-set names are not defined in raw profiles, and Throne does not add
 }
 ```
 
-`Prevent modifications` uses the JSON exactly as written, which can break DNS, Xray profiles and chains. AdBlock, `Enable DNS Routing` and the Connections tab actions do not work with raw profiles, and Throne for Android cannot use them.
+`Prevent modifications` uses the JSON exactly as written, which can break DNS, Xray profiles and chains. `Block ads`, `Enable DNS routing` and the Connections tab actions do not work with raw profiles, and Throne for Android cannot use them.
 
 ## Connections tab {#connections-tab}
 
 The `Connections` tab at the bottom of the main window lists open connections grouped by program, with their destination, protocol, outbound and traffic. Hover over the `Outbound` column to see the rule a connection matched; `final` means that no rule matched.
 
-Right-click a connection to change where such traffic goes:
+Right-click a connection to change where such traffic goes in the routing profile in use:
 
-- `Direct`, `Proxy` or `Block` lists targets with check boxes: each domain level such as `*.example.com`, the site name as a keyword, the IP address when there is no domain, and the program. A ticked target is added to that box of the routing profile in use, and removed from any other box.
-- `Specific server` does the same, but sends the targets through a server you choose.
+- `Direct`, `Proxy` or `Block` lists targets with check boxes: each domain level such as `*.example.com`, the site name as a keyword, the IP address when there is no domain, and the program. A ticked target is added to that list and removed from the other lists; unticking a target removes it.
+- `Specific profile` does the same, but sends the targets through a profile you choose.
 
-Then click `Restart` in the "Settings changed, restart to apply" notice. A target joins the existing rule of that box. If the box was empty, its new rule goes to the end of the list, where a broader rule above it can still match first, so check the order on the `Advanced` tab.
+Then click `Restart` in the "Settings changed, restart to apply" notice. A target joins the existing rule of that list. If the list was empty, its new rule goes to the end, where a broader rule above it can still match first, so check the order on the `Rules` tab.
 
-These actions are not available for raw profiles, for profiles with `Prevent modifications`, for remote profiles with `Auto update`, and for profiles updated by a subscription. To change a remote or subscription profile, clone it first, see [Remote profiles](#remote-profiles) and [From the subscription](#subscription-routing).
+These actions are not available for raw profiles, for profiles with `Prevent modifications`, for remote profiles with `Auto update`, for profiles updated by a subscription, and while `Routing Settings` is open. To change a remote or subscription profile, clone it first, see [Remote profiles](#remote-profiles) and [From the subscription](#subscription-routing).
 
-If the tab is missing, turn on `Settings` → `Basic Settings` → `Style` → `Connection statistics` (Advanced mode only).
+If the tab is missing, turn on `Settings` → `Basic Settings` → `Core` → `Statistics` → `Enable connection statistics`.
 
-## AdBlock {#adblock}
+## Test a route {#route-lookup}
 
-`Routing` → `Enable AdBlock` blocks ads in whichever structured or remote profile is active, with the `adblocksingbox` list of the 217heidai/adblockfilters project. It runs before your own rules, so ads are blocked for direct and proxied traffic alike.
+`Routing` → `Route lookup` shows where a connection would go, without making it. Enter a `Process`, a `Domain` or an `IP address`, adjust `Port`, `Network` and `Sniffed protocol` if needed, and click `Test`. The result names the outbound and the rule that decided, with every rule the connection passed on the way.
 
-If a site stops working, turn AdBlock off to check whether the list blocks it. To block ads in one profile only, put `ruleset:geosite-category-ads-all` in its `Block` box instead.
+- While a profile runs, the running configuration is tested. Otherwise choose a `Routing profile`: Throne builds the configuration it would start with, skips endpoint rules and resolves domains with the system resolver.
+- `Pick` next to `Process` lists running programs and the ones seen connecting, or lets you browse for a file.
+
+## Block ads {#adblock}
+
+`Routing` → `Block ads` blocks ads in whichever structured or remote profile is active, with the `adblocksingbox` list of the 217heidai/adblockfilters project. It runs before your own rules, so ads are blocked for direct and proxied traffic alike.
+
+If a site stops working, turn `Block ads` off to check whether the list blocks it. To block ads in one profile only, put `ruleset:geosite-category-ads-all` in its `Block` list instead.
 
 ## Share profiles {#share-profiles}
 
-Select a profile on the `Route` tab and click `Export` (`Ctrl+C`) to copy it as a `throne://route/` link.
+Select a profile on the `Routing` tab and click `Export` (`Ctrl+C`) to copy it as a `throne://route/` link.
 
-To import one, click the link, or copy it and press `Ctrl+V` in the main window. This adds the profile without activating it. `Import` (`Ctrl+V`) on the `Route` tab also selects it, so it becomes active when you click `OK`.
+To import one, click the link, or copy it and press `Ctrl+V` in the main window. This adds the profile without activating it. `Import` (`Ctrl+V`) on the `Routing` tab also selects it, so it becomes active when you click `OK`.
 
-The link carries the name, the default outbound, the rules (disabled ones included) and the profile's own DNS settings. Rules that send traffic to a saved profile refer to it by name; if the other device has no profile with that name, they use `proxy`. OpenVPN and OpenConnect endpoints are shared without their credentials. For the link format, see [Deep Links](@/advanced/deeplinks.md#route).
+The link carries the name, `Everything else goes to`, the rules (disabled ones included) and the profile's own DNS settings. Rules that send traffic to a saved profile refer to it by name; if the other device has no profile with that name, they use `Proxy`. OpenVPN and OpenConnect endpoints are shared without their credentials. For the link format, see [Deep Links](@/advanced/deeplinks.md#route).
 
 ## On Android {#android}
 

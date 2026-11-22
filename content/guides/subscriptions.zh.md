@@ -11,17 +11,15 @@ toc = true
 更新会让订阅分组与服务商的列表保持一致：它会删除不在列表中的配置档，并撤销你对其他配置档所做的修改。请把你自己的配置档放在基本分组中。
 {% end %}
 
-`前置代理`（Front Proxy）、`落地代理`（Landing Proxy）、分组的 `高级`（Advanced）选项以及 `订阅`（Subscription）标签页上的大部分设置仅在高级模式下显示，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)。
-
 ## 添加订阅 {#add-subscription}
 
 1. 复制订阅地址。它以 `https://` 或 `http://` 开头。
-2. 在 Throne 中按 `Ctrl+V`（`程序`（Program）→ `添加剪贴板中的配置档`（Add profile from clipboard））。
+2. 在 Throne 中按 `Ctrl+V`（`程序`（Program）→ `从剪贴板粘贴`（Paste from clipboard））。
 3. 选择 `创建新的订阅分组`（Create new subscription group），然后点击 `确定`（OK）。
 
 Throne 会以地址中的主机名为分组命名并下载它。`添加配置档到这个分组`（Add profiles to this group）则只添加一次配置档，不保存地址，因此这些配置档永远不会更新。
 
-要先设置分组名称和选项，请选择 `分组`（Groups）→ `添加新分组`（Add new Group），将 `类型`（Type）设为 `订阅`，把地址粘贴到 `URL` 中，然后点击 `确定`。创建分组并不会下载它：请右键点击它的标签页，选择 `更新订阅`（Update subscription）。
+要先设置分组名称和选项，请右键点击配置档列表的空白处并选择 `添加订阅`（Add subscription），或者选择 `分组`（Groups）→ `新建分组`（New group）并将 `类型`（Type）设为 `订阅`。把地址粘贴到 `URL` 中，然后点击 `确定`。创建分组并不会下载它：请右键点击它的标签页，选择 `更新订阅`（Update subscription）。
 
 服务商提供的 `throne://addsub/…` 链接会填好名称和地址；点击 `确定` 即可添加该分组。参见[深度链接](@/advanced/deeplinks.zh.md#addsub)。
 
@@ -29,9 +27,9 @@ Throne 会以地址中的主机名为分组命名并下载它。`添加配置档
 
 选中分组的标签页后按 `Ctrl+U`，或者右键点击该标签页并选择 `更新订阅`。`分组` → `更新所有订阅`（Update all subscriptions）会更新每一个订阅分组，包括设置了 `跳过自动更新`（Skip automatic update）的分组。
 
-更新会添加新的配置档、更新有变化的配置档，并删除不再出现在列表中的配置档。没有变化的配置档保留其测试结果。分组会采用服务商列表的顺序，[排过序的分组](@/guides/testing.zh.md#sort-filter)会重新排序。如果响应中完全没有配置档，分组保持不变。
+更新会添加新的配置档、更新有变化的配置档，并删除不再出现在列表中的配置档。没有变化的配置档保留其测试结果；只要订阅中仍列出[置顶的配置档](@/guides/testing.zh.md#pin)，它们就会保持置顶。分组会采用服务商列表的顺序，[排过序的分组](@/guides/testing.zh.md#sort-filter)会重新排序。如果响应中完全没有配置档，分组保持不变。
 
-- `设置`（Settings）→ `基本设置`（Basic Settings）→ `订阅` → `更新订阅前清除服务器`（Clear servers before updating subscription）会在每次更新前删除该分组的配置档，因此它们的测试结果会丢失。
+- `设置`（Settings）→ `基本设置`（Basic Settings）→ `订阅` → `更新时`（When Updating）→ `更新订阅前清除配置档`（Clear profiles before updating subscription）会在每次更新前删除该分组的配置档，因此它们的测试结果会丢失。
 - `设置` → `基本设置` → `核心`（Core）→ `Xray VLESS 首选项`（Xray VLESS Preference）在导入配置档时生效，因此更改它之后，请重新更新你的订阅。参见 [sing-box 与 Xray](@/advanced/xray.zh.md#vless-preference)。
 
 订阅可以返回哪些格式，请参见[协议与导入格式](@/reference/protocols.zh.md#import-formats)。
@@ -51,14 +49,14 @@ Throne 会以地址中的主机名为分组命名并下载它。`添加配置档
 自动更新默认关闭。要开启它：
 
 1. 打开 `设置` → `基本设置` → `订阅`。
-2. 在 `订阅自动更新`（Subscription auto update）旁边勾选 `启用`（Enable）。
+2. 在 `自动更新`（Auto Update）下勾选 `启用`（Enable）。
 3. 设置时间间隔（分钟），至少为 30（默认值）。
 4. 点击 `确定`。
 
 自分组上次更新起经过了时间间隔后，该分组就会更新；如果更新在 Throne 关闭期间到期，则会在 Throne 启动后不久运行。设置了 `跳过自动更新` 的分组除外。
 
 - `Use the update interval sent by the server` 会遵循服务商建议的间隔（如果服务商发送了的话）。
-- 单个分组可以在其选项 → `高级`（Advanced）→ `更新`（Update）中设置自己的 `Update Interval` 和 `Server Interval`。`保持默认`（Keep Default）遵循 `订阅` 标签页，并且仍需开启 `订阅自动更新`。
+- 单个分组可以在其选项 → `高级`（Advanced）→ `更新`（Update）中设置自己的 `Update Interval` 和 `Server Interval`。`保持默认`（Keep default）遵循 `订阅` 标签页，并且仍需开启 `自动更新` → `启用`。
 
 ## 服务商信息 {#provider-info}
 
@@ -76,16 +74,16 @@ Throne 从响应头 `Subscription-UserInfo`、`Profile-Title`、`Profile-Web-Pag
 
 ## 分组选项 {#group-options}
 
-右键点击分组的标签页，选择 `编辑选定分组`（Edit selected Group）。
+右键点击分组的标签页，选择 `编辑分组`（Edit group），或者选择 `分组`（Groups）→ `编辑分组`。
 
 | 设置 | 作用 |
 | --- | --- |
 | `前置代理`（Front Proxy）、`落地代理`（Landing Proxy） | 为该分组的每个配置档额外增加的两跳。参见[前置代理与落地代理](#front-landing-proxy)。 |
 | `路由配置档`（Routing Profile） | 该分组的配置档连接时使用的路由配置档。`默认（…）`（Default (…)）跟随 `路由`（Routing）菜单。参见[按分组设置路由配置档](@/guides/routing.zh.md#group-routing)。 |
-| `自动清除不可用配置档`（Auto Clear Unavailable Profiles） | 不经询问直接删除在该分组 URL 测试中失败的配置档。 |
+| `自动清除不可用配置档`（Auto clear unavailable profiles） | 不经询问直接删除在该分组 URL 测试中失败的配置档。 |
 | `跳过自动更新`（Skip automatic update） | 让该分组不参与自动更新。 |
 | `使用订阅提供的路由配置档`（Use the subscription's routing profile） | 使用服务商随订阅发送的路由配置档。参见[来自订阅](@/guides/routing.zh.md#subscription-routing)。 |
-| `高级`（Advanced） | [更新间隔](#auto-update)、[每次更新之后的清理](#after-update)、[User-Agent 与 HWID](#user-agent-and-hwid)、[TLS 与 HTTP 版本](#problem-web-page)和[服务器地址](#server-address)。 |
+| `高级`（Advanced） | [更新间隔](#auto-update)、[每次更新之后的清理](#after-update)、[过滤](#filter-profiles)、[User-Agent 与 HWID](#user-agent-and-hwid)、[TLS 与 HTTP 版本](#problem-web-page)和[服务器地址](#server-address)。 |
 
 `复制配置档分享链接`（Copy profile share links）会复制分组中所有配置档的链接。
 
@@ -103,19 +101,34 @@ Throne 从响应头 `Subscription-UserInfo`、`Profile-Title`、`Profile-Web-Pag
 
 [变更报告](#change-report)会列出被删除的配置档。只有开启了 `允许停止活动配置档` 时，你当前连接的配置档才会被删除。
 
+## 过滤配置档 {#filter-profiles}
+
+订阅分组可以排除你从不使用的配置档。打开分组选项 → `高级`（Advanced）→ `过滤`（Filter）：
+
+| 设置 | 作用 |
+| --- | --- |
+| `仅保留匹配项`（Keep only matching） | 一个正则表达式；只保留名称与之匹配的配置档，例如 `HK\|SG\|Japan`。不区分大小写。 |
+| `移除匹配项`（Remove matching） | 一个正则表达式；移除名称与之匹配的配置档，例如 `expire\|traffic\|website`。它优先于 `仅保留匹配项`。 |
+| `移除类型`（Remove types） | 移除你勾选的协议的所有配置档。 |
+| `国家`（Countries） | 要保留的出口国家，例如 `HK,JP`；或要移除的出口国家，例如 `!RU`。 |
+
+名称和类型过滤在每次更新时生效，因此被它们移除的配置档根本不会被导入。对于 `国家`，Throne 会在每次更新后对国家未知的配置档运行[出口 IP 测试](@/guides/testing.zh.md#ip-test)，并移除不在列表中的配置档；国家仍然未知的配置档会被保留。分组较大时，这需要一段时间。
+
+如果过滤会移除所有配置档，分组保持不变。保存更改后的过滤设置会更新该订阅。
+
 ## User-Agent 与 HWID {#user-agent-and-hwid}
 
 有些服务商会为不同的应用发送不同的列表，或者拒绝它们不认识的应用。请把用户代理标识设为你的服务商所要求的值：
 
-- 对所有分组：`设置` → `基本设置` → `订阅` → `User Agent (用户代理)标识`。留空时发送 `Throne/` 加上版本号。
+- 对所有分组：`设置` → `基本设置` → `订阅` → `请求`（Requests）→ `User Agent (用户代理)标识`。留空时发送 `Throne/` 加上版本号。
 - 对单个分组：分组选项 → `高级`（Advanced）→ `请求`（Request）→ `用户代理标识`（User Agent）。留空时该分组使用全局值。
 
 有些服务商还要求提供设备 ID（HWID）。只有在你开启后，Throne 才会发送它：
 
-- 对所有分组：在 `订阅` 标签页上勾选 `启用在更新订阅时发送硬件ID、设备型号以及 OS 版本`（Enable sending HWID, device model, and OS version when updating subscription）。
+- 对所有分组：在 `订阅` → `请求` 下勾选 `启用在更新订阅时发送硬件ID、设备型号以及 OS 版本`（Enable sending HWID, device model, and OS version when updating subscription）。
 - 对单个分组：在 `请求` 下将 `发送硬件标识`（Send HWID）设为 `开启`（On）。`硬件标识`（HWID）、`操作系统`（OS）、`操作系统版本`（OS Version）和 `设备型号`（Device Model）字段会为该分组替换对应的值。
 
-要为所有分组替换这些值，请在 `订阅` 标签页上填写 `自定义系统参数(可选)`（Custom System Parameters (optional)），并省略你想保留的值：
+要为所有分组替换这些值，请在 `订阅` → `请求` 下填写 `自定义系统参数(可选)`（Custom System Parameters (optional)），并省略你想保留的值：
 
 ```text
 hwid=value,os=value,osVersion=value,model=value
@@ -151,21 +164,21 @@ hwid=value,os=value,osVersion=value,model=value
 
 ### 服务器返回网页或验证码 {#problem-web-page}
 
-此时 Throne 会提示“The server returned a web page instead of a subscription”（服务器返回的是网页而不是订阅）。请更改 Throne 连接该服务器的方式：所有分组使用 `订阅` 标签页上的 `TLS Version` 和 `HTTP Version`，单个分组使用其 `高级` 选项中 `请求` 下的同名设置。当默认握手遇到验证码时，`TLS 1.2` 往往可以通过；也可以试试 `HTTP/1.1` 或换一个用户代理标识。
+此时 Throne 会提示“The server returned a web page instead of a subscription”（服务器返回的是网页而不是订阅）。请更改 Throne 连接该服务器的方式：所有分组使用 `订阅` → `请求` 下的 `TLS Version` 和 `HTTP Version`，单个分组使用其 `高级` 选项中 `请求` 下的同名设置。当默认握手遇到验证码时，`TLS 1.2` 往往可以通过；也可以试试 `HTTP/1.1` 或换一个用户代理标识。
 
 如果新分组的首次下载失败，分组会被保留。修正其设置后重新更新即可。
 
 ### “有用代理的请求，但未启动配置档。” {#problem-no-profile}
 
-当 `设置` → `基本设置` → `杂项`（Miscellaneous）→ `使用代理`（Use proxy）或 `系统代理`（System Proxy）开启时，Throne 会通过正在运行的配置档发送它自己的请求，例如订阅更新。如果没有配置档在运行，这些请求就会失败。请先启动一个配置档，或者关闭 `使用代理` 和 `系统代理`。
+当 `设置` → `基本设置` → `通用`（General）→ `更新与下载`（Updates and Downloads）→ `通过代理发送 Throne 自身的请求`（Send Throne's own requests through the proxy）或 `系统代理`（System proxy）开启时，Throne 会通过正在运行的配置档发送它自己的请求，例如订阅更新。如果没有配置档在运行，这些请求就会失败。请先启动一个配置档，或者把这两项都关闭。
 
 ### 订阅地址在你所在的国家被封锁 {#problem-blocked}
 
 1. 启动一个可用的配置档。
-2. 开启 `设置` → `基本设置` → `杂项` → `使用代理`（在简洁模式下：`通用`（Common）→ `网络设置`（Network Settings））。
+2. 开启 `设置` → `基本设置` → `通用` → `更新与下载` → `通过代理发送 Throne 自身的请求`。
 3. 更新订阅。
 
-开启 `禁用混合入站`（Disable Mixed Inbound）时，这需要 `Tun 模式`（Tun Mode）；否则更新会失败，并提示“Request with proxy but the mixed inbound is disabled and Tun Mode is off.”（有用代理的请求，但混合入站已禁用且 TUN 模式已关闭）。
+开启 `禁用混合入站`（Disable mixed inbound）时，这需要 `Tun 模式`（Tun mode）；否则更新会失败，并提示“Request with proxy but the mixed inbound is disabled and Tun mode is off.”（有用代理的请求，但混合入站已禁用且 Tun 模式已关闭）。
 
 ### Happ 和 v2RayTun 的“crypt”链接 {#problem-crypt}
 

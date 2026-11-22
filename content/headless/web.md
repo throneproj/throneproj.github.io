@@ -146,13 +146,13 @@ sudo thronectl web passwd --state-dir /var/lib/throne-web    # systemd unit
 
 | Page | What you can do |
 | --- | --- |
-| `Status` | The state, the running profile and the rates; connect and disconnect; TUN and the system proxy (desktop Throne only); the routing profile; running tests. |
+| `Status` | The state, the running profile and the rates; connect and disconnect; Tun mode and the system proxy (desktop Throne only); the routing profile; running tests. |
 | `Profiles` | Browse, filter, test, connect, edit and delete profiles, or connect the best of a group. Import share links, a file or a URL. Add, update and delete groups and subscriptions. |
 | `Routing` | Add, edit and delete routing profiles. Turn WARP on and off, pick its mode and register it (which accepts Cloudflare's WARP terms). |
 | `Traffic` | Rates, and totals by profile or by app for 24 hours, 7 days or 30 days. |
 | `Connections` | The open and closed connections, with process, destination, outbound and rule; close one or all. |
 | `Logs` | Throne's log as it is written; the page keeps the newest 5000 lines. |
-| `Settings` | The settings that the API manages, the geo files, and the rule-sets of the running profile. |
+| `Settings` | The settings that the API manages, the geo assets, and the rule-sets of the running profile. |
 | `Backup` | Download a backup, or upload one and restore the parts you choose. |
 | `System` | The versions, whether the gateway has admin rights, the certificate's fingerprint, the password, signing out, restarting and shutting down Throne. |
 
@@ -162,7 +162,7 @@ Changes made in Throne's window, with `thronectl` or by a subscription update sh
 
 The web UI does not edit:
 
-- OTP accounts,
+- OTP entries,
 - a group's own routing profile (for a new subscription, [`thronectl sub add`](@/headless/thronectl.md#profiles) sets it),
 - the OpenVPN and OpenConnect endpoints of a routing profile,
 - Extra Core profiles, and profiles with settings that only Throne's window may set, such as a link to an OTP entry,

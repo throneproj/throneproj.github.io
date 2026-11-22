@@ -8,7 +8,7 @@ aliases = ["/ru/introduction/"]
 
 ## Что такое Throne {#what-is-throne}
 
-Throne (ранее Nekoray) — бесплатный прокси-клиент с открытым исходным кодом (GPL-3.0) для Windows, Linux и macOS. Его ядро ThroneCore основано на sing-box и также запускает Xray для профилей, которым он нужен. Вы добавляете серверы, выбираете, какой трафик пойдёт через них, и подключаетесь в режиме системного прокси или в режиме TUN.
+Throne (ранее Nekoray) — бесплатный прокси-клиент с открытым исходным кодом (GPL-3.0) для Windows, Linux и macOS. Его ядро ThroneCore основано на sing-box и также запускает Xray для профилей, которым он нужен. Вы добавляете серверы, выбираете, какой трафик пойдет через них, и подключаетесь в режиме системного прокси или в режиме Tun.
 
 - [Throne для Android](@/android/_index.ru.md) (ранее NekoBox for Android) использует то же ядро, те же настройки и тот же [формат резервных копий](@/guides/backup.ru.md), поэтому свою конфигурацию можно переносить между компьютером и телефоном.
 - [Headless Throne](@/headless/_index.ru.md) работает без окна — на сервере, роутере или в контейнере, а управляют им через `thronectl`.
@@ -29,12 +29,12 @@ Throne (ранее Nekoray) — бесплатный прокси-клиент �
 
 - Множество [протоколов](@/reference/protocols.ru.md), включая VLESS с REALITY и XHTTP, Shadowsocks, Trojan, Hysteria, TUIC, WireGuard, AmneziaWG, NaïveProxy, OpenVPN, OpenConnect и [DNS-туннели](@/advanced/dns_tunnels.ru.md).
 - [Подписки](@/guides/subscriptions.ru.md), которые обновляются по расписанию.
-- [Системный прокси, режим TUN и раздача прокси в локальной сети](@/guides/proxy_modes.ru.md).
+- [Системный прокси, режим Tun и раздача прокси в локальной сети](@/guides/proxy_modes.ru.md).
 - Правила [маршрутизации](@/guides/routing.ru.md) и готовые профили для Китая, Ирана и России.
-- [Тесты](@/guides/testing.ru.md) задержки и скорости, а также автовыбор (Auto Selector), который удерживает вас на работающем сервере.
+- [Тесты](@/guides/testing.ru.md) задержки и скорости, а также автовыбор (auto selector), который удерживает вас на работающем сервере.
 - [Цепочки прокси и пользовательские конфигурации](@/advanced/chains.ru.md), [средства обхода цензуры](@/advanced/presets.ru.md), например фрагментация TLS, и встроенный [Cloudflare WARP](@/advanced/warp.ru.md).
 - [Kill switch](@/advanced/kill_switch.ru.md) и [управление через `thronectl`](@/advanced/api.ru.md) из скриптов и с других устройств.
-- [Простой режим](@/get_started/configuration.ru.md#interface-mode) для новых пользователей и поиск команд и параметров по `Ctrl+K`.
+- [Поиск по `Ctrl+K`](@/reference/shortcuts.ru.md#command-palette) команд и параметров.
 
 ## С чего начать {#where-to-start}
 

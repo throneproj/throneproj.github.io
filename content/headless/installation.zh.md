@@ -63,9 +63,9 @@ ExecStart=/usr/lib/throne/Throne --headless --data-dir=%S/throne
 
 ## Linux 上的权限 {#linux-privileges}
 
-TUN 和 [Kill Switch](@/advanced/kill_switch.zh.md) 需要权限。[额外核心](@/advanced/chains.zh.md#extra-core)（Extra Core）配置档需要一个普通用户，因为 Throne 从不以 root 身份运行额外核心。请选择该单元的运行方式：
+Tun 模式和 [Kill Switch](@/advanced/kill_switch.zh.md) 需要权限。[额外核心](@/advanced/chains.zh.md#extra-core)（Extra Core）配置档需要一个普通用户，因为 Throne 从不以 root 身份运行额外核心。请选择该单元的运行方式：
 
-| 单元的运行方式 | TUN | Kill Switch | 额外核心配置档 |
+| 单元的运行方式 | Tun 模式 | Kill Switch | 额外核心配置档 |
 | --- | --- | --- | --- |
 | 以 root 身份（单元的原始配置） | 是 | 是 | 否 |
 | 以 `throne` 身份并借助能力（`caps.conf`） | 是 | 否（`unsupported`） | 是 |
@@ -103,7 +103,7 @@ loginctl enable-linger "$USER"   # 开机时启动，无需登录
 ```
 
 - 该单元使用桌面版的数据目录 `~/.config/Throne`，拥有相同的配置档和设置。请先退出桌面版；再次打开桌面版之前，请先运行 `systemctl --user stop throne`。
-- TUN 和 Kill Switch 需要 setuid root 的核心。桌面版第一次请求[权限](@/guides/tun_mode.zh.md#privileges-linux)时会完成这项设置，`Throne --check` 也会打印所需的命令。
+- Tun 模式和 Kill Switch 需要 setuid root 的核心。桌面版第一次请求[权限](@/guides/tun_mode.zh.md#privileges-linux)时会完成这项设置，`Throne --check` 也会打印所需的命令。
 - 以你自己的用户身份运行时，`Throne --health`、`--print-connection` 和 `--check` 无需任何选项就能找到这个 Throne。
 
 ## Docker {#docker}
@@ -133,7 +133,7 @@ volumes:
 ```
 
 - **代理端口。** 混合入站监听 `127.0.0.1`，发布的端口无法访问它：请运行 `thronectl settings set inbound_address=0.0.0.0`，然后重新启动配置档。发布的端口会绕过 `ufw` 等主机防火墙；在可以从互联网访问的主机上，请只发布局域网地址（`"192.168.1.2:2080:2080"`）。
-- **主机网络**（`network_mode: host`，没有 `ports:`）：TUN 和 Kill Switch 作用于整个主机，并且主机上只能有一个 Throne 运行 TUN。
+- **主机网络**（`network_mode: host`，没有 `ports:`）：Tun 模式和 Kill Switch 作用于整个主机，并且主机上只能有一个 Throne 运行 Tun 模式。
 - **停止。** 请保留 `stop_grace_period: 45s`，否则 Docker 可能会在 Throne 停止其核心之前就将其杀死。`restart: unless-stopped` 即使在 `thronectl shutdown` 之后也会重新启动 Throne；请使用 `docker compose stop`。
 - **健康状态。** 健康检查运行 `Throne --health`。Docker 只会把容器标记为不健康，而不会重启它。
 - **限制。** 额外核心配置档无法运行，因为容器以 root 身份运行。在 rootless Docker 和其他使用用户命名空间的容器中，Kill Switch 会以 `unsupported` 失败。
@@ -144,7 +144,7 @@ volumes:
 
 ## macOS {#macos}
 
-LaunchDaemon 会在开机时以 root 身份运行 Throne，支持 TUN 和 Kill Switch，但不支持额外核心配置档。请把 `Throne.app` 移到 `/Applications`，下载 [`moe.Throne.headless.plist`](https://github.com/throneproj/Throne/blob/dev/dist/macos/moe.Throne.headless.plist)，然后运行：
+LaunchDaemon 会在开机时以 root 身份运行 Throne，支持 Tun 模式和 Kill Switch，但不支持额外核心配置档。请把 `Throne.app` 移到 `/Applications`，下载 [`moe.Throne.headless.plist`](https://github.com/throneproj/Throne/blob/dev/dist/macos/moe.Throne.headless.plist)，然后运行：
 
 ```bash
 sudo mkdir -p /Library/Logs/Throne
@@ -160,7 +160,7 @@ sudo launchctl bootstrap system /Library/LaunchDaemons/moe.Throne.headless.plist
 
 ## Windows 服务 {#windows}
 
-`Throne.exe --headless --service` 以 Windows 服务的形式在 LocalSystem 账户下运行，因此 TUN 和 Kill Switch 可以工作。
+`Throne.exe --headless --service` 以 Windows 服务的形式在 LocalSystem 账户下运行，因此 Tun 模式和 Kill Switch 可以工作。
 
 1. 使用安装程序为所有用户安装 Throne，安装到 `Program Files` 中。服务不能运行普通用户可以替换的程序，因此不要使用按用户安装的方式，也不要使用放在你用户文件夹中的 ZIP。
 2. 下载 [`install-service.bat`](https://github.com/throneproj/Throne/blob/dev/dist/windows/install-service.bat) 和 [`uninstall-service.bat`](https://github.com/throneproj/Throne/blob/dev/dist/windows/uninstall-service.bat)。

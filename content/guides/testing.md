@@ -1,6 +1,6 @@
 +++
 title = "Testing & Auto Selector"
-description = "Test profiles, sort and clean up the list, let the auto selector pick the best server, and scan for working IP addresses and DNS resolvers."
+description = "Test profiles and the services they reach, sort, pin and clean up the list, let the auto selector pick the best profile, and scan for working IP addresses, DNS resolvers and settings."
 weight = 60
 toc = true
 +++
@@ -11,15 +11,15 @@ Tests do not stop the running profile. They skip auto selectors; test the groups
 
 The URL test checks that a profile works and measures its latency. Throne requests the `Latency Test URL` through the profile twice and shows how long the second request took.
 
-- **Selected profiles:** right-click them and choose `Url Test Selected` (`Ctrl+Shift+S`).
-- **The whole group:** choose `Groups` → `Url Test Group` (`Ctrl+Shift+G`).
+- **Selected profiles:** right-click them and choose `Test` → `URL test` (`Ctrl+Shift+S`).
+- **The whole group:** choose `Groups` → `Test` → `URL test` (`Ctrl+Shift+G`).
 - **The running profile:** click its name at the left of the status bar. The result appears in the status bar.
 
-`Stop Testing` (`Ctrl+.`) stops a running test.
+`Test` → `Stop testing` (`Ctrl+.`) stops a running test.
 
 The `Test Result` column shows the latency (green up to 100 ms, yellow up to 300 ms, red above), `Unavailable` when the test failed (the log has a `test error` line with the reason), or `Connect OK` when an OpenVPN or OpenConnect profile connected but the test URL did not answer through it.
 
-The settings are in `Settings` → `Basic Settings` → `Common`, under `Testing`. In Simple mode, only `Latency Test URL` and `Look up exit country` are shown (see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
+The settings are in `Settings` → `Basic Settings` → `Testing` → `Latency`.
 
 | Setting | Default | What it does |
 | --- | --- | --- |
@@ -28,100 +28,120 @@ The settings are in `Settings` → `Basic Settings` → `Common`, under `Testing
 | `Concurrency` | `10` | How many profiles are tested at the same time. |
 | `Direct Test URL` | empty | An address that works without a proxy on your network. The auto selector fetches it directly to tell a dead Internet connection from dead servers. Empty uses the network state of the operating system. |
 
-## IP and country test {#ip-test}
+## Exit IP test {#ip-test}
 
-This test shows the exit IP address of each profile and its country: the address that websites see. Right-click profiles and choose `Resolve Selected Out IP`, or choose `Groups` → `Resolve out IP for group` (Advanced mode only). The `Test Result` column then shows the country flag, and the exit IP if `Out IP` is included (see [Sort and filter](#sort-filter)). The country filter and the auto selector's `Only countries` use this country.
+This test shows the exit IP address of each profile and its country: the address that websites see. Right-click profiles and choose `Test` → `Exit IP`, or choose `Groups` → `Test` → `Exit IP`. The `Test Result` column then shows the country flag, and the exit IP if `Exit IP` is included (see [Sort and filter](#sort-filter)). The country filter and the auto selector's `Only countries` use this country.
 
-After a profile starts, Throne also shows the country and city of its exit at the bottom left of the window and in the window title. In the `Testing` settings, `Look up exit country` turns this off and `Lookup service` chooses the service; `Automatic` starts with IP2Location.io, which the IP test also uses. For the services Throne contacts, see [Privacy](@/reference/privacy.md#network-requests).
+After a profile starts, Throne also shows the country and city of its exit at the bottom left of the window and in the window title. In `Testing` → `Exit Country`, `Look up exit country` turns this off and `Lookup service` chooses the service; `Automatic` starts with IP2Location.io, which the exit IP test also uses. For the services Throne contacts, see [Privacy](@/reference/privacy.md#network-requests).
 
 ## Speed test {#speed-test}
 
 The speed test measures the download and upload speed of a profile.
 
-- **Selected profiles:** right-click them and choose `Speedtest Selected` (`Ctrl+Shift+P`).
-- **The whole group:** choose `Groups` → `Speedtest Group` (`Ctrl+Alt+P`).
-- **The live connection:** while a profile runs, choose `Tools` → `Speedtest Current` (`F6`).
+- **Selected profiles:** right-click them and choose `Test` → `Speed test` (`Ctrl+Shift+P`).
+- **The whole group:** choose `Groups` → `Test` → `Speed test` (`Ctrl+Alt+P`).
+- **The live connection:** while a profile runs, choose `Tools` → `Speed test current connection` (`F6`).
 
 Throne tests the profiles one at a time. The `Test Result` column shows the download speed after `↓` and the upload speed after `↑`, if `Speed` is included.
 
-`Settings` → `Basic Settings` → `Common` → `Speedtest mode` chooses what the test does: `Download + Upload` (default), `Only Download`, `Only Upload`, `Simple Download` (fetches the `Simple Download URL` without a server search) or `Only Country`, which only finds the nearest Speedtest server and shows its country: fast, with almost no data, many profiles at once. The `Timeout` next to it (default `5000` ms) limits each part of the test.
+`Settings` → `Basic Settings` → `Testing` → `Speed Test` → `Speed test mode` chooses what the test does: `Download + upload` (default), `Only download`, `Only upload` or `Simple download`, which fetches the `Simple Download URL` without a server search. The `Timeout` in the same box (default `5000` ms) limits each part of the test.
 
 {% alert_warning() %}
 A speed test transfers as much data as it can until the timeout, for every profile. Testing a large group can use a lot of data.
 {% end %}
 
+## Service check {#service-check}
+
+A service check shows which services work through a profile, such as AI assistants, streaming and social networks, and what kind of exit IP the profile has. Right-click profiles and choose `Test` → `Service check`, or choose `Groups` → `Test` → `Service check`.
+
+The `Test Result` column then shows a logo for each service with a green, amber or red badge. Hover over a logo for its status (`Available`, `Partial`, `Restricted`, `Blocked`, `Unknown` or `Failed`), and over the cell for the date and the kind of IP: datacenter, mobile, business or residential. To find the profiles on which a service works, type its name in the `Test Result` filter (see [Sort and filter](#sort-filter)).
+
+`Settings` → `Basic Settings` → `Testing` → `Service Check` chooses the services; the others are neither checked nor shown. `Check` on the `Runtime Stats` tab of the main window checks the running profile.
+
+- One run checks at most 100 profiles. Above 20, Throne asks first, because each profile sends about 20 requests to the checked services.
+- The list of checks is downloaded at most once a day; see [Privacy](@/reference/privacy.md#network-requests).
+
 ## Sort and filter {#sort-filter}
 
-Click a column header to sort by it, and click it again to reverse the order. Sorting by latency puts the fastest profiles first, then failed ones, then untested ones. The group stays sorted, also after tests, subscription updates and imports, until you right-click a column header and choose `Stop Sorting`, or drag a row to another place.
+Click a column header to sort by it, and click it again to reverse the order. Sorting by latency puts the fastest profiles first, then failed ones, then untested ones. The group stays sorted, also after tests, subscription updates and imports, until you right-click a column header and choose `Stop sorting`, or drag a row to another place.
 
-Right-click the `Test Result` header to choose what the column shows (`Out IP`, `Speed`) and what it sorts by (`Latency`, `Download Speed`, `Upload Speed`, `IP Out`).
+Right-click the `Test Result` header to choose what the column shows (`Exit IP`, `Speed`) and what it sorts by (`Latency`, `Download speed`, `Upload speed`, `Exit IP`).
 
-To filter the list, press `Ctrl+F` and type in the field under `Type`, `Address` or `Name`, or in `Filter by country...` under `Test Result`. In the `Address` field, `port=443` shows the profiles on port 443 and `port=1000:2000` those on ports 1000 to 2000. The country field matches the country code from the IP or speed test, such as `DE`. Press `Ctrl+F` again to hide and clear the fields.
+To filter the list, press `Ctrl+F` and type in the field under `Type`, `Address` or `Name`, or in `Filter by country or service...` under `Test Result`. In the `Address` field, `port=443` shows the profiles on port 443 and `port=1000:2000` those on ports 1000 to 2000. Press `Ctrl+F` again to hide and clear the fields.
+
+The `Test Result` field takes country codes from the exit IP test, such as `DE`, and the names or categories of the services of a [service check](#service-check): `gemini` shows the profiles on which Gemini works, and `!netflix` those on which Netflix is refused. All words must match, so `DE gemini` shows the German profiles on which Gemini works.
+
+### Pin profiles {#pin}
+
+Right-click profiles and choose `Pin to top` to keep them above the other profiles of their group, in the order you pinned them. Sorting moves only the unpinned profiles, and a line separates the two. When all selected profiles are pinned, the item reads `Unpin`. Dragging a row among the pinned ones also pins it. Pins stay through subscription updates as long as the profile is still in the subscription.
 
 ## Clean up {#clean-up}
 
 `Groups` → `Clean up`, also in the right-click menu of the group's tab, removes profiles from the current group:
 
-| Command | Shortcut | What it removes |
-| --- | --- | --- |
-| `Remove Duplicates` | `Ctrl+Shift+D` | Exact copies of an earlier profile, including the name. |
-| `Remove Unavailable` | `Ctrl+Shift+R` | Profiles whose last test failed. Never the running profile. |
-| `Remove Invalid` | `Ctrl+Alt+I` | Profiles that the core rejects as invalid. |
-| `Remove Insecure Configs` | – | Profiles without encryption, with TLS that does not check certificates, or with old Shadowsocks ciphers. |
+| Command | What it removes |
+| --- | --- |
+| `Remove duplicates` | Exact copies of an earlier profile, including the name. |
+| `Remove unavailable` | Profiles whose last test failed. Never the running profile. |
+| `Remove invalid` | Profiles that the core rejects as invalid. |
+| `Remove insecure profiles` | Profiles without encryption, with TLS that does not check certificates, or with old Shadowsocks ciphers. |
 
-The other commands stop the running profile if they remove it. `Groups` → `Clear Group test result` (`Ctrl+Shift+C`) clears only the test results.
+The other commands stop the running profile if they remove it. `Groups` → `Test` → `Clear results` (`Ctrl+Shift+C`) clears only the test results.
 
-To see which profiles count as insecure, turn on `Settings` → `Basic Settings` → `Style` → `Show Config Security` (Advanced mode only): insecure profiles then get a warning sign in the `Type` column.
+To see which profiles count as insecure, turn on `Settings` → `Basic Settings` → `Appearance` → `Profile List` → `Show profile security`: insecure profiles then get a warning sign in the `Type` column.
 
-To clean up automatically, use the group option `Auto Clear Unavailable Profiles`, which deletes failed profiles after every URL test of the group, or the [After each update](@/guides/subscriptions.md#after-update) options of a subscription group, which can also test and sort it.
+To clean up automatically, use the group option `Auto clear unavailable profiles`, which deletes failed profiles after every URL test of the group, or the [After each update](@/guides/subscriptions.md#after-update) options of a subscription group, which can also test and sort it.
 
 ## Auto selector {#auto-selector}
 
-An auto selector is a profile that picks the best working profile from one or more groups, keeps checking the others, and switches when the current one gets worse or fails. New servers from a subscription update join it by themselves.
+An auto selector is a profile that picks the best working profile from one or more groups, keeps checking the others, and switches when the current one gets worse or fails. New profiles from a subscription update join it by themselves.
 
 1. Select the tab of the group it should use.
 2. Choose `Program` → `New profile` (`Ctrl+N`). The editor opens with `Auto Selector` as the `Type`.
 3. Enter a `Name`.
-4. In `Servers from`, check the groups to pick from. The current group is already checked.
+4. In `Profiles from`, check the groups to pick from. The current group is already checked.
 5. Click `OK`, then start the new profile like any other.
 
 | Setting | What it does |
 | --- | --- |
-| `Servers from` | The groups whose profiles are used. Profiles from all checked groups are ranked together. |
+| `Profiles from` | The groups whose profiles are used. Profiles from all checked groups are ranked together. |
 | `Only names matching` | An optional regular expression; only profiles whose name matches are used. It matches anywhere in the name and ignores case: `germany\|nl` uses every name that contains `germany` or `nl`, and `^(?!.*(germany\|🇩🇪)).*$` every name that contains neither `germany` nor 🇩🇪. |
-| `Share traffic between the best profiles` | Off (default): one profile carries all traffic and the other ready profiles stand by. On: traffic is spread over the working profiles. |
+| `Choose` | `Fastest` (default) uses the best measured profile. `In priority order` uses the `Priority tiers`. |
+| `Priority tiers` | Shown with `In priority order`. Each row is a `Group` (or `Any group`) with an optional `Names matching` expression. A profile belongs to the first row it matches, and profiles that match none come last. The auto selector uses the highest row that has a working profile and, in it, the best measured one. |
+| `Share traffic between the best profiles` | Off (default): one profile carries all traffic and the other ready profiles stand by. On: traffic is spread over the ready profiles. With `Rotate every 30 s` (default), new connections move to the next profile every 30 seconds; with `Per connection`, each new connection may use another profile, so your exit IP can change during a session. |
 | `Preferred profile` | Appears after you chose a profile with `Use this profile` in the stats window. `Use automatic` returns the choice to the auto selector. |
 
 Each profile goes through the `Front Proxy` and `Landing Proxy` of its own group, as if you started it on its own; those of the auto selector's group do not apply.
 
-`Advanced…` has more options, each with a working default and a tooltip. The ones most often changed:
+`Advanced ▾` shows more options, each with a working default and a tooltip. The ones most often changed:
 
 | Setting | Default | What it does |
 | --- | --- | --- |
-| `Only countries` | empty | Country codes such as `DE,NL,FR`. `!` leaves a country out: `!RU,!IR` uses every country except these two. Uses the country found by the IP test or the speed test, so profiles without one are skipped while this is set. |
+| `Only countries` | empty | Country codes such as `DE,NL,FR`. `!` leaves a country out: `!RU,!IR` uses every country except these two. Uses the country found by the [exit IP test](#ip-test), so profiles without one are skipped while this is set. |
 | `Run the best` | 300 profiles | How many profiles are loaded into the running config. The auto selector switches between them without reconnecting. |
 | `Switch tolerance` | 300 ms | How much faster another profile must be before the auto selector switches to it. |
-| `Maximum latency` | no limit | Profiles slower than this are never chosen. |
-| `Drop connections on switch` | on | After a switch caused by a problem, on moves all connections to the new profile at once; off lets open downloads finish on the old one. |
-| `Mode` | `Rotate on a timer (keeps sessions stable)` | Used with `Share traffic between the best profiles`. With `Per connection (widest spread)`, your exit IP can change during a session. |
+| `Maximum latency` | no limit | Profiles slower than this are used only when no faster one works. |
+| `Drop connections when a profile fails` | on | When the current profile fails, open connections move to the new one at once. Off lets them finish on the failed profile. |
+| `Learn from real connections` | off | Also judges profiles by the real connections of your apps and sets aside the ones that keep failing. |
 
-With more usable profiles than `Run the best`, the auto selector first URL-tests those without a result from the last `Trust results for` minutes (default 1440) and loads the best. It starts as soon as a few of them work, finishes the tests in the background and restarts once if the ranking changed. If all running profiles fail, it rebuilds from the next best ones. It pauses while your computer is offline. Its log lines start with `[Auto selector]`.
+With more usable profiles than `Run the best`, the auto selector first URL-tests those without a recent result (a success counts for 24 hours, a failure for one hour) and loads the best. It starts as soon as a few of them work, finishes the tests in the background and restarts once if the ranking changed. If all running profiles fail, it rebuilds from the next best ones. It pauses while your computer is offline. Its log lines start with `[Auto selector]`.
 
 While an auto selector runs, `Tools` → `Auto Selector Stats` shows the status and latency of each profile. `Use this profile` keeps the selected profile in use, `Back to automatic` lets the ranking choose again, and `Check all now` measures all running profiles at once.
 
 Limits:
 
-- An auto selector cannot be a hop in a chain, or a `Front Proxy` or `Landing Proxy`.
+- A chain can hold one auto selector as a hop, but not together with an Extra Core profile or a custom config; see [chain limits](@/advanced/chains.md#chain-limits) and [Test a chain](@/advanced/chains.md#test-chain). An auto selector cannot be a `Front Proxy` or `Landing Proxy`.
 - It skips chains, other auto selectors, OpenVPN, OpenConnect, Tailscale, Extra Core, sing-box full configs, custom configs that cannot be read, and Xray full configs that cannot be combined with the front or landing proxy of their group.
 
-## IP scanner {#ip-scanner}
+## IP Scanner {#ip-scanner}
 
-`Tools` → `IP Scanner` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)) checks lists of IP addresses and keeps the ones that work from your network: an unblocked address of the CDN your servers are behind, a working Cloudflare WARP endpoint, or DNS resolvers for a DNS tunnel. The results form an IP list, which a group or a profile can use as its [server address](@/guides/subscriptions.md#server-address).
+`Tools` → `IP Scanner` checks lists of IP addresses and keeps the ones that work from your network: an unblocked address of the CDN your servers are behind, a working Cloudflare WARP endpoint, or DNS resolvers for a DNS tunnel. The results form an IP list, which a group or a profile can use as its [server address](@/guides/subscriptions.md#server-address).
 
 1. Click `New scan`, enter a `Name` and choose the kind of scan:
    - `Generic scan` checks addresses with ping, TCP, TLS or HTTP, optionally through one of your profiles.
    - `WARP scan` finds WARP endpoints that complete a WireGuard, AmneziaWG or MASQUE connection.
    - `DNS resolver scan` finds resolvers for a DNS tunnel profile; see [DNS resolver scans](#dns-scan).
+   - `Find working settings` tries settings of one profile instead of addresses; see [Find working settings](#find-working-settings).
 2. Click `OK`. The scan's window opens.
 3. Set the targets on the `Targets` tab and the checks on the `Phases` tab.
 4. Click `Start`. The `Results` tab fills as addresses pass.
@@ -140,12 +160,12 @@ The `Phases` tab has the checks. An address must pass every check that is on, in
 | Phase | Default | What it checks |
 | --- | --- | --- |
 | `ICMP (ping)` | off | The address answers ping. |
-| `TCP connect` | on | The port accepts a TCP connection. Generic scans only. |
+| `TCP Connect` | on | The port accepts a TCP connection. Generic scans only. |
 | `TLS / HTTP` | off | A TLS handshake succeeds and, unless `Method` is `None (TLS handshake only)`, an HTTP request gets the answer 200 OK. Generic scans only. |
-| `Config test` | off | A copy of the chosen `Profile`, pointed at the address, loads the `Test URL`. This finds addresses that really work for your server, such as CDN addresses. Generic scans only. |
-| `WARP test` | on | A WARP connection through the address works, in the chosen `Mode`: `WireGuard`, `AmneziaWG` or `MASQUE`. WARP scans only. |
+| `Config Test` | off | A copy of the chosen `Profile`, pointed at the address, loads the `Test URL`. This finds addresses that really work for your server, such as CDN addresses. Generic scans only. |
+| `WARP Test` | on | A WARP connection through the address works, in the chosen `Mode`: `WireGuard`, `AmneziaWG` or `MASQUE`. WARP scans only. |
 
-The `WARP test` needs a WARP identity. The default, `Dedicated for this scan (recommended)`, needs one click on `Register`, which registers a new WARP device with Cloudflare.
+The `WARP Test` needs a WARP identity. The default, `Dedicated for this scan (recommended)`, needs one click on `Register`, which registers a new WARP device with Cloudflare.
 
 On the `Results` tab, `Save as IP list` copies the results into a new IP list.
 
@@ -155,11 +175,11 @@ When a scan has results, `Start` asks what to do: `Scan from the beginning` clea
 
 A DNS resolver scan finds resolvers that relay the tunnel of one of your [DNS tunnel](@/advanced/dns_tunnels.md) profiles: DNSTT (also in VayDNS mode), MasterDNS, or VLESS (Xray) with XDNS. It tries each address of the base list as the only resolver of that profile and keeps the ones that pass.
 
-To create one, choose `DNS resolver scan` in `New scan`, or click `Find resolvers…` next to `IP list` in the editor of a saved DNS tunnel profile, which opens or creates a scan for it. The scan tests the profile as it was last saved.
+To create one, choose `DNS resolver scan` in `New scan`, or click `Find resolvers` next to `IP list` in the editor of a saved DNS tunnel profile, which opens or creates a scan for it. The scan tests the profile as it was last saved.
 
 On the `Targets` tab, choose the resolvers to try as the `Base IP list`, such as `Iran DNS resolvers` or `Russia DNS resolvers`. There is no `Ports` field: each address is tried on the port stored in the list, or on port 53.
 
-The `Phases` tab has one check, `DNS tunnel test`, with the `Profile`, the `Test` and a `Timeout (ms)` for the whole test of one resolver. Each test also does the checks of the tests above it for the same kind of profile:
+The `Phases` tab has one check, `DNS Tunnel Test`, with the `Profile`, the `Test` and a `Timeout (ms)` for the whole test of one resolver. Each test also does the checks of the tests above it for the same kind of profile:
 
 | Test | Profiles | What it checks |
 | --- | --- | --- |
@@ -172,6 +192,19 @@ The `Phases` tab has one check, `DNS tunnel test`, with the `Profile`, the `Test
 On the `Results` tab, `Latency` is how long the resolver took to answer. `Max QNAME` (DNSTT and XDNS) is the longest query name it relays, in the units of `Max QNAME Length` for DNSTT and of `lenLimit` for XDNS. `Upload MTU` and `Download MTU` (MasterDNS) are the largest payloads per query and per answer. Resolvers that fail are not kept; the log shows where each one stopped.
 
 Click `Use as resolvers` on the `Results` tab to make the scan's result list the profile's `IP list`. The resolvers typed in the profile stay and are used first. The profile reads the list each time it starts, so it follows the scan: `Scan from the beginning` empties the list, and `Rescan current results` removes resolvers that stopped working. For a fixed set, click `Save as IP list` and choose that list as the profile's `IP list` instead.
+
+### Find working settings {#find-working-settings}
+
+This scan tries variants of one profile's anti-censorship settings, several times each, and ranks them, to find what gets through on your network. Right-click a profile and choose `Test` → `Find working settings`, which opens the profile's scan or creates one, or choose `Find working settings` in `New scan`.
+
+The scan's window has a `Settings` tab instead of `Targets` and `Phases`:
+
+- `What to Try` chooses the settings to vary: `uTLS fingerprint`, `TLS fragment`, `TLS record fragment`, `Mixed-case SNI`, `QUIC opener` and `MTU (WireGuard)`. Each is first tried on its own, then the changes that help are combined. Settings the profile cannot use are greyed out, with the reason in their tooltip.
+- `Pacing` limits the attempts and the time, and sets the `Test URL` and `Timeout (ms)`.
+
+`Start` always starts over. The `Results` tab ranks the variants by `Passed` and `Median latency` and marks the best one `Recommended`. Nothing in the profile changes until you select a result and click `Apply to profile`, or `Save as new profile` to add a copy with these settings.
+
+It cannot search chains (search their hops instead), Xray profiles, or profiles without TLS over TCP, QUIC or WireGuard. The profile must be saved first.
 
 ### IP lists {#ip-lists}
 

@@ -62,7 +62,7 @@ thronectl disconnect
 OTP 条目、VPN 登录和路由配置档在桌面版 Throne 中设置更方便。请在桌面版中设置好，然后用备份迁移过来：
 
 ```bash
-# 在桌面版上：在“备份和恢复”（Backup and Restore）设置中创建备份，或者在桌面版的 Throne API 开启时运行：
+# 在桌面版上：在“基本设置”（Basic Settings）的“备份”（Backup）标签页中创建备份，或者在桌面版的 Throne API 开启时运行：
 thronectl backup create -o desktop.thrbackup
 scp desktop.thrbackup box:
 
@@ -71,7 +71,7 @@ thronectl backup restore desktop.thrbackup
 ```
 
 - `backup restore` 会显示归档中的内容，并先询问。没有终端时，请添加 `--yes`。恢复后 Throne 会重启。
-- 默认情况下，它会恢复配置档、路由配置档、OTP 条目和 IP 列表。如果还要恢复设置，请添加 `--parts profiles,routes,otp,ip_lists,settings`。恢复设置时，会保留属于本设备的设置：Throne API、入站地址和端口、TUN、Kill Switch、NTP、日志以及文件路径。
+- 默认情况下，它会恢复配置档、路由配置档、OTP 条目和 IP 列表。如果还要恢复设置，请添加 `--parts profiles,routes,otp,ip_lists,settings`。恢复设置时，会保留属于本设备的设置：Throne API、入站地址和端口、Tun 模式、Kill Switch、NTP、日志以及文件路径。
 - 请同时恢复 `profiles` 和 `routes`。如果只恢复其中之一，分组会失去自己的路由配置档。
 - Throne 会拒绝含有会在其设备上运行程序或读取文件的配置档（例如额外核心配置档）的归档（`invalid_archive`）。
 - 备份以明文保存配置档的凭据和 OTP 密钥。用完后请删除它们。
@@ -101,5 +101,5 @@ THRONE_API_ADMIN_LAN=1
 
 - **管理请求**（导入、添加订阅、删除、更改设置、备份、读取日志、重启和关闭）只在来自 Throne 所在设备时才会得到响应，除非设置了 `THRONE_API_ADMIN_LAN=1`（`--api-admin-lan`）。否则它们会以 `forbidden` 失败。如果其他设备只需要监控和切换配置档，就不要设置它。
 - 同一地址在一分钟内认证失败 5 次后，Throne 会在 60 秒内拒绝该地址。一个使用旧密钥的客户端可能会把同一 NAT 后面的其他客户端锁在外面。
-- [Kill Switch](@/advanced/kill_switch.zh.md) 始终放行 API 的回复。在 Linux 上，TUN 可能会截走发给远程客户端的回复；参见 [Throne 如何保持可访问](@/headless/recovery.zh.md#protection)。
+- [Kill Switch](@/advanced/kill_switch.zh.md) 始终放行 API 的回复。在 Linux 上，Tun 模式可能会截走发给远程客户端的回复；参见 [Throne 如何保持可访问](@/headless/recovery.zh.md#protection)。
 - 发往 API 的流量是加密并经过认证的。尽管如此，除非你需要在网络上使用 API，否则请让它保持在环回地址上，并且始终设置允许列表。

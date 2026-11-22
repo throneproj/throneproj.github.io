@@ -8,7 +8,7 @@ aliases = ["/zh/introduction/"]
 
 ## Throne 是什么 {#what-is-throne}
 
-Throne（前身为 Nekoray）是一款适用于 Windows、Linux 和 macOS 的免费开源（GPL-3.0）代理客户端。它的核心 ThroneCore 基于 sing-box，也会为需要 Xray 的配置档运行 Xray。你添加服务器，选择哪些流量经过这些服务器，然后以系统代理模式或 TUN 模式连接。
+Throne（前身为 Nekoray）是一款适用于 Windows、Linux 和 macOS 的免费开源（GPL-3.0）代理客户端。它的核心 ThroneCore 基于 sing-box，也会为需要 Xray 的配置档运行 Xray。你添加服务器，选择哪些流量经过这些服务器，然后以系统代理模式或 Tun 模式连接。
 
 - [Throne for Android](@/android/_index.zh.md)（前身为 NekoBox for Android）与桌面版使用相同的核心、相同的设置和相同的[备份格式](@/guides/backup.zh.md)，因此你可以在电脑和手机之间迁移你的整套设置。
 - [无界面 Throne](@/headless/_index.zh.md) 不需要窗口，可以运行在服务器、路由器或容器中，用 `thronectl` 控制。
@@ -29,12 +29,12 @@ Throne（前身为 Nekoray）是一款适用于 Windows、Linux 和 macOS 的免
 
 - 支持多种[协议](@/reference/protocols.zh.md)，包括带 REALITY 和 XHTTP 的 VLESS、Shadowsocks、Trojan、Hysteria、TUIC、WireGuard、AmneziaWG、NaïveProxy、OpenVPN、OpenConnect 以及 [DNS 隧道](@/advanced/dns_tunnels.zh.md)。
 - 可按计划自动更新的[订阅](@/guides/subscriptions.zh.md)。
-- [系统代理、TUN 模式与局域网共享](@/guides/proxy_modes.zh.md)。
+- [系统代理、Tun 模式与局域网共享](@/guides/proxy_modes.zh.md)。
 - [路由](@/guides/routing.zh.md)规则，以及适用于中国、伊朗和俄罗斯的现成配置档。
 - 延迟和速度[测试](@/guides/testing.zh.md)，以及让你始终使用可用服务器的自动选择器。
 - [代理链与自定义配置](@/advanced/chains.zh.md)、TLS 分片等[反审查选项](@/advanced/presets.zh.md)，以及内置的 [Cloudflare WARP](@/advanced/warp.zh.md)。
 - [断网保护（Kill Switch）](@/advanced/kill_switch.zh.md)，以及通过 [`thronectl`](@/advanced/api.zh.md) 从脚本和其他设备控制 Throne。
-- 为新用户准备的[简洁模式](@/get_started/configuration.zh.md#interface-mode)，以及用 `Ctrl+K` 搜索命令和设置。
+- 用 [`Ctrl+K` 搜索](@/reference/shortcuts.zh.md#command-palette)命令和设置。
 
 ## 从哪里开始 {#where-to-start}
 

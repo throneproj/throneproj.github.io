@@ -1,23 +1,23 @@
 +++
 title = "Windows DNS 泄漏防护"
-description = "在 Windows 上，严格路由如何阻止 TUN 模式下的 DNS 泄漏，以及无法使用它时该怎么办。"
+description = "在 Windows 上，严格路由如何阻止 Tun 模式下的 DNS 泄漏，以及无法使用它时该怎么办。"
 weight = 60
 toc = true
 aliases = ["/zh/advanced/windows-tun-mode/"]
 +++
 
-在 [TUN 模式](@/guides/tun_mode.zh.md)下，Windows 仍可能通过你平常的网卡发送 DNS 查询，这样你的运营商就能看到你查询了哪些网站。（在 `系统代理`（System Proxy）模式下，`严格路由`（Strict Route）不起作用。）
+在 [Tun 模式](@/guides/tun_mode.zh.md)下，Windows 仍可能通过你平常的网卡发送 DNS 查询，这样你的运营商就能看到你查询了哪些网站。（使用系统代理时，`严格路由`（Strict route）不起作用。）
 
 ## 严格路由 {#strict-route}
 
-Windows 会把每个 DNS 查询同时发给所有网卡，因此查询也会从隧道之外发出。在 TUN 模式运行期间，`严格路由` 会添加 Windows 防火墙过滤规则，用于：
+Windows 会把每个 DNS 查询同时发给所有网卡，因此查询也会从隧道之外发出。在 Tun 模式运行期间，`严格路由` 会添加 Windows 防火墙过滤规则，用于：
 
 - 在除隧道以外的所有网卡上阻止 DNS（端口 53）；
-- 在 `Tun 启用 IPv6`（Tun Enable IPv6）关闭时阻止其他应用的 IPv6 连接。
+- 在 `启用 IPv6`（Enable IPv6）关闭时阻止其他应用的 IPv6 连接。
 
 这些过滤规则也可能阻止需要在隧道之外使用 DNS 或 IPv6 的程序。
 
-`严格路由` 在 Windows 10 和 11 上默认开启。要确认，请打开 `设置`（Settings）→ `Tun 设置`（Tun Settings），确认已勾选 `严格路由`，点击 `确定`（OK），然后将 `Tun 模式`（Tun Mode）关闭后再重新开启。
+`严格路由` 在 Windows 10 和 11 上默认开启。要确认，请打开 `设置`（Settings）→ `Tun 设置`（Tun Settings），确认已勾选 `严格路由`，点击 `确定`（OK），然后将 `Tun 模式`（Tun mode）关闭后再重新开启。
 
 ### 未开启的情况 {#when-off}
 

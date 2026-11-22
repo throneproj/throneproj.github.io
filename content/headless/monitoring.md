@@ -17,7 +17,7 @@ $ sudo /opt/Throne/Throne --check
 result: 0 failed, 0 warnings
 ```
 
-It checks the data directory, the settings, the core, TUN, the kill switch, the API key, the ports, the restart mode and the [device ID](@/headless/_index.md#device-id), with `fix:` lines where there is a fix. Only what keeps Throne from working at all is `[FAIL]`, and then the command exits with code 1. Missing privileges for TUN or the kill switch are `[WARN]`, with the `setcap` or `chmod u+s` commands that fix them, or `--cap-add NET_ADMIN` and `--device /dev/net/tun` in a container.
+It checks the data directory, the settings, the core, Tun mode, the kill switch, the API key, the ports, the restart mode and the [device ID](@/headless/_index.md#device-id), with `fix:` lines where there is a fix. Only what keeps Throne from working at all is `[FAIL]`, and then the command exits with code 1. Missing privileges for Tun mode or the kill switch are `[WARN]`, with the `setcap` or `chmod u+s` commands that fix them, or `--cap-add NET_ADMIN` and `--device /dev/net/tun` in a container.
 
 ## Throne --health {#health}
 
@@ -49,7 +49,7 @@ The values of `degraded`, in the order Throne reports them when several apply:
 | `core_unavailable` | The core process is not up. |
 | `kill_switch_failed` | The kill switch is on but failed, so profiles are refused. See [Kill Switch](@/advanced/kill_switch.md). |
 | `api_unavailable` | The API is on but does not listen, such as when another program holds its port or its key file cannot be used. `ok` stays `true`. |
-| `tun_unavailable` | TUN was on when Throne last stopped and cannot start now: Throne lacks the privileges, or something else holds TUN (a [TUN conflict](@/headless/_index.md#beside-desktop)). The profile did not start. Run `thronectl tun off`, then `thronectl connect`. |
+| `tun_unavailable` | Tun mode was on when Throne last stopped and cannot start now: Throne lacks the privileges, or something else blocks Tun mode (a [Tun conflict](@/headless/_index.md#beside-desktop)). The profile did not start. Run `thronectl tun off`, then `thronectl connect`. |
 | `resume_suppressed` | Throne did not resume the last profile, because the last three times it did, Throne or its core stopped within a minute. Start the profile with `thronectl connect`. |
 | `vpn_auth_failed` | A VPN profile's server rejected its saved credentials. It clears when the profile stops. |
 | `vpn_challenge_pending` | A VPN profile's server asks for something Throne cannot answer on its own, such as a web sign-in. Throne cancels it after 5 minutes at most. |

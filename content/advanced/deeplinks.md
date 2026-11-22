@@ -9,13 +9,9 @@ A deep link is a `throne://` URL that tells Throne to add a subscription, a rout
 
 ## How Throne receives a deep link {#receive}
 
-Clicking a link works only when `throne://` is registered for Throne. The Windows installer, the Linux `.deb` and `.rpm` packages and install script, and `Throne.app` on macOS register it for your user account. A ZIP copy on Windows or Linux does not: open `Settings` → `Basic Settings` → `Common`, tick `Register throne:// links at startup` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)) and click `OK`. With several copies, links open in the last one that started with this option on; `Install` next to it registers the current copy.
+Clicking a link works only when `throne://` is registered for Throne. The Windows installer, the Linux `.deb` and `.rpm` packages and install script, and `Throne.app` on macOS register it for your user account. A ZIP copy on Windows or Linux does not: open `Settings` → `Basic Settings` → `General` → `Links and Files`, tick `Register throne:// links at startup` and click `OK`. With several copies, links open in the last one that started with this option on; `Install` next to it registers the current copy.
 
-Without registration, copy the link and press `Ctrl+V` in the main window, or drag the link text onto it. Throne also takes a link as a [command-line argument](@/reference/files.md#command-line).
-
-{% alert_info() %}
-On desktop, `Scan QR Code` and dropped QR images import only `add` links. For another deep link in a QR code, copy the text after `QR Code Result:` from the `Logs` tab and press `Ctrl+V`.
-{% end %}
+Without registration, copy the link and press `Ctrl+V` in the main window, or drag the link text onto it. For a deep link in a QR code, use `Program` → `Scan QR code`, or drop the QR image onto the main window. Throne also takes a link as a [command-line argument](@/reference/files.md#command-line).
 
 [Headless Throne](@/headless/_index.md) does not handle `throne://` links. Use `thronectl sub add` for subscriptions and `thronectl import` for `add` links, see [Throne API & thronectl](@/advanced/api.md#commands).
 
@@ -73,7 +69,7 @@ throne://addsub/aHR0cHM6Ly9leGFtcGxlLmNvbS9zdWIvYWJjMTIzI015UHJvdmlkZXI=
 Throne asks first, with a ticked `Auto update` checkbox, then creates the group and updates it.
 
 {% alert_info() %}
-`Auto update` only lets the group take part in automatic updates. These also need `Basic Settings` → `Subscription` → `Subscription auto update` → `Enable`, which is off by default. See [Subscriptions](@/guides/subscriptions.md#auto-update).
+`Auto update` only lets the group take part in automatic updates. These also need `Basic Settings` → `Subscriptions` → `Auto Update` → `Enable`, which is off by default. See [Subscriptions](@/guides/subscriptions.md#auto-update).
 {% end %}
 
 ## `route`: import a routing profile {#route}
@@ -82,7 +78,7 @@ Throne asks first, with a ticked `Auto update` checkbox, then creates the group 
 throne://route/<base64>
 ```
 
-Carries a whole routing profile. To create one, select the profile on the `Route` tab of `Routing Settings` and click `Export` (`Ctrl+C`). The imported profile does not become active until you choose it in the `Routing` menu.
+Carries a whole routing profile. To create one, select the profile on the `Routing` tab of `Routing Settings` and click `Export` (`Ctrl+C`). The imported profile does not become active until you choose it in the `Routing` menu.
 
 The payload is the Base64 of a JSON object:
 
@@ -103,9 +99,9 @@ throne://route/eyJraW5kIjoidGhyb25lLXJvdXRlLXByb2ZpbGUiLCJ2IjoxLCJuYW1lIjoiRXhhb
 - `default_outbound` is `proxy`, `direct`, `block` or `warp-bypass`.
 - A raw profile carries `"raw": true` and a `route` object instead of `rules`.
 - An optional `dns` object carries the profile's own DNS settings: `remote_dns`, `remote_dns_disable_ipv6`, `direct_dns`, `direct_dns_disable_ipv6`, `dns_final_out`, `enable_dns_routing`, `fake_dns` and `fakeip_disable_ipv6` (see [DNS per routing profile](@/guides/dns.md#route-dns)). A rule can carry `"disabled": true`.
-- Rules name the saved servers they send traffic to. Throne reports names it cannot find.
+- Rules name the saved profiles they send traffic to. Throne reports names it cannot find.
 
-`Import` (`Ctrl+V`) on the `Route` tab also accepts the Base64 payload alone or the plain JSON. See [Share profiles](@/guides/routing.md#share-profiles).
+`Import` (`Ctrl+V`) on the `Routing` tab also accepts the Base64 payload alone or the plain JSON. See [Share profiles](@/guides/routing.md#share-profiles).
 
 ## `remoteroute`: add remote routing profiles {#remoteroute}
 
@@ -138,7 +134,7 @@ throne://remoteroute/aHR0cHM6Ly9leGFtcGxlLmNvbS9yb3V0ZXMvYnlwYXNzLWlyYW4uanNvbiN
 Throne asks first, with one ticked `Auto update` checkbox for all the profiles, then downloads them.
 
 - An update replaces the rules and the default outbound of a profile, not its name.
-- Scheduled updates also need `Basic Settings` → `Subscription` → `Routing profiles auto update` → `Enable` (Advanced mode only), which is off by default. See [Remote profiles](@/guides/routing.md#remote-profiles).
+- Scheduled updates also need `Routing Settings` → `Routing` → `Updates` → `Routing profiles auto update` → `Enable`, which is off by default. See [Remote profiles](@/guides/routing.md#remote-profiles).
 - URLs on `raw.githubusercontent.com` are downloaded through the `Remote Rule-set Mirror`, which may serve an older copy for a while after you change the file.
 
 ## `add`: add one proxy profile {#add}
@@ -149,7 +145,7 @@ throne://add/<base64>
 
 The payload is the Base64 of the profile's outbound settings as JSON. On desktop, the profile is added to the current group at once, like a pasted `vless://` link. `add` links also work wherever share links work: in subscriptions, files and QR codes.
 
-To create one, right-click profiles → `Share` → `Copy links of selected (Deep Links)` (`Ctrl+Alt+C`, Advanced mode only), or use `Share` → `QR Code and link` with `Deep Link` ticked. A deep link carries the full configuration, including advanced connection options such as a bind interface. `Copy links of selected` (`Ctrl+C`) gives a deep link only for profiles that have no standard share link.
+To create one, right-click profiles → `Share` → `Copy deep link` (`Ctrl+Alt+C`), or use `Share` → `QR code and link` with `Deep link` ticked. A deep link carries the full configuration, including advanced connection options such as a bind interface. `Copy link` (`Ctrl+C`) gives a deep link only for profiles that have no standard share link.
 
 ## On Android {#android}
 
@@ -168,11 +164,11 @@ These messages are from Throne desktop.
 - **Clicking a link does nothing, or the browser asks which app to use.** `throne://` is not registered for this copy, see [How Throne receives a deep link](#receive). With several copies, click `Install` in the one that should open links. Or copy the link and press `Ctrl+V` in Throne.
 - **Linux: links still do not open.** Install `desktop-file-utils`, then click `Install` next to `Register throne:// links at startup`.
 - **Nothing happens and the log stays empty.** Throne silently drops an `addsub` payload that is not valid standard Base64 (URL-safe `-` or `_`, spaces or line breaks), a link without the slash after the command (except `add` and `remoteroute`), and an unknown command whose payload does not decode.
-- **"Ignored deeplink with unknown command: …"** The word after `throne://` is not `addsub`, `route`, `remoteroute` or `add`.
+- **"Ignored deep link with unknown command: …"** The word after `throne://` is not `addsub`, `route`, `remoteroute` or `add`.
 - **"The link did not contain a subscription URL."** The `addsub` payload has no URL before the `#`.
 - **"Deep link has no data" or "Base64 is invalid."** Nothing follows `throne://remoteroute/`, or the payload is not standard Base64.
 - **"The link did not contain any valid http(s) routing profile URLs."** No line of the `remoteroute` payload starts with `http://` or `https://`. Send a list of URLs, not JSON.
 - **"The link did not contain any valid remote routing profiles."** The link has no slash after `remoteroute`.
 - **"The link could not be parsed:"** (`route` links). "Empty input": nothing follows `throne://route/`. "Input is not valid JSON, base64, or a Throne route link": the payload is damaged or cut off. "Unrecognized route object": the JSON has no `"kind": "throne-route-profile"`.
-- **"Imported 0 profile(s)" in the log.** An `add` payload is damaged, or you scanned a QR code with another kind of deep link.
-- **"Remote routing profile … failed: …" in the log.** The profile was added, but its URL cannot be downloaded or does not serve a structured routing profile. Fix it, then click `Update` on the `Route` tab.
+- **"Imported 0 profile(s)" in the log.** An `add` payload is damaged.
+- **"Remote routing profile … failed: …" in the log.** The profile was added, but its URL cannot be downloaded or does not serve a structured routing profile. Fix it, then click `Update` on the `Routing` tab.

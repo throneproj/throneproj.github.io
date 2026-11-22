@@ -11,7 +11,7 @@ The Throne API lets scripts, hotkey tools and other devices control and manage T
 
 ## Turn on the API in Throne {#enable}
 
-1. Open `Settings` → `Integration Settings` → `Throne API` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
+1. Open `Settings` → `Integration Settings` → `Throne API`.
 2. Tick `Enable the Throne API`. Throne fills in a new key.
 3. Click `OK`.
 
@@ -57,14 +57,14 @@ Flags, before or after the command: `--addr host:port` and `--key-file file` ove
 
 | Command | What it does |
 | --- | --- |
-| `status` | State, running profile, modes, routing profile, Throne version, and what else holds TUN, if anything. |
+| `status` | State, running profile, modes, routing profile, Throne version, and what else blocks Tun mode, if anything. |
 | `groups` | Lists the groups, with their own routing profiles. |
 | `profiles [--group N] [--name REGEX] [--ids 1,2]` | Lists profiles with their last test results. |
 | `connect <id>` | Starts a profile. `--restart` restarts it if it already runs. |
 | `connect last` | Starts the running profile, else the last one, else the remembered one. |
 | `connect best [--group N] [--name REGEX] [--max-age 1h]` | Starts the profile with the lowest latency, first testing those without a result newer than `--max-age`. |
 | `disconnect`, `toggle` | Stops the running profile; `toggle` runs `connect last` when nothing runs. |
-| `tun on`, `tun off`, `tun toggle` | TUN mode. |
+| `tun on`, `tun off`, `tun toggle` | Tun mode. |
 | `proxy on`, `proxy off`, `proxy toggle` | The system proxy. |
 | `routes`, `route <id>` | Lists the routing profiles; activates one and restarts the running profile. |
 | `test latency`, `test ip`, `test speed` | Runs a URL, IP or speed test on `--group N` (optionally with `--name REGEX`) or on profile IDs. |
@@ -81,7 +81,7 @@ Flags, before or after the command: `--addr host:port` and `--key-file file` ove
 | `backup create [-o FILE] [--parts LIST]` | Writes a `.thrbackup` archive. |
 | `backup restore FILE [--parts LIST] [--yes]` | Shows an archive, asks, restores it and restarts Throne. Default parts: `profiles,routes,otp,ip_lists`. |
 | `rulesets update` | Downloads the running profile's remote rule-sets again. |
-| `geo`, `geo update [geoip] [geosite] [--only-missing]` | Shows the Xray geo files; downloads them again. |
+| `geo`, `geo update [geoip] [geosite] [--only-missing]` | Shows the Xray geo assets; downloads them again. |
 | `restart`, `shutdown [--yes]` | Restarts Throne; quits it after asking. |
 | `web [--listen ADDR] …`, `web passwd` | Serves the [web UI](@/headless/web.md); sets its password. |
 | `keygen [-o FILE]` | Creates a new key, printed or written to a new file that only you can read. It does not connect to Throne. |
@@ -108,11 +108,11 @@ Flags, before or after the command: `--addr host:port` and `--key-file file` ove
 | Tests | `test_url`, `test_concurrency`, `test_timeout_ms` |
 | Automatic updates | `sub_auto_update`, `sub_respect_server_interval`, `route_auto_update` (minutes, `0` is off) |
 | Kill switch | `kill_switch` |
-| TUN | `tun_strict_route`, `tun_auto_redirect` (Linux), `tun_mtu`, `tun_ipv6`, `tun_ipv4_cidr`, `tun_ipv6_cidr` |
+| Tun | `tun_strict_route`, `tun_auto_redirect` (Linux), `tun_mtu`, `tun_ipv6`, `tun_ipv4_cidr`, `tun_ipv6_cidr` |
 | Ports and APIs | `dns_in_port`, `dns_in_lan` ([DNS server for other devices](@/guides/dns.md#dns-server)), `clash_api_port`, `clash_listen_addr`, `singbox_api_port` |
 | DNS and time | `remote_dns`, `direct_dns`, `ntp_enabled`, `ntp_server`, `ntp_interval` |
 
-Most changes apply when the running profile restarts (TUN settings, when TUN mode starts again). `thronectl status` says when a restart is needed; `thronectl connect last --restart` does it. Allowed values: see the [settings table](https://github.com/throneproj/Throne-api/blob/main/spec/api.md#settings) of the specification.
+Most changes apply when the running profile restarts (Tun Settings, when Tun mode starts again). `thronectl status` says when a restart is needed; `thronectl connect last --restart` does it. Allowed values: see the [settings table](https://github.com/throneproj/Throne-api/blob/main/spec/api.md#settings) of the specification.
 
 ## Admin requests {#admin-requests}
 
@@ -123,7 +123,7 @@ Throne answers admin requests only from its own computer (`127.0.0.1` or `::1`).
 - Backups contain your profiles' passwords and keys and your OTP secrets in plain text. `thronectl` makes them readable only by you; keep it that way and delete them when done.
 - `backup restore` refuses archives with profiles that run programs or read files, such as Extra Core profiles (`invalid_archive`). Restore those in the Throne window.
 - `backup restore` and `shutdown` ask first. In scripts without a terminal, add `--yes`.
-- Restoring `settings` keeps this computer's own settings, such as the Throne API, ports, TUN and the kill switch.
+- Restoring `settings` keeps this computer's own settings, such as the Throne API, ports, Tun mode and the kill switch.
 
 ## Examples {#examples}
 
@@ -153,7 +153,7 @@ if ($best) { thronectl connect $best.id }
 
 ### One key to connect and disconnect {#example-hotkey}
 
-Let a Stream Deck, macro pad or hotkey tool run `thronectl toggle`. Such tools often don't read your shell's settings: set `THRONE_KEY_FILE` (and `THRONE_ADDR`, if needed) as a user environment variable, or add `--key-file`. Throne also has [global hotkeys](@/reference/shortcuts.md#global-hotkeys) for `Start/Stop Profile` and `Toggle Tun Mode`.
+Let a Stream Deck, macro pad or hotkey tool run `thronectl toggle`. Such tools often don't read your shell's settings: set `THRONE_KEY_FILE` (and `THRONE_ADDR`, if needed) as a user environment variable, or add `--key-file`. Throne also has [global hotkeys](@/reference/shortcuts.md#global-hotkeys) for `Start/Stop Profile` and `Toggle Tun mode`.
 
 ## Shell completion {#completion}
 

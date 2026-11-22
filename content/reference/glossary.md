@@ -15,18 +15,20 @@ toc = true
 | Share link | A one-line link for one profile, such as `vless://…`, that other apps also understand. | [Protocols & Import Formats](@/reference/protocols.md#share-links) |
 | Deep link | A `throne://` link that tells Throne to do something, such as add a subscription. | [Deep Links](@/advanced/deeplinks.md#format) |
 | Throne link | A `throne://add/…` deep link that carries one profile of any type. | [Deep Links](@/advanced/deeplinks.md#add) |
-| Chain | A `Chain Proxy` profile that sends traffic through several profiles one after another. | [Proxy Chains & Custom Configs](@/advanced/chains.md#chains) |
+| Proxy chain | A `Proxy Chain` profile that sends traffic through several profiles one after another. | [Proxy Chains & Custom Configs](@/advanced/chains.md#chains) |
 | Front / landing proxy | Group options that add one extra profile before (front) or after (landing) every profile of the group. | [Proxy Chains & Custom Configs](@/advanced/chains.md#front-landing) |
-| Auto selector | A profile type that tests the servers of a group and uses the best ones automatically. | [Testing & Auto Selector](@/guides/testing.md#auto-selector) |
+| Pinned profile | A profile kept at the top of its group with `Pin to top`, whatever the sorting. | [Testing & Auto Selector](@/guides/testing.md#pin) |
+| Auto selector | A profile type that tests the profiles of one or more groups and uses the best ones automatically. | [Testing & Auto Selector](@/guides/testing.md#auto-selector) |
+| Priority tier | A row of an auto selector's `Priority tiers`: profiles of the highest tier that works are used first. | [Testing & Auto Selector](@/guides/testing.md#auto-selector) |
 | URL test | A latency test that measures how long a profile takes to open a test URL. | [Testing & Auto Selector](@/guides/testing.md#url-test) |
+| Service check | A test that shows which services, such as AI or streaming sites, work through a profile. | [Testing & Auto Selector](@/guides/testing.md#service-check) |
+| Find working settings | A scan that tries anti-censorship settings of a profile and ranks what gets through. | [Testing & Auto Selector](@/guides/testing.md#find-working-settings) |
 
 ## Interface {#interface}
 
 | Term | Meaning | More |
 | --- | --- | --- |
-| Simple mode | The interface mode of new installations, which hides advanced menu items and settings. | [Simple and Advanced mode](@/get_started/configuration.md#interface-mode) |
-| Advanced mode | The interface mode that shows every menu item and setting. | [Simple and Advanced mode](@/get_started/configuration.md#interface-mode) |
-| Command palette | A search window that finds menu commands and settings by name. | [Command palette](@/reference/shortcuts.md#command-palette) |
+| Search Settings | A search window that finds menu commands and settings by name. | [Search Settings](@/reference/shortcuts.md#command-palette) |
 
 ## Core and connection modes {#core-and-modes}
 
@@ -35,13 +37,13 @@ toc = true
 | Core | ThroneCore, the background program that carries your traffic. | [What is Throne](@/get_started/_index.md#what-is-throne) |
 | sing-box | The open-source engine that ThroneCore is built on. | [sing-box vs Xray](@/advanced/xray.md) |
 | Xray | A second engine that runs inside the core for `VLESS (Xray)` profiles and Xray configs. | [sing-box vs Xray](@/advanced/xray.md#vless-preference) |
-| Inbound | A way for traffic to enter Throne, such as the mixed port or the TUN adapter. | [Inbound settings](@/guides/proxy_modes.md#inbound-settings) |
+| Inbound | A way for traffic to enter Throne, such as the mixed port or the Tun adapter. | [Inbound settings](@/guides/proxy_modes.md#inbound-settings) |
 | Outbound | A way for traffic to leave Throne: through a profile (`proxy`), directly (`direct`) or nowhere (`block`). | [Routing](@/guides/routing.md#how-routing-works) |
 | Mixed port | The local port that accepts both SOCKS5 and HTTP proxy connections. | [Inbound settings](@/guides/proxy_modes.md#inbound-settings) |
-| System proxy | The `System Proxy` mode, which points your system's proxy setting to the mixed port. | [System proxy](@/guides/proxy_modes.md#system-proxy) |
-| TUN | The `Tun Mode`, which passes the traffic of all apps through a virtual network adapter. | [TUN Mode](@/guides/tun_mode.md) |
-| Strict route | A TUN option that stops traffic from going around the tunnel. | [Windows DNS Leak Protection](@/advanced/windows_tun_mode.md#strict-route) |
-| MTU | The largest packet size of the TUN adapter. | [TUN settings](@/guides/tun_mode.md#settings) |
+| System proxy | The `System proxy` mode, which points your system's proxy setting to the mixed port. | [System proxy](@/guides/proxy_modes.md#system-proxy) |
+| Tun mode | The `Tun mode`, which passes the traffic of all apps through a virtual network adapter. | [Tun Mode](@/guides/tun_mode.md) |
+| Strict route | A Tun mode option that stops traffic from going around the tunnel. | [Windows DNS Leak Protection](@/advanced/windows_tun_mode.md#strict-route) |
+| MTU | The largest packet size of the Tun adapter. | [Tun Settings](@/guides/tun_mode.md#settings) |
 
 ## Routing and DNS {#routing-and-dns}
 
@@ -51,10 +53,10 @@ toc = true
 | Rule | A condition, such as a domain or a program, and the outbound for matching connections. | [Routing](@/guides/routing.md#advanced-rules) |
 | Rule-set | A ready-made list of domains (`geosite-…`) or IP ranges (`geoip-…`) for rules. | [Rule-sets](@/guides/routing.md#rule-sets) |
 | Default outbound | Where a connection goes when no rule matches. | [Routing](@/guides/routing.md#how-routing-works) |
-| warp-bypass | An outbound that uses your profile but skips WARP. | [Cloudflare WARP](@/advanced/warp.md#warp-bypass) |
+| Proxy without WARP | An outbound (`warp-bypass`) that uses your profile but skips WARP and Tor. | [Cloudflare WARP](@/advanced/warp.md#warp-bypass) |
 | Remote routing profile | A routing profile that Throne downloads from a URL. | [Remote profiles](@/guides/routing.md#remote-profiles) |
 | Sniffing | Reading the domain name from the start of a connection, so that domain rules also work for connections to IP addresses. | [Routing](@/guides/routing.md#advanced-rules) |
-| DNS routing | The `Enable DNS Routing` option, which resolves domains that match `direct` rules with direct DNS. | [DNS](@/guides/dns.md#how-dns-works) |
+| DNS routing | The `Enable DNS routing` option, which resolves domains that match `direct` rules with direct DNS. | [DNS](@/guides/dns.md#how-dns-works) |
 | Remote DNS / direct DNS | The DNS servers used through the proxy (remote) and without it (direct). | [DNS settings](@/guides/dns.md#settings) |
 | FakeIP | A DNS mode that answers with temporary fake addresses and maps them back to the real domain names. | [FakeIP](@/guides/dns.md#fakeip) |
 
@@ -64,11 +66,13 @@ toc = true
 | --- | --- | --- |
 | Reality | A security option for VLESS that makes the connection look like a visit to a real, unrelated website. | [sing-box vs Xray](@/advanced/xray.md#reality) |
 | XHTTP | An Xray transport that carries the connection inside ordinary HTTP requests. | [sing-box vs Xray](@/advanced/xray.md#vless-preference) |
-| uTLS | Makes the TLS handshake look like that of a common browser. | [Anti-Censorship Presets](@/advanced/presets.md#utls) |
-| ECH | Encrypted Client Hello, which hides the server name inside the TLS handshake. | [Anti-Censorship Presets](@/advanced/presets.md#ech) |
-| TLS fragment | Splits the first TLS message into small pieces to get past some censorship filters. | [Anti-Censorship Presets](@/advanced/presets.md#tls-fragment) |
-| Multiplex (mux) | Carries many connections inside one connection to the server. | [Anti-Censorship Presets](@/advanced/presets.md#multiplex) |
+| uTLS | Makes the TLS handshake look like that of a common browser. | [Preset Settings](@/advanced/presets.md#utls) |
+| ECH | Encrypted Client Hello, which hides the server name inside the TLS handshake. | [Preset Settings](@/advanced/presets.md#ech) |
+| TLS fragment | Splits the first TLS message into small pieces to get past some censorship filters. | [Preset Settings](@/advanced/presets.md#tls-fragment) |
+| Multiplex (mux) | Carries many connections inside one connection to the server. | [Preset Settings](@/advanced/presets.md#multiplex) |
+| QUIC opener | Sends a decoy packet before each new UDP flow, to get past filters that block QUIC by its first packet. | [Preset Settings](@/advanced/presets.md#quic-opener) |
 | WARP | The free VPN service of Cloudflare, which Throne can add as the last hop after your profile. | [Cloudflare WARP](@/advanced/warp.md) |
+| Tor | The anonymity network, which Throne can add as the last hop after your profile instead of WARP. | [Tor](@/advanced/tor.md) |
 | MASQUE | A tunnel protocol over HTTP/3 or HTTP/2, available as a profile type and as a WARP mode. | [Cloudflare WARP](@/advanced/warp.md) |
 | DNS tunnel | Carries your traffic inside DNS queries, for networks where only DNS gets through. | [DNS Tunnels](@/advanced/dns_tunnels.md) |
 | Resolver | A DNS server that answers queries for you and, for a DNS tunnel, passes them on to the tunnel server. | [DNS Tunnels](@/advanced/dns_tunnels.md#resolvers) |

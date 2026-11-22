@@ -11,17 +11,15 @@ A subscription is a link from your provider that returns a list of servers. Thro
 An update makes a subscription group match the provider's list: it deletes profiles that are not in the list and undoes your changes to the others. Keep your own profiles in a Basic group.
 {% end %}
 
-`Front Proxy`, `Landing Proxy`, the group's `Advanced` options and most settings on the `Subscription` tab appear only in Advanced mode, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
-
 ## Add a subscription {#add-subscription}
 
 1. Copy the subscription address. It starts with `https://` or `http://`.
-2. In Throne, press `Ctrl+V` (`Program` → `Add profile from clipboard`).
+2. In Throne, press `Ctrl+V` (`Program` → `Paste from clipboard`).
 3. Choose `Create new subscription group` and click `OK`.
 
 Throne names the group after the host in the address and downloads it. `Add profiles to this group` instead adds the profiles once and does not keep the address, so they are never updated.
 
-To name the group and set its options first, choose `Groups` → `Add new Group`, set `Type` to `Subscription`, paste the address into `URL` and click `OK`. Creating the group does not download it: right-click its tab and choose `Update subscription`.
+To name the group and set its options first, right-click an empty area of the profile list and choose `Add subscription`, or choose `Groups` → `New group` and set `Type` to `Subscription`. Paste the address into `URL` and click `OK`. Creating the group does not download it: right-click its tab and choose `Update subscription`.
 
 A `throne://addsub/…` link from your provider fills in the name and address; click `OK` to add the group. See [Deep Links](@/advanced/deeplinks.md#addsub).
 
@@ -29,20 +27,20 @@ A `throne://addsub/…` link from your provider fills in the name and address; c
 
 Select the group's tab and press `Ctrl+U`, or right-click the tab and choose `Update subscription`. `Groups` → `Update all subscriptions` updates every subscription group, including those with `Skip automatic update`.
 
-An update adds new profiles, updates changed ones and deletes the ones that are no longer listed. Unchanged profiles keep their test results. The group takes the provider's order, and a [sorted group](@/guides/testing.md#sort-filter) is sorted again. If the response holds no profiles at all, the group stays unchanged.
+An update adds new profiles, updates changed ones and deletes the ones that are no longer listed. Unchanged profiles keep their test results, and [pinned profiles](@/guides/testing.md#pin) stay pinned while the subscription lists them. The group takes the provider's order, and a [sorted group](@/guides/testing.md#sort-filter) is sorted again. If the response holds no profiles at all, the group stays unchanged.
 
-- `Settings` → `Basic Settings` → `Subscription` → `Clear servers before updating subscription` deletes the group's profiles before each update, so their test results are lost.
+- `Settings` → `Basic Settings` → `Subscriptions` → `When Updating` → `Clear profiles before updating subscription` deletes the group's profiles before each update, so their test results are lost.
 - `Settings` → `Basic Settings` → `Core` → `Xray VLESS Preference` applies when profiles are imported, so update your subscriptions after you change it. See [sing-box vs Xray](@/advanced/xray.md#vless-preference).
 
 For the formats a subscription can return, see [Protocols & Import Formats](@/reference/protocols.md#import-formats).
 
 ### Change report {#change-report}
 
-Every update writes a report to the `Logs` tab: profiles added `[+]`, updated `[~]`, deleted `[-]` and kept `[=]`, and the entries that could not be imported or were imported with warnings, with the reason. After a manual update of one group, the report also opens in a window; untick `Show the changes window after a manual subscription update` on the `Subscription` tab to stop that.
+Every update writes a report to the `Logs` tab: profiles added `[+]`, updated `[~]`, deleted `[-]` and kept `[=]`, and the entries that could not be imported or were imported with warnings, with the reason. After a manual update of one group, the report also opens in a window; untick `Show the changes window after a manual subscription update` on the `Subscriptions` tab to stop that.
 
 ### The profile you are using {#running-profile}
 
-An update never deletes the profile you are connected to, even when the provider removed it. To let Throne stop and delete it, turn on `Allow stopping the active profile` on the `Subscription` tab. Throne then connects to the profile of the group with the same name and type, if there is exactly one.
+An update never deletes the profile you are connected to, even when the provider removed it. To let Throne stop and delete it, turn on `Allow stopping the active profile` on the `Subscriptions` tab. Throne then connects to the profile of the group with the same name and type, if there is exactly one.
 
 If the provider changed the running profile, the connection keeps the old settings until you start the profile again. A running [auto selector](@/guides/testing.md#auto-selector) restarts by itself when an update replaces its profiles.
 
@@ -50,15 +48,15 @@ If the provider changed the running profile, the connection keeps the old settin
 
 Automatic updates are off by default. To turn them on:
 
-1. Open `Settings` → `Basic Settings` → `Subscription`.
-2. Next to `Subscription auto update`, tick `Enable`.
+1. Open `Settings` → `Basic Settings` → `Subscriptions`.
+2. Under `Auto Update`, tick `Enable`.
 3. Set the interval in minutes, at least 30 (the default).
 4. Click `OK`.
 
 Each group is updated when the interval has passed since its last update, and soon after Throne starts if an update came due while it was closed. Groups with `Skip automatic update` are left out.
 
 - `Use the update interval sent by the server` follows the interval that your provider suggests, if it sends one.
-- One group can have its own `Update Interval` and `Server Interval` in its options → `Advanced` → `Update`. `Keep Default` follows the `Subscription` tab, and `Subscription auto update` must still be enabled.
+- One group can have its own `Update Interval` and `Server Interval` in its options → `Advanced` → `Update`. `Keep default` follows the `Subscriptions` tab, and `Auto Update` → `Enable` must still be on.
 
 ## Provider information {#provider-info}
 
@@ -76,16 +74,16 @@ Throne reads these details from the response headers `Subscription-UserInfo`, `P
 
 ## Group options {#group-options}
 
-Right-click a group's tab and choose `Edit selected Group`.
+Right-click a group's tab and choose `Edit group`, or choose `Groups` → `Edit group`.
 
 | Setting | What it does |
 | --- | --- |
 | `Front Proxy`, `Landing Proxy` | Extra hops for every profile of the group. See [Front and landing proxy](#front-landing-proxy). |
 | `Routing Profile` | The routing profile that the group's profiles connect with. `Default (…)` follows the `Routing` menu. See [Routing profile per group](@/guides/routing.md#group-routing). |
-| `Auto Clear Unavailable Profiles` | Deletes the profiles that fail a URL test of the group, without asking. |
+| `Auto clear unavailable profiles` | Deletes the profiles that fail a URL test of the group, without asking. |
 | `Skip automatic update` | Leaves the group out of automatic updates. |
 | `Use the subscription's routing profile` | Uses the routing profile that the provider sends with the subscription. See [From the subscription](@/guides/routing.md#subscription-routing). |
-| `Advanced` | The [update interval](#auto-update), [cleanup after each update](#after-update), [User-Agent and HWID](#user-agent-and-hwid), [TLS and HTTP version](#problem-web-page) and [server address](#server-address). |
+| `Advanced` | The [update interval](#auto-update), [cleanup after each update](#after-update), [filters](#filter-profiles), [User-Agent and HWID](#user-agent-and-hwid), [TLS and HTTP version](#problem-web-page) and [server address](#server-address). |
 
 `Copy profile share links` copies the links of all profiles in the group.
 
@@ -103,19 +101,34 @@ A subscription group can clean itself up after each update. Open its options →
 
 The [change report](#change-report) lists the removed profiles. The profile you are connected to is removed only when `Allow stopping the active profile` is on.
 
+## Filter profiles {#filter-profiles}
+
+A subscription group can leave out the profiles you never use. Open its options → `Advanced` → `Filter`:
+
+| Setting | What it does |
+| --- | --- |
+| `Keep only matching` | A regular expression; only profiles whose name matches are kept, for example `HK\|SG\|Japan`. Case does not matter. |
+| `Remove matching` | A regular expression; profiles whose name matches are removed, for example `expire\|traffic\|website`. It wins over `Keep only matching`. |
+| `Remove types` | Removes every profile of the protocols you tick. |
+| `Countries` | Exit countries to keep, such as `HK,JP`, or to remove, such as `!RU`. |
+
+The name and type filters apply at every update, so the profiles they remove are never imported. For `Countries`, Throne runs an [exit IP test](@/guides/testing.md#ip-test) on the profiles whose country is unknown after each update and removes the ones outside the list; a profile whose country stays unknown is kept. On a large group this takes a while.
+
+If the filters would remove every profile, the group stays unchanged. Saving changed filters updates the subscription.
+
 ## User-Agent and HWID {#user-agent-and-hwid}
 
 Some providers send a different list to each app, or refuse apps they do not know. Set the `User Agent` that your provider expects:
 
-- For all groups: `Settings` → `Basic Settings` → `Subscription` → `User Agent`. Empty sends `Throne/` and the version.
+- For all groups: `Settings` → `Basic Settings` → `Subscriptions` → `Requests` → `User Agent`. Empty sends `Throne/` and the version.
 - For one group: group options → `Advanced` → `Request` → `User Agent`. Empty uses the global value.
 
 Some providers also require a device ID (HWID). Throne sends it only if you turn it on:
 
-- For all groups: tick `Enable sending HWID, device model, and OS version when updating subscription` on the `Subscription` tab.
+- For all groups: tick `Enable sending HWID, device model, and OS version when updating subscription` under `Subscriptions` → `Requests`.
 - For one group: set `Send HWID` to `On` under `Request`. The `HWID`, `OS`, `OS Version` and `Device Model` fields replace the values for this group.
 
-To replace the values for all groups, fill in `Custom System Parameters (optional)` on the `Subscription` tab and leave out the ones you keep:
+To replace the values for all groups, fill in `Custom System Parameters (optional)` under `Subscriptions` → `Requests` and leave out the ones you keep:
 
 ```text
 hwid=value,os=value,osVersion=value,model=value
@@ -133,7 +146,7 @@ Use a `Front Proxy` when your device cannot reach the group's servers directly, 
 
 ## Server address {#server-address}
 
-A group can make all its profiles connect to another address, for example a CDN address that the [IP scanner](@/guides/testing.md#ip-scanner) found working on your network. Open the group options → `Advanced` → `Server Address` and choose:
+A group can make all its profiles connect to another address, for example a CDN address that the [IP Scanner](@/guides/testing.md#ip-scanner) found working on your network. Open the group options → `Advanced` → `Server Address` and choose:
 
 - `Profiles' own addresses`: no change (default).
 - `Fixed address`: a host name or IP address, without a port.
@@ -151,21 +164,21 @@ Some providers only answer apps that they know. The log then shows an error such
 
 ### The server returns a web page or a CAPTCHA {#problem-web-page}
 
-Throne then says "The server returned a web page instead of a subscription". Change how it connects to the server: `TLS Version` and `HTTP Version` on the `Subscription` tab for all groups, or under `Request` in the group's `Advanced` options. `TLS 1.2` often gets through when the default handshake gets a CAPTCHA; `HTTP/1.1` and another `User Agent` are worth a try too.
+Throne then says "The server returned a web page instead of a subscription". Change how it connects to the server: `TLS Version` and `HTTP Version` under `Subscriptions` → `Requests` for all groups, or under `Request` in the group's `Advanced` options. `TLS 1.2` often gets through when the default handshake gets a CAPTCHA; `HTTP/1.1` and another `User Agent` are worth a try too.
 
 If the first download of a new group fails, the group is kept. Fix its settings and update it again.
 
 ### "Request with proxy but no profile started." {#problem-no-profile}
 
-While `Settings` → `Basic Settings` → `Miscellaneous` → `Use proxy` or `System Proxy` is on, Throne sends its own requests, such as subscription updates, through the running profile. With no profile running, they fail. Start a profile first, or turn off `Use proxy` and `System Proxy`.
+While `Settings` → `Basic Settings` → `General` → `Updates and Downloads` → `Send Throne's own requests through the proxy` or `System proxy` is on, Throne sends its own requests, such as subscription updates, through the running profile. With no profile running, they fail. Start a profile first, or turn off both.
 
 ### The subscription address is blocked in your country {#problem-blocked}
 
 1. Start a profile that works.
-2. Turn on `Settings` → `Basic Settings` → `Miscellaneous` → `Use proxy` (in Simple mode: `Common` → `Network Settings`).
+2. Turn on `Settings` → `Basic Settings` → `General` → `Updates and Downloads` → `Send Throne's own requests through the proxy`.
 3. Update the subscription.
 
-With `Disable Mixed Inbound` on, this needs `Tun Mode`; otherwise the update fails with "Request with proxy but the mixed inbound is disabled and Tun Mode is off."
+With `Disable mixed inbound` on, this needs `Tun mode`; otherwise the update fails with "Request with proxy but the mixed inbound is disabled and Tun mode is off."
 
 ### Happ and v2RayTun "crypt" links {#problem-crypt}
 

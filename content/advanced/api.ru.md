@@ -11,7 +11,7 @@ Throne API позволяет скриптам, программам для го
 
 ## Включение API в Throne {#enable}
 
-1. Откройте `Настройки` (Settings) → `Настройки интеграции` (Integration Settings) (только в расширенном режиме, см. [Простой и расширенный режим](@/get_started/configuration.ru.md#interface-mode)), а затем вкладку `Throne API`.
+1. Откройте `Настройки` (Settings) → `Настройки интеграции` (Integration Settings), а затем вкладку `Throne API`.
 2. Отметьте `Включить Throne API` (Enable the Throne API). Throne создаст новый ключ.
 3. Нажмите `ОК` (OK).
 
@@ -57,14 +57,14 @@ go install github.com/throneproj/Throne-api/cmd/thronectl@latest
 
 | Команда | Что делает |
 | --- | --- |
-| `status` | Состояние, запущенный профиль, режимы, профиль маршрутизации, версия Throne, а если TUN занят чем-то другим, то чем именно. |
+| `status` | Состояние, запущенный профиль, режимы, профиль маршрутизации, версия Throne, а если режиму Tun мешает что-то другое, то что именно. |
 | `groups` | Выводит список групп с их собственными профилями маршрутизации. |
 | `profiles [--group N] [--name REGEX] [--ids 1,2]` | Выводит список профилей с результатами их последних тестов. |
 | `connect <id>` | Запускает профиль. `--restart` перезапускает его, если он уже запущен. |
 | `connect last` | Запускает работающий профиль, если его нет, то последний, а если нет и его, то запомненный. |
 | `connect best [--group N] [--name REGEX] [--max-age 1h]` | Запускает профиль с наименьшей задержкой, предварительно проверив профили, у которых нет результата новее `--max-age`. |
 | `disconnect`, `toggle` | Останавливает запущенный профиль; `toggle` выполняет `connect last`, если ничего не запущено. |
-| `tun on`, `tun off`, `tun toggle` | Режим TUN. |
+| `tun on`, `tun off`, `tun toggle` | Режим Tun. |
 | `proxy on`, `proxy off`, `proxy toggle` | Системный прокси. |
 | `routes`, `route <id>` | Выводит список профилей маршрутизации; делает профиль активным и перезапускает запущенный профиль. |
 | `test latency`, `test ip`, `test speed` | Выполняет URL-тест, тест IP или тест скорости для `--group N` (при необходимости с `--name REGEX`) или для ID профилей. |
@@ -108,11 +108,11 @@ go install github.com/throneproj/Throne-api/cmd/thronectl@latest
 | Тесты | `test_url`, `test_concurrency`, `test_timeout_ms` |
 | Автоматические обновления | `sub_auto_update`, `sub_respect_server_interval`, `route_auto_update` (в минутах, `0` — выключено) |
 | Kill switch | `kill_switch` |
-| TUN | `tun_strict_route`, `tun_auto_redirect` (Linux), `tun_mtu`, `tun_ipv6`, `tun_ipv4_cidr`, `tun_ipv6_cidr` |
+| Tun | `tun_strict_route`, `tun_auto_redirect` (Linux), `tun_mtu`, `tun_ipv6`, `tun_ipv4_cidr`, `tun_ipv6_cidr` |
 | Порты и API | `dns_in_port`, `dns_in_lan` ([DNS-сервер для других устройств](@/guides/dns.ru.md#dns-server)), `clash_api_port`, `clash_listen_addr`, `singbox_api_port` |
 | DNS и время | `remote_dns`, `direct_dns`, `ntp_enabled`, `ntp_server`, `ntp_interval` |
 
-Большинство изменений вступают в силу при перезапуске запущенного профиля (настройки TUN — при следующем включении режима TUN). `thronectl status` сообщает, когда нужен перезапуск, а `thronectl connect last --restart` выполняет его. Допустимые значения указаны в [таблице настроек](https://github.com/throneproj/Throne-api/blob/main/spec/api.md#settings) спецификации.
+Большинство изменений вступают в силу при перезапуске запущенного профиля (настройки режима Tun — при следующем включении режима Tun). `thronectl status` сообщает, когда нужен перезапуск, а `thronectl connect last --restart` выполняет его. Допустимые значения указаны в [таблице настроек](https://github.com/throneproj/Throne-api/blob/main/spec/api.md#settings) спецификации.
 
 ## Административные запросы {#admin-requests}
 
@@ -123,7 +123,7 @@ Throne отвечает на административные запросы т�
 - Архивы резервных копий содержат пароли и ключи ваших профилей и секреты OTP в открытом виде. `thronectl` создаёт их так, что читать их можете только вы; не меняйте это и удаляйте архивы, когда они больше не нужны.
 - `backup restore` отклоняет архивы с профилями, которые запускают программы или читают файлы, например профилями дополнительного ядра (Extra Core) (`invalid_archive`). Такие архивы восстанавливайте в окне Throne.
 - `backup restore` и `shutdown` спрашивают подтверждение. В скрипте без терминала добавьте `--yes`.
-- При восстановлении `settings` сохраняются настройки этого компьютера, например Throne API, порты, TUN и kill switch.
+- При восстановлении `settings` сохраняются настройки этого компьютера, например Throne API, порты, режим Tun и kill switch.
 
 ## Примеры {#examples}
 
@@ -153,7 +153,7 @@ if ($best) { thronectl connect $best.id }
 
 ### Подключение и отключение одной клавишей {#example-hotkey}
 
-Назначьте клавише Stream Deck, макропада или программы для горячих клавиш команду `thronectl toggle`. Такие программы часто не читают настройки вашей оболочки: задайте `THRONE_KEY_FILE` (и при необходимости `THRONE_ADDR`) как переменную окружения своей учётной записи или добавьте `--key-file`. В Throne также есть [глобальные горячие клавиши](@/reference/shortcuts.ru.md#global-hotkeys) `Запустить/остановить профиль` (Start/Stop Profile) и `Вкл./выкл. режим TUN` (Toggle Tun Mode).
+Назначьте клавише Stream Deck, макропада или программы для горячих клавиш команду `thronectl toggle`. Такие программы часто не читают настройки вашей оболочки: задайте `THRONE_KEY_FILE` (и при необходимости `THRONE_ADDR`) как переменную окружения своей учетной записи или добавьте `--key-file`. В Throne также есть [глобальные горячие клавиши](@/reference/shortcuts.ru.md#global-hotkeys) `Запустить/остановить профиль` (Start/Stop Profile) и `Вкл./выкл. режим TUN` (Toggle Tun mode).
 
 ## Автодополнение в оболочке {#completion}
 

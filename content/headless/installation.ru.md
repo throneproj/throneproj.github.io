@@ -63,9 +63,9 @@ ExecStart=/usr/lib/throne/Throne --headless --data-dir=%S/throne
 
 ## Права в Linux {#linux-privileges}
 
-TUN и [kill switch](@/advanced/kill_switch.ru.md) требуют прав. Профилям с [дополнительным ядром (Extra Core)](@/advanced/chains.ru.md#extra-core) нужен обычный пользователь, потому что Throne никогда не запускает дополнительное ядро от root. Выберите, как будет работать юнит:
+Режим Tun и [kill switch](@/advanced/kill_switch.ru.md) требуют прав. Профилям с [дополнительным ядром (Extra Core)](@/advanced/chains.ru.md#extra-core) нужен обычный пользователь, потому что Throne никогда не запускает дополнительное ядро от root. Выберите, как будет работать юнит:
 
-| Как работает юнит | TUN | Kill switch | Профили Extra Core |
+| Как работает юнит | Режим Tun | Kill switch | Профили Extra Core |
 | --- | --- | --- | --- |
 | От root (юнит в поставляемом виде) | Да | Да | Нет |
 | От `throne` с возможностями (`caps.conf`) | Да | Нет (`unsupported`) | Да |
@@ -103,7 +103,7 @@ loginctl enable-linger "$USER"   # запуск при загрузке, без 
 ```
 
 - Юнит использует каталог данных приложения для компьютера, `~/.config/Throne`, с теми же профилями и настройками. Сначала закройте приложение для компьютера, а перед тем как снова его открыть, выполните `systemctl --user stop throne`.
-- Для TUN и kill switch нужно ядро с setuid-root. Приложение для компьютера настраивает его, когда впервые запрашивает [права](@/guides/tun_mode.ru.md#privileges-linux), а `Throne --check` выводит нужные команды.
+- Для режима Tun и kill switch нужно ядро с setuid-root. Приложение для компьютера настраивает его, когда впервые запрашивает [права](@/guides/tun_mode.ru.md#privileges-linux), а `Throne --check` выводит нужные команды.
 - Если запускать `Throne --health`, `--print-connection` и `--check` от имени вашего пользователя, они находят этот Throne без параметров.
 
 ## Docker {#docker}
@@ -133,7 +133,7 @@ volumes:
 ```
 
 - **Порт прокси.** Смешанный порт слушает `127.0.0.1`, а опубликованный порт до него не доходит: выполните `thronectl settings set inbound_address=0.0.0.0` и снова запустите профиль. Опубликованные порты обходят брандмауэры хоста, например `ufw`; на хосте, доступном из интернета, публикуйте порт только на адресе в локальной сети (`"192.168.1.2:2080:2080"`).
-- **Сеть хоста** (`network_mode: host`, без `ports:`): TUN и kill switch действуют на весь хост, и только один Throne на нём может использовать TUN.
+- **Сеть хоста** (`network_mode: host`, без `ports:`): режим Tun и kill switch действуют на весь хост, и только один Throne на нем может использовать режим Tun.
 - **Остановка.** Оставьте `stop_grace_period: 45s`, иначе Docker может принудительно завершить Throne до того, как он остановит ядро. `restart: unless-stopped` снова запускает Throne даже после `thronectl shutdown`; используйте `docker compose stop`.
 - **Состояние.** Проверка состояния запускает `Throne --health`. Docker только помечает контейнер как нездоровый (unhealthy) и не перезапускает его.
 - **Ограничения.** Профили Extra Core не работают, потому что контейнер работает от root. В Docker без root (rootless) и других контейнерах с пространством имён пользователей kill switch завершается ошибкой `unsupported`.
@@ -144,7 +144,7 @@ volumes:
 
 ## macOS {#macos}
 
-LaunchDaemon запускает Throne от root при загрузке, с TUN и kill switch, но без профилей Extra Core. Переместите `Throne.app` в `/Applications`, скачайте [`moe.Throne.headless.plist`](https://github.com/throneproj/Throne/blob/dev/dist/macos/moe.Throne.headless.plist), затем:
+LaunchDaemon запускает Throne от root при загрузке, с режимом Tun и kill switch, но без профилей Extra Core. Переместите `Throne.app` в `/Applications`, скачайте [`moe.Throne.headless.plist`](https://github.com/throneproj/Throne/blob/dev/dist/macos/moe.Throne.headless.plist), затем:
 
 ```bash
 sudo mkdir -p /Library/Logs/Throne
@@ -160,7 +160,7 @@ sudo launchctl bootstrap system /Library/LaunchDaemons/moe.Throne.headless.plist
 
 ## Служба Windows {#windows}
 
-`Throne.exe --headless --service` работает как служба Windows под учётной записью LocalSystem, поэтому TUN и kill switch работают.
+`Throne.exe --headless --service` работает как служба Windows под учетной записью LocalSystem, поэтому режим Tun и kill switch работают.
 
 1. Установите Throne для всех пользователей с помощью установщика в `Program Files`. Служба не должна запускать программу, которую может заменить обычный пользователь, поэтому не используйте установку для одного пользователя или ZIP в папке пользователя.
 2. Скачайте [`install-service.bat`](https://github.com/throneproj/Throne/blob/dev/dist/windows/install-service.bat) и [`uninstall-service.bat`](https://github.com/throneproj/Throne/blob/dev/dist/windows/uninstall-service.bat).

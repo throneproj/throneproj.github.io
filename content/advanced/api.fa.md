@@ -11,7 +11,7 @@ Throne API به اسکریپت‌ها، ابزارهای کلید میانبر �
 
 ## روشن کردن API در Throne {#enable}
 
-1. `تنظیمات` (Settings) ← `Integration Settings` را باز کنید (فقط در حالت پیشرفته؛ [حالت ساده و پیشرفته](@/get_started/configuration.fa.md#interface-mode) را ببینید)، سپس زبانهٔ `Throne API` را.
+1. `تنظیمات` (Settings) ← `Integration Settings` را باز کنید، سپس زبانهٔ `Throne API` را.
 2. `Enable the Throne API` را تیک بزنید. Throne یک کلید جدید در فیلد می‌گذارد.
 3. روی `تایید` (OK) کلیک کنید.
 
@@ -57,14 +57,14 @@ go install github.com/throneproj/Throne-api/cmd/thronectl@latest
 
 | فرمان | کاری که انجام می‌دهد |
 | --- | --- |
-| `status` | وضعیت، نمایهٔ در حال اجرا، حالت‌ها، نمایهٔ مسیریابی، نسخهٔ Throne و، اگر برنامهٔ دیگری TUN را در اختیار داشته باشد، نام آن. |
+| `status` | وضعیت، نمایهٔ در حال اجرا، حالت‌ها، نمایهٔ مسیریابی، نسخهٔ Throne و آنچه مانع حالت Tun است، اگر چیزی باشد. |
 | `groups` | گروه‌ها را همراه با نمایهٔ مسیریابی خودشان فهرست می‌کند. |
 | `profiles [--group N] [--name REGEX] [--ids 1,2]` | نمایه‌ها را با آخرین نتایج تستشان فهرست می‌کند. |
 | `connect <id>` | یک نمایه را اجرا می‌کند. اگر نمایه از قبل در حال اجرا باشد، `--restart` آن را دوباره اجرا می‌کند. |
 | `connect last` | نمایهٔ در حال اجرا را اجرا می‌کند، وگرنه آخرین نمایه را، وگرنه نمایهٔ به‌خاطرسپرده‌شده را. |
 | `connect best [--group N] [--name REGEX] [--max-age 1h]` | نمایه‌ای را که کمترین تأخیر را دارد اجرا می‌کند و پیش از آن، نمایه‌هایی را تست می‌کند که نتیجه‌ای جدیدتر از `--max-age` ندارند. |
 | `disconnect`، `toggle` | نمایهٔ در حال اجرا را متوقف می‌کند؛ `toggle` وقتی چیزی اجرا نمی‌شود، `connect last` را اجرا می‌کند. |
-| `tun on`، `tun off`، `tun toggle` | حالت TUN. |
+| `tun on`، `tun off`، `tun toggle` | حالت Tun. |
 | `proxy on`، `proxy off`، `proxy toggle` | پروکسی سیستمی. |
 | `routes`، `route <id>` | نمایه‌های مسیریابی را فهرست می‌کند؛ یکی را فعال می‌کند و نمایهٔ در حال اجرا را دوباره اجرا می‌کند. |
 | `test latency`، `test ip`، `test speed` | یک تست URL، تست IP یا تست سرعت را روی `--group N` (با `--name REGEX` اختیاری) یا روی شناسهٔ نمایه‌ها اجرا می‌کند. |
@@ -81,7 +81,7 @@ go install github.com/throneproj/Throne-api/cmd/thronectl@latest
 | `backup create [-o FILE] [--parts LIST]` | یک آرشیو `.thrbackup` می‌نویسد. |
 | `backup restore FILE [--parts LIST] [--yes]` | محتوای آرشیو را نشان می‌دهد، می‌پرسد، آن را بازیابی می‌کند و Throne را دوباره راه‌اندازی می‌کند. بخش‌های پیش‌فرض: `profiles,routes,otp,ip_lists`. |
 | `rulesets update` | مجموعه‌قوانین راه‌دور نمایهٔ در حال اجرا را دوباره دانلود می‌کند. |
-| `geo`، `geo update [geoip] [geosite] [--only-missing]` | فایل‌های geo مربوط به Xray را نشان می‌دهد؛ آن‌ها را دوباره دانلود می‌کند. |
+| `geo`، `geo update [geoip] [geosite] [--only-missing]` | داده‌های جغرافیایی (geo assets) مربوط به Xray را نشان می‌دهد؛ آن‌ها را دوباره دانلود می‌کند. |
 | `restart`، `shutdown [--yes]` | Throne را دوباره راه‌اندازی می‌کند؛ پس از پرسیدن، از Throne خارج می‌شود. |
 | `web [--listen ADDR] …`، `web passwd` | [رابط وب](@/headless/web.fa.md) را ارائه می‌دهد؛ گذرواژهٔ آن را تنظیم می‌کند. |
 | `keygen [-o FILE]` | یک کلید جدید می‌سازد و آن را چاپ می‌کند، یا در فایل جدیدی می‌نویسد که فقط خودتان بتوانید بخوانید. به Throne متصل نمی‌شود. |
@@ -108,11 +108,11 @@ go install github.com/throneproj/Throne-api/cmd/thronectl@latest
 | تست‌ها | `test_url`، `test_concurrency`، `test_timeout_ms` |
 | به‌روزرسانی‌های خودکار | `sub_auto_update`، `sub_respect_server_interval`، `route_auto_update` (بر حسب دقیقه، `0` یعنی خاموش) |
 | کیل‌سوییچ | `kill_switch` |
-| TUN | `tun_strict_route`، `tun_auto_redirect` (Linux)، `tun_mtu`، `tun_ipv6`، `tun_ipv4_cidr`، `tun_ipv6_cidr` |
+| Tun | `tun_strict_route`، `tun_auto_redirect` (Linux)، `tun_mtu`، `tun_ipv6`، `tun_ipv4_cidr`، `tun_ipv6_cidr` |
 | پورت‌ها و APIها | `dns_in_port`، `dns_in_lan` ([سرور DNS برای دستگاه‌های دیگر](@/guides/dns.fa.md#dns-server))، `clash_api_port`، `clash_listen_addr`، `singbox_api_port` |
 | DNS و زمان | `remote_dns`، `direct_dns`، `ntp_enabled`، `ntp_server`، `ntp_interval` |
 
-بیشتر تغییرات وقتی اعمال می‌شوند که نمایهٔ در حال اجرا دوباره اجرا شود (تنظیمات TUN، وقتی حالت TUN دوباره شروع شود). `thronectl status` می‌گوید چه وقت راه‌اندازی دوباره لازم است و `thronectl connect last --restart` آن را انجام می‌دهد. مقدارهای مجاز در [جدول تنظیمات](https://github.com/throneproj/Throne-api/blob/main/spec/api.md#settings) مشخصات API آمده‌اند.
+بیشتر تغییرات وقتی اعمال می‌شوند که نمایهٔ در حال اجرا دوباره اجرا شود (تنظیمات Tun، وقتی حالت Tun دوباره شروع شود). `thronectl status` می‌گوید چه وقت راه‌اندازی دوباره لازم است و `thronectl connect last --restart` آن را انجام می‌دهد. مقدارهای مجاز در [جدول تنظیمات](https://github.com/throneproj/Throne-api/blob/main/spec/api.md#settings) مشخصات API آمده‌اند.
 
 ## درخواست‌های مدیریتی {#admin-requests}
 
@@ -123,7 +123,7 @@ Throne فقط از رایانهٔ خودش (`127.0.0.1` یا `::1`) به درخ�
 - آرشیوهای پشتیبان، گذرواژه‌ها و کلیدهای نمایه‌های شما و رمزهای OTP شما را به‌صورت متن ساده نگه می‌دارند. `thronectl` آن‌ها را طوری می‌سازد که فقط خودتان بتوانید بخوانید؛ همین‌طور نگهشان دارید و وقتی دیگر لازمشان ندارید، حذفشان کنید.
 - `backup restore` آرشیوی را که نمایه‌هایش برنامه اجرا می‌کنند یا فایل می‌خوانند، مانند نمایه‌های هستهٔ اضافی (Extra Core)، رد می‌کند (`invalid_archive`). چنین آرشیوی را در پنجرهٔ Throne بازیابی کنید.
 - `backup restore` و `shutdown` پیش از انجام کار می‌پرسند. در اسکریپتی که ترمینال ندارد، `--yes` را اضافه کنید.
-- بازیابی `settings` تنظیماتی را که به این رایانه تعلق دارند، مانند Throne API، پورت‌ها، TUN و کیل‌سوییچ، نگه می‌دارد.
+- بازیابی `settings` تنظیماتی را که به این رایانه تعلق دارند، مانند Throne API، پورت‌ها، حالت Tun و کیل‌سوییچ، نگه می‌دارد.
 
 ## نمونه‌ها {#examples}
 
@@ -153,7 +153,7 @@ if ($best) { thronectl connect $best.id }
 
 ### یک کلید برای اتصال و قطع اتصال {#example-hotkey}
 
-یک Stream Deck، صفحه‌کلید ماکرو (macro pad) یا ابزار کلید میانبر را طوری تنظیم کنید که `thronectl toggle` را اجرا کند. این ابزارها اغلب تنظیمات پوستهٔ شما را نمی‌خوانند: `THRONE_KEY_FILE` (و در صورت نیاز `THRONE_ADDR`) را به‌عنوان متغیر محیطی حساب کاربری خود تنظیم کنید، یا `--key-file` را اضافه کنید. Throne برای `Start/Stop Profile` و `Toggle Tun Mode` [کلیدهای میانبر سراسری](@/reference/shortcuts.fa.md#global-hotkeys) هم دارد.
+یک Stream Deck، صفحه‌کلید ماکرو (macro pad) یا ابزار کلید میانبر را طوری تنظیم کنید که `thronectl toggle` را اجرا کند. این ابزارها اغلب تنظیمات پوستهٔ شما را نمی‌خوانند: `THRONE_KEY_FILE` (و در صورت نیاز `THRONE_ADDR`) را به‌عنوان متغیر محیطی حساب کاربری خود تنظیم کنید، یا `--key-file` را اضافه کنید. Throne برای `Start/Stop Profile` و `Toggle Tun mode` [کلیدهای میانبر سراسری](@/reference/shortcuts.fa.md#global-hotkeys) هم دارد.
 
 ## تکمیل خودکار در پوسته {#completion}
 

@@ -5,7 +5,7 @@ weight = 65
 toc = true
 +++
 
-While the kill switch is on, your computer can send traffic only through Throne: through TUN mode, the local proxy port, or Throne's own connections. Everything else is blocked, also while no profile runs, so apps cannot fall back to your normal connection when the proxy stops or drops.
+While the kill switch is on, your computer can send traffic only through Throne: through Tun mode, the local proxy port, or Throne's own connections. Everything else is blocked, also while no profile runs, so apps cannot fall back to your normal connection when the proxy stops or drops.
 
 {% alert_warning() %}
 Read [If it locks you out](#recovery) before you turn on the kill switch.
@@ -15,56 +15,56 @@ Read [If it locks you out](#recovery) before you turn on the kill switch.
 
 | Situation | What gets through |
 | --- | --- |
-| A profile runs in TUN mode | Everything, through the TUN adapter. |
+| A profile runs in Tun mode | Everything, through the Tun adapter. |
 | A profile runs with the system proxy only | Apps that use the proxy. Apps that ignore it are blocked. |
 | No profile runs | Only the local network and the [exceptions below](#allowed). |
 
-Use TUN mode with the kill switch, so that all apps keep working while a profile runs. The kill switch ends when Throne exits or crashes: a crash does not cut you off, but it does not protect you after that either.
+Use Tun mode with the kill switch, so that all apps keep working while a profile runs. The kill switch ends when Throne exits or crashes: a crash does not cut you off, but it does not protect you after that either.
 
 ## Turn it on {#enable}
 
-1. Open `Settings` → `Basic Settings` → `Security` (in Simple mode, the `Security` section of the `Common` tab).
-2. Tick `Kill Switch` and click `OK`.
+1. Open `Settings` → `Basic Settings` → `Security` → `Protection`.
+2. Tick `Kill switch` and click `OK`.
 
-It needs the same rights as TUN mode, see [Requirements](#requirements). On Linux and macOS, turning it on restarts Throne's core and a running profile. It starts again with Throne until you turn it off.
+It needs the same rights as Tun mode, see [Requirements](#requirements). On Linux and macOS, turning it on restarts Throne's core and a running profile. It starts again with Throne until you turn it off.
 
 The window title then shows `[Kill switch]`, and the Start button has a lock:
 
-- **Green:** a profile runs in TUN mode.
-- **Amber:** no profile runs or TUN mode is off, so most traffic is blocked.
+- **Green:** a profile runs in Tun mode.
+- **Amber:** no profile runs or Tun mode is off, so most traffic is blocked.
 - **Red:** the kill switch has a problem, see [When it cannot work](#failures).
 
-To turn it off, untick `Kill Switch` again, or right-click the Start button → `Disable Kill Switch`.
+To turn it off, untick `Kill switch` again, or right-click the Start button → `Disable kill switch`.
 
 ## What is always allowed {#allowed}
 
 - **Throne's core:** connections to your servers, traffic that your rules send `direct`, URL tests and Throne's own DNS servers. [Extra Core](@/advanced/chains.md#extra-core) programs too.
-- **The TUN adapter and loopback** (`127.0.0.1`, `::1`), which apps use to reach the local proxy port.
+- **The Tun adapter and loopback** (`127.0.0.1`, `::1`), which apps use to reach the local proxy port.
 - **The local network:** `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `169.254.0.0/16`, `224.0.0.0/4`, `255.255.255.255`, `fc00::/7`, `fe80::/10` and `ff00::/8`. Turning off `Private Range Bypass` in `Settings` → `Tun Settings` blocks them too; editing its list does not change these ranges.
 - **Network basics:** DHCP, IPv6 neighbor and router discovery, and multicast group messages, so your computer keeps its address.
 - **Replies of the [Throne API](@/advanced/api.md)** when it listens on a network address.
 
-DNS queries (ports 53 and 853) from other programs to local addresses are still blocked, because your router would send them outside the tunnel. On Linux, Throne warns when `/etc/resolv.conf` names such a server: in TUN mode, use systemd-resolved, which Throne points at the tunnel, or a DNS server outside your network.
+DNS queries (ports 53 and 853) from other programs to local addresses are still blocked, because your router would send them outside the tunnel. On Linux, Throne warns when `/etc/resolv.conf` names such a server: in Tun mode, use systemd-resolved, which Throne points at the tunnel, or a DNS server outside your network.
 
 Everything else is blocked, including:
 
-- Throne's own requests, such as subscription updates, update checks and WARP registration. They work only in TUN mode, or while a profile runs with `System Proxy` or `Settings` → `Basic Settings` → `Miscellaneous` → `Use proxy` on.
-- Traffic that this computer forwards for other devices, containers or virtual machines, unless it goes through the TUN adapter or stays in the local network.
+- Throne's own requests, such as subscription updates, update checks and WARP registration. They work only in Tun mode, or while a profile runs with `System proxy` or `Settings` → `Basic Settings` → `General` → `Updates and Downloads` → `Send Throne's own requests through the proxy` on.
+- Traffic that this computer forwards for other devices, containers or virtual machines, unless it goes through the Tun adapter or stays in the local network.
 - Other VPN apps.
 
 ## Requirements {#requirements}
 
 | System | What the kill switch needs |
 | --- | --- |
-| Windows | Throne runs as administrator, and the `Base Filtering Engine` service runs. |
+| Windows | The core has administrator rights, see [Windows privileges](@/guides/tun_mode.md#privileges-windows), and the `Base Filtering Engine` service runs. |
 | Linux | The core runs as root through the SUID bit; capabilities (`setcap`) are not enough. Linux 5.12 or newer with nftables and conntrack labels (`CONFIG_NFT_CT`, `CONFIG_NF_CONNTRACK_LABELS`). |
 | macOS | The core runs as root through the SUID bit. `/etc/pf.conf` loads the `com.apple` anchors, as it does by default. |
 
-Throne sets up these rights as for TUN mode, see [TUN mode privileges](@/guides/tun_mode.md#privileges).
+Throne sets up these rights as for Tun mode, see [Tun mode privileges](@/guides/tun_mode.md#privileges).
 
 ## When it cannot work {#failures}
 
-When the kill switch is on but cannot start or stops working, Throne shows "Kill switch is not active" with the reason. Click `Restart as Administrator` (Windows) or `Grant Privileges` (Linux, macOS) when rights are missing, `Retry` for other problems, or `Disable Kill Switch`. Until then nothing is blocked, and Throne refuses to start profiles.
+When the kill switch is on but cannot start or stops working, Throne shows "Kill switch is not active" with the reason. Click `Grant privileges` when rights are missing (on Windows, `Restart as administrator` if your account cannot grant them or the grant did not take effect), `Retry` for other problems, or `Disable kill switch`. Until then nothing is blocked, and Throne refuses to start profiles.
 
 The log and `kill_switch_error` in the [Throne API](@/advanced/api.md) give the reason as a code:
 
@@ -72,12 +72,12 @@ The log and `kill_switch_error` in the [Throne API](@/advanced/api.md) give the 
 | --- | --- |
 | `privilege` | Rights are missing, see [Requirements](#requirements). |
 | `unsupported` | The system lacks something else from [Requirements](#requirements), such as nftables or a root core on Linux. |
-| `config` | Invalid kill switch settings, such as the TUN address. |
+| `config` | Invalid kill switch settings, such as the Tun address. |
 | `tampered` | Another program keeps removing the rules or turning the firewall off. |
 | `crash`, `timeout`, `internal` | The guard process stopped or did not start in time. `Retry` often helps. |
 | `overridden` | Headless Throne was started with `--no-kill-switch`. |
 
-On Linux in a container or user namespace without `CAP_SETGID`, the kill switch keeps blocking everything and Throne refuses profiles (`[Kill switch is blocking traffic]` in the title) until you click `Disable Kill Switch`.
+On Linux in a container or user namespace without `CAP_SETGID`, the kill switch keeps blocking everything and Throne refuses profiles (`[Kill switch is blocking traffic]` in the title) until you click `Disable kill switch`.
 
 ## If it locks you out {#recovery}
 

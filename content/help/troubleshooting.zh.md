@@ -1,47 +1,49 @@
 +++
 title = "故障排除"
-description = "Throne 桌面版中 TUN 模式、DNS、订阅、系统代理、性能和启动问题的解决方法。"
+description = "Throne 桌面版中 Tun 模式、DNS、订阅、系统代理、性能和启动问题的解决方法。"
 weight = 20
 toc = true
 +++
 
-找到你遇到的问题，并按顺序逐项检查。本页提到的设置在简洁模式下可能被隐藏：按 `Ctrl+K` 并输入设置名称即可找到（[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。Android 版请参阅 [Android 故障排除](@/android/troubleshooting.zh.md)。如果所有方法都无效，请[报告 Bug](@/help/bug_reports.zh.md)。
+找到你遇到的问题，并按顺序逐项检查。要查找本页提到的设置，请按 `Ctrl+K` 并输入其名称。Android 版请参阅 [Android 故障排除](@/android/troubleshooting.zh.md)。如果所有方法都无效，请[报告 Bug](@/help/bug_reports.zh.md)。
 
 ## 首先检查 {#first-checks}
 
-1. 通过 `程序`（Program）→ `检查更新`（Check For Update）更新 Throne；如果该菜单项显示为灰色，请从[下载](@/downloads.zh.md)页面下载新版本。
+1. 通过 `程序`（Program）→ `检查更新`（Check for updates）更新 Throne；如果该菜单项显示为灰色，请从[下载](@/downloads.zh.md)页面下载新版本。
 2. 查看主窗口底部的 `日志`（Logs）标签页。
-3. 用 `URL 测试选定项`（Url Test Selected，`Ctrl+Shift+S`）测试配置档。如果测试失败，请先修复服务器或配置档。
-4. 如果某个配置档在 `系统代理`（System Proxy）下可用，但在 `Tun 模式`（Tun Mode）下不可用，那么问题出在 TUN 设置上。
+3. 用 `测试`（Test）→ `URL 测试`（URL test，`Ctrl+Shift+S`）测试配置档。如果测试失败，请先修复服务器或配置档。
+4. 如果某个配置档在 `系统代理`（System proxy）下可用，但在 `Tun 模式`（Tun mode）下不可用，那么问题出在 Tun 设置上。
+5. 如果某个网站走了错误的路由，请用 `路由`（Routing）→ `路由查询`（Route lookup）查看它命中了哪条规则；参见[测试路由](@/guides/routing.zh.md#route-lookup)。
 
-## TUN 模式 {#tun}
+## Tun 模式 {#tun}
 
-### TUN 已开启，但什么都打不开 {#tun-no-traffic}
+### Tun 模式已开启，但什么都打不开 {#tun-no-traffic}
 
 1. 关闭其他 VPN 应用。它们可能会接管路由。
 2. **Windows：** 在 Windows 防火墙中允许 `ThroneCore.exe`。如果 Windows 询问时你拒绝了，Windows 会一直阻止核心，并且不会再次询问（[#1433](https://github.com/throneproj/Throne/issues/1433)）。
-3. **Windows：** 杀毒软件的网络防护（例如 Avast 或 ESET）可能会在没有任何提示的情况下阻止 TUN 网卡（[#1687](https://github.com/throneproj/Throne/issues/1687)、[#1357](https://github.com/throneproj/Throne/issues/1357)）。请将 Throne 文件夹添加为例外。
-4. **Windows：** 暂时关闭 `Tun 设置`（Tun Settings）中的 `严格路由`（Strict Route）进行测试。关闭后可能会出现 DNS 泄漏；参见 [Windows DNS 泄漏防护](@/advanced/windows_tun_mode.zh.md#strict-route)。
-5. **Linux：** 关闭 systemd-resolved 中为整个系统开启的 DNS over TLS（[#1146](https://github.com/throneproj/Throne/issues/1146)），并保持 `Tun 设置` 中的 `自动重定向`（Auto Redirect）开启。
+3. **Windows：** 杀毒软件的网络防护（例如 Avast 或 ESET）可能会在没有任何提示的情况下阻止 Tun 网卡（[#1687](https://github.com/throneproj/Throne/issues/1687)、[#1357](https://github.com/throneproj/Throne/issues/1357)）。请将 Throne 文件夹添加为例外。
+4. **Windows：** 暂时关闭 `Tun 设置`（Tun Settings）中的 `严格路由`（Strict route）进行测试。关闭后可能会出现 DNS 泄漏；参见 [Windows DNS 泄漏防护](@/advanced/windows_tun_mode.zh.md#strict-route)。
+5. **Linux：** 关闭 systemd-resolved 中为整个系统开启的 DNS over TLS（[#1146](https://github.com/throneproj/Throne/issues/1146)），并保持 `Tun 设置` 中的 `自动重定向`（Auto redirect）开启。
 
-### TUN 无法启动 {#tun-start}
+### Tun 模式无法启动 {#tun-start}
 
-- **没有权限：** 接受 Throne 对管理员或 root 权限的请求（[常见问题](@/help/faq.zh.md#tun-admin)）。如果开启了 `禁止权限请求`（Disable Privilege request），你必须自行授予权限。
+- **没有权限：** 接受 Throne 对管理员或 root 权限的请求（[常见问题](@/help/faq.zh.md#tun-admin)）。在 Windows 上，点击 `赋予特权`（Grant privileges），确认 Windows 的提示，然后再次勾选 `Tun 模式`。如果开启了 `禁止权限请求`（Disable privilege request），你必须自行授予权限。
+- **“虽然已授予管理员权限，但核心未能以管理员身份运行”（The core did not get administrator rights, although they were granted）**（Windows）：日志中会说明原因。点击 `以管理员身份重启`（Restart as administrator），改为以管理员身份运行 Throne 本身；参见 [Windows 上的 Tun 权限](@/guides/tun_mode.zh.md#privileges-windows)。
 - **“严格的路由不可用”（Strict routing unavailable）**（Windows）：关闭 `Tun 设置` 中的 `严格路由`，然后重新启动配置档。
-- **“Tun 设备运行异常”（Tun device misbehaving）：** 点击该消息中的 `重置`（Reset），或点击 `Tun 设置` 中的 `重启核心`（Restart Core），然后重新启动配置档。如果仍然失败，请重启电脑。
+- **“Tun 设备运行异常”（Tun device misbehaving）：** 点击该消息中的 `重置`（Reset），或点击 `Tun 设置` 中的 `重启核心`（Restart core），然后重新启动配置档。如果仍然失败，请重启电脑。
 - **启动卡住**（Windows）：非常大的 HOSTS 文件可能会导致刷新 DNS 缓存时卡住（[#1906](https://github.com/throneproj/Throne/issues/1906)）。请保持 HOSTS 文件精简。
 - **“此计算机上的 Tun 由后台 Throne（PID …）占用；请停止它或使用 thronectl。”（A background Throne (PID …) owns Tun on this computer; stop it or use thronectl.）** 参见 [Throne 正在后台运行](#background-throne)。
 
-### TUN 导致其他功能异常 {#tun-side-effects}
+### Tun 模式导致其他功能异常 {#tun-side-effects}
 
-开启 TUN 模式时，移动热点、虚拟机、Docker 或公司 VPN 可能会无法正常工作。参见 [TUN 模式](@/guides/tun_mode.zh.md#side-effects)和[常用方案](@/guides/recipes.zh.md)。
+开启 Tun 模式时，移动热点、虚拟机、Docker 或公司 VPN 可能会无法正常工作。参见 [Tun 模式](@/guides/tun_mode.zh.md#side-effects)和[常用方案](@/guides/recipes.zh.md)。
 
 ## DNS {#dns}
 
 ### 网站打不开，或日志中显示 DNS 错误 {#dns-errors}
 
 1. 在 `设置` → `路由设置`（Routing Settings）→ `DNS` 中，`远程 DNS`（Remote DNS）必须能够通过你的代理访问，`直连 DNS`（Direct DNS）必须能够在不使用代理的情况下工作。可以尝试其中一个预设服务器。
-2. 如果你的网络不支持 IPv6，请不要在 `通用`（Common）标签页的 `默认域策略`（Default Domain Strategy）或 `解析域策略`（Resolve Domain Strategy）中使用 `ipv6_only`（[#1743](https://github.com/throneproj/Throne/issues/1743)）。请将它们留空，或者使用 `prefer_ipv4`。
+2. 如果你的网络不支持 IPv6，请不要在 `路由设置` → `路由`（Routing）→ `域名策略`（Domain Strategy）的 `默认域策略`（Default Domain Strategy）或 `解析域策略`（Resolve Domain Strategy）中使用 `ipv6_only`（[#1743](https://github.com/throneproj/Throne/issues/1743)）。请将它们留空，或者使用 `prefer_ipv4`。
 
 ### 泄漏测试显示了我的运营商的 DNS {#dns-leak}
 
@@ -53,9 +55,9 @@ toc = true
 
 日志中会显示 `请求订阅 … 时出错: …`（`Requesting subscription … error: …`）以及失败原因。
 
-- **“有用代理的请求，但未启动配置档。”（Request with proxy but no profile started.）** 当 `使用代理`（Use proxy，位于 `基本设置`（Basic Settings）→ `杂项`（Miscellaneous））或 `系统代理` 开启时，Throne 会通过自身的代理发送它自己的请求。请先启动一个配置档，或者将两者都关闭。如果开启了 `禁用混合入站`（Disable Mixed Inbound），请关闭 `使用代理`（[#1689](https://github.com/throneproj/Throne/issues/1689)）。
-- **服务商的网站在你所在的国家被封锁：** 启动一个可用的配置档，开启 `使用代理`，然后重新更新。
-- **服务器返回 `403`，或者没有返回有用的内容：** 许多服务商只响应它们认识的应用。请设置服务商要求的 `User Agent`：在 `基本设置` → `订阅`（Subscription）中为所有分组设置，或在 `分组`（Groups）→ `编辑当前分组`（Edit current Group）→ `高级`（Advanced）中为单个分组设置。默认值为 `Throne/<version>`。
+- **“有用代理的请求，但未启动配置档。”（Request with proxy but no profile started.）** 当 `通过代理发送 Throne 自身的请求`（Send Throne's own requests through the proxy，位于 `基本设置`（Basic Settings）→ `通用`（General）→ `更新与下载`（Updates and Downloads））或 `系统代理` 开启时，Throne 会通过自身的代理发送它自己的请求。请先启动一个配置档，或者将两者都关闭。如果开启了 `禁用混合入站`（Disable mixed inbound），请关闭 `通过代理发送 Throne 自身的请求`（[#1689](https://github.com/throneproj/Throne/issues/1689)）。
+- **服务商的网站在你所在的国家被封锁：** 启动一个可用的配置档，开启 `通过代理发送 Throne 自身的请求`，然后重新更新。
+- **服务器返回 `403`，或者没有返回有用的内容：** 许多服务商只响应它们认识的应用。请设置服务商要求的 `User Agent`：在 `基本设置` → `订阅`（Subscriptions）→ `请求`（Requests）中为所有分组设置，或在 `分组`（Groups）→ `编辑分组`（Edit group）→ `高级`（Advanced）→ `请求`（Request）中为单个分组设置。默认值为 `Throne/<version>`。
 - **“Device fingerprint required”（需要设备指纹）或类似消息：** 服务商需要你的 [HWID](@/help/faq.zh.md#hwid)。
 
 ### 更新后找不到配置档 {#sub-no-profiles}
@@ -65,7 +67,7 @@ toc = true
 ### 分组不更新 {#sub-no-update}
 
 - 通过 `添加配置档到这个分组`（Add profiles to this group）添加的配置档没有订阅 URL。请再次按 `Ctrl+V` 粘贴该 URL，并选择 `创建新的订阅分组`（Create new subscription group）。
-- 自动更新需要开启 `基本设置` → `订阅` → `订阅自动更新`（Subscription auto update），该选项默认关闭；开启了 `跳过自动更新`（Skip automatic update）的分组会被跳过。
+- 自动更新需要开启 `基本设置` → `订阅` → `自动更新`（Auto Update）→ `启用`（Enable），该选项默认关闭；开启了 `跳过自动更新`（Skip automatic update）的分组会被跳过。
 
 更新后配置档发生了变化或消失了？参见[常见问题](@/help/faq.zh.md#profile-after-update)和[订阅与分组](@/guides/subscriptions.zh.md#problems)。
 
@@ -78,8 +80,8 @@ PowerShell 等终端、Windows 应用商店应用、Discord 以及 Telegram 通�
 ### 系统代理没有被设置 {#proxy-not-set}
 
 1. 启动一个配置档。Throne 只在配置档运行期间设置系统代理。
-2. **“Cannot set system proxy when mixed inbound is disabled.”（禁用混合入站时无法设置系统代理）** 关闭 `基本设置` → `通用`（Common）中的 `禁用混合入站`。
-3. **Linux：** Throne 只能在 GNOME 和 KDE 上设置系统代理。在其他桌面环境中，请将状态栏中显示的 `Mixed: …` 地址填入系统设置，或者使用 TUN 模式。不要以 root 身份运行 Throne（[#864](https://github.com/throneproj/Throne/issues/864)）。
+2. **“Cannot set system proxy when mixed inbound is disabled.”（禁用混合入站时无法设置系统代理）** 关闭 `基本设置` → `连接`（Connection）→ `本地代理`（Local Proxy）中的 `禁用混合入站`。
+3. **Linux：** Throne 只能在 GNOME 和 KDE 上设置系统代理。在其他桌面环境中，请将状态栏中显示的 `Mixed: …` 地址填入系统设置，或者使用 Tun 模式。不要以 root 身份运行 Throne（[#864](https://github.com/throneproj/Throne/issues/864)）。
 
 ### 关闭 Throne 后无法上网 {#no-internet-after-exit}
 
@@ -89,10 +91,10 @@ PowerShell 等终端、Windows 应用商店应用、Discord 以及 Telegram 通�
 
 ### CPU 或内存占用过高 {#high-cpu}
 
-1. 让配置档总数少于约 10,000 个。在 URL 测试之后，用 `分组` → `清理`（Clean up）→ `移除不可用项`（Remove Unavailable）删除失效的配置档。
-2. 开启多路复用（Multiplex）时，BT 下载客户端可能会占用大量 CPU（[#1090](https://github.com/throneproj/Throne/issues/1090)）。多路复用默认关闭；如果你开启过它，请在配置档中将其关闭，或者关闭 `设置` → `预设设置`（Preset Settings）→ `多路复用`（Multiplex）中的 `默认开启`（Default On）。
-3. 取消勾选 `基本设置` → `样式`（Style）→ `连接统计`（Connection statistics）→ `启用`（Enable）。之后 `连接`（Connections）标签页会保持为空。
-4. **Windows：** 在使用大型规则集时，`启用 Tun 路由`（Enable Tun Routing）可能会导致 CPU 占用非常高。请在 `Tun 设置` 中将其关闭。
+1. 让配置档总数少于约 10,000 个。在 URL 测试之后，用 `分组` → `清理`（Clean up）→ `移除不可用项`（Remove unavailable）删除失效的配置档。
+2. 开启多路复用（Multiplex）时，BT 下载客户端可能会占用大量 CPU（[#1090](https://github.com/throneproj/Throne/issues/1090)）。多路复用默认关闭；如果你开启过它，请在配置档中将其关闭，或者关闭 `设置` → `预设设置`（Preset Settings）→ `多路复用`（Multiplex）中的 `默认开启`（Default on）（sing-box）和 `默认启用多路复用`（Multiplex by default）（Xray）。
+3. 取消勾选 `基本设置` → `核心`（Core）→ `统计`（Statistics）→ `启用连接统计`（Enable connection statistics）。之后 `连接`（Connections）标签页会保持为空。
+4. **Windows：** 在使用大型规则集时，`启用 Tun 路由`（Enable Tun routing）可能会导致 CPU 占用非常高。请在 `Tun 设置` 中将其关闭。
 
 ### Throne 或核心崩溃 {#crashes}
 
@@ -117,22 +119,22 @@ PowerShell 等终端、Windows 应用商店应用、Discord 以及 Telegram 通�
 
 ### GNOME 上没有托盘图标 {#gnome-tray}
 
-安装并启用 AppIndicator 扩展。如果窗口处于隐藏状态，请再次启动 Throne 以显示窗口，或者开启 `基本设置` → `样式` → `禁用托盘`（Disable tray），这样关闭窗口就会退出 Throne。
+安装并启用 AppIndicator 扩展。如果窗口处于隐藏状态，请再次启动 Throne 以显示窗口，或者开启 `基本设置` → `通用` → `窗口`（Window）→ `禁用托盘`（Disable tray），这样关闭窗口就会退出 Throne。
 
 ### 重启后 Throne 没有重新连接 {#reconnect}
 
-开启 `程序`（Program）→ `记住上次的配置档`（Remember last profile）。下次启动时，Throne 会再次启动退出时正在运行的配置档，并将 `系统代理` 和 `Tun 模式` 恢复为当时的状态。`程序` → `随系统启动`（Start with system）会在你登录时启动 Throne；在 Windows 上，如果 Throne 以管理员身份运行，它还会在不询问的情况下获得管理员权限（[常见问题](@/help/faq.zh.md#tun-admin)）。
+开启 `程序`（Program）→ `记住上次的配置档`（Remember last profile）。下次启动时，Throne 会再次启动退出时正在运行的配置档，并将 `系统代理` 和 `Tun 模式` 恢复为当时的状态。`程序` → `随系统启动`（Start with system）会在你登录时启动 Throne；在 Windows 上，只有在使用 `以管理员身份重启`（Restart as administrator）这一后备方案之后，它才会以管理员身份启动 Throne（[常见问题](@/help/faq.zh.md#tun-admin)）。
 
 ### `throne://` 链接没有反应 {#deeplinks}
 
-在 Windows 和 Linux 上，ZIP 版默认不注册 `throne://` 链接。请开启 `基本设置` → `通用` → `启动时注册 throne:// 链接`（Register throne:// links at startup），或点击它旁边的 `安装`（Install）。更多检查：[深度链接](@/advanced/deeplinks.zh.md#troubleshooting)。
+在 Windows 和 Linux 上，ZIP 版默认不注册 `throne://` 链接。请开启 `基本设置` → `通用` → `链接和文件`（Links and Files）→ `启动时注册 throne:// 链接`（Register throne:// links at startup），或点击它旁边的 `安装`（Install）。更多检查：[深度链接](@/advanced/deeplinks.zh.md#troubleshooting)。
 
 ### Throne 正在后台运行 {#background-throne}
 
 [无界面 Throne](@/headless/_index.zh.md)（例如 systemd 服务）可以与 Throne 窗口运行在同一台电脑上：
 
 - **“Throne is running in the background (PID …). Stop the service or use thronectl.”（Throne 正在后台运行（PID …）。请停止该服务或使用 thronectl。）**，并且窗口无法打开：无界面 Throne 使用的是同一个数据文件夹。请停止它（例如运行 `systemctl --user stop throne`），然后重新启动 Throne，或者用 [thronectl](@/advanced/api.zh.md) 管理它。
-- **“此计算机上正在运行后台 Throne（PID …，数据目录：…）”（A background Throne (PID …) is running on this computer）：** 正在运行一个使用其他数据文件夹的无界面 Throne。Throne 窗口可以正常工作，但无法使用 TUN 模式。
-- **“此计算机上的 Tun 由后台 Throne（PID …）占用；请停止它或使用 thronectl。”（A background Throne (PID …) owns Tun on this computer; stop it or use thronectl.）** 只要有任何无界面 Throne 在运行，窗口就无法使用 TUN 模式，即使它本身没有使用 TUN。请停止无界面 Throne。
+- **“此计算机上正在运行后台 Throne（PID …，数据目录：…）”（A background Throne (PID …) is running on this computer）：** 正在运行一个使用其他数据文件夹的无界面 Throne。Throne 窗口可以正常工作，但无法使用 Tun 模式。
+- **“此计算机上的 Tun 由后台 Throne（PID …）占用；请停止它或使用 thronectl。”（A background Throne (PID …) owns Tun on this computer; stop it or use thronectl.）** 只要有任何无界面 Throne 在运行，窗口就无法使用 Tun 模式，即使它本身没有使用 Tun 模式。请停止无界面 Throne。
 - **“从此安装目录运行的后台 Throne（PID …）仍在运行，无法更新；请先停止它。”（Update is unavailable while a background Throne (PID …) runs from this installation; stop it first.）** 请停止它，完成更新，然后再次启动它。
 - **“Another Throne instance (PID …) is using this data directory”（另一个 Throne 实例（PID …）正在使用此数据目录）：** 另一个 Throne 占用了该数据文件夹，但没有响应。请退出它或结束其进程，然后再次启动 Throne。

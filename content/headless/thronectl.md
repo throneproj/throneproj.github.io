@@ -59,10 +59,10 @@ Add `--json` for JSON output; `thronectl help <command>` describes a command. Ev
 
 ## Moving a desktop setup {#from-desktop}
 
-OTP accounts, VPN sign-ins and routing profiles are easier to set up in a desktop Throne. Set them up there, then move them over with a backup:
+OTP entries, VPN sign-ins and routing profiles are easier to set up in a desktop Throne. Set them up there, then move them over with a backup:
 
 ```bash
-# On the desktop: make a backup in the Backup and Restore settings, or, with the desktop's Throne API on:
+# On the desktop: make a backup on the Backup tab of Basic Settings, or, with the desktop's Throne API on:
 thronectl backup create -o desktop.thrbackup
 scp desktop.thrbackup box:
 
@@ -71,7 +71,7 @@ thronectl backup restore desktop.thrbackup
 ```
 
 - `backup restore` shows what the archive holds and asks first. Without a terminal, add `--yes`. Throne restarts after the restore.
-- By default it restores profiles, routing profiles, OTP accounts and IP lists. To restore settings too, add `--parts profiles,routes,otp,ip_lists,settings`. A settings restore keeps the settings that belong to this device: the Throne API, the inbound address and ports, TUN, the kill switch, NTP, logging and file paths.
+- By default it restores profiles, routing profiles, OTP entries and IP lists. To restore settings too, add `--parts profiles,routes,otp,ip_lists,settings`. A settings restore keeps the settings that belong to this device: the Throne API, the inbound address and ports, Tun mode, the kill switch, NTP, logging and file paths.
 - Restore `profiles` and `routes` together. Restored alone, the groups lose their own routing profiles.
 - Throne refuses archives with profiles that would run programs or read files on its device, such as Extra Core profiles (`invalid_archive`).
 - Backups hold your profiles' credentials and OTP secrets in plain text. Delete them when you are done.
@@ -101,5 +101,5 @@ On the other device, put the key in a file that only you can read, and set `THRO
 
 - **Admin requests**, which import, add subscriptions, delete, change settings, back up, read the log, restart and shut down, are answered only from Throne's own device unless `THRONE_API_ADMIN_LAN=1` (`--api-admin-lan`) is set. Otherwise they fail with `forbidden`. Leave it out if other devices should only monitor and switch profiles.
 - After 5 failed authentications within a minute from one address, Throne refuses that address for 60 seconds. A client with an old key can lock out the other clients behind the same NAT.
-- The [kill switch](@/advanced/kill_switch.md) always lets the API's replies out. On Linux, TUN can take the replies to remote clients; see [How Throne stays reachable](@/headless/recovery.md#protection).
+- The [kill switch](@/advanced/kill_switch.md) always lets the API's replies out. On Linux, Tun mode can take the replies to remote clients; see [How Throne stays reachable](@/headless/recovery.md#protection).
 - Traffic to the API is encrypted and authenticated. Still, keep the API on loopback unless you need it on the network, and always set an allow list.

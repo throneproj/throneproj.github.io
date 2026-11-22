@@ -13,7 +13,7 @@ toc = true
 | `-appdata <folder>` | 将数据保存在 `<folder>` 中的 `config` 文件夹里。 |
 | `-tray` | 启动到托盘，窗口保持隐藏。 |
 | 一条 `throne://` 链接 | 像你点击了该链接一样处理它。参见[深度链接](@/advanced/deeplinks.zh.md)。 |
-| 文件路径或 `file://` URL | 导入这些文件，效果与 `程序`（Program）→ `添加文件中的配置档`（Add profile from File(s)）相同。 |
+| 文件路径或 `file://` URL | 导入这些文件，效果与 `程序`（Program）→ `从文件导入`（Import from file）相同。 |
 | `--headless` | 以无窗口方式运行 Throne，作为服务或在容器中运行。参见[无界面 Throne](@/headless/_index.zh.md)；其选项见[命令行与数据目录](@/headless/command_line.zh.md)。 |
 | `--check`、`--health`、`--print-connection` | 检查这台电脑能否运行无界面 Throne、询问正在运行的实例的状态，或打印 `thronectl` 所需的设置。 |
 
@@ -30,7 +30,7 @@ toc = true
 
 ## 数据文件夹 {#data-folder}
 
-Throne 将你的数据保存在一个名为 `config` 的文件夹中。`设置`（Settings）→ `打开配置文件夹`（Open Config Folder）可以打开它（仅在高级模式下可用，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。
+Throne 将你的数据保存在一个名为 `config` 的文件夹中。`设置`（Settings）→ `打开配置文件夹`（Open config folder）可以打开它。
 
 | Throne 的安装方式 | 数据文件夹 |
 | --- | --- |
@@ -41,23 +41,26 @@ Throne 将你的数据保存在一个名为 `config` 的文件夹中。`设置`�
 | macOS | `~/Library/Preferences/Throne/config` |
 
 - 便携版以 `-appdata` 启动时会使用用户专属文件夹：Windows 上为 `%LOCALAPPDATA%\Throne\config`，Linux 上为 `~/.config/Throne/config`。如果它无法写入自己的文件夹（例如位于 `Program Files` 中），也会自动切换过去：只复制一次现有的 `config` 文件夹，此后即使你以管理员身份运行，也会继续使用这个用户专属文件夹。
-- 来自其他来源的软件包（WinGet、Scoop、AUR、Nix）可能使用其他文件夹。`打开配置文件夹`（Open Config Folder）总会打开正确的那个。
-- Xray 的 geo 文件 `geoip.dat` 和 `geosite.dat`，以及 `diagnostics` 文件夹（来自 `基本设置`（Basic Settings）→ `诊断`（Diagnostics）），位于 `config` 文件夹旁边，而不是其中。
+- 来自其他来源的软件包（WinGet、Scoop、AUR、Nix）可能使用其他文件夹。`打开配置文件夹`（Open config folder）总会打开正确的那个。
+- Xray 的 geo 资源 `geoip.dat` 和 `geosite.dat`，以及 `diagnostics` 文件夹（来自 `基本设置`（Basic Settings）→ `诊断`（Diagnostics）），位于 `config` 文件夹旁边，而不是其中。
 
 ### 配置文件夹中的文件 {#config-files}
 
 | 文件或文件夹 | 内容 |
 | --- | --- |
-| `throne.db` | 配置档、分组、路由配置档、OTP 配置档和设置（SQLite）。Throne 运行期间，它旁边会出现 `throne.db-wal` 和 `throne.db-shm`。 |
-| `throne_stats.db` | `工具`（Tools）→ `流量统计`（Traffic Stats）所用的流量历史：48 小时的每分钟数据和 90 天的每小时数据。`基本设置` → `样式`（Style）→ `禁用流量聚合`（Disable Traffic Aggregation）可以停止记录。 |
-| `cache.db` | 核心的缓存：已下载的规则集、每个自动选择器上一次的选择；如果开启了 `保存缓存到文件`（Save Cache To File），还包括 DNS 缓存。 |
+| `throne.db` | 配置档、分组、路由配置档、OTP 条目和设置（SQLite）。Throne 运行期间，它旁边会出现 `throne.db-wal` 和 `throne.db-shm`。 |
+| `throne_stats.db` | `工具`（Tools）→ `流量统计`（Traffic Statistics）所用的流量历史：48 小时的每分钟数据和 90 天的每小时数据。`基本设置` → `核心`（Core）→ `统计`（Statistics）→ `禁用流量统计`（Disable traffic statistics）可以停止记录。 |
+| `cache.db` | 核心的缓存：已下载的规则集、每个自动选择器上一次的选择；如果开启了 `保存缓存到文件`（Save cache to file），还包括 DNS 缓存。 |
 | `logs/` | 日志文件，参见[日志文件](#log-file)。 |
 | `crashes/` | 崩溃转储（仅限 Windows）。保留最新的 5 个。 |
-| `icons/` | `基本设置` → `样式` → `启用自定义图标`（Enable Custom Icons）所用的自定义托盘图标：`Off.png`、`Throne.png`（有配置档运行）、`Proxy.png`、`Tun.png` 和 `Connecting.png`。 |
+| `icons/` | `基本设置` → `外观`（Appearance）→ `主题`（Theme）→ `启用自定义图标`（Enable custom icons）所用的自定义托盘图标：`Off.png`、`Throne.png`（有配置档运行）、`Proxy.png`、`Tun.png` 和 `Connecting.png`。 |
 | `hwid` | 仅限 Linux：由于系统中没有可用的 `/etc/machine-id` 或 `/var/lib/dbus/machine-id`，Throne 自行创建的设备 ID。参见 [HWID](@/reference/privacy.zh.md#hwid)。 |
 | `.lock` | 表示有一个 Throne 正在使用此文件夹。Throne 从不删除它。 |
 | `dashboard/` | 用于 Clash API 的网络仪表盘。请将占位页面替换为仪表盘文件。 |
-| `sb-dashboard/` | `工具` → `打开网络仪表盘`（Open Web dashboard）所打开的网络仪表盘。 |
+| `sb-dashboard/` | `工具` → `打开网络仪表盘`（Open web dashboard）所打开的网络仪表盘。 |
+| `service_checks.json` | 已下载的[服务检查](@/guides/testing.zh.md#service-check)列表。 |
+| `tor/` | 首次选择 `出口方式`（Exit through）→ `Tor` 时下载的 [Tor](@/advanced/tor.zh.md)，以及它的数据。 |
+| `tailscale/`、`Taildrop/` | Tailscale 配置档的登录状态，以及通过 Taildrop 收到的文件。 |
 
 要把数据迁移到另一台电脑或 Android 上，请使用 `.thrbackup` 备份，而不是复制文件。参见[备份与恢复](@/guides/backup.zh.md#backup-restore)。
 
@@ -65,14 +68,14 @@ Throne 将你的数据保存在一个名为 `config` 的文件夹中。`设置`�
 
 主窗口底部的 `日志`（Logs）标签页显示来自 Throne 和核心的消息。
 
-日志设置位于 `设置`（Settings）→ `基本设置`（Basic Settings）→ `日志`（Logging）（仅在高级模式下可用）：
+日志设置位于 `设置`（Settings）→ `基本设置`（Basic Settings）→ `日志`（Logs）：
 
 | 设置 | 默认值 | 作用 |
 | --- | --- | --- |
 | `最多日志行数`（Max log lines） | `500` | `日志` 标签页保留的行数。 |
-| `Sing-box 日志级别`（Sing-box Log level） | `info` | 核心写入日志的详细程度：`trace`、`debug`、`info`、`warn`、`error`、`fatal` 或 `panic`。 |
+| `Sing-box 日志级别`（sing-box Log level） | `info` | 核心写入日志的详细程度：`trace`、`debug`、`info`、`warn`、`error`、`fatal` 或 `panic`。 |
 | `Xray 日志级别`（Xray Log level） | `warning` | Xray 写入日志的详细程度：`debug`、`info`、`warning`、`error` 或 `none`。 |
-| `日志筛选`（Log Filtering） | 关闭 | `启用「包含」规则`（Enable Include Rules）只显示与你的关键词或正则表达式匹配的行，`启用「排除」规则`（Enable Exclude Rules）会隐藏它们。被隐藏的行仍会写入日志文件。 |
+| `日志筛选`（Log Filtering） | 关闭 | `启用「包含」规则`（Enable include rules）只显示与你的关键词或正则表达式匹配的行，`启用「排除」规则`（Enable exclude rules）会隐藏它们。被隐藏的行仍会写入日志文件。 |
 
 要为 Bug 报告记录详细日志，请按照[报告 Bug](@/help/bug_reports.zh.md#logs) 中的说明操作。
 
@@ -93,15 +96,15 @@ Throne 还会把更详细的日志写入配置文件夹中的 `logs/throne.log`�
 
 Throne 没有重置按钮。要使用默认设置从头开始，请给 Throne 一个全新的空配置文件夹：
 
-1. 如果想保留某些内容，请先创建备份：`设置`（Settings）→ `基本设置`（Basic Settings）→ `备份和恢复`（Backup and Restore）→ `创建备份...`（Create Backup...）。
-2. `设置`（Settings）→ `打开配置文件夹`（Open Config Folder）会显示该文件夹的位置。
-3. 通过托盘菜单或 `程序`（Program）菜单中的 `退出`（Exit）退出 Throne。仅关闭窗口是不够的。
+1. 如果想保留某些内容，请先创建备份：`设置`（Settings）→ `基本设置`（Basic Settings）→ `备份`（Backup）→ `创建备份`（Create backup）。
+2. `设置`（Settings）→ `打开配置文件夹`（Open config folder）会显示该文件夹的位置。
+3. 通过托盘菜单或 `程序`（Program）菜单中的 `退出`（Quit）退出 Throne。仅关闭窗口是不够的。
 4. 重命名 `config` 文件夹，例如改为 `config-old`。
 5. 启动 Throne。它会创建一个使用默认设置的新 `config` 文件夹。
 
-要恢复部分旧数据，请在同一标签页中使用 `从备份恢复...`（Restore from Backup...），并只选择这些部分。要撤销重置，请退出 Throne，删除新的 `config` 文件夹，并将 `config-old` 改回 `config`。
+要恢复部分旧数据，请在同一标签页中使用 `从备份恢复`（Restore from backup），并只选择这些部分。要撤销重置，请退出 Throne，删除新的 `config` 文件夹，并将 `config-old` 改回 `config`。
 
-重置不会改变存放在配置文件夹之外的内容：`随系统启动`（Start with system）（操作系统中的自启动项）、`throne://` 链接的注册，以及 Xray geo 文件。
+重置不会改变存放在配置文件夹之外的内容：`随系统启动`（Start with system）（操作系统中的自启动项）、`throne://` 链接的注册，以及 Xray geo 资源。
 
 **Windows：** 卸载用安装程序安装的 Throne 时，可以选择同时删除配置文件夹。
 

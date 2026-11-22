@@ -13,7 +13,7 @@ Throne 是 Nekoray 的延续，Nekoray 已不再开发。Throne 运行在自己�
 
 ## 找不到文档中提到的菜单项或设置，它在哪里？ {#missing-option}
 
-全新安装会以简洁模式启动，该模式会隐藏高级项。按 `Ctrl+K` 并输入设置的名称即可找到并打开它，也可以在 `设置`（Settings）→ `基本设置`（Basic Settings）→ `样式`（Style）→ `界面`（Interface）中切换到高级模式。如果仍然找不到，可能是你的版本比本文档描述的版本旧，或者该项只存在于其他系统上。参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)。
+按 `Ctrl+K` 并输入设置的名称即可找到并打开它。如果找不到该项，可能是你的版本比本文档描述的版本旧，或者该项只存在于其他系统上。参见[搜索设置](@/reference/shortcuts.zh.md#command-palette)。
 
 ## 有便携模式吗？ {#portable}
 
@@ -21,7 +21,7 @@ Throne 是 Nekoray 的延续，Nekoray 已不再开发。Throne 运行在自己�
 
 ## 我可以在 Android 上使用 Throne 并把设置迁移过去吗？ {#android}
 
-可以。[Throne for Android](@/android/_index.zh.md) 使用相同的核心和相同的备份格式。在 `设置` → `基本设置`（Basic Settings）→ `备份和恢复`（Backup and Restore）中创建备份，将 `.thrbackup` 文件复制到手机，然后在应用中恢复；反过来也可以。参见[备份、更新与迁移](@/guides/backup.zh.md#desktop-android)。
+可以。[Throne for Android](@/android/_index.zh.md) 使用相同的核心和相同的备份格式。在 `设置` → `基本设置`（Basic Settings）→ `备份`（Backup）中创建备份，将 `.thrbackup` 文件复制到手机，然后在应用中恢复；反过来也可以。参见[备份、更新与迁移](@/guides/backup.zh.md#desktop-android)。
 
 ## Throne 能在没有窗口的服务器上运行吗？ {#headless}
 
@@ -29,35 +29,35 @@ Throne 是 Nekoray 的延续，Nekoray 已不再开发。Throne 运行在自己�
 
 ## 我可以用脚本或 Stream Deck 控制 Throne 吗？ {#scripts}
 
-可以。开启 `设置`（Settings）→ `Integration Settings` → `Throne API`（仅在高级模式下可用），然后使用 `thronectl`：例如，把 `thronectl toggle` 设在 Stream Deck 的一个按键上即可连接和断开。不使用 API 时，[全局热键](@/reference/shortcuts.zh.md#global-hotkeys) `Start/Stop Profile` 和 `Toggle Tun Mode` 也可以在任何应用中使用。参见 [Throne API 与 thronectl](@/advanced/api.zh.md)。
+可以。开启 `设置`（Settings）→ `Integration Settings` → `Throne API`，然后使用 `thronectl`：例如，把 `thronectl toggle` 设在 Stream Deck 的一个按键上即可连接和断开。不使用 API 时，[全局热键](@/reference/shortcuts.zh.md#global-hotkeys) `启动/停止配置档`（Start/Stop Profile）和 `切换 Tun 模式`（Toggle Tun mode）也可以在任何应用中使用。参见 [Throne API 与 thronectl](@/advanced/api.zh.md)。
 
 ## 为什么杀毒软件会将 Throne 标记为威胁？ {#antivirus}
 
-这些都是由正常功能引起的误报：更新程序会替换程序文件，Throne 会在 Windows 上写入注册表项，TUN 模式会更改网络设置（[#1127](https://github.com/throneproj/Throne/issues/1127)）。请只从官方[下载页面](@/downloads.zh.md)下载 Throne，并将 Throne 文件夹添加为例外。杀毒软件的网络防护也可能在没有任何提示的情况下阻止 TUN 模式；参见[故障排除](@/help/troubleshooting.zh.md#tun)。
+这些都是由正常功能引起的误报：更新程序会替换程序文件，Throne 会在 Windows 上写入注册表项，Tun 模式会更改网络设置（[#1127](https://github.com/throneproj/Throne/issues/1127)）。请只从官方[下载页面](@/downloads.zh.md)下载 Throne，并将 Throne 文件夹添加为例外。杀毒软件的网络防护也可能在没有任何提示的情况下阻止 Tun 模式；参见[故障排除](@/help/troubleshooting.zh.md#tun)。
 
 ## 我的设备 ID（HWID）会被发送给别人吗？ {#hwid}
 
-只有在你开启时才会。`设置` → `基本设置` → `订阅`（Subscription）→ `启用在更新订阅时发送硬件ID、设备型号以及 OS 版本`（Enable sending HWID, device model, and OS version when updating subscription）默认关闭；开启后，这些值只会随订阅请求发送。每个分组都可以在其 `高级`（Advanced）订阅设置中通过 `发送硬件标识`（Send HWID）覆盖此设置（两者都仅在高级模式下可用）。有些服务商要求发送这些信息。参见[隐私与网络请求](@/reference/privacy.zh.md#hwid)。
+只有在你开启时才会。`设置` → `基本设置` → `订阅`（Subscriptions）→ `请求`（Requests）→ `启用在更新订阅时发送硬件ID、设备型号以及 OS 版本`（Enable sending HWID, device model, and OS version when updating subscription）默认关闭；开启后，这些值只会随订阅请求发送。每个分组都可以在其 `高级`（Advanced）订阅设置中通过 `发送硬件标识`（Send HWID）覆盖此设置。有些服务商要求发送这些信息。参见[隐私与网络请求](@/reference/privacy.zh.md#hwid)。
 
 ## 有断网保护（kill switch）吗？ {#kill-switch}
 
-有：`设置` → `基本设置` → `安全`（Security）→ `Kill Switch`。Throne 运行期间，它会拦截所有不经过 Throne 的流量，即使没有配置档运行时也是如此；它需要与 TUN 模式相同的权限。参见 [Kill Switch（断网保护）](@/advanced/kill_switch.zh.md)。在 Android 上，请将 Throne 设为始终开启的 VPN，并开启系统中阻止未使用 VPN 的连接的选项；参见[权限与后台运行](@/android/permissions.zh.md#always-on)。
+有：`设置` → `基本设置` → `安全`（Security）→ `防护`（Protection）→ `断网保护`（Kill switch）。Throne 运行期间，它会拦截所有不经过 Throne 的流量，即使没有配置档运行时也是如此；它需要与 Tun 模式相同的权限。参见 [Kill Switch（断网保护）](@/advanced/kill_switch.zh.md)。在 Android 上，请将 Throne 设为始终开启的 VPN，并开启系统中阻止未使用 VPN 的连接的选项；参见[权限与后台运行](@/android/permissions.zh.md#always-on)。
 
-## 为什么 TUN 模式需要管理员或 root 权限？ {#tun-admin}
+## 为什么 Tun 模式需要管理员或 root 权限？ {#tun-admin}
 
-TUN 模式会创建一个捕获系统流量的虚拟网卡，而操作系统只允许管理员这样做。系统代理模式不需要特殊权限。在 Windows 上，Throne 会以管理员身份重新启动，此后每次都以管理员身份启动，除非你开启 `设置` → `基本设置` → `安全`（Security）→ `始终以标准用户身份启动`（Always Start as Standard User）（仅在高级模式下可用）。在 Linux 和 macOS 上，只有核心会获得 root 权限，窗口不会。参见 [TUN 模式](@/guides/tun_mode.zh.md#privileges)。
+Tun 模式会创建一个捕获系统流量的虚拟网卡，而操作系统只允许管理员这样做。系统代理模式不需要特殊权限。只有核心会获得这些权限，Throne 窗口不会：在 Windows 上，你只需通过 `赋予特权`（Grant privileges）授予一次（参见 [Windows](@/guides/tun_mode.zh.md#privileges-windows)）；在 Linux 和 macOS 上，核心会获得 root 权限（参见[权限](@/guides/tun_mode.zh.md#privileges)）。
 
 ## Linux 上真的需要 SUID 位吗？ {#linux-suid}
 
-TUN 模式需要核心具有 root 权限，而 Throne 窗口以你的普通用户身份运行，所以不要用 `sudo` 启动 Throne。默认情况下，Throne 会使用 `pkexec`（polkit）将 `ThroneCore` 的所有者改为 root，并设置其 SUID 位。你也可以改用 `setcap` 为核心授予五项能力（capabilities）。要让 Throne 不再请求权限，请开启 `设置` → `基本设置` → `安全` → `禁止权限请求`（Disable Privilege request）（仅在高级模式下可用）。参见 [TUN 模式](@/guides/tun_mode.zh.md#privileges)。
+Tun 模式需要核心具有 root 权限，而 Throne 窗口以你的普通用户身份运行，所以不要用 `sudo` 启动 Throne。默认情况下，Throne 会使用 `pkexec`（polkit）将 `ThroneCore` 的所有者改为 root，并设置其 SUID 位。你也可以改用 `setcap` 为核心授予五项能力（capabilities）。要让 Throne 不再请求权限，请开启 `设置` → `基本设置` → `安全` → `权限`（Privileges）→ `禁止权限请求`（Disable privilege request）。参见 [Tun 模式](@/guides/tun_mode.zh.md#privileges-linux)。
 
 ## 为什么 Throne 被强制关闭后无法上网？ {#force-quit}
 
-开启 `系统代理`（System Proxy）后，Throne 会在配置档运行期间将系统的代理设置指向它的本地端口，并在配置档停止或 Throne 退出时移除该设置。如果 Throne 被强行结束，该设置会保留下来，应用会尝试使用一个已不再运行的代理。解决方法：启动 Throne，在勾选 `系统代理` 的情况下启动任意配置档，然后停止它，或通过 `程序`（Program）→ `退出`（Exit）退出。你也可以在系统的网络设置中关闭代理。
+开启 `系统代理`（System proxy）后，Throne 会在配置档运行期间将系统的代理设置指向它的本地端口，并在配置档停止或 Throne 退出时移除该设置。如果 Throne 被强行结束，该设置会保留下来，应用会尝试使用一个已不再运行的代理。解决方法：启动 Throne，在勾选 `系统代理` 的情况下启动任意配置档，然后停止它，或通过 `程序`（Program）→ `退出`（Quit）退出。你也可以在系统的网络设置中关闭代理。
 
 ## 为什么配置档停止时系统代理会关闭？ {#system-proxy-off}
 
-Throne 只在配置档运行期间设置系统代理，这样应用就不会尝试使用未运行的代理。`系统代理`（System Proxy）复选框会保持勾选，当你启动配置档时，Throne 会再次设置代理。参见[系统代理、TUN 与局域网共享](@/guides/proxy_modes.zh.md#system-proxy)。
+Throne 只在配置档运行期间设置系统代理，这样应用就不会尝试使用未运行的代理。`系统代理`（System proxy）复选框会保持勾选，当你启动配置档时，Throne 会再次设置代理。参见[系统代理、Tun 模式与局域网共享](@/guides/proxy_modes.zh.md#system-proxy)。
 
 ## 为什么 DNS 泄漏测试显示的是我的运营商（ISP）的 DNS 服务器？ {#dns-leak-test}
 
@@ -65,7 +65,7 @@ Throne 只在配置档运行期间设置系统代理，这样应用就不会尝�
 
 ## 为什么订阅更新后我的配置档停止了，或者仍在运行？ {#profile-after-update}
 
-只有在你允许时，更新才会停止正在运行的配置档。如果更新会删除正在运行的配置档，Throne 会保留它，除非开启了 `设置` → `基本设置` → `订阅` → `允许停止活动配置档`（Allow stopping the active profile）（仅在高级模式下可用）。如果服务商只修改了它的设置，Throne 会保存这些设置但不会重新连接；请重新启动该配置档以使用新设置。参见[订阅与分组](@/guides/subscriptions.zh.md#running-profile)。
+只有在你允许时，更新才会停止正在运行的配置档。如果更新会删除正在运行的配置档，Throne 会保留它，除非开启了 `设置` → `基本设置` → `订阅` → `更新时`（When Updating）→ `允许停止活动配置档`（Allow stopping the active profile）。如果服务商只修改了它的设置，Throne 会保存这些设置但不会重新连接；请重新启动该配置档以使用新设置。参见[订阅与分组](@/guides/subscriptions.zh.md#running-profile)。
 
 ## 为什么我的订阅中出现了 `Custom` 配置档？ {#custom-config-import}
 

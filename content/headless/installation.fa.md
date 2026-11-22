@@ -63,9 +63,9 @@ ExecStart=/usr/lib/throne/Throne --headless --data-dir=%S/throne
 
 ## دسترسی‌ها در Linux {#linux-privileges}
 
-TUN و [کیل‌سوییچ](@/advanced/kill_switch.fa.md) به دسترسی‌های سیستمی نیاز دارند. نمایه‌های [هستهٔ اضافی (Extra Core)](@/advanced/chains.fa.md#extra-core) به یک کاربر عادی نیاز دارند، چون Throne هرگز Extra Core را با root اجرا نمی‌کند. نحوهٔ اجرای یونیت را انتخاب کنید:
+حالت Tun و [کیل‌سوییچ](@/advanced/kill_switch.fa.md) به دسترسی‌های سیستمی نیاز دارند. نمایه‌های [هستهٔ اضافی (Extra Core)](@/advanced/chains.fa.md#extra-core) به یک کاربر عادی نیاز دارند، چون Throne هرگز Extra Core را با root اجرا نمی‌کند. نحوهٔ اجرای یونیت را انتخاب کنید:
 
-| نحوهٔ اجرای یونیت | TUN | کیل‌سوییچ | نمایه‌های Extra Core |
+| نحوهٔ اجرای یونیت | حالت Tun | کیل‌سوییچ | نمایه‌های Extra Core |
 | --- | --- | --- | --- |
 | با root (یونیت به همان شکلی که عرضه شده است) | بله | بله | خیر |
 | با `throne` و capabilityها (`caps.conf`) | بله | خیر (`unsupported`) | بله |
@@ -103,7 +103,7 @@ loginctl enable-linger "$USER"   # start at boot, without a login
 ```
 
 - این یونیت از پوشهٔ داده‌های برنامهٔ دسکتاپ، یعنی `~/.config/Throne`، با همان نمایه‌ها و تنظیمات استفاده می‌کند. ابتدا از برنامهٔ دسکتاپ خارج شوید، و پیش از باز کردن دوباره‌اش `systemctl --user stop throne` را اجرا کنید.
-- TUN و کیل‌سوییچ به هستهٔ setuid-root نیاز دارند. برنامهٔ دسکتاپ نخستین باری که [دسترسی](@/guides/tun_mode.fa.md#privileges-linux) درخواست می‌کند آن را تنظیم می‌کند، و `Throne --check` فرمان‌های لازم را چاپ می‌کند.
+- حالت Tun و کیل‌سوییچ به هستهٔ setuid-root نیاز دارند. برنامهٔ دسکتاپ نخستین باری که [دسترسی](@/guides/tun_mode.fa.md#privileges-linux) درخواست می‌کند آن را تنظیم می‌کند، و `Throne --check` فرمان‌های لازم را چاپ می‌کند.
 - وقتی `Throne --health`، `--print-connection` و `--check` را با کاربر خودتان اجرا کنید، این Throne را بدون نیاز به گزینه پیدا می‌کنند.
 
 ## Docker {#docker}
@@ -133,7 +133,7 @@ volumes:
 ```
 
 - **پورت پروکسی.** ورودی mixed روی `127.0.0.1` گوش می‌دهد که یک پورت منتشرشده (published port) به آن نمی‌رسد: `thronectl settings set inbound_address=0.0.0.0` را اجرا کنید و نمایه را دوباره اجرا کنید. پورت‌های منتشرشده فایروال‌های میزبان مانند `ufw` را دور می‌زنند؛ روی میزبانی که از اینترنت قابل دسترسی است، فقط نشانی LAN را منتشر کنید (`"192.168.1.2:2080:2080"`).
-- **شبکهٔ میزبان** (`network_mode: host`، بدون `ports:`): TUN و کیل‌سوییچ روی کل میزبان اثر می‌گذارند و فقط یک Throne آنجا می‌تواند TUN را اجرا کند.
+- **شبکهٔ میزبان** (`network_mode: host`، بدون `ports:`): حالت Tun و کیل‌سوییچ روی کل میزبان اثر می‌گذارند و فقط یک Throne آنجا می‌تواند حالت Tun را اجرا کند.
 - **توقف.** `stop_grace_period: 45s` را نگه دارید، وگرنه Docker ممکن است Throne را پیش از آنکه هسته‌اش را متوقف کند به‌اجبار ببندد (kill). `restart: unless-stopped` حتی پس از `thronectl shutdown` هم Throne را دوباره شروع می‌کند؛ از `docker compose stop` استفاده کنید.
 - **سلامت.** بررسی سلامت، `Throne --health` را اجرا می‌کند. Docker فقط کانتینر ناسالم را علامت‌گذاری می‌کند؛ آن را دوباره راه‌اندازی نمی‌کند.
 - **محدودیت‌ها.** نمایه‌های Extra Core اجرا نمی‌شوند، چون کانتینر با root اجرا می‌شود. در Docker بدون root (rootless) و دیگر کانتینرهای دارای user namespace، کیل‌سوییچ با `unsupported` شکست می‌خورد.
@@ -144,7 +144,7 @@ volumes:
 
 ## macOS {#macos}
 
-یک LaunchDaemon، Throne را هنگام بوت با root اجرا می‌کند، با TUN و کیل‌سوییچ اما بدون نمایه‌های Extra Core. `Throne.app` را به `/Applications` منتقل کنید، فایل [`moe.Throne.headless.plist`](https://github.com/throneproj/Throne/blob/dev/dist/macos/moe.Throne.headless.plist) را دانلود کنید، سپس:
+یک LaunchDaemon، Throne را هنگام بوت با root اجرا می‌کند، با حالت Tun و کیل‌سوییچ اما بدون نمایه‌های Extra Core. `Throne.app` را به `/Applications` منتقل کنید، فایل [`moe.Throne.headless.plist`](https://github.com/throneproj/Throne/blob/dev/dist/macos/moe.Throne.headless.plist) را دانلود کنید، سپس:
 
 ```bash
 sudo mkdir -p /Library/Logs/Throne
@@ -160,7 +160,7 @@ sudo launchctl bootstrap system /Library/LaunchDaemons/moe.Throne.headless.plist
 
 ## سرویس Windows {#windows}
 
-`Throne.exe --headless --service` به‌صورت یک سرویس Windows با حساب LocalSystem اجرا می‌شود، بنابراین TUN و کیل‌سوییچ کار می‌کنند.
+`Throne.exe --headless --service` به‌صورت یک سرویس Windows با حساب LocalSystem اجرا می‌شود، بنابراین حالت Tun و کیل‌سوییچ کار می‌کنند.
 
 1. Throne را با نصب‌کننده برای همهٔ کاربران، در `Program Files`، نصب کنید. سرویس نباید برنامه‌ای را اجرا کند که یک کاربر عادی بتواند آن را جایگزین کند، بنابراین از نصب مخصوص یک کاربر یا یک ZIP در پوشهٔ کاربری‌تان استفاده نکنید.
 2. فایل‌های [`install-service.bat`](https://github.com/throneproj/Throne/blob/dev/dist/windows/install-service.bat) و [`uninstall-service.bat`](https://github.com/throneproj/Throne/blob/dev/dist/windows/uninstall-service.bat) را دانلود کنید.

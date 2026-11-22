@@ -33,7 +33,7 @@ Create a profile with `Program` → `New profile` (`Ctrl+N`), or [import](#impor
 | `Max QNAME Length` | Both VayDNS modes. Default 101 (`VayDNS`) or 253 (dnstt-compatible), at most 253. Longer names carry more data, but some resolvers drop them. |
 | `Payload per Query` | The tunnel data that each query carries. It must be at least 25 bytes: use a shorter domain or a longer `Max QNAME Length`. |
 
-In the `Advanced` group (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)), keep `Idle Timeout` in line with the server; `Keepalive Interval` must be shorter than it.
+In the `Advanced` group, keep `Idle Timeout` in line with the server; `Keepalive Interval` must be shorter than it.
 
 `Backend` → `Type` says what runs behind the tunnel on the server:
 
@@ -95,7 +95,7 @@ Leave the mKCP fields, such as `MTU` and `TTI`, empty to use Xray's defaults. Wi
 
 ## Resolvers {#resolvers}
 
-Every DNS tunnel profile has a resolver box (the `Resolvers` group for DNSTT and MasterDNS, the `Resolvers` row for XDNS) with one resolver per line. Lines that start with `#` are comments. `IP list` adds the addresses of an IP scanner list after the typed lines, for example the results of a [resolver scan](#find-resolvers).
+Every DNS tunnel profile has a resolver box (the `Resolvers` group for DNSTT and MasterDNS, the `Resolvers` row for XDNS) with one resolver per line. Lines that start with `#` are comments. `IP list` adds the addresses of an IP Scanner list after the typed lines, for example the results of a [resolver scan](#find-resolvers).
 
 | Line | DNSTT / VayDNS | MasterDNS | XDNS |
 | --- | --- | --- | --- |
@@ -118,8 +118,8 @@ The default port is 53; DNSTT uses 853 for `tls://` and 443 for `https://`. Thro
 
 Many resolvers do not pass tunnel queries on. A resolver scan tries addresses as the resolvers of your profile and keeps the ones that work:
 
-1. Save the profile and open it again. `Find resolvers…` stays disabled until the profile is saved.
-2. Click `Find resolvers…` next to `IP list`. Throne opens the profile's DNS resolver scan in the IP scanner.
+1. Save the profile and open it again. `Find resolvers` stays disabled until the profile is saved.
+2. Click `Find resolvers` next to `IP list`. Throne opens the profile's DNS resolver scan in the IP Scanner.
 3. On the `Targets` tab, choose the addresses to try in `Base IP list`, for example `Iran DNS resolvers` or `Russia DNS resolvers`, and start the scan.
 4. On the `Results` tab, click `Use as resolvers`. The results become the profile's `IP list`. The lines that you typed stay and are used first.
 
@@ -145,7 +145,7 @@ To share a profile, right-click it → `Share`. DNSTT and MasterDNS profiles giv
 
 ## Testing {#testing}
 
-URL tests and IP tests work with DNS tunnel profiles. The first request opens the tunnel, which takes many slow queries, so Throne gives it 30 more seconds for DNSTT and XDNS and 90 more for MasterDNS; a chain gets the sum. The latency shown comes from the second request. See [URL test](@/guides/testing.md#url-test).
+URL tests and exit IP tests work with DNS tunnel profiles. The first request opens the tunnel, which takes many slow queries, so Throne gives it 30 more seconds for DNSTT and XDNS and 90 more for MasterDNS; a chain gets the sum. The latency shown comes from the second request. See [URL test](@/guides/testing.md#url-test).
 
 If a test fails, look for the reason on the `Logs` tab, check `Domain` and `Public Key` (DNSTT) or `Domains`, `Encryption` and `Key` (MasterDNS) against the server, and try other resolvers or a [resolver scan](#find-resolvers).
 

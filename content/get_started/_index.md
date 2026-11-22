@@ -8,7 +8,7 @@ aliases = ["/introduction/"]
 
 ## What is Throne {#what-is-throne}
 
-Throne (formerly Nekoray) is a free, open-source (GPL-3.0) proxy client for Windows, Linux and macOS. Its core, ThroneCore, is based on sing-box and also runs Xray for the profiles that need it. You add servers, choose which traffic goes through them, and connect in system proxy or TUN mode.
+Throne (formerly Nekoray) is a free, open-source (GPL-3.0) proxy client for Windows, Linux and macOS. Its core, ThroneCore, is based on sing-box and also runs Xray for the profiles that need it. You add servers, choose which traffic goes through them, and connect in system proxy or Tun mode.
 
 - [Throne for Android](@/android/_index.md) (formerly NekoBox for Android) uses the same core, settings and [backup format](@/guides/backup.md), so you can move your setup between computer and phone.
 - [Headless Throne](@/headless/_index.md) runs without a window on a server, a router or in a container, controlled with `thronectl`.
@@ -29,12 +29,12 @@ Get the files from [Downloads](@/downloads.md).
 
 - Many [protocols](@/reference/protocols.md), including VLESS with REALITY and XHTTP, Shadowsocks, Trojan, Hysteria, TUIC, WireGuard, AmneziaWG, NaïveProxy, OpenVPN, OpenConnect and [DNS tunnels](@/advanced/dns_tunnels.md).
 - [Subscriptions](@/guides/subscriptions.md) that update on a schedule.
-- [System proxy, TUN mode and LAN sharing](@/guides/proxy_modes.md).
+- [System proxy, Tun mode and LAN sharing](@/guides/proxy_modes.md).
 - [Routing](@/guides/routing.md) rules, with ready-made profiles for China, Iran and Russia.
-- Latency and speed [tests](@/guides/testing.md), and an Auto Selector that keeps you on a working server.
+- Latency and speed [tests](@/guides/testing.md), and an auto selector that keeps you on a working server.
 - [Proxy chains and custom configs](@/advanced/chains.md), [anti-censorship options](@/advanced/presets.md) such as TLS fragment, and built-in [Cloudflare WARP](@/advanced/warp.md).
 - A [kill switch](@/advanced/kill_switch.md), and [control with `thronectl`](@/advanced/api.md) from scripts and other devices.
-- A [Simple mode](@/get_started/configuration.md#interface-mode) for new users, and `Ctrl+K` search for commands and settings.
+- [`Ctrl+K` search](@/reference/shortcuts.md#command-palette) for commands and settings.
 
 ## Where to start {#where-to-start}
 

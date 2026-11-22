@@ -17,7 +17,7 @@ $ sudo /opt/Throne/Throne --check
 result: 0 failed, 0 warnings
 ```
 
-它检查数据目录、设置、核心、TUN、Kill Switch、API 密钥、端口、重启模式和[设备 ID](@/headless/_index.zh.md#device-id)，有解决方法时还会打印 `fix:` 行。只有会让 Throne 完全无法工作的问题才标记为 `[FAIL]`，此时该命令以退出码 1 退出。缺少 TUN 或 Kill Switch 所需的权限会标记为 `[WARN]`，并附上用于修复的 `setcap` 或 `chmod u+s` 命令；在容器中则附上 `--cap-add NET_ADMIN` 和 `--device /dev/net/tun`。
+它检查数据目录、设置、核心、Tun 模式、Kill Switch、API 密钥、端口、重启模式和[设备 ID](@/headless/_index.zh.md#device-id)，有解决方法时还会打印 `fix:` 行。只有会让 Throne 完全无法工作的问题才标记为 `[FAIL]`，此时该命令以退出码 1 退出。缺少 Tun 模式或 Kill Switch 所需的权限会标记为 `[WARN]`，并附上用于修复的 `setcap` 或 `chmod u+s` 命令；在容器中则附上 `--cap-add NET_ADMIN` 和 `--device /dev/net/tun`。
 
 ## Throne --health {#health}
 
@@ -49,7 +49,7 @@ Throne 健康时，它以退出码 0 退出；其他退出码请参见[退出码
 | `core_unavailable` | 核心进程没有运行。 |
 | `kill_switch_failed` | Kill Switch 已开启，但失败了，因此配置档会被拒绝。参见 [Kill Switch](@/advanced/kill_switch.zh.md)。 |
 | `api_unavailable` | API 已开启，但没有在监听，例如因为另一个程序占用了其端口，或者其密钥文件无法使用。`ok` 保持为 `true`。 |
-| `tun_unavailable` | Throne 上次停止时 TUN 处于开启状态，而现在无法开启：Throne 缺少权限，或者有其他东西占用了 TUN（[TUN 冲突](@/headless/_index.zh.md#beside-desktop)）。该配置档没有启动。请运行 `thronectl tun off`，然后运行 `thronectl connect`。 |
+| `tun_unavailable` | Throne 上次停止时 Tun 模式处于开启状态，而现在无法开启：Throne 缺少权限，或者有其他东西妨碍 Tun 模式（[Tun 冲突](@/headless/_index.zh.md#beside-desktop)）。该配置档没有启动。请运行 `thronectl tun off`，然后运行 `thronectl connect`。 |
 | `resume_suppressed` | Throne 没有恢复上次的配置档，因为在最近三次恢复中，每一次 Throne 或其核心都在一分钟内停止了。请用 `thronectl connect` 启动该配置档。 |
 | `vpn_auth_failed` | VPN 配置档的服务器拒绝了其已保存的凭据。该配置档停止时，此状态会清除。 |
 | `vpn_challenge_pending` | VPN 配置档的服务器要求提供 Throne 无法自行回答的内容，例如网页登录。Throne 最多在 5 分钟后将其取消。 |

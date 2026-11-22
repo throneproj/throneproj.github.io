@@ -18,7 +18,7 @@ Issues are public. Remove subscription URLs, tokens, passwords, UUIDs, private k
 
 ## Before you report {#before}
 
-1. Update Throne with `Program` → `Check For Update`, or from the [downloads](@/downloads.md) page.
+1. Update Throne with `Program` → `Check for updates`, or from the [downloads](@/downloads.md) page.
 2. Search the open and closed issues for your error message, and read the [FAQ](@/help/faq.md) and [Troubleshooting](@/help/troubleshooting.md).
 3. Test with a [fresh configuration](@/reference/files.md#reset) that has only what shows the problem, and say in the report whether the problem happens there too.
 4. If you use a WinGet, Scoop, AUR or Nix package, test the official build too; the developers do not support these packages.
@@ -28,13 +28,13 @@ Issues are public. Remove subscription URLs, tokens, passwords, UUIDs, private k
 
 ### Desktop {#desktop-logs}
 
-The `Logs` tab at the bottom of the main window shows the log, and Throne writes the same lines to `logs/throne.log` in the config folder (`Settings` → `Open Config Folder`). The file starts again every time Throne starts, so copy it before you restart.
+The `Logs` tab at the bottom of the main window shows the log, and Throne writes the same lines to `logs/throne.log` in the config folder (`Settings` → `Open config folder`). The file starts again every time Throne starts, so copy it before you restart.
 
 To record a detailed log:
 
-1. In `Settings` → `Basic Settings` → `Logging` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)), set `Sing-box Log level` to `debug`, and for Xray profiles also `Xray Log level`.
+1. In `Settings` → `Basic Settings` → `Logs` → `Log Level`, set `sing-box Log level` to `debug`, and for Xray profiles also `Xray Log level`.
 2. Raise `Max log lines`, for example to `2000`, so that Throne does not drop log lines.
-3. Click `OK` and restart Throne with `Program` → `Restart Program`.
+3. Click `OK` and restart Throne with `Restart` → `Restart program` in the tray menu.
 4. Reproduce the problem and attach `logs/throne.log`. If you copy from the `Logs` tab instead, close its filter bar first.
 5. Set the log levels back to `info` (sing-box) and `warning` (Xray).
 
@@ -63,11 +63,11 @@ Use the issue template and fill in every field:
 | --- | --- |
 | Throne version | `Program` → `About`, which lets you copy all component versions. On Android: `About`. |
 | Installation type | ZIP, Windows installer, `.deb`, `.rpm`, install script, repository or package manager, and whether you use [headless Throne](@/headless/_index.md). |
-| Mode | `Tun Mode`, `System Proxy` or both, and whether the [kill switch](@/advanced/kill_switch.md) is on. |
+| Mode | `Tun mode`, `System proxy` or both, and whether the [kill switch](@/advanced/kill_switch.md) is on. |
 | Profile type | The `Type` column, for example `VLESS (Xray)`. Not the link. |
 
-For routing problems, use the `Routing Issue` template and add your routing profile: in `Settings` → `Routing Settings` → `Route`, select it and click `Export` to copy a `throne://route/…` link. Check it for private domains and addresses first.
+For routing problems, use the `Routing Issue` template and add your routing profile: in `Settings` → `Routing Settings` → `Routing`, select it and click `Export` to copy a `throne://route/…` link. Check it for private domains and addresses first.
 
-If a developer asks for your configuration, right-click the profile → `Share` → `Export config` (Advanced mode only) and copy the `sing-box` tab, or the `Xray` tab if asked. Replace passwords, UUIDs, keys and server addresses with `xxxx` first.
+If a developer asks for your configuration, right-click the profile → `Share` → `Export config` and copy the `sing-box` tab, or the `Xray` tab if asked. Replace passwords, UUIDs, keys and server addresses with `xxxx` first.
 
 For headless Throne, see also [What to include in a bug report](@/headless/troubleshooting.md#reporting).

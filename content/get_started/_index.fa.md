@@ -8,7 +8,7 @@ aliases = ["/fa/introduction/"]
 
 ## Throne چیست {#what-is-throne}
 
-Throne (پیش‌تر با نام Nekoray) یک کلاینت پروکسی رایگان و متن‌باز (GPL-3.0) برای Windows، Linux و macOS است. هستهٔ آن، ThroneCore، مبتنی بر sing-box است و برای نمایه‌هایی که به Xray نیاز دارند، Xray را هم اجرا می‌کند. سرورها را اضافه می‌کنید، تعیین می‌کنید کدام ترافیک از آن‌ها عبور کند و در حالت پروکسی سیستمی یا حالت TUN متصل می‌شوید.
+Throne (پیش‌تر با نام Nekoray) یک کلاینت پروکسی رایگان و متن‌باز (GPL-3.0) برای Windows، Linux و macOS است. هستهٔ آن، ThroneCore، مبتنی بر sing-box است و برای نمایه‌هایی که به Xray نیاز دارند، Xray را هم اجرا می‌کند. سرورها را اضافه می‌کنید، تعیین می‌کنید کدام ترافیک از آن‌ها عبور کند و در حالت پروکسی سیستمی یا حالت Tun متصل می‌شوید.
 
 - [Throne برای Android](@/android/_index.fa.md) (پیش‌تر با نام NekoBox for Android) همان هسته، همان تنظیمات و همان [قالب پشتیبان‌گیری](@/guides/backup.fa.md) نسخهٔ دسکتاپ را به کار می‌برد، بنابراین می‌توانید تنظیمات خود را بین رایانه و گوشی جابه‌جا کنید.
 - [Throne بدون رابط گرافیکی](@/headless/_index.fa.md) بدون پنجره روی یک سرور، یک روتر یا در یک کانتینر اجرا می‌شود و با `thronectl` کنترل می‌شود.
@@ -29,12 +29,12 @@ Throne (پیش‌تر با نام Nekoray) یک کلاینت پروکسی رای
 
 - [پروتکل‌های متعدد](@/reference/protocols.fa.md)، از جمله VLESS با REALITY و XHTTP، Shadowsocks، Trojan، Hysteria، TUIC، WireGuard، AmneziaWG، NaïveProxy، OpenVPN، OpenConnect و [تونل‌های DNS](@/advanced/dns_tunnels.fa.md).
 - [اشتراک‌هایی](@/guides/subscriptions.fa.md) که طبق زمان‌بندی به‌روز می‌شوند.
-- [پروکسی سیستمی، حالت TUN و اشتراک‌گذاری در شبکهٔ محلی](@/guides/proxy_modes.fa.md).
+- [پروکسی سیستمی، حالت Tun و اشتراک‌گذاری در شبکهٔ محلی](@/guides/proxy_modes.fa.md).
 - قوانین [مسیریابی](@/guides/routing.fa.md)، با نمایه‌های آماده برای چین، ایران و روسیه.
-- [تست](@/guides/testing.fa.md) تأخیر و سرعت، و یک انتخابگر خودکار (Auto Selector) که شما را روی سروری نگه می‌دارد که کار می‌کند.
+- [تست](@/guides/testing.fa.md) تأخیر و سرعت، و یک انتخابگر خودکار (auto selector) که شما را روی سروری نگه می‌دارد که کار می‌کند.
 - [زنجیره‌های پروکسی و پیکربندی‌های سفارشی](@/advanced/chains.fa.md)، [گزینه‌های ضدسانسور](@/advanced/presets.fa.md) مانند TLS fragment، و [Cloudflare WARP](@/advanced/warp.fa.md) داخلی.
 - یک [کیل‌سوییچ](@/advanced/kill_switch.fa.md)، و [کنترل با `thronectl`](@/advanced/api.fa.md) از اسکریپت‌ها و دستگاه‌های دیگر.
-- یک [حالت ساده](@/get_started/configuration.fa.md#interface-mode) برای کاربران تازه‌کار، و جست‌وجوی فرمان‌ها و تنظیمات با `Ctrl+K`.
+- [جست‌وجو با `Ctrl+K`](@/reference/shortcuts.fa.md#command-palette) برای فرمان‌ها و تنظیمات.
 
 ## از کجا شروع کنیم {#where-to-start}
 

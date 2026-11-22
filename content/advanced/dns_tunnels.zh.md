@@ -33,7 +33,7 @@ Throne 并不直接连接隧道服务器。它把隧道域名（例如 `t.exampl
 | `最大 QNAME 长度` | 两种 VayDNS 模式。默认 101（`VayDNS`）或 253（兼容 dnstt），最多 253。名称越长，携带的数据越多，但有些解析器会丢弃过长的名称。 |
 | `每次查询载荷`（Payload per Query） | 每次查询携带的隧道数据。至少需要 25 字节：请使用更短的域名或更大的 `最大 QNAME 长度`。 |
 
-在 `高级`（Advanced）组中（仅在高级模式下显示，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)），请让 `空闲超时`（Idle Timeout）与服务器保持一致；`保活间隔`（Keepalive Interval）必须短于它。
+在 `高级`（Advanced）组中，请让 `空闲超时`（Idle Timeout）与服务器保持一致；`保活间隔`（Keepalive Interval）必须短于它。
 
 `后端`（Backend）→ `类型`（Type）说明服务器上隧道后面运行的是什么：
 
@@ -118,8 +118,8 @@ mKCP 字段（例如 `MTU` 和 `TTI`）留空即使用 Xray 的默认值。当 `
 
 许多解析器不转交隧道查询。解析器扫描会把各个地址当作你的配置档的解析器逐一尝试，并保留可用的地址：
 
-1. 保存配置档并再次打开。在保存之前，`查找解析器…`（Find resolvers…）处于禁用状态。
-2. 点击 `IP 列表`（IP list）旁的 `查找解析器…`。Throne 会在 IP 扫描器中打开此配置档的 DNS 解析器扫描。
+1. 保存配置档并再次打开。在保存之前，`查找解析器`（Find resolvers）处于禁用状态。
+2. 点击 `IP 列表`（IP list）旁的 `查找解析器`。Throne 会在 IP 扫描器中打开此配置档的 DNS 解析器扫描。
 3. 在 `Targets` 标签页的 `Base IP list` 中选择要尝试的地址，例如 `Iran DNS resolvers` 或 `Russia DNS resolvers`，然后开始扫描。
 4. 在 `Results` 标签页中点击 `用作解析器`（Use as resolvers）。结果会成为该配置档的 `IP 列表`。你输入的各行会保留，并优先使用。
 
@@ -145,7 +145,7 @@ Throne 可以从剪贴板、文件、二维码和订阅中导入以下格式：
 
 ## 测试 {#testing}
 
-URL 测试和 IP 测试都适用于 DNS 隧道配置档。第一个请求会建立隧道，这需要许多缓慢的查询，因此 Throne 为它额外留出时间：DNSTT 和 XDNS 多 30 秒，MasterDNS 多 90 秒；代理链得到它们的总和。显示的延迟来自第二个请求。参见 [URL 测试](@/guides/testing.zh.md#url-test)。
+URL 测试和出口 IP 测试都适用于 DNS 隧道配置档。第一个请求会建立隧道，这需要许多缓慢的查询，因此 Throne 为它额外留出时间：DNSTT 和 XDNS 多 30 秒，MasterDNS 多 90 秒；代理链得到它们的总和。显示的延迟来自第二个请求。参见 [URL 测试](@/guides/testing.zh.md#url-test)。
 
 如果测试失败，请在 `日志`（Logs）标签页中查看原因，对照服务器检查 `域名` 和 `公钥`（DNSTT）或 `域名`、`加密` 和 `密钥`（MasterDNS），并尝试其他解析器或[解析器扫描](#find-resolvers)。
 

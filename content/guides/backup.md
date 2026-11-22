@@ -9,18 +9,18 @@ Make a backup before every update.
 
 ## Back up and restore {#backup-restore}
 
-Open `Settings` → `Basic Settings` → `Backup and Restore`. To create a backup, tick the parts you want under `Create Backup` (all are ticked by default), click `Create Backup...` and choose where to save the `.thrbackup` file.
+Open `Settings` → `Basic Settings` → `Backup`. To create a backup, tick the parts you want under `Create Backup` (all are ticked by default), click `Create backup` and choose where to save the `.thrbackup` file.
 
 | Part | What it contains |
 | --- | --- |
 | `Profiles (groups and proxies)` | Groups, subscriptions and profiles. |
 | `Routing profiles` | Routing profiles and their rules. |
-| `Settings` | All settings, including DNS, TUN, WARP and inbounds. |
-| `OTP profiles` | The [OTP Manager](@/advanced/vpn_profiles.md#otp-manager) entries. |
-| `IP lists and scans` | The lists and results of the [IP scanner](@/guides/testing.md#ip-scanner). |
+| `Settings` | All settings, including DNS, Tun, WARP and inbounds. |
+| `OTP entries` | The [OTP Manager](@/advanced/vpn_profiles.md#otp-manager) entries. |
+| `IP lists and scans` | The lists and results of the [IP Scanner](@/guides/testing.md#ip-scanner). |
 | `Custom icons` | Custom tray icons. |
 
-A backup does not contain traffic history, logs, the core's cache, or whether `Tun Mode` or `System Proxy` was on.
+A backup does not contain traffic history, logs, the core's cache, or whether `Tun mode` or `System proxy` was on.
 
 {% alert_warning() %}
 A backup contains your server passwords, subscription links and other secrets. Keep the file private and never attach it to a bug report.
@@ -28,7 +28,7 @@ A backup contains your server passwords, subscription links and other secrets. K
 
 To restore a backup:
 
-1. Click `Restore from Backup...` and choose a `.thrbackup` file. Throne shows when and on which device it was created.
+1. Click `Restore from backup` and choose a `.thrbackup` file. Throne shows when and on which device it was created.
 2. Tick the parts to restore and click `Restore`. Each part replaces your current data, which cannot be undone.
 3. Throne restarts.
 
@@ -40,7 +40,7 @@ For a headless Throne, see [thronectl](@/headless/thronectl.md#from-desktop).
 
 ## WebDAV backups {#webdav}
 
-Throne desktop and Throne for Android can keep backups on a WebDAV server, such as Nextcloud, a NAS or Yandex Disk, and each app restores what the other uploaded. On the desktop, set up the server with `WebDAV Settings...` in `Backup and Restore`, then click `Upload to WebDAV` to upload the parts ticked under `Create Backup`. Throne never uploads on a schedule or deletes old backups by itself.
+Throne desktop and Throne for Android can keep backups on a WebDAV server, such as Nextcloud, a NAS or Yandex Disk, and each app restores what the other uploaded. On the desktop, set up the server with `Backup` → `WebDAV` → `WebDAV Settings`, then click `Upload to WebDAV` to upload the parts ticked under `Create Backup`. Throne never uploads on a schedule or deletes old backups by itself.
 
 {% alert_warning() %}
 Backups are not encrypted. Anyone who can read the WebDAV folder can read your server passwords and subscription links. Use a server you trust, over `https://`.
@@ -58,11 +58,11 @@ Backups are not encrypted. Anyone who can read the WebDAV folder can read your s
 
 `Test` tries the values before you `Save` them. These settings belong to this computer: backups never contain them.
 
-Without `Connect through the proxy`, WebDAV requests go out directly unless `Use proxy` or `System Proxy` is on (see [Network requests](@/reference/privacy.md#network-requests)). Throne checks the server's TLS certificate unless `Ignore TLS errors` is on.
+Without `Connect through the proxy`, WebDAV requests go out directly unless `System proxy` or `Send Throne's own requests through the proxy` (`Basic Settings` → `General`) is on (see [Network requests](@/reference/privacy.md#network-requests)). Throne checks the server's TLS certificate unless `Ignore TLS errors in Throne's own requests` is on there.
 
 ### Restore or delete a backup {#webdav-restore}
 
-1. Click `Restore from WebDAV...`. Throne lists the backups, newest first, with their device, platform, version and parts.
+1. Click `Restore from WebDAV`. Throne lists the backups, newest first, with their device, platform, version and parts.
 2. Select a backup and click `Restore` (or double-click it).
 3. Continue from step 2 of [Back up and restore](#backup-restore).
 
@@ -75,7 +75,7 @@ Throne checks each download against the backup list. Files that are not in the l
 | "The server redirected to …; check the server URL." | Enter the address from the message as `Server URL`. |
 | "The server's folder listing could not be read." | `Server URL` is not a WebDAV address, for example the web page of your storage. |
 | "The server did not answer in time." | Check the connection, or try `Connect through the proxy`. |
-| "Request with proxy but no profile started." | Start a profile, or turn off `Connect through the proxy`, `Use proxy` and `System Proxy`. |
+| "Request with proxy but no profile started." | Start a profile, or turn off `Connect through the proxy`, `Send Throne's own requests through the proxy` and `System proxy`. |
 
 ### WebDAV on Android {#webdav-android}
 
@@ -99,8 +99,8 @@ A desktop backup changes a few things when you restore it on Android:
 
 | Item | On Android |
 | --- | --- |
-| `OTP profiles`, `IP lists and scans`, `Custom icons`, and the `Server Address` of groups | Not restored. |
-| Settings that both apps have | Take the backup's values. For example, the TUN MTU becomes 1500 (Android default: 9000). |
+| `OTP entries`, `IP lists and scans`, `Custom icons`, and the `Server Address` of groups | Not restored. |
+| Settings that both apps have | Take the backup's values. For example, the Tun MTU becomes 1500 (Android default: 9000). |
 | `Allow connections from the LAN` | Turned off, with a warning, if the backup allows other devices to connect but your phone did not. |
 | Routing rules with conditions that Android does not support | Skipped, with a warning. |
 | Raw routing profiles | Kept, but read-only and unused. If one was active, the first usable routing profile becomes active. |
@@ -113,17 +113,17 @@ In the other direction, rules that match Android apps and the per-app proxy sett
 
 An update keeps your profiles and settings (they live in the [data folder](@/reference/files.md#data-folder)), but create a backup first.
 
-1. Open `Program` → `Check For Update` (before 1.4.0: `Tools` → `Check For Update`).
+1. Open `Program` → `Check for updates` (before 1.4.0, in the `Tools` menu).
 2. If there is a newer version, the `Update` window shows what changed. Click `Update`.
 3. When Throne asks to restart, click `Yes`. The updater installs the new version.
 
-The one-click `Update` works only for ZIP copies and the Windows installer's default install for the current user, and not while a background Throne runs from the same installation. Other installs update like this:
+The one-click `Update` works only for ZIP copies and the Windows installer, and not while a background Throne runs from the same installation. Other installs update like this:
 
 | Installed with | How to update |
 | --- | --- |
 | ZIP file | `Update`, or replace the program files with the new ZIP. Keep the `config` folder. |
 | Windows installer, current user (default) | `Update`, or run the new installer. |
-| Windows installer, all users | Run the new installer. |
+| Windows installer, all users | `Update` from an administrator account (Windows asks to confirm), or run the new installer. |
 | `.deb` or `.rpm` package | Install the new package. |
 | Linux install script | Run the script again. |
 | macOS | Replace `Throne.app` with the new version. See [Installation](@/get_started/installation.md#macos). |
@@ -137,7 +137,7 @@ Some antivirus programs flag the updater because it replaces program files. If t
 
 Beta versions (pre-releases) get features and fixes first, but can have more bugs. Make a backup before you install one.
 
-- **Desktop:** tick `Settings` → `Basic Settings` → `Miscellaneous` → `Allow updating to beta versions` (in Simple mode, under `Network Settings` on the `Common` tab).
+- **Desktop:** tick `Settings` → `Basic Settings` → `General` → `Updates and Downloads` → `Allow updating to beta versions`.
 - **Android:** turn on `Settings` → `General` → `Allow updating to beta versions`. See [the in-app updater](@/android/installation.md#updater).
 
 To go back, turn the option off. The updater only offers newer versions, so you stay on the beta until a newer stable release comes out.

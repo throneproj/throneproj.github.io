@@ -11,17 +11,17 @@ toc = true
 | --- | --- |
 | منوی `Server` | روی فهرست نمایه‌ها راست‌کلیک کنید. |
 | منوی `Preferences` | دکمهٔ `تنظیمات` (Settings) در نوار ابزار. |
-| `Tun Settings` → `Bypass Process Name` | قوانین `processName:` در کادر `مستقیم` (Direct) نمایهٔ مسیریابی شما، برای مثال `processName:game.exe`. |
-| `Tun Settings` → `Whitelist mode` | نمایهٔ مسیریابی‌ای که `Default outbound` آن روی `direct` تنظیم شده است، و برنامه‌ها یا سایت‌ها در کادر `پروکسی` (Proxy). |
-| `Tun Settings` → `Bypass CIDR` | `تنظیمات vpn` (Tun Settings) ← `Private Range Bypass`، یا قوانین `ip:` در کادر `مستقیم`. |
-| یک `Preset` مسیریابی برای کشورتان | `مسیریابی` (Routing) ← `Download Profiles`. |
-| `Default Outbound` روی `bypass` | `Default outbound` روی `direct` در نمایهٔ مسیریابی. |
-| پوسته‌هایی مانند FlatGray، LightBlue و BlackSoft | `تنظیمات پایه` (Basic Settings) ← `استایل` (Style) ← `پوسته` (Theme). |
+| `Tun Settings` → `Bypass Process Name` | قوانین `processName:` در فهرست `مستقیم` (Direct) نمایهٔ مسیریابی شما، برای مثال `processName:game.exe`. |
+| `Tun Settings` → `Whitelist mode` | نمایهٔ مسیریابی‌ای که `بقیهٔ ترافیک` (Everything else goes to) آن روی `مستقیم` (Direct) تنظیم شده است، و برنامه‌ها یا سایت‌ها در فهرست `پروکسی` (Proxy). |
+| `Tun Settings` → `Bypass CIDR` | `تنظیمات Tun` (Tun Settings) ← `Private Range Bypass`، یا قوانین `ip:` در فهرست `مستقیم`. |
+| یک `Preset` مسیریابی برای کشورتان | `مسیریابی` (Routing) ← `دانلود نمایهٔ مسیریابی` (Download routing profile). |
+| `Default Outbound` روی `bypass` | `بقیهٔ ترافیک` (Everything else goes to) روی `مستقیم` (Direct) در نمایهٔ مسیریابی. |
+| پوسته‌هایی مانند FlatGray، LightBlue و BlackSoft | `تنظیمات پایه` (Basic Settings) ← `ظاهر` (Appearance) ← `پوسته` (Theme). |
 | `Copy links of selected (Neko Links)` | لینک‌های اشتراک‌گذاری استاندارد. Throne نمی‌تواند لینک‌های `nekoray://` یا `sn://` را بخواند. |
-| `ربایش` (Hijack) یا `دی‌ان‌اس سیستم` (System DNS) (Throne 1.3.2 و قدیمی‌تر) | `حالتvpn` (Tun Mode). |
+| `ربایش` (Hijack) یا `دی‌ان‌اس سیستم` (System DNS) (Throne 1.3.2 و قدیمی‌تر) | `حالت Tun` (Tun mode). |
 | NekoBox for Android | Throne برای Android؛ [پایین‌تر](#from-nekobox-android) را ببینید. |
 
-حالت ساده برخی از این موارد را پنهان می‌کند؛ [حالت ساده و پیشرفته](@/get_started/configuration.fa.md#interface-mode) را ببینید. برای مسیریابی به‌تفکیک برنامه، `حالتvpn` (Tun Mode) را روشن کنید: برنامه‌هایی که پروکسی سیستمی را نادیده می‌گیرند هرگز به Throne نمی‌رسند. [مسیریابی](@/guides/routing.fa.md#simple-rules) را ببینید.
+برای مسیریابی به‌تفکیک برنامه، `حالت Tun` (Tun mode) را روشن کنید: برنامه‌هایی که پروکسی سیستمی را نادیده می‌گیرند هرگز به Throne نمی‌رسند. [مسیریابی](@/guides/routing.fa.md#simple-rules) را ببینید.
 
 ## انتقال داده‌ها {#moving-data}
 
@@ -33,11 +33,11 @@ Throne نمی‌تواند پیکربندی Nekoray را بخواند. داده�
 2. سرورهایی را که دستی اضافه کرده‌اید در Nekoray انتخاب کنید، از `Server` → `Share` → `Copy links of selected` استفاده کنید و در Throne `Ctrl+V` را فشار دهید.
 3. مسیریابی ([مسیریابی](@/guides/routing.fa.md)) و تنظیماتی را که تغییر داده بودید، مانند پورت شنود، سرورهای DNS و کلیدهای میانبر، دوباره تنظیم کنید.
 
-Nekoray و Throne را هم‌زمان و با حالت TUN یا پروکسی سیستمی روشن اجرا نکنید.
+Nekoray و Throne را هم‌زمان و با حالت Tun یا پروکسی سیستمی روشن اجرا نکنید.
 
 ### از Throne 1.0.x {#from-1-0}
 
-Throne 1.1.0 از فایل‌های JSON به سبک Nekoray به یک پایگاه‌داده (`throne.db`) منتقل شد و نمی‌تواند فایل‌های قدیمی را بخواند: پس از به‌روزرسانی درجای نسخهٔ 1.0.x، نمایه‌ها، گروه‌ها و تنظیمات شما دیده نمی‌شوند ([#1765](https://github.com/throneproj/Throne/issues/1765)). از پوشهٔ قدیمی یک کپی نگه دارید و داده‌های خود را همان‌طور که در بالا توضیح داده شد، دستی منتقل کنید؛ [#1202](https://github.com/throneproj/Throne/issues/1202) مراحل دستی و یک اسکریپت غیررسمی ساختهٔ جامعهٔ کاربری را فهرست می‌کند. بین نسخه‌های جدیدتر، از `تنظیمات پایه` (Basic Settings) ← `Backup and Restore` استفاده کنید ([پشتیبان‌گیری، به‌روزرسانی و مهاجرت](@/guides/backup.fa.md#backup-restore)).
+Throne 1.1.0 از فایل‌های JSON به سبک Nekoray به یک پایگاه‌داده (`throne.db`) منتقل شد و نمی‌تواند فایل‌های قدیمی را بخواند: پس از به‌روزرسانی درجای نسخهٔ 1.0.x، نمایه‌ها، گروه‌ها و تنظیمات شما دیده نمی‌شوند ([#1765](https://github.com/throneproj/Throne/issues/1765)). از پوشهٔ قدیمی یک کپی نگه دارید و داده‌های خود را همان‌طور که در بالا توضیح داده شد، دستی منتقل کنید؛ [#1202](https://github.com/throneproj/Throne/issues/1202) مراحل دستی و یک اسکریپت غیررسمی ساختهٔ جامعهٔ کاربری را فهرست می‌کند. بین نسخه‌های جدیدتر، از `تنظیمات پایه` (Basic Settings) ← `پشتیبان‌گیری` (Backup) استفاده کنید ([پشتیبان‌گیری، به‌روزرسانی و مهاجرت](@/guides/backup.fa.md#backup-restore)).
 
 ### از NekoBox for Android {#from-nekobox-android}
 

@@ -19,7 +19,7 @@ Get the files from [Downloads](@/downloads.md). For Android, see [Installation &
 
 ### Installer {#windows-installer}
 
-The universal installer picks the right build for your PC and installs it into `%LOCALAPPDATA%\Throne`, without administrator rights. Your data is kept in its `config` folder. If you install for all users into `Program Files` instead, Throne keeps your data in `%LOCALAPPDATA%\Throne\config` and cannot update itself.
+The universal installer picks the right build for your PC and installs it into `%LOCALAPPDATA%\Throne`, without administrator rights. Your data is kept in its `config` folder. If you install for all users into `Program Files` instead, Throne keeps your data in `%LOCALAPPDATA%\Throne\config` and updates itself only from an administrator account, after a Windows prompt.
 
 To uninstall, remove Throne in the installed apps of Windows. It asks whether to delete your profiles and settings too.
 
@@ -27,7 +27,7 @@ To uninstall, remove Throne in the installed apps of Windows. It asks whether to
 
 Extract the ZIP to a folder you can write to and run `Throne.exe` from the `Throne` folder. Your data is kept in the `config` folder next to it, so you can move or back up the whole folder.
 
-Unlike the installer, a ZIP copy does not open [`throne://` links](@/advanced/deeplinks.md#receive) until you tick `Settings` → `Basic Settings` → `Common` → `Register throne:// links at startup` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
+Unlike the installer, a ZIP copy does not open [`throne://` links](@/advanced/deeplinks.md#receive) until you tick `Settings` → `Basic Settings` → `General` → `Links and Files` → `Register throne:// links at startup`.
 
 ## macOS {#macos}
 
@@ -39,7 +39,7 @@ Unlike the installer, a ZIP copy does not open [`throne://` links](@/advanced/de
 
 Install the ZIP like this, or use [Homebrew](#homebrew), which does it for you:
 
-1. Extract the ZIP and move `Throne.app` to `/Applications` before you open it the first time. From `~/Downloads`, Throne can fail to get the rights it needs for TUN mode.
+1. Extract the ZIP and move `Throne.app` to `/Applications` before you open it the first time. From `~/Downloads`, Throne can fail to get the rights it needs for Tun mode.
 2. Throne is not signed by Apple, so remove the quarantine flag, or macOS says it "is damaged and can't be opened":
 
    ```bash
@@ -48,7 +48,7 @@ Install the ZIP like this, or use [Homebrew](#homebrew), which does it for you:
 
 3. Open Throne.
 
-Your data is kept in your user folder, so you can replace `Throne.app` without losing your profiles. TUN mode needs an administrator account; see [TUN Mode](@/guides/tun_mode.md#privileges).
+Your data is kept in your user folder, so you can replace `Throne.app` without losing your profiles. Tun mode needs an administrator account; see [Tun Mode](@/guides/tun_mode.md#privileges).
 
 ## Linux {#linux}
 
@@ -64,7 +64,7 @@ Your data is kept in your user folder, so you can replace `Throne.app` without l
 The ZIP, the install script and the normal packages include their own copy of Qt and need glibc 2.28 or newer: Debian 10, Ubuntu 20.04, RHEL 8 (and AlmaLinux or Rocky Linux 8), Raspberry Pi OS (64-bit) bullseye or newer. The `-system-qt` packages use the Qt 6 of your distribution and need glibc 2.34 or newer, for example Debian 12 or Ubuntu 22.04. Use them when the normal package does not start, for example on an old processor, or when you want the Qt theme of your desktop.
 
 {% alert_warning() %}
-Do not start Throne with `sudo` or as root. For TUN mode, Throne gives root rights only to its core and asks for your password through `pkexec`. See [TUN Mode](@/guides/tun_mode.md#privileges).
+Do not start Throne with `sudo` or as root. For Tun mode, Throne gives root rights only to its core and asks for your password through `pkexec`. See [Tun Mode](@/guides/tun_mode.md#privileges).
 {% end %}
 
 ### Install script {#linux-script}
@@ -166,7 +166,7 @@ brew install --cask throneproj/tap/throne
 
 The official tap gets every stable release. The cask installs `Throne.app` to `/Applications`, removes the quarantine flag and needs macOS 14.4 or newer; on older Intel Macs, use the `macoslegacy` ZIP. Always use the full name: `brew install --cask throne` does not find Throne.
 
-Update with `brew upgrade --cask throne`; Throne then asks again for the rights it needs for TUN mode. `brew uninstall --zap --cask throne` also deletes your data in `~/Library/Preferences/Throne`.
+Update with `brew upgrade --cask throne`; Throne then asks again for the rights it needs for Tun mode. `brew uninstall --zap --cask throne` also deletes your data in `~/Library/Preferences/Throne`.
 
 ### Arch Linux (AUR) {#aur}
 
@@ -179,7 +179,7 @@ On NixOS, add this to your configuration:
 ```nix
 programs.throne = {
   enable = true;
-  tunMode.enable = true; # optional, needed for TUN mode
+  tunMode.enable = true; # optional, needed for Tun mode
 };
 ```
 
@@ -224,9 +224,9 @@ On macOS, add `-DNKR_PACKAGE_MACOS=1` to `cmake`, build the core with `GOOS=darw
 
 ## Updating {#updating}
 
-Windows and Linux ZIP copies, and per-user installations from the Windows installer, update themselves: `Program` → `Check For Update`, then `Update`. If a [headless Throne](@/headless/_index.md) runs from the same installation, stop it first. Update other copies the way you installed them: run the new installer, install the new package, run the install script again, replace `Throne.app` on macOS, or use your package manager. Your profiles and settings stay.
+Windows and Linux ZIP copies and installations from the Windows installer update themselves: `Program` → `Check for updates`, then `Update`. An installation for all users needs an administrator account and a Windows prompt for this. If a [headless Throne](@/headless/_index.md) runs from the same installation, stop it first. Update other copies the way you installed them: run the new installer, install the new package, run the install script again, replace `Throne.app` on macOS, or use your package manager. Your profiles and settings stay.
 
-After an update on Linux or macOS, Throne may ask again for the rights it needs for TUN mode. For beta versions and backups, see [Backup, Updates & Migration](@/guides/backup.md#updating).
+After an update, Throne may ask again for the rights it needs for Tun mode. For beta versions and backups, see [Backup, Updates & Migration](@/guides/backup.md#updating).
 
 ## Troubleshooting {#troubleshooting}
 
