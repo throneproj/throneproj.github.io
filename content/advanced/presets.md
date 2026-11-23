@@ -49,7 +49,7 @@ TLS tricks write the server name in mixed case, such as `ExAmPlE.com`. Servers i
 uTLS makes the ClientHello look like that of a common browser or system, instead of a plain proxy client that is easy to recognize by its fingerprint.
 
 - **Per profile:** `Fingerprint` in the profile editor. Share links often set it with `fp=`.
-- **Global:** `Preset Settings` → `TLS` → `uTLS` → `Default Fingerprint`, for profiles without their own. While it is empty (the default), such profiles use no uTLS on sing-box, `random` for sing-box REALITY, and `chrome` on Xray. Hysteria, TUIC, Juicity and Naive profiles do not use uTLS.
+- **Global:** `Preset Settings` → `TLS` → `uTLS` → `Default Fingerprint`, for profiles without their own. While it is empty (the default), such profiles use no uTLS on sing-box, `random` for sing-box REALITY, and `chrome` on Xray. Hysteria, TUIC and Naive profiles do not use uTLS.
 - **Choices:** `chrome`, `firefox`, `edge`, `safari`, `360`, `qq`, `ios`, `android`, `random`, `randomized` and `unsafe`. `unsafe` turns uTLS off even when a `Default Fingerprint` is set, and only then does the profile's `Cipher Suites` field apply (TLS 1.2 suites, separated by colons; leave it empty unless your server needs it).
 
 **Cost:** little. If a server stops working with one fingerprint, try another one or clear the field.

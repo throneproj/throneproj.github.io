@@ -21,7 +21,6 @@ Create a profile with `Program` → `New profile` (`Ctrl+N`), or on Android with
 | `VLESS (Xray)` | Xray implementation: XHTTP, REALITY, VLESS encryption, Finalmask, the [XDRIVE](@/advanced/xray.md#xdrive) transport and mKCP with [XDNS](@/advanced/dns_tunnels.md#xdns). |
 | `Hysteria` | Hysteria 1 and 2 in one type: choose the `Protocol Version`. Supports port hopping and obfuscation. With `Up Mbps` or `Down Mbps` empty, Hysteria 1 uses 10 Mbps up and 50 Mbps down, so set your real line speed. |
 | `TUIC` | |
-| `Juicity` | `Cert Chain SHA256` takes the certificate chain hash that juicity-server prints, instead of the CA check. |
 | `Naive` | NaïveProxy over HTTPS or QUIC. On Android: `Naïve`. |
 | `TrustTunnel` | `Client Random Key` takes the hex key of the server's `client_random_auth_key` rule, instead of `Client Random`. |
 | `AnyTLS` | |
@@ -36,15 +35,13 @@ Create a profile with `Program` → `New profile` (`Ctrl+N`), or on Android with
 | `SSH` | |
 | `DNSTT / VayDNS` | DNS tunnel to a dnstt or VayDNS server, see [DNSTT and VayDNS](@/advanced/dns_tunnels.md#dnstt). |
 | `MasterDNS` | DNS tunnel to a MasterDnsVPN or StormDNS server, see [MasterDNS](@/advanced/dns_tunnels.md#masterdns). |
-| `Tor` | Desktop only. Connects to the Tor network, with built-in or your own bridges (obfs4, WebTunnel, Snowflake, meek), see [Tor](@/advanced/tor.md#tor-profile). |
-| `Psiphon` | Desktop only. Connects to the Psiphon network, optionally in a chosen country, see [Psiphon](@/advanced/psiphon.md). |
 | `Direct` | No proxy. With a bind interface, it sends traffic out through that network adapter. |
 | `Custom (sing-box outbound)`, `Custom (sing-box config)` | Your own sing-box JSON: one outbound, or a complete config that runs unchanged. On Android: `Custom config`. See [Custom configs](@/advanced/chains.md#custom-config). |
 | `Custom (Xray outbound)`, `Custom (Xray config)` | The same for Xray JSON. |
 | `Extra Core` | Desktop only. Runs an external program you choose and connects to its local SOCKS port, see [Extra Core](@/advanced/chains.md#extra-core). |
 | `Proxy Chain` | Sends traffic through several profiles in a row. On Android: `Proxy chain`. See [Chains](@/advanced/chains.md#chains). |
 
-`AnyTLS`, `Hysteria`, `Juicity`, `MASQUE`, `ShadowTLS`, `TrustTunnel` and `TUIC` always use TLS, so their editors have no switch to turn it off.
+`AnyTLS`, `Hysteria`, `MASQUE`, `ShadowTLS`, `TrustTunnel` and `TUIC` always use TLS, so their editors have no switch to turn it off.
 
 `Hysteria`, `TUIC` and `MASQUE` over HTTP/3 run over QUIC. Where QUIC is blocked, try the [QUIC opener](@/advanced/presets.md#quic-opener).
 
@@ -74,11 +71,11 @@ Both apps read these formats in pasted text, files, QR codes and subscription re
 
 | Format | Result |
 |---|---|
-| Share links, one per line: `vless://`, `vmess://`, `ss://`, `trojan://`, `socks://`, `socks4://`, `socks4a://`, `socks5://`, `http://`, `https://`, `hysteria://`, `hysteria2://`, `hy2://`, `tuic://`, `juicity://`, `anytls://`, `mieru://`, `mierus://`, `snell://`, `tt://` (TrustTunnel), `shadowtls://`, `wg://`, `wireguard://`, `awg://`, `ssh://`, `naive+https://`, `naive+quic://` | One profile per link |
+| Share links, one per line: `vless://`, `vmess://`, `ss://`, `trojan://`, `socks://`, `socks4://`, `socks4a://`, `socks5://`, `http://`, `https://`, `hysteria://`, `hysteria2://`, `hy2://`, `tuic://`, `anytls://`, `mieru://`, `mierus://`, `snell://`, `tt://` (TrustTunnel), `shadowtls://`, `wg://`, `wireguard://`, `awg://`, `ssh://`, `naive+https://`, `naive+quic://` | One profile per link |
 | Throne links: `throne://add/…` and the older `json://…` | One profile of any type |
 | AmneziaVPN links: `vpn://…` | The configs inside the link |
 | DNS tunnel links: `dnst://`, `slipnet://`, `masterdns://`, `stormdns://` | One `DNSTT / VayDNS` or `MasterDNS` profile per link, see [DNS Tunnels](@/advanced/dns_tunnels.md#import) |
-| sing-box JSON: a full config, or an array of outbounds | One profile for each supported outbound, including `dnstt`, `masterdns`, `tor` and `psiphon` |
+| sing-box JSON: a full config, or an array of outbounds | One profile for each supported outbound, including `dnstt` and `masterdns` |
 | sing-box JSON: one outbound object | One `Custom (sing-box outbound)` profile |
 | Xray JSON: a config, an array of outbounds, or one outbound | `VLESS (Xray)` for VLESS outbounds, `Custom (Xray outbound)` for the others |
 | Xray JSON: an array of complete configs | One `Custom (Xray config)` profile for each config |
@@ -87,7 +84,6 @@ Both apps read these formats in pasted text, files, QR codes and subscription re
 | WireGuard or AmneziaWG `.conf` file | One `WireGuard` profile, named after a `# Name =` or `# remarks:` comment, or the comment above `[Peer]` |
 | OpenVPN `.ovpn` file | One `OpenVPN` profile |
 | AnyConnect XML profile, an `openconnect` command line, or a file with a `protocol=` line | `OpenConnect` profiles |
-| Tor bridge lines, with or without the `Bridge` keyword, or the bridge website's `['…', '…']` form | Desktop only: one `Tor` profile for each run of consecutive lines, see [Tor](@/advanced/tor.md#import) |
 | Any of the above, encoded in Base64 | Decoded first, then imported |
 
 `tt://` covers both kinds of TrustTunnel links: `tt://user:password@server:port?…` and the `tt://?…` deep link (versions 1 and 2) of the TrustTunnel apps. The link must contain the server address, server name, username and password, so a link with only a subscription address is refused. If it lists several server addresses, Throne imports the first and warns about the others.
@@ -112,7 +108,7 @@ These values do not stop the import. Throne leaves the value out, imports the re
 - `clash://install-config?url=…` links open Throne and add the URL as a subscription.
 - When you tap a protocol link (`vless://…`) or a `throne://` link in another app, Throne opens and asks before it imports the profile.
 - The Android share sheet offers Throne only for binary files, such as backups. Copy links from chat apps and use `Import from clipboard`; open other files with `Import from file`.
-- `Tailscale`, `Tor`, `Psiphon` and `Extra Core` profiles cannot be used on Android.
+- `Tailscale` and `Extra Core` profiles cannot be used on Android.
 
 ## Share links {#share-links}
 

@@ -21,7 +21,6 @@ toc = true
 | `VLESS (Xray)` | پیاده‌سازی Xray: XHTTP، REALITY، رمزنگاری VLESS، Finalmask، ترنسپورت [XDRIVE](@/advanced/xray.fa.md#xdrive) و mKCP همراه با [XDNS](@/advanced/dns_tunnels.fa.md#xdns). |
 | `Hysteria` | Hysteria 1 و 2 در یک نوع: `Protocol Version` را انتخاب کنید. از پرش پورت (port hopping) و مبهم‌سازی (obfuscation) پشتیبانی می‌کند. وقتی `Up Mbps` یا `Down Mbps` خالی باشد، Hysteria 1 از 10 Mbps برای ارسال و 50 Mbps برای دریافت استفاده می‌کند؛ پس سرعت واقعی خط خود را وارد کنید. |
 | `TUIC` | |
-| `Juicity` | `SHA256 زنجیرهٔ گواهی` (Cert Chain SHA256) هش زنجیرهٔ گواهی را که juicity-server چاپ می‌کند می‌گیرد، به‌جای بررسی CA. |
 | `Naive` | NaïveProxy روی HTTPS یا QUIC. در Android: `Naïve`. |
 | `TrustTunnel` | `کلید Client Random` (Client Random Key) کلید hex قانون `client_random_auth_key` سرور را می‌گیرد، به‌جای `Client Random`. |
 | `AnyTLS` | |
@@ -36,15 +35,13 @@ toc = true
 | `SSH` | |
 | `DNSTT / VayDNS` | تونل DNS به یک سرور dnstt یا VayDNS؛ [DNSTT و VayDNS](@/advanced/dns_tunnels.fa.md#dnstt) را ببینید. |
 | `MasterDNS` | تونل DNS به یک سرور MasterDnsVPN یا StormDNS؛ [MasterDNS](@/advanced/dns_tunnels.fa.md#masterdns) را ببینید. |
-| `Tor` | فقط دسکتاپ. به شبکهٔ Tor وصل می‌شود، با پل‌های داخلی یا پل‌های خودتان (obfs4، WebTunnel، Snowflake، meek)؛ [Tor](@/advanced/tor.fa.md#tor-profile) را ببینید. |
-| `Psiphon` | فقط دسکتاپ. به شبکهٔ Psiphon وصل می‌شود، در صورت تمایل در کشوری که انتخاب می‌کنید؛ [Psiphon](@/advanced/psiphon.fa.md) را ببینید. |
 | `مستقیم` (Direct) | بدون پروکسی. با یک رابط شبکه (bind interface)، ترافیک را از طریق همان آداپتور شبکه خارج می‌کند. |
 | `سفارشی (sing-box خروجی)` (Custom (sing-box outbound))، `سفارشی (sing-box پیکربندی)` (Custom (sing-box config)) | JSON دلخواه خودتان برای sing-box: یک خروجی (outbound)، یا یک پیکربندی کامل که بدون تغییر اجرا می‌شود. در Android: `پیکربندی اختصاصی` (Custom config). [پیکربندی‌های سفارشی](@/advanced/chains.fa.md#custom-config) را ببینید. |
 | `Custom (Xray outbound)`، `Custom (Xray config)` | همین موارد برای JSON مربوط به Xray. |
 | `هسته اضافی` (Extra Core) | فقط دسکتاپ. یک برنامهٔ خارجی را که انتخاب می‌کنید اجرا می‌کند و به پورت SOCKS محلی آن وصل می‌شود؛ [هستهٔ اضافی](@/advanced/chains.fa.md#extra-core) را ببینید. |
 | `زنجیرهٔ پروکسی` (Proxy Chain) | ترافیک را به‌ترتیب از چند نمایه عبور می‌دهد. در Android: `زنجیره پراکسی` (Proxy chain). [زنجیره‌ها](@/advanced/chains.fa.md#chains) را ببینید. |
 
-`AnyTLS`، `Hysteria`، `Juicity`، `MASQUE`، `ShadowTLS`، `TrustTunnel` و `TUIC` همیشه از TLS استفاده می‌کنند؛ بنابراین ویرایشگر آن‌ها کلیدی برای خاموش کردن آن ندارد.
+`AnyTLS`، `Hysteria`، `MASQUE`، `ShadowTLS`، `TrustTunnel` و `TUIC` همیشه از TLS استفاده می‌کنند؛ بنابراین ویرایشگر آن‌ها کلیدی برای خاموش کردن آن ندارد.
 
 `Hysteria`، `TUIC` و `MASQUE` (وقتی روی HTTP/3 است) بر بستر QUIC اجرا می‌شوند. جایی که QUIC مسدود است، [بازکنندهٔ QUIC](@/advanced/presets.fa.md#quic-opener) را امتحان کنید.
 
@@ -74,11 +71,11 @@ toc = true
 
 | قالب | نتیجه |
 |---|---|
-| لینک‌های اشتراک‌گذاری، هر لینک در یک خط: `vless://`، `vmess://`، `ss://`، `trojan://`، `socks://`، `socks4://`، `socks4a://`، `socks5://`، `http://`، `https://`، `hysteria://`، `hysteria2://`، `hy2://`، `tuic://`، `juicity://`، `anytls://`، `mieru://`، `mierus://`، `snell://`، `tt://` (TrustTunnel)، `shadowtls://`، `wg://`، `wireguard://`، `awg://`، `ssh://`، `naive+https://`، `naive+quic://` | یک نمایه برای هر لینک |
+| لینک‌های اشتراک‌گذاری، هر لینک در یک خط: `vless://`، `vmess://`، `ss://`، `trojan://`، `socks://`، `socks4://`، `socks4a://`، `socks5://`، `http://`، `https://`، `hysteria://`، `hysteria2://`، `hy2://`، `tuic://`، `anytls://`، `mieru://`، `mierus://`، `snell://`، `tt://` (TrustTunnel)، `shadowtls://`، `wg://`، `wireguard://`، `awg://`، `ssh://`، `naive+https://`، `naive+quic://` | یک نمایه برای هر لینک |
 | لینک‌های Throne: `throne://add/…` و قالب قدیمی‌تر `json://…` | یک نمایه از هر نوعی |
 | لینک‌های AmneziaVPN: `vpn://…` | پیکربندی‌های درون لینک |
 | لینک‌های تونل DNS: `dnst://`، `slipnet://`، `masterdns://`، `stormdns://` | یک نمایهٔ `DNSTT / VayDNS` یا `MasterDNS` برای هر لینک؛ [تونل‌های DNS](@/advanced/dns_tunnels.fa.md#import) را ببینید |
-| JSON مربوط به sing-box: یک پیکربندی کامل، یا آرایه‌ای از خروجی‌ها (outbound) | یک نمایه برای هر خروجی پشتیبانی‌شده، از جمله `dnstt`، `masterdns`، `tor` و `psiphon` |
+| JSON مربوط به sing-box: یک پیکربندی کامل، یا آرایه‌ای از خروجی‌ها (outbound) | یک نمایه برای هر خروجی پشتیبانی‌شده، از جمله `dnstt` و `masterdns` |
 | JSON مربوط به sing-box: یک شیء خروجی | یک نمایهٔ `سفارشی (sing-box خروجی)` |
 | JSON مربوط به Xray: یک پیکربندی، آرایه‌ای از خروجی‌ها، یا یک خروجی | `VLESS (Xray)` برای خروجی‌های VLESS و `Custom (Xray outbound)` برای بقیه |
 | JSON مربوط به Xray: آرایه‌ای از پیکربندی‌های کامل | یک نمایهٔ `Custom (Xray config)` برای هر پیکربندی |
@@ -87,7 +84,6 @@ toc = true
 | فایل `.conf` مربوط به WireGuard یا AmneziaWG | یک نمایهٔ `WireGuard` که نامش از یک توضیح `# Name =` یا `# remarks:`، یا از توضیح بالای `[Peer]` گرفته می‌شود |
 | فایل `.ovpn` مربوط به OpenVPN | یک نمایهٔ `OpenVPN` |
 | نمایهٔ XML مربوط به AnyConnect، یک خط فرمان `openconnect`، یا فایلی با خط `protocol=` | نمایه‌های `OpenConnect` |
-| خط‌های پل Tor، با کلیدواژهٔ `Bridge` یا بدون آن، یا قالب `['…', '…']` سایت پل‌ها | فقط دسکتاپ: یک نمایهٔ `Tor` برای هر دسته از خط‌های پشت‌سرهم؛ [Tor](@/advanced/tor.fa.md#import) را ببینید |
 | هر یک از موارد بالا، کدگذاری‌شده با Base64 | ابتدا رمزگشایی و سپس وارد می‌شود |
 
 `tt://` هر دو نوع لینک TrustTunnel را در بر می‌گیرد: `tt://user:password@server:port?…` و لینک عمیق `tt://?…` (نسخه‌های 1 و 2) که برنامه‌های TrustTunnel می‌سازند. لینک باید نشانی سرور، نام سرور، نام کاربری و گذرواژه را داشته باشد؛ بنابراین لینکی که فقط نشانی یک اشتراک را دارد پذیرفته نمی‌شود. اگر لینک چند نشانی سرور داشته باشد، Throne اولی را وارد می‌کند و دربارهٔ بقیه هشدار می‌دهد.
@@ -112,7 +108,7 @@ toc = true
 - لینک‌های `clash://install-config?url=…` Throne را باز می‌کنند و آن نشانی را به‌عنوان اشتراک اضافه می‌کنند.
 - وقتی در برنامهٔ دیگری روی یک لینک پروتکل (`vless://…`) یا یک لینک `throne://` می‌زنید، Throne باز می‌شود و پیش از واردکردن نمایه از شما می‌پرسد.
 - برگهٔ اشتراک‌گذاری Android (share sheet) فقط برای فایل‌های باینری، مانند فایل‌های پشتیبان، Throne را پیشنهاد می‌دهد. لینک‌ها را از برنامه‌های پیام‌رسان کپی کنید و از `وارد کردن از بریده‌دان` استفاده کنید؛ فایل‌های دیگر را با `وارد کردن از یک فایل` باز کنید.
-- نمایه‌های `Tailscale`، `Tor`، `Psiphon` و `هسته اضافی` در Android قابل استفاده نیستند.
+- نمایه‌های `Tailscale` و `هسته اضافی` در Android قابل استفاده نیستند.
 
 ## لینک‌های اشتراک‌گذاری {#share-links}
 

@@ -21,7 +21,6 @@ toc = true
 | `VLESS (Xray)` | Реализация Xray: XHTTP, REALITY, шифрование VLESS, Finalmask, транспорт [XDRIVE](@/advanced/xray.ru.md#xdrive) и mKCP с [XDNS](@/advanced/dns_tunnels.ru.md#xdns). |
 | `Hysteria` | Hysteria 1 и 2 в одном типе: версию выбирают в поле `Версия протокола` (Protocol Version). Поддерживает смену портов (port hopping) и обфускацию. Если `Up Mbps` или `Down Mbps` не заполнено, Hysteria 1 использует 10 Мбит/с на отправку и 50 Мбит/с на приём, поэтому укажите реальную скорость вашей линии. |
 | `TUIC` | |
-| `Juicity` | `SHA256 цепочки сертификатов` (Cert Chain SHA256) принимает хеш цепочки сертификатов, который выводит juicity-server, вместо проверки по удостоверяющему центру. |
 | `Naive` | NaïveProxy поверх HTTPS или QUIC. На Android: `Naïve`. |
 | `TrustTunnel` | `Ключ Client Random` (Client Random Key) принимает шестнадцатеричный ключ из правила `client_random_auth_key` сервера вместо `Client Random`. |
 | `AnyTLS` | |
@@ -36,15 +35,13 @@ toc = true
 | `SSH` | |
 | `DNSTT / VayDNS` | DNS-туннель к серверу dnstt или VayDNS, см. [DNSTT и VayDNS](@/advanced/dns_tunnels.ru.md#dnstt). |
 | `MasterDNS` | DNS-туннель к серверу MasterDnsVPN или StormDNS, см. [MasterDNS](@/advanced/dns_tunnels.ru.md#masterdns). |
-| `Tor` | Только на компьютере. Подключается к сети Tor со встроенными или собственными мостами (obfs4, WebTunnel, Snowflake, meek), см. [Tor](@/advanced/tor.ru.md#tor-profile). |
-| `Psiphon` | Только на компьютере. Подключается к сети Psiphon, при желании в выбранной стране, см. [Psiphon](@/advanced/psiphon.ru.md). |
 | `Напрямую` (Direct) | Без прокси. С интерфейсом для привязки (bind interface) трафик уходит через этот сетевой адаптер. |
 | `Пользовательский (sing-box outbound)` (Custom (sing-box outbound)), `Пользовательский (конфигурация sing-box)` (Custom (sing-box config)) | Ваш собственный JSON для sing-box: один outbound или полная конфигурация, которая запускается без изменений. На Android: `Пользовательская конфигурация` (Custom config). См. [Пользовательские конфигурации](@/advanced/chains.ru.md#custom-config). |
 | `Пользовательский (Xray outbound)` (Custom (Xray outbound)), `Пользовательский (конфигурация Xray)` (Custom (Xray config)) | То же самое для JSON Xray. |
 | `Доп. ядро` (Extra Core) | Только на компьютере. Запускает выбранную вами внешнюю программу и подключается к её локальному SOCKS-порту, см. [Дополнительное ядро](@/advanced/chains.ru.md#extra-core). |
 | `Цепочка прокси` (Proxy Chain) | Пропускает трафик последовательно через несколько профилей. На Android: `Прокси-цепочка` (Proxy chain). См. [Цепочки прокси](@/advanced/chains.ru.md#chains). |
 
-`AnyTLS`, `Hysteria`, `Juicity`, `MASQUE`, `ShadowTLS`, `TrustTunnel` и `TUIC` всегда используют TLS, поэтому в их редакторах нет переключателя, который его выключает.
+`AnyTLS`, `Hysteria`, `MASQUE`, `ShadowTLS`, `TrustTunnel` и `TUIC` всегда используют TLS, поэтому в их редакторах нет переключателя, который его выключает.
 
 `Hysteria`, `TUIC` и `MASQUE` с HTTP/3 работают поверх QUIC. Там, где QUIC заблокирован, попробуйте [QUIC-приманку](@/advanced/presets.ru.md#quic-opener).
 
@@ -74,11 +71,11 @@ toc = true
 
 | Формат | Результат |
 |---|---|
-| Ссылки для обмена, по одной на строку: `vless://`, `vmess://`, `ss://`, `trojan://`, `socks://`, `socks4://`, `socks4a://`, `socks5://`, `http://`, `https://`, `hysteria://`, `hysteria2://`, `hy2://`, `tuic://`, `juicity://`, `anytls://`, `mieru://`, `mierus://`, `snell://`, `tt://` (TrustTunnel), `shadowtls://`, `wg://`, `wireguard://`, `awg://`, `ssh://`, `naive+https://`, `naive+quic://` | По одному профилю на каждую ссылку |
+| Ссылки для обмена, по одной на строку: `vless://`, `vmess://`, `ss://`, `trojan://`, `socks://`, `socks4://`, `socks4a://`, `socks5://`, `http://`, `https://`, `hysteria://`, `hysteria2://`, `hy2://`, `tuic://`, `anytls://`, `mieru://`, `mierus://`, `snell://`, `tt://` (TrustTunnel), `shadowtls://`, `wg://`, `wireguard://`, `awg://`, `ssh://`, `naive+https://`, `naive+quic://` | По одному профилю на каждую ссылку |
 | Ссылки Throne: `throne://add/…` и более старые `json://…` | Один профиль любого типа |
 | Ссылки AmneziaVPN: `vpn://…` | Конфигурации, содержащиеся в ссылке |
 | Ссылки DNS-туннелей: `dnst://`, `slipnet://`, `masterdns://`, `stormdns://` | По одному профилю `DNSTT / VayDNS` или `MasterDNS` на ссылку, см. [DNS-туннели](@/advanced/dns_tunnels.ru.md#import) |
-| JSON sing-box: полная конфигурация или массив outbound | По одному профилю на каждый поддерживаемый outbound, включая `dnstt`, `masterdns`, `tor` и `psiphon` |
+| JSON sing-box: полная конфигурация или массив outbound | По одному профилю на каждый поддерживаемый outbound, включая `dnstt` и `masterdns` |
 | JSON sing-box: один объект outbound | Один профиль `Пользовательский (sing-box outbound)` |
 | JSON Xray: конфигурация, массив outbound или один outbound | `VLESS (Xray)` для outbound VLESS, `Пользовательский (Xray outbound)` для остальных |
 | JSON Xray: массив полных конфигураций | По одному профилю `Пользовательский (конфигурация Xray)` на каждую конфигурацию |
@@ -87,7 +84,6 @@ toc = true
 | Файл `.conf` WireGuard или AmneziaWG | Один профиль `WireGuard`, названный по комментарию `# Name =` или `# remarks:` либо по комментарию над `[Peer]` |
 | Файл `.ovpn` OpenVPN | Один профиль `OpenVPN` |
 | XML-профиль AnyConnect, командная строка `openconnect` или файл со строкой `protocol=` | Профили `OpenConnect` |
-| Строки мостов Tor, с ключевым словом `Bridge` или без него, или формат `['…', '…']` с сайта мостов | Только на компьютере: один профиль `Tor` на каждую группу идущих подряд строк, см. [Tor](@/advanced/tor.ru.md#import) |
 | Любой из перечисленных форматов в кодировке Base64 | Сначала декодируется, затем импортируется |
 
 `tt://` охватывает оба вида ссылок TrustTunnel: `tt://user:password@server:port?…` и глубокую ссылку `tt://?…` (версии 1 и 2), которую создают приложения TrustTunnel. В ссылке должны быть адрес сервера, имя сервера, имя пользователя и пароль, поэтому ссылка, в которой есть только адрес подписки, отклоняется. Если в ссылке перечислено несколько адресов серверов, Throne импортирует первый и предупреждает об остальных.
@@ -112,7 +108,7 @@ toc = true
 - Ссылки `clash://install-config?url=…` открывают Throne и добавляют URL как подписку.
 - Если в другом приложении нажать на ссылку протокола (`vless://…`) или на ссылку `throne://`, Throne откроется и перед импортом профиля спросит подтверждение.
 - Системное меню «Поделиться» в Android предлагает Throne только для двоичных файлов, например резервных копий. Ссылки из мессенджеров копируйте и импортируйте через `Импорт из буфера обмена` (Import from clipboard), другие файлы открывайте через `Импортировать из файла`.
-- Профили `Tailscale`, `Tor`, `Psiphon` и `Доп. ядро` (Extra Core) на Android использовать нельзя.
+- Профили `Tailscale` и `Доп. ядро` (Extra Core) на Android использовать нельзя.
 
 ## Ссылки для обмена {#share-links}
 

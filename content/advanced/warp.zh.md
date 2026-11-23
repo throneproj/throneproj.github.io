@@ -9,7 +9,6 @@ WARP 是 Cloudflare 的免费 VPN 服务。Throne 可以在你的代理之后加
 
 - WARP 适用于你启动的每个配置档，包括代理链和自动选择器，并位于分组的落地代理之后。只有 `自定义 (sing-box 配置)`（Custom (sing-box config)）配置档不经过 WARP。
 - WARP 的流量要经由你的代理传输，因此配置档必须能承载它：`WireGuard` 和 `AmneziaWG` 模式需要 UDP，基于 HTTP/3 的 `MASQUE` 也需要。基于 HTTP/2 的 `MASQUE` 只需要 TCP。
-- WARP 是 `出口方式`（Exit through）的一个选项，其他选项是 [Tor](@/advanced/tor.zh.md) 和 [Psiphon](@/advanced/psiphon.zh.md)。只能开启其中一个。
 
 ## 生成 WARP 配置 {#generate}
 
@@ -44,20 +43,20 @@ Cloudflare 的注册服务器 `api.cloudflareclient.com` 在一些国家被封�
 
 ## 开启 WARP {#enable}
 
-选择 `路由` → `出口方式`（Exit through）→ `Cloudflare WARP`，或在 `路由设置` 的 `出口`（Exit）标签页中做同样的选择。选择 `所选配置档`（Selected profile）会再次关闭 WARP，选择 `Tor` 或 `Psiphon` 则会取代它。正在运行的配置档会以新设置重新启动。
+选择 `路由` → `出口方式`（Exit through）→ `Cloudflare WARP`，或在 `路由设置` 的 `出口`（Exit）标签页中做同样的选择。选择 `所选配置档`（Selected profile）会再次关闭 WARP。正在运行的配置档会以新设置重新启动。
 
 如果当前模式没有配置，或者 `AmneziaWG` 缺少签名，就无法开启 WARP：请先生成配置。要确认 WARP 是否生效，请打开一个显示 IP 地址的网站，它应当显示一个 Cloudflare 的地址。
 
 ## 让部分流量绕过出口 {#warp-bypass}
 
-`不经出口的代理`（Proxy without exit）会让流量经过你的配置档，但不经过 WARP 这一跳（或当前开启的其他出口）。请在路由配置档编辑器中设置（`路由` → `编辑当前配置档`（Edit current profile））：
+`不经出口的代理`（Proxy without exit）会让流量经过你的配置档，但不经过 WARP 这一跳。请在路由配置档编辑器中设置（`路由` → `编辑当前配置档`（Edit current profile））：
 
 | 目标 | `其余流量`（Everything else goes to） | 网站填入 |
 | --- | --- | --- |
 | 大部分流量经过 WARP，部分网站不经过 | `代理`（Proxy） | `不经出口的代理` 列表 |
 | 大部分流量不经过 WARP，部分网站经过 | `不经出口的代理` | `代理` 列表 |
 
-规则也可以把流量发送到 `不经出口的代理`（参见[路由](@/guides/routing.zh.md#advanced-rules)）。它以同样的方式跳过 [Tor](@/advanced/tor.zh.md) 和 [Psiphon](@/advanced/psiphon.zh.md) 出口。当 `出口方式` 设为 `所选配置档` 时，它与 `代理` 的效果相同。
+规则也可以把流量发送到 `不经出口的代理`（参见[路由](@/guides/routing.zh.md#advanced-rules)）。当 `出口方式` 设为 `所选配置档` 时，它与 `代理` 的效果相同。
 
 ## 将 WARP 用作普通配置档 {#warp-profiles}
 

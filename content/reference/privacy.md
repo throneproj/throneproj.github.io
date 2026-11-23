@@ -45,7 +45,6 @@ Requests marked "Proxy setting" go out directly, unless `Send Throne's own reque
 | IP list update | Updating an IP list with a URL or rule-set source, manually or on schedule | The list's URL; built-in lists come from GitHub through the mirror | Proxy setting |
 | Web dashboard | `Open web dashboard`, only in builds without a built-in one (official builds have one) | GitHub | Always the local proxy port |
 | WebDAV backup | Uploading, restoring, deleting or testing; never automatically | Your `Server URL` and `Folder`: the backup file and the backup list `throne_backups.json` | Proxy setting; always the local proxy port with `Connect through the proxy` on |
-| [Tor](@/advanced/tor.md) download | The first time you choose `Exit through` → `Tor` | `aus1.torproject.org` for the version, then `tor-expert-bundle` from `dist.torproject.org` | Through the local proxy port while a profile runs, else direct |
 | NTP | Only with `NTP Settings` on | The NTP server you enter | The `outbound` you choose (`direct` by default) |
 
 The exit country lookup sends Throne's User-Agent, over plain HTTP to ip-api.com and HTTPS to the others. With the `Default` routing profile, the service sees your proxy's address, not yours. `Settings` → `Basic Settings` → `Testing` → `Exit Country` → `Look up exit country` turns it off (on Android, `Settings` → `Testing`).

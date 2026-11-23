@@ -9,7 +9,6 @@ WARP is Cloudflare's free VPN service. Throne can add it as an extra hop after y
 
 - WARP applies to every profile you start, including chains and auto selectors, and comes after a group's landing proxy. Only `Custom (sing-box config)` profiles run without it.
 - WARP runs through your proxy, so the profile must carry its traffic: `WireGuard` and `AmneziaWG` modes need UDP, and so does `MASQUE` over HTTP/3. `MASQUE` over HTTP/2 needs only TCP.
-- WARP is one choice of `Exit through`, with [Tor](@/advanced/tor.md) and [Psiphon](@/advanced/psiphon.md). Only one can be on.
 
 ## Generate a WARP config {#generate}
 
@@ -44,20 +43,20 @@ Cloudflare's registration server, `api.cloudflareclient.com`, is blocked in some
 
 ## Turn WARP on {#enable}
 
-Choose `Routing` → `Exit through` → `Cloudflare WARP`, or the same choice on the `Exit` tab of `Routing Settings`. `Selected profile` turns WARP off again, and `Tor` or `Psiphon` replaces it. A running profile restarts with the new setting.
+Choose `Routing` → `Exit through` → `Cloudflare WARP`, or the same choice on the `Exit` tab of `Routing Settings`. `Selected profile` turns WARP off again. A running profile restarts with the new setting.
 
 If the current mode has no config, or `AmneziaWG` has no signature, WARP cannot be turned on: generate one first. To check that WARP works, open a website that shows your IP address: it should show a Cloudflare address.
 
 ## Skip the exit for some traffic {#warp-bypass}
 
-`Proxy without exit` sends traffic through your profile without the WARP hop, or whichever exit is on. Set it in the routing profile editor (`Routing` → `Edit current profile`):
+`Proxy without exit` sends traffic through your profile without the WARP hop. Set it in the routing profile editor (`Routing` → `Edit current profile`):
 
 | Goal | `Everything else goes to` | Put the sites in |
 | --- | --- | --- |
 | Most traffic through WARP, some sites without it | `Proxy` | the `Proxy without exit` list |
 | Most traffic without WARP, some sites through it | `Proxy without exit` | the `Proxy` list |
 
-Rules can send traffic to `Proxy without exit` too (see [Routing](@/guides/routing.md#advanced-rules)). It skips the [Tor](@/advanced/tor.md) and [Psiphon](@/advanced/psiphon.md) exits the same way. With `Exit through` on `Selected profile`, it works like `Proxy`.
+Rules can send traffic to `Proxy without exit` too (see [Routing](@/guides/routing.md#advanced-rules)). With `Exit through` on `Selected profile`, it works like `Proxy`.
 
 ## WARP as a normal profile {#warp-profiles}
 

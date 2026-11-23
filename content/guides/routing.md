@@ -13,13 +13,13 @@ A routing profile is a list of rules plus `Everything else goes to`, the outboun
 
 | Outbound | Where the traffic goes |
 | --- | --- |
-| `Proxy` | Through the running profile, and through the exit (WARP, Tor or Psiphon) when one is on. |
+| `Proxy` | Through the running profile, and through the WARP exit when it is on. |
 | `Direct` | Straight to the internet. |
 | `Block` | Nowhere. The connection is refused. |
 | `Proxy without exit` | Through the running profile, without the exit. See [Skip the exit](@/advanced/warp.md#warp-bypass). |
 | A saved profile | Through that profile instead. Rules only, see [Rules](#advanced-rules). |
 
-`Routing` → `Exit through` adds a last hop to `Proxy` traffic: `Cloudflare WARP` (see [WARP](@/advanced/warp.md)), `Tor` (see [Tor](@/advanced/tor.md)) or `Psiphon` (see [Psiphon](@/advanced/psiphon.md)). `Selected profile` adds none.
+`Routing` → `Exit through` adds a last hop to `Proxy` traffic: `Cloudflare WARP` (see [WARP](@/advanced/warp.md)). `Selected profile` adds none.
 
 One routing profile is active at a time. Switch it from the list at the top of the `Routing` menu, or from the tray menu → `Routing: <name>`. A running connection restarts with the new rules. A group can also use its own routing profile, see [Routing profile per group](#group-routing).
 

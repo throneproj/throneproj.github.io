@@ -45,7 +45,6 @@ Throne 会按照你的配置档和路由规则发送你的流量。它自行发�
 | IP 列表更新 | 更新带有 URL 或规则集来源的 IP 列表时，手动或定时 | 该列表的 URL；内置列表来自 GitHub，经由镜像访问 | 代理设置 |
 | 网络仪表盘 | `打开网络仪表盘`（Open web dashboard），仅限没有内置仪表盘的版本（官方版本都内置了） | GitHub | 始终经由本地代理端口 |
 | WebDAV 备份 | 上传、恢复、删除或测试时；从不自动进行 | 你的 `Server URL` 和 `Folder`：备份文件和备份列表 `throne_backups.json` | 代理设置；开启 `通过代理连接`（Connect through the proxy）时始终经由本地代理端口 |
-| [Tor](@/advanced/tor.zh.md) 下载 | 首次选择 `出口方式`（Exit through）→ `Tor` 时 | 先访问 `aus1.torproject.org` 获取版本，然后从 `dist.torproject.org` 下载 `tor-expert-bundle` | 有配置档运行时经由本地代理端口，否则直连 |
 | NTP | 仅当开启 `NTP 设置`（NTP Settings）时 | 你输入的 NTP 服务器 | 你选择的 `出站`（outbound）（默认为 `direct`） |
 
 出口国家查询会附带 Throne 的 User-Agent，对 ip-api.com 使用明文 HTTP，对其他服务使用 HTTPS。使用 `Default` 路由配置档时，查询服务看到的是你的代理地址，而不是你自己的地址。`设置` → `基本设置` → `测试`（Testing）→ `出口国家`（Exit Country）→ `查询出口国家`（Look up exit country）可以关闭它（Android 上为 `设置` → `测试`（Testing））。

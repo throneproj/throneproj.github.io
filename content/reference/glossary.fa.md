@@ -53,7 +53,7 @@ toc = true
 | Rule (قانون) | یک شرط، مانند یک دامنه یا یک برنامه، به‌همراه خروجی اتصال‌های منطبق. | [مسیریابی](@/guides/routing.fa.md#advanced-rules) |
 | Rule-set (مجموعه‌قوانین) | فهرستی آماده از دامنه‌ها (`geosite-…`) یا محدوده‌های IP (`geoip-…`) برای استفاده در قوانین. | [مجموعه‌قوانین](@/guides/routing.fa.md#rule-sets) |
 | Default outbound (خروجی پیش‌فرض) | جایی که اتصال، وقتی هیچ قانونی منطبق نباشد، به آن می‌رود. | [مسیریابی](@/guides/routing.fa.md#how-routing-works) |
-| Proxy without exit (پروکسی بدون خروجی) | خروجی‌ای (`warp-bypass`) که از نمایهٔ شما استفاده می‌کند اما خروجی، یعنی WARP، Tor یا Psiphon، را دور می‌زند. | [Cloudflare WARP](@/advanced/warp.fa.md#warp-bypass) |
+| Proxy without exit (پروکسی بدون خروجی) | خروجی‌ای (`warp-bypass`) که از نمایهٔ شما استفاده می‌کند اما خروجی WARP را دور می‌زند. | [Cloudflare WARP](@/advanced/warp.fa.md#warp-bypass) |
 | Remote routing profile (نمایهٔ مسیریابی راه‌دور) | نمایهٔ مسیریابی‌ای که Throne از یک URL دانلود می‌کند. | [نمایه‌های راه‌دور](@/guides/routing.fa.md#remote-profiles) |
 | Sniffing (پویش) | خواندن نام دامنه از ابتدای اتصال، تا قوانین دامنه برای اتصال به نشانی‌های IP هم کار کنند. | [مسیریابی](@/guides/routing.fa.md#advanced-rules) |
 | DNS routing (مسیریابی DNS) | گزینهٔ `فعال کردن مسیریابی DNS` (Enable DNS routing)، که دامنه‌های منطبق با قوانین `direct` را با DNS مستقیم تفکیک می‌کند. | [DNS](@/guides/dns.fa.md#how-dns-works) |
@@ -72,7 +72,6 @@ toc = true
 | Multiplex (mux) (چندگانه‌سازی) | چندین اتصال را درون یک اتصال به سرور منتقل می‌کند. | [پیش‌تنظیم‌ها](@/advanced/presets.fa.md#multiplex) |
 | QUIC opener (بازکنندهٔ QUIC) | پیش از هر جریان UDP جدید یک بستهٔ فریبنده (decoy) می‌فرستد تا از فیلترهایی که QUIC را از روی نخستین بسته‌اش مسدود می‌کنند عبور کند. | [پیش‌تنظیم‌ها](@/advanced/presets.fa.md#quic-opener) |
 | WARP | سرویس VPN رایگان Cloudflare که Throne می‌تواند آن را به‌عنوان آخرین هاپ پس از نمایهٔ شما اضافه کند. | [Cloudflare WARP](@/advanced/warp.fa.md) |
-| Tor | شبکهٔ ناشناس‌سازی (anonymity network) که Throne می‌تواند آن را به‌جای WARP، به‌عنوان آخرین هاپ پس از نمایهٔ شما اضافه کند. | [Tor](@/advanced/tor.fa.md) |
 | MASQUE | یک پروتکل تونل روی HTTP/3 یا HTTP/2 که به‌صورت یک نوع نمایه و یکی از حالت‌های WARP در دسترس است. | [Cloudflare WARP](@/advanced/warp.fa.md) |
 | DNS tunnel (تونل DNS) | ترافیک شما را درون پرس‌وجوهای DNS حمل می‌کند، برای شبکه‌هایی که فقط DNS از آن‌ها عبور می‌کند. | [تونل‌های DNS](@/advanced/dns_tunnels.fa.md) |
 | Resolver (ریزالور) | سرور DNS که به‌جای شما به پرس‌وجوها پاسخ می‌دهد و در تونل DNS آن‌ها را به سرور تونل می‌رساند. | [تونل‌های DNS](@/advanced/dns_tunnels.fa.md#resolvers) |

@@ -53,7 +53,7 @@ toc = true
 | Rule（规则） | 一个条件（例如域名或程序）以及匹配连接所用的出站。 | [路由](@/guides/routing.zh.md#advanced-rules) |
 | Rule-set（规则集） | 供规则使用的现成域名列表（`geosite-…`）或 IP 范围列表（`geoip-…`）。 | [规则集](@/guides/routing.zh.md#rule-sets) |
 | Default outbound（默认出站） | 没有任何规则匹配时连接的去向。 | [路由](@/guides/routing.zh.md#how-routing-works) |
-| Proxy without exit（不经出口的代理） | 一种出站（`warp-bypass`），它经过你的配置档，但绕过出口：WARP、Tor 或 Psiphon。 | [Cloudflare WARP](@/advanced/warp.zh.md#warp-bypass) |
+| Proxy without exit（不经出口的代理） | 一种出站（`warp-bypass`），它经过你的配置档，但绕过 WARP 出口。 | [Cloudflare WARP](@/advanced/warp.zh.md#warp-bypass) |
 | Remote routing profile（远程路由配置档） | Throne 从某个 URL 下载的路由配置档。 | [远程配置档](@/guides/routing.zh.md#remote-profiles) |
 | Sniffing（嗅探） | 从连接的开头读取域名，使域名规则对直接连接 IP 地址的流量也能生效。 | [路由](@/guides/routing.zh.md#advanced-rules) |
 | DNS routing（DNS 路由） | 即 `启用 DNS 路由`（Enable DNS routing）选项，它用直连 DNS 解析与 `direct` 规则匹配的域名。 | [DNS](@/guides/dns.zh.md#how-dns-works) |
@@ -72,7 +72,6 @@ toc = true
 | Multiplex (mux)（多路复用） | 在通往服务器的一条连接中承载多条连接。 | [预设设置](@/advanced/presets.zh.md#multiplex) |
 | QUIC opener（QUIC 前导包） | 在每个新的 UDP 流之前发送一个诱饵数据包，以绕过根据第一个数据包封锁 QUIC 的过滤。 | [预设设置](@/advanced/presets.zh.md#quic-opener) |
 | WARP | Cloudflare 的免费 VPN 服务，Throne 可以将其添加为你的配置档之后的最后一跳。 | [Cloudflare WARP](@/advanced/warp.zh.md) |
-| Tor | 匿名网络，Throne 可以将其代替 WARP 添加为你的配置档之后的最后一跳。 | [Tor](@/advanced/tor.zh.md) |
 | MASQUE | 一种基于 HTTP/3 或 HTTP/2 的隧道协议，可用作配置档类型，也是 WARP 的一种模式。 | [Cloudflare WARP](@/advanced/warp.zh.md) |
 | DNS tunnel（DNS 隧道） | 把你的流量放在 DNS 查询中传输，适用于只放行 DNS 的网络。 | [DNS 隧道](@/advanced/dns_tunnels.zh.md) |
 | Resolver（解析器） | 替你回答 DNS 查询的 DNS 服务器；对 DNS 隧道而言，它把查询转交给隧道服务器。 | [DNS 隧道](@/advanced/dns_tunnels.zh.md#resolvers) |

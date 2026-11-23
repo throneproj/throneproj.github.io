@@ -13,13 +13,13 @@ toc = true
 
 | 出站 | 流量去向 |
 | --- | --- |
-| `代理`（Proxy） | 经过正在运行的配置档；开启了出口（WARP、Tor 或 Psiphon）时，还会经过该出口。 |
+| `代理`（Proxy） | 经过正在运行的配置档；开启了 WARP 出口时，还会经过该出口。 |
 | `直连`（Direct） | 直接连接互联网。 |
 | `阻止`（Block） | 哪里也不去。连接会被拒绝。 |
 | `不经出口的代理`（Proxy without exit） | 经过正在运行的配置档，但不经过出口。参见[绕过出口](@/advanced/warp.zh.md#warp-bypass)。 |
 | 已保存的配置档 | 改为经过该配置档。仅可在规则中使用，参见[规则](#advanced-rules)。 |
 
-`路由`（Routing）→ `出口方式`（Exit through）为 `代理` 流量添加最后一跳：`Cloudflare WARP`（参见 [WARP](@/advanced/warp.zh.md)）、`Tor`（参见 [Tor](@/advanced/tor.zh.md)）或 `Psiphon`（参见 [Psiphon](@/advanced/psiphon.zh.md)）。`所选配置档`（Selected profile）不添加任何跳点。
+`路由`（Routing）→ `出口方式`（Exit through）为 `代理` 流量添加最后一跳：`Cloudflare WARP`（参见 [WARP](@/advanced/warp.zh.md)）。`所选配置档`（Selected profile）不添加任何跳点。
 
 同一时间只有一个路由配置档处于活动状态。可以在 `路由`（Routing）菜单顶部的列表中切换，或通过托盘菜单 → `路由：<name>`（`Routing: <name>`）切换。正在运行的连接会以新规则重启。分组也可以使用自己的路由配置档，参见[按分组设置路由配置档](#group-routing)。
 

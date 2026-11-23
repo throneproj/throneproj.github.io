@@ -21,7 +21,6 @@ toc = true
 | `VLESS (Xray)` | Xray 实现：支持 XHTTP、REALITY、VLESS 加密、Finalmask、[XDRIVE](@/advanced/xray.zh.md#xdrive) 传输，以及带 [XDNS](@/advanced/dns_tunnels.zh.md#xdns) 的 mKCP。 |
 | `Hysteria` | Hysteria 1 和 2 合为一种类型：通过 `协议版本`（Protocol Version）选择。支持端口跳跃和混淆。当 `上行 (Mbps)`（Up Mbps）或 `下行 (Mbps)`（Down Mbps）留空时，Hysteria 1 使用上行 10 Mbps、下行 50 Mbps，因此请填写你线路的真实速度。 |
 | `TUIC` | |
-| `Juicity` | `证书链 SHA256`（Cert Chain SHA256）接受 juicity-server 打印出的证书链哈希，代替 CA 校验。 |
 | `Naive` | 基于 HTTPS 或 QUIC 的 NaïveProxy。Android 上为 `Naïve`。 |
 | `TrustTunnel` | `客户端随机密钥`（Client Random Key）接受服务器 `client_random_auth_key` 规则中的十六进制密钥，代替 `客户端随机`（Client Random）。 |
 | `AnyTLS` | |
@@ -36,15 +35,13 @@ toc = true
 | `SSH` | |
 | `DNSTT / VayDNS` | 连接 dnstt 或 VayDNS 服务器的 DNS 隧道，参见 [DNSTT 和 VayDNS](@/advanced/dns_tunnels.zh.md#dnstt)。 |
 | `MasterDNS` | 连接 MasterDnsVPN 或 StormDNS 服务器的 DNS 隧道，参见 [MasterDNS](@/advanced/dns_tunnels.zh.md#masterdns)。 |
-| `Tor` | 仅限桌面版。连接 Tor 网络，可使用内置网桥或你自己的网桥（obfs4、WebTunnel、Snowflake、meek），参见 [Tor](@/advanced/tor.zh.md#tor-profile)。 |
-| `Psiphon` | 仅限桌面版。连接 Psiphon 网络，可选择服务器所在的国家，参见 [Psiphon](@/advanced/psiphon.zh.md)。 |
 | `直连`（Direct） | 不使用代理。设置绑定接口后，流量会通过该网卡发出。 |
 | `自定义 (sing-box 出站)`（Custom (sing-box outbound)）、`自定义 (sing-box 配置)`（Custom (sing-box config)） | 你自己的 sing-box JSON：单个出站，或原样运行的完整配置。Android 上为 `自定义配置`（Custom config）。参见[自定义配置](@/advanced/chains.zh.md#custom-config)。 |
 | `自定义 (Xray 出站)`（Custom (Xray outbound)）、`自定义 (Xray 配置)`（Custom (Xray config)） | 同上，用于 Xray JSON。 |
 | `额外核心`（Extra Core） | 仅限桌面版。运行你选择的外部程序，并连接到它的本地 SOCKS 端口，参见[额外核心](@/advanced/chains.zh.md#extra-core)。 |
 | `链式代理`（Proxy Chain） | 让流量依次经过多个配置档。Android 上为 `链式代理`（Proxy chain）。参见[代理链](@/advanced/chains.zh.md#chains)。 |
 
-`AnyTLS`、`Hysteria`、`Juicity`、`MASQUE`、`ShadowTLS`、`TrustTunnel` 和 `TUIC` 始终使用 TLS，因此它们的编辑器中没有关闭 TLS 的开关。
+`AnyTLS`、`Hysteria`、`MASQUE`、`ShadowTLS`、`TrustTunnel` 和 `TUIC` 始终使用 TLS，因此它们的编辑器中没有关闭 TLS 的开关。
 
 `Hysteria`、`TUIC` 以及基于 HTTP/3 的 `MASQUE` 都运行在 QUIC 之上。在 QUIC 被封锁的地方，请尝试 [QUIC 前导包](@/advanced/presets.zh.md#quic-opener)。
 
@@ -74,11 +71,11 @@ toc = true
 
 | 格式 | 结果 |
 |---|---|
-| 分享链接，每行一个：`vless://`、`vmess://`、`ss://`、`trojan://`、`socks://`、`socks4://`、`socks4a://`、`socks5://`、`http://`、`https://`、`hysteria://`、`hysteria2://`、`hy2://`、`tuic://`、`juicity://`、`anytls://`、`mieru://`、`mierus://`、`snell://`、`tt://`（TrustTunnel）、`shadowtls://`、`wg://`、`wireguard://`、`awg://`、`ssh://`、`naive+https://`、`naive+quic://` | 每个链接生成一个配置档 |
+| 分享链接，每行一个：`vless://`、`vmess://`、`ss://`、`trojan://`、`socks://`、`socks4://`、`socks4a://`、`socks5://`、`http://`、`https://`、`hysteria://`、`hysteria2://`、`hy2://`、`tuic://`、`anytls://`、`mieru://`、`mierus://`、`snell://`、`tt://`（TrustTunnel）、`shadowtls://`、`wg://`、`wireguard://`、`awg://`、`ssh://`、`naive+https://`、`naive+quic://` | 每个链接生成一个配置档 |
 | Throne 链接：`throne://add/…` 以及较旧的 `json://…` | 一个任意类型的配置档 |
 | AmneziaVPN 链接：`vpn://…` | 链接中包含的各个配置 |
 | DNS 隧道链接：`dnst://`、`slipnet://`、`masterdns://`、`stormdns://` | 每个链接生成一个 `DNSTT / VayDNS` 或 `MasterDNS` 配置档，参见 [DNS 隧道](@/advanced/dns_tunnels.zh.md#import) |
-| sing-box JSON：完整配置，或出站数组 | 每个受支持的出站生成一个配置档，包括 `dnstt`、`masterdns`、`tor` 和 `psiphon` |
+| sing-box JSON：完整配置，或出站数组 | 每个受支持的出站生成一个配置档，包括 `dnstt` 和 `masterdns` |
 | sing-box JSON：单个出站对象 | 一个 `自定义 (sing-box 出站)` 配置档 |
 | Xray JSON：配置、出站数组或单个出站 | VLESS 出站生成 `VLESS (Xray)`，其他出站生成 `自定义 (Xray 出站)` |
 | Xray JSON：完整配置的数组 | 每个配置生成一个 `自定义 (Xray 配置)` 配置档 |
@@ -87,7 +84,6 @@ toc = true
 | WireGuard 或 AmneziaWG 的 `.conf` 文件 | 一个 `WireGuard` 配置档，以 `# Name =` 或 `# remarks:` 注释命名，或者以 `[Peer]` 上方的注释命名 |
 | OpenVPN 的 `.ovpn` 文件 | 一个 `OpenVPN` 配置档 |
 | AnyConnect XML 配置文件、`openconnect` 命令行，或含有 `protocol=` 行的文件 | `OpenConnect` 配置档 |
-| Tor 网桥行（可带或不带 `Bridge` 关键字），或网桥网站的 `['…', '…']` 格式 | 仅限桌面版：每组连续的行生成一个 `Tor` 配置档，参见 [Tor](@/advanced/tor.zh.md#import) |
 | 以上任意格式经 Base64 编码后的内容 | 先解码，再导入 |
 
 `tt://` 包括两种 TrustTunnel 链接：`tt://user:password@server:port?…`，以及 TrustTunnel 应用生成的 `tt://?…` 深度链接（第 1 版和第 2 版）。链接中必须包含服务器地址、服务器名称、用户名和密码，因此只带有订阅地址的链接会被拒绝。如果链接列出了多个服务器地址，Throne 会导入第一个，并对其余地址给出警告。
@@ -112,7 +108,7 @@ toc = true
 - `clash://install-config?url=…` 链接会打开 Throne，并将该 URL 添加为订阅。
 - 在其他应用中点按协议链接（`vless://…`）或 `throne://` 链接时，Throne 会打开，并在导入配置档之前先征求你的确认。
 - Android 的分享面板只会为二进制文件（例如备份文件）提供 Throne 选项。聊天应用中的链接请复制后使用 `从剪切板导入`（Import from clipboard）导入，其他文件请用 `从文件中导入` 打开。
-- `Tailscale`、`Tor`、`Psiphon` 和 `额外核心`（Extra Core）配置档无法在 Android 上使用。
+- `Tailscale` 和 `额外核心`（Extra Core）配置档无法在 Android 上使用。
 
 ## 分享链接 {#share-links}
 

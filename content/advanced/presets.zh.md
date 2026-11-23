@@ -49,7 +49,7 @@ TLS 技巧会以大小写混合的形式写出服务器名称，例如 `ExAmPlE.
 uTLS 会让 ClientHello 看起来像常见浏览器或系统发出的，而不是像容易通过指纹识别出来的普通代理客户端。
 
 - **按配置档：** 配置档编辑器中的 `指纹`（Fingerprint）。分享链接常用 `fp=` 设置它。
-- **全局：** `预设设置` → `TLS` → `uTLS` → `默认指纹`，用于没有设置自己指纹的配置档。当它为空（默认）时，这些配置档在 sing-box 上不使用 uTLS，在 sing-box REALITY 上使用 `random`，在 Xray 上使用 `chrome`。Hysteria、TUIC、Juicity 和 Naive 配置档不使用 uTLS。
+- **全局：** `预设设置` → `TLS` → `uTLS` → `默认指纹`，用于没有设置自己指纹的配置档。当它为空（默认）时，这些配置档在 sing-box 上不使用 uTLS，在 sing-box REALITY 上使用 `random`，在 Xray 上使用 `chrome`。Hysteria、TUIC 和 Naive 配置档不使用 uTLS。
 - **可选值：** `chrome`、`firefox`、`edge`、`safari`、`360`、`qq`、`ios`、`android`、`random`、`randomized` 和 `unsafe`。`unsafe` 会关闭 uTLS，即使设置了 `默认指纹` 也是如此；只有这时配置档的 `Cipher Suites` 字段才会生效（TLS 1.2 密码套件，以冒号分隔；除非你的服务器需要，否则请留空）。
 
 **代价：** 很小。如果某个服务器在使用某个指纹时无法工作，请换一个指纹或清空该字段。

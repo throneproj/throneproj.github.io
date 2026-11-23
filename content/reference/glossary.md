@@ -53,7 +53,7 @@ toc = true
 | Rule | A condition, such as a domain or a program, and the outbound for matching connections. | [Routing](@/guides/routing.md#advanced-rules) |
 | Rule-set | A ready-made list of domains (`geosite-…`) or IP ranges (`geoip-…`) for rules. | [Rule-sets](@/guides/routing.md#rule-sets) |
 | Default outbound | Where a connection goes when no rule matches. | [Routing](@/guides/routing.md#how-routing-works) |
-| Proxy without exit | An outbound (`warp-bypass`) that uses your profile but skips the exit: WARP, Tor or Psiphon. | [Cloudflare WARP](@/advanced/warp.md#warp-bypass) |
+| Proxy without exit | An outbound (`warp-bypass`) that uses your profile but skips the WARP exit. | [Cloudflare WARP](@/advanced/warp.md#warp-bypass) |
 | Remote routing profile | A routing profile that Throne downloads from a URL. | [Remote profiles](@/guides/routing.md#remote-profiles) |
 | Sniffing | Reading the domain name from the start of a connection, so that domain rules also work for connections to IP addresses. | [Routing](@/guides/routing.md#advanced-rules) |
 | DNS routing | The `Enable DNS routing` option, which resolves domains that match `direct` rules with direct DNS. | [DNS](@/guides/dns.md#how-dns-works) |
@@ -72,7 +72,6 @@ toc = true
 | Multiplex (mux) | Carries many connections inside one connection to the server. | [Preset Settings](@/advanced/presets.md#multiplex) |
 | QUIC opener | Sends a decoy packet before each new UDP flow, to get past filters that block QUIC by its first packet. | [Preset Settings](@/advanced/presets.md#quic-opener) |
 | WARP | The free VPN service of Cloudflare, which Throne can add as the last hop after your profile. | [Cloudflare WARP](@/advanced/warp.md) |
-| Tor | The anonymity network, which Throne can add as the last hop after your profile instead of WARP. | [Tor](@/advanced/tor.md) |
 | MASQUE | A tunnel protocol over HTTP/3 or HTTP/2, available as a profile type and as a WARP mode. | [Cloudflare WARP](@/advanced/warp.md) |
 | DNS tunnel | Carries your traffic inside DNS queries, for networks where only DNS gets through. | [DNS Tunnels](@/advanced/dns_tunnels.md) |
 | Resolver | A DNS server that answers queries for you and, for a DNS tunnel, passes them on to the tunnel server. | [DNS Tunnels](@/advanced/dns_tunnels.md#resolvers) |

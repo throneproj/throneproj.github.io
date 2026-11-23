@@ -59,9 +59,6 @@ Throne 将你的数据保存在一个名为 `config` 的文件夹中。`设置`�
 | `dashboard/` | 用于 Clash API 的网络仪表盘。请将占位页面替换为仪表盘文件。 |
 | `sb-dashboard/` | `工具` → `打开网络仪表盘`（Open web dashboard）所打开的网络仪表盘。 |
 | `service_checks.json` | 已下载的[服务检查](@/guides/testing.zh.md#service-check)列表。 |
-| `tor/` | 首次有配置档或出口需要时下载的 [Tor](@/advanced/tor.zh.md)，以及它的数据：每组网桥一个文件夹。 |
-| `tor_bridges.json` | 已下载的 Tor 内置网桥列表，旁边还有 `tor_bridges.meta.json`。 |
-| `psiphon/` | [Psiphon](@/advanced/psiphon.zh.md) 的服务器列表和其他数据。 |
 | `tailscale/`、`Taildrop/` | Tailscale 配置档的登录状态，以及通过 Taildrop 收到的文件。 |
 
 要把数据迁移到另一台电脑或 Android 上，请使用 `.thrbackup` 备份，而不是复制文件。参见[备份与恢复](@/guides/backup.zh.md#backup-restore)。
