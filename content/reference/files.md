@@ -59,7 +59,9 @@ Throne keeps your data in a folder named `config`. `Settings` → `Open config f
 | `dashboard/` | A web dashboard for the Clash API. Replace the placeholder page with the dashboard files. |
 | `sb-dashboard/` | The web dashboard that `Tools` → `Open web dashboard` opens. |
 | `service_checks.json` | The downloaded list of [service checks](@/guides/testing.md#service-check). |
-| `tor/` | [Tor](@/advanced/tor.md), downloaded the first time you choose `Exit through` → `Tor`, and its data. |
+| `tor/` | [Tor](@/advanced/tor.md), downloaded the first time a profile or the exit needs it, and its data: one folder per set of bridges. |
+| `tor_bridges.json` | The downloaded list of Tor's built-in bridges, with `tor_bridges.meta.json` beside it. |
+| `psiphon/` | The server list and other data of [Psiphon](@/advanced/psiphon.md). |
 | `tailscale/`, `Taildrop/` | The login state of Tailscale profiles, and the files received with Taildrop. |
 
 To move your data to another computer or to Android, use a `.thrbackup` backup instead of copying files. See [Backup and restore](@/guides/backup.md#backup-restore).

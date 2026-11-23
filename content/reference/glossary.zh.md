@@ -53,7 +53,7 @@ toc = true
 | Rule（规则） | 一个条件（例如域名或程序）以及匹配连接所用的出站。 | [路由](@/guides/routing.zh.md#advanced-rules) |
 | Rule-set（规则集） | 供规则使用的现成域名列表（`geosite-…`）或 IP 范围列表（`geoip-…`）。 | [规则集](@/guides/routing.zh.md#rule-sets) |
 | Default outbound（默认出站） | 没有任何规则匹配时连接的去向。 | [路由](@/guides/routing.zh.md#how-routing-works) |
-| Proxy without WARP（不经 WARP 的代理） | 一种出站（`warp-bypass`），它经过你的配置档，但绕过 WARP 和 Tor。 | [Cloudflare WARP](@/advanced/warp.zh.md#warp-bypass) |
+| Proxy without exit（不经出口的代理） | 一种出站（`warp-bypass`），它经过你的配置档，但绕过出口：WARP、Tor 或 Psiphon。 | [Cloudflare WARP](@/advanced/warp.zh.md#warp-bypass) |
 | Remote routing profile（远程路由配置档） | Throne 从某个 URL 下载的路由配置档。 | [远程配置档](@/guides/routing.zh.md#remote-profiles) |
 | Sniffing（嗅探） | 从连接的开头读取域名，使域名规则对直接连接 IP 地址的流量也能生效。 | [路由](@/guides/routing.zh.md#advanced-rules) |
 | DNS routing（DNS 路由） | 即 `启用 DNS 路由`（Enable DNS routing）选项，它用直连 DNS 解析与 `direct` 规则匹配的域名。 | [DNS](@/guides/dns.zh.md#how-dns-works) |

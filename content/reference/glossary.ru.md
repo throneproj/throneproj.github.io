@@ -53,7 +53,7 @@ toc = true
 | Rule (правило) | Условие, например домен или программа, и outbound для подходящих подключений. | [Маршрутизация](@/guides/routing.ru.md#advanced-rules) |
 | Rule-set (набор правил) | Готовый список доменов (`geosite-…`) или диапазонов IP-адресов (`geoip-…`) для правил. | [Наборы правил](@/guides/routing.ru.md#rule-sets) |
 | Default outbound (outbound по умолчанию) | Куда идёт подключение, если ни одно правило не подошло. | [Маршрутизация](@/guides/routing.ru.md#how-routing-works) |
-| Proxy without WARP (прокси без WARP) | Outbound (`warp-bypass`), который использует ваш профиль, но обходит WARP и Tor. | [Cloudflare WARP](@/advanced/warp.ru.md#warp-bypass) |
+| Proxy without exit (прокси без выхода) | Outbound (`warp-bypass`), который использует ваш профиль, но обходит выход: WARP, Tor или Psiphon. | [Cloudflare WARP](@/advanced/warp.ru.md#warp-bypass) |
 | Remote routing profile (удалённый профиль маршрутизации) | Профиль маршрутизации, который Throne загружает по URL. | [Удалённые профили](@/guides/routing.ru.md#remote-profiles) |
 | Sniffing (сниффинг) | Чтение доменного имени из начала подключения, чтобы правила для доменов работали и для подключений по IP-адресу. | [Маршрутизация](@/guides/routing.ru.md#advanced-rules) |
 | DNS routing (DNS-маршрутизация) | Параметр `Включить DNS-маршрутизацию` (Enable DNS routing), который разрешает домены, подпадающие под правила `direct`, через DNS для прямых запросов. | [DNS](@/guides/dns.ru.md#how-dns-works) |

@@ -36,6 +36,8 @@ toc = true
 | `SSH` | |
 | `DNSTT / VayDNS` | DNS-туннель к серверу dnstt или VayDNS, см. [DNSTT и VayDNS](@/advanced/dns_tunnels.ru.md#dnstt). |
 | `MasterDNS` | DNS-туннель к серверу MasterDnsVPN или StormDNS, см. [MasterDNS](@/advanced/dns_tunnels.ru.md#masterdns). |
+| `Tor` | Только на компьютере. Подключается к сети Tor со встроенными или собственными мостами (obfs4, WebTunnel, Snowflake, meek), см. [Tor](@/advanced/tor.ru.md#tor-profile). |
+| `Psiphon` | Только на компьютере. Подключается к сети Psiphon, при желании в выбранной стране, см. [Psiphon](@/advanced/psiphon.ru.md). |
 | `Напрямую` (Direct) | Без прокси. С интерфейсом для привязки (bind interface) трафик уходит через этот сетевой адаптер. |
 | `Пользовательский (sing-box outbound)` (Custom (sing-box outbound)), `Пользовательский (конфигурация sing-box)` (Custom (sing-box config)) | Ваш собственный JSON для sing-box: один outbound или полная конфигурация, которая запускается без изменений. На Android: `Пользовательская конфигурация` (Custom config). См. [Пользовательские конфигурации](@/advanced/chains.ru.md#custom-config). |
 | `Пользовательский (Xray outbound)` (Custom (Xray outbound)), `Пользовательский (конфигурация Xray)` (Custom (Xray config)) | То же самое для JSON Xray. |
@@ -76,7 +78,7 @@ toc = true
 | Ссылки Throne: `throne://add/…` и более старые `json://…` | Один профиль любого типа |
 | Ссылки AmneziaVPN: `vpn://…` | Конфигурации, содержащиеся в ссылке |
 | Ссылки DNS-туннелей: `dnst://`, `slipnet://`, `masterdns://`, `stormdns://` | По одному профилю `DNSTT / VayDNS` или `MasterDNS` на ссылку, см. [DNS-туннели](@/advanced/dns_tunnels.ru.md#import) |
-| JSON sing-box: полная конфигурация или массив outbound | По одному профилю на каждый поддерживаемый outbound, включая `dnstt` и `masterdns` |
+| JSON sing-box: полная конфигурация или массив outbound | По одному профилю на каждый поддерживаемый outbound, включая `dnstt`, `masterdns`, `tor` и `psiphon` |
 | JSON sing-box: один объект outbound | Один профиль `Пользовательский (sing-box outbound)` |
 | JSON Xray: конфигурация, массив outbound или один outbound | `VLESS (Xray)` для outbound VLESS, `Пользовательский (Xray outbound)` для остальных |
 | JSON Xray: массив полных конфигураций | По одному профилю `Пользовательский (конфигурация Xray)` на каждую конфигурацию |
@@ -85,6 +87,7 @@ toc = true
 | Файл `.conf` WireGuard или AmneziaWG | Один профиль `WireGuard`, названный по комментарию `# Name =` или `# remarks:` либо по комментарию над `[Peer]` |
 | Файл `.ovpn` OpenVPN | Один профиль `OpenVPN` |
 | XML-профиль AnyConnect, командная строка `openconnect` или файл со строкой `protocol=` | Профили `OpenConnect` |
+| Строки мостов Tor, с ключевым словом `Bridge` или без него, или формат `['…', '…']` с сайта мостов | Только на компьютере: один профиль `Tor` на каждую группу идущих подряд строк, см. [Tor](@/advanced/tor.ru.md#import) |
 | Любой из перечисленных форматов в кодировке Base64 | Сначала декодируется, затем импортируется |
 
 `tt://` охватывает оба вида ссылок TrustTunnel: `tt://user:password@server:port?…` и глубокую ссылку `tt://?…` (версии 1 и 2), которую создают приложения TrustTunnel. В ссылке должны быть адрес сервера, имя сервера, имя пользователя и пароль, поэтому ссылка, в которой есть только адрес подписки, отклоняется. Если в ссылке перечислено несколько адресов серверов, Throne импортирует первый и предупреждает об остальных.
@@ -109,7 +112,7 @@ toc = true
 - Ссылки `clash://install-config?url=…` открывают Throne и добавляют URL как подписку.
 - Если в другом приложении нажать на ссылку протокола (`vless://…`) или на ссылку `throne://`, Throne откроется и перед импортом профиля спросит подтверждение.
 - Системное меню «Поделиться» в Android предлагает Throne только для двоичных файлов, например резервных копий. Ссылки из мессенджеров копируйте и импортируйте через `Импорт из буфера обмена` (Import from clipboard), другие файлы открывайте через `Импортировать из файла`.
-- Профили `Tailscale` и `Доп. ядро` (Extra Core) на Android использовать нельзя.
+- Профили `Tailscale`, `Tor`, `Psiphon` и `Доп. ядро` (Extra Core) на Android использовать нельзя.
 
 ## Ссылки для обмена {#share-links}
 

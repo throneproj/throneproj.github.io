@@ -53,7 +53,7 @@ toc = true
 | Rule | A condition, such as a domain or a program, and the outbound for matching connections. | [Routing](@/guides/routing.md#advanced-rules) |
 | Rule-set | A ready-made list of domains (`geosite-…`) or IP ranges (`geoip-…`) for rules. | [Rule-sets](@/guides/routing.md#rule-sets) |
 | Default outbound | Where a connection goes when no rule matches. | [Routing](@/guides/routing.md#how-routing-works) |
-| Proxy without WARP | An outbound (`warp-bypass`) that uses your profile but skips WARP and Tor. | [Cloudflare WARP](@/advanced/warp.md#warp-bypass) |
+| Proxy without exit | An outbound (`warp-bypass`) that uses your profile but skips the exit: WARP, Tor or Psiphon. | [Cloudflare WARP](@/advanced/warp.md#warp-bypass) |
 | Remote routing profile | A routing profile that Throne downloads from a URL. | [Remote profiles](@/guides/routing.md#remote-profiles) |
 | Sniffing | Reading the domain name from the start of a connection, so that domain rules also work for connections to IP addresses. | [Routing](@/guides/routing.md#advanced-rules) |
 | DNS routing | The `Enable DNS routing` option, which resolves domains that match `direct` rules with direct DNS. | [DNS](@/guides/dns.md#how-dns-works) |

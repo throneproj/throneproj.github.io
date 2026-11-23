@@ -46,7 +46,7 @@ Throne отвечает на запрос в таком порядке:
 
 Адрес сервера может быть обычным DNS (`8.8.8.8` или `8.8.8.8:53`), `tcp://8.8.8.8:53`, `tls://1.1.1.1`, `https://1.1.1.1/dns-query`, `h3://dns.example.com/dns-query`, `quic://dns.example.com` или `dhcp://auto` — сервер, который выдаёт ваша сеть.
 
-Если запущенный профиль использует Xray или включен [Tor](@/advanced/tor.ru.md), обычный DNS или DNS поверх QUIC в поле `Удаленный DNS` (Remote DNS) заменяется на DNS поверх HTTPS: `1.1.1.1` превращается в `https://1.1.1.1/dns-query`, а сервер, который Throne не знает, — в `https://8.8.8.8/dns-query`.
+Если запущенный профиль использует Xray или трафик выходит через [Tor](@/advanced/tor.ru.md) (профиль Tor или выход через Tor), обычный DNS или DNS поверх QUIC в поле `Удаленный DNS` (Remote DNS) заменяется на DNS поверх HTTPS: `1.1.1.1` превращается в `https://1.1.1.1/dns-query`, а сервер, который Throne не знает, — в `https://8.8.8.8/dns-query`.
 
 ## FakeIP {#fakeip}
 

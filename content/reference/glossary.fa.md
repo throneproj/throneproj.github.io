@@ -53,7 +53,7 @@ toc = true
 | Rule (قانون) | یک شرط، مانند یک دامنه یا یک برنامه، به‌همراه خروجی اتصال‌های منطبق. | [مسیریابی](@/guides/routing.fa.md#advanced-rules) |
 | Rule-set (مجموعه‌قوانین) | فهرستی آماده از دامنه‌ها (`geosite-…`) یا محدوده‌های IP (`geoip-…`) برای استفاده در قوانین. | [مجموعه‌قوانین](@/guides/routing.fa.md#rule-sets) |
 | Default outbound (خروجی پیش‌فرض) | جایی که اتصال، وقتی هیچ قانونی منطبق نباشد، به آن می‌رود. | [مسیریابی](@/guides/routing.fa.md#how-routing-works) |
-| Proxy without WARP (پروکسی بدون WARP) | خروجی‌ای (`warp-bypass`) که از نمایهٔ شما استفاده می‌کند اما از WARP و Tor عبور نمی‌کند. | [Cloudflare WARP](@/advanced/warp.fa.md#warp-bypass) |
+| Proxy without exit (پروکسی بدون خروجی) | خروجی‌ای (`warp-bypass`) که از نمایهٔ شما استفاده می‌کند اما خروجی، یعنی WARP، Tor یا Psiphon، را دور می‌زند. | [Cloudflare WARP](@/advanced/warp.fa.md#warp-bypass) |
 | Remote routing profile (نمایهٔ مسیریابی راه‌دور) | نمایهٔ مسیریابی‌ای که Throne از یک URL دانلود می‌کند. | [نمایه‌های راه‌دور](@/guides/routing.fa.md#remote-profiles) |
 | Sniffing (پویش) | خواندن نام دامنه از ابتدای اتصال، تا قوانین دامنه برای اتصال به نشانی‌های IP هم کار کنند. | [مسیریابی](@/guides/routing.fa.md#advanced-rules) |
 | DNS routing (مسیریابی DNS) | گزینهٔ `فعال کردن مسیریابی DNS` (Enable DNS routing)، که دامنه‌های منطبق با قوانین `direct` را با DNS مستقیم تفکیک می‌کند. | [DNS](@/guides/dns.fa.md#how-dns-works) |

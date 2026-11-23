@@ -13,13 +13,13 @@ A routing profile is a list of rules plus `Everything else goes to`, the outboun
 
 | Outbound | Where the traffic goes |
 | --- | --- |
-| `Proxy` | Through the running profile, and through WARP or Tor when one is on. |
+| `Proxy` | Through the running profile, and through the exit (WARP, Tor or Psiphon) when one is on. |
 | `Direct` | Straight to the internet. |
 | `Block` | Nowhere. The connection is refused. |
-| `Proxy without WARP` | Through the running profile, without WARP or Tor. See [WARP](@/advanced/warp.md#warp-bypass). |
+| `Proxy without exit` | Through the running profile, without the exit. See [Skip the exit](@/advanced/warp.md#warp-bypass). |
 | A saved profile | Through that profile instead. Rules only, see [Rules](#advanced-rules). |
 
-`Routing` → `Exit through` adds a last hop to `Proxy` traffic: `Cloudflare WARP` (see [WARP](@/advanced/warp.md)) or `Tor` (see [Tor](@/advanced/tor.md)). `Selected profile` adds none.
+`Routing` → `Exit through` adds a last hop to `Proxy` traffic: `Cloudflare WARP` (see [WARP](@/advanced/warp.md)), `Tor` (see [Tor](@/advanced/tor.md)) or `Psiphon` (see [Psiphon](@/advanced/psiphon.md)). `Selected profile` adds none.
 
 One routing profile is active at a time. Switch it from the list at the top of the `Routing` menu, or from the tray menu → `Routing: <name>`. A running connection restarts with the new rules. A group can also use its own routing profile, see [Routing profile per group](#group-routing).
 
@@ -68,7 +68,7 @@ The `Routing` tab also has these settings:
 
 ## Lists {#simple-rules}
 
-A profile has four lists: `Direct`, `Proxy`, `Block` and `Proxy without WARP`. On the profile's `Rules` tab they are the rows tagged `Quick list`; select one to edit it. Type an entry and press `Enter` or click `Add`; pasting several lines adds them all. Double-click an entry to edit it.
+A profile has four lists: `Direct`, `Proxy`, `Block` and `Proxy without exit`. On the profile's `Rules` tab they are the rows tagged `Quick list`; select one to edit it. Type an entry and press `Enter` or click `Add`; pasting several lines adds them all. Double-click an entry to edit it.
 
 A line without a prefix is typed by its shape: `example.com` becomes a domain suffix, `10.0.0.0/8` an IP range, `app.exe` a program and a full path a program path. Built-in rule-set names and `.srs` URLs become rule-sets. A prefix says it explicitly:
 
@@ -113,7 +113,7 @@ processName:Telegram.exe
 suffix:example.org
 ```
 
-Each list works like one rule. By default they run in the order `Direct`, `Proxy`, `Block`, `Proxy without WARP`, and the first match wins, so an entry in `Proxy` has no effect if a broader entry in `Direct` matches the same traffic. To make an exception, for example to proxy `example.ir` while `geosite-ir` goes direct, add `example.ir` to `Proxy`, then drag the `Proxy` row above the `Direct` row on the `Rules` tab.
+Each list works like one rule. By default they run in the order `Direct`, `Proxy`, `Block`, `Proxy without exit`, and the first match wins, so an entry in `Proxy` has no effect if a broader entry in `Direct` matches the same traffic. To make an exception, for example to proxy `example.ir` while `geosite-ir` goes direct, add `example.ir` to `Proxy`, then drag the `Proxy` row above the `Direct` row on the `Rules` tab.
 
 ## Rules {#advanced-rules}
 
@@ -128,7 +128,7 @@ To add a rule, click `New rule` and enter a `Name`. Under `When`, click `+ Add c
 
 | Then | What it does |
 | --- | --- |
-| `Proxy`, `Direct`, `Proxy without WARP` | Sends it there. |
+| `Proxy`, `Direct`, `Proxy without exit` | Sends it there. |
 | `Block` | Refuses it. `Reject with` chooses how. |
 | A specific profile | Sends it through a saved profile, shown as `[group] name`. Throne runs it next to the profile you started. |
 | `Hijack DNS` | Answers DNS queries with Throne's DNS. |
@@ -199,7 +199,7 @@ Throne saves it as a structured routing profile named by the provider. If the gr
 
 A raw profile is a complete sing-box `route` object in JSON, for features that the rule editor does not offer. Create one with `New` → `Raw profile`.
 
-Outbounds are written as numbers: `-1` is `proxy`, `-2` is `direct`, `-5` is `warp-bypass` (`Proxy without WARP`), and a profile ID is that saved profile. The editor suggests your profiles after `"outbound":`. Without `final`, Throne uses `proxy`.
+Outbounds are written as numbers: `-1` is `proxy`, `-2` is `direct`, `-5` is `warp-bypass` (`Proxy without exit`), and a profile ID is that saved profile. The editor suggests your profiles after `"outbound":`. Without `final`, Throne uses `proxy`.
 
 Built-in rule-set names are not defined in raw profiles, and Throne does not add the DNS step that structured profiles get. For Tun mode, start your rules like this:
 

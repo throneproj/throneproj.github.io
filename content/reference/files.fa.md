@@ -59,7 +59,9 @@ Throne داده‌های شما را در پوشه‌ای به نام `config` �
 | `dashboard/` | یک داشبورد وب برای Clash API. صفحهٔ موقت را با فایل‌های داشبورد جایگزین کنید. |
 | `sb-dashboard/` | داشبورد وبی که `Tools` ← `Open web dashboard` باز می‌کند. |
 | `service_checks.json` | فهرست دانلودشدهٔ بررسی‌ها برای [بررسی سرویس‌ها](@/guides/testing.fa.md#service-check). |
-| `tor/` | [Tor](@/advanced/tor.fa.md)، که نخستین باری که `خروج از طریق` (Exit through) ← `Tor` را انتخاب می‌کنید دانلود می‌شود، و داده‌های آن. |
+| `tor/` | [Tor](@/advanced/tor.fa.md)، که نخستین باری که یک نمایه یا خروجی به آن نیاز دارد دانلود می‌شود، و داده‌های آن: یک پوشه برای هر مجموعه از پل‌ها. |
+| `tor_bridges.json` | فهرست دانلودشدهٔ پل‌های داخلی Tor، به همراه `tor_bridges.meta.json` در کنار آن. |
+| `psiphon/` | فهرست سرورها و دیگر داده‌های [Psiphon](@/advanced/psiphon.fa.md). |
 | `tailscale/`، `Taildrop/` | وضعیت ورود نمایه‌های Tailscale و فایل‌هایی که با Taildrop دریافت شده‌اند. |
 
 برای انتقال داده‌هایتان به رایانهٔ دیگر یا به Android، به‌جای کپی کردن فایل‌ها از یک پشتیبان `.thrbackup` استفاده کنید. [پشتیبان‌گیری و بازیابی](@/guides/backup.fa.md#backup-restore) را ببینید.

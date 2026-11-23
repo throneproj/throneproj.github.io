@@ -46,7 +46,7 @@ Throne 按以下顺序应答查询：
 
 服务器地址可以是普通 DNS（`8.8.8.8` 或 `8.8.8.8:53`）、`tcp://8.8.8.8:53`、`tls://1.1.1.1`、`https://1.1.1.1/dns-query`、`h3://dns.example.com/dns-query`、`quic://dns.example.com`，或表示网络分配的服务器的 `dhcp://auto`。
 
-当正在运行的配置档使用 Xray，或开启了 [Tor](@/advanced/tor.zh.md) 时，普通 DNS 或 DNS over QUIC 形式的 `远程 DNS`（Remote DNS）会改用 DNS over HTTPS：`1.1.1.1` 变为 `https://1.1.1.1/dns-query`，Throne 不认识的服务器变为 `https://8.8.8.8/dns-query`。
+当正在运行的配置档使用 Xray，或流量经由 [Tor](@/advanced/tor.zh.md) 发出（Tor 配置档或 Tor 出口）时，普通 DNS 或 DNS over QUIC 形式的 `远程 DNS`（Remote DNS）会改用 DNS over HTTPS：`1.1.1.1` 变为 `https://1.1.1.1/dns-query`，Throne 不认识的服务器变为 `https://8.8.8.8/dns-query`。
 
 ## FakeIP {#fakeip}
 

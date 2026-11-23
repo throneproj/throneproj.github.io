@@ -36,6 +36,8 @@ Create a profile with `Program` → `New profile` (`Ctrl+N`), or on Android with
 | `SSH` | |
 | `DNSTT / VayDNS` | DNS tunnel to a dnstt or VayDNS server, see [DNSTT and VayDNS](@/advanced/dns_tunnels.md#dnstt). |
 | `MasterDNS` | DNS tunnel to a MasterDnsVPN or StormDNS server, see [MasterDNS](@/advanced/dns_tunnels.md#masterdns). |
+| `Tor` | Desktop only. Connects to the Tor network, with built-in or your own bridges (obfs4, WebTunnel, Snowflake, meek), see [Tor](@/advanced/tor.md#tor-profile). |
+| `Psiphon` | Desktop only. Connects to the Psiphon network, optionally in a chosen country, see [Psiphon](@/advanced/psiphon.md). |
 | `Direct` | No proxy. With a bind interface, it sends traffic out through that network adapter. |
 | `Custom (sing-box outbound)`, `Custom (sing-box config)` | Your own sing-box JSON: one outbound, or a complete config that runs unchanged. On Android: `Custom config`. See [Custom configs](@/advanced/chains.md#custom-config). |
 | `Custom (Xray outbound)`, `Custom (Xray config)` | The same for Xray JSON. |
@@ -76,7 +78,7 @@ Both apps read these formats in pasted text, files, QR codes and subscription re
 | Throne links: `throne://add/…` and the older `json://…` | One profile of any type |
 | AmneziaVPN links: `vpn://…` | The configs inside the link |
 | DNS tunnel links: `dnst://`, `slipnet://`, `masterdns://`, `stormdns://` | One `DNSTT / VayDNS` or `MasterDNS` profile per link, see [DNS Tunnels](@/advanced/dns_tunnels.md#import) |
-| sing-box JSON: a full config, or an array of outbounds | One profile for each supported outbound, including `dnstt` and `masterdns` |
+| sing-box JSON: a full config, or an array of outbounds | One profile for each supported outbound, including `dnstt`, `masterdns`, `tor` and `psiphon` |
 | sing-box JSON: one outbound object | One `Custom (sing-box outbound)` profile |
 | Xray JSON: a config, an array of outbounds, or one outbound | `VLESS (Xray)` for VLESS outbounds, `Custom (Xray outbound)` for the others |
 | Xray JSON: an array of complete configs | One `Custom (Xray config)` profile for each config |
@@ -85,6 +87,7 @@ Both apps read these formats in pasted text, files, QR codes and subscription re
 | WireGuard or AmneziaWG `.conf` file | One `WireGuard` profile, named after a `# Name =` or `# remarks:` comment, or the comment above `[Peer]` |
 | OpenVPN `.ovpn` file | One `OpenVPN` profile |
 | AnyConnect XML profile, an `openconnect` command line, or a file with a `protocol=` line | `OpenConnect` profiles |
+| Tor bridge lines, with or without the `Bridge` keyword, or the bridge website's `['…', '…']` form | Desktop only: one `Tor` profile for each run of consecutive lines, see [Tor](@/advanced/tor.md#import) |
 | Any of the above, encoded in Base64 | Decoded first, then imported |
 
 `tt://` covers both kinds of TrustTunnel links: `tt://user:password@server:port?…` and the `tt://?…` deep link (versions 1 and 2) of the TrustTunnel apps. The link must contain the server address, server name, username and password, so a link with only a subscription address is refused. If it lists several server addresses, Throne imports the first and warns about the others.
@@ -109,7 +112,7 @@ These values do not stop the import. Throne leaves the value out, imports the re
 - `clash://install-config?url=…` links open Throne and add the URL as a subscription.
 - When you tap a protocol link (`vless://…`) or a `throne://` link in another app, Throne opens and asks before it imports the profile.
 - The Android share sheet offers Throne only for binary files, such as backups. Copy links from chat apps and use `Import from clipboard`; open other files with `Import from file`.
-- `Tailscale` and `Extra Core` profiles cannot be used on Android.
+- `Tailscale`, `Tor`, `Psiphon` and `Extra Core` profiles cannot be used on Android.
 
 ## Share links {#share-links}
 

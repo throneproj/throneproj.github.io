@@ -80,6 +80,8 @@
       url: /advanced/warp/
     - title: "Tor"
       url: /advanced/tor/
+    - title: "Psiphon"
+      url: /advanced/psiphon/
     - title: "DNS 隧道"
       url: /advanced/dns_tunnels/
     - title: "OpenVPN、OpenConnect 与 Tailscale"

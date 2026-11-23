@@ -13,13 +13,13 @@ toc = true
 
 | 出站 | 流量去向 |
 | --- | --- |
-| `代理`（Proxy） | 经过正在运行的配置档；开启了 WARP 或 Tor 时，还会经过它。 |
+| `代理`（Proxy） | 经过正在运行的配置档；开启了出口（WARP、Tor 或 Psiphon）时，还会经过该出口。 |
 | `直连`（Direct） | 直接连接互联网。 |
 | `阻止`（Block） | 哪里也不去。连接会被拒绝。 |
-| `不经 WARP 的代理`（Proxy without WARP） | 经过正在运行的配置档，但不经过 WARP 或 Tor。参见 [WARP](@/advanced/warp.zh.md#warp-bypass)。 |
+| `不经出口的代理`（Proxy without exit） | 经过正在运行的配置档，但不经过出口。参见[绕过出口](@/advanced/warp.zh.md#warp-bypass)。 |
 | 已保存的配置档 | 改为经过该配置档。仅可在规则中使用，参见[规则](#advanced-rules)。 |
 
-`路由`（Routing）→ `出口方式`（Exit through）为 `代理` 流量添加最后一跳：`Cloudflare WARP`（参见 [WARP](@/advanced/warp.zh.md)）或 `Tor`（参见 [Tor](@/advanced/tor.zh.md)）。`所选配置档`（Selected profile）不添加任何跳点。
+`路由`（Routing）→ `出口方式`（Exit through）为 `代理` 流量添加最后一跳：`Cloudflare WARP`（参见 [WARP](@/advanced/warp.zh.md)）、`Tor`（参见 [Tor](@/advanced/tor.zh.md)）或 `Psiphon`（参见 [Psiphon](@/advanced/psiphon.zh.md)）。`所选配置档`（Selected profile）不添加任何跳点。
 
 同一时间只有一个路由配置档处于活动状态。可以在 `路由`（Routing）菜单顶部的列表中切换，或通过托盘菜单 → `路由：<name>`（`Routing: <name>`）切换。正在运行的连接会以新规则重启。分组也可以使用自己的路由配置档，参见[按分组设置路由配置档](#group-routing)。
 
@@ -68,7 +68,7 @@ toc = true
 
 ## 列表 {#simple-rules}
 
-配置档有四个列表：`直连`（Direct）、`代理`（Proxy）、`阻止`（Block）和 `不经 WARP 的代理`（Proxy without WARP）。在配置档的 `规则`（Rules）标签页上，它们是标有 `快速列表`（Quick list）的行；选中其中一行即可编辑它。输入一个条目后按 `Enter` 或点击 `添加`（Add）；粘贴多行会把它们全部添加。双击条目即可编辑它。
+配置档有四个列表：`直连`（Direct）、`代理`（Proxy）、`阻止`（Block）和 `不经出口的代理`（Proxy without exit）。在配置档的 `规则`（Rules）标签页上，它们是标有 `快速列表`（Quick list）的行；选中其中一行即可编辑它。输入一个条目后按 `Enter` 或点击 `添加`（Add）；粘贴多行会把它们全部添加。双击条目即可编辑它。
 
 没有前缀的行会按其形式识别类型：`example.com` 成为域名后缀，`10.0.0.0/8` 成为 IP 范围，`app.exe` 成为程序，完整路径成为程序路径。内置规则集名称和 `.srs` URL 会成为规则集。前缀则明确指定类型：
 
@@ -113,7 +113,7 @@ processName:Telegram.exe
 suffix:example.org
 ```
 
-每个列表的作用相当于一条规则。默认情况下，它们按 `直连`、`代理`、`阻止`、`不经 WARP 的代理` 的顺序运行，而第一条匹配的规则胜出，因此如果 `直连` 中范围更广的某个条目匹配了同样的流量，`代理` 中的条目就不会生效。要设置例外，例如在 `geosite-ir` 走直连时让 `example.ir` 走代理，请将 `example.ir` 添加到 `代理`，然后在 `规则`（Rules）标签页上把 `代理` 行拖到 `直连` 行之上。
+每个列表的作用相当于一条规则。默认情况下，它们按 `直连`、`代理`、`阻止`、`不经出口的代理` 的顺序运行，而第一条匹配的规则胜出，因此如果 `直连` 中范围更广的某个条目匹配了同样的流量，`代理` 中的条目就不会生效。要设置例外，例如在 `geosite-ir` 走直连时让 `example.ir` 走代理，请将 `example.ir` 添加到 `代理`，然后在 `规则`（Rules）标签页上把 `代理` 行拖到 `直连` 行之上。
 
 ## 规则 {#advanced-rules}
 
@@ -128,7 +128,7 @@ suffix:example.org
 
 | 动作 | 作用 |
 | --- | --- |
-| `代理`（Proxy）、`直连`（Direct）、`不经 WARP 的代理`（Proxy without WARP） | 把流量发往该处。 |
+| `代理`（Proxy）、`直连`（Direct）、`不经出口的代理`（Proxy without exit） | 把流量发往该处。 |
 | `阻止`（Block） | 拒绝流量。`拒绝方式`（Reject with）决定如何拒绝。 |
 | 某个特定配置档 | 让流量经过一个已保存的配置档，它显示为 `[group] name`。Throne 会在你启动的配置档之外同时运行它。 |
 | `劫持 DNS`（Hijack DNS） | 用 Throne 的 DNS 应答 DNS 查询。 |
@@ -199,7 +199,7 @@ Throne 会把它保存为一个结构化路由配置档，使用服务商给出�
 
 原始配置档是一个完整的 JSON 格式的 sing-box `route` 对象，用于规则编辑器未提供的功能。可通过 `新建`（New）→ `原始配置档`（Raw profile）创建。
 
-出站以数字表示：`-1` 是 `proxy`，`-2` 是 `direct`，`-5` 是 `warp-bypass`（`不经 WARP 的代理`），配置档 ID 则表示该已保存的配置档。在 `"outbound":` 之后，编辑器会提示你的配置档。如果缺少 `final`，Throne 会使用 `proxy`。
+出站以数字表示：`-1` 是 `proxy`，`-2` 是 `direct`，`-5` 是 `warp-bypass`（`不经出口的代理`），配置档 ID 则表示该已保存的配置档。在 `"outbound":` 之后，编辑器会提示你的配置档。如果缺少 `final`，Throne 会使用 `proxy`。
 
 原始配置档中没有定义内置规则集名称，Throne 也不会添加结构化配置档会获得的 DNS 步骤。对于 Tun 模式，请像这样开始编写规则：
 

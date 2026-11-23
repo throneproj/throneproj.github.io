@@ -46,7 +46,7 @@ Open `Settings` → `Routing Settings` → `DNS`. Changes apply after you click 
 
 Server addresses can be plain DNS (`8.8.8.8` or `8.8.8.8:53`), `tcp://8.8.8.8:53`, `tls://1.1.1.1`, `https://1.1.1.1/dns-query`, `h3://dns.example.com/dns-query`, `quic://dns.example.com`, or `dhcp://auto` for the server your network hands out.
 
-When the running profile uses Xray, or [Tor](@/advanced/tor.md) is on, a plain or QUIC `Remote DNS` is replaced with DNS over HTTPS: `1.1.1.1` becomes `https://1.1.1.1/dns-query`, and a server that Throne does not know becomes `https://8.8.8.8/dns-query`.
+When the running profile uses Xray, or traffic leaves through [Tor](@/advanced/tor.md) (a Tor profile or the Tor exit), a plain or QUIC `Remote DNS` is replaced with DNS over HTTPS: `1.1.1.1` becomes `https://1.1.1.1/dns-query`, and a server that Throne does not know becomes `https://8.8.8.8/dns-query`.
 
 ## FakeIP {#fakeip}
 
