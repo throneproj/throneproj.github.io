@@ -92,7 +92,7 @@ Other keys and mouse actions in the list:
 
 ### Actions without a default shortcut {#no-default}
 
-Most other menu items have no default shortcut but can get one, for example `Edit`, `Pin to top`, `Add subscription`, `Service check`, `Exit IP`, `Find working settings`, `Copy test result`, the `Clean up` commands, `Manage groups`, the settings windows, the windows of the `Tools` menu, the `Exit through` choices, `Block ads`, `Route lookup`, `Toggle WARP`, `Restart core` and `Refresh column widths`.
+Most other menu items have no default shortcut but can get one, for example `Edit`, `Pin to top`, `Add subscription`, `Service check`, `Exit IP`, `Copy test result`, the `Clean up` commands, `Manage groups`, the settings windows, the windows of the `Tools` menu, the `Exit through` choices, `Block ads`, `Route lookup`, `Toggle WARP`, `Restart core` and `Refresh column widths`.
 
 ## Change a shortcut {#change-shortcuts}
 

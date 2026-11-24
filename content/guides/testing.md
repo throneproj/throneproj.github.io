@@ -1,6 +1,6 @@
 +++
 title = "Testing & Auto Selector"
-description = "Test profiles and the services they reach, sort, pin and clean up the list, let the auto selector pick the best profile, and scan for working IP addresses, DNS resolvers and settings."
+description = "Test profiles and the services they reach, sort, pin and clean up the list, let the auto selector pick the best profile, and find working WARP endpoints and DNS resolvers."
 weight = 60
 toc = true
 +++
@@ -135,85 +135,63 @@ Limits:
 
 ## IP Scanner {#ip-scanner}
 
-`Tools` → `IP Scanner` checks lists of IP addresses and keeps the ones that work from your network: an unblocked address of the CDN your servers are behind, a working Cloudflare WARP endpoint, or DNS resolvers for a DNS tunnel. The results form an IP list, which a group or a profile can use as its [server address](@/guides/subscriptions.md#server-address).
+`Tools` → `IP Scanner` finds what works from your network for two kinds of profiles: Cloudflare WARP endpoints for a WARP profile, and resolvers for a DNS tunnel profile. A scan tries addresses with the profile's own settings and keeps the ones that work.
 
-1. Click `New scan`, enter a `Name` and choose the kind of scan:
-   - `Generic scan` checks addresses with ping, TCP, TLS or HTTP, optionally through one of your profiles.
-   - `WARP scan` finds WARP endpoints that complete a WireGuard, AmneziaWG or MASQUE connection.
-   - `DNS resolver scan` finds resolvers for a DNS tunnel profile; see [DNS resolver scans](#dns-scan).
-   - `Find working settings` tries settings of one profile instead of addresses; see [Find working settings](#find-working-settings).
-2. Click `OK`. The scan's window opens.
-3. Set the targets on the `Targets` tab and the checks on the `Phases` tab.
-4. Click `Start`. The `Results` tab fills as addresses pass.
+1. Click `New scan`, enter a `Name`, choose `WARP scan` or `DNS resolver scan` and click `OK`. The scan's window opens.
+2. Choose the `Profile`. The scan uses the profile as it was last saved.
+3. Click `Start`.
 
-A scan keeps running when you close its window.
+A scan keeps running when you close its window. `Pause` stops it and `Resume` continues it.
 
-On the `Targets` tab:
+`Results` lists what the scan found, best first: the least `Loss` (the share of probes left unanswered), then the lowest `Latency`. Click a column header to sort by it. `Save as IP list` copies the results into a new [IP list](#ip-lists), `Copy` copies them as text and `Export` saves them to a file.
 
-- `Base IP list` holds the addresses to scan; `Manage` opens the [IP lists](#ip-lists). In a WARP scan, `Use built-in WARP ranges` picks the list and ports for the selected WARP mode.
-- `Ports` are merged with the ports stored in the list, unless you choose otherwise next to them. Addresses left without a port are scanned on port 443, or 80 for plain HTTP.
-- `Stop after (results)` completes the scan after that many results. `Concurrency` sets how many addresses are checked at the same time.
-- IPv6 addresses are skipped unless you tick `Scan IPv6 addresses`.
+When a scan has results, `Start` asks what to do:
 
-The `Phases` tab has the checks. An address must pass every check that is on, in this order:
+- `Scan from the beginning` searches again. The current results stay until the first new one replaces them, so a profile that uses them never runs out.
+- `Rescan current results` checks the results again and removes the ones that stopped working. When none of them works, it removes nothing: the server or the network is then more likely down than every result.
 
-| Phase | Default | What it checks |
-| --- | --- | --- |
-| `ICMP (ping)` | off | The address answers ping. |
-| `TCP Connect` | on | The port accepts a TCP connection. Generic scans only. |
-| `TLS / HTTP` | off | A TLS handshake succeeds and, unless `Method` is `None (TLS handshake only)`, an HTTP request gets the answer 200 OK. Generic scans only. |
-| `Config Test` | off | A copy of the chosen `Profile`, pointed at the address, loads the `Test URL`. This finds addresses that really work for your server, such as CDN addresses. Generic scans only. |
-| `WARP Test` | on | A WARP connection through the address works, in the chosen `Mode`: `WireGuard`, `AmneziaWG` or `MASQUE`. WARP scans only. |
+### WARP scans {#warp-scan}
 
-The `WARP Test` needs a WARP identity. The default, `Dedicated for this scan (recommended)`, needs one click on `Register`, which registers a new WARP device with Cloudflare.
+A WARP scan finds Cloudflare WARP endpoints that work from your network for one of your [WARP profiles](@/advanced/warp.md#warp-profiles): WireGuard (with or without Amnezia options) or MASQUE. Each address gets exactly what the profile sends, with its keys, junk packets, QUIC opener and TLS settings, so an endpoint that the scan keeps works for that profile.
 
-On the `Results` tab, `Save as IP list` copies the results into a new IP list.
+When you choose the profile, `Base IP list` switches to `Cloudflare WARP (WireGuard)` or `Cloudflare WARP (MASQUE)` to match. The rest is automatic:
 
-When a scan has results, `Start` asks what to do: `Scan from the beginning` clears the results and scans the base list again; `Rescan current results` checks only the results and removes the ones that stopped working.
+1. The current results and the profile's own endpoint are checked first.
+2. The scan finds the ports that answer, then tries addresses from every range of the list on them, three handshakes each.
+3. An endpoint that answers must also load the `Latency Test URL` through a real connection before it is kept. Its `Loss` and `Latency` are those of its handshakes.
+
+The scan completes after 5 working endpoints, after 10 seconds without a new one, or after 90 seconds; the status shows the seconds used. When it finds nothing, the log says whether no endpoint answered or endpoints answered but carried no data. When plain WireGuard is blocked but gets through with junk packets, the scan goes on with them, and the log asks you to tick `Enable Amnezia` in the profile and set `Jc` 4, `Jmin` 40 and `Jmax` 70 in `Amnezia Options`.
+
+To use an endpoint, enter its address and port as the profile's server address and port.
 
 ### DNS resolver scans {#dns-scan}
 
-A DNS resolver scan finds resolvers that relay the tunnel of one of your [DNS tunnel](@/advanced/dns_tunnels.md) profiles: DNSTT (also in VayDNS mode), MasterDNS, or VLESS (Xray) with XDNS. It tries each address of the base list as the only resolver of that profile and keeps the ones that pass.
+A DNS resolver scan finds resolvers that relay the tunnel of one of your [DNS tunnel](@/advanced/dns_tunnels.md) profiles: DNSTT (also in VayDNS mode), MasterDNS, or VLESS (Xray) with XDNS. It tries each address as the only resolver of that profile and keeps the ones that pass.
 
-To create one, choose `DNS resolver scan` in `New scan`, or click `Find resolvers` next to `IP list` in the editor of a saved DNS tunnel profile, which opens or creates a scan for it. The scan tests the profile as it was last saved.
+To create one, choose `DNS resolver scan` in `New scan`, or click `Find resolvers` next to `IP list` in the editor of a saved DNS tunnel profile, which opens or creates a scan for it.
 
-On the `Targets` tab, choose the resolvers to try as the `Base IP list`, such as `Iran DNS resolvers` or `Russia DNS resolvers`. There is no `Ports` field: each address is tried on the port stored in the list, or on port 53.
+- `Base IP list` holds the resolvers to try, such as `Iran DNS resolvers` or `Russia DNS resolvers`. Each address is tried on the port stored in the list, or on port 53.
+- `Stop after (results)` (20 by default) completes the scan after that many new results; `Resume` then finds more. Empty means no limit.
+- `Concurrency` sets how many resolvers are tried at the same time.
 
-The `Phases` tab has one check, `DNS Tunnel Test`, with the `Profile`, the `Test` and a `Timeout (ms)` for the whole test of one resolver. Each test also does the checks of the tests above it for the same kind of profile:
+Before the list, the scan checks your network:
 
-| Test | Profiles | What it checks |
-| --- | --- | --- |
-| `Poll: relays one tunnel query` | DNSTT, XDNS | The resolver passes one tunnel query to the tunnel server and returns a valid answer. |
-| `Query names: also relays names as long as the profile sends` (default) | DNSTT, XDNS | The resolver also relays query names as long as the profile's. The scan finds the longest name it relays. |
-| `Handshake: also opens a tunnel session` | DNSTT | A tunnel session with the server opens through the resolver. |
-| `Quick: relays the smallest packets` (default) | MasterDNS | The resolver relays queries and answers of the smallest size the profile needs. |
-| `Full: also measures the upload and download MTU` | MasterDNS | The scan also finds the largest query and answer that the resolver relays. |
+- It asks your network's own DNS servers for the root servers. When none answers, the network is down and the scan stops.
+- It sends a tunnel query to `192.0.2.1`, an address where no resolver runs. If the tunnel answers through it, your network intercepts DNS and every resolver you try is really your network's, so the scan tries only your network's resolvers and completes.
+- Your network's resolvers and the profile's own are tried first. When none of them passes, the log says to check the profile or its server.
 
-On the `Results` tab, `Latency` is how long the resolver took to answer. `Max QNAME` (DNSTT and XDNS) is the longest query name it relays, in the units of `Max QNAME Length` for DNSTT and of `lenLimit` for XDNS. `Upload MTU` and `Download MTU` (MasterDNS) are the largest payloads per query and per answer. Resolvers that fail are not kept; the log shows where each one stopped.
+A resolver passes when it relays a tunnel query and, for DNSTT and XDNS, query names as long as the profile sends. A burst of 8 queries then measures it: `Loss` is the share of the burst left unanswered, and `Latency` is the time to the resolver's first answer. At the end, the log counts why resolvers failed: no answer, an error reply, a wrong answer, or a name too long. When resolvers pass only with short names, it suggests a lower `Max QNAME Length` in the profile.
 
-Click `Use as resolvers` on the `Results` tab to make the scan's result list the profile's `IP list`. The resolvers typed in the profile stay and are used first. The profile reads the list each time it starts, so it follows the scan: `Scan from the beginning` empties the list, and `Rescan current results` removes resolvers that stopped working. For a fixed set, click `Save as IP list` and choose that list as the profile's `IP list` instead.
-
-### Find working settings {#find-working-settings}
-
-This scan tries variants of one profile's anti-censorship settings, several times each, and ranks them, to find what gets through on your network. Right-click a profile and choose `Test` → `Find working settings`, which opens the profile's scan or creates one, or choose `Find working settings` in `New scan`.
-
-The scan's window has a `Settings` tab instead of `Targets` and `Phases`:
-
-- `What to Try` chooses the settings to vary: `uTLS fingerprint`, `TLS fragment`, `TLS record fragment`, `Mixed-case SNI`, `QUIC opener` and `MTU (WireGuard)`. Each is first tried on its own, then the changes that help are combined. Settings the profile cannot use are greyed out, with the reason in their tooltip.
-- `Pacing` limits the attempts and the time, and sets the `Test URL` and `Timeout (ms)`.
-
-`Start` always starts over. The `Results` tab ranks the variants by `Passed` and `Median latency` and marks the best one `Recommended`. Nothing in the profile changes until you select a result and click `Apply to profile`, or `Save as new profile` to add a copy with these settings.
-
-It cannot search chains (search their hops instead), Xray profiles, or profiles without TLS over TCP, QUIC or WireGuard. The profile must be saved first.
+Click `Use as resolvers` under `Results` to make the scan's result list the profile's `IP list`. The resolvers typed in the profile stay and are used first; the list follows, best first. The profile reads the list each time it starts, so it follows the scan: `Rescan current results` removes resolvers that stopped working. For a fixed set, click `Save as IP list` and choose that list as the profile's `IP list` instead.
 
 ### IP lists {#ip-lists}
 
-Click `IP Lists` in the `IP Scanner` window to manage the lists that scans read and that groups and profiles use. Throne comes with `Cloudflare CDN`, `Fastly CDN`, `Gcore CDN`, `Cloudflare WARP (WireGuard)`, `Cloudflare WARP (MASQUE)`, `Iran DNS resolvers` and `Russia DNS resolvers`. `Import` → `Add default lists` restores them.
+Click `IP Lists` in the `IP Scanner` window to manage the lists that scans read and that profiles use. Throne comes with `Cloudflare WARP (WireGuard)`, `Cloudflare WARP (MASQUE)`, `Iran DNS resolvers` and `Russia DNS resolvers`. `Import` → `Add default lists` restores them.
 
-- `New` creates a list. Its `Source` is `Manual` (you write the entries), `URL` (an address that Throne downloads) or `Rule-set` (the IP ranges of a rule-set such as `geoip-ir`, or a rule-set URL). A `URL` or `Rule-set` list can update itself with `Auto update`, at most once every 30 minutes.
+- `New` creates a list. Its `Source` is `Manual` (you write the entries) or `URL` (an address that Throne downloads). A `URL` list can update itself with `Auto update`, at most once every 30 minutes.
 - Write one entry per line, for example `1.2.3.4`, `1.2.3.0/24`, `1.2.3.4:443`, `[2606:4700::1]:443`, `1.2.3.0/24 443` or `1.2.3.1-1.2.3.9`.
 
-The results of each scan are a list too, named "Result of scan" and the scan's name. A group or a profile can use it directly, but `Scan from the beginning` empties it; use `Save as IP list` for a list that stays as it is.
+The results of each scan are a list too, named after the scan: `Scan WARP Result` for a scan named `WARP`. A profile can use it directly; use `Save as IP list` for a list that stays as it is.
 
 ## On Android {#android}
 

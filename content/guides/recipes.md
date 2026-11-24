@@ -94,16 +94,3 @@ On the desktop, per-app rules work reliably only in `Tun mode`.
 To proxy only some programs, set `Everything else goes to` to `Direct` and put them in the `Proxy` list, for example `processName:Telegram.exe`. To proxy all programs except some, put the exceptions in the `Direct` list. See [Connections tab](@/guides/routing.md#connections-tab) and [Lists](@/guides/routing.md#simple-rules).
 
 **Android:** choose the apps in `Settings` → `TUN / VPN` → `Apps VPN mode`, or use the `Apps` field of a routing rule. See [Per-app proxy](@/android/modes.md#per-app-proxy).
-
-## Find a working CDN address {#cdn-address}
-
-If your provider's servers are behind a CDN such as Cloudflare, profiles can fail because their CDN addresses are blocked on your network while other addresses of the same CDN work. To find such an address for a whole group:
-
-1. Open `Tools` → `IP Scanner`, click `New scan`, keep `Generic scan` and click `OK`.
-2. On the `Targets` tab, choose your CDN's list as `Base IP list`, for example `Cloudflare CDN`, enter your profiles' port in `Ports` (usually `443`) and set `Stop after (results)` to a small number such as `20`.
-3. On the `Phases` tab, tick `Config Test` and choose one of the group's profiles as `Profile`.
-4. Click `Start`. When the scan completes, click `Save as IP list` on the `Results` tab and enter a name.
-5. In the group's options, click `Advanced`, set `Server Address` to `IP list`, choose the new list and click `OK` twice.
-6. Run a URL test of the group.
-
-This works only for profiles whose server really is behind that CDN, usually WebSocket, gRPC, HTTPUpgrade or XHTTP over TLS with a domain name. See [Server address](@/guides/subscriptions.md#server-address).

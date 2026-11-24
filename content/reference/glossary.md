@@ -22,7 +22,6 @@ toc = true
 | Priority tier | A row of an auto selector's `Priority tiers`: profiles of the highest tier that works are used first. | [Testing & Auto Selector](@/guides/testing.md#auto-selector) |
 | URL test | A latency test that measures how long a profile takes to open a test URL. | [Testing & Auto Selector](@/guides/testing.md#url-test) |
 | Service check | A test that shows which services, such as AI or streaming sites, work through a profile. | [Testing & Auto Selector](@/guides/testing.md#service-check) |
-| Find working settings | A scan that tries anti-censorship settings of a profile and ranks what gets through. | [Testing & Auto Selector](@/guides/testing.md#find-working-settings) |
 
 ## Interface {#interface}
 

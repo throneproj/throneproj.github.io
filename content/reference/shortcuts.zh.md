@@ -92,7 +92,7 @@ toc = true
 
 ### 没有默认快捷键的操作 {#no-default}
 
-其他大多数菜单项都没有默认快捷键，但可以为它们设置，例如 `编辑`（Edit）、`置顶`（Pin to top）、`添加订阅`（Add subscription）、`服务检查`（Service check）、`出口 IP`（Exit IP）、`查找可用设置`（Find working settings）、`复制测试结果`（Copy test result）、`清理`（Clean up）中的命令、`管理分组`（Manage groups）、各个设置窗口、`工具`（Tools）菜单中的窗口、`出口方式`（Exit through）的各个选项、`屏蔽广告`（Block ads）、`路由查询`（Route lookup）、`切换 WARP`（Toggle WARP）、`重启核心`（Restart core）和 `刷新列宽`（Refresh column widths）。
+其他大多数菜单项都没有默认快捷键，但可以为它们设置，例如 `编辑`（Edit）、`置顶`（Pin to top）、`添加订阅`（Add subscription）、`服务检查`（Service check）、`出口 IP`（Exit IP）、`复制测试结果`（Copy test result）、`清理`（Clean up）中的命令、`管理分组`（Manage groups）、各个设置窗口、`工具`（Tools）菜单中的窗口、`出口方式`（Exit through）的各个选项、`屏蔽广告`（Block ads）、`路由查询`（Route lookup）、`切换 WARP`（Toggle WARP）、`重启核心`（Restart core）和 `刷新列宽`（Refresh column widths）。
 
 ## 更改快捷键 {#change-shortcuts}
 

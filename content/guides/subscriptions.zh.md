@@ -146,7 +146,7 @@ hwid=value,os=value,osVersion=value,model=value
 
 ## 服务器地址 {#server-address}
 
-分组可以让其所有配置档连接到另一个地址，例如 [IP 扫描器](@/guides/testing.zh.md#ip-scanner)找到的、在你的网络中可用的 CDN 地址。打开分组选项 → `高级`（Advanced）→ `Server Address`，然后选择：
+分组可以让其所有配置档连接到另一个地址，例如在你的网络中可用的 CDN 地址。打开分组选项 → `高级`（Advanced）→ `Server Address`，然后选择：
 
 - `Profiles' own addresses`：不做更改（默认）。
 - `Fixed address`：一个主机名或 IP 地址，不带端口。

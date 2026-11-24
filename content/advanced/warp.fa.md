@@ -66,7 +66,7 @@ Throne وقتی `AmneziaWG` را انتخاب می‌کنید امضا را می
 2. روی `Generate WARP config` (برای WireGuard) یا `Generate WARP identity` (برای MASQUE) کلیک کنید.
 3. یک `اسم` (Name) وارد کنید و روی `تایید` (OK) کلیک کنید.
 
-چنین نمایه‌ای مستقیماً به Cloudflare وصل می‌شود. تا وقتی از آن استفاده می‌کنید، `خروج از طریق` (Exit through) را روی `نمایهٔ انتخاب‌شده` (Selected profile) نگه دارید؛ وگرنه Throne یک هاپ WARP دوم پس از آن اضافه می‌کند.
+چنین نمایه‌ای مستقیماً به Cloudflare وصل می‌شود. تا وقتی از آن استفاده می‌کنید، `خروج از طریق` (Exit through) را روی `نمایهٔ انتخاب‌شده` (Selected profile) نگه دارید؛ وگرنه Throne یک هاپ WARP دوم پس از آن اضافه می‌کند. اگر وصل نشد، یک [اسکن WARP](@/guides/testing.fa.md#warp-scan) نقاط پایانی‌ای را پیدا می‌کند که از شبکهٔ شما کار می‌کنند.
 
 `Mode` در `تنظیمات مسیریابی` (Routing Settings) روی آن اثری ندارد. برای پنهان‌سازی حالت `AmneziaWG` در یک نمایهٔ WireGuard، `Enable Amnezia` را تیک بزنید، روی `Amnezia Options` کلیک کنید و `Junk Packet Count (Jc)` را روی 4، `Junk Packet Min Size (Jmin)` را روی 40، `Junk Packet Max Size (Jmax)` را روی 70 و H1 تا H4 را روی 1، 2، 3 و 4 بگذارید. سپس روی `Generate QUIC signature` کلیک کنید، `www.cloudflare.com` را وارد کنید و روی `تایید` (OK) کلیک کنید.
 

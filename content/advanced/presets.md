@@ -21,8 +21,6 @@ Each option works against one blocking method. None helps everywhere, and each c
 2. Run a [URL test](@/guides/testing.md#url-test) and open a few websites. If nothing improves, set the option back to `Keep default` and try the next one.
 3. When an option helps most of your profiles, turn on its `Default on` in `Preset Settings`.
 
-To let Throne try the options of one profile for you, use [Find working settings](@/guides/testing.md#find-working-settings).
-
 ## TLS fragment {#tls-fragment}
 
 A censor often reads the server name (SNI) in the first message of a TLS connection, the ClientHello. TLS fragment splits that message, so a simple filter cannot read the name from one packet. It only helps against such simple filters.

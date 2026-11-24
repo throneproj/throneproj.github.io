@@ -1,6 +1,6 @@
 +++
 title = "测试与自动选择器"
-description = "测试配置档以及它们能访问的服务，排序、置顶和清理列表，让自动选择器挑选最佳配置档，并扫描可用的 IP 地址、DNS 解析器和设置。"
+description = "测试配置档以及它们能访问的服务，排序、置顶和清理列表，让自动选择器挑选最佳配置档，并查找可用的 WARP 端点和 DNS 解析器。"
 weight = 60
 toc = true
 +++
@@ -135,85 +135,63 @@ Throne 会逐个测试配置档。如果包含了 `速度`（Speed），`测试�
 
 ## IP 扫描器 {#ip-scanner}
 
-`工具`（Tools）→ `IP Scanner` 会检查 IP 地址列表，并保留在你的网络中可用的地址：你的服务器所在 CDN 的未被封锁的地址、可用的 Cloudflare WARP 端点，或者用于 DNS 隧道的 DNS 解析器。扫描结果会组成一个 IP 列表，分组或配置档可以把它用作[服务器地址](@/guides/subscriptions.zh.md#server-address)。
+`工具`（Tools）→ `IP 扫描器`（IP Scanner）会为两类配置档查找在你的网络中可用的内容：为 WARP 配置档查找 Cloudflare WARP 端点，为 DNS 隧道配置档查找解析器。扫描会用配置档自身的设置尝试各个地址，并保留可用的地址。
 
-1. 点击 `New scan`，输入 `Name` 并选择扫描类型：
-   - `Generic scan` 用 ping、TCP、TLS 或 HTTP 检查地址，也可以通过你的某个配置档进行检查。
-   - `WARP scan` 查找能完成 WireGuard、AmneziaWG 或 MASQUE 连接的 WARP 端点。
-   - `DNS 解析器扫描`（DNS resolver scan）为 DNS 隧道配置档查找解析器；参见 [DNS 解析器扫描](#dns-scan)。
-   - `查找可用设置`（Find working settings）尝试的是某个配置档的各种设置，而不是地址；参见[查找可用设置](#find-working-settings)。
-2. 点击 `确定`（OK）。扫描窗口随即打开。
-3. 在 `Targets` 标签页上设置目标，在 `Phases` 标签页上设置检查项。
-4. 点击 `Start`。通过检查的地址会逐渐填入 `Results` 标签页。
+1. 点击 `新建扫描`（New scan），输入 `名称`（Name），选择 `WARP 扫描`（WARP scan）或 `DNS 解析器扫描`（DNS resolver scan），然后点击 `确定`（OK）。扫描窗口随即打开。
+2. 选择 `配置档`（Profile）。扫描使用的是配置档最后一次保存时的状态。
+3. 点击 `启动`（Start）。
 
-关闭扫描窗口后，扫描仍会继续运行。
+关闭扫描窗口后，扫描仍会继续运行。`暂停`（Pause）会暂停扫描，`继续`（Resume）会让它继续运行。
 
-`Targets` 标签页：
+`结果`（Results）会列出扫描找到的内容，最好的排在最前：先按 `丢包率`（Loss）（未获应答的探测所占的比例）从低到高排列，再按 `延迟`（Latency）从低到高排列。点击列标题即可按该列排序。`保存为 IP 列表`（Save as IP list）会把结果复制到一个新的 [IP 列表](#ip-lists)，`复制`（Copy）会把它们复制为文本，`导出`（Export）会把它们保存到文件。
 
-- `Base IP list` 是要扫描的地址；`Manage` 会打开 [IP 列表](#ip-lists)。在 WARP 扫描中，`Use built-in WARP ranges` 会为所选 WARP 模式选择列表和端口。
-- `Ports` 会与列表中保存的端口合并，除非你在旁边另行选择。没有端口的地址会在 443 端口上扫描，纯 HTTP 则为 80 端口。
-- `Stop after (results)` 在结果达到此数量时结束扫描。`Concurrency` 设置同时检查多少个地址。
-- 除非勾选 `Scan IPv6 addresses`，否则会跳过 IPv6 地址。
+扫描已有结果时，`启动` 会询问要做什么：
 
-`Phases` 标签页包含各项检查。地址必须按以下顺序通过所有已开启的检查：
+- `从头开始扫描`（Scan from the beginning）会重新搜索。当前结果会一直保留，直到第一个新结果取代它们，因此使用这些结果的配置档始终有地址可用。
+- `重新扫描当前结果`（Rescan current results）会重新检查已有结果，并移除不再可用的结果。如果一个都不可用，就不会移除任何结果：这时更可能是服务器或网络出了故障，而不是所有结果同时失效。
 
-| 阶段 | 默认值 | 检查内容 |
-| --- | --- | --- |
-| `ICMP (ping)` | 关闭 | 地址响应 ping。 |
-| `TCP 连接`（TCP Connect） | 开启 | 端口接受 TCP 连接。仅限 `Generic scan`。 |
-| `TLS / HTTP` | 关闭 | TLS 握手成功；并且除非 `Method` 为 `None (TLS handshake only)`，HTTP 请求会得到 200 OK 响应。仅限 `Generic scan`。 |
-| `配置测试`（Config Test） | 关闭 | 将所选 `配置档`（Profile）的副本指向该地址，并加载 `Test URL`。这样可以找到真正适用于你的服务器的地址，例如 CDN 地址。仅限 `Generic scan`。 |
-| `WARP 测试`（WARP Test） | 开启 | 通过该地址、以所选 `Mode`（`WireGuard`、`AmneziaWG` 或 `MASQUE`）建立的 WARP 连接可以工作。仅限 `WARP scan`。 |
+### WARP 扫描 {#warp-scan}
 
-`WARP 测试` 需要一个 WARP 身份。默认选项 `Dedicated for this scan (recommended)` 需要点击一次 `Register`，它会向 Cloudflare 注册一个新的 WARP 设备。
+WARP 扫描会为你的某个 [WARP 配置档](@/advanced/warp.zh.md#warp-profiles)查找在你的网络中可用的 Cloudflare WARP 端点。该配置档可以是 WireGuard（带或不带 Amnezia 选项）或 MASQUE。每个地址收到的内容都与该配置档实际发送的完全相同，包括它的密钥、垃圾数据包、QUIC 前导包和 TLS 设置，因此扫描保留下来的端点对该配置档可用。
 
-在 `Results` 标签页上，`Save as IP list` 会把结果复制到一个新的 IP 列表。
+选择配置档后，`基础 IP 列表`（Base IP list）会相应地切换为 `Cloudflare WARP (WireGuard)` 或 `Cloudflare WARP (MASQUE)`。其余步骤都会自动完成：
 
-扫描已有结果时，`Start` 会询问要做什么：`Scan from the beginning` 会清空结果并重新扫描基础列表；`Rescan current results` 只重新检查已有结果，并移除不再可用的地址。
+1. 先检查当前结果和该配置档自己的端点。
+2. 扫描找出有应答的端口，然后在这些端口上尝试列表中每个范围内的地址，每个地址握手三次。
+3. 有应答的端点还必须通过真实连接加载 `延迟测试 URL`（Latency Test URL），才会被保留。它的 `丢包率`（Loss）和 `延迟`（Latency）取自它的握手。
+
+扫描在找到 5 个可用端点后、连续 10 秒没有找到新端点后，或者运行 90 秒后结束；扫描状态会显示已用的秒数。如果什么都没找到，日志会说明是没有端点应答，还是端点有应答但没有传输数据。如果普通 WireGuard 被封锁，但附带垃圾数据包时能够通过，扫描会继续使用垃圾数据包，日志会提示你在配置档中勾选 `启用 Amnezia`（Enable Amnezia），并在 `Amnezia 选项`（Amnezia Options）中把 `Jc` 设为 4、`Jmin` 设为 40、`Jmax` 设为 70。
+
+要使用某个端点，请把它的地址和端口填写为配置档的服务器地址和端口。
 
 ### DNS 解析器扫描 {#dns-scan}
 
-DNS 解析器扫描用于查找能够中继你的某个 [DNS 隧道](@/advanced/dns_tunnels.zh.md)配置档的隧道的解析器，适用于 DNSTT（包括 VayDNS 模式）、MasterDNS，以及带 XDNS 的 VLESS (Xray)。它会把基础列表中的每个地址分别作为该配置档唯一的解析器进行尝试，并保留通过测试的解析器。
+DNS 解析器扫描用于查找能够中继你的某个 [DNS 隧道](@/advanced/dns_tunnels.zh.md)配置档的隧道的解析器，适用于 DNSTT（包括 VayDNS 模式）、MasterDNS，以及带 XDNS 的 VLESS (Xray)。它会把每个地址分别作为该配置档唯一的解析器进行尝试，并保留通过测试的解析器。
 
-要创建这种扫描，请在 `New scan` 中选择 `DNS 解析器扫描`（DNS resolver scan），或者在已保存的 DNS 隧道配置档的编辑器中，点击 `IP 列表`（IP list）旁边的 `查找解析器`（Find resolvers），这会为该配置档打开或新建一个扫描。扫描测试的是配置档最后一次保存时的状态。
+要创建这种扫描，请在 `新建扫描`（New scan）中选择 `DNS 解析器扫描`（DNS resolver scan），或者在已保存的 DNS 隧道配置档的编辑器中，点击 `IP 列表`（IP list）旁边的 `查找解析器`（Find resolvers），这会为该配置档打开或新建一个扫描。
 
-在 `Targets` 标签页上，把要尝试的解析器选为 `Base IP list`，例如 `Iran DNS resolvers` 或 `Russia DNS resolvers`。这里没有 `Ports` 字段：每个地址都在列表中保存的端口上尝试，没有端口时使用 53 端口。
+- `基础 IP 列表`（Base IP list）是要尝试的解析器，例如 `Iran DNS resolvers` 或 `Russia DNS resolvers`。每个地址都在列表中保存的端口上尝试，没有端口时使用 53 端口。
+- `停止量(结果数)`（Stop after (results)）在新结果达到此数量时结束扫描（默认为 20）；之后 `继续`（Resume）可以找到更多结果。留空表示无限制。
+- `并发数`（Concurrency）设置同时尝试多少个解析器。
 
-`Phases` 标签页只有一项检查，即 `DNS 隧道测试`（DNS Tunnel Test），其中有 `配置档`（Profile）、`测试`（Test）以及测试单个解析器的总时限 `超时 (毫秒)`（Timeout (ms)）。对于每种配置档，每项测试都会同时完成排在它之前的测试的检查：
+在尝试列表之前，扫描会先检查你的网络：
 
-| 测试 | 配置档 | 检查内容 |
-| --- | --- | --- |
-| `轮询：中继一个隧道查询`（Poll: relays one tunnel query） | DNSTT、XDNS | 解析器把一个隧道查询转发给隧道服务器，并返回有效的应答。 |
-| `查询名：还能中继与配置档所发送的同样长的名称`（Query names: also relays names as long as the profile sends）（默认） | DNSTT、XDNS | 解析器还能中继与配置档所发送的同样长的查询名。扫描会找出该解析器能中继的最长名称。 |
-| `握手：还能建立隧道会话`（Handshake: also opens a tunnel session） | DNSTT | 能通过该解析器与服务器建立隧道会话。 |
-| `快速：中继最小的数据包`（Quick: relays the smallest packets）（默认） | MasterDNS | 解析器能中继配置档所需的最小尺寸的查询和应答。 |
-| `完整：还会测量上传和下载 MTU`（Full: also measures the upload and download MTU） | MasterDNS | 扫描还会找出该解析器能中继的最大查询和最大应答。 |
+- 向你的网络自己的 DNS 服务器查询根服务器。如果没有一个应答，说明网络已断开，扫描会停止。
+- 向 `192.0.2.1` 发送一个隧道查询，这个地址上没有运行任何解析器。如果隧道通过它返回应答，说明你的网络劫持了 DNS，你尝试的每个解析器实际上都是你的网络的解析器，因此扫描只尝试你的网络的解析器，然后结束。
+- 你的网络的解析器和配置档自己的解析器会最先尝试。如果它们都没有通过，日志会提示你检查配置档或其服务器。
 
-在 `Results` 标签页上，`Latency` 是解析器的应答用时。`最大 QNAME`（Max QNAME，DNSTT 和 XDNS）是解析器能中继的最长查询名，DNSTT 使用 `最大 QNAME 长度`（Max QNAME Length）的单位，XDNS 使用 `lenLimit` 的单位。`上传 MTU`（Upload MTU）和 `下载 MTU`（Download MTU）（MasterDNS）是每个查询和每个应答中的最大有效载荷。未通过的解析器不会保留；日志会显示每个解析器停在了哪一步。
+如果解析器能中继隧道查询，并且对于 DNSTT 和 XDNS 还能中继与配置档所发送的同样长的查询名，它就通过测试。随后会用连续 8 个查询来测量它：`丢包率`（Loss）是这 8 个查询中未获应答的比例，`延迟`（Latency）是到解析器第一个应答为止的时间。最后，日志会按原因统计失败的解析器：无应答、返回错误、答案错误或名称过长。如果有解析器只在名称较短时才能通过，日志会建议调低配置档中的 `最大 QNAME 长度`（Max QNAME Length）。
 
-在 `Results` 标签页上点击 `用作解析器`（Use as resolvers），扫描的结果列表就会成为该配置档的 `IP 列表`（IP list）。配置档中手动填写的解析器会保留，并优先使用。配置档每次启动时都会读取该列表，因此会随扫描而变化：`Scan from the beginning` 会清空列表，`Rescan current results` 会移除不再可用的解析器。如需固定不变的一组解析器，请点击 `Save as IP list`，再把那个列表选为配置档的 `IP 列表`。
-
-### 查找可用设置 {#find-working-settings}
-
-这种扫描会尝试某个配置档的反审查设置的各种变体，每种变体尝试多次，并对它们进行排名，以找出在你的网络中能够通过的设置。右键点击配置档并选择 `测试`（Test）→ `查找可用设置`（Find working settings），这会打开该配置档的扫描或新建一个扫描；也可以在 `新建扫描`（New scan）中选择 `查找可用设置`。
-
-扫描窗口中用 `设置`（Settings）标签页代替了 `目标`（Targets）和 `阶段`（Phases）标签页：
-
-- `要尝试的项目`（What to Try）用于选择要变化的设置：`uTLS 指纹`（uTLS fingerprint）、`TLS 分片`（TLS fragment）、`TLS 记录分片`（TLS record fragment）、`混合大小写 SNI`（Mixed-case SNI）、`QUIC 前导包`（QUIC opener）和 `MTU (WireGuard)`。每一项先单独尝试，然后把有帮助的更改组合起来。配置档无法使用的设置会显示为灰色，其工具提示中会说明原因。
-- `节奏`（Pacing）用于限制尝试次数和时间，并设置 `测试 URL`（Test URL）和 `超时 (毫秒)`（Timeout (ms)）。
-
-`启动`（Start）总是从头开始。`结果`（Results）标签页按 `通过`（Passed）和 `延迟中位数`（Median latency）对变体进行排名，并把最好的一个标为 `推荐`（Recommended）。在你选中某个结果并点击 `应用到配置档`（Apply to profile），或点击 `另存为新配置档`（Save as new profile）添加一个使用这些设置的副本之前，配置档不会有任何改动。
-
-它无法搜索代理链（请改为搜索其中的跳点）、Xray 配置档，或者不使用 TCP 上的 TLS、QUIC 或 WireGuard 的配置档。配置档必须先保存。
+在 `结果`（Results）下点击 `用作解析器`（Use as resolvers），扫描的结果列表就会成为该配置档的 `IP 列表`（IP list）。配置档中手动填写的解析器会保留，并优先使用；其后是该列表，最好的排在最前。配置档每次启动时都会读取该列表，因此会随扫描而变化：`重新扫描当前结果`（Rescan current results）会移除不再可用的解析器。如需固定不变的一组解析器，请点击 `保存为 IP 列表`（Save as IP list），再把那个列表选为配置档的 `IP 列表`。
 
 ### IP 列表 {#ip-lists}
 
-在 `IP Scanner` 窗口中点击 `IP Lists`，即可管理扫描所读取、分组和配置档所使用的列表。Throne 自带 `Cloudflare CDN`、`Fastly CDN`、`Gcore CDN`、`Cloudflare WARP (WireGuard)`、`Cloudflare WARP (MASQUE)`、`Iran DNS resolvers` 和 `Russia DNS resolvers`。`Import` → `Add default lists` 可以恢复它们。
+在 `IP 扫描器`（IP Scanner）窗口中点击 `IP 列表`（IP Lists），即可管理扫描所读取、配置档所使用的列表。Throne 自带 `Cloudflare WARP (WireGuard)`、`Cloudflare WARP (MASQUE)`、`Iran DNS resolvers` 和 `Russia DNS resolvers`。`导入`（Import）→ `添加默认列表`（Add default lists）可以恢复它们。
 
-- `New` 创建一个列表。其 `Source` 为 `Manual`（由你填写条目）、`URL`（Throne 下载的地址）或 `Rule-set`（某个规则集的 IP 范围，例如 `geoip-ir`，或规则集 URL）。`URL` 或 `Rule-set` 列表可以通过 `Auto update` 自动刷新，间隔不少于 30 分钟。
+- `新建`（New）创建一个列表。其 `来源`（Source）为 `手动`（Manual）（由你填写条目）或 `URL`（Throne 下载的地址）。`URL` 列表可以通过 `自动更新`（Auto update）自动刷新，间隔不少于 30 分钟。
 - 每行写一个条目，例如 `1.2.3.4`、`1.2.3.0/24`、`1.2.3.4:443`、`[2606:4700::1]:443`、`1.2.3.0/24 443` 或 `1.2.3.1-1.2.3.9`。
 
-每个扫描的结果也是一个列表，标有“Result of scan”和扫描名称。分组或配置档可以直接使用它，但 `Scan from the beginning` 会清空它；如需内容不变的列表，请使用 `Save as IP list`。
+每个扫描的结果也是一个列表，以扫描的名称命名：名为 `WARP` 的扫描，其结果列表为 `扫描 WARP 结果`（Scan WARP Result）。配置档可以直接使用它；如需内容不变的列表，请使用 `保存为 IP 列表`（Save as IP list）。
 
 ## Android 版 {#android}
 

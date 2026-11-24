@@ -66,7 +66,7 @@ Cloudflare 的注册服务器 `api.cloudflareclient.com` 在一些国家被封�
 2. 点击 `生成 WARP 配置`（Generate WARP config，WireGuard）或 `生成 WARP 身份标识`（Generate WARP identity，MASQUE）。
 3. 填写 `名称`（Name）并点击 `确定`。
 
-这样的配置档会直接连接 Cloudflare。使用它时请让 `出口方式`（Exit through）保持为 `所选配置档`（Selected profile），否则 Throne 会在它之后再添加一个 WARP 跳点。
+这样的配置档会直接连接 Cloudflare。使用它时请让 `出口方式`（Exit through）保持为 `所选配置档`（Selected profile），否则 Throne 会在它之后再添加一个 WARP 跳点。如果它无法连接，[WARP 扫描](@/guides/testing.zh.md#warp-scan)可以找到在你的网络中可用的端点。
 
 `路由设置` 中的 `模式` 不会影响它。要让 WireGuard 配置档具备 `AmneziaWG` 模式的混淆效果，请勾选 `启用 Amnezia`（Enable Amnezia），点击 `Amnezia 选项`（Amnezia Options），将 `垃圾数据包数量 (Jc)`（Junk Packet Count (Jc)）设为 4、`垃圾数据包最小大小 (Jmin)`（Junk Packet Min Size (Jmin)）设为 40、`垃圾数据包最大大小 (Jmax)`（Junk Packet Max Size (Jmax)）设为 70，并将 H1 到 H4 分别设为 1、2、3 和 4。然后点击 `生成 QUIC 签名`（Generate QUIC signature），输入 `www.cloudflare.com` 并点击 `确定`。
 

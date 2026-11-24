@@ -120,8 +120,8 @@ mKCP 字段（例如 `MTU` 和 `TTI`）留空即使用 Xray 的默认值。当 `
 
 1. 保存配置档并再次打开。在保存之前，`查找解析器`（Find resolvers）处于禁用状态。
 2. 点击 `IP 列表`（IP list）旁的 `查找解析器`。Throne 会在 IP 扫描器中打开此配置档的 DNS 解析器扫描。
-3. 在 `Targets` 标签页的 `Base IP list` 中选择要尝试的地址，例如 `Iran DNS resolvers` 或 `Russia DNS resolvers`，然后开始扫描。
-4. 在 `Results` 标签页中点击 `用作解析器`（Use as resolvers）。结果会成为该配置档的 `IP 列表`。你输入的各行会保留，并优先使用。
+3. 在 `基础 IP 列表`（Base IP list）中选择要尝试的地址，例如 `Iran DNS resolvers` 或 `Russia DNS resolvers`，然后点击 `启动`（Start）。
+4. 在 `结果`（Results）下点击 `用作解析器`（Use as resolvers）。结果会成为该配置档的 `IP 列表`，最好的排在最前。你输入的各行会保留，并优先使用。
 
 参见 [DNS 解析器扫描](@/guides/testing.zh.md#dns-scan)。
 

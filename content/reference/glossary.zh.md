@@ -22,7 +22,6 @@ toc = true
 | Priority tier（优先级层级） | 自动选择器的 `优先级层级`（Priority tiers）中的一行：可用的最高层级中的配置档会被优先使用。 | [测试与自动选择器](@/guides/testing.zh.md#auto-selector) |
 | URL test（URL 测试） | 一种延迟测试，测量通过某个配置档打开测试 URL 所需的时间。 | [测试与自动选择器](@/guides/testing.zh.md#url-test) |
 | Service check（服务检查） | 一种测试，显示哪些服务（例如 AI 或流媒体网站）可以通过某个配置档使用。 | [测试与自动选择器](@/guides/testing.zh.md#service-check) |
-| Find working settings（查找可用设置） | 一种扫描，它会尝试某个配置档的各种反审查设置，并为能够连通的设置排名。 | [测试与自动选择器](@/guides/testing.zh.md#find-working-settings) |
 
 ## 界面 {#interface}
 

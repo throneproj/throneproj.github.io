@@ -120,8 +120,8 @@ Many resolvers do not pass tunnel queries on. A resolver scan tries addresses as
 
 1. Save the profile and open it again. `Find resolvers` stays disabled until the profile is saved.
 2. Click `Find resolvers` next to `IP list`. Throne opens the profile's DNS resolver scan in the IP Scanner.
-3. On the `Targets` tab, choose the addresses to try in `Base IP list`, for example `Iran DNS resolvers` or `Russia DNS resolvers`, and start the scan.
-4. On the `Results` tab, click `Use as resolvers`. The results become the profile's `IP list`. The lines that you typed stay and are used first.
+3. Choose the addresses to try in `Base IP list`, for example `Iran DNS resolvers` or `Russia DNS resolvers`, and click `Start`.
+4. Under `Results`, click `Use as resolvers`. The results become the profile's `IP list`, best first. The lines that you typed stay and are used first.
 
 See [DNS resolver scans](@/guides/testing.md#dns-scan).
 

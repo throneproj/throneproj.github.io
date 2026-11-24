@@ -21,8 +21,6 @@ toc = true
 2. 运行 [URL 测试](@/guides/testing.zh.md#url-test)，再打开几个网站。如果没有改善，就把该选项改回 `保持默认`，然后尝试下一个。
 3. 当某个选项对你的大多数配置档都有帮助时，在 `预设设置` 中开启它的 `默认开启`。
 
-要让 Throne 替你尝试某个配置档的各个选项，请使用[查找可用设置](@/guides/testing.zh.md#find-working-settings)。
-
 ## TLS 分片 {#tls-fragment}
 
 审查系统常常会读取 TLS 连接第一条消息（即 ClientHello）中的服务器名称（SNI）。TLS 分片会拆分这条消息，使简单的过滤器无法从单个数据包中读出服务器名称。它只对这类简单的过滤器有效。

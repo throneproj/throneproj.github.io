@@ -94,16 +94,3 @@ ip:10.20.0.0/16
 要只让部分程序走代理，请将 `其余流量`（Everything else goes to）设为 `直连`（Direct），并把这些程序填入 `代理`（Proxy）列表，例如 `processName:Telegram.exe`。要让除部分程序外的所有程序走代理，请把例外的程序填入 `直连`（Direct）列表。参见[连接标签页](@/guides/routing.zh.md#connections-tab)和[列表](@/guides/routing.zh.md#simple-rules)。
 
 **Android：** 在 `设置`（Settings）→ `TUN / VPN` → `分应用代理`（Apps VPN mode）中选择应用，或者使用路由规则中的 `应用`（Apps）字段。参见[分应用代理](@/android/modes.zh.md#per-app-proxy)。
-
-## 找到可用的 CDN 地址 {#cdn-address}
-
-如果服务商的服务器位于 Cloudflare 等 CDN 之后，配置档可能会因为它们的 CDN 地址在你的网络中被封锁而失败，而同一 CDN 的其他地址仍然可用。要为整个分组找到这样的地址：
-
-1. 打开 `工具`（Tools）→ `IP Scanner`，点击 `New scan`，保持 `Generic scan` 并点击 `确定`（OK）。
-2. 在 `Targets` 标签页上，将 `Base IP list` 选为你的 CDN 的列表，例如 `Cloudflare CDN`，在 `Ports` 中输入配置档的端口（通常是 `443`），并把 `Stop after (results)` 设为一个较小的数字，例如 `20`。
-3. 在 `Phases` 标签页上，勾选 `配置测试`（Config Test），并将 `Profile` 选为该分组中的某个配置档。
-4. 点击 `Start`。扫描完成后，在 `Results` 标签页上点击 `Save as IP list` 并输入名称。
-5. 在该分组的选项中点击 `高级`（Advanced），将 `Server Address` 设为 `IP list`，选择新列表，然后点击两次 `确定`（OK）。
-6. 对该分组运行 URL 测试。
-
-这只适用于服务器确实位于该 CDN 之后的配置档，通常是基于 TLS、使用域名的 WebSocket、gRPC、HTTPUpgrade 或 XHTTP。参见[服务器地址](@/guides/subscriptions.zh.md#server-address)。

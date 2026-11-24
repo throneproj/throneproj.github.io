@@ -146,7 +146,7 @@ Use a `Front Proxy` when your device cannot reach the group's servers directly, 
 
 ## Server address {#server-address}
 
-A group can make all its profiles connect to another address, for example a CDN address that the [IP Scanner](@/guides/testing.md#ip-scanner) found working on your network. Open the group options → `Advanced` → `Server Address` and choose:
+A group can make all its profiles connect to another address, for example a CDN address that works on your network. Open the group options → `Advanced` → `Server Address` and choose:
 
 - `Profiles' own addresses`: no change (default).
 - `Fixed address`: a host name or IP address, without a port.

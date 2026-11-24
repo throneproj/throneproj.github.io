@@ -66,7 +66,7 @@ To use WARP without another proxy, or as a hop in a chain, make it a profile of 
 2. Click `Generate WARP config` (WireGuard) or `Generate WARP identity` (MASQUE).
 3. Enter a `Name` and click `OK`.
 
-Such a profile connects to Cloudflare directly. Keep `Exit through` on `Selected profile` while you use it, or Throne adds a second WARP hop after it.
+Such a profile connects to Cloudflare directly. Keep `Exit through` on `Selected profile` while you use it, or Throne adds a second WARP hop after it. If it does not connect, a [WARP scan](@/guides/testing.md#warp-scan) finds endpoints that work from your network.
 
 The `Mode` in `Routing Settings` does not affect it. For the `AmneziaWG` obfuscation on a WireGuard profile, tick `Enable Amnezia`, click `Amnezia Options`, and set `Junk Packet Count (Jc)` to 4, `Junk Packet Min Size (Jmin)` to 40, `Junk Packet Max Size (Jmax)` to 70, and H1 to H4 to 1, 2, 3 and 4. Then click `Generate QUIC signature`, enter `www.cloudflare.com` and click `OK`.
 

@@ -41,8 +41,8 @@ Throne 会按照你的配置档和路由规则发送你的流量。它自行发�
 | 更新检查 | `检查更新`（Check for updates）；只有点击 `更新`（Update）后才会下载 | `api.github.com`（发布列表和更新日志），然后是 GitHub 上的发布文件 | 代理设置 |
 | WARP 注册 | 生成 WARP 配置或身份时 | `api.cloudflareclient.com`，或你在 `注册域名`（Registration Domains）中设置的域名 | 代理设置 |
 | Xray geo 资源 | 某个 Xray 配置需要 `geoip.dat` 或 `geosite.dat` 且你同意时，或点击 `下载`（Download）时 | `GeoIP 资源 URL`（GeoIP Asset URL）和 `GeoSite 资源的 URL`（GeoSite Asset URL）（默认指向 GitHub） | 代理设置 |
-| IP 扫描 | 在 `IP Scanner` 中扫描时 | 先对公共 DNS 服务器（例如 `1.1.1.1:443`）进行 TCP 检查，然后是你扫描的地址 | 直连，Tun 模式下也是如此 |
-| IP 列表更新 | 更新带有 URL 或规则集来源的 IP 列表时，手动或定时 | 该列表的 URL；内置列表来自 GitHub，经由镜像访问 | 代理设置 |
+| IP 扫描 | 在 `IP Scanner` 中扫描时 | 你扫描的地址。WARP 扫描还会对公共 DNS 服务器（例如 `1.1.1.1:443`）进行 TCP 检查，并通过每个有应答的端点加载测试 URL。DNS 解析器扫描还会向你的网络的 DNS 服务器查询根服务器，并向 `192.0.2.1` 发送一个查询，只有在网络劫持 DNS 时该地址才会应答 | 直连，Tun 模式下也是如此 |
+| IP 列表更新 | 更新带有 URL 来源的 IP 列表时，手动或定时 | 该列表的 URL | 代理设置 |
 | 网络仪表盘 | `打开网络仪表盘`（Open web dashboard），仅限没有内置仪表盘的版本（官方版本都内置了） | GitHub | 始终经由本地代理端口 |
 | WebDAV 备份 | 上传、恢复、删除或测试时；从不自动进行 | 你的 `Server URL` 和 `Folder`：备份文件和备份列表 `throne_backups.json` | 代理设置；开启 `通过代理连接`（Connect through the proxy）时始终经由本地代理端口 |
 | NTP | 仅当开启 `NTP 设置`（NTP Settings）时 | 你输入的 NTP 服务器 | 你选择的 `出站`（outbound）（默认为 `direct`） |

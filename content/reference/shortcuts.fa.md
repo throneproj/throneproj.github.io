@@ -92,7 +92,7 @@ toc = true
 
 ### عمل‌های بدون میانبر پیش‌فرض {#no-default}
 
-بیشتر گزینه‌های دیگر منوها میانبر پیش‌فرض ندارند اما می‌توان به آن‌ها میانبر داد، برای مثال `ویرایش` (Edit)، `سنجاق به بالا` (Pin to top)، `افزودن اشتراک` (Add subscription)، `بررسی سرویس‌ها` (Service check)، `IP خروجی` (Exit IP)، `یافتن تنظیمات کارا` (Find working settings)، `کپی نتیجه تست` (Copy test result)، فرمان‌های `پاکسازی` (Clean up)، `مدیریت گروه‌ها` (Manage groups)، پنجره‌های تنظیمات، پنجره‌های منوی `Tools`، گزینه‌های `خروج از طریق` (Exit through)، `مسدودسازی تبلیغات` (Block ads)، `جستجوی مسیر` (Route lookup)، `روشن/خاموش کردن WARP` (Toggle WARP)، `راه‌اندازی مجدد هسته` (Restart core) و `Refresh column widths`.
+بیشتر گزینه‌های دیگر منوها میانبر پیش‌فرض ندارند اما می‌توان به آن‌ها میانبر داد، برای مثال `ویرایش` (Edit)، `سنجاق به بالا` (Pin to top)، `افزودن اشتراک` (Add subscription)، `بررسی سرویس‌ها` (Service check)، `IP خروجی` (Exit IP)، `کپی نتیجه تست` (Copy test result)، فرمان‌های `پاکسازی` (Clean up)، `مدیریت گروه‌ها` (Manage groups)، پنجره‌های تنظیمات، پنجره‌های منوی `Tools`، گزینه‌های `خروج از طریق` (Exit through)، `مسدودسازی تبلیغات` (Block ads)، `جستجوی مسیر` (Route lookup)، `روشن/خاموش کردن WARP` (Toggle WARP)، `راه‌اندازی مجدد هسته` (Restart core) و `Refresh column widths`.
 
 ## تغییر یک میانبر {#change-shortcuts}
 
