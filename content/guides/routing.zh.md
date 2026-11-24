@@ -56,7 +56,7 @@ toc = true
 3. 向列表中添加条目或添加规则，然后点击 `保存`（Save）。
 4. 在 `路由`（Routing）菜单中启用它。
 
-新配置档一开始就带有 `DNS 查询`（DNS queries）规则，它把 DNS 查询交给 Throne 的 DNS 处理。配置档的 `DNS` 标签页可以为它设置自己的 DNS 服务器，参见[按路由配置档设置 DNS](@/guides/dns.zh.md#route-dns)。当你有 OpenVPN 或 OpenConnect 配置档时会出现 `端点`（Endpoints）标签页，它会让这些配置档与代理同时运行，参见[分离隧道](@/advanced/vpn_profiles.zh.md#split-tunnel)。
+Throne 会自行把 DNS 查询交给它的 DNS 处理并嗅探连接，因此新配置档一开始没有规则。配置档的 `DNS` 标签页可以为它设置自己的 DNS 服务器，参见[按路由配置档设置 DNS](@/guides/dns.zh.md#route-dns)。当你有 OpenVPN 或 OpenConnect 配置档时会出现 `端点`（Endpoints）标签页，它会让这些配置档与代理同时运行，参见[分离隧道](@/advanced/vpn_profiles.zh.md#split-tunnel)。
 
 `路由`（Routing）标签页上还有以下设置：
 
@@ -131,13 +131,13 @@ suffix:example.org
 | `代理`（Proxy）、`直连`（Direct）、`不经出口的代理`（Proxy without exit） | 把流量发往该处。 |
 | `阻止`（Block） | 拒绝流量。`拒绝方式`（Reject with）决定如何拒绝。 |
 | 某个特定配置档 | 让流量经过一个已保存的配置档，它显示为 `[group] name`。Throne 会在你启动的配置档之外同时运行它。 |
-| `劫持 DNS`（Hijack DNS） | 用 Throne 的 DNS 应答 DNS 查询。 |
-| `嗅探`（Sniff） | 探测连接的协议和域名，然后继续执行下一条规则。 |
 | `解析`（Resolve） | 查询域名的 IP 地址，然后继续。 |
 | `设置路由选项`（Set route options） | 应用 `连接选项`（Connection options），然后继续。 |
 | `绕过`（Bypass） | 仅限 Linux 自动重定向。参见 [sing-box 文档](https://sing-box.sagernet.org/configuration/route/rule_action/)。 |
 
-把流量发往某处的选项还带有 `连接选项`（Connection options）。`分片 TLS 握手`（Fragment the TLS handshake）和 `拆分为 TLS 记录`（Split into TLS records）的作用与配置档的 [TLS 分片](@/advanced/presets.zh.md#tls-fragment)选项相同，有助于直连访问被过滤器按名称拦截的网站；`伪造 SNI`（Spoof SNI）的作用与 [TLS 伪装](@/advanced/presets.zh.md#tls-spoof)相同。
+`劫持 DNS`（Hijack DNS）和 `嗅探`（Sniff）只出现在旧版本的规则中，例如旧版本为新配置档添加的 `DNS 查询`（DNS queries）规则。Throne 会自行完成这两项工作，因此可以删除这些规则。
+
+把流量发往某处的选项还带有 `连接选项`（Connection options）。`分片 TLS`（Fragment TLS）的作用与配置档的 [TLS 分片](@/advanced/presets.zh.md#tls-fragment)设置相同，有助于直连访问被过滤器按名称拦截的网站；`伪造 SNI`（Spoof SNI）的作用与 [TLS 伪装](@/advanced/presets.zh.md#tls-spoof)相同。
 
 | 条件 | 匹配内容 |
 | --- | --- |

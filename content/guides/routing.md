@@ -56,7 +56,7 @@ To create a structured profile:
 3. Add entries to the lists or add rules, and click `Save`.
 4. Activate it from the `Routing` menu.
 
-A new profile starts with the rule `DNS queries`, which hands DNS lookups to Throne's DNS. A profile's `DNS` tab can give it its own DNS servers, see [DNS per routing profile](@/guides/dns.md#route-dns). Its `Endpoints` tab, shown when you have OpenVPN or OpenConnect profiles, runs them next to the proxy, see [split tunnel](@/advanced/vpn_profiles.md#split-tunnel).
+Throne hands DNS lookups to its DNS and sniffs connections by itself, so a new profile starts without rules. A profile's `DNS` tab can give it its own DNS servers, see [DNS per routing profile](@/guides/dns.md#route-dns). Its `Endpoints` tab, shown when you have OpenVPN or OpenConnect profiles, runs them next to the proxy, see [split tunnel](@/advanced/vpn_profiles.md#split-tunnel).
 
 The `Routing` tab also has these settings:
 
@@ -131,13 +131,13 @@ To add a rule, click `New rule` and enter a `Name`. Under `When`, click `+ Add c
 | `Proxy`, `Direct`, `Proxy without exit` | Sends it there. |
 | `Block` | Refuses it. `Reject with` chooses how. |
 | A specific profile | Sends it through a saved profile, shown as `[group] name`. Throne runs it next to the profile you started. |
-| `Hijack DNS` | Answers DNS queries with Throne's DNS. |
-| `Sniff` | Detects the protocol and the domain of a connection, then continues with the next rule. |
 | `Resolve` | Looks up the IP address of the domain, then continues. |
 | `Set route options` | Applies the `Connection options`, then continues. |
 | `Bypass` | Linux auto-redirect only. See the [sing-box documentation](https://sing-box.sagernet.org/configuration/route/rule_action/). |
 
-The choices that send traffic somewhere also have `Connection options`. `Fragment the TLS handshake` and `Split into TLS records` work like the [TLS fragment](@/advanced/presets.md#tls-fragment) options of a profile, which helps direct connections to sites that a filter blocks by name; `Spoof SNI` works like [TLS spoof](@/advanced/presets.md#tls-spoof).
+`Hijack DNS` and `Sniff` appear only in rules from older versions, such as the `DNS queries` rule they added to new profiles. Throne does both by itself, so you can delete these rules.
+
+The choices that send traffic somewhere also have `Connection options`. `Fragment TLS` works like the [TLS fragment](@/advanced/presets.md#tls-fragment) setting of a profile, which helps direct connections to sites that a filter blocks by name; `Spoof SNI` works like [TLS spoof](@/advanced/presets.md#tls-spoof).
 
 | Conditions | What they match |
 | --- | --- |

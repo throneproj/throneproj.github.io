@@ -57,7 +57,7 @@ Throne 将你的数据保存在一个名为 `config` 的文件夹中。`设置`�
 | `hwid` | 仅限 Linux：由于系统中没有可用的 `/etc/machine-id` 或 `/var/lib/dbus/machine-id`，Throne 自行创建的设备 ID。参见 [HWID](@/reference/privacy.zh.md#hwid)。 |
 | `.lock` | 表示有一个 Throne 正在使用此文件夹。Throne 从不删除它。 |
 | `dashboard/` | 用于 Clash API 的网络仪表盘。请将占位页面替换为仪表盘文件。 |
-| `sb-dashboard/` | `工具` → `打开网络仪表盘`（Open web dashboard）所打开的网络仪表盘。 |
+| `sb-dashboard/` | `工具` → `打开网络仪表盘`（Open web dashboard）所打开的网络仪表盘。在 `集成设置`（Integration Settings）→ `核心 APIs`（Core APIs）→ `sing-box API / 仪表板`（sing-box API / Dashboard）中设置 `监听端口`（Listen Port）后，该菜单项才会出现。 |
 | `service_checks.json` | 已下载的[服务检查](@/guides/testing.zh.md#service-check)列表。 |
 | `tailscale/`、`Taildrop/` | Tailscale 配置档的登录状态，以及通过 Taildrop 收到的文件。 |
 
@@ -74,7 +74,7 @@ Throne 将你的数据保存在一个名为 `config` 的文件夹中。`设置`�
 | `最多日志行数`（Max log lines） | `500` | `日志` 标签页保留的行数。 |
 | `Sing-box 日志级别`（sing-box Log level） | `info` | 核心写入日志的详细程度：`trace`、`debug`、`info`、`warn`、`error`、`fatal` 或 `panic`。 |
 | `Xray 日志级别`（Xray Log level） | `warning` | Xray 写入日志的详细程度：`debug`、`info`、`warning`、`error` 或 `none`。 |
-| `日志筛选`（Log Filtering） | 关闭 | `启用「包含」规则`（Enable include rules）只显示与你的关键词或正则表达式匹配的行，`启用「排除」规则`（Enable exclude rules）会隐藏它们。被隐藏的行仍会写入日志文件。 |
+| `日志筛选`（Log Filtering）→ `隐藏匹配的行`（Hide lines matching） | 空 | 在 `日志` 标签页中隐藏与此正则表达式匹配的行。这些行仍会写入日志文件。 |
 
 要为 Bug 报告记录详细日志，请按照[报告 Bug](@/help/bug_reports.zh.md#logs) 中的说明操作。
 

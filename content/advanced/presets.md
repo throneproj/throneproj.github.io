@@ -9,7 +9,7 @@ Some networks block or slow down proxies by inspecting how each encrypted connec
 
 ## Presets and profile settings {#presets}
 
-`Settings` → `Preset Settings` holds the global defaults. In a profile's editor, Fragment, TLS Tricks, Multiplex and TLS Spoof offer `Keep Default` (follow the preset's `Default on`; new profiles use this), `On` and `Off`, so `Default on` only affects profiles left on `Keep Default`.
+`Settings` → `Preset Settings` holds the global defaults. In a profile, `Fragment`, `Multiplex`, `TLS Tricks` and `TLS Spoof` start on `Keep default`, which follows the preset's `Default on`. Any other choice overrides the preset, so `Default on` only affects profiles left on `Keep default`. `TLS Tricks` and `TLS Spoof` are in the profile's `Advanced Settings`.
 
 The presets apply only to profiles that run on sing-box, except the uTLS `Default Fingerprint`, which applies to both cores, and the Xray multiplex presets, which `VLESS (Xray)` profiles use. See [sing-box vs Xray](@/advanced/xray.md#two-cores).
 
@@ -18,7 +18,7 @@ The presets apply only to profiles that run on sing-box, except the uTLS `Defaul
 Each option works against one blocking method. None helps everywhere, and each can break a profile that worked before.
 
 1. Turn on one option in one profile that fails or is slow.
-2. Run a [URL test](@/guides/testing.md#url-test) and open a few websites. If nothing improves, set the option back to `Keep Default` and try the next one.
+2. Run a [URL test](@/guides/testing.md#url-test) and open a few websites. If nothing improves, set the option back to `Keep default` and try the next one.
 3. When an option helps most of your profiles, turn on its `Default on` in `Preset Settings`.
 
 To let Throne try the options of one profile for you, use [Find working settings](@/guides/testing.md#find-working-settings).
@@ -27,20 +27,20 @@ To let Throne try the options of one profile for you, use [Find working settings
 
 A censor often reads the server name (SNI) in the first message of a TLS connection, the ClientHello. TLS fragment splits that message, so a simple filter cannot read the name from one packet. It only helps against such simple filters.
 
-Set `Fragment` in the profile editor under `TLS Camouflage Settings`. Try `Enable TLS record fragment` next to it first: it is lighter and splits the ClientHello into TLS records instead of packets.
+Set `Fragment` in the profile editor under `TLS Camouflage Settings`. Try `Records` first: it is lighter and splits the ClientHello into TLS records instead of packets. `Handshake` splits it into packets, and `Handshake + Records` does both.
 
-`Preset Settings` → `TLS` → `TLS Fragment` → `Implementation` chooses how:
+`Default on` in `Preset Settings` → `TLS` → `TLS Fragment` turns on `Handshake` for profiles left on `Keep default`, and `Implementation` there chooses how `Handshake` splits:
 
-- `built-in` (default): sing-box splits the ClientHello into TCP packets. The profile's `Fallback Delay`, such as `500ms`, is the wait between pieces when the system cannot measure it.
-- `custom`: pieces of random `Size` (bytes, `10-100`) with `Sleep` pauses (milliseconds, `2-5`). Naive profiles support only this one.
+- `built-in` (default): sing-box splits the ClientHello into TCP packets. The profile's `Advanced Settings` → `TLS` → `Fragment Fallback Delay`, such as `500ms`, is the wait between pieces when the system cannot measure it.
+- `custom`: pieces of random `Size` (bytes, `10-100`) with `Sleep` pauses (milliseconds, `2-5`). Naive profiles support only this one, and not `Records`.
 
 **Cost:** new connections start more slowly, and `custom` turns off TCP Fast Open for the profile.
 
-A routing rule can also fragment the connections it matches, such as direct connections to a site that a filter blocks by name. See `Fragment the TLS handshake` in [Rules](@/guides/routing.md#advanced-rules).
+A routing rule can also fragment the connections it matches, such as direct connections to a site that a filter blocks by name. See `Fragment TLS` in [Rules](@/guides/routing.md#advanced-rules).
 
 ## TLS tricks {#tls-tricks}
 
-TLS tricks write the server name in mixed case, such as `ExAmPlE.com`. Servers ignore the case, but a filter that looks for the exact name can miss it. Set `TLS Tricks` in the profile editor under `TLS Camouflage Settings`.
+TLS tricks write the server name in mixed case, such as `ExAmPlE.com`. Servers ignore the case, but a filter that looks for the exact name can miss it. Set `TLS Tricks` in the profile editor under `Advanced Settings` → `TLS`.
 
 **Cost:** almost none, but it does not help against filters that ignore the case.
 
@@ -93,7 +93,7 @@ Xray profiles use `ECH Config List` in their TLS settings instead: the configura
 Some filters let a few allowed names through and block the rest. TLS spoof sends a fake ClientHello with an allowed name just before the real one. The fake message is invalid on purpose, so the server ignores it while the filter lets the connection pass.
 
 - **Presets** (`Preset Settings` → `TLS` → `TLS Spoof`): `Spoof SNI` is the allowed name, and `Method` how the fake message is made invalid: `wrong-sequence`, `wrong-checksum`, `wrong-ack`, `wrong-md5` or `wrong-timestamp` (empty: the core's default).
-- **Per profile:** `Advanced Settings` → `TLS Spoof`, `Spoof SNI` and `Method`. Empty fields use the presets. A profile with its own `Spoof SNI` spoofs even on `Keep Default`.
+- **Per profile:** `Advanced Settings` → `TLS Spoof`, `Spoof SNI` and `Method`. Empty fields use the presets. A profile with its own `Spoof SNI` spoofs even on `Keep default`.
 - **Per site:** `Spoof SNI` in the `Connection options` of a routing rule, see [Rules](@/guides/routing.md#advanced-rules).
 
 TLS spoof sends raw packets, so the core needs the rights that [Tun mode](@/guides/tun_mode.md#privileges) sets up: the administrator rights granted to the core on Windows (not on Windows ARM64), root or `CAP_NET_RAW` and `CAP_NET_ADMIN` on Linux, and root on macOS, where `wrong-timestamp` does not work.

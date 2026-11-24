@@ -57,7 +57,7 @@ Throne داده‌های شما را در پوشه‌ای به نام `config` �
 | `hwid` | فقط Linux: شناسهٔ دستگاهی که Throne ساخته است، چون سیستم `/etc/machine-id` یا `/var/lib/dbus/machine-id` قابل‌استفاده‌ای ندارد. [HWID](@/reference/privacy.fa.md#hwid) را ببینید. |
 | `.lock` | نشان می‌دهد که یک Throne از این پوشه استفاده می‌کند. Throne هرگز آن را حذف نمی‌کند. |
 | `dashboard/` | یک داشبورد وب برای Clash API. صفحهٔ موقت را با فایل‌های داشبورد جایگزین کنید. |
-| `sb-dashboard/` | داشبورد وبی که `Tools` ← `Open web dashboard` باز می‌کند. |
+| `sb-dashboard/` | داشبورد وبی که `Tools` ← `Open web dashboard` باز می‌کند. این گزینهٔ منو وقتی نمایش داده می‌شود که در `Integration Settings` ← `API هسته` (Core APIs) ← `API sing-box / داشبورد` (sing-box API / Dashboard) یک `پورت شنود` (Listen Port) تنظیم شده باشد. |
 | `service_checks.json` | فهرست دانلودشدهٔ بررسی‌ها برای [بررسی سرویس‌ها](@/guides/testing.fa.md#service-check). |
 | `tailscale/`، `Taildrop/` | وضعیت ورود نمایه‌های Tailscale و فایل‌هایی که با Taildrop دریافت شده‌اند. |
 
@@ -74,7 +74,7 @@ Throne داده‌های شما را در پوشه‌ای به نام `config` �
 | `حداکثر خطوط فایل لاگ` (Max log lines) | `500` | تعداد خطوطی که زبانهٔ `گزارش‌ها` نگه می‌دارد. |
 | `sing-box Log level` | `info` | میزان جزئیاتی که هسته می‌نویسد: `trace`، `debug`، `info`، `warn`، `error`، `fatal` یا `panic`. |
 | `Xray Log level` | `warning` | میزان جزئیاتی که Xray می‌نویسد: `debug`، `info`، `warning`، `error` یا `none`. |
-| `Log Filtering` | خاموش | `Enable include rules` فقط خطوطی را نشان می‌دهد که با کلیدواژه‌ها یا عبارت‌های باقاعدهٔ (regular expression) شما منطبق‌اند و `Enable exclude rules` آن‌ها را پنهان می‌کند. خطوط پنهان‌شده همچنان در فایل گزارش نوشته می‌شوند. |
+| `Log Filtering` ← `پنهان کردن خطوط مطابق` (Hide lines matching) | خالی | خطوطی را که با این عبارت باقاعده (regular expression) منطبق‌اند از زبانهٔ `گزارش‌ها` پنهان می‌کند. این خطوط همچنان در فایل گزارش نوشته می‌شوند. |
 
 برای ثبت یک گزارش دقیق جهت گزارش باگ، مراحل [گزارش باگ](@/help/bug_reports.fa.md#logs) را دنبال کنید.
 

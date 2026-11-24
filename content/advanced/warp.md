@@ -19,7 +19,7 @@ WARP is Cloudflare's free VPN service. Throne can add it as an extra hop after y
 
 `WireGuard` and `MASQUE` have separate configs, so generate again after switching between them. `AmneziaWG` uses the `WireGuard` config.
 
-For `MASQUE`, the default `HTTP Version` uses HTTP/3 over UDP; `HTTP/2` runs over TCP and works where UDP is blocked.
+For `MASQUE`, the default `HTTP Version` under `Advanced` uses HTTP/3 over UDP; `HTTP/2` runs over TCP and works where UDP is blocked.
 
 ### AmneziaWG mode {#amneziawg}
 
@@ -39,7 +39,7 @@ Cloudflare's registration server, `api.cloudflareclient.com`, is blocked in some
 - With `Disable mixed inbound` on, the request also needs Tun mode.
 - With the [kill switch](@/advanced/kill_switch.md) on, generate while a profile runs in Tun mode or with `Send Throne's own requests through the proxy` on.
 
-`Registration Domains` lists Cloudflare API domains to try in order, one per line. Empty means `api.cloudflareclient.com`.
+In `Advanced` → `Registration`, `Registration Domains` lists Cloudflare API domains to try in order, one per line. Empty means `api.cloudflareclient.com`. `Fragment TLS` there works like [TLS fragment](@/advanced/presets.md#tls-fragment), but only when the registration connects directly, not through a running profile.
 
 ## Turn WARP on {#enable}
 

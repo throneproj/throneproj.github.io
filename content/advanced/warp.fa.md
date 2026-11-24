@@ -19,7 +19,7 @@ WARP سرویس VPN رایگان Cloudflare است. Throne می‌تواند آ�
 
 `WireGuard` و `MASQUE` پیکربندی‌های جداگانه دارند؛ پس اگر میان آن‌ها جابه‌جا شدید، دوباره پیکربندی بسازید. `AmneziaWG` از پیکربندی `WireGuard` استفاده می‌کند.
 
-در `MASQUE`، مقدار پیش‌فرض `HTTP Version` از HTTP/3 روی UDP استفاده می‌کند؛ `HTTP/2` روی TCP اجرا می‌شود و جایی که UDP مسدود است کار می‌کند.
+در `MASQUE`، مقدار پیش‌فرض `HTTP Version` در `پیشرفته` (Advanced) از HTTP/3 روی UDP استفاده می‌کند؛ `HTTP/2` روی TCP اجرا می‌شود و جایی که UDP مسدود است کار می‌کند.
 
 ### حالت AmneziaWG {#amneziawg}
 
@@ -39,7 +39,7 @@ Throne وقتی `AmneziaWG` را انتخاب می‌کنید امضا را می
 - وقتی `Disable mixed inbound` روشن است، درخواست به حالت Tun هم نیاز دارد.
 - وقتی [کیل‌سوییچ](@/advanced/kill_switch.fa.md) روشن است، پیکربندی را در حالی بسازید که نمایه‌ای در حالت Tun اجرا می‌شود، یا وقتی `ارسال درخواست‌های خود Throne از طریق پروکسی` (Send Throne's own requests through the proxy) روشن است.
 
-`Registration Domains` دامنه‌های API مربوط به Cloudflare را فهرست می‌کند که به ترتیب امتحان می‌شوند، هر کدام در یک خط. فهرست خالی یعنی `api.cloudflareclient.com`.
+در `پیشرفته` ← `ثبت‌نام` (Registration)، `Registration Domains` دامنه‌های API مربوط به Cloudflare را فهرست می‌کند که به ترتیب امتحان می‌شوند، هر کدام در یک خط. فهرست خالی یعنی `api.cloudflareclient.com`. `قطعه‌بندی TLS` (Fragment TLS) در همان‌جا مانند [قطعه‌بندی TLS](@/advanced/presets.fa.md#tls-fragment) کار می‌کند، اما فقط وقتی ثبت‌نام مستقیم وصل می‌شود، نه از طریق نمایه‌ای که در حال اجراست.
 
 ## روشن کردن WARP {#enable}
 

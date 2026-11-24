@@ -57,7 +57,7 @@ Throne keeps your data in a folder named `config`. `Settings` → `Open config f
 | `hwid` | Linux only: the device ID that Throne created because the system has no usable `/etc/machine-id` or `/var/lib/dbus/machine-id`. See [HWID](@/reference/privacy.md#hwid). |
 | `.lock` | Shows that a Throne uses this folder. Throne never deletes it. |
 | `dashboard/` | A web dashboard for the Clash API. Replace the placeholder page with the dashboard files. |
-| `sb-dashboard/` | The web dashboard that `Tools` → `Open web dashboard` opens. |
+| `sb-dashboard/` | The web dashboard that `Tools` → `Open web dashboard` opens. The menu item appears once `Integration Settings` → `Core APIs` → `sing-box API / Dashboard` has a `Listen Port`. |
 | `service_checks.json` | The downloaded list of [service checks](@/guides/testing.md#service-check). |
 | `tailscale/`, `Taildrop/` | The login state of Tailscale profiles, and the files received with Taildrop. |
 
@@ -74,7 +74,7 @@ Log settings are in `Settings` → `Basic Settings` → `Logs`:
 | `Max log lines` | `500` | How many lines the `Logs` tab keeps. |
 | `sing-box Log level` | `info` | How much the core writes: `trace`, `debug`, `info`, `warn`, `error`, `fatal` or `panic`. |
 | `Xray Log level` | `warning` | How much Xray writes: `debug`, `info`, `warning`, `error` or `none`. |
-| `Log Filtering` | Off | `Enable include rules` shows only lines that match your keywords or regular expressions, `Enable exclude rules` hides them. Hidden lines still go to the log file. |
+| `Log Filtering` → `Hide lines matching` | Empty | Hides the lines that match this regular expression from the `Logs` tab. They still go to the log file. |
 
 To record a detailed log for a bug report, follow [Reporting a Bug](@/help/bug_reports.md#logs).
 

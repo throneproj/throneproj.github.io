@@ -9,7 +9,7 @@ toc = true
 
 ## 预设与配置档设置 {#presets}
 
-全局默认值位于 `设置`（Settings）→ `预设设置`。在配置档编辑器中，分片、TLS 技巧、多路复用和 TLS 伪装提供 `保持默认`（Keep Default，跟随预设中的 `默认开启`（Default on），新配置档使用此项）、`开启`（On）和 `关闭`（Off），因此 `默认开启` 只影响保持在 `保持默认` 的配置档。
+全局默认值位于 `设置`（Settings）→ `预设设置`。在配置档中，`分片`（Fragment）、`多路复用`（Multiplex）、`TLS 技巧`（TLS Tricks）和 `TLS 伪装`（TLS Spoof）一开始都处于 `保持默认`（Keep default），即跟随预设中的 `默认开启`（Default on）。选择其他任何选项都会覆盖预设，因此 `默认开启` 只影响保持在 `保持默认` 的配置档。`TLS 技巧` 和 `TLS 伪装` 位于配置档的 `高级设置`（Advanced Settings）中。
 
 预设只适用于运行在 sing-box 上的配置档，但 uTLS 的 `默认指纹`（Default Fingerprint）对两个核心都适用，Xray 的多路复用预设则供 `VLESS (Xray)` 配置档使用。参见 [sing-box 与 Xray](@/advanced/xray.zh.md#two-cores)。
 
@@ -27,20 +27,20 @@ toc = true
 
 审查系统常常会读取 TLS 连接第一条消息（即 ClientHello）中的服务器名称（SNI）。TLS 分片会拆分这条消息，使简单的过滤器无法从单个数据包中读出服务器名称。它只对这类简单的过滤器有效。
 
-在配置档编辑器的 `TLS 伪装设置` 下设置 `分片`（Fragment）。请先尝试旁边的 `启用 TLS 记录分片`（Enable TLS record fragment）：它更轻量，把 ClientHello 拆分为多个 TLS 记录，而不是多个数据包。
+在配置档编辑器的 `TLS 伪装设置` 下设置 `分片`（Fragment）。请先尝试 `记录`（Records）：它更轻量，把 ClientHello 拆分为多个 TLS 记录，而不是多个数据包。`握手`（Handshake）把它拆分为多个数据包，`握手 + 记录`（Handshake + Records）两者都做。
 
-`预设设置` → `TLS` → `TLS 分片`（TLS Fragment）→ `实现`（Implementation）决定拆分方式：
+`预设设置` → `TLS` → `TLS 分片`（TLS Fragment）中的 `默认开启` 会为保持在 `保持默认` 的配置档开启 `握手`，其中的 `实现`（Implementation）决定 `握手` 的拆分方式：
 
-- `built-in`（默认）：由 sing-box 把 ClientHello 拆分为多个 TCP 数据包。配置档中的 `回退延时`（Fallback Delay），例如 `500ms`，是系统无法测得等待时间时各分片之间的等待时间。
-- `custom`：随机 `大小`（Size，字节，`10-100`）的分片，分片之间有 `睡眠`（Sleep，毫秒，`2-5`）停顿。Naive 配置档只支持这种实现。
+- `built-in`（默认）：由 sing-box 把 ClientHello 拆分为多个 TCP 数据包。配置档的 `高级设置` → `TLS` → `分片回退延时`（Fragment Fallback Delay），例如 `500ms`，是系统无法测得等待时间时各分片之间的等待时间。
+- `custom`：随机 `大小`（Size，字节，`10-100`）的分片，分片之间有 `睡眠`（Sleep，毫秒，`2-5`）停顿。Naive 配置档只支持这种实现，也不支持 `记录`。
 
 **代价：** 新连接的建立会变慢，而且 `custom` 会关闭该配置档的 TCP Fast Open。
 
-路由规则也可以对其匹配的连接进行分片，例如直连访问某个被过滤器按名称拦截的网站。参见[规则](@/guides/routing.zh.md#advanced-rules)中的 `分片 TLS 握手`（Fragment the TLS handshake）。
+路由规则也可以对其匹配的连接进行分片，例如直连访问某个被过滤器按名称拦截的网站。参见[规则](@/guides/routing.zh.md#advanced-rules)中的 `分片 TLS`（Fragment TLS）。
 
 ## TLS 技巧 {#tls-tricks}
 
-TLS 技巧会以大小写混合的形式写出服务器名称，例如 `ExAmPlE.com`。服务器不区分大小写，但按精确名称匹配的过滤器可能会漏掉它。在配置档编辑器的 `TLS 伪装设置` 下设置 `TLS 技巧`（TLS Tricks）。
+TLS 技巧会以大小写混合的形式写出服务器名称，例如 `ExAmPlE.com`。服务器不区分大小写，但按精确名称匹配的过滤器可能会漏掉它。在配置档编辑器的 `高级设置` → `TLS` 下设置 `TLS 技巧`（TLS Tricks）。
 
 **代价：** 几乎没有，但对不区分大小写的过滤器无效。
 

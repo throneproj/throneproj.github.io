@@ -19,7 +19,7 @@ WARP 是 Cloudflare 的免费 VPN 服务。Throne 可以在你的代理之后加
 
 `WireGuard` 和 `MASQUE` 的配置相互独立，在两者之间切换后需要重新生成。`AmneziaWG` 使用 `WireGuard` 的配置。
 
-对于 `MASQUE`，默认的 `HTTP 版本`（HTTP Version）使用基于 UDP 的 HTTP/3；`HTTP/2` 基于 TCP 运行，在 UDP 被封锁的网络中也能工作。
+对于 `MASQUE`，`高级`（Advanced）中默认的 `HTTP 版本`（HTTP Version）使用基于 UDP 的 HTTP/3；`HTTP/2` 基于 TCP 运行，在 UDP 被封锁的网络中也能工作。
 
 ### AmneziaWG 模式 {#amneziawg}
 
@@ -39,7 +39,7 @@ Cloudflare 的注册服务器 `api.cloudflareclient.com` 在一些国家被封�
 - 如果开启了 `禁用混合入站`（Disable mixed inbound），该请求还需要 Tun 模式。
 - 开启[断网保护（kill switch）](@/advanced/kill_switch.zh.md)后，请在配置档以 Tun 模式运行时生成配置，或者开启 `通过代理发送 Throne 自身的请求` 后再生成。
 
-`注册域名` 中按顺序列出要尝试的 Cloudflare API 域名，每行一个。列表为空时使用 `api.cloudflareclient.com`。
+`高级` → `注册`（Registration）中的 `注册域名`（Registration Domains）按顺序列出要尝试的 Cloudflare API 域名，每行一个。列表为空时使用 `api.cloudflareclient.com`。那里的 `分片 TLS`（Fragment TLS）与 [TLS 分片](@/advanced/presets.zh.md#tls-fragment)作用相同，但仅在注册直接连接时生效，经由正在运行的配置档注册时不生效。
 
 ## 开启 WARP {#enable}
 
