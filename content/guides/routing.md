@@ -65,6 +65,7 @@ The `Routing` tab also has these settings:
 | `Domain Strategy` → `Default Domain Strategy` | IPv4 or IPv6 preference when Throne resolves a server or a site that goes direct. |
 | `Domain Strategy` → `Resolve Domain Strategy` | Resolves every domain before the rules run, so IP rules also match domains. |
 | `Updates` → `Remote Rule-set Mirror` | Where rule-sets and profiles hosted on GitHub are downloaded from. Default: `jsDelivr(Cloudflare)`. |
+| `IP Lists` → `Manage IP lists` | Opens the [IP lists](#ip-lists). |
 
 ## Lists {#simple-rules}
 
@@ -163,6 +164,17 @@ A rule-set is a list of domains or IP ranges in a separate file. Use it as `rule
 - **Your own files**: the URL of any sing-box binary rule-set. The file name must contain `.srs`.
 
 Rule-sets are downloaded when a profile starts. `Routing` → `Update rule-sets` downloads fresh copies. If GitHub is blocked or slow on your network, change `Routing Settings` → `Routing` → `Updates` → `Remote Rule-set Mirror`. The mirror also applies to the ad list of [Block ads](#adblock) and to routing profiles hosted on GitHub.
+
+## IP lists {#ip-lists}
+
+An IP list is a list of addresses that profiles can use: a group's or a profile's [`Server Address`](@/guides/subscriptions.md#server-address) can take the first address of a list, and a [DNS tunnel](@/advanced/dns_tunnels.md#resolvers) profile can take its resolvers from one. Routing rules do not use them. To manage them, open `Routing Settings` → `Routing` → `IP Lists` → `Manage IP lists`.
+
+Throne comes with `Cloudflare WARP (WireGuard)`, `Cloudflare WARP (MASQUE)`, `Iran DNS resolvers` and `Russia DNS resolvers`. `Import` → `Add default lists` restores them.
+
+- `New` creates a list. Its `Source` is `Manual` (you write the entries) or `URL` (an address that Throne downloads). A `URL` list can update itself with `Auto update`, at most once every 30 minutes.
+- Write one entry per line, for example `1.2.3.4`, `1.2.3.0/24`, `1.2.3.4:443`, `[2606:4700::1]:443`, `1.2.3.0/24 443` or `1.2.3.1-1.2.3.9`.
+
+[Find resolvers](@/advanced/dns_tunnels.md#find-resolvers) keeps its results in a list too, named `Resolvers for <profile>`. The WARP scans of older versions became plain lists.
 
 ## Remote profiles {#remote-profiles}
 

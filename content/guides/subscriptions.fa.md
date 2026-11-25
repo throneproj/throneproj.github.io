@@ -150,7 +150,7 @@ hwid=value,os=value,osVersion=value,model=value
 
 - `Profiles' own addresses`: بدون تغییر (پیش‌فرض).
 - `Fixed address`: یک نام میزبان یا نشانی IP، بدون پورت.
-- `IP list`: نخستین نشانی یک فهرست IP.
+- `IP list`: نخستین نشانی یک [فهرست IP](@/guides/routing.fa.md#ip-lists).
 
 نمایه‌ها پورت‌های خودشان را نگه می‌دارند و همچنان دامنهٔ اصلی خود را به‌عنوان نام سرور TLS (SNI) و `Host` می‌فرستند. ستون `آدرس` (Address) نشانی‌ای را نشان می‌دهد که هر نمایه واقعاً به کار می‌برد. یک نمایه می‌تواند در ویرایشگر خودش تنظیم گروه را نادیده بگیرد: `Advanced Settings` → `Server Address`.
 

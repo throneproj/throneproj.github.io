@@ -65,6 +65,7 @@ Throne 会自行把 DNS 查询交给它的 DNS 处理并嗅探连接，因此新
 | `域名策略`（Domain Strategy）→ `默认域策略`（Default Domain Strategy） | Throne 解析服务器或直连网站的地址时，对 IPv4 或 IPv6 的偏好。 |
 | `域名策略`（Domain Strategy）→ `解析域策略`（Resolve Domain Strategy） | 在规则运行之前解析每个域名，这样 IP 规则也能匹配域名。 |
 | `更新`（Updates）→ `远程规则集镜像`（Remote Rule-set Mirror） | 存放在 GitHub 上的规则集和配置档从何处下载。默认值：`jsDelivr(Cloudflare)`。 |
+| `IP 列表`（IP Lists）→ `管理 IP 列表`（Manage IP lists） | 打开 [IP 列表](#ip-lists)。 |
 
 ## 列表 {#simple-rules}
 
@@ -163,6 +164,17 @@ suffix:example.org
 - **你自己的文件**：任何 sing-box 二进制规则集的 URL。文件名必须包含 `.srs`。
 
 规则集会在配置档启动时下载。`路由`（Routing）→ `更新规则集`（Update rule-sets）会下载最新副本。如果 GitHub 在你的网络中被封锁或速度很慢，请更改 `路由设置`（Routing Settings）→ `路由`（Routing）→ `更新`（Updates）→ `远程规则集镜像`（Remote Rule-set Mirror）。该镜像同样适用于[屏蔽广告](#adblock)的广告列表和存放在 GitHub 上的路由配置档。
+
+## IP 列表 {#ip-lists}
+
+IP 列表是配置档可以使用的地址列表：分组或配置档的 [`服务器地址`](@/guides/subscriptions.zh.md#server-address)（Server Address）可以使用某个列表的第一个地址，[DNS 隧道](@/advanced/dns_tunnels.zh.md#resolvers)配置档可以从某个列表中获取它的解析器。路由规则不使用它们。要管理它们，请打开 `路由设置`（Routing Settings）→ `路由`（Routing）→ `IP 列表`（IP Lists）→ `管理 IP 列表`（Manage IP lists）。
+
+Throne 自带 `Cloudflare WARP (WireGuard)`、`Cloudflare WARP (MASQUE)`、`Iran DNS resolvers` 和 `Russia DNS resolvers`。`导入`（Import）→ `添加默认列表`（Add default lists）可以恢复它们。
+
+- `新建`（New）创建一个列表。其 `来源`（Source）为 `手动`（Manual）（由你填写条目）或 `URL`（Throne 下载的地址）。`URL` 列表可以通过 `自动更新`（Auto update）自动刷新，间隔不少于 30 分钟。
+- 每行写一个条目，例如 `1.2.3.4`、`1.2.3.0/24`、`1.2.3.4:443`、`[2606:4700::1]:443`、`1.2.3.0/24 443` 或 `1.2.3.1-1.2.3.9`。
+
+[查找解析器](@/advanced/dns_tunnels.zh.md#find-resolvers)也会把结果保存在一个列表中，名为 `<profile> 的解析器`（`Resolvers for <profile>`）。旧版本中的 WARP 扫描已变为普通列表。
 
 ## 远程配置档 {#remote-profiles}
 

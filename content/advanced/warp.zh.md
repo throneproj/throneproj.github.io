@@ -66,13 +66,31 @@ Cloudflare 的注册服务器 `api.cloudflareclient.com` 在一些国家被封�
 2. 点击 `生成 WARP 配置`（Generate WARP config，WireGuard）或 `生成 WARP 身份标识`（Generate WARP identity，MASQUE）。
 3. 填写 `名称`（Name）并点击 `确定`。
 
-这样的配置档会直接连接 Cloudflare。使用它时请让 `出口方式`（Exit through）保持为 `所选配置档`（Selected profile），否则 Throne 会在它之后再添加一个 WARP 跳点。如果它无法连接，[WARP 扫描](@/guides/testing.zh.md#warp-scan)可以找到在你的网络中可用的端点。
+这样的配置档会直接连接 Cloudflare。使用它时请让 `出口方式`（Exit through）保持为 `所选配置档`（Selected profile），否则 Throne 会在它之后再添加一个 WARP 跳点。如果它无法连接，请[查找可用的端点](#find-endpoint)。
 
 `路由设置` 中的 `模式` 不会影响它。要让 WireGuard 配置档具备 `AmneziaWG` 模式的混淆效果，请勾选 `启用 Amnezia`（Enable Amnezia），点击 `Amnezia 选项`（Amnezia Options），将 `垃圾数据包数量 (Jc)`（Junk Packet Count (Jc)）设为 4、`垃圾数据包最小大小 (Jmin)`（Junk Packet Min Size (Jmin)）设为 40、`垃圾数据包最大大小 (Jmax)`（Junk Packet Max Size (Jmax)）设为 70，并将 H1 到 H4 分别设为 1、2、3 和 4。然后点击 `生成 QUIC 签名`（Generate QUIC signature），输入 `www.cloudflare.com` 并点击 `确定`。
+
+## 查找可用的端点 {#find-endpoint}
+
+当 Cloudflare 的端点在你的网络中被封锁时，WARP 配置档无法连接。要找到一个可用的端点：
+
+1. 右键点击该配置档并选择 `查找 WARP 端点`（Find WARP endpoint），或在其编辑器中点击 `生成 WARP 配置` 或 `生成 WARP 身份标识` 旁边的 `查找 WARP 端点`。
+2. 等待 Throne 搜索。它会在找到 5 个可用端点后、连续 10 秒没有找到新端点后，或者运行 90 秒后停止。`停止`（Stop）会提前结束搜索，`重新搜索`（Search again）会从头开始。
+3. 选择一个端点并点击 `使用此端点`（Use endpoint）。列表中最好的排在最前：先按 `丢包率`（Loss）（未获应答的握手所占的比例）从低到高排列，再按 `延迟`（Latency）从低到高排列。
+
+每个地址收到的内容都与该配置档实际发送的完全相同，包括它的密钥、垃圾数据包、QUIC 前导包和 TLS 设置。有应答的端点还必须通过真实连接加载 `延迟测试 URL`（Latency Test URL），才会被列出。
+
+`使用此端点` 会设置配置档的服务器地址和端口。如果还要更改其他内容，窗口会先说明：
+
+- 普通 WireGuard 被封锁，但附带垃圾数据包时能够通过：它会勾选 `启用 Amnezia`，并把 `Jc` 设为 4、`Jmin` 设为 40、`Jmax` 设为 70。
+- 基于 HTTP/3 的 MASQUE 被封锁，但 HTTP/2 能够通过：它会开启 HTTP/2 回退。
+- 配置档通过自身或其分组的 `服务器地址`（Server Address）连接到另一个地址：它会切换回 `自己的地址`（Own address）。
+
+从编辑器中搜索时，搜索使用编辑器中的设置，更改会在你点击 `确定` 时保存。从右键菜单中搜索时，更改会立即保存；请先关闭该配置档的编辑器。搜索本身不会被保存。
 
 ## Android 版 {#android}
 
 - 相关设置位于 `设置`（Settings）→ `路由`（Routing）→ `WARP`，其工作方式与桌面版相同，包括 `AmneziaWG`。
 - 如果注册被封锁，请先连接，然后开启 `设置` → `订阅`（Subscriptions）→ `使用代理`（Use proxy）。
 - 要快速切换 WARP，请打开 `设置` → `路由` → `当前路由配置`（Current routing profile），然后点按 `启用 WARP`（Enable WARP）或 `禁用 WARP`（Disable WARP）。
-- WireGuard 和 MASQUE 配置档编辑器中都有 `生成 WARP 身份`（Generate WARP identity）按钮。
+- WireGuard 和 MASQUE 配置档编辑器中都有 `生成 WARP 身份`（Generate WARP identity）按钮，但没有 `查找 WARP 端点`。

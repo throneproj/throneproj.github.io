@@ -17,7 +17,7 @@ Open `Settings` → `Basic Settings` → `Backup`. To create a backup, tick the 
 | `Routing profiles` | Routing profiles and their rules. |
 | `Settings` | All settings, including DNS, Tun, WARP and inbounds. |
 | `OTP entries` | The [OTP Manager](@/advanced/vpn_profiles.md#otp-manager) entries. |
-| `IP lists and scans` | The lists and results of the [IP Scanner](@/guides/testing.md#ip-scanner). |
+| `IP lists and scans` | The [IP lists](@/guides/routing.md#ip-lists) and the searches of [Find resolvers](@/advanced/dns_tunnels.md#find-resolvers). |
 | `Custom icons` | Custom tray icons. |
 
 A backup does not contain traffic history, logs, the core's cache, or whether `Tun mode` or `System proxy` was on.

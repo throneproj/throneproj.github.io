@@ -150,7 +150,7 @@ A group can make all its profiles connect to another address, for example a CDN 
 
 - `Profiles' own addresses`: no change (default).
 - `Fixed address`: a host name or IP address, without a port.
-- `IP list`: the first address of an IP list.
+- `IP list`: the first address of an [IP list](@/guides/routing.md#ip-lists).
 
 The profiles keep their ports and still send their original domain as the TLS server name (SNI) and `Host`. The `Address` column shows the address that each profile really uses. A profile can override its group in its editor: `Advanced Settings` → `Server Address`.
 

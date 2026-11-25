@@ -95,7 +95,7 @@ Leave the mKCP fields, such as `MTU` and `TTI`, empty to use Xray's defaults. Wi
 
 ## Resolvers {#resolvers}
 
-Every DNS tunnel profile has a resolver box (the `Resolvers` group for DNSTT and MasterDNS, the `Resolvers` row for XDNS) with one resolver per line. Lines that start with `#` are comments. `IP list` adds the addresses of an IP Scanner list after the typed lines, for example the results of a [resolver scan](#find-resolvers).
+Every DNS tunnel profile has a resolver box (the `Resolvers` group for DNSTT and MasterDNS, the `Resolvers` row for XDNS) with one resolver per line. Lines that start with `#` are comments. `IP list` adds the addresses of an [IP list](@/guides/routing.md#ip-lists) after the typed lines, for example the results of [Find resolvers](#find-resolvers).
 
 | Line | DNSTT / VayDNS | MasterDNS | XDNS |
 | --- | --- | --- | --- |
@@ -116,14 +116,33 @@ The default port is 53; DNSTT uses 853 for `tls://` and 443 for `https://`. Thro
 
 ## Find working resolvers {#find-resolvers}
 
-Many resolvers do not pass tunnel queries on. A resolver scan tries addresses as the resolvers of your profile and keeps the ones that work:
+Many resolvers do not pass tunnel queries on. `Find resolvers` tries addresses as the only resolver of your profile and keeps the ones that relay its tunnel:
 
 1. Save the profile and open it again. `Find resolvers` stays disabled until the profile is saved.
-2. Click `Find resolvers` next to `IP list`. Throne opens the profile's DNS resolver scan in the IP Scanner.
+2. Click `Find resolvers` next to `IP list`. The profile's own search opens, titled `<profile> - Find resolvers`.
 3. Choose the addresses to try in `Base IP list`, for example `Iran DNS resolvers` or `Russia DNS resolvers`, and click `Start`.
 4. Under `Results`, click `Use as resolvers`. The results become the profile's `IP list`, best first. The lines that you typed stay and are used first.
 
-See [DNS resolver scans](@/guides/testing.md#dns-scan).
+- `Base IP list` holds the resolvers to try. Each address is tried on the port stored in the list, or on port 53. `Manage` opens the [IP lists](@/guides/routing.md#ip-lists).
+- `Stop after (results)` (20 by default) completes the search after that many new results; `Resume` then finds more. Empty means no limit.
+- `Concurrency` sets how many resolvers are tried at the same time.
+
+The search keeps running when you close its window, and `Find resolvers` opens it again. `Pause` stops it and `Resume` continues it.
+
+Before the list, the search checks your network:
+
+- It asks your network's own DNS servers for the root servers. When none answers, the network is down and the search stops.
+- It sends a tunnel query to `192.0.2.1`, an address where no resolver runs. If the tunnel answers through it, your network intercepts DNS and every resolver you try is really your network's, so only your network's resolvers are tried.
+- Your network's resolvers and the profile's own are tried first. When none of them passes, the log says to check the profile or its server.
+
+A resolver passes when it relays a tunnel query and, for DNSTT and XDNS, query names as long as the profile sends. A burst of 8 queries then measures it: `Loss` is the share of the burst left unanswered, and `Latency` is the time to the resolver's first answer. At the end, the log counts why resolvers failed: no answer, an error reply, a wrong answer, or a name too long. When resolvers pass only with short names, it suggests a lower `Max QNAME Length` in the profile.
+
+`Results` lists the resolvers that passed, best first: the least `Loss`, then the lowest `Latency`. They are an IP list named `Resolvers for <profile>`, and the profile reads it each time it starts, so the profile follows the search. `Save as IP list` copies them into a list that stays as it is, `Copy` copies them as text, `Export` saves them to a file and `Remove selected` removes the selected ones.
+
+When there are results, `Start` asks what to do:
+
+- `Scan from the beginning` searches again. The current results stay until the first new one replaces them, so the profile never runs out of resolvers.
+- `Rescan current results` checks the results again and removes the ones that stopped working. When none of them works, it removes nothing: the server or the network is then more likely down than every resolver.
 
 ## Import and share {#import}
 
@@ -147,12 +166,12 @@ To share a profile, right-click it → `Share`. DNSTT and MasterDNS profiles giv
 
 URL tests and exit IP tests work with DNS tunnel profiles. The first request opens the tunnel, which takes many slow queries, so Throne gives it 30 more seconds for DNSTT and XDNS and 90 more for MasterDNS; a chain gets the sum. The latency shown comes from the second request. See [URL test](@/guides/testing.md#url-test).
 
-If a test fails, look for the reason on the `Logs` tab, check `Domain` and `Public Key` (DNSTT) or `Domains`, `Encryption` and `Key` (MasterDNS) against the server, and try other resolvers or a [resolver scan](#find-resolvers).
+If a test fails, look for the reason on the `Logs` tab, check `Domain` and `Public Key` (DNSTT) or `Domains`, `Encryption` and `Key` (MasterDNS) against the server, and try other resolvers or [Find resolvers](#find-resolvers).
 
 ## Android {#android}
 
 Throne for Android has the same DNS tunnels and imports the same links, also when you tap them in another app. The differences:
 
 - Create a profile with `Add profile` → `Manual settings` → `DNSTT / VayDNS` or `MasterDNS`. For XDNS, choose `VLESS (Xray)`, set `Network` to `mKCP` and add the `xdns` mask in `Finalmask`.
-- There are no IP lists and no resolver scans: only the resolvers typed in the profile are used.
+- There are no IP lists and no `Find resolvers`: only the resolvers typed in the profile are used.
 - URL tests get no extra time for the first request.

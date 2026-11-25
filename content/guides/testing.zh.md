@@ -1,6 +1,6 @@
 +++
 title = "测试与自动选择器"
-description = "测试配置档以及它们能访问的服务，排序、置顶和清理列表，让自动选择器挑选最佳配置档，并查找可用的 WARP 端点和 DNS 解析器。"
+description = "测试配置档以及它们能访问的服务，排序、置顶和清理列表，并让自动选择器挑选最佳配置档。"
 weight = 60
 toc = true
 +++
@@ -133,66 +133,6 @@ Throne 会逐个测试配置档。如果包含了 `速度`（Speed），`测试�
 - 代理链可以把一个自动选择器作为其中一跳，但不能同时包含额外核心（Extra Core）配置档或自定义配置；参见[代理链的限制](@/advanced/chains.zh.md#chain-limits)和[测试代理链](@/advanced/chains.zh.md#test-chain)。自动选择器不能作为 `前置代理`（Front Proxy）或 `落地代理`（Landing Proxy）。
 - 它会跳过代理链、其他自动选择器、OpenVPN、OpenConnect、Tailscale、额外核心（Extra Core）、sing-box 完整配置、无法读取的自定义配置，以及无法与其所在分组的前置代理或落地代理组合的 Xray 完整配置。
 
-## IP 扫描器 {#ip-scanner}
-
-`工具`（Tools）→ `IP 扫描器`（IP Scanner）会为两类配置档查找在你的网络中可用的内容：为 WARP 配置档查找 Cloudflare WARP 端点，为 DNS 隧道配置档查找解析器。扫描会用配置档自身的设置尝试各个地址，并保留可用的地址。
-
-1. 点击 `新建扫描`（New scan），输入 `名称`（Name），选择 `WARP 扫描`（WARP scan）或 `DNS 解析器扫描`（DNS resolver scan），然后点击 `确定`（OK）。扫描窗口随即打开。
-2. 选择 `配置档`（Profile）。扫描使用的是配置档最后一次保存时的状态。
-3. 点击 `启动`（Start）。
-
-关闭扫描窗口后，扫描仍会继续运行。`暂停`（Pause）会暂停扫描，`继续`（Resume）会让它继续运行。
-
-`结果`（Results）会列出扫描找到的内容，最好的排在最前：先按 `丢包率`（Loss）（未获应答的探测所占的比例）从低到高排列，再按 `延迟`（Latency）从低到高排列。点击列标题即可按该列排序。`保存为 IP 列表`（Save as IP list）会把结果复制到一个新的 [IP 列表](#ip-lists)，`复制`（Copy）会把它们复制为文本，`导出`（Export）会把它们保存到文件。
-
-扫描已有结果时，`启动` 会询问要做什么：
-
-- `从头开始扫描`（Scan from the beginning）会重新搜索。当前结果会一直保留，直到第一个新结果取代它们，因此使用这些结果的配置档始终有地址可用。
-- `重新扫描当前结果`（Rescan current results）会重新检查已有结果，并移除不再可用的结果。如果一个都不可用，就不会移除任何结果：这时更可能是服务器或网络出了故障，而不是所有结果同时失效。
-
-### WARP 扫描 {#warp-scan}
-
-WARP 扫描会为你的某个 [WARP 配置档](@/advanced/warp.zh.md#warp-profiles)查找在你的网络中可用的 Cloudflare WARP 端点。该配置档可以是 WireGuard（带或不带 Amnezia 选项）或 MASQUE。每个地址收到的内容都与该配置档实际发送的完全相同，包括它的密钥、垃圾数据包、QUIC 前导包和 TLS 设置，因此扫描保留下来的端点对该配置档可用。
-
-选择配置档后，`基础 IP 列表`（Base IP list）会相应地切换为 `Cloudflare WARP (WireGuard)` 或 `Cloudflare WARP (MASQUE)`。其余步骤都会自动完成：
-
-1. 先检查当前结果和该配置档自己的端点。
-2. 扫描找出有应答的端口，然后在这些端口上尝试列表中每个范围内的地址，每个地址握手三次。
-3. 有应答的端点还必须通过真实连接加载 `延迟测试 URL`（Latency Test URL），才会被保留。它的 `丢包率`（Loss）和 `延迟`（Latency）取自它的握手。
-
-扫描在找到 5 个可用端点后、连续 10 秒没有找到新端点后，或者运行 90 秒后结束；扫描状态会显示已用的秒数。如果什么都没找到，日志会说明是没有端点应答，还是端点有应答但没有传输数据。如果普通 WireGuard 被封锁，但附带垃圾数据包时能够通过，扫描会继续使用垃圾数据包，日志会提示你在配置档中勾选 `启用 Amnezia`（Enable Amnezia），并在 `Amnezia 选项`（Amnezia Options）中把 `Jc` 设为 4、`Jmin` 设为 40、`Jmax` 设为 70。
-
-要使用某个端点，请把它的地址和端口填写为配置档的服务器地址和端口。
-
-### DNS 解析器扫描 {#dns-scan}
-
-DNS 解析器扫描用于查找能够中继你的某个 [DNS 隧道](@/advanced/dns_tunnels.zh.md)配置档的隧道的解析器，适用于 DNSTT（包括 VayDNS 模式）、MasterDNS，以及带 XDNS 的 VLESS (Xray)。它会把每个地址分别作为该配置档唯一的解析器进行尝试，并保留通过测试的解析器。
-
-要创建这种扫描，请在 `新建扫描`（New scan）中选择 `DNS 解析器扫描`（DNS resolver scan），或者在已保存的 DNS 隧道配置档的编辑器中，点击 `IP 列表`（IP list）旁边的 `查找解析器`（Find resolvers），这会为该配置档打开或新建一个扫描。
-
-- `基础 IP 列表`（Base IP list）是要尝试的解析器，例如 `Iran DNS resolvers` 或 `Russia DNS resolvers`。每个地址都在列表中保存的端口上尝试，没有端口时使用 53 端口。
-- `停止量(结果数)`（Stop after (results)）在新结果达到此数量时结束扫描（默认为 20）；之后 `继续`（Resume）可以找到更多结果。留空表示无限制。
-- `并发数`（Concurrency）设置同时尝试多少个解析器。
-
-在尝试列表之前，扫描会先检查你的网络：
-
-- 向你的网络自己的 DNS 服务器查询根服务器。如果没有一个应答，说明网络已断开，扫描会停止。
-- 向 `192.0.2.1` 发送一个隧道查询，这个地址上没有运行任何解析器。如果隧道通过它返回应答，说明你的网络劫持了 DNS，你尝试的每个解析器实际上都是你的网络的解析器，因此扫描只尝试你的网络的解析器，然后结束。
-- 你的网络的解析器和配置档自己的解析器会最先尝试。如果它们都没有通过，日志会提示你检查配置档或其服务器。
-
-如果解析器能中继隧道查询，并且对于 DNSTT 和 XDNS 还能中继与配置档所发送的同样长的查询名，它就通过测试。随后会用连续 8 个查询来测量它：`丢包率`（Loss）是这 8 个查询中未获应答的比例，`延迟`（Latency）是到解析器第一个应答为止的时间。最后，日志会按原因统计失败的解析器：无应答、返回错误、答案错误或名称过长。如果有解析器只在名称较短时才能通过，日志会建议调低配置档中的 `最大 QNAME 长度`（Max QNAME Length）。
-
-在 `结果`（Results）下点击 `用作解析器`（Use as resolvers），扫描的结果列表就会成为该配置档的 `IP 列表`（IP list）。配置档中手动填写的解析器会保留，并优先使用；其后是该列表，最好的排在最前。配置档每次启动时都会读取该列表，因此会随扫描而变化：`重新扫描当前结果`（Rescan current results）会移除不再可用的解析器。如需固定不变的一组解析器，请点击 `保存为 IP 列表`（Save as IP list），再把那个列表选为配置档的 `IP 列表`。
-
-### IP 列表 {#ip-lists}
-
-在 `IP 扫描器`（IP Scanner）窗口中点击 `IP 列表`（IP Lists），即可管理扫描所读取、配置档所使用的列表。Throne 自带 `Cloudflare WARP (WireGuard)`、`Cloudflare WARP (MASQUE)`、`Iran DNS resolvers` 和 `Russia DNS resolvers`。`导入`（Import）→ `添加默认列表`（Add default lists）可以恢复它们。
-
-- `新建`（New）创建一个列表。其 `来源`（Source）为 `手动`（Manual）（由你填写条目）或 `URL`（Throne 下载的地址）。`URL` 列表可以通过 `自动更新`（Auto update）自动刷新，间隔不少于 30 分钟。
-- 每行写一个条目，例如 `1.2.3.4`、`1.2.3.0/24`、`1.2.3.4:443`、`[2606:4700::1]:443`、`1.2.3.0/24 443` 或 `1.2.3.1-1.2.3.9`。
-
-每个扫描的结果也是一个列表，以扫描的名称命名：名为 `WARP` 的扫描，其结果列表为 `扫描 WARP 结果`（Scan WARP Result）。配置档可以直接使用它；如需内容不变的列表，请使用 `保存为 IP 列表`（Save as IP list）。
-
 ## Android 版 {#android}
 
 Throne for Android 提供相同的测试和相同的自动选择器。不同之处：
@@ -201,4 +141,3 @@ Throne for Android 提供相同的测试和相同的自动选择器。不同之�
 - **测试面板。** 面板会显示测试的进度和结果，并提供一些操作，例如 `按延迟排序`（Sort by latency）、`删除不可用`（Remove unavailable）和 `连接最快的`（Connect to fastest）。
 - **当前连接。** 连接后，点按统计栏即可测试连接。长按统计栏可打开 `实时图表`（Live graphs）和 `测试当前连接的速度`（Speed test current connection）。统计栏还会显示出口国家；`设置`（Settings）→ `测试`（Testing）中有 `Look up exit country` 和 `Lookup service`。
 - **自动选择器。** 通过 `添加服务器配置`（Add profile）→ `手动输入`（Manual settings）→ `自动选择`（Auto selector）创建。在 `配置`（Profiles）界面上点击它的状态行，即可打开 `自动选择统计`（Auto selector stats）。
-- **IP 扫描器。** Android 版没有。

@@ -17,7 +17,7 @@ toc = true
 | `路由配置档`（Routing profiles） | 路由配置档及其规则。 |
 | `设置`（Settings） | 所有设置，包括 DNS、Tun、WARP 和入站设置。 |
 | `OTP 条目`（OTP entries） | [OTP 管理器](@/advanced/vpn_profiles.zh.md#otp-manager)中的条目。 |
-| `IP lists and scans` | [IP 扫描器](@/guides/testing.zh.md#ip-scanner)的列表及结果。 |
+| `IP 列表和扫描`（IP lists and scans） | [IP 列表](@/guides/routing.zh.md#ip-lists)以及[查找解析器](@/advanced/dns_tunnels.zh.md#find-resolvers)的搜索。 |
 | `自定义图标`（Custom icons） | 自定义托盘图标。 |
 
 备份不包含流量历史、日志、核心的缓存，也不记录 `Tun 模式`（Tun mode）或 `系统代理`（System proxy）是否开启。

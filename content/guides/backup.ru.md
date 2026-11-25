@@ -17,7 +17,7 @@ toc = true
 | `Профили маршрутизации` (Routing profiles) | Профили маршрутизации и их правила. |
 | `Настройки` (Settings) | Все настройки, включая DNS, Tun, WARP и входящие подключения. |
 | `Записи OTP` (OTP entries) | Записи [менеджера OTP](@/advanced/vpn_profiles.ru.md#otp-manager). |
-| `Списки IP и сканирования` (IP lists and scans) | Списки и результаты [IP-сканера](@/guides/testing.ru.md#ip-scanner). |
+| `Списки IP и сканирования` (IP lists and scans) | [IP-списки](@/guides/routing.ru.md#ip-lists) и [поиски резолверов](@/advanced/dns_tunnels.ru.md#find-resolvers). |
 | `Пользовательские иконки` (Custom icons) | Собственные иконки для трея. |
 
 Резервная копия не содержит историю трафика, логи, кэш ядра и то, был ли включен `Режим TUN` (Tun mode) или `Системный прокси` (System proxy).

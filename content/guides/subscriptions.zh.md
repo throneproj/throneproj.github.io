@@ -150,7 +150,7 @@ hwid=value,os=value,osVersion=value,model=value
 
 - `Profiles' own addresses`：不做更改（默认）。
 - `Fixed address`：一个主机名或 IP 地址，不带端口。
-- `IP list`：某个 IP 列表的第一个地址。
+- `IP list`：某个 [IP 列表](@/guides/routing.zh.md#ip-lists)的第一个地址。
 
 配置档保留各自的端口，并仍会把原来的域名作为 TLS 服务器名称（SNI）和 `Host` 发送。`地址`（Address）列显示每个配置档实际使用的地址。配置档可以在其编辑器中覆盖分组的设置：`高级设置`（Advanced Settings）→ `Server Address`。
 

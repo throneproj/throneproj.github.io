@@ -66,13 +66,31 @@ To use WARP without another proxy, or as a hop in a chain, make it a profile of 
 2. Click `Generate WARP config` (WireGuard) or `Generate WARP identity` (MASQUE).
 3. Enter a `Name` and click `OK`.
 
-Such a profile connects to Cloudflare directly. Keep `Exit through` on `Selected profile` while you use it, or Throne adds a second WARP hop after it. If it does not connect, a [WARP scan](@/guides/testing.md#warp-scan) finds endpoints that work from your network.
+Such a profile connects to Cloudflare directly. Keep `Exit through` on `Selected profile` while you use it, or Throne adds a second WARP hop after it. If it does not connect, [find a working endpoint](#find-endpoint).
 
 The `Mode` in `Routing Settings` does not affect it. For the `AmneziaWG` obfuscation on a WireGuard profile, tick `Enable Amnezia`, click `Amnezia Options`, and set `Junk Packet Count (Jc)` to 4, `Junk Packet Min Size (Jmin)` to 40, `Junk Packet Max Size (Jmax)` to 70, and H1 to H4 to 1, 2, 3 and 4. Then click `Generate QUIC signature`, enter `www.cloudflare.com` and click `OK`.
+
+## Find a working endpoint {#find-endpoint}
+
+When Cloudflare's endpoints are blocked on your network, a WARP profile does not connect. To find one that works:
+
+1. Right-click the profile and choose `Find WARP endpoint`, or click `Find WARP endpoint` next to `Generate WARP config` or `Generate WARP identity` in its editor.
+2. Wait while Throne searches. It stops after 5 working endpoints, after 10 seconds without a new one, or after 90 seconds. `Stop` ends it early and `Search again` starts over.
+3. Select an endpoint and click `Use endpoint`. The list is best first: the least `Loss` (the share of handshakes left unanswered), then the lowest `Latency`.
+
+Each address gets exactly what the profile sends, with its keys, junk packets, QUIC opener and TLS settings. An endpoint that answers must also load the `Latency Test URL` through a real connection before it is listed.
+
+`Use endpoint` sets the profile's server address and port. When it changes more, the window says so beforehand:
+
+- Plain WireGuard is blocked but gets through with junk packets: it ticks `Enable Amnezia` with `Jc` 4, `Jmin` 40 and `Jmax` 70.
+- MASQUE over HTTP/3 is blocked but HTTP/2 gets through: it turns on the fallback to HTTP/2.
+- The profile connects to another address through its `Server Address` or its group's: it switches back to `Own address`.
+
+From the editor, the search uses the settings in the editor, and the change is saved when you click `OK`. From the right-click menu, the change is saved at once; close the profile's editor first. The search itself is not saved.
 
 ## Android {#android}
 
 - The settings are in `Settings` → `Routing` → `WARP` and work as on the desktop, `AmneziaWG` included.
 - If registration is blocked, connect first and turn on `Settings` → `Subscriptions` → `Use proxy`.
 - To switch WARP quickly, open `Settings` → `Routing` → `Current routing profile` and tap `Enable WARP` or `Disable WARP`.
-- The WireGuard and MASQUE profile editors have a `Generate WARP identity` button.
+- The WireGuard and MASQUE profile editors have a `Generate WARP identity` button, but no `Find WARP endpoint`.

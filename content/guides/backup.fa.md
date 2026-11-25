@@ -17,7 +17,7 @@ toc = true
 | `Routing profiles` | نمایه‌های مسیریابی و قوانین آن‌ها. |
 | `Settings` | همهٔ تنظیمات، از جمله DNS، Tun، WARP و ورودی‌ها (inbound). |
 | `OTP entries` | ورودی‌های [مدیر OTP](@/advanced/vpn_profiles.fa.md#otp-manager). |
-| `IP lists and scans` | فهرست‌ها و نتایج [اسکنر IP](@/guides/testing.fa.md#ip-scanner). |
+| `IP lists and scans` | [فهرست‌های IP](@/guides/routing.fa.md#ip-lists) و جست‌وجوهای [یافتن ریزالور](@/advanced/dns_tunnels.fa.md#find-resolvers). |
 | `Custom icons` | آیکون‌های سفارشی سینی سیستم. |
 
 نسخهٔ پشتیبان شامل تاریخچهٔ ترافیک، گزارش‌ها (logs)، حافظهٔ نهان هسته، یا روشن بودن `حالت Tun` (Tun mode) یا `پروکسی سیستمی` (System proxy) نیست.

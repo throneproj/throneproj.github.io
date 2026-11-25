@@ -1,6 +1,6 @@
 +++
 title = "Testing & Auto Selector"
-description = "Test profiles and the services they reach, sort, pin and clean up the list, let the auto selector pick the best profile, and find working WARP endpoints and DNS resolvers."
+description = "Test profiles and the services they reach, sort, pin and clean up the list, and let the auto selector pick the best profile."
 weight = 60
 toc = true
 +++
@@ -133,66 +133,6 @@ Limits:
 - A chain can hold one auto selector as a hop, but not together with an Extra Core profile or a custom config; see [chain limits](@/advanced/chains.md#chain-limits) and [Test a chain](@/advanced/chains.md#test-chain). An auto selector cannot be a `Front Proxy` or `Landing Proxy`.
 - It skips chains, other auto selectors, OpenVPN, OpenConnect, Tailscale, Extra Core, sing-box full configs, custom configs that cannot be read, and Xray full configs that cannot be combined with the front or landing proxy of their group.
 
-## IP Scanner {#ip-scanner}
-
-`Tools` → `IP Scanner` finds what works from your network for two kinds of profiles: Cloudflare WARP endpoints for a WARP profile, and resolvers for a DNS tunnel profile. A scan tries addresses with the profile's own settings and keeps the ones that work.
-
-1. Click `New scan`, enter a `Name`, choose `WARP scan` or `DNS resolver scan` and click `OK`. The scan's window opens.
-2. Choose the `Profile`. The scan uses the profile as it was last saved.
-3. Click `Start`.
-
-A scan keeps running when you close its window. `Pause` stops it and `Resume` continues it.
-
-`Results` lists what the scan found, best first: the least `Loss` (the share of probes left unanswered), then the lowest `Latency`. Click a column header to sort by it. `Save as IP list` copies the results into a new [IP list](#ip-lists), `Copy` copies them as text and `Export` saves them to a file.
-
-When a scan has results, `Start` asks what to do:
-
-- `Scan from the beginning` searches again. The current results stay until the first new one replaces them, so a profile that uses them never runs out.
-- `Rescan current results` checks the results again and removes the ones that stopped working. When none of them works, it removes nothing: the server or the network is then more likely down than every result.
-
-### WARP scans {#warp-scan}
-
-A WARP scan finds Cloudflare WARP endpoints that work from your network for one of your [WARP profiles](@/advanced/warp.md#warp-profiles): WireGuard (with or without Amnezia options) or MASQUE. Each address gets exactly what the profile sends, with its keys, junk packets, QUIC opener and TLS settings, so an endpoint that the scan keeps works for that profile.
-
-When you choose the profile, `Base IP list` switches to `Cloudflare WARP (WireGuard)` or `Cloudflare WARP (MASQUE)` to match. The rest is automatic:
-
-1. The current results and the profile's own endpoint are checked first.
-2. The scan finds the ports that answer, then tries addresses from every range of the list on them, three handshakes each.
-3. An endpoint that answers must also load the `Latency Test URL` through a real connection before it is kept. Its `Loss` and `Latency` are those of its handshakes.
-
-The scan completes after 5 working endpoints, after 10 seconds without a new one, or after 90 seconds; the status shows the seconds used. When it finds nothing, the log says whether no endpoint answered or endpoints answered but carried no data. When plain WireGuard is blocked but gets through with junk packets, the scan goes on with them, and the log asks you to tick `Enable Amnezia` in the profile and set `Jc` 4, `Jmin` 40 and `Jmax` 70 in `Amnezia Options`.
-
-To use an endpoint, enter its address and port as the profile's server address and port.
-
-### DNS resolver scans {#dns-scan}
-
-A DNS resolver scan finds resolvers that relay the tunnel of one of your [DNS tunnel](@/advanced/dns_tunnels.md) profiles: DNSTT (also in VayDNS mode), MasterDNS, or VLESS (Xray) with XDNS. It tries each address as the only resolver of that profile and keeps the ones that pass.
-
-To create one, choose `DNS resolver scan` in `New scan`, or click `Find resolvers` next to `IP list` in the editor of a saved DNS tunnel profile, which opens or creates a scan for it.
-
-- `Base IP list` holds the resolvers to try, such as `Iran DNS resolvers` or `Russia DNS resolvers`. Each address is tried on the port stored in the list, or on port 53.
-- `Stop after (results)` (20 by default) completes the scan after that many new results; `Resume` then finds more. Empty means no limit.
-- `Concurrency` sets how many resolvers are tried at the same time.
-
-Before the list, the scan checks your network:
-
-- It asks your network's own DNS servers for the root servers. When none answers, the network is down and the scan stops.
-- It sends a tunnel query to `192.0.2.1`, an address where no resolver runs. If the tunnel answers through it, your network intercepts DNS and every resolver you try is really your network's, so the scan tries only your network's resolvers and completes.
-- Your network's resolvers and the profile's own are tried first. When none of them passes, the log says to check the profile or its server.
-
-A resolver passes when it relays a tunnel query and, for DNSTT and XDNS, query names as long as the profile sends. A burst of 8 queries then measures it: `Loss` is the share of the burst left unanswered, and `Latency` is the time to the resolver's first answer. At the end, the log counts why resolvers failed: no answer, an error reply, a wrong answer, or a name too long. When resolvers pass only with short names, it suggests a lower `Max QNAME Length` in the profile.
-
-Click `Use as resolvers` under `Results` to make the scan's result list the profile's `IP list`. The resolvers typed in the profile stay and are used first; the list follows, best first. The profile reads the list each time it starts, so it follows the scan: `Rescan current results` removes resolvers that stopped working. For a fixed set, click `Save as IP list` and choose that list as the profile's `IP list` instead.
-
-### IP lists {#ip-lists}
-
-Click `IP Lists` in the `IP Scanner` window to manage the lists that scans read and that profiles use. Throne comes with `Cloudflare WARP (WireGuard)`, `Cloudflare WARP (MASQUE)`, `Iran DNS resolvers` and `Russia DNS resolvers`. `Import` → `Add default lists` restores them.
-
-- `New` creates a list. Its `Source` is `Manual` (you write the entries) or `URL` (an address that Throne downloads). A `URL` list can update itself with `Auto update`, at most once every 30 minutes.
-- Write one entry per line, for example `1.2.3.4`, `1.2.3.0/24`, `1.2.3.4:443`, `[2606:4700::1]:443`, `1.2.3.0/24 443` or `1.2.3.1-1.2.3.9`.
-
-The results of each scan are a list too, named after the scan: `Scan WARP Result` for a scan named `WARP`. A profile can use it directly; use `Save as IP list` for a list that stays as it is.
-
 ## On Android {#android}
 
 Throne for Android has the same tests and the same auto selector. The differences:
@@ -201,4 +141,3 @@ Throne for Android has the same tests and the same auto selector. The difference
 - **Test panel.** A panel shows the progress and results of a test, with actions such as `Sort by latency`, `Remove unavailable` and `Connect to fastest`.
 - **Live connection.** While connected, tap the statistics bar to test the connection. Touch and hold it for `Live graphs` and `Speed test current connection`. The bar also shows the exit country; `Settings` → `Testing` has `Look up exit country` and `Lookup service`.
 - **Auto selector.** Create it with `Add profile` → `Manual settings` → `Auto selector`. Tap its status line on the Profiles screen to open `Auto selector stats`.
-- **IP scanner.** Not available on Android.
