@@ -1,11 +1,42 @@
 +++
 title = "Cloudflare WARP"
-description = "Add Cloudflare WARP as an extra exit behind your proxy, and let chosen traffic skip it."
+description = "Connect through Cloudflare WARP for free with no server or config, or add it as an extra exit behind your proxy."
 weight = 40
 toc = true
 +++
 
-WARP is Cloudflare's free VPN service. Throne can add it as an extra hop after your proxy: your device → the profile you start → WARP → Internet. Websites then see a Cloudflare address instead of your proxy server's, which helps with sites that block VPN or data-center addresses.
+WARP is Cloudflare's free VPN service. Throne uses it in two ways:
+
+- **On its own**, as your connection, with no server, subscription or config. See [Connect without a server](#no-server).
+- **As an extra exit** after your proxy, so that websites see a Cloudflare address instead of your proxy server's. See [WARP as an extra exit](#exit).
+
+## Connect without a server {#no-server}
+
+Throne makes a free WARP profile, then searches for a Cloudflare endpoint that works on your network, even where WARP is blocked. It also picks the settings that get through: junk packets where plain WireGuard is blocked, and HTTP/2 where HTTP/3 is.
+
+On the desktop:
+
+1. Open `Program` → `New profile` and set `Type` to `WireGuard`.
+2. Click `Generate WARP config` and accept the Cloudflare WARP terms the first time.
+3. Click `Find WARP endpoint` next to it. When endpoints appear, click `Use endpoint`; the best one is already selected.
+4. Enter a `Name`, click `OK`, and [connect](@/get_started/configuration.md#connect) with the new profile.
+
+On Android:
+
+1. On the `Profiles` screen, tap `Add profile` → `Manual settings` → `WireGuard`.
+2. Tap `Generate WARP identity` and accept the terms.
+3. Tap `Find WARP endpoint`. When endpoints appear, tap `Use endpoint`.
+4. Tap the check mark (`Apply`) and connect.
+
+- If the search finds nothing, try a `MASQUE` profile the same way. On the desktop, its button is `Generate WARP identity`.
+- When the profile stops connecting, for example on another network, search again: right-click it (on Android, tap ⋮) and choose `Find WARP endpoint`. See [Find a working endpoint](#find-endpoint).
+- If generating fails, see [If registration fails](#registration-fails).
+- Leave the [WARP exit](#enable) off, or Throne adds a second WARP hop after the profile.
+- Websites see a Cloudflare address in your own country, so WARP does not open sites that block your country.
+
+## WARP as an extra exit {#exit}
+
+Your device → the profile you start → WARP → Internet. Websites then see a Cloudflare address instead of your proxy server's, which helps with sites that block VPN or data-center addresses.
 
 - WARP applies to every profile you start, including chains and auto selectors, and comes after a group's landing proxy. Only `Custom (sing-box config)` profiles run without it.
 - WARP runs through your proxy, so the profile must carry its traffic: `WireGuard` and `AmneziaWG` modes need UDP, and so does `MASQUE` over HTTP/3. `MASQUE` over HTTP/2 needs only TCP.
@@ -60,15 +91,9 @@ Rules can send traffic to `Proxy without exit` too (see [Routing](@/guides/routi
 
 ## WARP as a normal profile {#warp-profiles}
 
-To use WARP without another proxy, or as a hop in a chain, make it a profile of its own:
+A WARP profile, made as in [Connect without a server](#no-server), connects to Cloudflare directly. It can also be a hop in a [chain](@/advanced/chains.md). Keep `Exit through` on `Selected profile` while you use it, or Throne adds a second WARP hop after it.
 
-1. Open `Program` → `New profile` and set `Type` to `WireGuard` or `MASQUE`.
-2. Click `Generate WARP config` (WireGuard) or `Generate WARP identity` (MASQUE).
-3. Enter a `Name` and click `OK`.
-
-Such a profile connects to Cloudflare directly. Keep `Exit through` on `Selected profile` while you use it, or Throne adds a second WARP hop after it. If it does not connect, [find a working endpoint](#find-endpoint).
-
-The `Mode` in `Routing Settings` does not affect it. For the `AmneziaWG` obfuscation on a WireGuard profile, tick `Enable Amnezia`, click `Amnezia Options`, and set `Junk Packet Count (Jc)` to 4, `Junk Packet Min Size (Jmin)` to 40, `Junk Packet Max Size (Jmax)` to 70, and H1 to H4 to 1, 2, 3 and 4. Then click `Generate QUIC signature`, enter `www.cloudflare.com` and click `OK`.
+The `Mode` in `Routing Settings` does not affect it. [Find WARP endpoint](#find-endpoint) adds junk packets when plain WireGuard is blocked. For the full `AmneziaWG` obfuscation on a WireGuard profile, tick `Enable Amnezia`, click `Amnezia Options`, and set `Junk Packet Count (Jc)` to 4, `Junk Packet Min Size (Jmin)` to 40, `Junk Packet Max Size (Jmax)` to 70, and H1 to H4 to 1, 2, 3 and 4. Then click `Generate QUIC signature`, enter `www.cloudflare.com` and click `OK`.
 
 ## Find a working endpoint {#find-endpoint}
 
@@ -93,4 +118,4 @@ From the editor, the search uses the settings in the editor, and the change is s
 - The settings are in `Settings` → `Routing` → `WARP` and work as on the desktop, `AmneziaWG` included.
 - If registration is blocked, connect first and turn on `Settings` → `Subscriptions` → `Use proxy`.
 - To switch WARP quickly, open `Settings` → `Routing` → `Current routing profile` and tap `Enable WARP` or `Disable WARP`.
-- The WireGuard and MASQUE profile editors have a `Generate WARP identity` button, but no `Find WARP endpoint`.
+- `Find WARP endpoint` is in the WireGuard and MASQUE profile editors, below `Generate WARP identity`, and in the ⋮ menu of a WARP profile. From the ⋮ menu, the change is saved at once.

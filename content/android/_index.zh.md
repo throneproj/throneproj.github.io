@@ -18,6 +18,8 @@ Throne for Android（前身为 NekoBox for Android）运行与 Throne 桌面版�
 6. 点按屏幕底部的圆形连接按钮，并允许 VPN 请求。
 7. 点按屏幕底部的横栏以检查连接。显示“HTTP：… 毫秒”表示流量已经经由该配置通过。
 
+没有订阅？可以免费[通过 Cloudflare WARP 连接](@/advanced/warp.zh.md#no-server)，无需配置。
+
 如果你的服务商提供的是 `throne://addsub/…` 链接，请在手机上打开它，以代替第 3、4 步。
 
 分享文本链接时，Throne 不会出现在 Android 的分享菜单中。请复制链接，改用 `从剪切板导入`（Import from clipboard）。

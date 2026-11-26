@@ -7,6 +7,10 @@ toc = true
 
 你需要服务商提供的订阅链接或分享链接，或者你自己服务器的详细信息。Android 版请参阅 [Throne for Android](@/android/_index.zh.md#quick-start)。
 
+{% alert_info() %}
+没有服务器？Throne 可以免费通过 Cloudflare WARP 连接，无需任何配置：它会找到在你的网络上可用的端点。参见[无需服务器即可连接](@/advanced/warp.zh.md#no-server)。
+{% end %}
+
 ## 添加服务器 {#add-servers}
 
 Throne 将每个服务器保存为一个**配置档**。配置档属于**分组**，分组就是配置档列表上方的标签页。**订阅**是一种分组，Throne 从某个 URL 下载它，之后还可以更新。

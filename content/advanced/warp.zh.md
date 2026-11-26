@@ -1,11 +1,42 @@
 +++
 title = "Cloudflare WARP"
-description = "将 Cloudflare WARP 添加为代理之后的额外出口，并让指定流量绕过它。"
+description = "免费通过 Cloudflare WARP 连接，无需服务器或配置；也可以把它作为代理之后的额外出口。"
 weight = 40
 toc = true
 +++
 
-WARP 是 Cloudflare 的免费 VPN 服务。Throne 可以在你的代理之后加上 WARP，作为额外的一跳：你的设备 → 你启动的配置档 → WARP → 互联网。这样网站看到的是 Cloudflare 的地址，而不是你的代理服务器的地址，这对那些封锁 VPN 或数据中心地址的网站很有帮助。
+WARP 是 Cloudflare 的免费 VPN 服务。Throne 可以通过两种方式使用它：
+
+- **单独使用**，作为你的连接，无需服务器、订阅或配置。参见[无需服务器即可连接](#no-server)。
+- **作为额外出口**，加在你的代理之后，让网站看到 Cloudflare 的地址，而不是你的代理服务器的地址。参见[将 WARP 用作额外出口](#exit)。
+
+## 无需服务器即可连接 {#no-server}
+
+Throne 会创建一个免费的 WARP 配置档，然后搜索在你的网络上可用的 Cloudflare 端点，即使在 WARP 被封锁的网络上也是如此。它还会选出能够通过的设置：普通 WireGuard 被封锁时使用垃圾数据包（junk），HTTP/3 被封锁时使用 HTTP/2。
+
+桌面版：
+
+1. 打开 `程序`（Program）→ `新建配置档`（New profile），将 `类型`（Type）设为 `WireGuard`。
+2. 点击 `生成 WARP 配置`（Generate WARP config），首次使用时接受 Cloudflare WARP 条款。
+3. 点击旁边的 `查找 WARP 端点`（Find WARP endpoint）。出现端点后，点击 `使用此端点`（Use endpoint）；最佳端点已被选中。
+4. 填写 `名称`（Name），点击 `确定`，然后使用新配置档[连接](@/get_started/configuration.zh.md#connect)。
+
+Android 版：
+
+1. 在 `配置`（Profiles）界面，点按 `添加服务器配置`（Add profile）→ `手动输入`（Manual settings）→ `WireGuard`。
+2. 点按 `生成 WARP 身份`（Generate WARP identity）并接受条款。
+3. 点按 `查找 WARP 端点`（Find WARP endpoint）。出现端点后，点按 `使用端点`（Use endpoint）。
+4. 点按对勾（`应用`（Apply））并连接。
+
+- 如果搜索没有找到端点，请用同样的方法试试 `MASQUE` 配置档。桌面版上对应的按钮是 `生成 WARP 身份标识`（Generate WARP identity）。
+- 如果配置档无法再连接，例如换到另一个网络后，请重新搜索：右键点击它（Android 版点按 ⋮），然后选择 `查找 WARP 端点`。参见[查找可用的端点](#find-endpoint)。
+- 如果生成失败，请参阅[如果注册失败](#registration-fails)。
+- 请保持 [WARP 出口](#enable)关闭，否则 Throne 会在该配置档之后再添加一个 WARP 跳点。
+- 网站看到的是位于你本国的 Cloudflare 地址，因此 WARP 无法打开封锁你所在国家的网站。
+
+## 将 WARP 用作额外出口 {#exit}
+
+你的设备 → 你启动的配置档 → WARP → 互联网。这样网站看到的是 Cloudflare 的地址，而不是你的代理服务器的地址，这对那些封锁 VPN 或数据中心地址的网站很有帮助。
 
 - WARP 适用于你启动的每个配置档，包括代理链和自动选择器，并位于分组的落地代理之后。只有 `自定义 (sing-box 配置)`（Custom (sing-box config)）配置档不经过 WARP。
 - WARP 的流量要经由你的代理传输，因此配置档必须能承载它：`WireGuard` 和 `AmneziaWG` 模式需要 UDP，基于 HTTP/3 的 `MASQUE` 也需要。基于 HTTP/2 的 `MASQUE` 只需要 TCP。
@@ -60,15 +91,9 @@ Cloudflare 的注册服务器 `api.cloudflareclient.com` 在一些国家被封�
 
 ## 将 WARP 用作普通配置档 {#warp-profiles}
 
-要在没有其他代理的情况下使用 WARP，或将其作为代理链中的一个跳点，请把它单独做成一个配置档：
+按[无需服务器即可连接](#no-server)创建的 WARP 配置档会直接连接 Cloudflare，也可以作为[代理链](@/advanced/chains.zh.md)中的一个跳点。使用它时请让 `出口方式`（Exit through）保持为 `所选配置档`（Selected profile），否则 Throne 会在它之后再添加一个 WARP 跳点。
 
-1. 打开 `程序`（Program）→ `新建配置档`（New profile），将 `类型`（Type）设为 `WireGuard` 或 `MASQUE`。
-2. 点击 `生成 WARP 配置`（Generate WARP config，WireGuard）或 `生成 WARP 身份标识`（Generate WARP identity，MASQUE）。
-3. 填写 `名称`（Name）并点击 `确定`。
-
-这样的配置档会直接连接 Cloudflare。使用它时请让 `出口方式`（Exit through）保持为 `所选配置档`（Selected profile），否则 Throne 会在它之后再添加一个 WARP 跳点。如果它无法连接，请[查找可用的端点](#find-endpoint)。
-
-`路由设置` 中的 `模式` 不会影响它。要让 WireGuard 配置档具备 `AmneziaWG` 模式的混淆效果，请勾选 `启用 Amnezia`（Enable Amnezia），点击 `Amnezia 选项`（Amnezia Options），将 `垃圾数据包数量 (Jc)`（Junk Packet Count (Jc)）设为 4、`垃圾数据包最小大小 (Jmin)`（Junk Packet Min Size (Jmin)）设为 40、`垃圾数据包最大大小 (Jmax)`（Junk Packet Max Size (Jmax)）设为 70，并将 H1 到 H4 分别设为 1、2、3 和 4。然后点击 `生成 QUIC 签名`（Generate QUIC signature），输入 `www.cloudflare.com` 并点击 `确定`。
+`路由设置` 中的 `模式` 不会影响它。普通 WireGuard 被封锁时，[查找 WARP 端点](#find-endpoint)会添加垃圾数据包。要让 WireGuard 配置档具备完整的 `AmneziaWG` 模式混淆效果，请勾选 `启用 Amnezia`（Enable Amnezia），点击 `Amnezia 选项`（Amnezia Options），将 `垃圾数据包数量 (Jc)`（Junk Packet Count (Jc)）设为 4、`垃圾数据包最小大小 (Jmin)`（Junk Packet Min Size (Jmin)）设为 40、`垃圾数据包最大大小 (Jmax)`（Junk Packet Max Size (Jmax)）设为 70，并将 H1 到 H4 分别设为 1、2、3 和 4。然后点击 `生成 QUIC 签名`（Generate QUIC signature），输入 `www.cloudflare.com` 并点击 `确定`。
 
 ## 查找可用的端点 {#find-endpoint}
 
@@ -93,4 +118,4 @@ Cloudflare 的注册服务器 `api.cloudflareclient.com` 在一些国家被封�
 - 相关设置位于 `设置`（Settings）→ `路由`（Routing）→ `WARP`，其工作方式与桌面版相同，包括 `AmneziaWG`。
 - 如果注册被封锁，请先连接，然后开启 `设置` → `订阅`（Subscriptions）→ `使用代理`（Use proxy）。
 - 要快速切换 WARP，请打开 `设置` → `路由` → `当前路由配置`（Current routing profile），然后点按 `启用 WARP`（Enable WARP）或 `禁用 WARP`（Disable WARP）。
-- WireGuard 和 MASQUE 配置档编辑器中都有 `生成 WARP 身份`（Generate WARP identity）按钮，但没有 `查找 WARP 端点`。
+- WireGuard 和 MASQUE 配置档编辑器中 `生成 WARP 身份`（Generate WARP identity）的下方有 `查找 WARP 端点`（Find WARP endpoint），WARP 配置档的 ⋮ 菜单中也有。从 ⋮ 菜单使用时，更改会立即保存。

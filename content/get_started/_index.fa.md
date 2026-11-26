@@ -28,11 +28,12 @@ Throne (پیش‌تر با نام Nekoray) یک کلاینت پروکسی رای
 ## ویژگی‌های برجسته {#highlights}
 
 - [پروتکل‌های متعدد](@/reference/protocols.fa.md)، از جمله VLESS با REALITY و XHTTP، Shadowsocks، Trojan، Hysteria، TUIC، WireGuard، AmneziaWG، NaïveProxy، OpenVPN، OpenConnect و [تونل‌های DNS](@/advanced/dns_tunnels.fa.md).
+- اتصال رایگان [Cloudflare WARP](@/advanced/warp.fa.md#no-server) بدون سرور یا پیکربندی. Throne نقطهٔ پایانی‌ای را پیدا می‌کند که در شبکهٔ شما کار کند، حتی جایی که WARP مسدود است.
 - [اشتراک‌هایی](@/guides/subscriptions.fa.md) که طبق زمان‌بندی به‌روز می‌شوند.
 - [پروکسی سیستمی، حالت Tun و اشتراک‌گذاری در شبکهٔ محلی](@/guides/proxy_modes.fa.md).
 - قوانین [مسیریابی](@/guides/routing.fa.md)، با نمایه‌های آماده برای چین، ایران و روسیه.
 - [تست](@/guides/testing.fa.md) تأخیر و سرعت، و یک انتخابگر خودکار (auto selector) که شما را روی سروری نگه می‌دارد که کار می‌کند.
-- [زنجیره‌های پروکسی و پیکربندی‌های سفارشی](@/advanced/chains.fa.md)، [گزینه‌های ضدسانسور](@/advanced/presets.fa.md) مانند TLS fragment، و [Cloudflare WARP](@/advanced/warp.fa.md) داخلی.
+- [زنجیره‌های پروکسی و پیکربندی‌های سفارشی](@/advanced/chains.fa.md)، [گزینه‌های ضدسانسور](@/advanced/presets.fa.md) مانند TLS fragment، و [Cloudflare WARP](@/advanced/warp.fa.md#exit) به‌عنوان خروجی اضافه.
 - یک [کیل‌سوییچ](@/advanced/kill_switch.fa.md)، و [کنترل با `thronectl`](@/advanced/api.fa.md) از اسکریپت‌ها و دستگاه‌های دیگر.
 - [جست‌وجو با `Ctrl+K`](@/reference/shortcuts.fa.md#command-palette) برای فرمان‌ها و تنظیمات.
 

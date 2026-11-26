@@ -11,6 +11,10 @@ toc = true
 
 Throne 是 Nekoray 的延续，Nekoray 已不再开发。Throne 运行在自己的基于 sing-box 的核心 ThroneCore 上，只有 Xray 配置档才会用到 Xray，并新增了自动选择器、Cloudflare WARP、OpenVPN 和 OpenConnect 配置档、备份以及 Android 应用等功能。Throne 无法读取 Nekoray 的配置；请参阅[从 Nekoray / NekoBox 迁移](@/help/migrating.zh.md)。
 
+## 没有服务器或订阅也能连接吗？ {#no-server}
+
+可以，通过 Cloudflare WARP 免费连接。创建一个 WARP 配置档，让 `查找 WARP 端点`（Find WARP endpoint）选出在你的网络上可用的端点。参见[无需服务器即可连接](@/advanced/warp.zh.md#no-server)。
+
 ## 找不到文档中提到的菜单项或设置，它在哪里？ {#missing-option}
 
 按 `Ctrl+K` 并输入设置的名称即可找到并打开它。如果找不到该项，可能是你的版本比本文档描述的版本旧，或者该项只存在于其他系统上。参见[搜索设置](@/reference/shortcuts.zh.md#command-palette)。

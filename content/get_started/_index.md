@@ -28,11 +28,12 @@ Get the files from [Downloads](@/downloads.md).
 ## Highlights {#highlights}
 
 - Many [protocols](@/reference/protocols.md), including VLESS with REALITY and XHTTP, Shadowsocks, Trojan, Hysteria, TUIC, WireGuard, AmneziaWG, NaïveProxy, OpenVPN, OpenConnect and [DNS tunnels](@/advanced/dns_tunnels.md).
+- A free [Cloudflare WARP](@/advanced/warp.md#no-server) connection with no server or config. Throne finds an endpoint that works on your network, even where WARP is blocked.
 - [Subscriptions](@/guides/subscriptions.md) that update on a schedule.
 - [System proxy, Tun mode and LAN sharing](@/guides/proxy_modes.md).
 - [Routing](@/guides/routing.md) rules, with ready-made profiles for China, Iran and Russia.
 - Latency and speed [tests](@/guides/testing.md), and an auto selector that keeps you on a working server.
-- [Proxy chains and custom configs](@/advanced/chains.md), [anti-censorship options](@/advanced/presets.md) such as TLS fragment, and built-in [Cloudflare WARP](@/advanced/warp.md).
+- [Proxy chains and custom configs](@/advanced/chains.md), [anti-censorship options](@/advanced/presets.md) such as TLS fragment, and [Cloudflare WARP](@/advanced/warp.md#exit) as an extra exit.
 - A [kill switch](@/advanced/kill_switch.md), and [control with `thronectl`](@/advanced/api.md) from scripts and other devices.
 - [`Ctrl+K` search](@/reference/shortcuts.md#command-palette) for commands and settings.
 

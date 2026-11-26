@@ -28,11 +28,12 @@ Throne（前身为 Nekoray）是一款适用于 Windows、Linux 和 macOS 的免
 ## 功能亮点 {#highlights}
 
 - 支持多种[协议](@/reference/protocols.zh.md)，包括带 REALITY 和 XHTTP 的 VLESS、Shadowsocks、Trojan、Hysteria、TUIC、WireGuard、AmneziaWG、NaïveProxy、OpenVPN、OpenConnect 以及 [DNS 隧道](@/advanced/dns_tunnels.zh.md)。
+- 免费的 [Cloudflare WARP](@/advanced/warp.zh.md#no-server) 连接，无需服务器或配置。Throne 会找到在你的网络上可用的端点，即使在 WARP 被封锁的网络上也是如此。
 - 可按计划自动更新的[订阅](@/guides/subscriptions.zh.md)。
 - [系统代理、Tun 模式与局域网共享](@/guides/proxy_modes.zh.md)。
 - [路由](@/guides/routing.zh.md)规则，以及适用于中国、伊朗和俄罗斯的现成配置档。
 - 延迟和速度[测试](@/guides/testing.zh.md)，以及让你始终使用可用服务器的自动选择器。
-- [代理链与自定义配置](@/advanced/chains.zh.md)、TLS 分片等[反审查选项](@/advanced/presets.zh.md)，以及内置的 [Cloudflare WARP](@/advanced/warp.zh.md)。
+- [代理链与自定义配置](@/advanced/chains.zh.md)、TLS 分片等[反审查选项](@/advanced/presets.zh.md)，以及作为额外出口的 [Cloudflare WARP](@/advanced/warp.zh.md#exit)。
 - [断网保护（Kill Switch）](@/advanced/kill_switch.zh.md)，以及通过 [`thronectl`](@/advanced/api.zh.md) 从脚本和其他设备控制 Throne。
 - 用 [`Ctrl+K` 搜索](@/reference/shortcuts.zh.md#command-palette)命令和设置。
 

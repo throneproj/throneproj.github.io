@@ -28,11 +28,12 @@ Throne (ранее Nekoray) — бесплатный прокси-клиент �
 ## Основные возможности {#highlights}
 
 - Множество [протоколов](@/reference/protocols.ru.md), включая VLESS с REALITY и XHTTP, Shadowsocks, Trojan, Hysteria, TUIC, WireGuard, AmneziaWG, NaïveProxy, OpenVPN, OpenConnect и [DNS-туннели](@/advanced/dns_tunnels.ru.md).
+- Бесплатное подключение через [Cloudflare WARP](@/advanced/warp.ru.md#no-server) без сервера и конфигурации. Throne находит конечную точку, которая работает в вашей сети, даже там, где WARP заблокирован.
 - [Подписки](@/guides/subscriptions.ru.md), которые обновляются по расписанию.
 - [Системный прокси, режим Tun и раздача прокси в локальной сети](@/guides/proxy_modes.ru.md).
 - Правила [маршрутизации](@/guides/routing.ru.md) и готовые профили для Китая, Ирана и России.
 - [Тесты](@/guides/testing.ru.md) задержки и скорости, а также автовыбор (auto selector), который удерживает вас на работающем сервере.
-- [Цепочки прокси и пользовательские конфигурации](@/advanced/chains.ru.md), [средства обхода цензуры](@/advanced/presets.ru.md), например фрагментация TLS, и встроенный [Cloudflare WARP](@/advanced/warp.ru.md).
+- [Цепочки прокси и пользовательские конфигурации](@/advanced/chains.ru.md), [средства обхода цензуры](@/advanced/presets.ru.md), например фрагментация TLS, и [Cloudflare WARP](@/advanced/warp.ru.md#exit) как дополнительный выход.
 - [Kill switch](@/advanced/kill_switch.ru.md) и [управление через `thronectl`](@/advanced/api.ru.md) из скриптов и с других устройств.
 - [Поиск по `Ctrl+K`](@/reference/shortcuts.ru.md#command-palette) команд и параметров.
 

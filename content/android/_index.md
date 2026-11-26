@@ -18,6 +18,8 @@ Throne for Android (formerly NekoBox for Android) runs the same core as Throne d
 6. Tap the round connect button at the bottom of the screen and allow the VPN request.
 7. Tap the bar at the bottom of the screen to check the connection. "HTTP: … ms" means that traffic passes through the profile.
 
+No subscription? [Connect through Cloudflare WARP](@/advanced/warp.md#no-server) for free, with no config.
+
 If your provider gives you a `throne://addsub/…` link, open it on the phone instead of steps 3 and 4.
 
 Throne does not appear in the Android share menu for text links. Copy the link and use `Import from clipboard`.

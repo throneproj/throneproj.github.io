@@ -11,6 +11,10 @@ If something does not work, see [Troubleshooting](@/help/troubleshooting.md).
 
 Throne continues Nekoray, which is no longer developed. It runs on its own sing-box-based core, ThroneCore, which uses Xray only for Xray profiles, and adds features such as the auto selector, Cloudflare WARP, OpenVPN and OpenConnect profiles, backups and an Android app. Throne cannot read Nekoray's configuration; see [Coming from Nekoray / NekoBox](@/help/migrating.md).
 
+## Can I connect without a server or subscription? {#no-server}
+
+Yes, through Cloudflare WARP, for free. Create a WARP profile and let `Find WARP endpoint` pick an endpoint that works on your network. See [Connect without a server](@/advanced/warp.md#no-server).
+
 ## A menu item or setting from these docs is missing. Where is it? {#missing-option}
 
 Press `Ctrl+K` and type the name of the setting to find and open it. If the item is missing, your version may be older than the one these docs describe, or the item exists only on other systems. See [Search Settings](@/reference/shortcuts.md#command-palette).

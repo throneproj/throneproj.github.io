@@ -7,6 +7,10 @@ toc = true
 
 You need a subscription link or a share link from your provider, or the details of your own server. For Android, see [Throne for Android](@/android/_index.md#quick-start).
 
+{% alert_info() %}
+No server? Throne connects through Cloudflare WARP for free, with no config: it finds an endpoint that works on your network. See [Connect without a server](@/advanced/warp.md#no-server).
+{% end %}
+
 ## Add servers {#add-servers}
 
 Throne stores each server as a **profile**. Profiles belong to **groups**, the tabs above the profile list. A **subscription** is a group that Throne downloads from a URL and can update later.
