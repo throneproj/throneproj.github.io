@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Тестирование профилей и сервисов, доступных через них, сортировка, закрепление и очистка списка и автовыбор лучшего профиля.">
+  <title>Тестирование и автовыбор - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="Тестирование и автовыбор">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/ru/guides/testing/">
+  <meta property="og:description" content="Тестирование профилей и сервисов, доступных через них, сортировка, закрепление и очистка списка и автовыбор лучшего профиля.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Тестирование и автовыбор">
+  <meta name="twitter:description" content="Тестирование профилей и сервисов, доступных через них, сортировка, закрепление и очистка списка и автовыбор лучшего профиля.">
+  <link rel="canonical" href="https://throneproj.github.io/ru/guides/testing/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Тестирование и автовыбор","url":"https://throneproj.github.io/ru/guides/testing/","description":"Тестирование профилей и сервисов, доступных через них, сортировка, закрепление и очистка списка и автовыбор лучшего профиля."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/ru/"},{"@type":"ListItem","position":2,"name":"Руководства","item":"https://throneproj.github.io/ru/guides/"},{"@type":"ListItem","position":3,"name":"Тестирование и автовыбор"}]}</script>
+  <link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/guides/testing/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/guides/testing/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/guides/testing/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/guides/testing/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/guides/testing/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к основному содержимому</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="Открыть навигацию" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/ru/" class="header-logo" aria-label="Главная страница Throne">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.5" target="_blank" rel="noopener noreferrer">v1.4.5</a>
+
+    <nav class="header-nav" aria-label="Основная навигация">
+      <a href="https://throneproj.github.io/ru/get_started/">Начало работы</a>
+      <a href="https://throneproj.github.io/ru/downloads/">Скачать</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="Поиск по документации">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Поиск</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="Язык">
+        
+        <a href="https://throneproj.github.io/guides/testing/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/guides/testing/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/guides/testing/" hreflang="ru" aria-current="true">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/guides/testing/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne на GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="Тема">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Поиск по документации" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="Поиск по документации" placeholder="Поиск по документации" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Поиск"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="Навигация по документации">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Начало работы</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/get_started/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/get_started/installation/">Установка</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/get_started/configuration/">Быстрый старт</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Руководства</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/subscriptions/">Подписки и группы</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/proxy_modes/">Системный прокси, TUN и доступ из локальной сети</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/tun_mode/">Режим TUN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/routing/">Маршрутизация</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/testing/" aria-current="page">Тестирование и автовыбор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/backup/">Резервное копирование, обновление и перенос</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/recipes/">Рецепты</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne для Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/installation/">Установка и обновление</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/permissions/">Разрешения и работа в фоне</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/modes/">Режимы VPN и прокси</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/widgets/">Виджеты, плитка и автоматизация</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/troubleshooting/">Устранение неполадок на Android</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne в режиме headless</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/installation/">Установка и службы</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/thronectl/">Управление через thronectl</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/web/">Веб-интерфейс</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/command_line/">Командная строка и каталог данных</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/monitoring/">Проверки состояния и логи</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/recovery/">Защита от потери доступа и восстановление</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/troubleshooting/">Устранение неполадок</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Расширенная конфигурация</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/xray/">sing-box или Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/chains/">Цепочки прокси и пользовательские конфигурации</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/presets/">Пресеты для обхода цензуры</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/dns_tunnels/">DNS-туннели</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/vpn_profiles/">OpenVPN, OpenConnect и Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/windows_tun_mode/">Защита от утечек DNS в Windows</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/kill_switch/">Kill Switch</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/deeplinks/">Глубокие ссылки</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/api/">Throne API и thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Справочник</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/protocols/">Протоколы и форматы импорта</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/shortcuts/">Сочетания клавиш и трей</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/files/">Командная строка, файлы и логи</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/privacy/">Конфиденциальность и сетевые запросы</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/glossary/">Глоссарий</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Помощь</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/faq/">FAQ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/troubleshooting/">Устранение неполадок</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/bug_reports/">Как сообщить об ошибке</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/migrating/">Переход с Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">Тестирование и автовыбор</h1>
+      <p class="docs-lede">Тестирование профилей и сервисов, доступных через них, сортировка, закрепление и очистка списка и автовыбор лучшего профиля.</p>
+      <div class="prose">
+        <p>Тесты не останавливают запущенный профиль. Профили автовыбора тесты пропускают — вместо этого тестируйте группы, которые использует автовыбор.</p>
+<h2 id="url-test">Тест задержки</h2>
+<p>Тест задержки проверяет, что профиль работает, и измеряет его задержку. Throne дважды запрашивает <code>URL теста задержки</code> (Latency Test URL) через профиль и показывает, сколько миллисекунд занял второй запрос.</p>
+<ul>
+<li><strong>Выбранные профили:</strong> щелкните их правой кнопкой мыши и выберите <code>Тест</code> (Test) → <code>Тест задержки</code> (URL test, <code>Ctrl+Shift+S</code>).</li>
+<li><strong>Вся группа:</strong> выберите <code>Группы</code> (Groups) → <code>Тест</code> → <code>Тест задержки</code> (URL test, <code>Ctrl+Shift+G</code>).</li>
+<li><strong>Запущенный профиль:</strong> щёлкните его имя в левой части строки состояния. Результат появится в строке состояния.</li>
+</ul>
+<p><code>Тест</code> → <code>Остановить тестирование</code> (Stop testing, <code>Ctrl+.</code>) останавливает идущий тест.</p>
+<p>В столбце <code>Результат теста</code> (Test Result) отображается задержка (зелёным до 100 мс, жёлтым до 300 мс, красным при большем значении), <code>Недоступен</code> (Unavailable), если тест не пройден (в логе есть строка с <code>ошибка теста</code> (test error) и причиной), или <code>Подключение успешно</code> (Connect OK), если профиль OpenVPN или OpenConnect подключился, но тестовый URL через него не ответил. <code>Неизвестно</code> (Unknown) означает, что во время теста не работала ваша собственная сеть, поэтому результат ничего не говорит о профиле: такой профиль сортируется вместе с непротестированными, <code>Удалить недоступные</code> (Remove unavailable) и автоматическая очистка его не трогают, а следующий тест заменяет результат.</p>
+<p>Параметры находятся в <code>Настройки</code> (Settings) → <code>Основные настройки</code> (Basic Settings) → <code>Проверка</code> (Testing) → <code>Задержка</code> (Latency).</p>
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>По умолчанию</th>
+<th>Назначение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>URL теста задержки</code> (Latency Test URL)</td>
+<td><code>http://cp.cloudflare.com/</code></td>
+<td>Адрес, который Throne запрашивает через каждый профиль.</td>
+</tr>
+<tr>
+<td><code>Таймаут</code> (Timeout; рядом с <code>Кол-во потоков</code>)</td>
+<td><code>3000</code> мс</td>
+<td>Ограничение времени для каждого запроса. При слишком маленьком значении профили с мультиплексированием, которым нужно больше времени на первый запрос, помечаются как нерабочие.</td>
+</tr>
+<tr>
+<td><code>Кол-во потоков</code> (Concurrency)</td>
+<td><code>10</code></td>
+<td>Сколько профилей тестируется одновременно.</td>
+</tr>
+<tr>
+<td><code>URL проверки Direct</code> (Direct Test URL)</td>
+<td>пусто</td>
+<td>Адрес, который открывается в вашей сети без прокси. Автовыбор запрашивает его напрямую, чтобы отличить пропавшее подключение к интернету от нерабочих серверов. Пустое значение означает, что Throne использует состояние сети, которое сообщает операционная система.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ip-test">Тест выходного IP</h2>
+<p>Этот тест показывает выходной IP-адрес каждого профиля и его страну: именно этот адрес видят сайты. Щелкните профили правой кнопкой мыши и выберите <code>Тест</code> → <code>Выходной IP</code> (Exit IP) или выберите <code>Группы</code> → <code>Тест</code> → <code>Выходной IP</code>. После этого в столбце <code>Результат теста</code> отображается флаг страны, а также выходной IP, если включено отображение <code>Выходной IP</code> (Exit IP) — см. <a href="#sort-filter">Сортировка и фильтрация</a>. Эту страну используют фильтр по странам и параметр автовыбора <code>Только страны</code> (Only countries).</p>
+<p>После запуска профиля Throne также показывает страну и город его выхода в левом нижнем углу окна и в заголовке окна. В разделе <code>Проверка</code> → <code>Страна выхода</code> (Exit Country) параметр <code>Определять страну выхода</code> (Look up exit country) отключает это, а <code>Сервис определения IP</code> (Lookup service) выбирает сервис; <code>Автоматически</code> (Automatic) начинает с IP2Location.io, который использует и тест выходного IP. О сервисах, к которым обращается Throne, см. <a href="/ru/reference/privacy/#network-requests">Конфиденциальность и сетевые запросы</a>.</p>
+<h2 id="speed-test">Тест скорости</h2>
+<p>Тест скорости измеряет скорость скачивания и отдачи через профиль.</p>
+<ul>
+<li><strong>Выбранные профили:</strong> щелкните их правой кнопкой мыши и выберите <code>Тест</code> → <code>Тест скорости</code> (Speed test, <code>Ctrl+Shift+P</code>).</li>
+<li><strong>Вся группа:</strong> выберите <code>Группы</code> → <code>Тест</code> → <code>Тест скорости</code> (Speed test, <code>Ctrl+Alt+P</code>).</li>
+<li><strong>Текущее подключение:</strong> пока профиль запущен, выберите <code>Утилиты</code> (Tools) → <code>Тест скорости текущего подключения</code> (Speed test current connection, <code>F6</code>).</li>
+</ul>
+<p>Throne тестирует профили по одному. В столбце <code>Результат теста</code> отображается скорость скачивания после <code>↓</code> и скорость отдачи после <code>↑</code>, если включено отображение <code>Скорость</code> (Speed).</p>
+<p><code>Настройки</code> → <code>Основные настройки</code> → <code>Проверка</code> → <code>Тест скорости</code> (Speed Test) → <code>Режим теста скорости</code> (Speed test mode) определяет, что делает тест: <code>Скачивание (↓) + отдача (↑)</code> (Download + upload; по умолчанию), <code>Только скачивание (↓)</code> (Only download), <code>Только отдача (↑)</code> (Only upload) или <code>Простое скачивание</code> (Simple download) — загрузка <code>URL для простого теста скачивания</code> (Simple Download URL) без поиска сервера. <code>Таймаут</code> (Timeout) в том же разделе (по умолчанию <code>5000</code> мс) ограничивает каждую часть теста.</p>
+<aside class="callout callout--warning">
+  <span class="callout-label">Предупреждение</span>
+  <p>Тест скорости передаёт столько данных, сколько успеет до истечения таймаута, — и так для каждого профиля. Тестирование большой группы может израсходовать много трафика.</p>
+
+</aside>
+<h2 id="service-check">Проверка сервисов</h2>
+<p>Проверка сервисов показывает, какие сервисы работают через профиль, например ИИ-ассистенты, стриминговые сервисы и социальные сети, и к какому типу относится выходной IP профиля. Щелкните профили правой кнопкой мыши и выберите <code>Тест</code> → <code>Проверка сервисов</code> (Service check) или выберите <code>Группы</code> → <code>Тест</code> → <code>Проверка сервисов</code>.</p>
+<p>После этого в столбце <code>Результат теста</code> отображается логотип каждого сервиса с зеленым, желтым или красным значком. Наведите указатель мыши на логотип, чтобы увидеть статус сервиса (<code>Доступно</code> (Available), <code>Частично</code> (Partial), <code>Ограничено</code> (Restricted), <code>Заблокировано</code> (Blocked), <code>Неизвестно</code> (Unknown) или <code>Сбой</code> (Failed)), а на ячейку — чтобы увидеть дату и тип IP: IP дата-центра, мобильный, корпоративный или домашний. Чтобы найти профили, на которых работает сервис, введите его название в фильтр столбца <code>Результат теста</code> (см. <a href="#sort-filter">Сортировка и фильтрация</a>).</p>
+<p><code>Настройки</code> → <code>Основные настройки</code> → <code>Проверка</code> → <code>Проверка сервисов</code> (Service Check) определяет, какие сервисы проверяются; остальные не проверяются и не отображаются. Кнопка <code>Проверить</code> (Check) на вкладке <code>Статистика</code> (Runtime Stats) главного окна проверяет запущенный профиль.</p>
+<ul>
+<li>За один запуск проверяется не больше 100 профилей. Если их больше 20, Throne сначала спрашивает подтверждение, потому что каждый профиль отправляет около 20 запросов к проверяемым сервисам.</li>
+<li>Список проверок скачивается не чаще одного раза в день; см. <a href="/ru/reference/privacy/#network-requests">Конфиденциальность и сетевые запросы</a>.</li>
+</ul>
+<h2 id="sort-filter">Сортировка и фильтрация</h2>
+<p>Щелкните заголовок столбца, чтобы отсортировать по нему, и еще раз, чтобы изменить порядок на обратный. При сортировке по задержке вверху оказываются самые быстрые профили, за ними — не прошедшие тест, а в конце — непротестированные. Группа остается отсортированной, в том числе после тестов, обновления подписки и импорта, пока вы не щелкнете заголовок столбца правой кнопкой мыши и не выберете <code>Отключить сортировку</code> (Stop sorting) или не перетащите строку на другое место.</p>
+<p>Щелкните заголовок <code>Результат теста</code> правой кнопкой мыши, чтобы выбрать, что показывает столбец (<code>Выходной IP</code>, <code>Скорость</code>), и по чему он сортируется (<code>Пингу</code> (Latency), <code>Скорости скачивания (↓)</code> (Download speed), <code>Скорости отдачи (↑)</code> (Upload speed), <code>Выходной IP</code> (Exit IP)).</p>
+<p>Чтобы отфильтровать список, нажмите <code>Ctrl+F</code> и введите текст в поле под заголовком <code>Тип</code> (Type), <code>Адрес</code> (Address) или <code>Название</code> (Name) либо в поле <code>Фильтр по стране или сервису...</code> (Filter by country or service...) под заголовком <code>Результат теста</code>. В поле <code>Адрес</code> запрос <code>port=443</code> показывает профили на порту 443, а <code>port=1000:2000</code> — профили на портах от 1000 до 2000. Нажмите <code>Ctrl+F</code> еще раз, чтобы скрыть и очистить поля.</p>
+<p>Поле <code>Результат теста</code> принимает коды стран из теста выходного IP, например <code>DE</code>, а также названия или категории сервисов из <a href="#service-check">проверки сервисов</a>: <code>gemini</code> показывает профили, на которых работает Gemini, а <code>!netflix</code> — профили, на которых Netflix отказывает в доступе. Совпасть должны все слова, поэтому <code>DE gemini</code> показывает немецкие профили, на которых работает Gemini.</p>
+<h3 id="pin">Закрепление профилей</h3>
+<p>Щелкните профили правой кнопкой мыши и выберите <code>Закрепить вверху</code> (Pin to top), чтобы они оставались над остальными профилями своей группы в том порядке, в котором вы их закрепили. Сортировка перемещает только незакрепленные профили, а закрепленные отделены от них линией. Если все выбранные профили уже закреплены, пункт меню называется <code>Открепить</code> (Unpin). Строка, перетащенная к закрепленным профилям, тоже закрепляется. Закрепление сохраняется при обновлении подписки, пока профиль остается в подписке.</p>
+<h2 id="clean-up">Очистка</h2>
+<p><code>Группы</code> → <code>Очистка</code> (Clean up) (это подменю есть и в контекстном меню вкладки группы) удаляет профили из текущей группы:</p>
+<table>
+<thead>
+<tr>
+<th>Команда</th>
+<th>Что удаляет</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Удалить дубликаты</code> (Remove duplicates)</td>
+<td>Точные копии более раннего профиля, включая название.</td>
+</tr>
+<tr>
+<td><code>Удалить недоступные</code> (Remove unavailable)</td>
+<td>Профили, последний тест которых не пройден. Запущенный профиль никогда не удаляется.</td>
+</tr>
+<tr>
+<td><code>Удалить недействительные</code> (Remove invalid)</td>
+<td>Профили, которые ядро отклоняет как недействительные.</td>
+</tr>
+<tr>
+<td><code>Удалить небезопасные профили</code> (Remove insecure profiles)</td>
+<td>Профили без шифрования, с TLS без проверки сертификатов или со старыми шифрами Shadowsocks.</td>
+</tr>
+</tbody>
+</table>
+<p>Остальные команды останавливают запущенный профиль, если удаляют его. <code>Группы</code> → <code>Тест</code> → <code>Очистить результаты</code> (Clear results, <code>Ctrl+Shift+C</code>) очищает только результаты тестов.</p>
+<p>Чтобы увидеть, какие профили считаются небезопасными, включите <code>Настройки</code> → <code>Основные настройки</code> → <code>Внешний вид</code> (Appearance) → <code>Список профилей</code> (Profile List) → <code>Отображать безопасность профилей</code> (Show profile security): тогда небезопасные профили помечаются предупреждающим значком в столбце <code>Тип</code>.</p>
+<p>Для автоматической очистки используйте параметр группы <code>Автоочистка недоступных профилей</code> (Auto clear unavailable profiles), который удаляет не прошедшие тест профили после каждого теста задержки группы, или параметры группы подписки из раздела <a href="/ru/guides/subscriptions/#after-update">После каждого обновления</a>, которые также могут тестировать и сортировать ее.</p>
+<h2 id="auto-selector">Автовыбор</h2>
+<p>Автовыбор — это профиль, который выбирает лучший рабочий профиль из одной или нескольких групп, продолжает проверять остальные и переключается, когда текущий профиль начинает работать хуже или отказывает. Новые профили из обновления подписки сами добавляются в него.</p>
+<ol>
+<li>Выберите вкладку группы, которую он должен использовать.</li>
+<li>Выберите <code>Программа</code> (Program) → <code>Новый профиль</code> (New profile, <code>Ctrl+N</code>). Откроется редактор, в котором в поле <code>Тип</code> (Type) уже выбран <code>Автовыбор</code> (Auto Selector).</li>
+<li>Введите <code>Название</code> (Name).</li>
+<li>В поле <code>Профили из</code> (Profiles from) отметьте группы, из которых автовыбор выбирает профили. Текущая группа уже отмечена.</li>
+<li>Нажмите <code>OK</code>, затем запустите новый профиль, как любой другой.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>Назначение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Профили из</code> (Profiles from)</td>
+<td>Группы, профили которых использует автовыбор. Профили всех отмеченных групп ранжируются вместе.</td>
+</tr>
+<tr>
+<td><code>Фильтр по названию</code> (Only names matching)</td>
+<td>Необязательное регулярное выражение; используются только профили, название которых ему соответствует. Совпадение может быть в любом месте названия, регистр не учитывается: <code>germany|nl</code> использует все названия, в которых есть <code>germany</code> или <code>nl</code>, а <code>^(?!.*(germany|🇩🇪)).*$</code> — все названия, в которых нет ни <code>germany</code>, ни 🇩🇪.</td>
+</tr>
+<tr>
+<td><code>Выбор</code> (Choose)</td>
+<td><code>Самый быстрый</code> (Fastest; по умолчанию) использует лучший по результатам измерений профиль. <code>По приоритету</code> (In priority order) использует <code>Уровни приоритета</code>.</td>
+</tr>
+<tr>
+<td><code>Уровни приоритета</code> (Priority tiers)</td>
+<td>Показываются при значении <code>По приоритету</code>. Каждая строка — это <code>Группа</code> (Group) (или <code>Любая группа</code> (Any group)) с необязательным выражением <code>Фильтр по названию</code> (Names matching). Профиль относится к первой строке, которой он соответствует, а профили, не соответствующие ни одной строке, идут последними. Автовыбор использует самую верхнюю строку, в которой есть рабочий профиль, и в ней — лучший по результатам измерений.</td>
+</tr>
+<tr>
+<td><code>Распределить трафик между лучшими профилями</code> (Share traffic between the best profiles)</td>
+<td>Выкл. (по умолчанию): весь трафик идет через один профиль, а остальные готовые профили находятся в резерве. Вкл.: трафик распределяется между готовыми профилями. При <code>Переключать каждые 30 сек</code> (Rotate every 30 s; по умолчанию) новые подключения каждые 30 секунд переходят на следующий профиль; при <code>На каждое подключение</code> (Per connection) каждое новое подключение может использовать другой профиль, поэтому ваш выходной IP может меняться во время сеанса.</td>
+</tr>
+<tr>
+<td><code>Предпочтительный профиль</code> (Preferred profile)</td>
+<td>Появляется, после того как вы выбрали профиль кнопкой <code>Использовать этот профиль</code> (Use this profile) в окне статистики. <code>Использовать автовыбор</code> (Use automatic) возвращает выбор автовыбору.</td>
+</tr>
+</tbody>
+</table>
+<p>Каждый профиль работает так, как если бы вы запустили его отдельно: через <code>Фронт-прокси</code> (Front Proxy) и <code>Выходной прокси</code> (Landing Proxy) своей группы. Эти прокси группы, в которой находится сам автовыбор, не применяются.</p>
+<p><code>Дополнительно ▾</code> (Advanced ▾) показывает дополнительные параметры; у каждого есть рабочее значение по умолчанию и всплывающая подсказка. Чаще всего меняют эти:</p>
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>По умолчанию</th>
+<th>Назначение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Только страны</code> (Only countries)</td>
+<td>пусто</td>
+<td>Коды стран, например <code>DE,NL,FR</code>. <code>!</code> исключает страну: <code>!RU,!IR</code> использует все страны, кроме этих двух. Используется страна, которую нашел <a href="#ip-test">тест выходного IP</a>, поэтому, пока параметр задан, профили без страны пропускаются.</td>
+</tr>
+<tr>
+<td><code>Запускать лучших</code> (Run the best)</td>
+<td>300 профилей</td>
+<td>Сколько профилей загружается в работающую конфигурацию. Автовыбор переключается между ними без переподключения.</td>
+</tr>
+<tr>
+<td><code>Порог переключения</code> (Switch tolerance)</td>
+<td>300 мс</td>
+<td>Насколько быстрее должен быть другой профиль, чтобы автовыбор переключился на него.</td>
+</tr>
+<tr>
+<td><code>Максимальная задержка</code> (Maximum latency)</td>
+<td>без ограничений</td>
+<td>Профили медленнее этого значения используются, только если не работает ни один более быстрый.</td>
+</tr>
+<tr>
+<td><code>Разрывать подключения при сбое профиля</code> (Drop connections when a profile fails)</td>
+<td>вкл.</td>
+<td>Когда текущий профиль отказывает, открытые соединения сразу переходят на новый. Если параметр выключен, они завершаются через отказавший профиль.</td>
+</tr>
+<tr>
+<td><code>Учиться на реальных подключениях</code> (Learn from real connections)</td>
+<td>выкл.</td>
+<td>Оценивает профили также по реальным подключениям ваших приложений и откладывает те, что постоянно отказывают.</td>
+</tr>
+</tbody>
+</table>
+<p>Если пригодных профилей больше, чем задано в <code>Запускать лучших</code>, автовыбор сначала выполняет тест задержки для профилей без свежего результата (успешный результат действует 24 часа, неудачный — один час) и загружает лучшие. Он запускается, как только несколько из них работают, заканчивает тесты в фоне и один раз перезапускается, если рейтинг изменился. Если все запущенные профили не работают, он пересобирается из следующих лучших. Пока у компьютера нет подключения к сети, он приостанавливается. Его строки в логе начинаются с <code>[Автовыбор]</code> (<code>[Auto selector]</code>).</p>
+<p>Пока автовыбор запущен, <code>Утилиты</code> → <code>Статистика автовыбора</code> (Auto Selector Stats) показывает статус и задержку каждого профиля. <code>Использовать этот профиль</code> (Use this profile) оставляет выбранный профиль в работе, <code>Вернуть автовыбор</code> (Back to automatic) снова доверяет выбор рейтингу, а <code>Проверить все сейчас</code> (Check all now) немедленно измеряет все запущенные профили.</p>
+<p>Ограничения:</p>
+<ul>
+<li>Цепочка может содержать один автовыбор в качестве звена, но не вместе с профилем дополнительного ядра (Extra Core) или пользовательской конфигурацией; см. <a href="/ru/advanced/chains/#chain-limits">ограничения цепочек</a> и <a href="/ru/advanced/chains/#test-chain">Проверка цепочки</a>. Автовыбор не может быть <code>Фронт-прокси</code> (Front Proxy) или <code>Выходной прокси</code> (Landing Proxy).</li>
+<li>Он пропускает цепочки, другие профили автовыбора, OpenVPN, OpenConnect, Tailscale, дополнительное ядро (Extra Core), полные конфигурации sing-box, пользовательские конфигурации, которые не удаётся прочитать, и полные конфигурации Xray, которые нельзя совместить с фронт- или выходным прокси своей группы.</li>
+</ul>
+<h2 id="android">На Android</h2>
+<p>В Throne для Android те же тесты и тот же автовыбор. Отличия:</p>
+<ul>
+<li><strong>Меню.</strong> На экране <code>Конфигурация</code> (Profiles) в меню <code>⋮</code> есть <code>Тест</code> (Test) (<code>URL-тест</code> (URL test), <code>Тест IP и страны</code> (IP &amp; country test), <code>Тест скорости</code> (Speed test), <code>Остановить тест</code> (Stop testing)), <code>Удалить</code> (Remove) и <code>Сортировка</code> (Sort). Для выбранных профилей используйте <code>Тест</code> в меню выделения, для одного профиля — его кнопку <code>⋮</code>.</li>
+<li><strong>Панель тестирования.</strong> Панель показывает ход и результаты теста, а также действия, например <code>Сортировать по задержке</code> (Sort by latency), <code>Удалить недоступные</code> (Remove unavailable) и <code>Подключиться к самому быстрому</code> (Connect to fastest).</li>
+<li><strong>Текущее подключение.</strong> Пока подключение активно, нажмите на панель статистики, чтобы проверить подключение. Долгое нажатие на неё открывает <code>Графики в реальном времени</code> (Live graphs) и <code>Тест скорости текущего соединения</code> (Speed test current connection). Панель также показывает страну выхода; в <code>Настройки</code> (Settings) → <code>Тестирование</code> (Testing) есть <code>Look up exit country</code> и <code>Lookup service</code>.</li>
+<li><strong>Автовыбор.</strong> Создайте его через <code>Добавить профиль</code> (Add profile) → <code>Ручные настройки</code> (Manual settings) → <code>Автовыбор</code> (Auto selector). Нажмите на его строку состояния на экране <code>Конфигурация</code>, чтобы открыть <code>Статистика автовыбор</code> (Auto selector stats).</li>
+</ul>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/guides/testing.ru.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          Редактировать эту страницу на GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="Навигация по странице">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/ru/guides/dns/">
+    <span class="prevnext-dir">Назад</span>
+    DNS
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/ru/guides/backup/">
+    <span class="prevnext-dir">Вперед</span>
+    Резервное копирование, обновление и перенос
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="На этой странице">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    На этой странице
+  </p>
+  <ul><li><a href="#url-test">Тест задержки</a></li><li><a href="#ip-test">Тест выходного IP</a></li><li><a href="#speed-test">Тест скорости</a></li><li><a href="#service-check">Проверка сервисов</a></li><li><a href="#sort-filter">Сортировка и фильтрация</a><ul><li><a href="#pin">Закрепление профилей</a></li></ul></li><li><a href="#clean-up">Очистка</a></li><li><a href="#auto-selector">Автовыбор</a></li><li><a href="#android">На Android</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "Копировать",
+    copied: "Скопировано",
+    copyManual: "Нажмите Ctrl C",
+    noResults: "Ничего не найдено по запросу",
+    theme: "Тема",
+    themeAuto: "авто",
+    themeLight: "светлая",
+    themeDark: "темная"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>
