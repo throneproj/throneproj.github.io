@@ -17,7 +17,7 @@ URL 测试会检查配置档是否可用，并测量其延迟。Throne 会通过
 
 `测试`（Test）→ `停止测试`（Stop testing，`Ctrl+.`）会停止正在进行的测试。
 
-`测试结果`（Test Result）列会显示延迟（100 毫秒以内为绿色，300 毫秒以内为黄色，更高为红色）；测试失败时显示 `不可用`（Unavailable）（日志中会有一行包含 `测试错误`（test error）及其原因）；OpenVPN 或 OpenConnect 配置档已连接、但测试 URL 没有通过它返回响应时，显示 `连接成功`（Connect OK）。`无网络`（No network）表示测试期间你自己的网络不可用，因此结果无法说明配置档的状态：它与未测试的配置档排在一起，`移除不可用项`（Remove unavailable）和自动清理都不会移除它，下次测试会替换该结果。
+`测试结果`（Test Result）列会显示延迟（100 毫秒以内为绿色，300 毫秒以内为黄色，更高为红色）；测试失败时显示 `不可用`（Unavailable）（日志中会有一行包含 `测试错误`（test error）及其原因）；OpenVPN 或 OpenConnect 配置档已连接、但测试 URL 没有通过它返回响应时，显示 `连接成功`（Connect OK）。`未知`（Unknown）表示测试期间你自己的网络不可用，因此结果无法说明配置档的状态：它与未测试的配置档排在一起，`移除不可用项`（Remove unavailable）和自动清理都不会移除它，下次测试会替换该结果。
 
 这些设置位于 `设置`（Settings）→ `基本设置`（Basic Settings）→ `测试`（Testing）→ `延迟`（Latency）。
 
