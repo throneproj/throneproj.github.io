@@ -17,7 +17,7 @@ The URL test checks that a profile works and measures its latency. Throne reques
 
 `Test` → `Stop testing` (`Ctrl+.`) stops a running test.
 
-The `Test Result` column shows the latency (green up to 100 ms, yellow up to 300 ms, red above), `Unavailable` when the test failed (the log has a `test error` line with the reason), or `Connect OK` when an OpenVPN or OpenConnect profile connected but the test URL did not answer through it.
+The `Test Result` column shows the latency (green up to 100 ms, yellow up to 300 ms, red above), `Unavailable` when the test failed (the log has a `test error` line with the reason), or `Connect OK` when an OpenVPN or OpenConnect profile connected but the test URL did not answer through it. `No network` means your own network was down during the test, so the result says nothing about the profile: it sorts with untested profiles, `Remove unavailable` and automatic clean-up leave it alone, and the next test replaces it.
 
 The settings are in `Settings` → `Basic Settings` → `Testing` → `Latency`.
 
